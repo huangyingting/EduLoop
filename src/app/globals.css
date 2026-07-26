@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-canvas: #f4f1e9;
+  --color-ink: #242136;
+  --color-muted: #726d7d;
+  --color-violet: #6c5ce7;
+  --color-lime: #d9f99d;
+  --color-coral: #f06d5f;
+  --color-sky: #bce7ff;
+  --color-peach: #ffd8b8;
+  --font-sans: var(--font-ui);
+  --font-display: var(--font-display);
+}
+
+:root {
+  --font-ui: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", system-ui, sans-serif;
+  --font-display: "Arial Rounded MT Bold", "PingFang SC", system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; color: #242136; background: #f4f1e9; font-family: var(--font-ui); }
+button, a { -webkit-tap-highlight-color: transparent; }
+button { cursor: pointer; }
+::selection { background: #d9f99d; color: #242136; }
+
+.dot-grid {
+  background-image: radial-gradient(rgba(36, 33, 54, 0.14) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+.hero-orbit::before,
+.hero-orbit::after {
+  content: "";
+  position: absolute;
+  inset: 12%;
+  border: 2px dashed rgba(36, 33, 54, 0.18);
+  border-radius: 50%;
+  animation: orbit 22s linear infinite;
+}
+.hero-orbit::after { inset: 26%; animation-direction: reverse; animation-duration: 15s; }
+
+@keyframes orbit { to { transform: rotate(360deg); } }
+@keyframes pop { 0% { transform: scale(.8) rotate(-4deg); opacity: 0; } 70% { transform: scale(1.06) rotate(1deg); } 100% { transform: scale(1); opacity: 1; } }
+.reward-pop { animation: pop .45s cubic-bezier(.2,.8,.2,1); }
+
+.katex { font-size: 1.04em !important; }
+.question-copy .katex { color: #332e5e; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}

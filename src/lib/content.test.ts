@@ -1,0 +1,100 @@
+import { describe, expect, it } from "vitest";
+import { extractCorrectLabels, extractOptions, normalizeQuestionType, normalizeSourceQuestion, referencesMissingFigure, type SourceQuestion } from "./content";
+
+function question(overrides: Partial<SourceQuestion> = {}): SourceQuestion {
+  return {
+    id: "source-1", type: "选择题", grade_band: "初中", difficulty: "一般", grade: "九年级", course: "化学",
+    online_test: true, option_split: true, quality: "精品",
+    question_info: { raw_content: { title: "下列说法正确的是？", option_a: "甲", option_b: "乙", option_c: "", option_d: "", option_e: "", answer1: "A" } },
+    answer_info: { raw_content: "故选A。" }, solution_info: [{ solution_info: "解析" }], children: [], ...overrides,
+  };
+}
+
+describe("question normalization", () => {
+  it("extracts direct choice labels", () => {
+    expect(extractCorrectLabels(question())).toEqual(["A"]);
+  });
+
+  it("promotes generic choice questions with multiple labels", () => {
+    const source = question();
+    source.question_info.raw_content.answer1 = "A、B";
+    expect(normalizeQuestionType(source)).toBe("MULTIPLE_CHOICE");
+  });
+
+  it("flags missing and diagram-dependent stems for review", () => {
+    const source = question({ type: "识图作答题" });
+    expect(normalizeSourceQuestion(source, "fixture.json").status).toBe("NEEDS_REVIEW");
+  });
+
+  it("does not mistake a long explanation for an answer key", () => {
+    const source = question();
+    source.question_info.raw_content.answer1 = "";
+    source.answer_info.raw_content = "A 项描述错误，B 项也不满足条件。";
+    expect(extractCorrectLabels(source)).toEqual([]);
+  });
+
+  it("creates consistent options and keys for true-false questions", () => {
+    const source = question({ type: "判断题" });
+    source.question_info.raw_content.option_a = "";
+    source.question_info.raw_content.option_b = "";
+    source.question_info.raw_content.answer1 = "×";
+    expect(normalizeSourceQuestion(source, "fixture.json")).toMatchObject({
+      type: "TRUE_FALSE", correctAnswer: '["B"]', isAutoGradable: true,
+      options: [{ label: "A", content: "正确" }, { label: "B", content: "错误" }],
+    });
+  });
+
+  it("extracts sequential options embedded in an unsplit stem", () => {
+    const source = question({ option_split: false });
+    source.question_info.raw_content.title = "计算结果是（ ） A. 1 B. 2 C. 3";
+    source.question_info.raw_content.option_a = "";
+    source.question_info.raw_content.option_b = "";
+    source.question_info.raw_content.answer1 = "B";
+    expect(normalizeSourceQuestion(source, "fixture.json")).toMatchObject({
+      stem: "计算结果是（ ）", correctAnswer: '["B"]', isAutoGradable: true,
+      options: [{ label: "A", content: "1" }, { label: "B", content: "2" }, { label: "C", content: "3" }],
+    });
+  });
+
+  it("quarantines an unsplit choice question when its options cannot be recovered", () => {
+    const source = question({ option_split: false });
+    source.question_info.raw_content.title = "选择正确的图片 A、 B、 C、 D、";
+    source.question_info.raw_content.option_a = "";
+    source.question_info.raw_content.option_b = "";
+    expect(extractOptions(source)).toEqual([]);
+    expect(normalizeSourceQuestion(source, "fixture.json").status).toBe("NEEDS_REVIEW");
+  });
+
+  it("quarantines a choice question with a missing option in the sequence", () => {
+    const source = question();
+    source.question_info.raw_content.option_a = "";
+    source.question_info.raw_content.option_b = "乙";
+    expect(normalizeSourceQuestion(source, "fixture.json").status).toBe("NEEDS_REVIEW");
+  });
+
+  it("parses pipe-delimited multiple-choice keys", () => {
+    const source = question();
+    source.question_info.raw_content.answer1 = "A|B";
+    expect(extractCorrectLabels(source)).toEqual(["A", "B"]);
+    expect(normalizeQuestionType(source)).toBe("MULTIPLE_CHOICE");
+  });
+
+  it.each([["【答案】 √", "A"], ["（1）错误", "B"], ["【答案】 ×", "B"]])(
+    "parses wrapped true-false answer %s", (answer, expected) => {
+      const source = question({ type: "判断题" });
+      source.question_info.raw_content.answer1 = "";
+      source.question_info.raw_content.option_a = "";
+      source.question_info.raw_content.option_b = "";
+      source.answer_info.raw_content = answer;
+      expect(extractCorrectLabels(source)).toEqual([expected]);
+    },
+  );
+
+  it("quarantines ordinary question types that explicitly require a missing figure", () => {
+    const source = question();
+    source.question_info.raw_content.title = "如图所示，下列说法正确的是（ ）";
+    expect(referencesMissingFigure(String(source.question_info.raw_content.title))).toBe(true);
+    expect(normalizeSourceQuestion(source, "fixture.json").status).toBe("NEEDS_REVIEW");
+    expect(referencesMissingFigure("函数图象的性质是")).toBe(false);
+  });
+});

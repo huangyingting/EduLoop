@@ -1,0 +1,53 @@
+{
+  "name": "eduloop",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "db:generate": "prisma generate --schema prisma/schema.prisma",
+    "db:migrate": "prisma migrate dev --schema prisma/schema.prisma",
+    "db:push": "prisma db push --schema prisma/schema.prisma",
+    "db:seed": "tsx prisma/seed.ts",
+    "db:studio": "prisma studio --schema prisma/schema.prisma",
+    "db:generate:postgres": "prisma generate --schema prisma/postgresql/schema.prisma",
+    "db:deploy:postgres": "prisma migrate deploy --schema prisma/postgresql/schema.prisma",
+    "schema:check": "node scripts/check-schema-parity.mjs",
+    "data:audit": "node scripts/analyze-data.mjs",
+    "test": "vitest run"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "6.19.3",
+    "katex": "0.16.22",
+    "lucide-react": "0.468.0",
+    "next": "16.2.12",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "react-katex": "3.1.0",
+    "zod": "3.25.76"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "4.3.3",
+    "@types/node": "24.10.1",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "@types/react-katex": "3.0.4",
+    "eslint": "9.39.2",
+    "eslint-config-next": "16.2.12",
+    "prisma": "6.19.3",
+    "tailwindcss": "4.3.3",
+    "tsx": "4.21.0",
+    "typescript": "5.9.3",
+    "vitest": "4.1.10"
+  },
+  "overrides": {
+    "postcss": "8.5.23",
+    "sharp": "0.35.3"
+  }
+}

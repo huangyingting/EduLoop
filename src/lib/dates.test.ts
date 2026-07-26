@@ -1,0 +1,18 @@
+import { describe, expect, it } from "vitest";
+import { calendarDay, normalizeTimeZone, previousCalendarDay } from "./dates";
+
+describe("learner calendar days", () => {
+  it("uses the learner timezone around local midnight", () => {
+    const instant = new Date("2026-07-26T16:30:00.000Z");
+    expect(calendarDay(instant, "Asia/Shanghai")).toBe("2026-07-27");
+    expect(calendarDay(instant, "America/New_York")).toBe("2026-07-26");
+  });
+
+  it("falls back to the intended locale for invalid zones", () => {
+    expect(normalizeTimeZone("not/a-zone")).toBe("Asia/Shanghai");
+  });
+
+  it("walks across month boundaries", () => {
+    expect(previousCalendarDay("2026-03-01")).toBe("2026-02-28");
+  });
+});

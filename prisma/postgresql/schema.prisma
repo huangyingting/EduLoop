@@ -1,0 +1,207 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Subject {
+  id          String     @id @default(cuid())
+  slug        String     @unique
+  name        String
+  icon        String
+  color       String
+  description String?
+  sortOrder   Int        @default(0)
+  questions   Question[]
+}
+
+model GradeBand {
+  id        String     @id @default(cuid())
+  slug      String     @unique
+  name      String
+  sortOrder Int        @default(0)
+  grades    Grade[]
+  questions Question[]
+}
+
+model Grade {
+  id          String     @id @default(cuid())
+  slug        String     @unique
+  name        String
+  sortOrder   Int
+  gradeBandId String
+  gradeBand   GradeBand  @relation(fields: [gradeBandId], references: [id])
+  questions   Question[]
+
+  @@index([gradeBandId, sortOrder])
+}
+
+model Question {
+  id               String            @id
+  sourceId         String            @unique
+  sourceFile       String
+  sourceType       String
+  type             String
+  difficulty       String
+  stem             String
+  answer            String
+  correctAnswer     String?
+  explanation       String?
+  quality           String?
+  status            String            @default("PUBLISHED")
+  isAutoGradable    Boolean           @default(false)
+  onlineTest        Boolean           @default(false)
+  optionSplit       Boolean           @default(false)
+  subjectId         String
+  gradeBandId       String
+  gradeId           String
+  subject           Subject           @relation(fields: [subjectId], references: [id])
+  gradeBand         GradeBand         @relation(fields: [gradeBandId], references: [id])
+  grade              Grade             @relation(fields: [gradeId], references: [id])
+  options            QuestionOption[]
+  tags               QuestionTag[]
+  attempts           PracticeAttempt[]
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
+
+  @@index([subjectId, gradeBandId, difficulty])
+  @@index([gradeId, type, status])
+  @@index([status, isAutoGradable])
+}
+
+model QuestionOption {
+  id         String   @id @default(cuid())
+  questionId String
+  label      String
+  content    String
+  sortOrder  Int
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@unique([questionId, label])
+  @@index([questionId, sortOrder])
+}
+
+model TagDimension {
+  id           String @id @default(cuid())
+  key          String @unique
+  label        String
+  description  String?
+  isFilterable Boolean @default(true)
+  sortOrder    Int     @default(0)
+  tags         Tag[]
+}
+
+model Tag {
+  id          String        @id @default(cuid())
+  slug        String
+  label       String
+  description String?
+  dimensionId String
+  dimension   TagDimension  @relation(fields: [dimensionId], references: [id])
+  questions   QuestionTag[]
+
+  @@unique([dimensionId, slug])
+  @@index([dimensionId, label])
+}
+
+model QuestionTag {
+  questionId String
+  tagId      String
+  confidence Float    @default(1)
+  source     String   @default("IMPORT")
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  tag        Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([questionId, tagId])
+  @@index([tagId, questionId])
+}
+
+model LearnerProfile {
+  id            String            @id @default(cuid())
+  deviceKey     String            @unique
+  displayName   String?
+  xp            Int               @default(0)
+  level         Int               @default(1)
+  currentStreak Int               @default(0)
+  bestStreak    Int               @default(0)
+  lastActiveOn  String?
+  sessions      PracticeSession[]
+  attempts      PracticeAttempt[]
+  badges        LearnerBadge[]
+  activities    DailyActivity[]
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+}
+
+model PracticeSession {
+  id             String            @id @default(cuid())
+  learnerId      String
+  status         String            @default("ACTIVE")
+  filtersJson    String
+  questionGoal   Int               @default(10)
+  completedCount Int               @default(0)
+  correctCount   Int               @default(0)
+  earnedXp       Int               @default(0)
+  learner        LearnerProfile    @relation(fields: [learnerId], references: [id], onDelete: Cascade)
+  attempts       PracticeAttempt[]
+  startedAt      DateTime          @default(now())
+  completedAt    DateTime?
+
+  @@index([learnerId, startedAt])
+}
+
+model PracticeAttempt {
+  id             String           @id @default(cuid())
+  learnerId      String
+  sessionId      String?
+  questionId     String
+  response       String
+  isCorrect      Boolean?
+  isSelfAssessed Boolean          @default(false)
+  secondsSpent   Int?
+  earnedXp       Int              @default(0)
+  learner        LearnerProfile   @relation(fields: [learnerId], references: [id], onDelete: Cascade)
+  session        PracticeSession? @relation(fields: [sessionId], references: [id], onDelete: SetNull)
+  question       Question         @relation(fields: [questionId], references: [id])
+  createdAt      DateTime         @default(now())
+
+  @@index([learnerId, createdAt])
+  @@index([questionId, isCorrect])
+  @@index([sessionId])
+}
+
+model Badge {
+  id          String         @id @default(cuid())
+  slug        String         @unique
+  name        String
+  description String
+  icon        String
+  threshold   Int?
+  learners    LearnerBadge[]
+}
+
+model LearnerBadge {
+  learnerId String
+  badgeId   String
+  learner   LearnerProfile @relation(fields: [learnerId], references: [id], onDelete: Cascade)
+  badge     Badge          @relation(fields: [badgeId], references: [id], onDelete: Cascade)
+  earnedAt  DateTime       @default(now())
+
+  @@id([learnerId, badgeId])
+}
+
+model DailyActivity {
+  id           String         @id @default(cuid())
+  learnerId    String
+  activityDate String
+  attempts     Int            @default(0)
+  correct      Int            @default(0)
+  earnedXp     Int            @default(0)
+  learner      LearnerProfile @relation(fields: [learnerId], references: [id], onDelete: Cascade)
+
+  @@unique([learnerId, activityDate])
+  @@index([activityDate])
+}

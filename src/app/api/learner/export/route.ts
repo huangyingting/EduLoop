@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { enforceRateLimit } from "@/lib/api";
 import { prisma } from "@/lib/prisma";
+import { findLearnerForRequest } from "@/lib/learner-identity";
 
 export const dynamic = "force-dynamic";
 
@@ -13,8 +14,9 @@ export async function GET(request: NextRequest) {
   const limited = enforceRateLimit(request, "export-learner", parsed.data.deviceKey, 3, 60 * 60_000);
   if (limited) return limited;
 
-  const learner = await prisma.learnerProfile.findUnique({
-    where: { deviceKey: parsed.data.deviceKey },
+  const identity = await findLearnerForRequest(request, parsed.data.deviceKey);
+  const learner = identity ? await prisma.learnerProfile.findUnique({
+    where: { id: identity.id },
     select: {
       displayName: true,
       xp: true,
@@ -53,7 +55,7 @@ export async function GET(request: NextRequest) {
         select: { category: true, detail: true, status: true, createdAt: true, resolvedAt: true, question: { select: { sourceId: true } } },
       },
     },
-  });
+  }) : null;
 
   const exportedAt = new Date();
   const payload = {

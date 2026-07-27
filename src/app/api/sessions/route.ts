@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { enforceRateLimit } from "@/lib/api";
 import { prisma } from "@/lib/prisma";
+import { getOrCreateLearnerForRequest } from "@/lib/learner-identity";
 
 const sessionSchema = z.object({
   deviceKey: z.string().min(8).max(100),
@@ -17,11 +18,7 @@ export async function POST(request: Request) {
   const limited = enforceRateLimit(request, "sessions", parsed.data.deviceKey, 20);
   if (limited) return limited;
 
-  const learner = await prisma.learnerProfile.upsert({
-    where: { deviceKey: parsed.data.deviceKey },
-    create: { deviceKey: parsed.data.deviceKey },
-    update: {},
-  });
+  const learner = await getOrCreateLearnerForRequest(request, parsed.data.deviceKey);
 
   const filtersJson = JSON.stringify(Object.fromEntries(Object.entries(parsed.data.filters).sort(([left], [right]) => left.localeCompare(right))));
   const active = await prisma.practiceSession.findFirst({

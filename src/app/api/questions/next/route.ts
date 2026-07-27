@@ -4,6 +4,7 @@ import { enforceRateLimit } from "@/lib/api";
 import { QUESTION_TYPE_LABELS } from "@/lib/content";
 import { prisma } from "@/lib/prisma";
 import { weakestTopic } from "@/lib/recommendation";
+import { findLearnerForRequest } from "@/lib/learner-identity";
 
 export const dynamic = "force-dynamic";
 
@@ -25,9 +26,9 @@ export async function GET(request: NextRequest) {
     ...(params.get("autoGradable") === "true" ? { isAutoGradable: true } : {}),
     ...(tagSlugs.length ? { tags: { some: { tag: { slug: { in: tagSlugs } } } } } : {}),
   };
-  const learner = deviceKey && deviceKey.length >= 8 ? await prisma.learnerProfile.findUnique({
-    where: { deviceKey }, select: { id: true },
-  }) : null;
+  const learner = deviceKey && deviceKey.length >= 8
+    ? await findLearnerForRequest(request, deviceKey)
+    : null;
   let recommendationReason: string | null = null;
   let preferredQuestionId: string | null = null;
 

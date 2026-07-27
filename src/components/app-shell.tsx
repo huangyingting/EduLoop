@@ -1,11 +1,13 @@
 "use client";
 
-import { BarChart3, BookmarkCheck, Compass, Flame, Home, Menu, ShieldCheck, Sparkles, Target, X } from "lucide-react";
+import { BarChart3, BookmarkCheck, Compass, Flame, Home, LogIn, LogOut, Menu, ShieldCheck, Sparkles, Target, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { LearnerProvider, useLearner } from "./learner-provider";
 import { Logo } from "./logo";
+import { useAuth } from "@/lib/use-auth";
+import { rotateDeviceKey } from "@/lib/learner";
 
 const links = [
   { href: "/", label: "学习大厅", icon: Home },
@@ -22,13 +24,26 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 function AppShellContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const { stats } = useLearner();
+  const { stats, refresh } = useLearner();
+  const auth = useAuth();
   const remainingToday = Math.max(10 - stats.todayAttempts, 0);
   useEffect(() => {
     function closeOnEscape(event: KeyboardEvent) { if (event.key === "Escape") setOpen(false); }
     window.addEventListener("keydown", closeOnEscape);
     return () => window.removeEventListener("keydown", closeOnEscape);
   }, []);
+  if (pathname === "/login" || pathname === "/register") return children;
+
+  async function signOut() {
+    try {
+      await auth.logout();
+      rotateDeviceKey();
+      await refresh();
+      setOpen(false);
+    } catch (error) {
+      window.alert(error instanceof Error ? error.message : "退出登录失败，请重试。");
+    }
+  }
   return (
     <div className="min-h-screen bg-canvas">
       <header className="sticky top-0 z-40 flex h-[72px] items-center justify-between border-b border-ink/10 bg-canvas/90 px-5 backdrop-blur-xl lg:hidden">
@@ -58,9 +73,14 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
         </div>
         <div className="mt-5 flex items-center gap-3 px-2">
           <div className="grid size-10 place-items-center rounded-full bg-peach text-lg">🧑‍🚀</div>
-          <div><p className="text-sm font-extrabold text-ink">探索者</p><p className="text-xs text-muted">Level {stats.level} · {stats.xp} XP</p></div>
+          <div className="min-w-0"><p className="truncate text-sm font-extrabold text-ink">{auth.user?.displayName || (auth.status === "authenticated" ? auth.user?.email : "匿名探索者")}</p><p className="text-xs text-muted">Level {stats.level} · {stats.xp} XP</p></div>
           <div className="ml-auto flex items-center gap-1 text-xs font-black text-coral"><Flame size={20} />{stats.currentStreak}</div>
         </div>
+        {auth.status === "authenticated" ? (
+          <button onClick={() => void signOut()} className="mt-3 flex min-h-11 items-center justify-center gap-2 rounded-xl border-2 border-ink/10 bg-white text-xs font-black text-muted hover:border-coral/30 hover:text-coral"><LogOut size={15} /> 退出登录</button>
+        ) : (
+          <Link href="/login" onClick={() => setOpen(false)} className="mt-3 flex min-h-11 items-center justify-center gap-2 rounded-xl bg-violet text-xs font-black text-white shadow-[0_4px_0_#242136]"><LogIn size={15} /> 登录同步进度</Link>
+        )}
         <Link href="/privacy" onClick={() => setOpen(false)} className="mt-4 flex min-h-11 items-center justify-center gap-2 rounded-xl text-xs font-bold text-muted hover:bg-white hover:text-ink"><ShieldCheck size={15} /> 数据与隐私</Link>
       </aside>
 

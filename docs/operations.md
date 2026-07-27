@@ -23,6 +23,10 @@ Application limits are a single-process safety net. Configure the trusted ingres
 - attempts: 45 per device/IP per minute;
 - question selection: 120 per device/IP per minute;
 - reports: 6 per device/IP per 10 minutes.
+- login: 10 attempts per email/IP per 15 minutes;
+- registration: 5 attempts per email/IP per 15 minutes.
+
+Periodically delete expired `AuthSession` rows if login traffic is too low for opportunistic pruning. A suspected session compromise should revoke the affected rows; a database credential compromise requires revoking all sessions and rotating database credentials.
 
 ## Back Up and Restore
 

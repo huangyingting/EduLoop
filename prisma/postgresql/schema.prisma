@@ -146,9 +146,33 @@ model QuestionTag {
   @@index([tagId, questionId])
 }
 
+model User {
+  id           String         @id @default(cuid())
+  email        String         @unique
+  passwordHash String
+  displayName  String?
+  learner      LearnerProfile?
+  sessions     AuthSession[]
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+}
+
+model AuthSession {
+  id        String   @id @default(cuid())
+  tokenHash String   @unique
+  userId    String
+  expiresAt DateTime
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
 model LearnerProfile {
   id               String            @id @default(cuid())
   deviceKey        String            @unique
+  userId           String?           @unique
   displayName      String?
   xp               Int               @default(0)
   level            Int               @default(1)
@@ -164,6 +188,7 @@ model LearnerProfile {
   savedQuestions   SavedQuestion[]
   reviewItems      ReviewItem[]
   reports          QuestionReport[]
+  user             User?             @relation(fields: [userId], references: [id], onDelete: SetNull)
   createdAt        DateTime          @default(now())
   updatedAt        DateTime          @updatedAt
 }

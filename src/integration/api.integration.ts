@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { GET as getCatalog } from "@/app/api/catalog/route";
-import { DELETE as deleteLearner } from "@/app/api/learner/route";
+import { DELETE as deleteLearner, GET as getLearner } from "@/app/api/learner/route";
 import { GET as getHealth } from "@/app/api/health/route";
 import { GET as getProgress } from "@/app/api/learner/progress/route";
 import { GET as exportLearner } from "@/app/api/learner/export/route";
@@ -13,6 +13,8 @@ import { GET as getReview, POST as saveQuestion } from "@/app/api/review/route";
 import { POST as createSession } from "@/app/api/sessions/route";
 import { prisma } from "@/lib/prisma";
 import { calendarDay, calendarDaysBefore } from "@/lib/dates";
+import { getSessionUser, hashSessionToken, SESSION_COOKIE } from "@/lib/auth";
+import { linkLearnerToUser } from "@/lib/learner-identity";
 
 const deviceKey = "guest_integration_device";
 const shieldDeviceKey = "guest_integration_shield";
@@ -27,6 +29,9 @@ const topicDimensionId = "integration-topic-dimension";
 const mathTopicId = "integration-math-topic";
 const scienceTopicId = "integration-science-topic";
 const headers = { "content-type": "application/json", "x-forwarded-for": "198.51.100.42" };
+const authUserId = "integration-auth-user";
+const authLearnerKey = "account_integration_device";
+const authGuestKey = "guest_auth_integration_device";
 
 function request(url: string, method: string, body: unknown) {
   return new Request(url, { method, headers, body: JSON.stringify(body) });
@@ -62,6 +67,8 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
+  await prisma.learnerProfile.deleteMany({ where: { deviceKey: { in: [authLearnerKey, authGuestKey] } } });
+  await prisma.user.deleteMany({ where: { id: authUserId } });
   await prisma.learnerProfile.deleteMany({ where: { deviceKey: { in: [deviceKey, shieldDeviceKey] } } });
   await prisma.question.deleteMany({ where: { id: { in: [choiceId, writtenId, scienceQuestionId] } } });
   await prisma.badge.deleteMany({ where: { id: "integration-badge" } });
@@ -74,6 +81,43 @@ afterAll(async () => {
 });
 
 describe("learner API journey", () => {
+  it("merges anonymous progress into an account and resolves it from the session", async () => {
+    await prisma.user.create({ data: {
+      id: authUserId,
+      email: "integration@example.com",
+      passwordHash: "not-used-by-this-test",
+      displayName: "测试探索者",
+      learner: { create: { deviceKey: authLearnerKey, xp: 20, level: 1 } },
+    } });
+    await prisma.learnerProfile.create({ data: {
+      deviceKey: authGuestKey,
+      xp: 13,
+      level: 1,
+      savedQuestions: { create: { questionId: choiceId } },
+      badges: { create: { badgeId: "integration-badge" } },
+      activities: { create: { activityDate: "2026-07-27", attempts: 1, correct: 1, earnedXp: 13 } },
+    } });
+
+    const merged = await linkLearnerToUser(authUserId, authGuestKey);
+    expect(merged).toMatchObject({ userId: authUserId, deviceKey: authLearnerKey, xp: 33 });
+    expect(await prisma.learnerProfile.findUnique({ where: { deviceKey: authGuestKey } })).toBeNull();
+    expect(await prisma.savedQuestion.count({ where: { learnerId: merged.id, questionId: choiceId } })).toBe(1);
+    expect(await prisma.learnerBadge.count({ where: { learnerId: merged.id, badgeId: "integration-badge" } })).toBe(1);
+
+    const token = "integration-session-token";
+    await prisma.authSession.create({ data: {
+      tokenHash: hashSessionToken(token),
+      userId: authUserId,
+      expiresAt: new Date(Date.now() + 60_000),
+    } });
+    const authenticatedRequest = new NextRequest(`http://localhost/api/learner?deviceKey=${authGuestKey}`, {
+      headers: { cookie: `${SESSION_COOKIE}=${token}` },
+    });
+    expect(await getSessionUser(authenticatedRequest)).toMatchObject({ id: authUserId, email: "integration@example.com" });
+    const response = await getLearner(authenticatedRequest);
+    expect(await response.json()).toMatchObject({ xp: 33, level: 1 });
+  });
+
   it("uses a streak shield after exactly one missed calendar day", async () => {
     const today = calendarDay(new Date(), "Asia/Shanghai");
     await prisma.learnerProfile.create({ data: {

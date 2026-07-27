@@ -2,9 +2,9 @@
 
 ## Launch Scope
 
-EduLoop's production baseline is an anonymous student practice service. It includes filtered and adaptive practice, ten-question sessions, self-assessed written work, XP and streaks, saved questions, spaced mistake review, progress views, and question reporting. It deliberately excludes public profiles, social ranking, and identifiable student accounts.
+EduLoop's production baseline is a guest-first student practice service with optional email/password accounts for cross-device continuity. It includes filtered and adaptive practice, ten-question sessions, self-assessed written work, XP and streaks, saved questions, spaced mistake review, progress views, and question reporting. It deliberately excludes public profiles and social ranking.
 
-School-managed accounts are a separate launch mode. Before enabling them, integrate an approved identity provider, teacher/guardian roles, consent records, and jurisdiction-specific retention rules at the `LearnerProfile` boundary.
+School-managed accounts are a separate launch mode. Before using accounts with school rosters, add an approved identity provider or verified-email recovery, teacher/guardian roles, consent records, and jurisdiction-specific retention rules.
 
 ## Acceptance Evidence
 
@@ -14,7 +14,8 @@ School-managed accounts are a separate launch mode. Before enabling them, integr
 | Answers are not leaked | `/api/questions/next` omits keys; `/api/attempts` grades server-side |
 | Learning continues after a mistake | `ReviewItem` scheduling, `/review`, adaptive due selection |
 | Progress survives navigation | persisted profiles, sessions, attempts, activity, saved questions |
-| Learners control anonymous data | `/privacy` and `DELETE /api/learner` cascade deletion |
+| Learners control learning data | `/privacy`, export, and `DELETE /api/learner` cascade deletion |
+| Account sessions are revocable | hashed `AuthSession` rows and an HttpOnly logout flow |
 | Content problems can be surfaced | `QuestionReport` and in-practice feedback form |
 | Both databases stay portable | paired schemas/migrations and `npm run schema:check` |
 | Failures are diagnosable | `/api/health`, structured request errors, error boundaries |

@@ -5,7 +5,7 @@ import { LearnerHeaderStats } from "@/components/learner-provider";
 import { SubjectCard } from "@/components/subject-card";
 import { SUBJECTS } from "@/lib/content";
 
-const counts: Record<string, string> = { math: "5,389", physics: "2,269", chemistry: "1,634", biology: "1,057" };
+const counts: Record<string, string> = { math: "6,664", physics: "2,269", chemistry: "1,634", biology: "1,057" };
 
 export default function Home() {
   return (
@@ -36,7 +36,7 @@ export default function Home() {
 
       <section className="mt-9 grid grid-cols-2 gap-3 lg:grid-cols-4">
         {[
-          ["10,349", "精选题目", BookOpenCheck, "bg-white"], ["3", "学习阶段", Target, "bg-lime"],
+          ["13,812", "精选题目", BookOpenCheck, "bg-white"], ["3", "学习阶段", Target, "bg-lime"],
           ["4", "核心学科", Brain, "bg-sky"], ["27", "原始题型", Trophy, "bg-peach"],
         ].map(([value, label, Icon, bg]) => (
           <div key={String(label)} className={`flex items-center gap-4 rounded-[22px] border-2 border-ink/10 p-4 ${bg}`}><span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-ink text-white"><Icon size={20} /></span><div><p className="text-xl font-black tracking-tight">{String(value)}</p><p className="text-xs font-bold text-muted">{String(label)}</p></div></div>

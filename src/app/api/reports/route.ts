@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { enforceRateLimit } from "@/lib/api";
 import { prisma } from "@/lib/prisma";
+import { getOrCreateLearnerForRequest } from "@/lib/learner-identity";
 
 const reportSchema = z.object({
   deviceKey: z.string().min(8).max(100),
@@ -20,9 +21,7 @@ export async function POST(request: Request) {
 
   const question = await prisma.question.findFirst({ where: { id: input.questionId, status: "PUBLISHED" }, select: { id: true } });
   if (!question) return NextResponse.json({ error: "Question not found" }, { status: 404 });
-  const learner = await prisma.learnerProfile.upsert({
-    where: { deviceKey: input.deviceKey }, create: { deviceKey: input.deviceKey }, update: {},
-  });
+  const learner = await getOrCreateLearnerForRequest(request, input.deviceKey);
   const report = await prisma.questionReport.create({ data: {
     learnerId: learner.id,
     questionId: question.id,

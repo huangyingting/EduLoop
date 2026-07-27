@@ -1,28 +1,28 @@
 # Source data audit
 
-Audit date: 2026-07-26. Reproduce the structural portion with `npm run data:audit`.
+Audit date: 2026-07-27. Reproduce the structural portion with `npm run data:audit`.
 
 ## Inventory
 
-The four subject-level JSON files contain 10,349 unique question IDs:
+The seven JSON files contain 13,812 unique question IDs: four subject-level collections and separate AMC 8, AMC 10, and AMC 12 archives. The AMC files hold 3,463 unique questions representing 3,575 contest slots; 112 exact AMC 10/12 overlaps are stored once with merged paper provenance and solutions.
 
 | Dimension | Distribution |
 | --- | --- |
-| School stage | Primary 1,815; middle 4,615; high 3,919 |
-| Subject | Mathematics 5,389; physics 2,269; chemistry 1,634; biology 1,057 |
-| Difficulty | Easy 5,426; medium 4,725; hard 198 |
-| Largest grades | Grade 9: 2,405; high school year 3: 1,647; high school year 1: 1,188 |
-| Online-ready flag | True 6,521; false 3,828 |
-| Quality label | All 10,349 are labelled `精品`, so this field is not a useful ranking signal yet |
+| School stage | Primary 1,815; middle 5,640; high 6,357 |
+| Subject | Mathematics 8,852; physics 2,269; chemistry 1,634; biology 1,057 |
+| Difficulty | Easy 6,786; medium 6,118; hard 908 |
+| Largest grades | High school year 3: 2,810; high school year 1: 2,463; grade 9: 2,405 |
+| Online-ready flag | True 9,984; false 3,828 |
+| Quality label | All 13,812 are labelled `精品`, so this field is not a useful ranking signal yet |
 
 The source has 27 question-type strings. Normalization reduces them to seven stable product families:
 
 | Product family | Questions | Typical source types |
 | --- | ---: | --- |
-| Single choice | 5,748 | 选择题, 单选题 |
+| Single choice | 9,160 | 选择题, 单选题 |
 | Fill blank | 2,649 | 填空题, 单空题, 多空题 |
-| Written response | 1,115 | 解答题, 简答题, 应用题, 证明题 |
-| Multiple choice | 335 | 多选题, 双选题, 不定项选择题 |
+| Written response | 1,117 | 解答题, 简答题, 应用题, 证明题 |
+| Multiple choice | 384 | 多选题, 双选题, 不定项选择题 |
 | Computation | 234 | 计算题 |
 | True/false | 204 | 判断题 |
 | Experiment/inquiry | 64 | 实验题, 探究题 and combinations |
@@ -30,15 +30,15 @@ The source has 27 question-type strings. Normalization reduces them to seven sta
 ## Content and answer quality
 
 - All records use the same outer and nested key shape. Several files start with a UTF-8 BOM; the importer removes it before parsing.
-- 6,006 questions have options. Of these, 5,798 have four, 182 have three, 22 have five, and four have two.
-- 4,481 stems include `$$...$$`, `\\frac`, or related LaTeX markers and are rendered with KaTeX.
+- 9,469 questions have options. Of these, 5,798 have four, 182 have three, 3,485 have five, and four have two.
+- 4,570 stems match the structural LaTeX audit. The renderer supports both the original `$$...$$` convention and the AMC archives' `$...$` inline notation.
 - Every record has non-empty `answer_info.raw_content`; 43 lack a distinct solution/explanation.
 - 1,698 records lack `question_info.raw_content.answer1`. This is not treated as an error because many written-response questions keep the answer only in `answer_info`.
-- IDs are unique. There are 295 repeated stems, which may represent legitimate grade/source duplication and are retained under their source IDs.
+- IDs are unique. There are 315 repeated stems, which may represent legitimate grade/source duplication and are retained under their source IDs. No AMC stem exactly duplicates a stem in the original files, and no exact question fingerprint is duplicated among the AMC files.
 - Two source records contain child questions. Their parent records are retained under the stable source IDs and have reviewed, self-contained written-response versions so both sets of learning objectives remain usable.
-- The source bundle has no linked image/media assets. Known figure-dependent records use reviewed textual rewrites or approved generated replacements; unrecognized future figure references remain quarantined by default. Inline choices are recovered only when their `A/B/C...` sequence and content are complete.
+- The AMC archives contain 1,675 figure references across 1,068 questions, including 688 question prompts. All are stored locally as 1,656 SHA-256-deduplicated files under `public/question-assets/amc/`; `manifest.json` retains each original source URL for provenance. The AMC audit rejects remote markers, malformed local markers, and missing files. The original subject files still use reviewed textual rewrites or approved generated replacements; unrecognized future figure references remain quarantined by default. Inline choices are recovered only when their `A/B/C...` sequence and content are complete.
 
-Source normalization finds 6,280 questions with high-confidence choice or true/false answer labels. The approved replacement for question `8c502ae5d1d18e4743ada96d0adf0ebd` restores its recorded key and four graphical options, bringing the imported auto-gradable count to 6,281. The rest use reference-answer self-assessment. All 10,349 bundled records are published after curation; no bundled record remains in `NEEDS_REVIEW`.
+Source normalization finds 9,743 questions with high-confidence choice or true/false answer labels. The approved replacement for question `8c502ae5d1d18e4743ada96d0adf0ebd` restores its recorded key and four graphical options, bringing the imported auto-gradable count to 9,744. The rest use reference-answer self-assessment. All 13,812 bundled records are published after curation; no bundled record remains in `NEEDS_REVIEW`.
 
 The catalog stores 12 accessible SVG diagrams across nine questions as `GENERATED_REPLACEMENT` assets with `APPROVED` review status. In addition to the four-option vertical-angle question, reviewed stem diagrams cover segment counting, a parallel-line construction, a number-line interval, a parallel-line angle problem, intersecting ellipses, a simple water filter, an ionization smoke detector, and a suspended-lamp force setup. Practice APIs continue to expose only assets marked `APPROVED`.
 
@@ -54,7 +54,7 @@ Run `npm run difficulty:audit` after seeding to verify that every row was assess
 
 The three product levels retain their existing meanings: `EASY` is direct recall or one-step application, `MEDIUM` requires connected concepts or several operations, and `HARD` requires sustained multi-step reasoning, proof, synthesis, or experimental design. Difficulty is relative to the assigned grade; advanced vocabulary alone does not make a question hard.
 
-Audit version 1 assessed all 10,349 bundled questions and changed 4,088 high-confidence mismatches while retaining 6,261 source labels. The calibrated catalog contains 7,053 easy, 2,638 medium, and 658 hard questions, replacing the source distribution of 5,426 easy, 4,725 medium, and 198 hard. Curated subject review can override an individual result with confidence 1 in `content-curation.ts` without weakening the reproducible default audit.
+Audit version 1 assessed all 13,812 bundled questions and changed 4,088 high-confidence mismatches while retaining 9,724 source labels. The calibrated catalog contains 8,413 easy, 4,031 medium, and 1,368 hard questions, replacing the source distribution of 6,786 easy, 6,118 medium, and 908 hard. AMC difficulty is assigned per contest position (problems 1–10 easy, 11–20 medium, and 21–25 hard) and retained after the structural audit because contest ordering is the stronger source-specific signal. Curated subject review can override an individual result with confidence 1 in `content-curation.ts` without weakening the reproducible default audit.
 
 ## Taxonomy strategy
 
@@ -73,5 +73,5 @@ Each question-tag link stores `source` and `confidence`. Current topic/skill tag
 1. Build an operator review queue for newly quarantined imports and questions students report.
 2. Have subject teachers review the highest-volume inferred topics before using them for mastery claims.
 3. Add curriculum version, textbook edition, province, and explicit knowledge-point codes as new tag dimensions when that metadata becomes available.
-4. Add asset ingestion before accepting future diagram-dependent sources.
+4. Keep asset localization and integrity auditing mandatory for future diagram-dependent sources.
 5. Introduce semantic duplicate detection; do not deduplicate on exact stem alone.

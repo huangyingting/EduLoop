@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { enforceRateLimit } from "@/lib/api";
 import { prisma } from "@/lib/prisma";
+import { findLearnerForRequest, getOrCreateLearnerForRequest } from "@/lib/learner-identity";
 
 export const dynamic = "force-dynamic";
 
@@ -45,7 +46,7 @@ function questionCard(question: {
 export async function GET(request: NextRequest) {
   const parsed = querySchema.safeParse(Object.fromEntries(request.nextUrl.searchParams));
   if (!parsed.success) return NextResponse.json({ error: "Invalid review query" }, { status: 400 });
-  const learner = await prisma.learnerProfile.findUnique({ where: { deviceKey: parsed.data.deviceKey } });
+  const learner = await findLearnerForRequest(request, parsed.data.deviceKey);
   if (!learner) return NextResponse.json({ dueCount: 0, activeCount: 0, savedCount: 0, reviews: [], saved: [] });
 
   const now = new Date();
@@ -92,9 +93,7 @@ export async function POST(request: Request) {
   if (limited) return limited;
   const question = await prisma.question.findFirst({ where: { id: input.questionId, status: "PUBLISHED" }, select: { id: true } });
   if (!question) return NextResponse.json({ error: "Question not found" }, { status: 404 });
-  const learner = await prisma.learnerProfile.upsert({
-    where: { deviceKey: input.deviceKey }, create: { deviceKey: input.deviceKey }, update: {},
-  });
+  const learner = await getOrCreateLearnerForRequest(request, input.deviceKey);
 
   if (input.saved) {
     await prisma.savedQuestion.upsert({

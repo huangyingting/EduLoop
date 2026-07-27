@@ -2,6 +2,7 @@
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { getDeviceKey, getTimeZone } from "@/lib/learner";
+import { useAuth } from "@/lib/use-auth";
 
 export type LearnerSnapshot = {
   xp: number;
@@ -21,6 +22,7 @@ const LearnerContext = createContext<{
 
 export function LearnerProvider({ children }: { children: React.ReactNode }) {
   const [stats, setStats] = useState(initialSnapshot);
+  const { status: authStatus } = useAuth();
   const refresh = useCallback(async () => {
     const params = new URLSearchParams({ deviceKey: getDeviceKey(), timeZone: getTimeZone() });
     const response = await fetch(`/api/learner?${params}`, { cache: "no-store" });
@@ -30,7 +32,7 @@ export function LearnerProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const timer = window.setTimeout(() => void refresh(), 0);
     return () => window.clearTimeout(timer);
-  }, [refresh]);
+  }, [authStatus, refresh]);
 
   const value = useMemo(() => ({
     stats, refresh,

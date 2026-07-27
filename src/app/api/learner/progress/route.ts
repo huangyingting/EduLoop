@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { calendarDay, previousCalendarDay } from "@/lib/dates";
 import { prisma } from "@/lib/prisma";
+import { findLearnerForRequest } from "@/lib/learner-identity";
 
 export const dynamic = "force-dynamic";
 
@@ -16,7 +17,7 @@ type TopicAggregate = Aggregate & { slug: string; subject: string };
 export async function GET(request: NextRequest) {
   const parsed = querySchema.safeParse(Object.fromEntries(request.nextUrl.searchParams));
   if (!parsed.success) return NextResponse.json({ error: "Invalid progress query" }, { status: 400 });
-  const learner = await prisma.learnerProfile.findUnique({ where: { deviceKey: parsed.data.deviceKey } });
+  const learner = await findLearnerForRequest(request, parsed.data.deviceKey);
   if (!learner) return NextResponse.json({
     summary: { totalAttempts: 0, correctRate: 0, xp: 0, level: 1, currentStreak: 0, bestStreak: 0 },
     activity: [], subjects: [], weakTopics: [], recentMistakes: [], badges: [], sessions: [],

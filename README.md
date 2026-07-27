@@ -1,20 +1,21 @@
 # EduLoop
 
-EduLoop is a Chinese-language practice app for primary, middle, and high school students. The scaffold turns the four subject files in `data/` (`mathematics.json`, `physics.json`, `chemistry.json`, and `biology.json`) into a searchable question bank, supports automatically graded choice questions and self-assessed written work, and wraps the practice loop in lightweight XP, streak, and badge rewards.
+EduLoop is a Chinese-language practice app for primary, middle, and high school students. The scaffold turns the seven source files in `data/`—four subject collections plus AMC 8, AMC 10, and AMC 12 archives—into a searchable question bank, supports automatically graded choice questions and self-assessed written work, and wraps the practice loop in lightweight XP, streak, and badge rewards.
 
 ## What is included
 
 - Next.js App Router, React, TypeScript, and Tailwind CSS 4
 - Prisma with SQLite for local development and a parallel PostgreSQL production schema
-- Idempotent import for all 10,349 source questions, including BOM-safe JSON parsing
+- Idempotent import for all 13,812 unique questions, including 3,463 AMC questions representing 3,575 contest slots, with BOM-safe JSON parsing
 - Normalized subject, school stage, grade, difficulty, and question-family filters
 - Extensible topic, skill, and format tags with provenance and confidence
-- KaTeX rendering for the 4,481 questions containing LaTeX-like notation
-- Server-side answer checking, guest learner profiles, XP, daily streaks, activity, and badges
+- KaTeX rendering for the 4,570 questions detected with LaTeX-like notation, including inline AMC notation
+- Server-side answer checking, guest or account-linked learner profiles, XP, daily streaks, activity, and badges
+- Email/password accounts, hashed database sessions, cross-device progress merging, and guest-first use
 - Ten-question sessions, written-answer self-assessment, saved questions, and spaced mistake review
 - Adaptive practice that prioritizes due reviews and recently weak subjects
 - Growth dashboard with a 28-day activity map, subject signals, topic radar, and badge shelf
-- Question-quality reports, anonymous data deletion, health checks, security headers, and bounded APIs
+- Question-quality reports, learner-data export/deletion, health checks, security headers, and bounded APIs
 - Responsive, keyboard-friendly student dashboard and practice experience
 
 ## Run locally
@@ -35,7 +36,13 @@ Open [http://localhost:3000](http://localhost:3000). The full seed takes roughly
 Useful commands:
 
 ```bash
-npm run data:audit     # profile all source JSON files
+npm run data:audit       # profile all source JSON files
+npm run data:scrape:amc8 # resumably refresh the AMC 8 archive
+npm run data:scrape:amc10
+npm run data:scrape:amc12
+npm run data:dedupe:amc  # merge exact cross-contest duplicates
+npm run data:assets:amc  # download/deduplicate figures and rewrite local paths
+npm run data:audit:amc   # verify slots, keys, figures, and duplicates
 npm run difficulty:audit # verify every imported difficulty assessment
 npm run seed:verify    # import into a fresh database and verify catalog counts
 npm run reports:review -- list # inspect the trusted content-report queue
@@ -48,7 +55,7 @@ npm run lint
 npm run build
 ```
 
-The main student routes are `/practice`, `/progress`, and `/review`. `/api/health` is the deployment readiness probe.
+The main student routes are `/practice`, `/progress`, and `/review`; `/login` and `/register` add optional cross-device sync. `/api/health` is the deployment readiness probe.
 
 ## PostgreSQL production deployment
 
@@ -76,7 +83,7 @@ For curated taxonomy, add or update `Tag` and `QuestionTag` rows through Prisma.
 
 - Only answer keys that can be parsed with high confidence are auto-graded. Written and ambiguous answers reveal the reference answer for student self-assessment.
 - Unrecognized nested, missing-stem, malformed-choice, and figure-dependent imports are marked `NEEDS_REVIEW` by default. All current bundled records have reviewed corrections or replacements and are published; curation lives in `src/lib/content-curation.ts`.
-- The source bundle contains no linked image assets or explicit curriculum knowledge-point labels. Twelve generated replacement diagrams have been reviewed and approved; the API still exposes only manually approved assets. Topic tags are useful discovery hints, not authoritative curriculum classification.
-- Guest identity currently lives in local browser storage. This anonymous mode is suitable for a public practice deployment; schools enabling identifiable accounts or cross-device sync must add their identity provider, guardian-consent process, and role controls at the `LearnerProfile` boundary.
+- The four original subject files contain no linked image assets. AMC figures are downloaded into `public/question-assets/amc/`, deduplicated by SHA-256, and traced to their original URLs in `manifest.json`; five remote hosts remain allowlisted only as a pre-localization fallback. Twelve generated replacement diagrams remain reviewed and approved. Topic tags are useful discovery hints, not authoritative curriculum classification.
+- Guest identity lives in local browser storage. Optional email/password accounts link that progress to one `LearnerProfile`; logging in on another browser merges its anonymous progress into the account. School-managed deployments still need guardian-consent, email-verification/recovery, and staff-role policies appropriate to their jurisdiction.
 
-See [data audit](./docs/data-audit.md), [product design](./docs/product-design.md), and [architecture](./docs/architecture.md) for the decisions behind the scaffold.
+See [authentication](./docs/authentication.md), [data audit](./docs/data-audit.md), [product design](./docs/product-design.md), and [architecture](./docs/architecture.md) for the decisions behind the scaffold.

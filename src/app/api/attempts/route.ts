@@ -4,6 +4,7 @@ import { enforceRateLimit } from "@/lib/api";
 import { calendarDay, calendarDaysBefore, previousCalendarDay } from "@/lib/dates";
 import { prisma } from "@/lib/prisma";
 import { nextReviewState } from "@/lib/review";
+import { findLearnerForRequest, getOrCreateLearnerForRequest } from "@/lib/learner-identity";
 
 const attemptSchema = z.object({
   questionId: z.string().min(8),
@@ -28,7 +29,8 @@ function levelForXp(xp: number) {
 
 async function replayAttempt(
   clientAttemptId: string,
-  input: z.infer<typeof attemptSchema>,
+  learnerId: string,
+  questionId: string,
   question: { id: string; correctAnswer: string | null; answer: string; explanation: string | null },
   today: string,
 ) {
@@ -37,7 +39,7 @@ async function replayAttempt(
     include: { learner: true, session: true },
   });
   if (!attempt) return null;
-  if (attempt.learner.deviceKey !== input.deviceKey || attempt.questionId !== input.questionId) {
+  if (attempt.learnerId !== learnerId || attempt.questionId !== questionId) {
     return NextResponse.json({ error: "Attempt key already used" }, { status: 409 });
   }
   const activity = await prisma.dailyActivity.findUnique({
@@ -91,20 +93,17 @@ export async function POST(request: Request) {
   const earnedXp = isCorrect === true ? 6 + difficultyBonus : isCorrect === false ? 2 : 3;
   const today = calendarDay(new Date(), input.timeZone);
   const now = new Date();
+  const identity = await getOrCreateLearnerForRequest(request, input.deviceKey);
 
   if (input.clientAttemptId) {
-    const replay = await replayAttempt(input.clientAttemptId, input, question, today);
+    const replay = await replayAttempt(input.clientAttemptId, identity.id, input.questionId, question, today);
     if (replay) return replay;
   }
 
   let result;
   try {
     result = await prisma.$transaction(async (transaction) => {
-      const learner = await transaction.learnerProfile.upsert({
-        where: { deviceKey: input.deviceKey },
-        create: { deviceKey: input.deviceKey },
-        update: {},
-      });
+      const learner = await transaction.learnerProfile.findUniqueOrThrow({ where: { id: identity.id } });
       const session = input.sessionId ? await transaction.practiceSession.findFirst({
         where: { id: input.sessionId, learnerId: learner.id, status: "ACTIVE" },
       }) : null;
@@ -190,7 +189,7 @@ export async function POST(request: Request) {
   } catch (error) {
     const uniqueConflict = error && typeof error === "object" && "code" in error && error.code === "P2002";
     if (uniqueConflict && input.clientAttemptId) {
-      const replay = await replayAttempt(input.clientAttemptId, input, question, today);
+      const replay = await replayAttempt(input.clientAttemptId, identity.id, input.questionId, question, today);
       if (replay) return replay;
     }
     throw error;
@@ -254,10 +253,12 @@ export async function PATCH(request: Request) {
   const limited = enforceRateLimit(request, "assessments", input.deviceKey, 45);
   if (limited) return limited;
   const now = new Date();
+  const learner = await findLearnerForRequest(request, input.deviceKey);
+  if (!learner) return NextResponse.json({ error: "Attempt not found" }, { status: 404 });
 
   const outcome = await prisma.$transaction(async (transaction) => {
     const attempt = await transaction.practiceAttempt.findFirst({
-      where: { id: input.attemptId, learner: { deviceKey: input.deviceKey } },
+      where: { id: input.attemptId, learnerId: learner.id },
       include: { learner: { select: { id: true } } },
     });
     if (!attempt) return { error: "Attempt not found" as const };

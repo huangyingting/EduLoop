@@ -68,3 +68,7 @@ export function resetDeviceKey() {
     window.localStorage.removeItem(PRACTICE_PREFERENCES_KEY);
   }
 }
+
+export function rotateDeviceKey() {
+  if (typeof window !== "undefined") window.localStorage.removeItem(DEVICE_KEY);
+}

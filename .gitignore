@@ -16,6 +16,7 @@ prisma/*.db-journal
 
 # test and tooling output
 /coverage
+/.cache/
 *.tsbuildinfo
 next-env.d.ts
 

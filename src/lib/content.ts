@@ -76,13 +76,15 @@ type TopicRule = { slug: string; label: string; pattern: RegExp };
 
 const TOPIC_RULES: Record<string, TopicRule[]> = {
   数学: [
-    { slug: "numbers-arithmetic", label: "数与运算", pattern: /整数|小数|分数|有理数|实数|四则|因数|倍数|质数|数轴/ },
-    { slug: "algebra-equations", label: "代数与方程", pattern: /代数|方程|不等式|整式|因式分解|二次根式|未知数/ },
-    { slug: "functions", label: "函数", pattern: /函数|图象|定义域|值域|抛物线|反比例|正比例/ },
-    { slug: "geometry", label: "图形与几何", pattern: /三角形|四边形|长方形|正方形|圆|几何|平行|垂直|面积|周长|体积|棱|角|相似|全等/ },
-    { slug: "coordinates-vectors", label: "坐标与向量", pattern: /坐标|向量|直线方程|空间位置/ },
-    { slug: "statistics-probability", label: "统计与概率", pattern: /概率|统计|平均数|中位数|众数|方差|频率|抽样|随机/ },
-    { slug: "trigonometry", label: "三角与解三角形", pattern: /正弦|余弦|正切|三角函数|sin|cos|tan/ },
+    { slug: "numbers-arithmetic", label: "数与运算", pattern: /整数|小数|分数|有理数|实数|四则|因数|倍数|质数|数轴|\b(?:integer|digit|prime|divisor|multiple|factor|remainder|fraction|decimal|ratio|percent)\b/i },
+    { slug: "algebra-equations", label: "代数与方程", pattern: /代数|方程|不等式|整式|因式分解|二次根式|未知数|\b(?:algebra|equation|inequality|polynomial|quadratic|variable|expression)\b/i },
+    { slug: "functions", label: "函数", pattern: /函数|图象|定义域|值域|抛物线|反比例|正比例|\b(?:function|domain|range|parabola)\b/i },
+    { slug: "geometry", label: "图形与几何", pattern: /三角形|四边形|长方形|正方形|圆|几何|平行|垂直|面积|周长|体积|棱|角|相似|全等|\b(?:triangle|quadrilateral|rectangle|square|circle|polygon|geometry|parallel|perpendicular|area|perimeter|volume|angle|similar|congruent)\b/i },
+    { slug: "coordinates-vectors", label: "坐标与向量", pattern: /坐标|向量|直线方程|空间位置|\b(?:coordinate|vector|slope|x-axis|y-axis)\b/i },
+    { slug: "statistics-probability", label: "统计与概率", pattern: /概率|统计|平均数|中位数|众数|方差|频率|抽样|随机|\b(?:probability|statistic|average|mean|median|mode|variance|random)\b/i },
+    { slug: "combinatorics", label: "组合与计数", pattern: /排列|组合|计数|\b(?:arrang(?:e|ement)s?|permutations?|combinations?|assortments?|selections?|how many ways)\b/i },
+    { slug: "sequences-patterns", label: "数列与规律", pattern: /数列|等差|等比|递推|\b(?:sequence|progression|consecutive|recurrence)\b/i },
+    { slug: "trigonometry", label: "三角与解三角形", pattern: /正弦|余弦|正切|三角函数|\b(?:sine|cosine|tangent|sin|cos|tan)\b/i },
     { slug: "calculus", label: "导数", pattern: /导数|极值|单调区间|切线/ },
     { slug: "sets-logic", label: "集合与逻辑", pattern: /集合|命题|充分条件|必要条件|逻辑/ },
   ],
@@ -251,12 +253,15 @@ export function inferTags(question: SourceQuestion): NormalizedTag[] {
   for (const rule of TOPIC_RULES[question.course] ?? []) {
     if (rule.pattern.test(combined)) addTag(tags, { dimension: "TOPIC", slug: rule.slug, label: rule.label, confidence: 0.72, source: "RULE" });
   }
+  if (question.course === "数学" && !tags.some((tag) => tag.dimension === "TOPIC")) {
+    addTag(tags, { dimension: "TOPIC", slug: "mixed-problem-solving", label: "综合问题解决", confidence: 0.55, source: "RULE" });
+  }
 
-  if (/计算|求|多少|证明|推导|方程/.test(stem) || type === "COMPUTATION")
+  if (/计算|求|多少|证明|推导|方程|\b(?:find|determine|calculate|compute|what is|how many|how much|smallest|largest|maximum|minimum|prove|equation)\b/i.test(stem) || type === "COMPUTATION")
     addTag(tags, { dimension: "SKILL", slug: "quantitative-reasoning", label: "计算推理", confidence: 0.76, source: "RULE" });
   if (/实验|探究|操作|仪器|步骤|现象/.test(combined) || type === "EXPERIMENT")
     addTag(tags, { dimension: "SKILL", slug: "scientific-inquiry", label: "科学探究", confidence: 0.8, source: "RULE" });
-  if (/图象|图表|示意图|曲线|坐标系|识图/.test(stem))
+  if (/图象|图表|示意图|曲线|坐标系|识图|\b(?:figure|diagram|graph|chart|coordinate plane)\b/i.test(stem))
     addTag(tags, { dimension: "SKILL", slug: "visual-interpretation", label: "读图分析", confidence: 0.78, source: "RULE" });
   if (/解释|原因|说明|分析|判断/.test(stem))
     addTag(tags, { dimension: "SKILL", slug: "conceptual-reasoning", label: "概念推理", confidence: 0.7, source: "RULE" });
@@ -337,11 +342,15 @@ export function normalizeSourceQuestion(question: SourceQuestion, sourceFile: st
   });
   return {
     ...normalized,
-    difficulty: update?.difficulty ?? audit.difficulty,
+    difficulty: update?.difficulty ?? (/^amc(?:8|10|12)\.json$/.test(sourceFile) ? sourceDifficulty : audit.difficulty),
     sourceDifficulty: audit.sourceDifficulty,
     difficultyScore: audit.score,
-    difficultyConfidence: update?.difficulty ? 1 : audit.confidence,
-    difficultyReason: update?.difficulty ? `curated subject review; ${audit.reason}` : audit.reason,
+    difficultyConfidence: update?.difficulty || /^amc(?:8|10|12)\.json$/.test(sourceFile) ? 1 : audit.confidence,
+    difficultyReason: update?.difficulty
+      ? `curated subject review; ${audit.reason}`
+      : /^amc(?:8|10|12)\.json$/.test(sourceFile)
+        ? `AMC contest position band retained after structural audit; ${audit.reason}`
+        : audit.reason,
     difficultyAuditVersion: audit.version,
   };
 }

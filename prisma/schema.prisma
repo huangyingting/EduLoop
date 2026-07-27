@@ -149,6 +149,8 @@ model LearnerProfile {
   level          Int               @default(1)
   currentStreak  Int               @default(0)
   bestStreak     Int               @default(0)
+  streakFreezes  Int               @default(1)
+  lastFreezeUsedOn String?
   lastActiveOn   String?
   sessions       PracticeSession[]
   attempts       PracticeAttempt[]

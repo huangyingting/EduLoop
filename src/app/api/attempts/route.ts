@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { enforceRateLimit } from "@/lib/api";
-import { calendarDay, previousCalendarDay } from "@/lib/dates";
+import { calendarDay, calendarDaysBefore, previousCalendarDay } from "@/lib/dates";
 import { prisma } from "@/lib/prisma";
 import { nextReviewState } from "@/lib/review";
 
@@ -57,9 +57,14 @@ export async function POST(request: Request) {
       where: { id: input.sessionId, learnerId: learner.id, status: "ACTIVE" },
     }) : null;
     const activeToday = learner.lastActiveOn === today;
+    const usesFreeze = !activeToday
+      && learner.lastActiveOn === calendarDaysBefore(today, 2)
+      && learner.streakFreezes > 0;
     const nextStreak = activeToday
       ? learner.currentStreak
-      : learner.lastActiveOn === previousCalendarDay(today) ? learner.currentStreak + 1 : 1;
+      : learner.lastActiveOn === previousCalendarDay(today) || usesFreeze ? learner.currentStreak + 1 : 1;
+    const milestoneFreeze = !activeToday && nextStreak > 0 && nextStreak % 7 === 0 ? 1 : 0;
+    const nextStreakFreezes = Math.min(2, learner.streakFreezes - (usesFreeze ? 1 : 0) + milestoneFreeze);
     const existingReview = isCorrect !== null ? await transaction.reviewItem.findUnique({
       where: { learnerId_questionId: { learnerId: learner.id, questionId: question.id } },
     }) : null;
@@ -80,6 +85,8 @@ export async function POST(request: Request) {
         xp: { increment: earnedXp },
         currentStreak: nextStreak,
         bestStreak: Math.max(learner.bestStreak, nextStreak),
+        streakFreezes: nextStreakFreezes,
+        lastFreezeUsedOn: usesFreeze ? today : learner.lastFreezeUsedOn,
         lastActiveOn: today,
       },
     });
@@ -125,7 +132,7 @@ export async function POST(request: Request) {
       };
     }
 
-    return { learner, attempt, updatedLearner, activity, nextStreak, sessionProgress };
+    return { learner, attempt, updatedLearner, activity, nextStreak, usesFreeze, sessionProgress };
   });
 
   const totalXp = result.updatedLearner.xp;
@@ -169,6 +176,8 @@ export async function POST(request: Request) {
     totalXp,
     level,
     currentStreak: result.nextStreak,
+    streakFreezes: result.updatedLearner.streakFreezes,
+    streakFreezeUsed: result.usesFreeze,
     todayAttempts: result.activity.attempts,
     newBadges,
     session: result.sessionProgress,

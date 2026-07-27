@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { calendarDay, normalizeTimeZone, previousCalendarDay } from "./dates";
+import { calendarDay, calendarDaysBefore, normalizeTimeZone, previousCalendarDay } from "./dates";
 
 describe("learner calendar days", () => {
   it("uses the learner timezone around local midnight", () => {
@@ -14,5 +14,11 @@ describe("learner calendar days", () => {
 
   it("walks across month boundaries", () => {
     expect(previousCalendarDay("2026-03-01")).toBe("2026-02-28");
+    expect(calendarDaysBefore("2026-03-01", 2)).toBe("2026-02-27");
+  });
+
+  it("normalizes invalid day offsets", () => {
+    expect(calendarDaysBefore("2026-07-27", -2)).toBe("2026-07-27");
+    expect(calendarDaysBefore("2026-07-27", 1.9)).toBe("2026-07-26");
   });
 });

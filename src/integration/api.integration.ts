@@ -12,8 +12,10 @@ import { POST as createReport } from "@/app/api/reports/route";
 import { GET as getReview, POST as saveQuestion } from "@/app/api/review/route";
 import { POST as createSession } from "@/app/api/sessions/route";
 import { prisma } from "@/lib/prisma";
+import { calendarDay, calendarDaysBefore } from "@/lib/dates";
 
 const deviceKey = "guest_integration_device";
+const shieldDeviceKey = "guest_integration_shield";
 const subjectId = "integration-subject";
 const bandId = "integration-band";
 const gradeId = "integration-grade";
@@ -60,7 +62,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await prisma.learnerProfile.deleteMany({ where: { deviceKey } });
+  await prisma.learnerProfile.deleteMany({ where: { deviceKey: { in: [deviceKey, shieldDeviceKey] } } });
   await prisma.question.deleteMany({ where: { id: { in: [choiceId, writtenId, scienceQuestionId] } } });
   await prisma.badge.deleteMany({ where: { id: "integration-badge" } });
   await prisma.tag.deleteMany({ where: { id: { in: [mathTopicId, scienceTopicId] } } });
@@ -72,6 +74,36 @@ afterAll(async () => {
 });
 
 describe("learner API journey", () => {
+  it("uses a streak shield after exactly one missed calendar day", async () => {
+    const today = calendarDay(new Date(), "Asia/Shanghai");
+    await prisma.learnerProfile.create({ data: {
+      deviceKey: shieldDeviceKey,
+      currentStreak: 5,
+      bestStreak: 5,
+      streakFreezes: 1,
+      lastActiveOn: calendarDaysBefore(today, 2),
+    } });
+
+    const response = await createAttempt(request("http://localhost/api/attempts", "POST", {
+      deviceKey: shieldDeviceKey,
+      questionId: choiceId,
+      response: ["B"],
+      timeZone: "Asia/Shanghai",
+    }));
+    expect(response.status).toBe(200);
+    expect(await response.json()).toMatchObject({
+      currentStreak: 6,
+      streakFreezes: 0,
+      streakFreezeUsed: true,
+    });
+    expect(await prisma.learnerProfile.findUniqueOrThrow({ where: { deviceKey: shieldDeviceKey } })).toMatchObject({
+      currentStreak: 6,
+      streakFreezes: 0,
+      lastFreezeUsedOn: today,
+      lastActiveOn: today,
+    });
+  });
+
   it("returns grades and subject-specific topics for cascading practice filters", async () => {
     const response = await getCatalog(new NextRequest("http://localhost/api/catalog?gradeBand=integration-middle&subject=integration-math"));
     expect(response.status).toBe(200);

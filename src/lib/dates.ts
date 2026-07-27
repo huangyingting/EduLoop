@@ -19,7 +19,11 @@ export function calendarDay(date = new Date(), timeZone = DEFAULT_TIME_ZONE) {
 }
 
 export function previousCalendarDay(day: string) {
+  return calendarDaysBefore(day, 1);
+}
+
+export function calendarDaysBefore(day: string, days: number) {
   const date = new Date(`${day}T12:00:00.000Z`);
-  date.setUTCDate(date.getUTCDate() - 1);
+  date.setUTCDate(date.getUTCDate() - Math.max(0, Math.trunc(days)));
   return date.toISOString().slice(0, 10);
 }

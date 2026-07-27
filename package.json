@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@prisma/client": "6.19.3",
+    "@radix-ui/react-select": "2.3.7",
     "katex": "0.16.22",
     "lucide-react": "0.468.0",
     "next": "16.2.12",

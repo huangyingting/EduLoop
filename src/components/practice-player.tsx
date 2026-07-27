@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { getDeviceKey, getTimeZone } from "@/lib/learner";
+import { CustomSelect } from "./custom-select";
 import { useLearner } from "./learner-provider";
 import { MathText } from "./math-text";
 
@@ -26,6 +27,23 @@ type PracticeCatalog = {
 };
 
 const typeNames: Record<string, string> = { SINGLE_CHOICE: "单项选择", MULTIPLE_CHOICE: "多项选择", TRUE_FALSE: "判断", FILL_BLANK: "填空", COMPUTATION: "计算", EXPERIMENT: "实验探究", WRITTEN_RESPONSE: "解答" };
+const difficultyOptions = [
+  { value: "", label: "全部难度" },
+  { value: "EASY", label: "热身" },
+  { value: "MEDIUM", label: "进阶" },
+  { value: "HARD", label: "挑战" },
+];
+const typeOptions = [
+  { value: "", label: "全部题型" },
+  ...Object.entries(typeNames).map(([value, label]) => ({ value, label })),
+];
+const reportCategoryOptions = [
+  { value: "WRONG_ANSWER", label: "答案或解析有误" },
+  { value: "MISSING_FIGURE", label: "缺少图片或图表" },
+  { value: "UNCLEAR", label: "题意不清楚" },
+  { value: "FORMATTING", label: "公式或排版问题" },
+  { value: "OTHER", label: "其他问题" },
+];
 
 export function PracticePlayer() {
   const search = useSearchParams();
@@ -267,12 +285,54 @@ export function PracticePlayer() {
       </header>
 
       <div className="mt-6 flex gap-2 overflow-x-auto pb-2">
-        <select disabled={loading || catalogLoading} aria-label="选择学段" value={filters.gradeBand} onChange={(event) => changeFilter("gradeBand", event.target.value)} className="min-w-28 rounded-xl border-2 border-ink/10 bg-white px-3 py-2.5 text-sm font-bold outline-none focus:border-violet disabled:opacity-50"><option value="">全部学段</option>{catalog.gradeBands.map((item) => <option key={item.slug} value={item.slug}>{item.name}</option>)}</select>
-        {filters.gradeBand ? <select disabled={loading || catalogLoading} aria-label="选择年级" value={filters.grade} onChange={(event) => changeFilter("grade", event.target.value)} className="min-w-28 rounded-xl border-2 border-ink/10 bg-white px-3 py-2.5 text-sm font-bold outline-none focus:border-violet disabled:opacity-50"><option value="">全部年级</option>{catalog.grades.map((item) => <option key={item.slug} value={item.slug}>{item.name}</option>)}</select> : null}
-        <select disabled={loading || catalogLoading} aria-label="选择学科" value={filters.subject} onChange={(event) => changeFilter("subject", event.target.value)} className="min-w-28 rounded-xl border-2 border-ink/10 bg-white px-3 py-2.5 text-sm font-bold outline-none focus:border-violet disabled:opacity-50"><option value="">全部学科</option>{catalog.subjects.map((item) => <option key={item.slug} value={item.slug}>{item.name}</option>)}</select>
-        {filters.subject ? <select disabled={loading || catalogLoading || !catalog.topics.length} aria-label="选择知识主题" value={filters.tags} onChange={(event) => changeFilter("tags", event.target.value)} className="min-w-36 rounded-xl border-2 border-ink/10 bg-white px-3 py-2.5 text-sm font-bold outline-none focus:border-violet disabled:opacity-50"><option value="">全部知识主题</option>{catalog.topics.map((topic) => <option key={topic.slug} value={topic.slug}>{topic.label}</option>)}</select> : null}
-        <select disabled={loading} aria-label="选择难度" value={filters.difficulty} onChange={(event) => changeFilter("difficulty", event.target.value)} className="min-w-28 rounded-xl border-2 border-ink/10 bg-white px-3 py-2.5 text-sm font-bold outline-none focus:border-violet disabled:opacity-50"><option value="">全部难度</option><option value="EASY">热身</option><option value="MEDIUM">进阶</option><option value="HARD">挑战</option></select>
-        <select disabled={loading} aria-label="选择题型" value={filters.type} onChange={(event) => changeFilter("type", event.target.value)} className="min-w-32 rounded-xl border-2 border-ink/10 bg-white px-3 py-2.5 text-sm font-bold outline-none focus:border-violet disabled:opacity-50"><option value="">全部题型</option>{Object.entries(typeNames).map(([key, label]) => <option key={key} value={key}>{label}</option>)}</select>
+        <CustomSelect
+          label="选择学段"
+          value={filters.gradeBand}
+          options={[{ value: "", label: "全部学段" }, ...catalog.gradeBands.map((item) => ({ value: item.slug, label: item.name }))]}
+          onValueChange={(value) => changeFilter("gradeBand", value)}
+          disabled={loading || catalogLoading}
+          className="min-w-28"
+        />
+        {filters.gradeBand ? <CustomSelect
+          label="选择年级"
+          value={filters.grade}
+          options={[{ value: "", label: "全部年级" }, ...catalog.grades.map((item) => ({ value: item.slug, label: item.name }))]}
+          onValueChange={(value) => changeFilter("grade", value)}
+          disabled={loading || catalogLoading}
+          className="min-w-28"
+        /> : null}
+        <CustomSelect
+          label="选择学科"
+          value={filters.subject}
+          options={[{ value: "", label: "全部学科" }, ...catalog.subjects.map((item) => ({ value: item.slug, label: item.name }))]}
+          onValueChange={(value) => changeFilter("subject", value)}
+          disabled={loading || catalogLoading}
+          className="min-w-28"
+        />
+        {filters.subject ? <CustomSelect
+          label="选择知识主题"
+          value={filters.tags}
+          options={[{ value: "", label: "全部知识主题" }, ...catalog.topics.map((topic) => ({ value: topic.slug, label: topic.label }))]}
+          onValueChange={(value) => changeFilter("tags", value)}
+          disabled={loading || catalogLoading || !catalog.topics.length}
+          className="min-w-36"
+        /> : null}
+        <CustomSelect
+          label="选择难度"
+          value={filters.difficulty}
+          options={difficultyOptions}
+          onValueChange={(value) => changeFilter("difficulty", value)}
+          disabled={loading}
+          className="min-w-28"
+        />
+        <CustomSelect
+          label="选择题型"
+          value={filters.type}
+          options={typeOptions}
+          onValueChange={(value) => changeFilter("type", value)}
+          disabled={loading}
+          className="min-w-32"
+        />
       </div>
       {catalogError ? <p className="mt-1 text-xs font-bold text-coral">{catalogError}</p> : null}
 
@@ -316,7 +376,7 @@ export function PracticePlayer() {
             {error && question ? <p className="mt-4 text-sm font-bold text-coral">{error}</p> : null}
             <div className="mt-6 border-t border-dashed border-ink/10 pt-4">
               {reported ? <p className="flex items-center gap-2 text-xs font-bold text-[#2c9b73]"><Check size={15} /> 已收到反馈，谢谢你帮助改进题目。</p> : <button onClick={() => setReportOpen((open) => !open)} className="flex min-h-11 items-center gap-2 rounded-xl px-3 text-xs font-bold text-muted hover:bg-canvas hover:text-coral"><Flag size={15} /> 这道题有问题</button>}
-              {reportOpen && !reported ? <div className="mt-3 rounded-2xl border-2 border-ink/10 bg-canvas p-4"><p className="text-sm font-black">告诉我们哪里需要改进</p><div className="mt-3 grid gap-3 sm:grid-cols-[220px_1fr]"><select aria-label="问题类型" value={reportCategory} onChange={(event) => setReportCategory(event.target.value)} className="min-h-11 rounded-xl border-2 border-ink/10 bg-white px-3 text-sm font-bold outline-none focus:border-violet"><option value="WRONG_ANSWER">答案或解析有误</option><option value="MISSING_FIGURE">缺少图片或图表</option><option value="UNCLEAR">题意不清楚</option><option value="FORMATTING">公式或排版问题</option><option value="OTHER">其他问题</option></select><input value={reportDetail} onChange={(event) => setReportDetail(event.target.value)} maxLength={1000} placeholder="可选：补充具体情况" className="min-h-11 rounded-xl border-2 border-ink/10 bg-white px-3 text-sm font-medium outline-none focus:border-violet" /></div><div className="mt-3 flex justify-end"><button onClick={() => void reportQuestion()} disabled={reporting} className="flex min-h-11 items-center gap-2 rounded-xl bg-ink px-4 text-sm font-black text-white disabled:opacity-50">{reporting ? <LoaderCircle className="animate-spin" size={16} /> : <Send size={16} />} 提交反馈</button></div></div> : null}
+              {reportOpen && !reported ? <div className="mt-3 rounded-2xl border-2 border-ink/10 bg-canvas p-4"><p className="text-sm font-black">告诉我们哪里需要改进</p><div className="mt-3 grid gap-3 sm:grid-cols-[220px_1fr]"><CustomSelect label="问题类型" value={reportCategory} options={reportCategoryOptions} onValueChange={setReportCategory} className="w-full" /><input value={reportDetail} onChange={(event) => setReportDetail(event.target.value)} maxLength={1000} placeholder="可选：补充具体情况" className="min-h-11 rounded-xl border-2 border-ink/10 bg-white px-3 text-sm font-medium outline-none focus:border-violet" /></div><div className="mt-3 flex justify-end"><button onClick={() => void reportQuestion()} disabled={reporting} className="flex min-h-11 items-center gap-2 rounded-xl bg-ink px-4 text-sm font-black text-white disabled:opacity-50">{reporting ? <LoaderCircle className="animate-spin" size={16} /> : <Send size={16} />} 提交反馈</button></div></div> : null}
             </div>
           </div>
 

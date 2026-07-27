@@ -40,36 +40,41 @@ model Grade {
 }
 
 model Question {
-  id             String            @id
-  sourceId       String            @unique
-  sourceFile     String
-  sourceType     String
-  type           String
-  difficulty     String
-  stem           String
-  answer         String
-  correctAnswer  String?
-  explanation    String?
-  quality        String?
-  status         String            @default("PUBLISHED")
-  isAutoGradable Boolean           @default(false)
-  onlineTest     Boolean           @default(false)
-  optionSplit    Boolean           @default(false)
-  subjectId      String
-  gradeBandId    String
-  gradeId        String
-  subject        Subject           @relation(fields: [subjectId], references: [id])
-  gradeBand      GradeBand         @relation(fields: [gradeBandId], references: [id])
-  grade          Grade             @relation(fields: [gradeId], references: [id])
-  options        QuestionOption[]
-  assets         QuestionAsset[]
-  tags           QuestionTag[]
-  attempts       PracticeAttempt[]
-  savedBy        SavedQuestion[]
-  reviewItems    ReviewItem[]
-  reports        QuestionReport[]
-  createdAt      DateTime          @default(now())
-  updatedAt      DateTime          @updatedAt
+  id                     String            @id
+  sourceId               String            @unique
+  sourceFile             String
+  sourceType             String
+  type                   String
+  difficulty             String
+  sourceDifficulty       String            @default("MEDIUM")
+  difficultyScore        Float             @default(0)
+  difficultyConfidence   Float             @default(0)
+  difficultyReason       String            @default("Pending difficulty audit")
+  difficultyAuditVersion Int               @default(1)
+  stem                   String
+  answer                 String
+  correctAnswer          String?
+  explanation            String?
+  quality                String?
+  status                 String            @default("PUBLISHED")
+  isAutoGradable         Boolean           @default(false)
+  onlineTest             Boolean           @default(false)
+  optionSplit            Boolean           @default(false)
+  subjectId              String
+  gradeBandId            String
+  gradeId                String
+  subject                Subject           @relation(fields: [subjectId], references: [id])
+  gradeBand              GradeBand         @relation(fields: [gradeBandId], references: [id])
+  grade                  Grade             @relation(fields: [gradeId], references: [id])
+  options                QuestionOption[]
+  assets                 QuestionAsset[]
+  tags                   QuestionTag[]
+  attempts               PracticeAttempt[]
+  savedBy                SavedQuestion[]
+  reviewItems            ReviewItem[]
+  reports                QuestionReport[]
+  createdAt              DateTime          @default(now())
+  updatedAt              DateTime          @updatedAt
 
   @@index([subjectId, gradeBandId, difficulty])
   @@index([gradeId, type, status])

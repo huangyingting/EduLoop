@@ -59,6 +59,7 @@ type CuratedQuestionUpdate = {
   answer: string;
   explanation: string;
   type?: NormalizedQuestionType;
+  difficulty?: "EASY" | "MEDIUM" | "HARD";
   publish: true;
 };
 

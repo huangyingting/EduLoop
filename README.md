@@ -36,6 +36,7 @@ Useful commands:
 
 ```bash
 npm run data:audit     # profile all source JSON files
+npm run difficulty:audit # verify every imported difficulty assessment
 npm run seed:verify    # import into a fresh database and verify catalog counts
 npm run reports:review -- list # inspect the trusted content-report queue
 npm run schema:check   # ensure SQLite/PostgreSQL models still match

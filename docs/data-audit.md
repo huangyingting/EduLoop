@@ -46,6 +46,16 @@ A manual pass over all 44 visual-flagged records classified nine as safely recon
 
 The eight nonvisual records previously held for malformed choices are also usable. Compact `A/B/C/D` markers attached directly to Chinese text are parsed deterministically; three source-specific omissions or duplicate labels have reviewed option corrections; and one five-part source record is retained as a written, self-assessed response rather than being misrepresented as a single choice. Two nested source records likewise use reviewed self-assessed parent versions.
 
+## Difficulty calibration
+
+Source difficulty labels are treated as a prior, not ground truth. Every import runs a versioned, grade-relative structural audit over the normalized stem, options, response type, sub-question count, reasoning demands, formula load, and expected response. Each `Question` stores the original label, calibrated score, confidence, reason, and audit version. A disagreement changes the learner-facing level only when confidence is at least 0.8; otherwise the source label is retained for future subject review.
+
+Run `npm run difficulty:audit` after seeding to verify that every row was assessed and to see transition counts and representative corrections. Add `-- --all` for the complete per-question JSON audit.
+
+The three product levels retain their existing meanings: `EASY` is direct recall or one-step application, `MEDIUM` requires connected concepts or several operations, and `HARD` requires sustained multi-step reasoning, proof, synthesis, or experimental design. Difficulty is relative to the assigned grade; advanced vocabulary alone does not make a question hard.
+
+Audit version 1 assessed all 10,349 bundled questions and changed 4,088 high-confidence mismatches while retaining 6,261 source labels. The calibrated catalog contains 7,053 easy, 2,638 medium, and 658 hard questions, replacing the source distribution of 5,426 easy, 4,725 medium, and 198 hard. Curated subject review can override an individual result with confidence 1 in `content-curation.ts` without weakening the reproducible default audit.
+
 ## Taxonomy strategy
 
 Stable, mutually understood fields are modeled as relations or constrained strings: subject, school stage, grade, difficulty, normalized type, status, and auto-gradability.

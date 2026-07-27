@@ -17,6 +17,7 @@
     "db:deploy:postgres": "prisma migrate deploy --schema prisma/postgresql/schema.prisma",
     "schema:check": "node scripts/check-schema-parity.mjs",
     "data:audit": "node scripts/analyze-data.mjs",
+    "difficulty:audit": "tsx --env-file=.env scripts/audit-question-difficulty.ts",
     "seed:verify": "node scripts/verify-seed.mjs",
     "reports:review": "tsx --env-file=.env scripts/review-reports.ts",
     "test": "vitest run",

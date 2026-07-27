@@ -18,6 +18,10 @@ try {
   process.env.DATABASE_URL = databaseUrl;
   const { PrismaClient } = await import("@prisma/client");
   const prisma = new PrismaClient();
+  const difficultyTransitions = await prisma.question.groupBy({
+    by: ["sourceDifficulty", "difficulty"],
+    _count: { _all: true },
+  });
   const result = {
     total: await prisma.question.count(),
     published: await prisma.question.count({ where: { status: "PUBLISHED" } }),
@@ -25,9 +29,17 @@ try {
     autoGradable: await prisma.question.count({ where: { status: "PUBLISHED", isAutoGradable: true } }),
     assets: await prisma.questionAsset.count(),
     approvedAssets: await prisma.questionAsset.count({ where: { reviewStatus: "APPROVED" } }),
+    difficultyAudited: await prisma.question.count({ where: { difficultyAuditVersion: 1, difficultyReason: { not: "Pending difficulty audit" } } }),
+    difficultyAdjusted: difficultyTransitions.filter((item) => item.sourceDifficulty !== item.difficulty).reduce((total, item) => total + item._count._all, 0),
+    difficultyEasy: await prisma.question.count({ where: { difficulty: "EASY" } }),
+    difficultyMedium: await prisma.question.count({ where: { difficulty: "MEDIUM" } }),
+    difficultyHard: await prisma.question.count({ where: { difficulty: "HARD" } }),
   };
   await prisma.$disconnect();
-  const expected = { total: 10_349, published: 10_349, review: 0, autoGradable: 6_281, assets: 12, approvedAssets: 12 };
+  const expected = {
+    total: 10_349, published: 10_349, review: 0, autoGradable: 6_281, assets: 12, approvedAssets: 12,
+    difficultyAudited: 10_349, difficultyAdjusted: 4_088, difficultyEasy: 7_053, difficultyMedium: 2_638, difficultyHard: 658,
+  };
   if (JSON.stringify(result) !== JSON.stringify(expected)) {
     throw new Error(`Seed verification mismatch: expected ${JSON.stringify(expected)}, received ${JSON.stringify(result)}`);
   }

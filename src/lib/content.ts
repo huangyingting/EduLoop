@@ -5,6 +5,7 @@ import {
   selfAssessedCompositeIds,
 } from "@/lib/content-curation";
 import { applyQuestionReplacement } from "@/lib/question-replacements";
+import { auditQuestionDifficulty, type Difficulty } from "@/lib/difficulty";
 
 export const SUBJECTS = [
   { slug: "math", name: "数学", icon: "∑", color: "#6c5ce7", description: "数感、代数、几何与数据思维", sortOrder: 1 },
@@ -27,6 +28,8 @@ export const GRADES = [
   ["grade-9", "九年级", "middle", 9], ["grade-10", "高一", "high", 10],
   ["grade-11", "高二", "high", 11], ["grade-12", "高三", "high", 12],
 ] as const;
+
+const GRADE_ORDER_BY_NAME = new Map<string, number>(GRADES.map(([, name, , sortOrder]) => [name, sortOrder]));
 
 export const DIFFICULTIES = [
   { key: "EASY", source: "容易", label: "热身", dot: "●" },
@@ -117,8 +120,8 @@ export const TAG_DIMENSIONS = [
   { key: "FORMAT", label: "内容特征", description: "作答方式与内容呈现特征。", sortOrder: 3 },
 ] as const;
 
-export function normalizeDifficulty(source: string) {
-  return ({ 容易: "EASY", 一般: "MEDIUM", 困难: "HARD" } as Record<string, string>)[source] ?? "MEDIUM";
+export function normalizeDifficulty(source: string): Difficulty {
+  return ({ 容易: "EASY", 一般: "MEDIUM", 困难: "HARD" } as Record<string, Difficulty>)[source] ?? "MEDIUM";
 }
 
 export type NormalizedOption = { label: string; content: string; sortOrder: number };
@@ -287,24 +290,28 @@ export function normalizeSourceQuestion(question: SourceQuestion, sourceFile: st
   const options = extractOptions(question);
   const correctLabels = extractCorrectLabels(question);
   const sourceType = question.type || "其他";
+  const normalizedType = normalizeQuestionType(question);
+  const sourceDifficulty = normalizeDifficulty(question.difficulty);
+  const answer = update?.answer ?? String(question.answer_info.raw_content ?? "").trim();
+  const explanation = update?.explanation ?? (
+    question.solution_info.map((item) => item.solution_info?.trim()).filter(Boolean).join("\n\n") || null
+  );
   const visualHeuristicMatch = /识图|填图/.test(sourceType) || referencesMissingFigure(stem);
   const requiresVisual = visualHeuristicMatch && !reviewedSelfContainedVisualIds.has(question.id);
   const hasUnparsedChoice = !selfAssessedCompositeIds.has(question.id) && /选择/.test(sourceType) && (
     options.length < 2 || options.some((option, index) => option.label !== String.fromCharCode(65 + index))
   );
-  return applyQuestionReplacement({
+  const normalized = applyQuestionReplacement({
     id: question.id,
     sourceId: question.id,
     sourceFile,
     sourceType,
-    type: normalizeQuestionType(question),
-    difficulty: normalizeDifficulty(question.difficulty),
+    type: normalizedType,
+    difficulty: sourceDifficulty,
     stem: stem || "题干缺失（需要内容审核）",
-    answer: update?.answer ?? String(question.answer_info.raw_content ?? "").trim(),
+    answer,
     correctAnswer: correctLabels.length ? JSON.stringify(correctLabels) : null,
-    explanation: update?.explanation ?? (
-      question.solution_info.map((item) => item.solution_info?.trim()).filter(Boolean).join("\n\n") || null
-    ),
+    explanation,
     quality: question.quality || null,
     status: update?.publish
       ? "PUBLISHED"
@@ -319,4 +326,22 @@ export function normalizeSourceQuestion(question: SourceQuestion, sourceFile: st
     assets: [] as NormalizedAsset[],
     tags: inferTags(question),
   });
+  const audit = auditQuestionDifficulty({
+    sourceDifficulty,
+    gradeOrder: GRADE_ORDER_BY_NAME.get(question.grade) ?? 7,
+    type: normalized.type,
+    stem: normalized.stem,
+    answer: normalized.answer,
+    explanation: normalized.explanation,
+    options: normalized.options.map((option) => option.content),
+  });
+  return {
+    ...normalized,
+    difficulty: update?.difficulty ?? audit.difficulty,
+    sourceDifficulty: audit.sourceDifficulty,
+    difficultyScore: audit.score,
+    difficultyConfidence: update?.difficulty ? 1 : audit.confidence,
+    difficultyReason: update?.difficulty ? `curated subject review; ${audit.reason}` : audit.reason,
+    difficultyAuditVersion: audit.version,
+  };
 }

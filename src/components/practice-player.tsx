@@ -1,10 +1,11 @@
 "use client";
 
-import { Bookmark, BookmarkCheck, Check, ChevronRight, CircleAlert, Flag, Flame, Lightbulb, LoaderCircle, RotateCcw, Send, Sparkles, Trophy, WandSparkles, X } from "lucide-react";
+import { Bookmark, BookmarkCheck, Check, ChevronRight, CircleAlert, Flag, Flame, Keyboard, Lightbulb, LoaderCircle, RotateCcw, Send, Sparkles, Trophy, WandSparkles, X } from "lucide-react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { getDeviceKey, getPracticePreferences, getTimeZone, savePracticePreferences } from "@/lib/learner";
+import { ignoresPracticeShortcuts, optionIndexForShortcut } from "@/lib/practice-shortcuts";
 import { CustomSelect } from "./custom-select";
 import { useLearner } from "./learner-provider";
 import { MathText } from "./math-text";
@@ -234,7 +235,7 @@ export function PracticePlayer() {
   }
 
   async function submit() {
-    if (!question || result || (question.options.length ? !selected.length : !written.trim())) return;
+    if (!question || result || loading || (question.options.length ? !selected.length : !written.trim())) return;
     setLoading(true);
     try {
       const response = await fetch("/api/attempts", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({
@@ -295,6 +296,7 @@ export function PracticePlayer() {
   }
 
   async function nextQuestion() {
+    if (loading || assessing) return;
     if (completed >= 10) {
       setCompleted(0); setCorrect(0); setCombo(0); setRecent([]);
       await startSession(filters);
@@ -303,6 +305,30 @@ export function PracticePlayer() {
     }
     await loadQuestion();
   }
+
+  useEffect(() => {
+    function onKeyDown(event: KeyboardEvent) {
+      if (!question || loading || event.repeat || ignoresPracticeShortcuts(event.target) || event.altKey || event.ctrlKey || event.metaKey) return;
+      const optionIndex = optionIndexForShortcut(event.key, question.options.length);
+      if (optionIndex !== null && !result) {
+        event.preventDefault();
+        toggleOption(question.options[optionIndex].label);
+      } else if (event.key === "Enter") {
+        event.preventDefault();
+        if (result && result.isCorrect !== null && !assessing) void nextQuestion();
+        else if (!result) void submit();
+      } else if (event.key.toLowerCase() === "h" && !result && question.hasHint) {
+        event.preventDefault();
+        void revealHint();
+      } else if (event.key.toLowerCase() === "s") {
+        event.preventDefault();
+        void toggleSaved();
+      }
+    }
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+    // Shortcut actions intentionally use the latest render state.
+  });
 
   const answerable = question?.options.length ? selected.length > 0 : written.trim().length > 0;
   const topicTags = question?.tags.filter((tag) => tag.dimension === "TOPIC").slice(0, 2) ?? [];
@@ -381,19 +407,19 @@ export function PracticePlayer() {
         <article className="mt-7 overflow-hidden rounded-[30px] border-2 border-ink/10 bg-white shadow-[0_8px_0_#e3dfd4]">
           <div className="flex flex-wrap items-center justify-between gap-3 border-b border-dashed border-ink/15 px-6 py-4 sm:px-9">
             <div className="flex flex-wrap items-center gap-2"><span className="rounded-full px-3 py-1.5 text-xs font-black text-white" style={{ background: question.subject.color }}>{question.subject.name}</span><span className="rounded-full bg-canvas px-3 py-1.5 text-xs font-bold text-muted">{question.grade}</span>{topicTags.map((tag) => <span key={tag.slug} className="rounded-full bg-[#efecff] px-3 py-1.5 text-xs font-bold text-violet">{tag.label}</span>)}</div>
-            <div className="flex items-center gap-2"><span className="text-xs font-black text-muted">{typeNames[question.type] ?? question.typeLabel} · {question.difficulty === "EASY" ? "热身" : question.difficulty === "HARD" ? "挑战" : "进阶"}</span><button onClick={() => void toggleSaved()} disabled={saving} aria-label={question.isSaved ? "取消收藏" : "收藏题目"} className={`grid size-11 place-items-center rounded-xl transition ${question.isSaved ? "bg-lime text-ink" : "bg-canvas text-muted hover:text-violet"}`}>{question.isSaved ? <BookmarkCheck size={19} /> : <Bookmark size={19} />}</button></div>
+            <div className="flex items-center gap-2"><span className="text-xs font-black text-muted">{typeNames[question.type] ?? question.typeLabel} · {question.difficulty === "EASY" ? "热身" : question.difficulty === "HARD" ? "挑战" : "进阶"}</span><button onClick={() => void toggleSaved()} disabled={saving} aria-label={question.isSaved ? "取消收藏" : "收藏题目"} aria-keyshortcuts="S" className={`grid size-11 place-items-center rounded-xl transition ${question.isSaved ? "bg-lime text-ink" : "bg-canvas text-muted hover:text-violet"}`}>{question.isSaved ? <BookmarkCheck size={19} /> : <Bookmark size={19} />}</button></div>
           </div>
 
           <div className="px-6 py-7 sm:px-9 sm:py-9">
             <div className="question-copy text-[17px] font-bold leading-8 text-ink sm:text-[19px]"><MathText>{question.stem}</MathText></div>
             {question.stemAsset ? <Image src={question.stemAsset.path} alt={question.stemAsset.altText} width={720} height={360} className="mx-auto mt-6 h-auto max-h-80 w-full max-w-2xl rounded-2xl border border-ink/10 bg-[#fffdf8] object-contain" /> : null}
             {!result && question.hasHint ? <div className="mt-6">
-              {hint ? <div aria-live="polite" className="border-l-4 border-lime bg-[#f7fadf] px-4 py-3 text-sm"><p className="flex items-center gap-2 font-black"><Lightbulb size={17} /> 解题提示</p><div className="mt-2 whitespace-pre-line font-medium leading-6 text-ink/75"><MathText>{hint}</MathText></div></div> : <button onClick={() => void revealHint()} disabled={hintLoading} className="flex min-h-11 items-center gap-2 rounded-xl border-2 border-ink/10 bg-canvas px-4 text-sm font-black text-muted transition hover:border-lime hover:text-ink disabled:opacity-50">{hintLoading ? <LoaderCircle className="animate-spin" size={17} /> : <Lightbulb size={17} />} 查看提示</button>}
+              {hint ? <div aria-live="polite" className="border-l-4 border-lime bg-[#f7fadf] px-4 py-3 text-sm"><p className="flex items-center gap-2 font-black"><Lightbulb size={17} /> 解题提示</p><div className="mt-2 whitespace-pre-line font-medium leading-6 text-ink/75"><MathText>{hint}</MathText></div></div> : <button onClick={() => void revealHint()} disabled={hintLoading} aria-keyshortcuts="H" className="flex min-h-11 items-center gap-2 rounded-xl border-2 border-ink/10 bg-canvas px-4 text-sm font-black text-muted transition hover:border-lime hover:text-ink disabled:opacity-50">{hintLoading ? <LoaderCircle className="animate-spin" size={17} /> : <Lightbulb size={17} />} 查看提示</button>}
               {hintError ? <p className="mt-2 text-sm font-bold text-coral">{hintError}</p> : null}
             </div> : null}
-            {question.options.length ? <div className={`mt-7 grid gap-3 ${hasOptionAssets ? "sm:grid-cols-2" : ""}`}>{question.options.map((option) => {
+            {question.options.length ? <div role="group" aria-label={question.type === "MULTIPLE_CHOICE" ? "可多选的答案选项" : "答案选项"} className={`mt-7 grid gap-3 ${hasOptionAssets ? "sm:grid-cols-2" : ""}`}>{question.options.map((option, optionIndex) => {
               const chosen = selected.includes(option.label); const expected = result?.correctLabels.includes(option.label); const wrong = result?.isCorrect === false && chosen && !expected;
-              return <button key={option.label} onClick={() => toggleOption(option.label)} disabled={Boolean(result) || loading} className={`flex w-full items-start gap-4 rounded-2xl border-2 p-4 text-left transition ${expected ? "border-[#2c9b73] bg-[#e6f8ef]" : wrong ? "border-coral bg-[#fff0ed]" : chosen ? "border-violet bg-[#f0edff] shadow-[0_4px_0_#c9c1f7]" : "border-ink/10 bg-[#fbfaf7] hover:border-violet/45 hover:bg-white"}`}>
+              return <button key={option.label} onClick={() => toggleOption(option.label)} disabled={Boolean(result) || loading} aria-pressed={chosen} aria-keyshortcuts={String(optionIndex + 1)} className={`flex w-full items-start gap-4 rounded-2xl border-2 p-4 text-left transition ${expected ? "border-[#2c9b73] bg-[#e6f8ef]" : wrong ? "border-coral bg-[#fff0ed]" : chosen ? "border-violet bg-[#f0edff] shadow-[0_4px_0_#c9c1f7]" : "border-ink/10 bg-[#fbfaf7] hover:border-violet/45 hover:bg-white"}`}>
                 <span className={`grid size-8 shrink-0 place-items-center rounded-xl text-sm font-black ${expected ? "bg-[#2c9b73] text-white" : wrong ? "bg-coral text-white" : chosen ? "bg-violet text-white" : "border-2 border-ink/10 bg-white"}`}>{expected ? <Check size={17} /> : wrong ? <X size={17} /> : option.label}</span>
                 <span className="flex min-w-0 flex-1 flex-col gap-2 pt-1 text-[15px] font-semibold leading-6">
                   {option.asset ? <Image src={option.asset.path} alt={option.asset.altText} width={240} height={150} className="h-auto w-full max-w-60 self-center rounded-xl" /> : null}
@@ -416,8 +442,8 @@ export function PracticePlayer() {
           </div>
 
           <footer className="flex items-center justify-between gap-4 border-t border-ink/10 bg-[#fbfaf7] px-6 py-4 sm:px-9">
-            <p className="hidden text-xs font-bold text-muted sm:block">{question.type === "MULTIPLE_CHOICE" ? "可选择多个答案" : question.isAutoGradable ? "选择你认为正确的答案" : "先独立思考，再对照解析"}</p>
-            {result ? <button onClick={() => void nextQuestion()} disabled={result.isCorrect === null || assessing} className="ml-auto flex items-center gap-2 rounded-xl bg-ink px-6 py-3 text-sm font-black text-white shadow-[0_4px_0_#6c5ce7] disabled:cursor-not-allowed disabled:opacity-40">{completed >= 10 ? "开始新一轮" : "下一题"} <ChevronRight size={17} /></button> : <button onClick={submit} disabled={!answerable || loading} className="ml-auto flex items-center gap-2 rounded-xl bg-violet px-6 py-3 text-sm font-black text-white shadow-[0_4px_0_#242136] transition enabled:hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-40">{loading ? <LoaderCircle className="animate-spin" size={17} /> : <Check size={17} />} 提交答案</button>}
+            <div className="hidden text-xs font-bold text-muted sm:block"><p>{question.type === "MULTIPLE_CHOICE" ? "可选择多个答案" : question.isAutoGradable ? "选择你认为正确的答案" : "先独立思考，再对照解析"}</p><p className="mt-1 flex items-center gap-1.5 text-[11px] text-muted/80"><Keyboard size={13} /> 数字键选择 · Enter 提交/下一题 · H 提示 · S 收藏</p></div>
+            {result ? <button onClick={() => void nextQuestion()} disabled={result.isCorrect === null || assessing} aria-keyshortcuts="Enter" className="ml-auto flex items-center gap-2 rounded-xl bg-ink px-6 py-3 text-sm font-black text-white shadow-[0_4px_0_#6c5ce7] disabled:cursor-not-allowed disabled:opacity-40">{completed >= 10 ? "开始新一轮" : "下一题"} <ChevronRight size={17} /></button> : <button onClick={submit} disabled={!answerable || loading} aria-keyshortcuts="Enter" className="ml-auto flex items-center gap-2 rounded-xl bg-violet px-6 py-3 text-sm font-black text-white shadow-[0_4px_0_#242136] transition enabled:hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-40">{loading ? <LoaderCircle className="animate-spin" size={17} /> : <Check size={17} />} 提交答案</button>}
           </footer>
         </article>
       ) : null}

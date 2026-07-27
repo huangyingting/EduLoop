@@ -4,6 +4,7 @@ import { GET as getCatalog } from "@/app/api/catalog/route";
 import { DELETE as deleteLearner } from "@/app/api/learner/route";
 import { GET as getHealth } from "@/app/api/health/route";
 import { GET as getProgress } from "@/app/api/learner/progress/route";
+import { GET as exportLearner } from "@/app/api/learner/export/route";
 import { PATCH as assessAttempt, POST as createAttempt } from "@/app/api/attempts/route";
 import { GET as getQuestionHint } from "@/app/api/questions/hint/route";
 import { GET as nextQuestion } from "@/app/api/questions/next/route";
@@ -146,6 +147,14 @@ describe("learner API journey", () => {
 
     const assessmentResponse = await assessAttempt(request("http://localhost/api/attempts", "PATCH", { deviceKey, attemptId: attempt.attemptId, isCorrect: false, timeZone: "Asia/Shanghai" }));
     expect(await assessmentResponse.json()).toEqual({ isCorrect: false });
+
+    const exportResponse = await exportLearner(new NextRequest(`http://localhost/api/learner/export?deviceKey=${deviceKey}`, { headers }));
+    expect(exportResponse.status).toBe(200);
+    expect(exportResponse.headers.get("content-disposition")).toContain("eduloop-learning-data-");
+    const exported = await exportResponse.json() as { learner: { attempts: unknown[]; deviceKey?: string; id?: string } };
+    expect(exported.learner.attempts.length).toBeGreaterThanOrEqual(1);
+    expect(exported.learner).not.toHaveProperty("deviceKey");
+    expect(exported.learner).not.toHaveProperty("id");
 
     const deleteResponse = await deleteLearner(new NextRequest(`http://localhost/api/learner?deviceKey=${deviceKey}`, { method: "DELETE", headers }));
     expect(await deleteResponse.json()).toEqual({ deleted: true });

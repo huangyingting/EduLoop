@@ -103,7 +103,9 @@ describe("learner API journey", () => {
 
     const hintResponse = await getQuestionHint(new NextRequest(`http://localhost/api/questions/hint?questionId=${choiceId}&deviceKey=${deviceKey}`, { headers }));
     expect(hintResponse.status).toBe(200);
-    expect(await hintResponse.json()).toEqual({ hint: "1 + 1 = 2。" });
+    const hint = await hintResponse.json() as { hint: string };
+    expect(hint.hint).toContain("逐项排除");
+    expect(hint.hint).not.toContain("1 + 1 = 2");
 
     const attemptResponse = await createAttempt(request("http://localhost/api/attempts", "POST", { deviceKey, questionId: choiceId, response: ["A"], sessionId: session.id, timeZone: "Asia/Shanghai" }));
     expect(attemptResponse.status).toBe(200);

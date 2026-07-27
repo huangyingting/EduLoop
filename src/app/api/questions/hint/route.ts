@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { enforceRateLimit } from "@/lib/api";
+import { buildQuestionHint } from "@/lib/hints";
 import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
@@ -15,9 +16,13 @@ export async function GET(request: NextRequest) {
 
   const question = await prisma.question.findFirst({
     where: { id: questionId, status: "PUBLISHED" },
-    select: { explanation: true },
+    select: {
+      type: true,
+      difficulty: true,
+      tags: { include: { tag: { include: { dimension: true } } } },
+    },
   });
   if (!question) return NextResponse.json({ error: "Question not found" }, { status: 404 });
 
-  return NextResponse.json({ hint: question.explanation });
+  return NextResponse.json({ hint: buildQuestionHint(question) });
 }

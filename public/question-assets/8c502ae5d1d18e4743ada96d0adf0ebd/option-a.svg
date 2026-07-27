@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 150" role="img" aria-labelledby="title desc" data-relationship="ADJACENT">
+  <title id="title">选项 A 的角关系图</title>
+  <desc id="desc">三条射线从同一点发出，角1和角2相邻并共用一条边。</desc>
+  <rect width="240" height="150" rx="18" fill="#fffdf8"/>
+  <g fill="none" stroke="#242136" stroke-linecap="round" stroke-width="5">
+    <path d="M120 91 L38 28"/>
+    <path d="M120 91 L202 28"/>
+    <path d="M120 91 L202 126"/>
+  </g>
+  <g fill="none" stroke="#6c5ce7" stroke-linecap="round" stroke-width="3">
+    <path d="M91 69 Q120 49 149 69"/>
+    <path d="M153 66 Q177 86 156 106"/>
+  </g>
+  <g fill="#242136" font-family="Arial, sans-serif" font-size="20" font-weight="700" text-anchor="middle">
+    <text x="120" y="48">1</text>
+    <text x="180" y="93">2</text>
+  </g>
+  <circle cx="120" cy="91" r="5" fill="#f06d5f"/>
+</svg>

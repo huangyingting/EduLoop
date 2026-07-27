@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 260" role="img" aria-labelledby="title desc">
+  <title id="title">不等式组解集数轴</title>
+  <desc id="desc">数轴上从负1到1的区间被标出，负1处为实心点，1处为空心点。</desc>
+  <rect width="720" height="260" rx="24" fill="#fffdf8"/>
+  <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0 0 L9 3 L0 6 Z" fill="#242136"/></marker></defs>
+  <path d="M70 125 H655" fill="none" stroke="#242136" stroke-width="5" marker-end="url(#arrow)"/>
+  <path d="M280 125 H440" fill="none" stroke="#6c5ce7" stroke-linecap="round" stroke-width="12"/>
+  <g stroke="#242136" stroke-width="4">
+    <path d="M120 108 V142"/><path d="M200 108 V142"/><path d="M280 104 V146"/><path d="M360 108 V142"/>
+    <path d="M440 104 V146"/><path d="M520 108 V142"/><path d="M600 108 V142"/>
+  </g>
+  <circle cx="280" cy="125" r="11" fill="#6c5ce7"/>
+  <circle cx="440" cy="125" r="11" fill="#fffdf8" stroke="#6c5ce7" stroke-width="6"/>
+  <g fill="#242136" font-family="Arial, sans-serif" font-size="24" text-anchor="middle">
+    <text x="120" y="182">−3</text><text x="200" y="182">−2</text><text x="280" y="182">−1</text>
+    <text x="360" y="182">0</text><text x="440" y="182">1</text><text x="520" y="182">2</text><text x="600" y="182">3</text>
+  </g>
+</svg>

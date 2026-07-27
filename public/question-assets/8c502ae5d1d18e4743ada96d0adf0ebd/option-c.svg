@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 150" role="img" aria-labelledby="title desc" data-relationship="VERTICAL">
+  <title id="title">选项 C 的角关系图</title>
+  <desc id="desc">两条直线相交，角1位于交点上方，角2位于交点下方。</desc>
+  <rect width="240" height="150" rx="18" fill="#fffdf8"/>
+  <g fill="none" stroke="#242136" stroke-linecap="round" stroke-width="5">
+    <path d="M34 126 L206 24"/>
+    <path d="M34 24 L206 126"/>
+  </g>
+  <g fill="none" stroke="#6c5ce7" stroke-linecap="round" stroke-width="3">
+    <path d="M93 59 Q120 39 147 59"/>
+    <path d="M93 91 Q120 111 147 91"/>
+  </g>
+  <g fill="#242136" font-family="Arial, sans-serif" font-size="20" font-weight="700" text-anchor="middle">
+    <text x="120" y="43">1</text>
+    <text x="120" y="124">2</text>
+  </g>
+  <circle cx="120" cy="75" r="5" fill="#f06d5f"/>
+</svg>

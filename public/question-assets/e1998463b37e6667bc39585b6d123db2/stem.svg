@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 360" role="img" aria-labelledby="title desc">
+  <title id="title">过直线外一点作平行线</title>
+  <desc id="desc">直线外一点P处作直线m，截线PQ与m和已知直线l形成一对标记为相等的同位角。</desc>
+  <rect width="720" height="360" rx="24" fill="#fffdf8"/>
+  <g fill="none" stroke="#242136" stroke-linecap="round" stroke-width="6">
+    <path d="M70 100 H650"/><path d="M70 270 H650"/><path d="M175 335 L470 40"/>
+  </g>
+  <g fill="none" stroke="#6c5ce7" stroke-linecap="round" stroke-width="4">
+    <path d="M408 100 Q414 81 428 72"/><path d="M238 270 Q244 251 258 242"/>
+  </g>
+  <g fill="#242136" font-family="Arial, sans-serif" font-size="25" font-weight="700">
+    <text x="660" y="108">m</text><text x="660" y="278">l</text><text x="382" y="88">P</text><text x="214" y="302">Q</text>
+  </g>
+  <g fill="#f06d5f"><circle cx="410" cy="100" r="7"/><circle cx="240" cy="270" r="7"/></g>
+  <g fill="#6c5ce7"><path d="M418 82 l8 4" stroke="#6c5ce7" stroke-width="4"/><path d="M248 252 l8 4" stroke="#6c5ce7" stroke-width="4"/></g>
+</svg>

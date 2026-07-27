@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 500" role="img" aria-labelledby="title desc">
+  <title id="title">简易净水器</title>
+  <desc id="desc">简易净水器从上到下装有小石子、石英砂、活性炭和蓬松棉，出水滴入烧杯。</desc>
+  <rect width="720" height="500" rx="24" fill="#fffdf8"/>
+  <defs><clipPath id="bottle"><path d="M250 55 H470 L445 355 H405 V405 H315 V355 H275 Z"/></clipPath></defs>
+  <path d="M250 55 H470 L445 355 H405 V405 H315 V355 H275 Z" fill="#f8fbff" stroke="#242136" stroke-linejoin="round" stroke-width="6"/>
+  <g clip-path="url(#bottle)">
+    <rect x="250" y="95" width="220" height="72" fill="#b9a48a"/><rect x="250" y="167" width="220" height="68" fill="#f1cf7a"/>
+    <rect x="250" y="235" width="220" height="70" fill="#3d3a44"/><rect x="250" y="305" width="220" height="58" fill="#f4f1e9"/>
+    <path d="M250 167 H470 M250 235 H470 M250 305 H470" stroke="#242136" stroke-width="3"/>
+  </g>
+  <g fill="#242136" font-family="Arial, sans-serif" font-size="22" font-weight="700">
+    <text x="500" y="135">小石子</text><text x="500" y="205">石英砂</text><text x="500" y="274">活性炭</text><text x="500" y="338">蓬松棉</text>
+  </g>
+  <g stroke="#726d7d" stroke-width="2"><path d="M450 130 H492"/><path d="M450 200 H492"/><path d="M450 270 H492"/><path d="M450 333 H492"/></g>
+  <path d="M360 407 C350 425 350 435 360 442 C370 435 370 425 360 407 Z" fill="#0984e3"/>
+  <path d="M285 445 H435 L420 485 H300 Z" fill="#bce7ff" opacity=".6" stroke="#242136" stroke-width="5"/>
+  <path d="M315 35 Q360 13 405 35" fill="none" stroke="#0984e3" stroke-linecap="round" stroke-width="8"/>
+</svg>

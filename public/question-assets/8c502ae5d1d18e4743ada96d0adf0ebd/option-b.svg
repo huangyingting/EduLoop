@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 150" role="img" aria-labelledby="title desc" data-relationship="DIFFERENT_VERTICES">
+  <title id="title">选项 B 的角关系图</title>
+  <desc id="desc">两个分开的角，角1和角2位于不同顶点。</desc>
+  <rect width="240" height="150" rx="18" fill="#fffdf8"/>
+  <g fill="none" stroke="#242136" stroke-linecap="round" stroke-width="5">
+    <path d="M70 104 L26 31"/>
+    <path d="M70 104 L116 51"/>
+    <path d="M170 47 L127 101"/>
+    <path d="M170 47 L216 112"/>
+  </g>
+  <g fill="none" stroke="#6c5ce7" stroke-linecap="round" stroke-width="3">
+    <path d="M55 79 Q70 67 85 87"/>
+    <path d="M154 67 Q170 81 186 70"/>
+  </g>
+  <g fill="#242136" font-family="Arial, sans-serif" font-size="20" font-weight="700" text-anchor="middle">
+    <text x="70" y="66">1</text>
+    <text x="170" y="94">2</text>
+  </g>
+  <g fill="#f06d5f">
+    <circle cx="70" cy="104" r="5"/>
+    <circle cx="170" cy="47" r="5"/>
+  </g>
+</svg>

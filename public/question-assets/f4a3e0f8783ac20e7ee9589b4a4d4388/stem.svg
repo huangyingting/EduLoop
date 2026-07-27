@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" role="img" aria-labelledby="title desc">
+  <title id="title">平行线与三角形角度图</title>
+  <desc id="desc">AB平行于CD，B、E、C在同一直线上，连接ED，角BED为68度，角CDE为38度。</desc>
+  <rect width="720" height="420" rx="24" fill="#fffdf8"/>
+  <g fill="none" stroke="#242136" stroke-linecap="round" stroke-linejoin="round" stroke-width="6">
+    <path d="M205 70 H563"/><path d="M110 320 H575"/><path d="M563 70 L110 320"/><path d="M360 190 L526 320"/>
+  </g>
+  <g fill="none" stroke="#6c5ce7" stroke-linecap="round" stroke-width="4">
+    <path d="M392 171 Q413 191 390 214"/><path d="M490 320 Q492 298 510 286"/>
+  </g>
+  <g fill="#242136" font-family="Arial, sans-serif" font-size="25" font-weight="700">
+    <text x="188" y="61">A</text><text x="574" y="62">B</text><text x="84" y="342">C</text><text x="538" y="347">D</text><text x="337" y="183">E</text>
+    <text x="410" y="201">68°</text><text x="464" y="294">38°</text>
+  </g>
+  <g fill="#6c5ce7"><path d="M300 59 l16 11 l-16 11"/><path d="M255 309 l16 11 l-16 11"/></g>
+  <g fill="#f06d5f"><circle cx="563" cy="70" r="7"/><circle cx="360" cy="190" r="7"/><circle cx="110" cy="320" r="7"/><circle cx="526" cy="320" r="7"/></g>
+</svg>

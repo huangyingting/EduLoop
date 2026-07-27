@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" role="img" aria-labelledby="title desc">
+  <title id="title">离子烟雾传感器结构</title>
+  <desc id="desc">烟雾传感器网罩内有电极II、电极III和镅241放射源IV，外接端点为a和b。</desc>
+  <rect width="720" height="420" rx="24" fill="#fffdf8"/>
+  <defs><pattern id="mesh" width="16" height="16" patternUnits="userSpaceOnUse"><path d="M0 0 L16 16 M16 0 L0 16" stroke="#726d7d" stroke-width="1.5"/></pattern><marker id="particle" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0 0 L9 3 L0 6 Z" fill="#f06d5f"/></marker></defs>
+  <rect x="120" y="55" width="480" height="285" rx="44" fill="url(#mesh)" stroke="#242136" stroke-width="6"/>
+  <text x="145" y="92" fill="#242136" font-family="Arial, sans-serif" font-size="24" font-weight="700">Ⅰ 网罩</text>
+  <g fill="#6c5ce7" stroke="#242136" stroke-width="4"><rect x="220" y="120" width="28" height="150" rx="8"/><rect x="472" y="120" width="28" height="150" rx="8"/></g>
+  <circle cx="360" cy="210" r="36" fill="#ffd8b8" stroke="#242136" stroke-width="5"/>
+  <g fill="#242136" font-family="Arial, sans-serif" font-size="25" font-weight="700"><text x="212" y="305">Ⅱ</text><text x="468" y="305">Ⅲ</text><text x="328" y="226">Ⅳ ²⁴¹Am</text><text x="178" y="380">a</text><text x="526" y="380">b</text></g>
+  <g fill="none" stroke="#f06d5f" stroke-width="4" marker-end="url(#particle)"><path d="M325 194 L270 160"/><path d="M395 194 L450 160"/><path d="M322 220 L270 245"/><path d="M398 220 L450 245"/></g>
+  <g fill="none" stroke="#242136" stroke-width="5"><path d="M234 270 V365 H180"/><path d="M486 270 V365 H540"/></g>
+</svg>

@@ -28,13 +28,25 @@ export async function GET(request: NextRequest) {
   if (!count) return NextResponse.json({ error: "No matching questions" }, { status: 404 });
   const question = await prisma.question.findFirst({
     where, skip: Math.floor(Math.random() * count),
-    include: { subject: { select: { name: true, slug: true, color: true } }, grade: { select: { name: true } }, options: { orderBy: { sortOrder: "asc" } }, tags: { include: { tag: { include: { dimension: true } } } } },
+    include: {
+      subject: { select: { name: true, slug: true, color: true } },
+      grade: { select: { name: true } },
+      options: { orderBy: { sortOrder: "asc" } },
+      assets: { where: { reviewStatus: "APPROVED" }, select: { role: true, path: true, altText: true } },
+      tags: { include: { tag: { include: { dimension: true } } } },
+    },
   });
   if (!question) return NextResponse.json({ error: "No matching questions" }, { status: 404 });
+  const assetsByRole = new Map(question.assets.map((asset) => [asset.role, asset]));
+  const stemAsset = assetsByRole.get("STEM");
   return NextResponse.json({
     id: question.id, stem: question.stem, type: question.type, typeLabel: QUESTION_TYPE_LABELS[question.type] ?? question.sourceType,
     difficulty: question.difficulty, isAutoGradable: question.isAutoGradable, subject: question.subject, grade: question.grade.name,
-    options: question.options.map(({ label, content }) => ({ label, content })),
+    stemAsset: stemAsset ? { path: stemAsset.path, altText: stemAsset.altText } : null,
+    options: question.options.map(({ label, content }) => {
+      const asset = assetsByRole.get(`OPTION_${label}`);
+      return { label, content, asset: asset ? { path: asset.path, altText: asset.altText } : null };
+    }),
     tags: question.tags.map(({ tag }) => ({ dimension: tag.dimension.key, slug: tag.slug, label: tag.label })),
   });
 }

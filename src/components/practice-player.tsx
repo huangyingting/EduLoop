@@ -1,6 +1,7 @@
 "use client";
 
 import { Check, ChevronRight, CircleAlert, Flame, LoaderCircle, RotateCcw, Sparkles, Trophy, X } from "lucide-react";
+import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { getDeviceKey, getTimeZone } from "@/lib/learner";
@@ -10,7 +11,8 @@ import { MathText } from "./math-text";
 type Question = {
   id: string; stem: string; type: string; typeLabel: string; difficulty: string; isAutoGradable: boolean;
   subject: { name: string; slug: string; color: string }; grade: string;
-  options: Array<{ label: string; content: string }>;
+  stemAsset: { path: string; altText: string } | null;
+  options: Array<{ label: string; content: string; asset: { path: string; altText: string } | null }>;
   tags: Array<{ dimension: string; slug: string; label: string }>;
 };
 type Result = { isCorrect: boolean | null; correctLabels: string[]; answer: string; explanation: string | null; earnedXp: number; totalXp: number; level: number; currentStreak: number; todayAttempts: number; newBadges: Array<{ name: string; icon: string }> };
@@ -101,6 +103,7 @@ export function PracticePlayer() {
 
   const answerable = question?.options.length ? selected.length > 0 : written.trim().length > 0;
   const topicTags = question?.tags.filter((tag) => tag.dimension === "TOPIC").slice(0, 2) ?? [];
+  const hasOptionAssets = question?.options.some((option) => option.asset) ?? false;
 
   return (
     <div className="mx-auto max-w-[1180px] px-4 pb-16 pt-6 sm:px-8 lg:px-10">
@@ -134,10 +137,15 @@ export function PracticePlayer() {
 
           <div className="px-6 py-7 sm:px-9 sm:py-9">
             <div className="question-copy text-[17px] font-bold leading-8 text-ink sm:text-[19px]"><MathText>{question.stem}</MathText></div>
-            {question.options.length ? <div className="mt-7 grid gap-3">{question.options.map((option) => {
+            {question.stemAsset ? <Image src={question.stemAsset.path} alt={question.stemAsset.altText} width={720} height={360} className="mx-auto mt-6 h-auto max-h-80 w-full max-w-2xl rounded-2xl border border-ink/10 bg-[#fffdf8] object-contain" /> : null}
+            {question.options.length ? <div className={`mt-7 grid gap-3 ${hasOptionAssets ? "sm:grid-cols-2" : ""}`}>{question.options.map((option) => {
               const chosen = selected.includes(option.label); const expected = result?.correctLabels.includes(option.label); const wrong = result?.isCorrect === false && chosen && !expected;
               return <button key={option.label} onClick={() => toggleOption(option.label)} disabled={Boolean(result) || loading} className={`flex w-full items-start gap-4 rounded-2xl border-2 p-4 text-left transition ${expected ? "border-[#2c9b73] bg-[#e6f8ef]" : wrong ? "border-coral bg-[#fff0ed]" : chosen ? "border-violet bg-[#f0edff] shadow-[0_4px_0_#c9c1f7]" : "border-ink/10 bg-[#fbfaf7] hover:border-violet/45 hover:bg-white"}`}>
-                <span className={`grid size-8 shrink-0 place-items-center rounded-xl text-sm font-black ${expected ? "bg-[#2c9b73] text-white" : wrong ? "bg-coral text-white" : chosen ? "bg-violet text-white" : "border-2 border-ink/10 bg-white"}`}>{expected ? <Check size={17} /> : wrong ? <X size={17} /> : option.label}</span><span className="pt-1 text-[15px] font-semibold leading-6"><MathText>{option.content}</MathText></span>
+                <span className={`grid size-8 shrink-0 place-items-center rounded-xl text-sm font-black ${expected ? "bg-[#2c9b73] text-white" : wrong ? "bg-coral text-white" : chosen ? "bg-violet text-white" : "border-2 border-ink/10 bg-white"}`}>{expected ? <Check size={17} /> : wrong ? <X size={17} /> : option.label}</span>
+                <span className="flex min-w-0 flex-1 flex-col gap-2 pt-1 text-[15px] font-semibold leading-6">
+                  {option.asset ? <Image src={option.asset.path} alt={option.asset.altText} width={240} height={150} className="h-auto w-full max-w-60 self-center rounded-xl" /> : null}
+                  {option.content ? <MathText>{option.content}</MathText> : null}
+                </span>
               </button>;
             })}</div> : <textarea value={written} disabled={Boolean(result) || loading} onChange={(event) => setWritten(event.target.value)} placeholder="写下你的思路或答案…" className="mt-7 min-h-32 w-full resize-y rounded-2xl border-2 border-ink/10 bg-[#fbfaf7] p-4 text-[15px] font-medium leading-6 outline-none transition focus:border-violet focus:bg-white" />}
 

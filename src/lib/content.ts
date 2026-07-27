@@ -113,7 +113,17 @@ export function normalizeDifficulty(source: string) {
   return ({ 容易: "EASY", 一般: "MEDIUM", 困难: "HARD" } as Record<string, string>)[source] ?? "MEDIUM";
 }
 
-type NormalizedOption = { label: string; content: string; sortOrder: number };
+export type NormalizedOption = { label: string; content: string; sortOrder: number };
+
+export type NormalizedAsset = {
+  role: string;
+  kind: "DIAGRAM";
+  path: string;
+  altText: string;
+  source: "GENERATED_REPLACEMENT";
+  reviewStatus: "DRAFT";
+  version: number;
+};
 
 function normalizeOptionLabel(label: string) {
   const codePoint = label.toUpperCase().charCodeAt(0);
@@ -257,7 +267,7 @@ export function normalizeSourceQuestion(question: SourceQuestion, sourceFile: st
   const hasUnparsedChoice = /选择/.test(sourceType) && (
     options.length < 2 || options.some((option, index) => option.label !== String.fromCharCode(65 + index))
   );
-  return {
+  return applyQuestionReplacement({
     id: question.id,
     sourceId: question.id,
     sourceFile,
@@ -277,6 +287,8 @@ export function normalizeSourceQuestion(question: SourceQuestion, sourceFile: st
     gradeBandName: question.grade_band,
     gradeName: question.grade,
     options,
+    assets: [] as NormalizedAsset[],
     tags: inferTags(question),
-  };
+  });
 }
+import { applyQuestionReplacement } from "@/lib/question-replacements";

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 440" role="img" aria-labelledby="title desc">
+  <title id="title">两个椭圆的重叠区域</title>
+  <desc id="desc">坐标系中绘有横向和纵向两个椭圆，并标出它们内部的重叠区域以及四个焦点。</desc>
+  <rect width="720" height="440" rx="24" fill="#fffdf8"/>
+  <defs>
+    <clipPath id="horizontal-ellipse"><ellipse cx="360" cy="220" rx="200" ry="120"/></clipPath>
+    <marker id="axis-arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0 0 L9 3 L0 6 Z" fill="#726d7d"/></marker>
+  </defs>
+  <ellipse cx="360" cy="220" rx="120" ry="200" fill="#bce7ff" opacity=".65" clip-path="url(#horizontal-ellipse)"/>
+  <g fill="none" stroke-width="5"><ellipse cx="360" cy="220" rx="200" ry="120" stroke="#6c5ce7"/><ellipse cx="360" cy="220" rx="120" ry="200" stroke="#f06d5f"/></g>
+  <g stroke="#726d7d" stroke-width="3"><path d="M75 220 H650" marker-end="url(#axis-arrow)"/><path d="M360 410 V28" marker-end="url(#axis-arrow)"/></g>
+  <g fill="#242136" font-family="Arial, sans-serif" font-size="20" font-weight="700">
+    <text x="655" y="214">x</text><text x="370" y="32">y</text><text x="368" y="212">O</text><text x="350" y="125">C</text>
+    <text x="176" y="244">F₁</text><text x="512" y="244">F₂</text><text x="374" y="70">E₂</text><text x="374" y="386">E₁</text>
+  </g>
+  <g fill="#242136"><circle cx="200" cy="220" r="6"/><circle cx="520" cy="220" r="6"/><circle cx="360" cy="60" r="6"/><circle cx="360" cy="380" r="6"/></g>
+</svg>

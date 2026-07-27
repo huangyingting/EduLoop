@@ -1,0 +1,25 @@
+-- CreateTable
+CREATE TABLE "QuestionAsset" (
+    "id" TEXT NOT NULL,
+    "questionId" TEXT NOT NULL,
+    "role" TEXT NOT NULL,
+    "kind" TEXT NOT NULL,
+    "path" TEXT NOT NULL,
+    "altText" TEXT NOT NULL,
+    "source" TEXT NOT NULL,
+    "reviewStatus" TEXT NOT NULL DEFAULT 'DRAFT',
+    "version" INTEGER NOT NULL DEFAULT 1,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "QuestionAsset_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateIndex
+CREATE UNIQUE INDEX "QuestionAsset_questionId_role_key" ON "QuestionAsset"("questionId", "role");
+
+-- CreateIndex
+CREATE INDEX "QuestionAsset_questionId_reviewStatus_idx" ON "QuestionAsset"("questionId", "reviewStatus");
+
+-- AddForeignKey
+ALTER TABLE "QuestionAsset" ADD CONSTRAINT "QuestionAsset_questionId_fkey" FOREIGN KEY ("questionId") REFERENCES "Question"("id") ON DELETE CASCADE ON UPDATE CASCADE;

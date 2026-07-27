@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" role="img" aria-labelledby="title desc">
+  <title id="title">两壁之间悬挂的电灯</title>
+  <desc id="desc">电灯悬挂在O点下方，OB连接左墙，OA连接右墙；A从与O同高的位置向上移动。</desc>
+  <rect width="720" height="420" rx="24" fill="#fffdf8"/>
+  <defs><marker id="move-arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0 0 L9 3 L0 6 Z" fill="#f06d5f"/></marker></defs>
+  <g stroke="#726d7d" stroke-width="10"><path d="M90 45 V360"/><path d="M630 45 V360"/></g>
+  <g fill="none" stroke="#242136" stroke-linecap="round" stroke-width="6"><path d="M350 185 L90 92"/><path d="M350 185 H630"/><path d="M350 185 V292"/></g>
+  <path d="M350 185 L630 82" fill="none" stroke="#6c5ce7" stroke-dasharray="12 10" stroke-linecap="round" stroke-width="6"/>
+  <path d="M655 176 V92" fill="none" stroke="#f06d5f" stroke-width="5" marker-end="url(#move-arrow)"/>
+  <g fill="#242136" font-family="Arial, sans-serif" font-size="25" font-weight="700"><text x="72" y="86">B</text><text x="328" y="173">O</text><text x="640" y="192">A₀</text><text x="640" y="78">A₁</text><text x="668" y="141">上移</text></g>
+  <circle cx="350" cy="185" r="9" fill="#f06d5f"/>
+  <path d="M315 292 H385 L372 354 H328 Z" fill="#ffd66b" stroke="#242136" stroke-width="5"/><path d="M328 365 H372" stroke="#242136" stroke-linecap="round" stroke-width="7"/>
+</svg>

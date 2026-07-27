@@ -66,11 +66,14 @@ async function main() {
   const curatedLinks = new Set((await prisma.questionTag.findMany({
     where: { source: "CURATED" }, select: { questionId: true, tagId: true },
   })).map((link) => `${link.questionId}:${link.tagId}`));
+  const curatedAssets = new Set((await prisma.questionAsset.findMany({
+    where: { source: "CURATED" }, select: { questionId: true, role: true },
+  })).map((asset) => `${asset.questionId}:${asset.role}`));
 
   const batchSize = 75;
   for (let offset = 0; offset < normalized.length; offset += batchSize) {
     const batch = normalized.slice(offset, offset + batchSize).map((question) => {
-      const { subjectName, gradeBandName, gradeName, options, tags, ...data } = question;
+      const { subjectName, gradeBandName, gradeName, options, assets, tags, ...data } = question;
       const relational = {
         subjectId: subjectIds.get(subjectName)!, gradeBandId: bandIds.get(gradeBandName)!, gradeId: gradeIds.get(gradeName)!,
       };
@@ -78,10 +81,11 @@ async function main() {
       const tagCreates = tags.map((tag) => ({
         tagId: tagIds.get(`${tag.dimension}:${tag.slug}`)!, confidence: tag.confidence, source: tag.source,
       })).filter((tag) => !curatedLinks.has(`${question.id}:${tag.tagId}`));
+      const assetCreates = assets.filter((asset) => !curatedAssets.has(`${question.id}:${asset.role}`));
       return prisma.question.upsert({
         where: { sourceId: question.sourceId },
-        create: { ...data, ...relational, options: { create: optionCreates }, tags: { create: tagCreates } },
-        update: { ...data, ...relational, options: { deleteMany: {}, create: optionCreates }, tags: { deleteMany: { source: { not: "CURATED" } }, create: tagCreates } },
+        create: { ...data, ...relational, options: { create: optionCreates }, assets: { create: assetCreates }, tags: { create: tagCreates } },
+        update: { ...data, ...relational, options: { deleteMany: {}, create: optionCreates }, assets: { deleteMany: { source: { not: "CURATED" } }, create: assetCreates }, tags: { deleteMany: { source: { not: "CURATED" } }, create: tagCreates } },
       });
     });
     await prisma.$transaction(batch);

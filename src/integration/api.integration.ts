@@ -94,6 +94,9 @@ describe("learner API journey", () => {
     const sessionResponse = await createSession(request("http://localhost/api/sessions", "POST", { deviceKey, questionGoal: 10, filters: { subject: "integration-math" } }));
     expect(sessionResponse.status).toBe(201);
     const session = await sessionResponse.json() as { id: string };
+    const resumedResponse = await createSession(request("http://localhost/api/sessions", "POST", { deviceKey, questionGoal: 10, filters: { subject: "integration-math" } }));
+    expect(resumedResponse.status).toBe(200);
+    expect(await resumedResponse.json()).toMatchObject({ id: session.id, resumed: true, completedCount: 0 });
 
     const questionResponse = await nextQuestion(new NextRequest(`http://localhost/api/questions/next?subject=integration-math&autoGradable=true&deviceKey=${deviceKey}`));
     expect(questionResponse.status).toBe(200);

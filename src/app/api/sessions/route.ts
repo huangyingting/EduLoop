@@ -22,6 +22,25 @@ export async function POST(request: Request) {
     update: {},
   });
 
+  const filtersJson = JSON.stringify(Object.fromEntries(Object.entries(parsed.data.filters).sort(([left], [right]) => left.localeCompare(right))));
+  const active = await prisma.practiceSession.findFirst({
+    where: { learnerId: learner.id, status: "ACTIVE" },
+    orderBy: { startedAt: "desc" },
+    include: { attempts: { orderBy: { createdAt: "desc" }, take: 20, select: { questionId: true } } },
+  });
+  if (active && active.filtersJson === filtersJson && active.questionGoal === parsed.data.questionGoal) {
+    return NextResponse.json({
+      id: active.id,
+      status: active.status,
+      questionGoal: active.questionGoal,
+      completedCount: active.completedCount,
+      correctCount: active.correctCount,
+      earnedXp: active.earnedXp,
+      recentQuestionIds: active.attempts.map((attempt) => attempt.questionId),
+      resumed: true,
+    });
+  }
+
   const [, session] = await prisma.$transaction([
     prisma.practiceSession.updateMany({
       where: { learnerId: learner.id, status: "ACTIVE" },
@@ -30,7 +49,7 @@ export async function POST(request: Request) {
     prisma.practiceSession.create({
       data: {
         learnerId: learner.id,
-        filtersJson: JSON.stringify(parsed.data.filters),
+        filtersJson,
         questionGoal: parsed.data.questionGoal,
       },
     }),
@@ -41,5 +60,9 @@ export async function POST(request: Request) {
     status: session.status,
     questionGoal: session.questionGoal,
     completedCount: session.completedCount,
+    correctCount: session.correctCount,
+    earnedXp: session.earnedXp,
+    recentQuestionIds: [],
+    resumed: false,
   }, { status: 201 });
 }

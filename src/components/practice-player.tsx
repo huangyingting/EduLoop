@@ -25,6 +25,10 @@ type PracticeCatalog = {
   grades: Array<{ slug: string; name: string }>;
   topics: Array<{ slug: string; label: string }>;
 };
+type SessionSnapshot = {
+  id: string; status: string; questionGoal: number; completedCount: number; correctCount: number;
+  earnedXp: number; recentQuestionIds: string[]; resumed: boolean;
+};
 
 const typeNames: Record<string, string> = { SINGLE_CHOICE: "单项选择", MULTIPLE_CHOICE: "多项选择", TRUE_FALSE: "判断", FILL_BLANK: "填空", COMPUTATION: "计算", EXPERIMENT: "实验探究", WRITTEN_RESPONSE: "解答" };
 const difficultyOptions = [
@@ -97,10 +101,15 @@ export function PracticePlayer() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ deviceKey: getDeviceKey(), questionGoal: 10, filters: { ...nextFilters, mode: practiceMode } }),
       });
-      if (response.ok) sessionId.current = (await response.json() as { id: string }).id;
+      if (response.ok) {
+        const session = await response.json() as SessionSnapshot;
+        sessionId.current = session.id;
+        return session;
+      }
     } catch {
       sessionId.current = null;
     }
+    return null;
   }, [practiceMode]);
 
   const loadQuestion = useCallback(async (nextFilters = filters, excluded = recent) => {
@@ -130,7 +139,16 @@ export function PracticePlayer() {
   }, [filters, practiceMode, recent]);
 
   useEffect(() => {
-    const timer = window.setTimeout(() => void (async () => { await startSession(filters); await loadQuestion(filters); })(), 0);
+    const timer = window.setTimeout(() => void (async () => {
+      const session = await startSession(filters);
+      const exclusions = session?.recentQuestionIds.slice(0, 20) ?? [];
+      if (session?.resumed) {
+        setCompleted(session.completedCount);
+        setCorrect(session.correctCount);
+        setRecent(exclusions.slice(-8));
+      }
+      await loadQuestion(filters, exclusions);
+    })(), 0);
     return () => { window.clearTimeout(timer); questionRequest.current?.abort(); hintRequest.current?.abort(); };
     // The initial URL-derived filters are intentionally loaded once.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -170,7 +188,7 @@ export function PracticePlayer() {
       setCatalogError("");
     }
     setFilters(next); setRecent([]); setCompleted(0); setCorrect(0); setCombo(0);
-    void (async () => { await startSession(next); await loadQuestion(next, []); })();
+    void (async () => { const session = await startSession(next); await loadQuestion(next, session?.recentQuestionIds ?? []); })();
   }
 
   async function revealHint() {

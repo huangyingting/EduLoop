@@ -7,6 +7,7 @@ const sessionSchema = z.object({
   deviceKey: z.string().min(8).max(100),
   questionGoal: z.number().int().min(1).max(50).default(10),
   filters: z.record(z.string(), z.string().max(100)).default({}),
+  restart: z.boolean().default(false),
 });
 
 export async function POST(request: Request) {
@@ -28,7 +29,7 @@ export async function POST(request: Request) {
     orderBy: { startedAt: "desc" },
     include: { attempts: { orderBy: { createdAt: "desc" }, take: 20, select: { questionId: true } } },
   });
-  if (active && active.filtersJson === filtersJson && active.questionGoal === parsed.data.questionGoal) {
+  if (!parsed.data.restart && active && active.filtersJson === filtersJson && active.questionGoal === parsed.data.questionGoal) {
     return NextResponse.json({
       id: active.id,
       status: active.status,

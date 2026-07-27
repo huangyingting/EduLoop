@@ -125,10 +125,18 @@ describe("learner API journey", () => {
   it("creates a session, grades a miss, schedules review, saves, reports, and exposes progress", async () => {
     const sessionResponse = await createSession(request("http://localhost/api/sessions", "POST", { deviceKey, questionGoal: 10, filters: { subject: "integration-math" } }));
     expect(sessionResponse.status).toBe(201);
-    const session = await sessionResponse.json() as { id: string };
+    let session = await sessionResponse.json() as { id: string };
     const resumedResponse = await createSession(request("http://localhost/api/sessions", "POST", { deviceKey, questionGoal: 10, filters: { subject: "integration-math" } }));
     expect(resumedResponse.status).toBe(200);
     expect(await resumedResponse.json()).toMatchObject({ id: session.id, resumed: true, completedCount: 0 });
+
+    const restartedResponse = await createSession(request("http://localhost/api/sessions", "POST", { deviceKey, questionGoal: 10, filters: { subject: "integration-math" }, restart: true }));
+    expect(restartedResponse.status).toBe(201);
+    const restarted = await restartedResponse.json() as { id: string; resumed: boolean };
+    expect(restarted).toMatchObject({ resumed: false });
+    expect(restarted.id).not.toBe(session.id);
+    expect(await prisma.practiceSession.findUniqueOrThrow({ where: { id: session.id } })).toMatchObject({ status: "ABANDONED" });
+    session = restarted;
 
     const questionResponse = await nextQuestion(new NextRequest(`http://localhost/api/questions/next?subject=integration-math&autoGradable=true&deviceKey=${deviceKey}`));
     expect(questionResponse.status).toBe(200);

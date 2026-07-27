@@ -108,12 +108,12 @@ export function PracticePlayer() {
     return next;
   }, [search]);
 
-  const startSession = useCallback(async (nextFilters: typeof filters) => {
+  const startSession = useCallback(async (nextFilters: typeof filters, restart = false) => {
     try {
       const response = await fetch("/api/sessions", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ deviceKey: getDeviceKey(), questionGoal: 10, filters: { ...nextFilters, mode: practiceMode } }),
+        body: JSON.stringify({ deviceKey: getDeviceKey(), questionGoal: 10, filters: { ...nextFilters, mode: practiceMode }, restart }),
       });
       if (response.ok) {
         const session = await response.json() as SessionSnapshot;
@@ -306,6 +306,13 @@ export function PracticePlayer() {
     await loadQuestion();
   }
 
+  async function restartChallenge() {
+    if (loading || (completed > 0 && !window.confirm("重新开始本轮挑战吗？已完成的答题记录会保留。"))) return;
+    setCompleted(0); setCorrect(0); setCombo(0); setRecent([]);
+    const session = await startSession(filters, true);
+    await loadQuestion(filters, session?.recentQuestionIds ?? []);
+  }
+
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
       if (!question || loading || event.repeat || ignoresPracticeShortcuts(event.target) || event.altKey || event.ctrlKey || event.metaKey) return;
@@ -396,7 +403,7 @@ export function PracticePlayer() {
       </div>
       {catalogError ? <p className="mt-1 text-xs font-bold text-coral">{catalogError}</p> : null}
 
-      <div className="mt-4 flex items-center gap-3"><div className="h-3 flex-1 overflow-hidden rounded-full border border-ink/10 bg-white"><div className="h-full rounded-full bg-violet transition-all" style={{ width: `${Math.min(completed * 10, 100)}%` }} /></div><span className="text-xs font-black text-muted">{completed} / 10</span></div>
+      <div className="mt-4 flex items-center gap-3"><div className="h-3 flex-1 overflow-hidden rounded-full border border-ink/10 bg-white"><div className="h-full rounded-full bg-violet transition-all" style={{ width: `${Math.min(completed * 10, 100)}%` }} /></div><span className="text-xs font-black text-muted">{completed} / 10</span><button onClick={() => void restartChallenge()} disabled={loading} className="flex min-h-11 items-center gap-1.5 rounded-xl px-3 text-xs font-black text-muted hover:bg-white hover:text-violet disabled:opacity-40" title="保留答题记录并重新开始本轮"><RotateCcw size={14} /> 重开</button></div>
 
       {question?.recommendationReason ? <div className="mt-5 flex items-center gap-2 rounded-2xl border-2 border-violet/15 bg-[#f0edff] px-4 py-3 text-sm font-bold text-violet"><WandSparkles size={17} className="shrink-0" />{question.recommendationReason}</div> : null}
 

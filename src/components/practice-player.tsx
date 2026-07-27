@@ -1,6 +1,6 @@
 "use client";
 
-import { Bookmark, BookmarkCheck, Check, ChevronRight, CircleAlert, Flag, Flame, LoaderCircle, RotateCcw, Send, Sparkles, Trophy, WandSparkles, X } from "lucide-react";
+import { Bookmark, BookmarkCheck, Check, ChevronRight, CircleAlert, Flag, Flame, Lightbulb, LoaderCircle, RotateCcw, Send, Sparkles, Trophy, WandSparkles, X } from "lucide-react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -9,7 +9,7 @@ import { useLearner } from "./learner-provider";
 import { MathText } from "./math-text";
 
 type Question = {
-  id: string; stem: string; type: string; typeLabel: string; difficulty: string; isAutoGradable: boolean;
+  id: string; stem: string; type: string; typeLabel: string; difficulty: string; isAutoGradable: boolean; hasHint: boolean;
   subject: { name: string; slug: string; color: string }; grade: string;
   stemAsset: { path: string; altText: string } | null;
   options: Array<{ label: string; content: string; asset: { path: string; altText: string } | null }>;
@@ -17,18 +17,35 @@ type Question = {
   isSaved: boolean; recommendationReason: string | null;
 };
 type Result = { attemptId: string; isCorrect: boolean | null; correctLabels: string[]; answer: string; explanation: string | null; earnedXp: number; totalXp: number; level: number; currentStreak: number; todayAttempts: number; newBadges: Array<{ name: string; icon: string }>; session: { status: string; completedCount: number; questionGoal: number; correctCount: number; earnedXp: number } | null };
-type TagCatalog = Array<{ key: string; label: string; tags: Array<{ slug: string; label: string }> }>;
+type PracticeFilters = { subject: string; gradeBand: string; grade: string; difficulty: string; type: string; tags: string };
+type PracticeCatalog = {
+  subjects: Array<{ slug: string; name: string }>;
+  gradeBands: Array<{ slug: string; name: string }>;
+  grades: Array<{ slug: string; name: string }>;
+  topics: Array<{ slug: string; label: string }>;
+};
 
 const typeNames: Record<string, string> = { SINGLE_CHOICE: "单项选择", MULTIPLE_CHOICE: "多项选择", TRUE_FALSE: "判断", FILL_BLANK: "填空", COMPUTATION: "计算", EXPERIMENT: "实验探究", WRITTEN_RESPONSE: "解答" };
-const subjects = [{ slug: "", label: "全部" }, { slug: "math", label: "数学" }, { slug: "physics", label: "物理" }, { slug: "chemistry", label: "化学" }, { slug: "biology", label: "生物" }];
-const bands = [{ slug: "", label: "全学段" }, { slug: "primary", label: "小学" }, { slug: "middle", label: "初中" }, { slug: "high", label: "高中" }];
 
 export function PracticePlayer() {
   const search = useSearchParams();
   const practiceMode = search.get("mode") === "review" ? "review" : search.get("mode") === "adaptive" ? "adaptive" : "standard";
   const { stats, applyAttempt } = useLearner();
-  const [filters, setFilters] = useState({ subject: search.get("subject") ?? "", gradeBand: search.get("gradeBand") ?? "", difficulty: search.get("difficulty") ?? "", type: search.get("type") ?? "", tags: search.get("tags") ?? "" });
-  const [tagCatalog, setTagCatalog] = useState<TagCatalog>([]);
+  const [filters, setFilters] = useState<PracticeFilters>(() => {
+    const subject = search.get("subject") ?? "";
+    const gradeBand = search.get("gradeBand") ?? "";
+    return {
+      subject,
+      gradeBand,
+      grade: gradeBand ? search.get("grade") ?? "" : "",
+      difficulty: search.get("difficulty") ?? "",
+      type: search.get("type") ?? "",
+      tags: subject ? search.get("tags") ?? "" : "",
+    };
+  });
+  const [catalog, setCatalog] = useState<PracticeCatalog>({ subjects: [], gradeBands: [], grades: [], topics: [] });
+  const [catalogLoading, setCatalogLoading] = useState(true);
+  const [catalogError, setCatalogError] = useState("");
   const [question, setQuestion] = useState<Question | null>(null);
   const [selected, setSelected] = useState<string[]>([]);
   const [written, setWritten] = useState("");
@@ -46,9 +63,13 @@ export function PracticePlayer() {
   const [reportDetail, setReportDetail] = useState("");
   const [reporting, setReporting] = useState(false);
   const [reported, setReported] = useState(false);
+  const [hint, setHint] = useState<string | null>(null);
+  const [hintLoading, setHintLoading] = useState(false);
+  const [hintError, setHintError] = useState("");
   const startedAt = useRef(0);
   const sessionId = useRef<string | null>(null);
   const questionRequest = useRef<AbortController | null>(null);
+  const hintRequest = useRef<AbortController | null>(null);
   const requestGeneration = useRef(0);
 
   const startSession = useCallback(async (nextFilters: typeof filters) => {
@@ -67,9 +88,10 @@ export function PracticePlayer() {
   const loadQuestion = useCallback(async (nextFilters = filters, excluded = recent) => {
     const generation = ++requestGeneration.current;
     questionRequest.current?.abort();
+    hintRequest.current?.abort();
     const controller = new AbortController();
     questionRequest.current = controller;
-    setLoading(true); setQuestion(null); setError(""); setResult(null); setSelected([]); setWritten(""); setReportOpen(false); setReported(false); setReportDetail("");
+    setLoading(true); setQuestion(null); setError(""); setResult(null); setSelected([]); setWritten(""); setReportOpen(false); setReported(false); setReportDetail(""); setHint(null); setHintLoading(false); setHintError("");
     const params = new URLSearchParams();
     Object.entries(nextFilters).forEach(([key, value]) => value && params.set(key, value));
     params.set("deviceKey", getDeviceKey());
@@ -91,21 +113,66 @@ export function PracticePlayer() {
 
   useEffect(() => {
     const timer = window.setTimeout(() => void (async () => { await startSession(filters); await loadQuestion(filters); })(), 0);
-    return () => { window.clearTimeout(timer); questionRequest.current?.abort(); };
+    return () => { window.clearTimeout(timer); questionRequest.current?.abort(); hintRequest.current?.abort(); };
     // The initial URL-derived filters are intentionally loaded once.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    let active = true;
-    fetch("/api/catalog").then((response) => response.ok ? response.json() : []).then((payload: TagCatalog) => { if (active) setTagCatalog(payload); });
-    return () => { active = false; };
-  }, []);
+    const controller = new AbortController();
+    const params = new URLSearchParams();
+    if (filters.subject) params.set("subject", filters.subject);
+    if (filters.gradeBand) params.set("gradeBand", filters.gradeBand);
+    if (filters.grade) params.set("grade", filters.grade);
+    fetch(`/api/catalog?${params}`, { signal: controller.signal })
+      .then((response) => {
+        if (!response.ok) throw new Error("筛选项加载失败");
+        return response.json() as Promise<PracticeCatalog>;
+      })
+      .then((payload) => setCatalog(payload))
+      .catch((cause) => { if (!controller.signal.aborted) setCatalogError(cause instanceof Error ? cause.message : "筛选项加载失败"); })
+      .finally(() => { if (!controller.signal.aborted) setCatalogLoading(false); });
+    return () => { controller.abort(); };
+  }, [filters.grade, filters.gradeBand, filters.subject]);
 
   function changeFilter(key: keyof typeof filters, value: string) {
     const next = { ...filters, [key]: value };
+    if (key === "gradeBand") {
+      next.grade = "";
+      next.subject = "";
+      next.tags = "";
+    } else if (key === "grade") {
+      next.subject = "";
+      next.tags = "";
+    } else if (key === "subject") {
+      next.tags = "";
+    }
+    if (key === "gradeBand" || key === "grade" || key === "subject") {
+      setCatalogLoading(true);
+      setCatalogError("");
+    }
     setFilters(next); setRecent([]); setCompleted(0); setCorrect(0); setCombo(0);
     void (async () => { await startSession(next); await loadQuestion(next, []); })();
+  }
+
+  async function revealHint() {
+    if (!question?.hasHint || result || hint || hintLoading) return;
+    hintRequest.current?.abort();
+    const controller = new AbortController();
+    hintRequest.current = controller;
+    setHintLoading(true); setHintError("");
+    const params = new URLSearchParams({ questionId: question.id, deviceKey: getDeviceKey() });
+    try {
+      const response = await fetch(`/api/questions/hint?${params}`, { signal: controller.signal });
+      if (!response.ok) throw new Error("提示加载失败，请稍后再试。");
+      const payload = await response.json() as { hint: string | null };
+      if (!payload.hint) throw new Error("这道题暂时没有可用提示。");
+      setHint(payload.hint);
+    } catch (cause) {
+      if (!controller.signal.aborted) setHintError(cause instanceof Error ? cause.message : "提示加载失败");
+    } finally {
+      if (hintRequest.current === controller) setHintLoading(false);
+    }
   }
 
   function toggleOption(label: string) {
@@ -200,12 +267,14 @@ export function PracticePlayer() {
       </header>
 
       <div className="mt-6 flex gap-2 overflow-x-auto pb-2">
-        <select disabled={loading} aria-label="选择学科" value={filters.subject} onChange={(event) => changeFilter("subject", event.target.value)} className="min-w-28 rounded-xl border-2 border-ink/10 bg-white px-3 py-2.5 text-sm font-bold outline-none focus:border-violet disabled:opacity-50">{subjects.map((item) => <option key={item.slug} value={item.slug}>{item.label}</option>)}</select>
-        <select disabled={loading} aria-label="选择学段" value={filters.gradeBand} onChange={(event) => changeFilter("gradeBand", event.target.value)} className="min-w-28 rounded-xl border-2 border-ink/10 bg-white px-3 py-2.5 text-sm font-bold outline-none focus:border-violet disabled:opacity-50">{bands.map((item) => <option key={item.slug} value={item.slug}>{item.label}</option>)}</select>
+        <select disabled={loading || catalogLoading} aria-label="选择学段" value={filters.gradeBand} onChange={(event) => changeFilter("gradeBand", event.target.value)} className="min-w-28 rounded-xl border-2 border-ink/10 bg-white px-3 py-2.5 text-sm font-bold outline-none focus:border-violet disabled:opacity-50"><option value="">全部学段</option>{catalog.gradeBands.map((item) => <option key={item.slug} value={item.slug}>{item.name}</option>)}</select>
+        {filters.gradeBand ? <select disabled={loading || catalogLoading} aria-label="选择年级" value={filters.grade} onChange={(event) => changeFilter("grade", event.target.value)} className="min-w-28 rounded-xl border-2 border-ink/10 bg-white px-3 py-2.5 text-sm font-bold outline-none focus:border-violet disabled:opacity-50"><option value="">全部年级</option>{catalog.grades.map((item) => <option key={item.slug} value={item.slug}>{item.name}</option>)}</select> : null}
+        <select disabled={loading || catalogLoading} aria-label="选择学科" value={filters.subject} onChange={(event) => changeFilter("subject", event.target.value)} className="min-w-28 rounded-xl border-2 border-ink/10 bg-white px-3 py-2.5 text-sm font-bold outline-none focus:border-violet disabled:opacity-50"><option value="">全部学科</option>{catalog.subjects.map((item) => <option key={item.slug} value={item.slug}>{item.name}</option>)}</select>
+        {filters.subject ? <select disabled={loading || catalogLoading || !catalog.topics.length} aria-label="选择知识主题" value={filters.tags} onChange={(event) => changeFilter("tags", event.target.value)} className="min-w-36 rounded-xl border-2 border-ink/10 bg-white px-3 py-2.5 text-sm font-bold outline-none focus:border-violet disabled:opacity-50"><option value="">全部知识主题</option>{catalog.topics.map((topic) => <option key={topic.slug} value={topic.slug}>{topic.label}</option>)}</select> : null}
         <select disabled={loading} aria-label="选择难度" value={filters.difficulty} onChange={(event) => changeFilter("difficulty", event.target.value)} className="min-w-28 rounded-xl border-2 border-ink/10 bg-white px-3 py-2.5 text-sm font-bold outline-none focus:border-violet disabled:opacity-50"><option value="">全部难度</option><option value="EASY">热身</option><option value="MEDIUM">进阶</option><option value="HARD">挑战</option></select>
         <select disabled={loading} aria-label="选择题型" value={filters.type} onChange={(event) => changeFilter("type", event.target.value)} className="min-w-32 rounded-xl border-2 border-ink/10 bg-white px-3 py-2.5 text-sm font-bold outline-none focus:border-violet disabled:opacity-50"><option value="">全部题型</option>{Object.entries(typeNames).map(([key, label]) => <option key={key} value={key}>{label}</option>)}</select>
-        <select disabled={loading} aria-label="选择主题或能力标签" value={filters.tags} onChange={(event) => changeFilter("tags", event.target.value)} className="min-w-36 rounded-xl border-2 border-ink/10 bg-white px-3 py-2.5 text-sm font-bold outline-none focus:border-violet disabled:opacity-50"><option value="">全部主题 / 能力</option>{tagCatalog.map((dimension) => <optgroup key={dimension.key} label={dimension.label}>{dimension.tags.map((tag) => <option key={`${dimension.key}:${tag.slug}`} value={tag.slug}>{tag.label}</option>)}</optgroup>)}</select>
       </div>
+      {catalogError ? <p className="mt-1 text-xs font-bold text-coral">{catalogError}</p> : null}
 
       <div className="mt-4 flex items-center gap-3"><div className="h-3 flex-1 overflow-hidden rounded-full border border-ink/10 bg-white"><div className="h-full rounded-full bg-violet transition-all" style={{ width: `${Math.min(completed * 10, 100)}%` }} /></div><span className="text-xs font-black text-muted">{completed} / 10</span></div>
 
@@ -224,6 +293,10 @@ export function PracticePlayer() {
           <div className="px-6 py-7 sm:px-9 sm:py-9">
             <div className="question-copy text-[17px] font-bold leading-8 text-ink sm:text-[19px]"><MathText>{question.stem}</MathText></div>
             {question.stemAsset ? <Image src={question.stemAsset.path} alt={question.stemAsset.altText} width={720} height={360} className="mx-auto mt-6 h-auto max-h-80 w-full max-w-2xl rounded-2xl border border-ink/10 bg-[#fffdf8] object-contain" /> : null}
+            {!result && question.hasHint ? <div className="mt-6">
+              {hint ? <div aria-live="polite" className="border-l-4 border-lime bg-[#f7fadf] px-4 py-3 text-sm"><p className="flex items-center gap-2 font-black"><Lightbulb size={17} /> 解题提示</p><div className="mt-2 whitespace-pre-line font-medium leading-6 text-ink/75"><MathText>{hint}</MathText></div></div> : <button onClick={() => void revealHint()} disabled={hintLoading} className="flex min-h-11 items-center gap-2 rounded-xl border-2 border-ink/10 bg-canvas px-4 text-sm font-black text-muted transition hover:border-lime hover:text-ink disabled:opacity-50">{hintLoading ? <LoaderCircle className="animate-spin" size={17} /> : <Lightbulb size={17} />} 查看提示</button>}
+              {hintError ? <p className="mt-2 text-sm font-bold text-coral">{hintError}</p> : null}
+            </div> : null}
             {question.options.length ? <div className={`mt-7 grid gap-3 ${hasOptionAssets ? "sm:grid-cols-2" : ""}`}>{question.options.map((option) => {
               const chosen = selected.includes(option.label); const expected = result?.correctLabels.includes(option.label); const wrong = result?.isCorrect === false && chosen && !expected;
               return <button key={option.label} onClick={() => toggleOption(option.label)} disabled={Boolean(result) || loading} className={`flex w-full items-start gap-4 rounded-2xl border-2 p-4 text-left transition ${expected ? "border-[#2c9b73] bg-[#e6f8ef]" : wrong ? "border-coral bg-[#fff0ed]" : chosen ? "border-violet bg-[#f0edff] shadow-[0_4px_0_#c9c1f7]" : "border-ink/10 bg-[#fbfaf7] hover:border-violet/45 hover:bg-white"}`}>

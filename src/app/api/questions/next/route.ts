@@ -103,7 +103,7 @@ export async function GET(request: NextRequest) {
   })) : false;
   return NextResponse.json({
     id: question.id, stem: question.stem, type: question.type, typeLabel: QUESTION_TYPE_LABELS[question.type] ?? question.sourceType,
-    difficulty: question.difficulty, isAutoGradable: question.isAutoGradable, subject: question.subject, grade: question.grade.name,
+    difficulty: question.difficulty, isAutoGradable: question.isAutoGradable, hasHint: Boolean(question.explanation), subject: question.subject, grade: question.grade.name,
     stemAsset: stemAsset ? { path: stemAsset.path, altText: stemAsset.altText } : null,
     options: question.options.map(({ label, content }) => {
       const asset = assetsByRole.get(`OPTION_${label}`);

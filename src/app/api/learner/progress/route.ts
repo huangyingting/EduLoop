@@ -11,6 +11,7 @@ const querySchema = z.object({
 });
 
 type Aggregate = { label: string; color?: string; attempts: number; correct: number };
+type TopicAggregate = Aggregate & { slug: string; subject: string };
 
 export async function GET(request: NextRequest) {
   const parsed = querySchema.safeParse(Object.fromEntries(request.nextUrl.searchParams));
@@ -50,7 +51,7 @@ export async function GET(request: NextRequest) {
   ]);
 
   const subjectMap = new Map<string, Aggregate>();
-  const topicMap = new Map<string, Aggregate>();
+  const topicMap = new Map<string, TopicAggregate>();
   for (const attempt of attempts) {
     const subject = subjectMap.get(attempt.question.subject.slug) ?? {
       label: attempt.question.subject.name,
@@ -64,10 +65,17 @@ export async function GET(request: NextRequest) {
 
     for (const { tag } of attempt.question.tags) {
       if (tag.dimension.key !== "TOPIC") continue;
-      const topic = topicMap.get(tag.slug) ?? { label: tag.label, attempts: 0, correct: 0 };
+      const topicKey = `${attempt.question.subject.slug}:${tag.slug}`;
+      const topic = topicMap.get(topicKey) ?? {
+        slug: tag.slug,
+        subject: attempt.question.subject.slug,
+        label: tag.label,
+        attempts: 0,
+        correct: 0,
+      };
       topic.attempts += 1;
       topic.correct += attempt.isCorrect ? 1 : 0;
-      topicMap.set(tag.slug, topic);
+      topicMap.set(topicKey, topic);
     }
   }
 
@@ -106,8 +114,7 @@ export async function GET(request: NextRequest) {
       ...item,
       accuracy: Math.round((item.correct / item.attempts) * 100),
     })).sort((left, right) => right.attempts - left.attempts),
-    weakTopics: [...topicMap.entries()].map(([slug, item]) => ({
-      slug,
+    weakTopics: [...topicMap.values()].map((item) => ({
       ...item,
       accuracy: Math.round((item.correct / item.attempts) * 100),
     })).filter((item) => item.attempts >= 2).sort((left, right) => left.accuracy - right.accuracy || right.attempts - left.attempts).slice(0, 6),

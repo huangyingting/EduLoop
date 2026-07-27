@@ -10,7 +10,7 @@ type ProgressData = {
   summary: { totalAttempts: number; correctRate: number; xp: number; level: number; currentStreak: number; bestStreak: number };
   activity: Array<{ date: string; attempts: number; correct: number; earnedXp: number }>;
   subjects: Array<{ slug: string; label: string; color: string; attempts: number; correct: number; accuracy: number }>;
-  weakTopics: Array<{ slug: string; label: string; attempts: number; accuracy: number }>;
+  weakTopics: Array<{ slug: string; subject: string; label: string; attempts: number; accuracy: number }>;
   recentMistakes: Array<{ id: string; stem: string; subject: string; subjectColor: string; grade: string; isDue: boolean }>;
   badges: Array<{ slug: string; name: string; description: string; icon: string; earnedAt: string | null }>;
   sessions: Array<{ id: string; status: string; completedCount: number; questionGoal: number; correctCount: number; earnedXp: number; startedAt: string }>;
@@ -21,6 +21,11 @@ function heatClass(attempts: number) {
   if (attempts <= 2) return "bg-violet/25";
   if (attempts <= 5) return "bg-violet/55";
   return "bg-violet";
+}
+
+function topicPracticeHref(topic: ProgressData["weakTopics"][number]) {
+  const params = new URLSearchParams({ mode: "adaptive", subject: topic.subject, tags: topic.slug });
+  return `/practice?${params}`;
 }
 
 export function ProgressDashboard() {
@@ -95,7 +100,7 @@ export function ProgressDashboard() {
         <div className="rounded-[30px] border-2 border-ink/10 bg-white p-6 sm:p-8">
           <p className="text-xs font-black uppercase tracking-[.18em] text-coral">Topic radar</p><h2 className="mt-1 font-display text-2xl font-black">薄弱主题雷达</h2>
           <div className="mt-5 flex flex-wrap gap-2">
-            {data.weakTopics.length ? data.weakTopics.map((topic) => <Link key={topic.slug} href={`/practice?mode=adaptive&tags=${topic.slug}`} className="rounded-2xl border-2 border-ink/10 bg-[#f0edff] px-4 py-3 text-sm font-black transition hover:-translate-y-0.5 hover:border-violet"><span className="block">{topic.label}</span><span className="mt-1 block text-[11px] text-muted">{topic.accuracy}% · {topic.attempts} 次</span></Link>) : <p className="text-sm font-semibold leading-6 text-muted">每个主题至少练习两次后，雷达会给出更可靠的线索。</p>}
+            {data.weakTopics.length ? data.weakTopics.map((topic) => <Link key={`${topic.subject}:${topic.slug}`} href={topicPracticeHref(topic)} className="rounded-2xl border-2 border-ink/10 bg-[#f0edff] px-4 py-3 text-sm font-black transition hover:-translate-y-0.5 hover:border-violet"><span className="block">{topic.label}</span><span className="mt-1 block text-[11px] text-muted">{topic.accuracy}% · {topic.attempts} 次</span></Link>) : <p className="text-sm font-semibold leading-6 text-muted">每个主题至少练习两次后，雷达会给出更可靠的线索。</p>}
           </div>
         </div>
       </section>

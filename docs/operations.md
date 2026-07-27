@@ -32,6 +32,17 @@ Take encrypted daily PostgreSQL backups with 30-day retention and point-in-time 
 
 Learner reports enter `QuestionReport` as `OPEN`. Content operators review them using a protected database/admin tool, validate the original source, update normalization or curated records, then mark reports `RESOLVED` with `resolvedAt`. Urgent harmful or unanswerable content should be changed to `NEEDS_REVIEW` immediately and re-imported only after correction.
 
+Run the repository CLI only from a trusted operator terminal connected to the intended database:
+
+```bash
+npm run reports:review -- list --status=OPEN --limit=25
+npm run reports:review -- show REPORT_ID
+npm run reports:review -- quarantine REPORT_ID
+npm run reports:review -- resolve REPORT_ID
+```
+
+`quarantine` removes the reported question from practice but deliberately leaves the report open. Correct the source normalization or curated replacement, run the content checks, re-import, verify the question, and only then resolve the report. The CLI never prints learner device keys.
+
 Generated diagrams require subject review and `reviewStatus = APPROVED`; never bulk-approve them. Preserve stable question IDs so attempts and review history remain attached.
 
 ## Rollback

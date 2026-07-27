@@ -18,6 +18,7 @@
     "schema:check": "node scripts/check-schema-parity.mjs",
     "data:audit": "node scripts/analyze-data.mjs",
     "seed:verify": "node scripts/verify-seed.mjs",
+    "reports:review": "tsx --env-file=.env scripts/review-reports.ts",
     "test": "vitest run",
     "test:integration": "node scripts/run-integration-tests.mjs",
     "test:integration:postgres": "vitest run --config vitest.integration.config.ts"

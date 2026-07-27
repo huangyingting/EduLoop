@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { calendarDay, previousCalendarDay } from "@/lib/dates";
+import { enforceRateLimit } from "@/lib/api";
 import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
@@ -25,4 +26,13 @@ export async function GET(request: NextRequest) {
     currentStreak, bestStreak: learner.bestStreak,
     todayAttempts: activity?.attempts ?? 0,
   });
+}
+
+export async function DELETE(request: NextRequest) {
+  const parsed = querySchema.safeParse(Object.fromEntries(request.nextUrl.searchParams));
+  if (!parsed.success) return NextResponse.json({ error: "Invalid learner query" }, { status: 400 });
+  const limited = enforceRateLimit(request, "delete-learner", parsed.data.deviceKey, 3, 60 * 60_000);
+  if (limited) return limited;
+  const removed = await prisma.learnerProfile.deleteMany({ where: { deviceKey: parsed.data.deviceKey } });
+  return NextResponse.json({ deleted: removed.count > 0 });
 }

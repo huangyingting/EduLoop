@@ -11,6 +11,10 @@ EduLoop is a Chinese-language practice app for primary, middle, and high school 
 - Extensible topic, skill, and format tags with provenance and confidence
 - KaTeX rendering for the 4,481 questions containing LaTeX-like notation
 - Server-side answer checking, guest learner profiles, XP, daily streaks, activity, and badges
+- Ten-question sessions, written-answer self-assessment, saved questions, and spaced mistake review
+- Adaptive practice that prioritizes due reviews and recently weak subjects
+- Growth dashboard with a 28-day activity map, subject signals, topic radar, and badge shelf
+- Question-quality reports, anonymous data deletion, health checks, security headers, and bounded APIs
 - Responsive, keyboard-friendly student dashboard and practice experience
 
 ## Run locally
@@ -32,13 +36,17 @@ Useful commands:
 
 ```bash
 npm run data:audit     # profile all source JSON files
+npm run seed:verify    # import into a fresh database and verify catalog counts
 npm run schema:check   # ensure SQLite/PostgreSQL models still match
 npm run db:studio      # inspect the local database
 npm run test           # normalization unit tests
+npm run test:integration
 npm run typecheck
 npm run lint
 npm run build
 ```
+
+The main student routes are `/practice`, `/progress`, and `/review`. `/api/health` is the deployment readiness probe.
 
 ## PostgreSQL production deployment
 
@@ -54,6 +62,8 @@ npm run build
 
 Run `npm run db:seed` once if the production database should include the bundled question set. The SQLite and PostgreSQL Prisma models intentionally match; when the data model changes, update both schema files and generate a migration in each migration directory. This keeps local setup simple without pretending SQLite migrations are safe to apply to PostgreSQL.
 
+The included multi-stage `Dockerfile` builds the PostgreSQL Prisma client and Next.js standalone server. Apply migrations and seed content as release jobs before starting application replicas. See [production readiness](./docs/production-readiness.md) and [operations](./docs/operations.md) for launch gates, backups, monitoring, and rollback guidance.
+
 ## Adding question content
 
 Place another `.json` file with the same source contract in `data/`, then run `npm run data:audit` and `npm run db:seed`. Stable source IDs prevent duplicates. The normalization boundary is [content.ts](./src/lib/content.ts): add aliases there when a new provider uses different subject, grade, difficulty, or type labels.
@@ -63,8 +73,8 @@ For curated taxonomy, add or update `Tag` and `QuestionTag` rows through Prisma.
 ## Important product boundaries
 
 - Only answer keys that can be parsed with high confidence are auto-graded. Written and ambiguous answers reveal the reference answer for student self-assessment.
-- Compound, incomplete-choice, missing-stem, and explicitly figure-dependent records are marked `NEEDS_REVIEW` and excluded from practice. The current bundle has 54 such records.
-- The source bundle contains no image assets or explicit curriculum knowledge-point labels. Topic tags are useful discovery hints, not authoritative curriculum classification.
-- Guest identity currently lives in local browser storage. Authentication and cross-device sync are deliberately left behind a clean `LearnerProfile` boundary.
+- Unrecognized nested, missing-stem, malformed-choice, and figure-dependent imports are marked `NEEDS_REVIEW` by default. All current bundled records have reviewed corrections or replacements and are published; curation lives in `src/lib/content-curation.ts`.
+- The source bundle contains no linked image assets or explicit curriculum knowledge-point labels. Twelve generated replacement diagrams have been reviewed and approved; the API still exposes only manually approved assets. Topic tags are useful discovery hints, not authoritative curriculum classification.
+- Guest identity currently lives in local browser storage. This anonymous mode is suitable for a public practice deployment; schools enabling identifiable accounts or cross-device sync must add their identity provider, guardian-consent process, and role controls at the `LearnerProfile` boundary.
 
 See [data audit](./docs/data-audit.md), [product design](./docs/product-design.md), and [architecture](./docs/architecture.md) for the decisions behind the scaffold.

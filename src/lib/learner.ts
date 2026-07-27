@@ -14,3 +14,7 @@ export function getTimeZone() {
   if (typeof Intl === "undefined") return "Asia/Shanghai";
   return Intl.DateTimeFormat().resolvedOptions().timeZone || "Asia/Shanghai";
 }
+
+export function resetDeviceKey() {
+  if (typeof window !== "undefined") window.localStorage.removeItem(DEVICE_KEY);
+}

@@ -56,6 +56,23 @@ describe("question normalization", () => {
     });
   });
 
+  it("extracts compact inline choices whose labels touch Chinese text", () => {
+    const source = question({ option_split: false });
+    source.question_info.raw_content.title = "应该在何时进行？ A使用前 B．使用后 C使用前及使用后 D．储存前";
+    source.question_info.raw_content.option_a = "";
+    source.question_info.raw_content.option_b = "";
+    source.question_info.raw_content.answer1 = "C";
+    expect(normalizeSourceQuestion(source, "fixture.json")).toMatchObject({
+      status: "PUBLISHED", stem: "应该在何时进行？", correctAnswer: '["C"]', isAutoGradable: true,
+      options: [
+        { label: "A", content: "使用前" },
+        { label: "B", content: "使用后" },
+        { label: "C", content: "使用前及使用后" },
+        { label: "D", content: "储存前" },
+      ],
+    });
+  });
+
   it("quarantines an unsplit choice question when its options cannot be recovered", () => {
     const source = question({ option_split: false });
     source.question_info.raw_content.title = "选择正确的图片 A、 B、 C、 D、";

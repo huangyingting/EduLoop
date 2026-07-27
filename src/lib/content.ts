@@ -1,3 +1,11 @@
+import {
+  curatedChoiceContent,
+  curatedQuestionUpdates,
+  reviewedSelfContainedVisualIds,
+  selfAssessedCompositeIds,
+} from "@/lib/content-curation";
+import { applyQuestionReplacement } from "@/lib/question-replacements";
+
 export const SUBJECTS = [
   { slug: "math", name: "数学", icon: "∑", color: "#6c5ce7", description: "数感、代数、几何与数据思维", sortOrder: 1 },
   { slug: "physics", name: "物理", icon: "⚡", color: "#0984e3", description: "从力与运动探索世界规律", sortOrder: 2 },
@@ -121,7 +129,7 @@ export type NormalizedAsset = {
   path: string;
   altText: string;
   source: "GENERATED_REPLACEMENT";
-  reviewStatus: "DRAFT";
+  reviewStatus: "DRAFT" | "APPROVED";
   version: number;
 };
 
@@ -133,7 +141,7 @@ function normalizeOptionLabel(label: string) {
 function extractEmbeddedChoice(question: SourceQuestion) {
   if (question.option_split || !/选择/.test(question.type)) return null;
   const title = String(question.question_info.raw_content.title ?? "");
-  const markerPattern = /(?:^|[\s\u3000])(?:[（(]\s*([A-EＡ-Ｅ])\s*[）)]|([A-EＡ-Ｅ])\s*[.．、:：]|([A-EＡ-Ｅ])(?=\s+))/gi;
+  const markerPattern = /(?:^|[\s\u3000])(?:[（(]\s*([A-EＡ-Ｅ])\s*[）)]|([A-EＡ-Ｅ])\s*[.．、:：]|([A-EＡ-Ｅ])(?=\s+|[\u3400-\u9fff]))/gi;
   const markers = [...title.matchAll(markerPattern)].map((match) => ({
     label: normalizeOptionLabel(match[1] ?? match[2] ?? match[3]),
     start: match.index ?? 0,
@@ -151,11 +159,23 @@ function extractEmbeddedChoice(question: SourceQuestion) {
 }
 
 export function extractQuestionStem(question: SourceQuestion) {
+  const update = curatedQuestionUpdates.get(question.id);
+  if (update) return update.stem;
+  const curated = curatedChoiceContent.get(question.id);
+  if (curated) return curated.stem;
   const rawStem = String(question.question_info.raw_content.title ?? "").trim();
   return extractEmbeddedChoice(question)?.stem || rawStem;
 }
 
 export function extractOptions(question: SourceQuestion) {
+  const update = curatedQuestionUpdates.get(question.id);
+  if (update?.options) return update.options.map((content, sortOrder) => ({
+    label: String.fromCharCode(65 + sortOrder), content, sortOrder,
+  }));
+  const curated = curatedChoiceContent.get(question.id);
+  if (curated) return curated.options.map((content, sortOrder) => ({
+    label: String.fromCharCode(65 + sortOrder), content, sortOrder,
+  }));
   const raw = question.question_info.raw_content;
   const options: NormalizedOption[] = ["a", "b", "c", "d", "e"]
     .map((letter, index) => ({
@@ -201,6 +221,9 @@ export function extractCorrectLabels(question: SourceQuestion) {
 }
 
 export function normalizeQuestionType(question: SourceQuestion) {
+  const updatedType = curatedQuestionUpdates.get(question.id)?.type;
+  if (updatedType) return updatedType;
+  if (selfAssessedCompositeIds.has(question.id)) return "WRITTEN_RESPONSE";
   const source = question.type;
   const labels = extractCorrectLabels(question);
   if (/多选|双选|不定项/.test(source) || (/选择题/.test(source) && labels.length > 1)) return "MULTIPLE_CHOICE";
@@ -259,12 +282,14 @@ export function referencesMissingFigure(stem: string) {
 }
 
 export function normalizeSourceQuestion(question: SourceQuestion, sourceFile: string) {
+  const update = curatedQuestionUpdates.get(question.id);
   const stem = extractQuestionStem(question);
   const options = extractOptions(question);
   const correctLabels = extractCorrectLabels(question);
   const sourceType = question.type || "其他";
-  const requiresVisual = /识图|填图/.test(sourceType) || referencesMissingFigure(stem);
-  const hasUnparsedChoice = /选择/.test(sourceType) && (
+  const visualHeuristicMatch = /识图|填图/.test(sourceType) || referencesMissingFigure(stem);
+  const requiresVisual = visualHeuristicMatch && !reviewedSelfContainedVisualIds.has(question.id);
+  const hasUnparsedChoice = !selfAssessedCompositeIds.has(question.id) && /选择/.test(sourceType) && (
     options.length < 2 || options.some((option, index) => option.label !== String.fromCharCode(65 + index))
   );
   return applyQuestionReplacement({
@@ -275,11 +300,15 @@ export function normalizeSourceQuestion(question: SourceQuestion, sourceFile: st
     type: normalizeQuestionType(question),
     difficulty: normalizeDifficulty(question.difficulty),
     stem: stem || "题干缺失（需要内容审核）",
-    answer: String(question.answer_info.raw_content ?? "").trim(),
+    answer: update?.answer ?? String(question.answer_info.raw_content ?? "").trim(),
     correctAnswer: correctLabels.length ? JSON.stringify(correctLabels) : null,
-    explanation: question.solution_info.map((item) => item.solution_info?.trim()).filter(Boolean).join("\n\n") || null,
+    explanation: update?.explanation ?? (
+      question.solution_info.map((item) => item.solution_info?.trim()).filter(Boolean).join("\n\n") || null
+    ),
     quality: question.quality || null,
-    status: !stem || requiresVisual || hasUnparsedChoice || Boolean(question.children?.length) ? "NEEDS_REVIEW" : "PUBLISHED",
+    status: update?.publish
+      ? "PUBLISHED"
+      : !stem || requiresVisual || hasUnparsedChoice || Boolean(question.children?.length) ? "NEEDS_REVIEW" : "PUBLISHED",
     isAutoGradable: correctLabels.length > 0 && options.length >= 2,
     onlineTest: Boolean(question.online_test),
     optionSplit: Boolean(question.option_split),
@@ -291,4 +320,3 @@ export function normalizeSourceQuestion(question: SourceQuestion, sourceFile: st
     tags: inferTags(question),
   });
 }
-import { applyQuestionReplacement } from "@/lib/question-replacements";

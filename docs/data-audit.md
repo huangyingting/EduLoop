@@ -35,14 +35,16 @@ The source has 27 question-type strings. Normalization reduces them to seven sta
 - Every record has non-empty `answer_info.raw_content`; 43 lack a distinct solution/explanation.
 - 1,698 records lack `question_info.raw_content.answer1`. This is not treated as an error because many written-response questions keep the answer only in `answer_info`.
 - IDs are unique. There are 295 repeated stems, which may represent legitimate grade/source duplication and are retained under their source IDs.
-- Two records contain child questions. The current importer retains the parent but marks it for review rather than silently dropping the nested assessment structure.
-- The bundle has no linked image/media assets. Explicit figure references, `识图作答题`, and `填图题` records are held for review. Inline choices are recovered only when their `A/B/C...` sequence and content are complete.
+- Two source records contain child questions. Their parent records are retained under the stable source IDs and have reviewed, self-contained written-response versions so both sets of learning objectives remain usable.
+- The source bundle has no linked image/media assets. Known figure-dependent records use reviewed textual rewrites or approved generated replacements; unrecognized future figure references remain quarantined by default. Inline choices are recovered only when their `A/B/C...` sequence and content are complete.
 
-Source normalization finds 6,274 questions with high-confidence choice or true/false answer labels; 6,241 of those are published and can be automatically graded. A draft replacement-diagram pilot restores the recorded key and four options for question `8c502ae5d1d18e4743ada96d0adf0ebd`, bringing the imported auto-gradable count to 6,275 while leaving that question in review. The rest use reference-answer self-assessment. Fifty-four records are marked `NEEDS_REVIEW`; 10,295 are eligible for normal practice.
+Source normalization finds 6,280 questions with high-confidence choice or true/false answer labels. The approved replacement for question `8c502ae5d1d18e4743ada96d0adf0ebd` restores its recorded key and four graphical options, bringing the imported auto-gradable count to 6,281. The rest use reference-answer self-assessment. All 10,349 bundled records are published after curation; no bundled record remains in `NEEDS_REVIEW`.
 
-The pilot stores 12 accessible SVG diagrams across nine questions as `GENERATED_REPLACEMENT` assets with `DRAFT` review status. In addition to the four-option vertical-angle question, deterministic stem diagrams cover segment counting, a parallel-line construction, a number-line interval, a parallel-line angle problem, intersecting ellipses, a simple water filter, an ionization smoke detector, and a suspended-lamp force setup. Practice APIs expose only assets marked `APPROVED`, so generated diagrams cannot enter normal practice solely by reseeding the database.
+The catalog stores 12 accessible SVG diagrams across nine questions as `GENERATED_REPLACEMENT` assets with `APPROVED` review status. In addition to the four-option vertical-angle question, reviewed stem diagrams cover segment counting, a parallel-line construction, a number-line interval, a parallel-line angle problem, intersecting ellipses, a simple water filter, an ionization smoke detector, and a suspended-lamp force setup. Practice APIs continue to expose only assets marked `APPROVED`.
 
-A manual pass over all 44 visual-flagged records classified nine as safely reconstructible (the pilot above), nine as underdetermined, and 26 as not requiring a replacement diagram. The underdetermined records are `a5eae64bf9503c4d88947f680c9f693e`, `8ef70fc5c12b82a2932b987dd151b5f0`, `fa36ed2a96f34272a49ee7666d357dc5`, `b7bde20ca0b30a80ac013b03a0166c45`, `b98ed3fc0c4668aec237c6f23a56fd9b`, `4fbc1823c2841d62cc022d75a57e3970`, `3fc1aa35c10d807252936da125cd20c3`, `df56e384715210fbf368b5be54fbda5c`, and `6fb547240738f3873ca0baebb6ef4c74`; their missing source figures encode details that cannot be recovered reliably from the answer. The remaining 26 are self-contained or have textual options and were caught by broad phrases such as `下列图形` or by a source type such as `识图作答题`; they need review-rule refinement rather than invented artwork.
+A manual pass over all 44 visual-flagged records classified nine as safely reconstructible with diagrams, nine as dependent on unrecoverable source figures, and 26 as not requiring a replacement diagram. The 26 self-contained records use explicit reviewed overrides. The nine unrecoverable visual records were rewritten into equivalent self-contained questions using verbal observations, coordinates, equations, or corrected physical setups; their reviewed stems, answers, and explanations are recorded in `src/lib/content-curation.ts`. The conservative visual rule remains in place for new data.
+
+The eight nonvisual records previously held for malformed choices are also usable. Compact `A/B/C/D` markers attached directly to Chinese text are parsed deterministically; three source-specific omissions or duplicate labels have reviewed option corrections; and one five-part source record is retained as a written, self-assessed response rather than being misrepresented as a single choice. Two nested source records likewise use reviewed self-assessed parent versions.
 
 ## Taxonomy strategy
 
@@ -58,7 +60,7 @@ Each question-tag link stores `source` and `confidence`. Current topic/skill tag
 
 ## Recommended next content work
 
-1. Build a review queue for the held records and any questions students report.
+1. Build an operator review queue for newly quarantined imports and questions students report.
 2. Have subject teachers review the highest-volume inferred topics before using them for mastery claims.
 3. Add curriculum version, textbook edition, province, and explicit knowledge-point codes as new tag dimensions when that metadata becomes available.
 4. Add asset ingestion before accepting future diagram-dependent sources.

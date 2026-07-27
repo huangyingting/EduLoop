@@ -1,5 +1,6 @@
-import { ArrowRight, Award, BookOpenCheck, Brain, ChevronRight, Flame, Play, Target, Trophy } from "lucide-react";
+import { ArrowRight, Award, BookOpenCheck, Brain, ChevronRight, Play, Target, Trophy } from "lucide-react";
 import Link from "next/link";
+import { HomeWeeklyProgress } from "@/components/home-weekly-progress";
 import { LearnerHeaderStats } from "@/components/learner-provider";
 import { SubjectCard } from "@/components/subject-card";
 import { SUBJECTS } from "@/lib/content";
@@ -10,7 +11,7 @@ export default function Home() {
   return (
     <div className="mx-auto max-w-[1500px] px-5 pb-20 pt-7 sm:px-8 lg:px-10 lg:pt-9 xl:px-14">
       <header className="flex items-center justify-between">
-        <div><p className="text-xs font-black uppercase tracking-[0.2em] text-violet">Sunday, keep curious</p><h1 className="mt-1 font-display text-2xl font-black tracking-tight text-ink">嗨，今天想探索什么？</h1></div>
+        <div><p className="text-xs font-black uppercase tracking-[0.2em] text-violet">Keep curious, keep growing</p><h1 className="mt-1 font-display text-2xl font-black tracking-tight text-ink">嗨，今天想探索什么？</h1></div>
         <LearnerHeaderStats />
       </header>
 
@@ -54,9 +55,7 @@ export default function Home() {
           <div className="absolute -right-10 -top-10 size-44 rounded-full border-[28px] border-violet/35" />
           <div className="relative"><div className="flex items-center gap-2 text-xs font-black uppercase tracking-[.18em] text-lime"><Award size={18} /> 成长不是一条直线</div><h2 className="mt-4 max-w-xl font-display text-3xl font-black leading-tight">小步练习，清楚反馈，<br />让每次错误都变成线索。</h2><p className="mt-4 max-w-xl text-sm font-medium leading-6 text-white/65">奖励系统关注持续投入与策略改进，不用排名制造压力。完成练习得 XP，连续学习点亮星环，掌握新主题则解锁徽章。</p><Link href="/practice" className="mt-6 inline-flex items-center gap-2 rounded-xl bg-lime px-5 py-3 text-sm font-black text-ink">开始积累第一笔 XP <ArrowRight size={17} /></Link></div>
         </div>
-        <div className="rounded-[30px] border-2 border-ink/10 bg-white p-7 shadow-[0_8px_0_#e3dfd4]">
-          <p className="text-xs font-black uppercase tracking-[.18em] text-violet">本周星环</p><div className="mt-6 flex justify-between">{["一", "二", "三", "四", "五", "六", "日"].map((day, i) => <div key={day} className="text-center"><div className={`grid size-9 place-items-center rounded-full border-2 text-xs font-black ${i === 6 ? "border-ink bg-lime shadow-[2px_2px_0_#242136]" : "border-ink/10 bg-canvas text-muted"}`}>{i === 6 ? "✦" : "·"}</div><p className="mt-2 text-[11px] font-bold text-muted">{day}</p></div>)}</div><div className="mt-7 flex items-center gap-3 rounded-2xl bg-canvas p-4"><span className="grid size-11 place-items-center rounded-xl bg-coral text-white"><Flame /></span><div><p className="text-sm font-black">从今天开始连续学习</p><p className="text-xs font-semibold text-muted">完成 1 题即可点亮今天</p></div></div>
-        </div>
+        <HomeWeeklyProgress />
       </section>
     </div>
   );

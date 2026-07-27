@@ -34,18 +34,18 @@ function sourceQuestion(): SourceQuestion {
 }
 
 describe("vertical-angle replacement diagrams", () => {
-  it("restores answerable options while keeping the replacement in review", () => {
+  it("restores answerable options and publishes the approved replacement", () => {
     const normalized = normalizeSourceQuestion(sourceQuestion(), "mathematics.json");
 
     expect(normalized).toMatchObject({
-      status: "NEEDS_REVIEW",
+      status: "PUBLISHED",
       isAutoGradable: true,
       correctAnswer: '["C"]',
       stem: "下列图中，∠1与∠2属于对顶角的是（ ）．",
     });
     expect(normalized.options.map((option) => option.label)).toEqual(["A", "B", "C", "D"]);
     expect(normalized.assets).toHaveLength(4);
-    expect(normalized.assets.every((asset) => asset.reviewStatus === "DRAFT")).toBe(true);
+    expect(normalized.assets.every((asset) => asset.reviewStatus === "APPROVED")).toBe(true);
     expect(normalized.tags).toEqual(expect.arrayContaining([
       expect.objectContaining({ dimension: "FORMAT", slug: "auto-gradable" }),
       expect.objectContaining({ dimension: "FORMAT", slug: "choice" }),
@@ -62,6 +62,7 @@ describe("vertical-angle replacement diagrams", () => {
 
   it("keeps accessible SVG metadata aligned with the replacement registry", async () => {
     for (const asset of allDiagramReplacements) {
+      expect(asset.reviewStatus).toBe("APPROVED");
       const svg = await readFile(path.join(process.cwd(), "public", asset.path), "utf8");
       expect(svg).toContain(`<desc id="desc">${asset.altText}</desc>`);
       if (asset.relationship) expect(svg).toContain(`data-relationship="${asset.relationship}"`);
@@ -80,9 +81,9 @@ describe("vertical-angle replacement diagrams", () => {
       const source = sourceQuestions.find(({ question }) => question.id === asset.questionId);
       expect(source, `Missing source question ${asset.questionId}`).toBeDefined();
       const normalized = normalizeSourceQuestion(source!.question, source!.filename);
-      expect(normalized.status).toBe("NEEDS_REVIEW");
+      expect(normalized.status).toBe("PUBLISHED");
       expect(normalized.answer).toBe(source!.question.answer_info.raw_content.trim());
-      expect(normalized.assets).toEqual([expect.objectContaining({ role: "STEM", path: asset.path, reviewStatus: "DRAFT" })]);
+      expect(normalized.assets).toEqual([expect.objectContaining({ role: "STEM", path: asset.path, reviewStatus: "APPROVED" })]);
     }
   });
 });

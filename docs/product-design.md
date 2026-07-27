@@ -19,13 +19,14 @@
 4. Submit, then see correctness (where defensible), reference answer, explanation, and XP.
 5. Move to a non-repeating next question and complete a ten-question loop.
 6. Return later to maintain a daily learning streak and deepen topic mastery.
+7. Review mistakes when due; three successful spaced reviews graduate an item.
 
 ## Information architecture
 
 - **Learning hall:** daily target, start CTA, subject tracks, platform coverage, and reward framing.
 - **Practice:** filters, ten-question progress, question, answer interaction, feedback, and explanation.
-- **Growth (next):** activity calendar, subject/topic mastery, recent mistakes, badges.
-- **Review (next):** mistake queue, saved questions, spaced-repetition recommendations.
+- **Growth:** 28-day activity calendar, recent subject accuracy, weak-topic radar, recent mistakes, sessions, and badges.
+- **Review:** due mistake queue, saved questions, and a 1/3/7-day mastery schedule.
 - **Content studio (later):** import batches, validation issues, tag curation, media, publishing.
 
 ## Visual direction
@@ -71,3 +72,7 @@ Avoid competitive rank, punishment language, XP loss, and deceptive urgency. A w
 ## Product success measures
 
 Start with learning-loop health rather than time-on-site: practice starts, questions completed per started session, explanation-open rate after incorrect attempts, seven-day return rate, and topic-level improvement on repeat exposure. Audit answer disputes and question reports as a first-class quality metric.
+
+## Current adaptive behavior
+
+Adaptive mode first selects due review items that match the active filters. If none are due, it selects the learner's lowest-accuracy recently practiced subject when there are at least three graded attempts; otherwise it returns a filtered random question. The reason is shown to the learner in plain language. Topic “mastery” remains a recent-performance signal until curriculum tags are teacher-reviewed.

@@ -7,6 +7,7 @@ Browser
   -> Next.js App Router pages and client practice player
   -> /api/questions/next (filtered selection; answer omitted)
   -> /api/attempts (server-side grading and rewards)
+  -> /api/sessions, /api/review, /api/learner/progress
   -> Prisma Client
   -> SQLite locally / PostgreSQL in production
 
@@ -25,13 +26,16 @@ The question API returns only the stem, options, display metadata, and tags. Cor
 - Options are ordered child rows; answer labels are stored as a small JSON-encoded string because both database providers can handle it without provider-specific array types.
 - Tags are many-to-many and dimensioned. Confidence plus provenance prevents inferred metadata from masquerading as teacher-reviewed truth.
 - Practice attempts are immutable events. `DailyActivity` is a derived aggregate for efficient streak/history displays.
+- `ReviewItem` stores the explainable 1/3/7-day mistake schedule; `SavedQuestion` is independent of correctness.
+- Written attempts are created before the learner sees the reference answer; their nullable correctness is then finalized by an explicit self-assessment update.
+- `QuestionReport` captures anonymous learner feedback for the protected content-review workflow.
 - `LearnerProfile.deviceKey` is an authentication seam. A future identity provider can attach accounts without rewriting question or attempt records.
 
 ## Selection and scaling
 
 The MVP chooses a random offset within the filtered result count and excludes the last eight client-seen IDs. This is simple and adequate for 10k questions. At larger scale, replace offset selection with a precomputed random key or adaptive candidate service; large PostgreSQL offsets should not become the long-term recommendation engine.
 
-The next recommendation layer should consider due review items, topic exposure, recent correctness, difficulty calibration, and content confidence. Keep recommendation output explainable (“reviewing geometry after two misses”), particularly for children.
+The recommendation layer prioritizes due review items and otherwise uses recent subject accuracy. Its output remains explainable (“复习一题到期的薄弱知识”). Future calibration can add topic exposure, response time, and content confidence without changing the question API contract.
 
 ## Database workflow
 
@@ -54,13 +58,12 @@ For a production schema change, update both schemas, run a local migration, gene
 - produces options and inferred tags;
 - preserves full answer and explanation text.
 
-The importer rebuilds `IMPORT`/`RULE` option and tag links but preserves links whose source is `CURATED`; it also does not delete learner history. A future content-admin workflow can therefore promote or add editorial tags without losing them on the next import.
+The importer rebuilds `IMPORT`/`RULE` option and tag links but preserves links whose source is `CURATED`; it also does not delete learner history. A future content-admin workflow can therefore promote or add editorial tags without losing them on the next import. Generated diagram replacements require an explicit `APPROVED` status before the practice API exposes them; all 12 current assets have completed that review. Learner reports are stored separately so content can be corrected without rewriting attempts.
 
-## Near-term production hardening
+## Production boundaries
 
-1. Add real authentication, rate limiting, request logging, and abuse controls to attempt endpoints.
-2. Add an admin-only review/report workflow and schema fields for content revision history.
-3. Validate database schema parity in CI and test imports against representative fixtures.
-4. Add API integration tests against SQLite and PostgreSQL.
-5. Add error monitoring, backups, retention rules, and privacy/consent documentation.
-6. Replace per-attempt badge queries with a reward service or asynchronous event handler as traffic grows.
+- Public mode is intentionally anonymous and uses an unguessable browser device key. Institutional identity, cross-device sync, teacher roles, and guardian consent require an external identity provider and are not silently simulated.
+- Mutation endpoints have per-process protection. Multi-replica deployments must also enforce limits at the trusted ingress or a shared rate-limit service.
+- Errors are emitted as structured JSON through Next.js instrumentation; production must forward stdout/stderr to a monitored log or error service.
+- `/api/health` verifies database readiness. CI checks types, lint, unit tests, content audit, schema parity, and the production build.
+- PostgreSQL migrations, backups, restore drills, HTTPS, secret rotation, and rollback are deployment responsibilities documented in `docs/operations.md`.

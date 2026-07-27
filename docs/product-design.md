@@ -75,4 +75,4 @@ Start with learning-loop health rather than time-on-site: practice starts, quest
 
 ## Current adaptive behavior
 
-Adaptive mode first selects due review items that match the active filters. If none are due, it selects the learner's lowest-accuracy recently practiced subject when there are at least three graded attempts; otherwise it returns a filtered random question. The reason is shown to the learner in plain language. Topic “mastery” remains a recent-performance signal until curriculum tags are teacher-reviewed.
+Adaptive mode first selects due review items that match the active filters. If none are due, it uses a topic with at least three recent graded attempts inside those filters, combining accuracy with a bounded response-time signal. It then falls back to the learner's lowest-accuracy recently practiced subject, or a filtered random question when evidence is sparse. The reason is shown in plain language. Topic “mastery” remains a recent-performance signal until curriculum tags are teacher-reviewed.

@@ -179,6 +179,11 @@ describe("learner API journey", () => {
 
     const updatedProgress = await (await getProgress(new NextRequest(`http://localhost/api/learner/progress?deviceKey=${deviceKey}&timeZone=Asia%2FShanghai`))).json() as { weakTopics: Array<{ slug: string; subject: string }> };
     expect(updatedProgress.weakTopics).toContainEqual(expect.objectContaining({ slug: "integration-arithmetic", subject: "integration-math" }));
+    const topicAdaptive = await (await nextQuestion(new NextRequest(`http://localhost/api/questions/next?subject=integration-math&mode=adaptive&deviceKey=${deviceKey}`))).json() as { id: string; recommendationReason: string };
+    expect(topicAdaptive).toMatchObject({
+      id: choiceId,
+      recommendationReason: "结合最近正确率和答题用时，重点巩固测试运算",
+    });
 
     expect((await getHealth()).status).toBe(200);
   });

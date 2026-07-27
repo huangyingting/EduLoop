@@ -35,7 +35,7 @@ The question API returns only the stem, options, display metadata, and tags. Cor
 
 The MVP chooses a random offset within the filtered result count and excludes the last eight client-seen IDs. This is simple and adequate for 10k questions. At larger scale, replace offset selection with a precomputed random key or adaptive candidate service; large PostgreSQL offsets should not become the long-term recommendation engine.
 
-The recommendation layer prioritizes due review items and otherwise uses recent subject accuracy. Its output remains explainable (“复习一题到期的薄弱知识”). Future calibration can add topic exposure, response time, and content confidence without changing the question API contract.
+The recommendation layer prioritizes due review items, then sufficiently observed topic weakness within the active filters, and finally recent subject accuracy. Topic ranking uses accuracy plus a bounded response-time penalty so slow but correct work can receive more practice without overpowering correctness. Its output remains explainable, and future calibration can add curriculum confidence without changing the question API contract.
 
 ## Database workflow
 

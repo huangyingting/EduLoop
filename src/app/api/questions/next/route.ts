@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { enforceRateLimit } from "@/lib/api";
 import { QUESTION_TYPE_LABELS } from "@/lib/content";
 import { prisma } from "@/lib/prisma";
+import { weakestTopic } from "@/lib/recommendation";
 
 export const dynamic = "force-dynamic";
 
@@ -51,7 +52,33 @@ export async function GET(request: NextRequest) {
     }
   }
 
-  if (learner && mode === "adaptive" && !preferredQuestionId && !params.get("subject")) {
+  if (learner && mode === "adaptive" && !preferredQuestionId && !tagSlugs.length) {
+    const recentTopicAttempts = await prisma.practiceAttempt.findMany({
+      where: { learnerId: learner.id, isCorrect: { not: null }, question: baseWhere },
+      orderBy: { createdAt: "desc" },
+      take: 120,
+      select: {
+        isCorrect: true,
+        secondsSpent: true,
+        question: { select: { tags: {
+          where: { tag: { dimension: { key: "TOPIC" } } },
+          select: { tag: { select: { slug: true, label: true } } },
+        } } },
+      },
+    });
+    const topic = weakestTopic(recentTopicAttempts.flatMap((attempt) => attempt.question.tags.map(({ tag }) => ({
+      slug: tag.slug,
+      label: tag.label,
+      isCorrect: Boolean(attempt.isCorrect),
+      secondsSpent: attempt.secondsSpent,
+    }))));
+    if (topic) {
+      baseWhere.tags = { some: { tag: { slug: topic.slug, dimension: { key: "TOPIC" } } } };
+      recommendationReason = `结合最近正确率和答题用时，重点巩固${topic.label}`;
+    }
+  }
+
+  if (learner && mode === "adaptive" && !preferredQuestionId && !recommendationReason && !params.get("subject")) {
     const recentAttempts = await prisma.practiceAttempt.findMany({
       where: { learnerId: learner.id, isCorrect: { not: null } },
       orderBy: { createdAt: "desc" },

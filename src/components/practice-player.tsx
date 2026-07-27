@@ -4,7 +4,7 @@ import { Bookmark, BookmarkCheck, Check, ChevronRight, CircleAlert, Flag, Flame,
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { getDeviceKey, getTimeZone } from "@/lib/learner";
+import { getDeviceKey, getPracticePreferences, getTimeZone, savePracticePreferences } from "@/lib/learner";
 import { CustomSelect } from "./custom-select";
 import { useLearner } from "./learner-provider";
 import { MathText } from "./math-text";
@@ -94,6 +94,19 @@ export function PracticePlayer() {
   const hintRequest = useRef<AbortController | null>(null);
   const requestGeneration = useRef(0);
 
+  const resolveInitialFilters = useCallback((): PracticeFilters => {
+    const next = { ...getPracticePreferences() };
+    const keys: Array<keyof PracticeFilters> = ["subject", "gradeBand", "grade", "difficulty", "type", "tags"];
+    for (const key of keys) {
+      if (search.has(key)) next[key] = search.get(key) ?? "";
+    }
+    if (search.has("gradeBand") && !search.has("grade")) next.grade = "";
+    if (search.has("subject") && !search.has("tags")) next.tags = "";
+    if (!next.gradeBand) next.grade = "";
+    if (!next.subject) next.tags = "";
+    return next;
+  }, [search]);
+
   const startSession = useCallback(async (nextFilters: typeof filters) => {
     try {
       const response = await fetch("/api/sessions", {
@@ -140,14 +153,17 @@ export function PracticePlayer() {
 
   useEffect(() => {
     const timer = window.setTimeout(() => void (async () => {
-      const session = await startSession(filters);
+      const initialFilters = resolveInitialFilters();
+      setFilters(initialFilters);
+      savePracticePreferences(initialFilters);
+      const session = await startSession(initialFilters);
       const exclusions = session?.recentQuestionIds.slice(0, 20) ?? [];
       if (session?.resumed) {
         setCompleted(session.completedCount);
         setCorrect(session.correctCount);
         setRecent(exclusions.slice(-8));
       }
-      await loadQuestion(filters, exclusions);
+      await loadQuestion(initialFilters, exclusions);
     })(), 0);
     return () => { window.clearTimeout(timer); questionRequest.current?.abort(); hintRequest.current?.abort(); };
     // The initial URL-derived filters are intentionally loaded once.
@@ -187,7 +203,7 @@ export function PracticePlayer() {
       setCatalogLoading(true);
       setCatalogError("");
     }
-    setFilters(next); setRecent([]); setCompleted(0); setCorrect(0); setCombo(0);
+    setFilters(next); savePracticePreferences(next); setRecent([]); setCompleted(0); setCorrect(0); setCombo(0);
     void (async () => { const session = await startSession(next); await loadQuestion(next, session?.recentQuestionIds ?? []); })();
   }
 

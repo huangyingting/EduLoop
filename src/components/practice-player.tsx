@@ -18,7 +18,7 @@ type Question = {
   tags: Array<{ dimension: string; slug: string; label: string }>;
   isSaved: boolean; recommendationReason: string | null;
 };
-type Result = { attemptId: string; isCorrect: boolean | null; correctLabels: string[]; answer: string; explanation: string | null; earnedXp: number; totalXp: number; level: number; currentStreak: number; streakFreezes: number; streakFreezeUsed: boolean; todayAttempts: number; newBadges: Array<{ name: string; icon: string }>; session: { status: string; completedCount: number; questionGoal: number; correctCount: number; earnedXp: number } | null };
+type Result = { attemptId: string; isCorrect: boolean | null; correctLabels: string[]; answer: string; explanation: string | null; earnedXp: number; totalXp: number; level: number; currentStreak: number; streakFreezes: number; streakFreezeUsed: boolean; todayAttempts: number; newBadges: Array<{ name: string; icon: string }>; session: { status: string; completedCount: number; questionGoal: number; correctCount: number; earnedXp: number } | null; replayed: boolean };
 type PracticeFilters = { subject: string; gradeBand: string; grade: string; difficulty: string; type: string; tags: string };
 type PracticeCatalog = {
   subjects: Array<{ slug: string; name: string }>;
@@ -94,6 +94,7 @@ export function PracticePlayer() {
   const questionRequest = useRef<AbortController | null>(null);
   const hintRequest = useRef<AbortController | null>(null);
   const requestGeneration = useRef(0);
+  const clientAttemptId = useRef("");
 
   const resolveInitialFilters = useCallback((): PracticeFilters => {
     const next = { ...getPracticePreferences() };
@@ -143,7 +144,7 @@ export function PracticePlayer() {
       if (!response.ok) throw new Error(response.status === 404 ? "这个组合暂时没有可用题目，换个筛选试试吧。" : "题目加载失败，请稍后再试。");
       const payload = await response.json() as Question;
       if (generation !== requestGeneration.current) return;
-      setQuestion(payload); setRecent((items) => [...items.slice(-7), payload.id]); startedAt.current = Date.now();
+      setQuestion(payload); setRecent((items) => [...items.slice(-7), payload.id]); clientAttemptId.current = crypto.randomUUID(); startedAt.current = Date.now();
     } catch (cause) {
       if (controller.signal.aborted || generation !== requestGeneration.current) return;
       setError(cause instanceof Error ? cause.message : "加载失败");
@@ -239,7 +240,7 @@ export function PracticePlayer() {
     setLoading(true);
     try {
       const response = await fetch("/api/attempts", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({
-        questionId: question.id, deviceKey: getDeviceKey(), timeZone: getTimeZone(), sessionId: sessionId.current ?? undefined, response: question.options.length ? selected : written.trim(), secondsSpent: Math.round((Date.now() - startedAt.current) / 1000),
+        questionId: question.id, deviceKey: getDeviceKey(), timeZone: getTimeZone(), sessionId: sessionId.current ?? undefined, clientAttemptId: clientAttemptId.current, response: question.options.length ? selected : written.trim(), secondsSpent: Math.round((Date.now() - startedAt.current) / 1000),
       }) });
       if (!response.ok) throw new Error("答案提交失败，请再试一次。");
       const payload = await response.json() as Result; setResult(payload); setCompleted((value) => value + 1); applyAttempt(payload);

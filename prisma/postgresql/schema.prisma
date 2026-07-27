@@ -142,25 +142,25 @@ model QuestionTag {
 }
 
 model LearnerProfile {
-  id             String            @id @default(cuid())
-  deviceKey      String            @unique
-  displayName    String?
-  xp             Int               @default(0)
-  level          Int               @default(1)
-  currentStreak  Int               @default(0)
-  bestStreak     Int               @default(0)
-  streakFreezes  Int               @default(1)
+  id               String            @id @default(cuid())
+  deviceKey        String            @unique
+  displayName      String?
+  xp               Int               @default(0)
+  level            Int               @default(1)
+  currentStreak    Int               @default(0)
+  bestStreak       Int               @default(0)
+  streakFreezes    Int               @default(1)
   lastFreezeUsedOn String?
-  lastActiveOn   String?
-  sessions       PracticeSession[]
-  attempts       PracticeAttempt[]
-  badges         LearnerBadge[]
-  activities     DailyActivity[]
-  savedQuestions SavedQuestion[]
-  reviewItems    ReviewItem[]
-  reports        QuestionReport[]
-  createdAt      DateTime          @default(now())
-  updatedAt      DateTime          @updatedAt
+  lastActiveOn     String?
+  sessions         PracticeSession[]
+  attempts         PracticeAttempt[]
+  badges           LearnerBadge[]
+  activities       DailyActivity[]
+  savedQuestions   SavedQuestion[]
+  reviewItems      ReviewItem[]
+  reports          QuestionReport[]
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
 }
 
 model PracticeSession {
@@ -181,19 +181,20 @@ model PracticeSession {
 }
 
 model PracticeAttempt {
-  id             String           @id @default(cuid())
-  learnerId      String
-  sessionId      String?
-  questionId     String
-  response       String
-  isCorrect      Boolean?
-  isSelfAssessed Boolean          @default(false)
-  secondsSpent   Int?
-  earnedXp       Int              @default(0)
-  learner        LearnerProfile   @relation(fields: [learnerId], references: [id], onDelete: Cascade)
-  session        PracticeSession? @relation(fields: [sessionId], references: [id], onDelete: SetNull)
-  question       Question         @relation(fields: [questionId], references: [id])
-  createdAt      DateTime         @default(now())
+  id              String           @id @default(cuid())
+  clientAttemptId String?          @unique
+  learnerId       String
+  sessionId       String?
+  questionId      String
+  response        String
+  isCorrect       Boolean?
+  isSelfAssessed  Boolean          @default(false)
+  secondsSpent    Int?
+  earnedXp        Int              @default(0)
+  learner         LearnerProfile   @relation(fields: [learnerId], references: [id], onDelete: Cascade)
+  session         PracticeSession? @relation(fields: [sessionId], references: [id], onDelete: SetNull)
+  question        Question         @relation(fields: [questionId], references: [id])
+  createdAt       DateTime         @default(now())
 
   @@index([learnerId, createdAt])
   @@index([questionId, isCorrect])

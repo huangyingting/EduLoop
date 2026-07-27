@@ -151,10 +151,14 @@ describe("learner API journey", () => {
     expect(hint.hint).toContain("逐项排除");
     expect(hint.hint).not.toContain("1 + 1 = 2");
 
-    const attemptResponse = await createAttempt(request("http://localhost/api/attempts", "POST", { deviceKey, questionId: choiceId, response: ["A"], sessionId: session.id, timeZone: "Asia/Shanghai" }));
+    const attemptInput = { deviceKey, questionId: choiceId, response: ["A"], sessionId: session.id, timeZone: "Asia/Shanghai", clientAttemptId: "4dd94422-4c24-4f39-a5fc-35f494d31ea2" };
+    const attemptResponse = await createAttempt(request("http://localhost/api/attempts", "POST", attemptInput));
     expect(attemptResponse.status).toBe(200);
     const attempt = await attemptResponse.json() as { isCorrect: boolean; session: { completedCount: number } };
     expect(attempt).toMatchObject({ isCorrect: false, session: { completedCount: 1 } });
+    const replayResponse = await createAttempt(request("http://localhost/api/attempts", "POST", attemptInput));
+    expect(await replayResponse.json()).toMatchObject({ replayed: true, totalXp: 2, session: { completedCount: 1 } });
+    expect(await prisma.practiceAttempt.count({ where: { clientAttemptId: attemptInput.clientAttemptId } })).toBe(1);
 
     expect((await saveQuestion(request("http://localhost/api/review", "POST", { deviceKey, questionId: choiceId, saved: true }))).status).toBe(200);
     const review = await (await getReview(new NextRequest(`http://localhost/api/review?deviceKey=${deviceKey}`))).json() as { dueCount: number; savedCount: number };

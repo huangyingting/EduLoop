@@ -11,6 +11,7 @@ const attemptSchema = z.object({
   response: z.union([z.string().max(5000), z.array(z.string().max(10)).max(8)]),
   secondsSpent: z.number().int().min(0).max(7200).optional(),
   sessionId: z.string().min(8).max(100).optional(),
+  clientAttemptId: z.string().uuid().optional(),
   timeZone: z.string().max(100).optional(),
 });
 
@@ -23,6 +24,50 @@ const selfAssessmentSchema = z.object({
 
 function levelForXp(xp: number) {
   return Math.floor(xp / 120) + 1;
+}
+
+async function replayAttempt(
+  clientAttemptId: string,
+  input: z.infer<typeof attemptSchema>,
+  question: { id: string; correctAnswer: string | null; answer: string; explanation: string | null },
+  today: string,
+) {
+  const attempt = await prisma.practiceAttempt.findUnique({
+    where: { clientAttemptId },
+    include: { learner: true, session: true },
+  });
+  if (!attempt) return null;
+  if (attempt.learner.deviceKey !== input.deviceKey || attempt.questionId !== input.questionId) {
+    return NextResponse.json({ error: "Attempt key already used" }, { status: 409 });
+  }
+  const activity = await prisma.dailyActivity.findUnique({
+    where: { learnerId_activityDate: { learnerId: attempt.learnerId, activityDate: today } },
+  });
+  const correctLabels = question.correctAnswer ? JSON.parse(question.correctAnswer) as string[] : [];
+  return NextResponse.json({
+    attemptId: attempt.id,
+    isCorrect: attempt.isCorrect,
+    correctLabels,
+    answer: question.answer,
+    explanation: question.explanation,
+    earnedXp: attempt.earnedXp,
+    totalXp: attempt.learner.xp,
+    level: levelForXp(attempt.learner.xp),
+    currentStreak: attempt.learner.currentStreak,
+    streakFreezes: attempt.learner.streakFreezes,
+    streakFreezeUsed: false,
+    todayAttempts: activity?.attempts ?? 0,
+    newBadges: [],
+    session: attempt.session ? {
+      id: attempt.session.id,
+      status: attempt.session.status,
+      questionGoal: attempt.session.questionGoal,
+      completedCount: attempt.session.completedCount,
+      correctCount: attempt.session.correctCount,
+      earnedXp: attempt.session.earnedXp,
+    } : null,
+    replayed: true,
+  });
 }
 
 export async function POST(request: Request) {
@@ -47,93 +92,109 @@ export async function POST(request: Request) {
   const today = calendarDay(new Date(), input.timeZone);
   const now = new Date();
 
-  const result = await prisma.$transaction(async (transaction) => {
-    const learner = await transaction.learnerProfile.upsert({
-      where: { deviceKey: input.deviceKey },
-      create: { deviceKey: input.deviceKey },
-      update: {},
-    });
-    const session = input.sessionId ? await transaction.practiceSession.findFirst({
-      where: { id: input.sessionId, learnerId: learner.id, status: "ACTIVE" },
-    }) : null;
-    const activeToday = learner.lastActiveOn === today;
-    const usesFreeze = !activeToday
-      && learner.lastActiveOn === calendarDaysBefore(today, 2)
-      && learner.streakFreezes > 0;
-    const nextStreak = activeToday
-      ? learner.currentStreak
-      : learner.lastActiveOn === previousCalendarDay(today) || usesFreeze ? learner.currentStreak + 1 : 1;
-    const milestoneFreeze = !activeToday && nextStreak > 0 && nextStreak % 7 === 0 ? 1 : 0;
-    const nextStreakFreezes = Math.min(2, learner.streakFreezes - (usesFreeze ? 1 : 0) + milestoneFreeze);
-    const existingReview = isCorrect !== null ? await transaction.reviewItem.findUnique({
-      where: { learnerId_questionId: { learnerId: learner.id, questionId: question.id } },
-    }) : null;
+  if (input.clientAttemptId) {
+    const replay = await replayAttempt(input.clientAttemptId, input, question, today);
+    if (replay) return replay;
+  }
 
-    const attempt = await transaction.practiceAttempt.create({ data: {
-      learnerId: learner.id,
-      sessionId: session?.id,
-      questionId: question.id,
-      response: JSON.stringify(input.response),
-      isCorrect,
-      isSelfAssessed: isCorrect === null,
-      secondsSpent: input.secondsSpent,
-      earnedXp,
-    } });
-    const updatedLearner = await transaction.learnerProfile.update({
-      where: { id: learner.id },
-      data: {
-        xp: { increment: earnedXp },
-        currentStreak: nextStreak,
-        bestStreak: Math.max(learner.bestStreak, nextStreak),
-        streakFreezes: nextStreakFreezes,
-        lastFreezeUsedOn: usesFreeze ? today : learner.lastFreezeUsedOn,
-        lastActiveOn: today,
-      },
-    });
-    const activity = await transaction.dailyActivity.upsert({
-      where: { learnerId_activityDate: { learnerId: learner.id, activityDate: today } },
-      create: { learnerId: learner.id, activityDate: today, attempts: 1, correct: isCorrect ? 1 : 0, earnedXp },
-      update: { attempts: { increment: 1 }, correct: { increment: isCorrect ? 1 : 0 }, earnedXp: { increment: earnedXp } },
-    });
-
-    const shouldUpdateReview = isCorrect === false || Boolean(
-      isCorrect && existingReview?.status === "ACTIVE" && existingReview.dueAt <= now,
-    );
-    if (shouldUpdateReview) {
-      const review = nextReviewState(existingReview, Boolean(isCorrect), now);
-      await transaction.reviewItem.upsert({
-        where: { learnerId_questionId: { learnerId: learner.id, questionId: question.id } },
-        create: { learnerId: learner.id, questionId: question.id, ...review },
-        update: review,
+  let result;
+  try {
+    result = await prisma.$transaction(async (transaction) => {
+      const learner = await transaction.learnerProfile.upsert({
+        where: { deviceKey: input.deviceKey },
+        create: { deviceKey: input.deviceKey },
+        update: {},
       });
-    }
+      const session = input.sessionId ? await transaction.practiceSession.findFirst({
+        where: { id: input.sessionId, learnerId: learner.id, status: "ACTIVE" },
+      }) : null;
+      const activeToday = learner.lastActiveOn === today;
+      const usesFreeze = !activeToday
+        && learner.lastActiveOn === calendarDaysBefore(today, 2)
+        && learner.streakFreezes > 0;
+      const nextStreak = activeToday
+        ? learner.currentStreak
+        : learner.lastActiveOn === previousCalendarDay(today) || usesFreeze ? learner.currentStreak + 1 : 1;
+      const milestoneFreeze = !activeToday && nextStreak > 0 && nextStreak % 7 === 0 ? 1 : 0;
+      const nextStreakFreezes = Math.min(2, learner.streakFreezes - (usesFreeze ? 1 : 0) + milestoneFreeze);
+      const existingReview = isCorrect !== null ? await transaction.reviewItem.findUnique({
+        where: { learnerId_questionId: { learnerId: learner.id, questionId: question.id } },
+      }) : null;
 
-    let sessionProgress = null;
-    if (session) {
-      const updatedSession = await transaction.practiceSession.update({
-        where: { id: session.id },
+      const attempt = await transaction.practiceAttempt.create({ data: {
+        clientAttemptId: input.clientAttemptId,
+        learnerId: learner.id,
+        sessionId: session?.id,
+        questionId: question.id,
+        response: JSON.stringify(input.response),
+        isCorrect,
+        isSelfAssessed: isCorrect === null,
+        secondsSpent: input.secondsSpent,
+        earnedXp,
+      } });
+      const updatedLearner = await transaction.learnerProfile.update({
+        where: { id: learner.id },
         data: {
-          completedCount: { increment: 1 },
-          correctCount: { increment: isCorrect ? 1 : 0 },
-          earnedXp: { increment: earnedXp },
+          xp: { increment: earnedXp },
+          currentStreak: nextStreak,
+          bestStreak: Math.max(learner.bestStreak, nextStreak),
+          streakFreezes: nextStreakFreezes,
+          lastFreezeUsedOn: usesFreeze ? today : learner.lastFreezeUsedOn,
+          lastActiveOn: today,
         },
       });
-      const completed = updatedSession.completedCount >= updatedSession.questionGoal;
-      const finalSession = completed ? await transaction.practiceSession.update({
-        where: { id: session.id }, data: { status: "COMPLETED", completedAt: now },
-      }) : updatedSession;
-      sessionProgress = {
-        id: finalSession.id,
-        status: finalSession.status,
-        questionGoal: finalSession.questionGoal,
-        completedCount: finalSession.completedCount,
-        correctCount: finalSession.correctCount,
-        earnedXp: finalSession.earnedXp,
-      };
-    }
+      const activity = await transaction.dailyActivity.upsert({
+        where: { learnerId_activityDate: { learnerId: learner.id, activityDate: today } },
+        create: { learnerId: learner.id, activityDate: today, attempts: 1, correct: isCorrect ? 1 : 0, earnedXp },
+        update: { attempts: { increment: 1 }, correct: { increment: isCorrect ? 1 : 0 }, earnedXp: { increment: earnedXp } },
+      });
 
-    return { learner, attempt, updatedLearner, activity, nextStreak, usesFreeze, sessionProgress };
-  });
+      const shouldUpdateReview = isCorrect === false || Boolean(
+        isCorrect && existingReview?.status === "ACTIVE" && existingReview.dueAt <= now,
+      );
+      if (shouldUpdateReview) {
+        const review = nextReviewState(existingReview, Boolean(isCorrect), now);
+        await transaction.reviewItem.upsert({
+          where: { learnerId_questionId: { learnerId: learner.id, questionId: question.id } },
+          create: { learnerId: learner.id, questionId: question.id, ...review },
+          update: review,
+        });
+      }
+
+      let sessionProgress = null;
+      if (session) {
+        const updatedSession = await transaction.practiceSession.update({
+          where: { id: session.id },
+          data: {
+            completedCount: { increment: 1 },
+            correctCount: { increment: isCorrect ? 1 : 0 },
+            earnedXp: { increment: earnedXp },
+          },
+        });
+        const completed = updatedSession.completedCount >= updatedSession.questionGoal;
+        const finalSession = completed ? await transaction.practiceSession.update({
+          where: { id: session.id }, data: { status: "COMPLETED", completedAt: now },
+        }) : updatedSession;
+        sessionProgress = {
+          id: finalSession.id,
+          status: finalSession.status,
+          questionGoal: finalSession.questionGoal,
+          completedCount: finalSession.completedCount,
+          correctCount: finalSession.correctCount,
+          earnedXp: finalSession.earnedXp,
+        };
+      }
+
+      return { learner, attempt, updatedLearner, activity, nextStreak, usesFreeze, sessionProgress };
+    });
+  } catch (error) {
+    const uniqueConflict = error && typeof error === "object" && "code" in error && error.code === "P2002";
+    if (uniqueConflict && input.clientAttemptId) {
+      const replay = await replayAttempt(input.clientAttemptId, input, question, today);
+      if (replay) return replay;
+    }
+    throw error;
+  }
 
   const totalXp = result.updatedLearner.xp;
   const level = levelForXp(totalXp);
@@ -181,6 +242,7 @@ export async function POST(request: Request) {
     todayAttempts: result.activity.attempts,
     newBadges,
     session: result.sessionProgress,
+    replayed: false,
   });
 }
 

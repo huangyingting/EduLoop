@@ -25,7 +25,7 @@ The question API returns only the stem, options, display metadata, and tags. Cor
 - Difficulty and normalized question type are portable strings so the model behaves identically on SQLite and PostgreSQL.
 - Options are ordered child rows; answer labels are stored as a small JSON-encoded string because both database providers can handle it without provider-specific array types.
 - Tags are many-to-many and dimensioned. Confidence plus provenance prevents inferred metadata from masquerading as teacher-reviewed truth.
-- Practice attempts are immutable events. `DailyActivity` is a derived aggregate for efficient streak/history displays.
+- Practice attempts are immutable events. A browser-generated unique attempt ID makes network retries idempotent, while `DailyActivity` is a derived aggregate for efficient streak/history displays.
 - `ReviewItem` stores the explainable 1/3/7-day mistake schedule; `SavedQuestion` is independent of correctness.
 - Written attempts are created before the learner sees the reference answer; their nullable correctness is then finalized by an explicit self-assessment update.
 - `QuestionReport` captures anonymous learner feedback for the protected content-review workflow.

@@ -19,6 +19,7 @@
     "data:audit": "node scripts/analyze-data.mjs",
     "data:audit:amc": "node scripts/audit-amc-data.mjs",
     "data:audit:amc:zh": "node scripts/audit-amc-translations.mjs",
+    "data:verify": "npm run data:audit && npm run data:audit:amc && npm run data:audit:amc:zh",
     "data:assets:amc": "node scripts/localize-amc-assets.mjs",
     "data:dedupe:amc": "node scripts/dedupe-amc-data.mjs",
     "data:scrape:amc8": "tsx scripts/scrape-amc.ts --competition amc8",

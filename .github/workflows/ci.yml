@@ -29,7 +29,7 @@ jobs:
       - run: npm run typecheck
       - run: npm run lint
       - run: npm run schema:check
-      - run: npm run data:audit
+      - run: npm run data:verify
       - run: npm run seed:verify
       - run: npm run build
       - run: docker build -t eduloop:ci .

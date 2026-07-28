@@ -34,7 +34,7 @@ npm run test:integration
 npm run typecheck
 npm run lint
 npm run schema:check
-npm run data:audit
+npm run data:verify
 npm run seed:verify
 npm run build
 ```
@@ -43,4 +43,4 @@ Before production traffic, also verify the PostgreSQL migration on a disposable 
 
 ## Content Launch Boundary
 
-Only `PUBLISHED` questions and `APPROVED` assets are served. All 10,349 bundled questions and 12 generated diagrams have passed the repository's content-repair checks and are available; new uncertain imports still default to quarantine. Inferred topic tags support discovery but must not be advertised as formal curriculum mastery.
+Only `PUBLISHED` questions and `APPROVED` assets are served. All 13,812 bundled questions and 12 generated diagrams have passed the repository's content-repair checks and are available; new uncertain imports still default to quarantine. `npm run data:verify` checks the generic source contract, AMC archive integrity, and Simplified Chinese math/figure parity. Inferred topic tags support discovery but must not be advertised as formal curriculum mastery.

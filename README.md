@@ -45,6 +45,7 @@ npm run data:assets:amc  # download/deduplicate figures and rewrite local paths
 npm run data:audit:amc   # verify slots, keys, figures, and duplicates
 npm run data:translate:amc # regenerate the default Simplified Chinese AMC archives
 npm run data:audit:amc:zh # verify translated IDs, answers, math, and figures
+npm run data:verify      # run every source and translated-content gate
 npm run difficulty:audit # verify every imported difficulty assessment
 npm run seed:verify    # import into a fresh database and verify catalog counts
 npm run reports:review -- list # inspect the trusted content-report queue
@@ -77,7 +78,7 @@ The included multi-stage `Dockerfile` builds the PostgreSQL Prisma client and Ne
 
 ## Adding question content
 
-Place another `.json` file with the same source contract in `data/zh-CN/`, then run `npm run data:audit` and `npm run db:seed`. Put translated source material under its BCP 47 locale directory and keep matching filenames and stable IDs across locales. The normalization boundary is [content.ts](./src/lib/content.ts): add aliases there when a new provider uses different subject, grade, difficulty, or type labels. See [the content layout](./data/README.md) for the directory contract.
+Place another `.json` file with the same source contract in `data/zh-CN/`, then run `npm run data:verify` and `npm run db:seed`. Put translated source material under its BCP 47 locale directory and keep matching filenames and stable IDs across locales. Stable source IDs prevent duplicates. The normalization boundary is [content.ts](./src/lib/content.ts): add aliases there when a new provider uses different subject, grade, difficulty, or type labels. Add source-specific invariants to `data:verify` so CI enforces them alongside the generic audit. See [the content layout](./data/README.md) for the directory contract.
 
 For curated taxonomy, add or update `Tag` and `QuestionTag` rows through Prisma. Curated tags should use `source = "CURATED"` and confidence `1`; the importer currently produces deterministic `RULE` and `IMPORT` tags. A future admin workflow can manage these rows without changing the question table.
 

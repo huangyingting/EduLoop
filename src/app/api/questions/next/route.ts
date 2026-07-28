@@ -1,7 +1,7 @@
-import type { Prisma } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import { enforceRateLimit } from "@/lib/api";
 import { QUESTION_TYPE_LABELS } from "@/lib/content";
+import { parseQuestionFilters, questionWhere } from "@/lib/question-filters";
 import { prisma } from "@/lib/prisma";
 import { weakestTopic } from "@/lib/recommendation";
 import { findLearnerForRequest } from "@/lib/learner-identity";
@@ -9,23 +9,12 @@ import { findLearnerForRequest } from "@/lib/learner-identity";
 export const dynamic = "force-dynamic";
 
 export async function GET(request: NextRequest) {
-  const params = request.nextUrl.searchParams;
-  const mode = params.get("mode");
-  const deviceKey = params.get("deviceKey");
+  const filters = parseQuestionFilters(request.nextUrl.searchParams);
+  if (!filters) return NextResponse.json({ error: "Invalid question filters" }, { status: 400 });
+  const { deviceKey, excluded, mode, tagSlugs } = filters;
   const limited = enforceRateLimit(request, "questions", deviceKey || "anonymous", 120);
   if (limited) return limited;
-  const excluded = (params.get("exclude") ?? "").split(",").filter(Boolean).slice(0, 20);
-  const tagSlugs = (params.get("tags") ?? "").split(",").filter(Boolean).slice(0, 8);
-  const baseWhere: Prisma.QuestionWhereInput = {
-    status: "PUBLISHED",
-    ...(params.get("subject") ? { subject: { slug: params.get("subject")! } } : {}),
-    ...(params.get("gradeBand") ? { gradeBand: { slug: params.get("gradeBand")! } } : {}),
-    ...(params.get("grade") ? { grade: { slug: params.get("grade")! } } : {}),
-    ...(params.get("difficulty") ? { difficulty: params.get("difficulty")! } : {}),
-    ...(params.get("type") ? { type: params.get("type")! } : {}),
-    ...(params.get("autoGradable") === "true" ? { isAutoGradable: true } : {}),
-    ...(tagSlugs.length ? { tags: { some: { tag: { slug: { in: tagSlugs } } } } } : {}),
-  };
+  const baseWhere = questionWhere(filters);
   const learner = deviceKey && deviceKey.length >= 8
     ? await findLearnerForRequest(request, deviceKey)
     : null;
@@ -79,7 +68,7 @@ export async function GET(request: NextRequest) {
     }
   }
 
-  if (learner && mode === "adaptive" && !preferredQuestionId && !recommendationReason && !params.get("subject")) {
+  if (learner && mode === "adaptive" && !preferredQuestionId && !recommendationReason && !filters.subject) {
     const recentAttempts = await prisma.practiceAttempt.findMany({
       where: { learnerId: learner.id, isCorrect: { not: null } },
       orderBy: { createdAt: "desc" },
@@ -103,7 +92,7 @@ export async function GET(request: NextRequest) {
     }
   }
 
-  let where: Prisma.QuestionWhereInput = preferredQuestionId
+  let where = preferredQuestionId
     ? { ...baseWhere, id: preferredQuestionId }
     : excluded.length ? { ...baseWhere, id: { notIn: excluded } } : baseWhere;
   let count = await prisma.question.count({ where });

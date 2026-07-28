@@ -22,12 +22,12 @@ async function postRegistration(request: Request) {
   if (limited) return limited;
   const passwordHash = await hashPassword(input.password);
 
-  let user: { id: string; email: string; displayName: string | null };
+  let user: { id: string; email: string; displayName: string | null; role: string };
   try {
     user = await prisma.$transaction(async (transaction) => {
       const created = await transaction.user.create({
         data: { email, passwordHash, displayName: input.displayName ?? null },
-        select: { id: true, email: true, displayName: true },
+        select: { id: true, email: true, displayName: true, role: true },
       });
       await attachLearnerToNewUser(transaction, created.id, input.deviceKey, created.displayName);
       return created;

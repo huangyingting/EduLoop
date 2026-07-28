@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { getDeviceKey } from "@/lib/learner";
+import type { SessionUser } from "@/lib/auth";
 import { safeReturnPath } from "@/lib/auth-validation";
 import { setAuthenticatedUser } from "@/lib/use-auth";
 
@@ -35,7 +36,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
           ...(isLogin ? {} : { displayName: displayName.trim() || undefined }),
         }),
       });
-      const body = await response.json() as { user?: { id: string; email: string; displayName: string | null }; error?: string };
+      const body = await response.json() as { user?: SessionUser; error?: string };
       if (!response.ok || !body.user) throw new Error(body.error ?? "暂时无法登录，请稍后重试。");
       setAuthenticatedUser(body.user);
       router.push(next);

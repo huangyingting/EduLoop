@@ -16,6 +16,7 @@ EduLoop is a Chinese-language practice app for primary, middle, and high school 
 - Adaptive practice that prioritizes due reviews and recently weak subjects
 - Growth dashboard with a 28-day activity map, subject signals, topic radar, and badge shelf
 - Question-quality reports, learner-data export/deletion, health checks, security headers, and bounded APIs
+- Role-protected content review workspace with immediate quarantine and an attributable action history
 - Responsive, keyboard-friendly student dashboard and practice experience
 
 ## Run locally
@@ -49,6 +50,7 @@ npm run data:verify      # run every source and translated-content gate
 npm run difficulty:audit # verify every imported difficulty assessment
 npm run seed:verify    # import into a fresh database and verify catalog counts
 npm run reports:review -- list # inspect the trusted content-report queue
+npm run users:role -- editor@example.com CONTENT_EDITOR # grant review workspace access
 npm run schema:check   # ensure SQLite/PostgreSQL models still match
 npm run db:studio      # inspect the local database
 npm run test           # normalization unit tests
@@ -58,7 +60,7 @@ npm run lint
 npm run build
 ```
 
-The main student routes are `/practice`, `/progress`, and `/review`; `/login` and `/register` add optional cross-device sync. `/api/health` is the deployment readiness probe.
+The main student routes are `/practice`, `/progress`, and `/review`; `/login` and `/register` add optional cross-device sync. Authorized content editors use `/studio`; `/api/health` is the deployment readiness probe.
 
 ## PostgreSQL production deployment
 

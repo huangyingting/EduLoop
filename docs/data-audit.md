@@ -70,8 +70,7 @@ Each question-tag link stores `source` and `confidence`. Current topic/skill tag
 
 ## Recommended next content work
 
-1. Build an operator review queue for newly quarantined imports and questions students report.
-2. Have subject teachers review the highest-volume inferred topics before using them for mastery claims.
-3. Add curriculum version, textbook edition, province, and explicit knowledge-point codes as new tag dimensions when that metadata becomes available.
-4. Keep asset localization and integrity auditing mandatory for future diagram-dependent sources.
-5. Introduce semantic duplicate detection; do not deduplicate on exact stem alone.
+1. Have subject teachers review the highest-volume inferred topics before using them for mastery claims; use the protected studio for reported-question triage.
+2. Add curriculum version, textbook edition, province, and explicit knowledge-point codes as new tag dimensions when that metadata becomes available.
+3. Keep asset localization and integrity auditing mandatory for future diagram-dependent sources.
+4. Introduce semantic duplicate detection; do not deduplicate on exact stem alone.

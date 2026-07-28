@@ -22,7 +22,7 @@ async function postLogin(request: Request) {
 
   const user = await prisma.user.findUnique({
     where: { email },
-    select: { id: true, email: true, displayName: true, passwordHash: true },
+    select: { id: true, email: true, displayName: true, role: true, passwordHash: true },
   });
   const valid = user
     ? await verifyPassword(input.password, user.passwordHash)
@@ -40,7 +40,7 @@ async function postLogin(request: Request) {
   await linkLearnerToUser(user.id, input.deviceKey);
   await createSession(user.id);
   return NextResponse.json({
-    user: { id: user.id, email: user.email, displayName: user.displayName },
+    user: { id: user.id, email: user.email, displayName: user.displayName, role: user.role },
   }, { headers: { "Cache-Control": "no-store" } });
 }
 

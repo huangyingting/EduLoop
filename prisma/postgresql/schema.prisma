@@ -147,14 +147,18 @@ model QuestionTag {
 }
 
 model User {
-  id           String         @id @default(cuid())
-  email        String         @unique
-  passwordHash String
-  displayName  String?
-  learner      LearnerProfile?
-  sessions     AuthSession[]
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
+  id            String                @id @default(cuid())
+  email         String                @unique
+  passwordHash  String
+  displayName   String?
+  role          String                @default("LEARNER")
+  learner       LearnerProfile?
+  sessions      AuthSession[]
+  reviewActions ContentReviewAction[]
+  createdAt     DateTime              @default(now())
+  updatedAt     DateTime              @updatedAt
+
+  @@index([role])
 }
 
 model AuthSession {
@@ -295,18 +299,33 @@ model ReviewItem {
 }
 
 model QuestionReport {
-  id         String         @id @default(cuid())
-  learnerId  String
-  questionId String
-  category   String
-  detail     String?
-  status     String         @default("OPEN")
-  learner    LearnerProfile @relation(fields: [learnerId], references: [id], onDelete: Cascade)
-  question   Question       @relation(fields: [questionId], references: [id], onDelete: Cascade)
-  createdAt  DateTime       @default(now())
-  updatedAt  DateTime       @updatedAt
-  resolvedAt DateTime?
+  id            String                @id @default(cuid())
+  learnerId     String
+  questionId    String
+  category      String
+  detail        String?
+  status        String                @default("OPEN")
+  learner       LearnerProfile        @relation(fields: [learnerId], references: [id], onDelete: Cascade)
+  question      Question              @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  reviewActions ContentReviewAction[]
+  createdAt     DateTime              @default(now())
+  updatedAt     DateTime              @updatedAt
+  resolvedAt    DateTime?
 
   @@index([questionId, status, createdAt])
   @@index([learnerId, createdAt])
+}
+
+model ContentReviewAction {
+  id        String         @id @default(cuid())
+  reportId  String
+  actorId   String?
+  action    String
+  note      String?
+  report    QuestionReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  actor     User?          @relation(fields: [actorId], references: [id], onDelete: SetNull)
+  createdAt DateTime       @default(now())
+
+  @@index([reportId, createdAt])
+  @@index([actorId, createdAt])
 }

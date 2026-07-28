@@ -2,6 +2,7 @@ import { createHash, randomBytes } from "node:crypto";
 import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
+export { isContentOperator } from "@/lib/user-roles";
 
 export const SESSION_COOKIE = "eduloop_session";
 export const SESSION_DURATION_DAYS = 30;
@@ -12,6 +13,7 @@ export type SessionUser = {
   id: string;
   email: string;
   displayName: string | null;
+  role: string;
 };
 
 export function hashSessionToken(token: string) {
@@ -92,7 +94,7 @@ export async function getSessionUser(request: Request): Promise<SessionUser | nu
     select: {
       id: true,
       expiresAt: true,
-      user: { select: { id: true, email: true, displayName: true } },
+      user: { select: { id: true, email: true, displayName: true, role: true } },
     },
   });
   if (!session) return null;

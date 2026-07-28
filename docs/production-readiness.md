@@ -17,6 +17,7 @@ School-managed accounts are a separate launch mode. Before using accounts with s
 | Learners control learning data | `/privacy`, export, and `DELETE /api/learner` cascade deletion |
 | Account sessions are revocable | hashed `AuthSession` rows and an HttpOnly logout flow |
 | Content problems can be surfaced | `QuestionReport` and in-practice feedback form |
+| Content reports can be triaged safely | role-protected `/studio`, immediate quarantine, immutable `ContentReviewAction` history |
 | Both databases stay portable | paired schemas and migration stages enforced by `npm run schema:check` |
 | Failures are diagnosable | `/api/health`, structured request errors, error boundaries |
 | Supply and build are repeatable | lockfile, CI workflow, standalone Dockerfile |

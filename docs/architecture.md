@@ -40,6 +40,7 @@ The catalog API discovers every filterable tag dimension from the database, so n
 - `ReviewItem` stores the explainable 1/3/7-day mistake schedule; `SavedQuestion` is independent of correctness. Review lists and counts honor the same `PUBLISHED` boundary as question serving.
 - Written attempts are created before the learner sees the reference answer; their nullable correctness is then finalized by an explicit self-assessment update.
 - `QuestionReport` captures learner feedback for the protected content-review workflow.
+- `ContentReviewAction` is an immutable operator trail for quarantine, resolution, and reopening. Public registration always receives `LEARNER`; only trusted operators can assign `CONTENT_EDITOR` or `ADMIN`.
 - `LearnerProfile` has one optional unique `User`. Guests resolve by `deviceKey`; authenticated requests resolve by the hashed database session and `userId` instead of trusting that client key.
 - Registering links the current guest profile. Logging into an established account merges unowned guest activity into its profile while preserving dependent attempts, sessions, daily activity, badges, saved questions, reviews, and reports.
 
@@ -74,7 +75,7 @@ The importer rebuilds `IMPORT`/`RULE` option and tag links but preserves links w
 
 ## Production boundaries
 
-- Public mode supports anonymous use and optional first-party email/password accounts. Institutional identity, verified guardian consent, teacher roles, password recovery, and school lifecycle management remain separate launch requirements.
+- Public mode supports anonymous use and optional first-party email/password accounts. Content roles are assigned only through the trusted operator CLI and gate `/studio` plus its API. Institutional identity, verified guardian consent, teacher/guardian roles, password recovery, and school lifecycle management remain separate launch requirements.
 - Mutation endpoints have per-process protection. Multi-replica deployments must also enforce limits at the trusted ingress or a shared rate-limit service.
 - Errors are emitted as structured JSON through Next.js instrumentation; production must forward stdout/stderr to a monitored log or error service.
 - `/api/health` verifies database readiness. CI checks types, lint, unit tests, content audit, schema parity, and the production build.

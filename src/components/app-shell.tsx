@@ -1,6 +1,6 @@
 "use client";
 
-import { BarChart3, BookmarkCheck, Compass, Flame, Home, LogIn, LogOut, Menu, ShieldCheck, Sparkles, Target, X } from "lucide-react";
+import { BarChart3, BookmarkCheck, ClipboardCheck, Compass, Flame, Home, LogIn, LogOut, Menu, ShieldCheck, Sparkles, Target, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -8,6 +8,7 @@ import { LearnerProvider, useLearner } from "./learner-provider";
 import { Logo } from "./logo";
 import { useAuth } from "@/lib/use-auth";
 import { rotateDeviceKey } from "@/lib/learner";
+import { isContentOperator } from "@/lib/user-roles";
 
 const links = [
   { href: "/", label: "学习大厅", icon: Home },
@@ -29,6 +30,9 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
   const navigation = useRef<HTMLElement>(null);
   const { stats } = useLearner();
   const auth = useAuth();
+  const navigationLinks = isContentOperator(auth.user)
+    ? [...links, { href: "/studio", label: "内容审核台", icon: ClipboardCheck }]
+    : links;
   const remainingToday = Math.max(10 - stats.todayAttempts, 0);
   useEffect(() => {
     const media = window.matchMedia("(min-width: 1024px)");
@@ -85,7 +89,7 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
       <aside ref={navigation} id="primary-navigation" aria-label="主要导航" aria-hidden={!desktopNavigation && !open} inert={!desktopNavigation && !open} className={`${open ? "translate-x-0" : "-translate-x-full"} fixed inset-y-0 left-0 z-50 flex w-[270px] flex-col overflow-y-auto border-r border-ink/10 bg-[#fbfaf6] px-5 py-6 transition-transform lg:translate-x-0`}>
         <div className="px-2"><Logo /></div>
         <nav aria-label="学习功能" className="mt-12 space-y-2">
-          {links.map(({ href, label, icon: Icon }) => {
+          {navigationLinks.map(({ href, label, icon: Icon }) => {
             const active = href === "/" ? pathname === "/" : href.includes("#") ? false : pathname.startsWith(href);
             return (
               <Link key={label} href={href} onClick={() => setOpen(false)} aria-current={active ? "page" : undefined} className={`flex items-center gap-3 rounded-2xl px-4 py-3.5 text-[15px] font-bold transition ${active ? "bg-ink text-white shadow-[0_5px_0_#d9d3f5]" : "text-muted hover:bg-white hover:text-ink"}`}>

@@ -26,6 +26,7 @@ Application limits are a single-process safety net. Configure the trusted ingres
 - reports: 6 per device/IP per 10 minutes.
 - login: 10 attempts per email/IP per 15 minutes;
 - registration: 5 attempts per email/IP per 15 minutes.
+- studio review: 180 reads and 60 transitions per operator/IP per 10 minutes.
 
 Periodically delete expired `AuthSession` rows if login traffic is too low for opportunistic pruning. A suspected session compromise should revoke the affected rows; a database credential compromise requires revoking all sessions and rotating database credentials.
 
@@ -35,15 +36,23 @@ Take encrypted daily PostgreSQL backups with 30-day retention and point-in-time 
 
 ## Content Incidents
 
-Learner reports enter `QuestionReport` as `OPEN`. Content operators review them using a protected database/admin tool, validate the original source, update normalization or curated records, then mark reports `RESOLVED` with `resolvedAt`. Urgent harmful or unanswerable content should be changed to `NEEDS_REVIEW` immediately and re-imported only after correction.
+Learner reports enter `QuestionReport` as `OPEN`. Content operators use the role-protected `/studio` workspace to inspect the complete question context, quarantine unsafe content, and record a resolution. Each transition creates an immutable `ContentReviewAction`; the API never returns learner identity. Validate the original source and update normalization or curated records before resolving a genuine defect.
 
-Run the repository CLI only from a trusted operator terminal connected to the intended database:
+Public registration always creates `LEARNER` accounts. Grant or revoke studio access only from a trusted operator terminal connected to the intended database:
+
+```bash
+npm run users:role -- editor@example.com CONTENT_EDITOR
+npm run users:role -- editor@example.com LEARNER
+npm run users:role # list current content operators
+```
+
+The report CLI remains available for incident response when the web application is unavailable:
 
 ```bash
 npm run reports:review -- list --status=OPEN --limit=25
 npm run reports:review -- show REPORT_ID
 npm run reports:review -- quarantine REPORT_ID
-npm run reports:review -- resolve REPORT_ID
+npm run reports:review -- resolve REPORT_ID --note="verified against source"
 ```
 
 `quarantine` removes the reported question from practice but deliberately leaves the report open. Correct the source normalization or curated replacement, run the content checks, re-import, verify the question, and only then resolve the report. The CLI never prints learner device keys.

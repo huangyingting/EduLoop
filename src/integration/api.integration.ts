@@ -11,6 +11,7 @@ import { GET as nextQuestion } from "@/app/api/questions/next/route";
 import { POST as createReport } from "@/app/api/reports/route";
 import { GET as getReview, POST as saveQuestion } from "@/app/api/review/route";
 import { POST as createSession } from "@/app/api/sessions/route";
+import { GET as getStudioReports, PATCH as updateStudioReport } from "@/app/api/studio/reports/route";
 import { prisma } from "@/lib/prisma";
 import { changeAccountPassword, deleteAccount } from "@/lib/account";
 import { calendarDay, calendarDaysBefore } from "@/lib/dates";
@@ -38,6 +39,10 @@ const authLearnerKey = "account_integration_device";
 const authGuestKey = "guest_auth_integration_device";
 const lifecycleUserId = "integration-lifecycle-user";
 const lifecycleLearnerKey = "account_lifecycle_integration";
+const studioOperatorId = "integration-studio-operator";
+const studioLearnerId = "integration-studio-learner";
+const studioReporterKey = "guest_studio_reporter";
+const studioReportId = "integration-studio-report";
 
 function request(url: string, method: string, body: unknown) {
   return new Request(url, { method, headers, body: JSON.stringify(body) });
@@ -77,8 +82,8 @@ beforeAll(async () => {
 afterAll(async () => {
   await prisma.learnerProfile.deleteMany({ where: { deviceKey: { in: [authLearnerKey, authGuestKey] } } });
   await prisma.learnerProfile.deleteMany({ where: { deviceKey: lifecycleLearnerKey } });
-  await prisma.user.deleteMany({ where: { id: { in: [authUserId, lifecycleUserId] } } });
-  await prisma.learnerProfile.deleteMany({ where: { deviceKey: { in: [deviceKey, shieldDeviceKey, concurrentDeviceKey] } } });
+  await prisma.user.deleteMany({ where: { id: { in: [authUserId, lifecycleUserId, studioOperatorId, studioLearnerId] } } });
+  await prisma.learnerProfile.deleteMany({ where: { deviceKey: { in: [deviceKey, shieldDeviceKey, concurrentDeviceKey, studioReporterKey] } } });
   await prisma.question.deleteMany({ where: { id: { in: [choiceId, writtenId, scienceQuestionId] } } });
   await prisma.badge.deleteMany({ where: { id: "integration-badge" } });
   await prisma.tag.deleteMany({ where: { id: { in: [mathTopicId, scienceTopicId, mathSkillId] } } });
@@ -393,6 +398,73 @@ describe("learner API journey", () => {
     const health = await getHealth(new Request("http://localhost/api/health", { headers }));
     expect(health.status).toBe(200);
     expect(health.headers.get("x-request-id")).toBeTruthy();
+  });
+
+  it("protects the content report queue and records operator review actions", async () => {
+    const reporter = await prisma.learnerProfile.create({ data: { deviceKey: studioReporterKey } });
+    await prisma.questionReport.create({ data: {
+      id: studioReportId,
+      learnerId: reporter.id,
+      questionId: choiceId,
+      category: "WRONG_ANSWER",
+      detail: "测试报告详情",
+    } });
+    await prisma.user.createMany({ data: [
+      { id: studioOperatorId, email: "studio-operator@example.com", passwordHash: "unused", role: "CONTENT_EDITOR" },
+      { id: studioLearnerId, email: "studio-learner@example.com", passwordHash: "unused", role: "LEARNER" },
+    ] });
+    const operatorToken = "integration-studio-operator-token";
+    const learnerToken = "integration-studio-learner-token";
+    await prisma.authSession.createMany({ data: [
+      { userId: studioOperatorId, tokenHash: hashSessionToken(operatorToken), expiresAt: new Date(Date.now() + 60_000) },
+      { userId: studioLearnerId, tokenHash: hashSessionToken(learnerToken), expiresAt: new Date(Date.now() + 60_000) },
+    ] });
+
+    expect((await getStudioReports(new NextRequest("http://localhost/api/studio/reports"))).status).toBe(401);
+    expect((await getStudioReports(new NextRequest("http://localhost/api/studio/reports", {
+      headers: { cookie: `${SESSION_COOKIE}=${learnerToken}` },
+    }))).status).toBe(403);
+
+    const operatorHeaders = { ...headers, cookie: `${SESSION_COOKIE}=${operatorToken}` };
+    const queueResponse = await getStudioReports(new NextRequest("http://localhost/api/studio/reports?status=OPEN", { headers: operatorHeaders }));
+    expect(queueResponse.status).toBe(200);
+    const queue = await queueResponse.json() as { reports: Array<Record<string, unknown>>; counts: { open: number } };
+    expect(queue.reports).toContainEqual(expect.objectContaining({ id: studioReportId, detail: "测试报告详情" }));
+    expect(JSON.stringify(queue)).not.toContain(studioReporterKey);
+    expect(JSON.stringify(queue.reports.find(({ id }) => id === studioReportId))).not.toContain("learnerId");
+
+    const invalidResolution = await updateStudioReport(new NextRequest("http://localhost/api/studio/reports", {
+      method: "PATCH", headers: operatorHeaders, body: JSON.stringify({ reportId: studioReportId, action: "RESOLVE" }),
+    }));
+    expect(invalidResolution.status).toBe(400);
+
+    try {
+      const quarantine = await updateStudioReport(new NextRequest("http://localhost/api/studio/reports", {
+        method: "PATCH", headers: operatorHeaders, body: JSON.stringify({ reportId: studioReportId, action: "QUARANTINE", note: "等待核对原始答案" }),
+      }));
+      expect(quarantine.status).toBe(200);
+      expect(await prisma.question.findUniqueOrThrow({ where: { id: choiceId } })).toMatchObject({ status: "NEEDS_REVIEW" });
+      expect((await nextQuestion(new NextRequest(`http://localhost/api/questions/next?questionId=${choiceId}`))).status).toBe(404);
+
+      const resolved = await updateStudioReport(new NextRequest("http://localhost/api/studio/reports", {
+        method: "PATCH", headers: operatorHeaders, body: JSON.stringify({ reportId: studioReportId, action: "RESOLVE", note: "已依据源文件核对并登记修复" }),
+      }));
+      expect(resolved.status).toBe(200);
+      expect(await resolved.json()).toMatchObject({ report: { id: studioReportId, status: "RESOLVED" } });
+
+      const resolvedQueue = await getStudioReports(new NextRequest("http://localhost/api/studio/reports?status=RESOLVED", { headers: operatorHeaders }));
+      const resolvedBody = await resolvedQueue.json() as { reports: Array<{ id: string; reviewActions: Array<{ action: string; actor: { email: string } | null }> }> };
+      const reviewed = resolvedBody.reports.find(({ id }) => id === studioReportId);
+      expect(reviewed?.reviewActions.map(({ action }) => action)).toEqual(["RESOLVE", "QUARANTINE"]);
+      expect(reviewed?.reviewActions[0].actor?.email).toBe("studio-operator@example.com");
+
+      expect((await updateStudioReport(new NextRequest("http://localhost/api/studio/reports", {
+        method: "PATCH", headers: operatorHeaders, body: JSON.stringify({ reportId: studioReportId, action: "REOPEN", note: "需要补充复核" }),
+      }))).status).toBe(200);
+      expect(await prisma.questionReport.findUniqueOrThrow({ where: { id: studioReportId } })).toMatchObject({ status: "OPEN", resolvedAt: null });
+    } finally {
+      await prisma.question.update({ where: { id: choiceId }, data: { status: "PUBLISHED" } });
+    }
   });
 
   it("requires explicit self-assessment for written work and supports data deletion", async () => {

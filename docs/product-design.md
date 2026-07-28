@@ -9,7 +9,7 @@
 - Primary students need larger targets, fewer simultaneous controls, short language, and strong but calm visual feedback.
 - Middle school students need fast topic review and enough explanation to diagnose a misconception.
 - High school students need precise filtering, dependable formula rendering, and low-friction long-form work.
-- Teachers/content editors are a later secondary audience. Their first workflow should be review, correction, and curation—not a general CMS.
+- Content editors are a protected secondary audience. Their first workflow is report triage, immediate quarantine, and auditable resolution—not a general CMS.
 
 ## Core journey
 
@@ -27,7 +27,7 @@
 - **Practice:** filters, ten-question progress, question, answer interaction, feedback, and explanation.
 - **Growth:** 28-day activity calendar, recent subject accuracy, weak-topic radar, recent mistakes, sessions, and badges.
 - **Review:** due mistake queue, saved questions, and a 1/3/7-day mastery schedule.
-- **Content studio (later):** import batches, validation issues, tag curation, media, publishing.
+- **Content studio:** role-protected learner-report triage, full question context, immediate quarantine, and an action history. Import batches, tag curation, media, and publishing remain later extensions.
 
 ## Visual direction
 
@@ -58,7 +58,7 @@ Rewards reinforce behavior a student controls:
 - Badges for first practice, a ten-answer correct run, and one hundred attempts.
 - Ten-question progress gives sessions a clear end.
 
-Avoid competitive rank, punishment language, XP loss, and deceptive urgency. A wrong answer is framed as a clue and always paired with an explanation where available. Future streaks should include grace/freeze mechanics so missing a day does not feel catastrophic.
+Avoid competitive rank, punishment language, XP loss, and deceptive urgency. A wrong answer is framed as a clue and always paired with an explanation where available. A streak shield absorbs one missed day so a short interruption does not feel catastrophic.
 
 ## Accessibility and safety
 

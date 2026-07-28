@@ -15,6 +15,10 @@ function requireIdentifier() {
   return identifier;
 }
 
+function reviewNote(fallback: string) {
+  return safeText(options.get("note") ?? fallback, 500);
+}
+
 async function listReports() {
   const status = options.get("status") === "RESOLVED" ? "RESOLVED" : "OPEN";
   const requestedLimit = Number(options.get("limit") ?? 25);
@@ -42,7 +46,10 @@ async function listReports() {
 async function showReport() {
   const report = await prisma.questionReport.findUnique({
     where: { id: requireIdentifier() },
-    include: { question: { include: { subject: true, grade: true, options: { orderBy: { sortOrder: "asc" } } } } },
+    include: {
+      question: { include: { subject: true, grade: true, options: { orderBy: { sortOrder: "asc" } } } },
+      reviewActions: { orderBy: { createdAt: "desc" }, include: { actor: { select: { email: true } } } },
+    },
   });
   if (!report) throw new Error("Report not found.");
   console.log(JSON.stringify({
@@ -51,6 +58,12 @@ async function showReport() {
     category: report.category,
     detail: safeText(report.detail, 1000),
     createdAt: report.createdAt,
+    reviewActions: report.reviewActions.map((action) => ({
+      action: action.action,
+      note: action.note,
+      actor: action.actor?.email ?? "trusted CLI",
+      createdAt: action.createdAt,
+    })),
     question: {
       id: report.question.id,
       status: report.question.status,
@@ -67,18 +80,36 @@ async function showReport() {
 }
 
 async function resolveReport() {
-  const result = await prisma.questionReport.updateMany({
-    where: { id: requireIdentifier(), status: "OPEN" },
-    data: { status: "RESOLVED", resolvedAt: new Date() },
+  const reportId = requireIdentifier();
+  const result = await prisma.$transaction(async (transaction) => {
+    const updated = await transaction.questionReport.updateMany({
+      where: { id: reportId, status: "OPEN" },
+      data: { status: "RESOLVED", resolvedAt: new Date() },
+    });
+    if (!updated.count) return false;
+    await transaction.contentReviewAction.create({
+      data: { reportId, action: "RESOLVE", note: reviewNote("Resolved from the trusted operator CLI") },
+    });
+    return true;
   });
-  if (!result.count) throw new Error("Open report not found.");
+  if (!result) throw new Error("Open report not found.");
   console.log(`Resolved report ${identifier}.`);
 }
 
 async function quarantineQuestion() {
-  const report = await prisma.questionReport.findUnique({ where: { id: requireIdentifier() }, select: { questionId: true } });
+  const reportId = requireIdentifier();
+  const report = await prisma.questionReport.findUnique({ where: { id: reportId }, select: { questionId: true, status: true } });
   if (!report) throw new Error("Report not found.");
-  await prisma.question.update({ where: { id: report.questionId }, data: { status: "NEEDS_REVIEW" } });
+  if (report.status !== "OPEN") throw new Error("Only an open report can quarantine a question.");
+  const changed = await prisma.$transaction(async (transaction) => {
+    const updated = await transaction.question.updateMany({ where: { id: report.questionId, status: "PUBLISHED" }, data: { status: "NEEDS_REVIEW" } });
+    if (!updated.count) return false;
+    await transaction.contentReviewAction.create({
+      data: { reportId, action: "QUARANTINE", note: reviewNote("Quarantined from the trusted operator CLI") },
+    });
+    return true;
+  });
+  if (!changed) throw new Error("Question is already quarantined or unavailable.");
   console.log(`Question ${report.questionId} is quarantined. The report remains open until the content fix is verified.`);
 }
 

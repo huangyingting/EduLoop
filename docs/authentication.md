@@ -13,7 +13,7 @@ Merging preserves profile totals and moves sessions, attempts, reports, badges, 
 
 ## Session security
 
-The browser receives a random 256-bit `eduloop_session` token in an `HttpOnly`, `SameSite=Lax`, path-wide cookie that is `Secure` in production and expires after 30 days. Only its SHA-256 hash is stored in `AuthSession`; logout and cascade deletion revoke rows. Auth mutations reject cross-origin requests and login/register have per-process IP/email rate limits.
+The browser receives a random 256-bit `eduloop_session` token in an `HttpOnly`, `SameSite=Lax`, path-wide cookie that is `Secure` in production and expires after 30 days. Only its SHA-256 hash is stored in `AuthSession`; logout and cascade deletion revoke rows. Each account keeps at most 10 active sessions, with the oldest sessions revoked when a new one is created. Successful login transparently upgrades password hashes whose bcrypt cost is below the current policy. Auth mutations reject cross-origin requests and login/register have per-process IP/email rate limits.
 
 Production must terminate HTTPS and enforce shared rate limits when running multiple replicas. Password recovery, email verification, OAuth, MFA, school roles, and guardian-consent records are intentionally deferred and must be added before school-managed identity rollout.
 

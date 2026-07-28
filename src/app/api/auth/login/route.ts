@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { enforceRateLimit } from "@/lib/api";
-import { createSession, hashPassword, verifyPassword } from "@/lib/auth";
+import { createSession, hashPassword, passwordHashNeedsUpgrade, verifyPassword } from "@/lib/auth";
 import { isSameOriginRequest, loginInputSchema, normalizeEmail } from "@/lib/auth-validation";
 import { linkLearnerToUser } from "@/lib/learner-identity";
 import { prisma } from "@/lib/prisma";
@@ -31,6 +31,12 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "邮箱或密码不正确。" }, { status: 401 });
   }
 
+  if (passwordHashNeedsUpgrade(user.passwordHash)) {
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { passwordHash: await hashPassword(input.password) },
+    });
+  }
   await linkLearnerToUser(user.id, input.deviceKey);
   await createSession(user.id);
   return NextResponse.json({

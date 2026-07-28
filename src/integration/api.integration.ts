@@ -13,7 +13,7 @@ import { GET as getReview, POST as saveQuestion } from "@/app/api/review/route";
 import { POST as createSession } from "@/app/api/sessions/route";
 import { prisma } from "@/lib/prisma";
 import { calendarDay, calendarDaysBefore } from "@/lib/dates";
-import { getSessionUser, hashSessionToken, SESSION_COOKIE } from "@/lib/auth";
+import { createSessionRecord, getSessionUser, hashSessionToken, MAX_ACTIVE_SESSIONS, SESSION_COOKIE } from "@/lib/auth";
 import { linkLearnerToUser } from "@/lib/learner-identity";
 
 const deviceKey = "guest_integration_device";
@@ -116,6 +116,12 @@ describe("learner API journey", () => {
     expect(await getSessionUser(authenticatedRequest)).toMatchObject({ id: authUserId, email: "integration@example.com" });
     const response = await getLearner(authenticatedRequest);
     expect(await response.json()).toMatchObject({ xp: 33, level: 1 });
+
+    for (let index = 0; index < MAX_ACTIVE_SESSIONS + 2; index += 1) {
+      await createSessionRecord(authUserId, new Date(Date.now() + index));
+    }
+    expect(await prisma.authSession.count({ where: { userId: authUserId } })).toBe(MAX_ACTIVE_SESSIONS);
+    expect(await prisma.authSession.findUnique({ where: { tokenHash: hashSessionToken(token) } })).toBeNull();
   });
 
   it("uses a streak shield after exactly one missed calendar day", async () => {

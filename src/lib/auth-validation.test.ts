@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { isSameOriginRequest, normalizeEmail, registerInputSchema, safeReturnPath } from "./auth-validation";
-import { hashSessionToken } from "./auth";
+import { PASSWORD_HASH_COST, hashSessionToken, passwordHashNeedsUpgrade } from "./auth";
 
 describe("authentication helpers", () => {
   it("normalizes email addresses", () => {
@@ -32,5 +32,12 @@ describe("authentication helpers", () => {
       password: "学".repeat(25),
       deviceKey: "guest_test_device",
     }).success).toBe(false);
+  });
+
+  it("upgrades old or unrecognized password hashes without downgrading stronger hashes", () => {
+    expect(passwordHashNeedsUpgrade(`$2b$${PASSWORD_HASH_COST - 1}$placeholder`)).toBe(true);
+    expect(passwordHashNeedsUpgrade(`$2b$${PASSWORD_HASH_COST}$placeholder`)).toBe(false);
+    expect(passwordHashNeedsUpgrade(`$2b$${PASSWORD_HASH_COST + 1}$placeholder`)).toBe(false);
+    expect(passwordHashNeedsUpgrade("legacy-hash")).toBe(true);
   });
 });

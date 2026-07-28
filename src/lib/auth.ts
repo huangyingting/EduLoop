@@ -5,6 +5,8 @@ import { prisma } from "@/lib/prisma";
 
 export const SESSION_COOKIE = "eduloop_session";
 export const SESSION_DURATION_DAYS = 30;
+export const MAX_ACTIVE_SESSIONS = 10;
+export const PASSWORD_HASH_COST = 12;
 
 export type SessionUser = {
   id: string;
@@ -17,11 +19,16 @@ export function hashSessionToken(token: string) {
 }
 
 export async function hashPassword(password: string) {
-  return bcrypt.hash(password, 12);
+  return bcrypt.hash(password, PASSWORD_HASH_COST);
 }
 
 export async function verifyPassword(password: string, passwordHash: string) {
   return bcrypt.compare(password, passwordHash);
+}
+
+export function passwordHashNeedsUpgrade(passwordHash: string) {
+  const match = passwordHash.match(/^\$2[aby]\$(\d{2})\$/);
+  return !match || Number(match[1]) < PASSWORD_HASH_COST;
 }
 
 function cookieValue(request: Request, name: string) {
@@ -34,14 +41,29 @@ function cookieValue(request: Request, name: string) {
   return null;
 }
 
-export async function createSession(userId: string) {
+export async function createSessionRecord(userId: string, now = new Date()) {
   const token = randomBytes(32).toString("base64url");
-  const now = new Date();
   const expiresAt = new Date(now.getTime() + SESSION_DURATION_DAYS * 24 * 60 * 60 * 1000);
-  await prisma.authSession.deleteMany({ where: { expiresAt: { lte: now } } });
-  await prisma.authSession.create({
-    data: { tokenHash: hashSessionToken(token), userId, expiresAt },
+  await prisma.$transaction(async (transaction) => {
+    await transaction.authSession.deleteMany({ where: { expiresAt: { lte: now } } });
+    const overflow = await transaction.authSession.findMany({
+      where: { userId, expiresAt: { gt: now } },
+      orderBy: { createdAt: "desc" },
+      skip: MAX_ACTIVE_SESSIONS - 1,
+      select: { id: true },
+    });
+    if (overflow.length) {
+      await transaction.authSession.deleteMany({ where: { id: { in: overflow.map(({ id }) => id) } } });
+    }
+    await transaction.authSession.create({
+      data: { tokenHash: hashSessionToken(token), userId, expiresAt, createdAt: now },
+    });
   });
+  return { token, expiresAt };
+}
+
+export async function createSession(userId: string) {
+  const { token, expiresAt } = await createSessionRecord(userId);
   const store = await cookies();
   store.set(SESSION_COOKIE, token, {
     httpOnly: true,

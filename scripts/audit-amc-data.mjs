@@ -66,6 +66,9 @@ for (const { filename, question } of records) {
   if (content.some((value) => !value)) issues.push("missing content");
   if (!/^[A-E]$/.test(raw.answer1 ?? "") || question.answer_info?.raw_content !== raw.answer1) issues.push("invalid answer key");
   if (solutionFingerprints.length !== new Set(solutionFingerprints).size) issues.push("duplicate solution");
+  if (content.some((value) => /problems and solutions on this page are the property of the MAA/i.test(String(value)))) {
+    issues.push("source attribution boilerplate");
+  }
   if (content.some((value) => [...String(value).matchAll(/(?<!\\)\$/g)].length % 2 !== 0)) issues.push("unbalanced math");
   if (content.some((value) => /\[(?:asy|tikz)[\s\S]*?\[\/(?:asy|tikz)\]/i.test(value))) issues.push("unrendered figure source");
   if (issues.length) invalid.push({ filename, id: question.id, paper: question.paper, issues });

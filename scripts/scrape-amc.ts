@@ -298,6 +298,18 @@ function absoluteAssetUrl(source: string) {
   return source;
 }
 
+const AMC_SOURCE_ATTRIBUTION = /(?:---\s*)?\*?The problems and solutions on this page are the property of the MAA's (?:American Mathematics Competitions|\[American Mathematics Competitions\]\(https?:\/\/[^)]+\))\*?(?:Your content here)?/gi;
+
+function stripSourceBoilerplate(value: string) {
+  return value
+    .replace(AMC_SOURCE_ATTRIBUTION, "")
+    .replace(/[ \t]+\n/g, "\n")
+    .replace(/\n[ \t]+/g, "\n")
+    .replace(/[ \t]{2,}/g, " ")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+
 function textFromHtml(html: string) {
   const $ = load(`<div id="extract-root">${html}</div>`, undefined, false);
   const root = $("#extract-root");
@@ -313,7 +325,7 @@ function textFromHtml(html: string) {
   root.find("br").replaceWith("\n");
   root.find("td,th").each((_, cell) => { $(cell).append(" | "); });
   root.find("p,li,dl,dd,dt,tr,table,blockquote,h3,h4,pre").each((_, block) => { $(block).append("\n"); });
-  return root.text()
+  return stripSourceBoilerplate(root.text()
     .replace(/\\\(([\s\S]*?)\\\)/g, (_, math: string) => `$${math}$`)
     .replace(/\\\[([\s\S]*?)\\\]/g, (_, math: string) => `$${math}$`)
     .replace(/\$\\\$\$(\d+(?:\.\d+)?)\$/g, "\\\$$1")
@@ -321,8 +333,7 @@ function textFromHtml(html: string) {
     .replace(/[ \t]+\n/g, "\n")
     .replace(/\n[ \t]+/g, "\n")
     .replace(/[ \t]{2,}/g, " ")
-    .replace(/\n{3,}/g, "\n\n")
-    .trim();
+    .replace(/\n{3,}/g, "\n\n"));
 }
 
 type Marker = { label: string; start: number; end: number };
@@ -519,7 +530,7 @@ function textFromRandomMath(root: ReturnType<CheerioAPI>) {
   });
   root.find("br").replaceWith("\n");
   root.find("p,li,table,tr,h1,h2,h3,h4,blockquote").each((_, block) => { root.find(block).append("\n"); });
-  return root.text()
+  return stripSourceBoilerplate(root.text()
     .replace(/\u00a0/g, " ")
     .replace(/\bSuppose that\s+Suppose that\b/g, "Suppose that")
     .replace(/\bdi erence(s?)\b/gi, "difference$1")
@@ -531,8 +542,7 @@ function textFromRandomMath(root: ReturnType<CheerioAPI>) {
     .replace(/[ \t]+\n/g, "\n")
     .replace(/\n[ \t]+/g, "\n")
     .replace(/[ \t]{2,}/g, " ")
-    .replace(/\n{3,}/g, "\n\n")
-    .trim();
+    .replace(/\n{3,}/g, "\n\n"));
 }
 
 function parseRandomMathProblem(html: string) {
@@ -690,15 +700,14 @@ function textFromPoshenLohSource(value: string) {
   });
   root.find("br").replaceWith("\n");
   root.find("p,li,table,tr,blockquote").each((_, block) => { $(block).append("\n"); });
-  return root.text()
+  return stripSourceBoilerplate(root.text()
     .replace(/\\\(([\s\S]*?)\\\)/g, (_, math: string) => `$${math}$`)
     .replace(/\\\[([\s\S]*?)\\\]/g, (_, math: string) => `$${math}$`)
     .replace(/\u00a0/g, " ")
     .replace(/[ \t]+\n/g, "\n")
     .replace(/\n[ \t]+/g, "\n")
     .replace(/[ \t]{2,}/g, " ")
-    .replace(/\n{3,}/g, "\n\n")
-    .trim();
+    .replace(/\n{3,}/g, "\n\n"));
 }
 
 function parsePoshenLohProblem(html: string) {

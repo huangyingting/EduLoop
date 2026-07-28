@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { apiError, apiHandler } from "@/lib/api";
-import { calendarDay, previousCalendarDay } from "@/lib/dates";
+import { calendarDay, previousCalendarDay, visibleStreak } from "@/lib/dates";
 import { prisma } from "@/lib/prisma";
 import { findLearnerForRequest } from "@/lib/learner-identity";
 
@@ -82,9 +82,7 @@ async function getLearnerProgress(request: NextRequest) {
   }
 
   const today = calendarDay(new Date(), parsed.data.timeZone);
-  const currentStreak = learner.lastActiveOn === today || learner.lastActiveOn === previousCalendarDay(today)
-    ? learner.currentStreak
-    : 0;
+  const currentStreak = visibleStreak(learner, today);
   const activityByDay = new Map(activities.map((item) => [item.activityDate, item]));
   const days: string[] = [];
   let cursor = today;

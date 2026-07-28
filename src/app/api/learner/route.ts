@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { calendarDay, calendarDaysBefore, previousCalendarDay } from "@/lib/dates";
+import { calendarDay, visibleStreak } from "@/lib/dates";
 import { apiError, apiHandler, enforceRateLimit } from "@/lib/api";
 import { prisma } from "@/lib/prisma";
 import { findLearnerForRequest } from "@/lib/learner-identity";
@@ -21,12 +21,7 @@ async function getLearner(request: NextRequest) {
   const activity = await prisma.dailyActivity.findUnique({
     where: { learnerId_activityDate: { learnerId: learner.id, activityDate: today } },
   });
-  const streakIsProtected = learner.lastActiveOn === calendarDaysBefore(today, 2) && learner.streakFreezes > 0;
-  const currentStreak = learner.lastActiveOn === today
-    || learner.lastActiveOn === previousCalendarDay(today)
-    || streakIsProtected
-    ? learner.currentStreak
-    : 0;
+  const currentStreak = visibleStreak(learner, today);
   return NextResponse.json({
     xp: learner.xp, level: Math.floor(learner.xp / 120) + 1,
     currentStreak, bestStreak: learner.bestStreak,

@@ -53,7 +53,7 @@ Chinese system fonts are preferred to avoid a font download blocking first paint
 Rewards reinforce behavior a student controls:
 
 - XP for every honest attempt; more for correct answers and more difficult questions.
-- A daily streak for returning, not a public leaderboard.
+- A daily streak for returning, not a public leaderboard; every dashboard uses the same shield-aware projection during a protected gap.
 - A session combo for immediate momentum.
 - Badges for first practice, a ten-answer correct run, and one hundred attempts.
 - Ten-question progress gives sessions a clear end.

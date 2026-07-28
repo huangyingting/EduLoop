@@ -159,6 +159,15 @@ describe("learner API journey", () => {
       lastActiveOn: calendarDaysBefore(today, 2),
     } });
 
+    const projectedHeader = await getLearner(new NextRequest(
+      `http://localhost/api/learner?deviceKey=${shieldDeviceKey}&timeZone=Asia%2FShanghai`,
+    ));
+    expect(await projectedHeader.json()).toMatchObject({ currentStreak: 5, streakFreezes: 1 });
+    const projectedProgress = await getProgress(new NextRequest(
+      `http://localhost/api/learner/progress?deviceKey=${shieldDeviceKey}&timeZone=Asia%2FShanghai`,
+    ));
+    expect(await projectedProgress.json()).toMatchObject({ summary: { currentStreak: 5 } });
+
     const response = await createAttempt(request("http://localhost/api/attempts", "POST", {
       deviceKey: shieldDeviceKey,
       questionId: choiceId,

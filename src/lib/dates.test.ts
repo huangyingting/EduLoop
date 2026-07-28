@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { calendarDay, calendarDaysBefore, normalizeTimeZone, previousCalendarDay } from "./dates";
+import { calendarDay, calendarDaysBefore, normalizeTimeZone, previousCalendarDay, visibleStreak } from "./dates";
 
 describe("learner calendar days", () => {
   it("uses the learner timezone around local midnight", () => {
@@ -20,5 +20,12 @@ describe("learner calendar days", () => {
   it("normalizes invalid day offsets", () => {
     expect(calendarDaysBefore("2026-07-27", -2)).toBe("2026-07-27");
     expect(calendarDaysBefore("2026-07-27", 1.9)).toBe("2026-07-26");
+  });
+
+  it("projects the same visible streak through a one-day shield gap", () => {
+    const learner = { currentStreak: 5, lastActiveOn: "2026-07-25", streakFreezes: 1 };
+    expect(visibleStreak(learner, "2026-07-27")).toBe(5);
+    expect(visibleStreak({ ...learner, streakFreezes: 0 }, "2026-07-27")).toBe(0);
+    expect(visibleStreak(learner, "2026-07-28")).toBe(0);
   });
 });

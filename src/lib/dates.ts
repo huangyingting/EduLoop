@@ -27,3 +27,13 @@ export function calendarDaysBefore(day: string, days: number) {
   date.setUTCDate(date.getUTCDate() - Math.max(0, Math.trunc(days)));
   return date.toISOString().slice(0, 10);
 }
+
+export function visibleStreak(
+  learner: { currentStreak: number; lastActiveOn: string | null; streakFreezes: number },
+  today: string,
+) {
+  const activeOrProtected = learner.lastActiveOn === today
+    || learner.lastActiveOn === previousCalendarDay(today)
+    || (learner.lastActiveOn === calendarDaysBefore(today, 2) && learner.streakFreezes > 0);
+  return activeOrProtected ? learner.currentStreak : 0;
+}

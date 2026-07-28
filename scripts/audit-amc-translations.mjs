@@ -1,4 +1,5 @@
 import { readFile } from "node:fs/promises";
+import { knownMathTranslation, latexMathStructure, latexTextContents, protectedLatexSegments } from "./amc-latex.mjs";
 import { collection, localeFileUrl } from "./content-manifest.mjs";
 
 const { files: FILES, sourceLocale: SOURCE_LOCALE, translatedLocales: [TRANSLATED_LOCALE] } = collection("amc");
@@ -14,7 +15,9 @@ function mathDelimiterCount(value) {
 }
 
 function mathBlocks(value) {
-  return [...String(value).matchAll(/\$\$[\s\S]*?\$\$|(?<!\\)\$(?!\$)(?:\\.|[^$])*?(?<!\\)\$/g)].map((match) => match[0]);
+  return protectedLatexSegments(value)
+    .filter(({ kind }) => kind !== "figure")
+    .map(({ kind, value: block }) => (kind === "asy" ? block : latexMathStructure(block)));
 }
 
 function mathBlockMultiset(value) {
@@ -61,12 +64,21 @@ for (const filename of FILES) {
       if (mathDelimiterCount(after) % 2 !== 0) {
         errors.push(`${filename}/${original.id}: unbalanced math delimiters in field ${field}`);
       }
-      // Chinese grammar can legitimately reorder quantities around nouns. Compare
-      // exact block multiplicities so reordering passes while mutations, losses,
+      // Chinese grammar can legitimately reorder quantities around nouns and
+      // translate prose inside LaTeX text commands. Compare structural block
+      // multiplicities so those language changes pass while mutations, losses,
       // and duplicated formulas still fail.
       if (mathBlockMultiset(before) !== mathBlockMultiset(after)) {
         errors.push(`${filename}/${original.id}: math content changed in field ${field}`);
       }
+      const sourceLatexText = latexTextContents(before);
+      const translatedLatexText = latexTextContents(after);
+      sourceLatexText.forEach((sourceText, textIndex) => {
+        const expected = knownMathTranslation(sourceText);
+        if (expected !== undefined && translatedLatexText[textIndex] !== expected) {
+          errors.push(`${filename}/${original.id}: math term ${JSON.stringify(sourceText)} mistranslated in field ${field}`);
+        }
+      });
       if (JSON.stringify(figures(before)) !== JSON.stringify(figures(after))) {
         errors.push(`${filename}/${original.id}: figure references changed in field ${field}`);
       }

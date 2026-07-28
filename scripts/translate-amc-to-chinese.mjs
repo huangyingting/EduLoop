@@ -1,24 +1,75 @@
 import { createHash } from "node:crypto";
 import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { knownMathTranslation, protectedLatexSegments, replaceProtectedLatex, transformLatexText } from "./amc-latex.mjs";
 import { collection, localeDirectory } from "./content-manifest.mjs";
 
 const { files: FILES, sourceLocale: SOURCE_LOCALE, translatedLocales: [TRANSLATED_LOCALE] } = collection("amc");
 const SOURCE_DIRECTORY = localeDirectory(SOURCE_LOCALE);
 const OUTPUT_DIRECTORY = localeDirectory(TRANSLATED_LOCALE);
 const CACHE_FILE = path.resolve(process.cwd(), ".cache/amc-zh-CN-translations.json");
-const ENDPOINT = "https://clients5.google.com/translate_a/t";
+const ENDPOINTS = [
+  "https://translate.google.com/translate_a/single?client=gtx&sl=en&tl=zh-CN&dt=t",
+  "https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=zh-CN&dt=t",
+  "https://clients5.google.com/translate_a/t?client=it&sl=en&tl=zh-CN",
+];
 const MAX_REQUEST_CHARACTERS = 3_800;
 const MAX_UNIT_CHARACTERS = 2_800;
-const MIN_REQUEST_INTERVAL_MS = 500;
-const PROTECTED_CONTENT = /(\$\$[\s\S]*?\$\$|(?<!\\)\$(?!\$)(?:\\.|[^$])*?(?<!\\)\$|\[Figure:\s*[^\]]+\])/g;
+const MIN_REQUEST_INTERVAL_MS = 100;
 const EXACT_PROTECTION_MARKER = /⟪P(\d+)Q⟫/g;
-const MANGLED_TRANSLATION_MARKER = /(?<!⟪)P\d+Q|A+(?:ZERO|ONE|TWO|THREE|FOUR|FIVE|SIX|SEVEN|EIGHT|NINE)+A+/i;
+const EXACT_LATEX_TEXT_MARKER = /⟪L(\d+)Q⟫/g;
+const LATEX_TEXT_SYNTAX = /\\[$%&#_]\s*[0-9.,]*|\\[A-Za-z]+/g;
+const MANGLED_TRANSLATION_MARKER = /(?<!⟪)[PL]\d+Q|A+(?:ZERO|ONE|TWO|THREE|FOUR|FIVE|SIX|SEVEN|EIGHT|NINE)+A+/i;
 const USER_CONTENT_KEYS = ["title", "option_a", "option_b", "option_c", "option_d", "option_e"];
+const LOCAL_TRANSLATIONS = new Map([
+  ["in All Rows", "在所有行中"],
+  ["of the time", "的时间"],
+  ["~ Lion08 ~Theoneandonlymathman - Grammar mistakes", "~ Lion08 ~Theoneandonlymathman - Grammar mistakes"],
+  ["~ cxsmi", "~ cxsmi"],
+  ["~aop2014", "~aop2014"],
+  ["~ AVRILAVIGNE", "~ AVRILAVIGNE"],
+  ["~ab2024", "~ab2024"],
+  ["~songmath20 Edited 5.1.2023", "~songmath20 Edited 5.1.2023"],
+  ["~mathfan2020", "~mathfan2020"],
+  ["~Ethanzhang1001", "~Ethanzhang1001"],
+  ["~evanhliu2009", "~evanhliu2009"],
+  ["~ eevee9406", "~ eevee9406"],
+  ["~jb2015007", "~jb2015007"],
+]);
+
+function localTranslation(source) {
+  const knownMath = knownMathTranslation(source);
+  if (knownMath !== undefined) return knownMath;
+  const exact = LOCAL_TRANSLATIONS.get(source);
+  if (exact !== undefined) return exact;
+  let match;
+  if ((match = source.match(/^the first height is 21 (⟪L\d+Q⟫)more than the second$/))) {
+    return `第一个高度比第二个高21${match[1]}`;
+  }
+  if (/^Leonard⟪L\d+Q⟫my⟪L\d+Q⟫dude$/.test(source)) return source;
+  if ((match = source.match(/^Liliane has 20(⟪L\d+Q⟫)more soda than Alice$/))) {
+    return `莉莉安的苏打水比爱丽丝多20${match[1]}`;
+  }
+  if ((match = source.match(/^Case (⟪L\d+Q⟫)(: )?$/))) return `情况 ${match[1]}${match[2] ?? ""}`;
+  if ((match = source.match(/^(⟪L\d+Q⟫)of Students$/))) return `${match[1]}名学生`;
+  if ((match = source.match(/^(⟪L\d+Q⟫)codes$/))) return `${match[1]}个代码`;
+  if ((match = source.match(/^(⟪L\d+Q⟫)favorable permutations$/))) return `${match[1]}个有利排列`;
+  if ((match = source.match(/^\((⟪L\d+Q⟫) each\)$/))) return `（每个${match[1]}）`;
+  if ((match = source.match(/^(⟪L\d+Q⟫)of Ways$/))) return `${match[1]}种方式`;
+  if ((match = source.match(/^(⟪L\d+Q⟫)of Tenors$/))) return `${match[1]}位男高音`;
+  if ((match = source.match(/^(⟪L\d+Q⟫)of Basses$/))) return `${match[1]}位男低音`;
+  if ((match = source.match(/^(⟪L\d+Q⟫)of Groups$/))) return `${match[1]}个组`;
+  if ((match = source.match(/^Evaluate (⟪L\d+Q⟫)of Groups$/))) return `计算${match[1]}个组`;
+  return undefined;
+}
 
 let nextProtectionId = 0;
+let nextLatexTextProtectionId = 0;
 let nextRequestAt = 0;
+let googleUnavailableUntil = 0;
+let bingSession;
 const protections = new Map();
+const latexTextProtections = new Map();
 const units = [];
 const unitIds = new Map();
 
@@ -38,13 +89,60 @@ function protectionIds(value) {
   return [...value.matchAll(EXACT_PROTECTION_MARKER)].map((match) => Number(match[1])).sort((left, right) => left - right);
 }
 
+function latexTextProtectionIds(value) {
+  return [...value.matchAll(EXACT_LATEX_TEXT_MARKER)].map((match) => Number(match[1])).sort((left, right) => left - right);
+}
+
 function hasMatchingProtectionMarkers(source, translated) {
   return JSON.stringify(protectionIds(source)) === JSON.stringify(protectionIds(translated))
+    && JSON.stringify(latexTextProtectionIds(source)) === JSON.stringify(latexTextProtectionIds(translated))
     && !MANGLED_TRANSLATION_MARKER.test(translated);
 }
 
+function repairTranslationMarkers(source, translated) {
+  let repaired = translated.replace(/[\u200B-\u200D\u2060\uFEFF]/g, "");
+  const expected = [...source.matchAll(/⟪([PLB])(\d+)Q⟫/g)];
+  for (const [, prefix, id] of expected) {
+    const damaged = new RegExp(`(?:⟪)?${prefix}\\s*${id.split("").join("\\s*")}\\s*Q(?:⟫)?`, "g");
+    repaired = repaired.replace(damaged, `⟪${prefix}${id}Q⟫`);
+  }
+  return repaired;
+}
+
+function canonicalProtectionMarkers(value) {
+  return value.replace(/⟪([PL])\d+Q⟫/g, "⟪$1#Q⟫");
+}
+
+function migrateProtectionMarkerCache(cache) {
+  const byCanonicalSource = new Map();
+  for (const [source, translated] of cache) {
+    const canonical = canonicalProtectionMarkers(source);
+    if (!byCanonicalSource.has(canonical)) byCanonicalSource.set(canonical, { source, translated });
+  }
+  let migrated = 0;
+  for (const unit of new Set(units)) {
+    if (cache.has(unit)) continue;
+    const previous = byCanonicalSource.get(canonicalProtectionMarkers(unit));
+    if (!previous) continue;
+    const oldMarkers = [...previous.source.matchAll(/⟪([PL])(\d+)Q⟫/g)];
+    const newMarkers = [...unit.matchAll(/⟪([PL])(\d+)Q⟫/g)];
+    if (oldMarkers.length !== newMarkers.length) continue;
+    let translated = previous.translated;
+    let compatible = true;
+    oldMarkers.forEach((oldMarker, index) => {
+      const newMarker = newMarkers[index];
+      if (oldMarker[1] !== newMarker[1]) compatible = false;
+      translated = translated.replaceAll(oldMarker[0], newMarker[0]);
+    });
+    if (!compatible || !translated.trim() || !hasMatchingProtectionMarkers(unit, translated)) continue;
+    cache.set(unit, translated);
+    migrated += 1;
+  }
+  return migrated;
+}
+
 function protectedContent(value) {
-  return [...value.matchAll(PROTECTED_CONTENT)].map((match) => match[0]).sort();
+  return protectedLatexSegments(value).map((segment) => segment.value).sort();
 }
 
 function registerUnit(value) {
@@ -57,14 +155,24 @@ function registerUnit(value) {
 }
 
 function translatableLatex(math) {
-  return math;
+  return transformLatexText(math, (content) => {
+    if (!hasEnglish(content) || content.trimStart().startsWith("~")) return content;
+    const protectedText = content.replace(LATEX_TEXT_SYNTAX, (syntax) => {
+      const id = nextLatexTextProtectionId;
+      nextLatexTextProtectionId += 1;
+      latexTextProtections.set(id, syntax);
+      return `⟪L${id}Q⟫`;
+    });
+    return registerUnit(protectedText);
+  });
 }
 
 function protectContent(value) {
-  return value.replace(PROTECTED_CONTENT, (protectedValue) => {
+  return replaceProtectedLatex(value, (protectedValue, kind) => {
     const id = nextProtectionId;
     nextProtectionId += 1;
-    protections.set(id, protectedValue.startsWith("$") ? translatableLatex(protectedValue) : protectedValue);
+    const translatable = kind === "math" || kind === "environment";
+    protections.set(id, translatable ? translatableLatex(protectedValue) : protectedValue);
     return `⟪P${id}Q⟫`;
   });
 }
@@ -117,44 +225,121 @@ async function saveCache(cache) {
   await rename(temporary, CACHE_FILE);
 }
 
+async function createBingSession() {
+  const userAgent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/136 Safari/537.36";
+  const response = await fetch("https://www.bing.com/translator", {
+    headers: { "User-Agent": userAgent },
+    signal: AbortSignal.timeout(45_000),
+  });
+  if (!response.ok) throw new Error(`Bing session HTTP ${response.status}`);
+  const page = await response.text();
+  const ig = page.match(/IG:"([^"]+)/)?.[1];
+  const iid = page.match(/data-iid="([^"]+)/)?.[1];
+  const abusePrevention = page.match(/params_AbusePreventionHelper\s*=\s*(\[[^;]+\])/)?.[1];
+  if (!ig || !iid || !abusePrevention) throw new Error("Bing translator session metadata missing");
+  const [key, token] = JSON.parse(abusePrevention);
+  const cookie = response.headers.getSetCookie().map((value) => value.split(";", 1)[0]).join("; ");
+  return { cookie, ig, iid, key: String(key), token, userAgent };
+}
+
+async function requestBingTranslationChunk(value) {
+  bingSession ??= await createBingSession();
+  const body = new URLSearchParams({
+    fromLang: "en",
+    text: value,
+    to: "zh-Hans",
+    token: bingSession.token,
+    key: bingSession.key,
+    tryFetchingGenderDebiasedTranslations: "true",
+  });
+  const response = await fetch(`https://www.bing.com/ttranslatev3?isVertical=1&IG=${bingSession.ig}&IID=${bingSession.iid}.1`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      "User-Agent": bingSession.userAgent,
+      Referer: "https://www.bing.com/translator",
+      Cookie: bingSession.cookie,
+    },
+    body,
+    signal: AbortSignal.timeout(45_000),
+  });
+  if (response.status === 401) bingSession = undefined;
+  if (!response.ok) throw new Error(`Bing translation HTTP ${response.status}`);
+  const payload = await response.json();
+  const translated = payload?.[0]?.translations?.[0]?.text;
+  if (!translated) throw new Error("Bing translation response was empty");
+  return repairTranslationMarkers(value, translated);
+}
+
+async function requestBingTranslation(value) {
+  if (value.length <= 900) return requestBingTranslationChunk(value);
+  const chunks = [];
+  let rest = value;
+  while (rest.length > 900) {
+    const candidate = rest.slice(0, 901);
+    const boundary = Math.max(candidate.lastIndexOf("\n"), candidate.lastIndexOf(" "));
+    const end = boundary > 450 ? boundary + 1 : 900;
+    chunks.push(rest.slice(0, end));
+    rest = rest.slice(end);
+  }
+  if (rest) chunks.push(rest);
+  const translated = [];
+  for (const chunk of chunks) translated.push(await requestBingTranslationChunk(chunk));
+  return translated.join("");
+}
+
 async function requestTranslation(value) {
   let lastError;
   for (let attempt = 1; attempt <= 20; attempt += 1) {
     const wait = Math.max(0, nextRequestAt - Date.now());
     if (wait) await sleep(wait);
     nextRequestAt = Date.now() + MIN_REQUEST_INTERVAL_MS;
+    for (const endpoint of Date.now() >= googleUnavailableUntil ? ENDPOINTS : []) {
+      try {
+        const body = new URLSearchParams({ q: value });
+        const response = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+          body,
+          signal: AbortSignal.timeout(45_000),
+        });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const payload = await response.json();
+        const translated = typeof payload?.[0] === "string"
+          ? payload.join("")
+          : payload?.[0]?.map((part) => part?.[0] ?? "").join("");
+        if (!translated) throw new Error("Translation response was empty");
+        return repairTranslationMarkers(value, translated);
+      } catch (error) {
+        lastError = error;
+        if (error instanceof Error && error.message === "HTTP 429") {
+          googleUnavailableUntil = Date.now() + 10 * 60_000;
+          break;
+        }
+      }
+    }
     try {
-      const body = new URLSearchParams({ q: value });
-      const response = await fetch(`${ENDPOINT}?client=it&sl=en&tl=zh-CN`, {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
-        body,
-        signal: AbortSignal.timeout(45_000),
-      });
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      const payload = await response.json();
-      const translated = typeof payload?.[0] === "string"
-        ? payload.join("")
-        : payload?.[0]?.map((part) => part?.[0] ?? "").join("");
-      if (!translated) throw new Error("Translation response was empty");
-      return translated;
+      return await requestBingTranslation(value);
     } catch (error) {
       lastError = error;
-      if (attempt < 20) {
-        const rateLimited = error instanceof Error && error.message === "HTTP 429";
-        const delay = rateLimited
-          ? Math.min(180_000, 30_000 * attempt)
-          : Math.min(30_000, 500 * 2 ** (attempt - 1));
-        if (rateLimited) console.log(`Translation service rate-limited; retrying in ${Math.round(delay / 1_000)}s (attempt ${attempt}/20).`);
-        await sleep(delay);
-      }
+    }
+    if (attempt < 20) {
+      const rateLimited = lastError instanceof Error && lastError.message === "HTTP 429";
+      const delay = rateLimited
+        ? Math.min(180_000, 30_000 * attempt)
+        : Math.min(30_000, 500 * 2 ** (attempt - 1));
+      if (rateLimited) console.log(`Translation services rate-limited; retrying in ${Math.round(delay / 1_000)}s (attempt ${attempt}/20).`);
+      await sleep(delay);
     }
   }
   throw lastError instanceof Error ? lastError : new Error("Translation request failed");
 }
 
 function taggedBatch(values) {
-  return values.map((value, index) => `⟪B${index}Q⟫${value}`).join("\n");
+  // Keep markers on their own lines. When a marker is attached to English
+  // prose, translation services can move it to the end of the Chinese phrase
+  // and make the batch boundary ambiguous.
+  return values.map((value, index) => `⟪B${index}Q⟫\n${value}`).join("\n");
 }
 
 async function translateBatch(values) {
@@ -176,16 +361,35 @@ async function translateBatch(values) {
   ).replace(/^\s+|\s+$/g, ""));
 }
 
+async function translateAroundProtectedContent(value) {
+  const pieces = value.split(/(⟪P\d+Q⟫)/g);
+  const textPieces = pieces
+    .map((piece, index) => ({ piece, index }))
+    .filter(({ piece }) => piece && !/^⟪P\d+Q⟫$/.test(piece));
+  const translations = await translateBatch(textPieces.map(({ piece }) => piece));
+  textPieces.forEach(({ index }, translationIndex) => {
+    pieces[index] = translations[translationIndex];
+  });
+  return pieces.join("");
+}
+
 async function fillTranslationCache(cache) {
+  const migrated = migrateProtectionMarkerCache(cache);
+  if (migrated) console.log(`Reused ${migrated} cached translations after protected-math renumbering.`);
+  for (const unit of new Set(units)) {
+    const translated = localTranslation(unit);
+    if (translated !== undefined) cache.set(unit, translated);
+  }
   let invalidated = 0;
   for (const unit of new Set(units)) {
     const translated = cache.get(unit);
-    if (translated && !hasMatchingProtectionMarkers(unit, translated)) {
+    if (translated !== undefined && (!translated.trim() || !hasMatchingProtectionMarkers(unit, translated))) {
       cache.delete(unit);
       invalidated += 1;
     }
   }
   if (invalidated) console.log(`Discarded ${invalidated} cached translations with damaged placeholders.`);
+  if (migrated || invalidated) await saveCache(cache);
   const pending = [...new Set(units)].filter((unit) => !cache.has(unit));
   let completed = 0;
   for (let offset = 0; offset < pending.length;) {
@@ -200,12 +404,16 @@ async function fillTranslationCache(cache) {
       offset += 1;
     }
     const translations = await translateBatch(batch);
-    translations.forEach((translation, index) => {
-      if (!hasMatchingProtectionMarkers(batch[index], translation)) {
+    for (let index = 0; index < translations.length; index += 1) {
+      let translation = translations[index];
+      if (!translation.trim() || !hasMatchingProtectionMarkers(batch[index], translation)) {
+        translation = await translateAroundProtectedContent(batch[index]);
+      }
+      if (!translation.trim() || !hasMatchingProtectionMarkers(batch[index], translation)) {
         throw new Error(`Translation service damaged protected content in segment ${digest(batch[index]).slice(0, 12)}`);
       }
       cache.set(batch[index], translation);
-    });
+    }
     completed += batch.length;
     await saveCache(cache);
     if (completed % 100 < batch.length || completed === pending.length) {
@@ -222,27 +430,34 @@ function resolveTemplate(value, cache) {
     if (!translated) throw new Error(`Missing translation for segment ${rawId}`);
     return translated;
   });
+  const resolveRegisteredUnits = (template) => template.replace(/⟪T(\d+)Q⟫/g, (_, rawId) => {
+    const source = units[Number(rawId)];
+    const translated = cache.get(source);
+    if (!translated) throw new Error(`Missing nested translation for segment ${rawId}`);
+    return translated;
+  }).replace(EXACT_LATEX_TEXT_MARKER, (_, rawId) => {
+    const syntax = latexTextProtections.get(Number(rawId));
+    if (syntax === undefined) throw new Error(`Missing protected LaTeX text content ${rawId}`);
+    return syntax;
+  });
   const expectedProtectedContent = protectionIds(translatedTemplate).map((id) => {
     const protectedValue = protections.get(id);
     if (protectedValue === undefined) throw new Error(`Missing protected content ${id}`);
-    return protectedValue;
+    return resolveRegisteredUnits(protectedValue);
   }).sort();
   let resolved = translatedTemplate.replace(EXACT_PROTECTION_MARKER, (_, rawId) => {
     const protectedValue = protections.get(Number(rawId));
     if (protectedValue === undefined) throw new Error(`Missing protected content ${rawId}`);
     return protectedValue;
   });
-  resolved = resolved.replace(/⟪T(\d+)Q⟫/g, (_, rawId) => {
-    const source = units[Number(rawId)];
-    const translated = cache.get(source);
-    if (!translated) throw new Error(`Missing nested translation for segment ${rawId}`);
-    return translated;
-  });
-  if (MANGLED_TRANSLATION_MARKER.test(resolved) || /⟪[PTB]\d+Q⟫/.test(resolved)) {
+  resolved = resolveRegisteredUnits(resolved);
+  if (MANGLED_TRANSLATION_MARKER.test(resolved) || /⟪[PLTB]\d+Q⟫/.test(resolved)) {
     throw new Error("Translation contains an unresolved placeholder");
   }
-  if (JSON.stringify(expectedProtectedContent) !== JSON.stringify(protectedContent(resolved))) {
-    throw new Error("Translation changed protected math or figure content");
+  const actualProtectedContent = protectedContent(resolved);
+  if (JSON.stringify(expectedProtectedContent) !== JSON.stringify(actualProtectedContent)) {
+    const mismatchIndex = expectedProtectedContent.findIndex((value, index) => value !== actualProtectedContent[index]);
+    throw new Error(`Translation changed protected math or figure content: expected ${JSON.stringify(expectedProtectedContent[mismatchIndex])}, received ${JSON.stringify(actualProtectedContent[mismatchIndex])} near ${JSON.stringify(resolved.slice(0, 160))}`);
   }
   return resolved;
 }

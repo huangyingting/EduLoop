@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { enforceRateLimit } from "@/lib/api";
+import { apiError, apiHandler, enforceRateLimit } from "@/lib/api";
 import { prisma } from "@/lib/prisma";
 import { getOrCreateLearnerForRequest } from "@/lib/learner-identity";
 
@@ -11,10 +11,10 @@ const sessionSchema = z.object({
   restart: z.boolean().default(false),
 });
 
-export async function POST(request: Request) {
+async function postSession(request: Request) {
   const body = await request.json().catch(() => null);
   const parsed = sessionSchema.safeParse(body);
-  if (!parsed.success) return NextResponse.json({ error: "Invalid session" }, { status: 400 });
+  if (!parsed.success) return apiError("Invalid session", 400, "INVALID_REQUEST");
   const limited = enforceRateLimit(request, "sessions", parsed.data.deviceKey, 20);
   if (limited) return limited;
 
@@ -64,3 +64,5 @@ export async function POST(request: Request) {
     resumed: false,
   }, { status: 201 });
 }
+
+export const POST = apiHandler("POST /api/sessions", postSession);

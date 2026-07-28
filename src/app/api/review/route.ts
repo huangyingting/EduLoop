@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { enforceRateLimit } from "@/lib/api";
+import { apiError, apiHandler, enforceRateLimit } from "@/lib/api";
 import { prisma } from "@/lib/prisma";
 import { findLearnerForRequest, getOrCreateLearnerForRequest } from "@/lib/learner-identity";
 
@@ -43,9 +43,9 @@ function questionCard(question: {
   };
 }
 
-export async function GET(request: NextRequest) {
+async function getReview(request: NextRequest) {
   const parsed = querySchema.safeParse(Object.fromEntries(request.nextUrl.searchParams));
-  if (!parsed.success) return NextResponse.json({ error: "Invalid review query" }, { status: 400 });
+  if (!parsed.success) return apiError("Invalid review query", 400, "INVALID_REQUEST");
   const learner = await findLearnerForRequest(request, parsed.data.deviceKey);
   if (!learner) return NextResponse.json({ dueCount: 0, activeCount: 0, savedCount: 0, reviews: [], saved: [] });
 
@@ -84,15 +84,15 @@ export async function GET(request: NextRequest) {
   });
 }
 
-export async function POST(request: Request) {
+async function postSavedQuestion(request: Request) {
   const body = await request.json().catch(() => null);
   const parsed = saveSchema.safeParse(body);
-  if (!parsed.success) return NextResponse.json({ error: "Invalid saved question" }, { status: 400 });
+  if (!parsed.success) return apiError("Invalid saved question", 400, "INVALID_REQUEST");
   const input = parsed.data;
   const limited = enforceRateLimit(request, "saved-questions", input.deviceKey, 30);
   if (limited) return limited;
   const question = await prisma.question.findFirst({ where: { id: input.questionId, status: "PUBLISHED" }, select: { id: true } });
-  if (!question) return NextResponse.json({ error: "Question not found" }, { status: 404 });
+  if (!question) return apiError("Question not found", 404, "NOT_FOUND");
   const learner = await getOrCreateLearnerForRequest(request, input.deviceKey);
 
   if (input.saved) {
@@ -106,3 +106,6 @@ export async function POST(request: Request) {
   }
   return NextResponse.json({ saved: input.saved });
 }
+
+export const GET = apiHandler("GET /api/review", getReview);
+export const POST = apiHandler("POST /api/review", postSavedQuestion);

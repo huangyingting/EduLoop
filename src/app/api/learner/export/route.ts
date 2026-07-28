@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { enforceRateLimit } from "@/lib/api";
+import { apiError, apiHandler, enforceRateLimit } from "@/lib/api";
 import { prisma } from "@/lib/prisma";
 import { findLearnerForRequest } from "@/lib/learner-identity";
 
@@ -8,9 +8,9 @@ export const dynamic = "force-dynamic";
 
 const querySchema = z.object({ deviceKey: z.string().min(8).max(100) });
 
-export async function GET(request: NextRequest) {
+async function getLearnerExport(request: NextRequest) {
   const parsed = querySchema.safeParse(Object.fromEntries(request.nextUrl.searchParams));
-  if (!parsed.success) return NextResponse.json({ error: "Invalid export request" }, { status: 400 });
+  if (!parsed.success) return apiError("Invalid export request", 400, "INVALID_REQUEST");
   const limited = enforceRateLimit(request, "export-learner", parsed.data.deviceKey, 3, 60 * 60_000);
   if (limited) return limited;
 
@@ -73,3 +73,5 @@ export async function GET(request: NextRequest) {
     },
   });
 }
+
+export const GET = apiHandler("GET /api/learner/export", getLearnerExport);

@@ -1,15 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
-import { enforceRateLimit } from "@/lib/api";
+import { apiError, apiHandler, enforceRateLimit } from "@/lib/api";
 import { buildQuestionHint } from "@/lib/hints";
 import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 
-export async function GET(request: NextRequest) {
+async function getQuestionHint(request: NextRequest) {
   const questionId = request.nextUrl.searchParams.get("questionId");
   const deviceKey = request.nextUrl.searchParams.get("deviceKey");
   if (!questionId || questionId.length < 8 || !deviceKey || deviceKey.length < 8) {
-    return NextResponse.json({ error: "Invalid hint request" }, { status: 400 });
+    return apiError("Invalid hint request", 400, "INVALID_REQUEST");
   }
   const limited = enforceRateLimit(request, "question-hints", deviceKey, 30);
   if (limited) return limited;
@@ -22,7 +22,9 @@ export async function GET(request: NextRequest) {
       tags: { include: { tag: { include: { dimension: true } } } },
     },
   });
-  if (!question) return NextResponse.json({ error: "Question not found" }, { status: 404 });
+  if (!question) return apiError("Question not found", 404, "NOT_FOUND");
 
   return NextResponse.json({ hint: buildQuestionHint(question) });
 }
+
+export const GET = apiHandler("GET /api/questions/hint", getQuestionHint);

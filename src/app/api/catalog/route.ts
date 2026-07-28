@@ -1,10 +1,11 @@
 import type { Prisma } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
+import { apiHandler } from "@/lib/api";
 import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 
-export async function GET(request: NextRequest) {
+async function getCatalog(request: NextRequest) {
   const params = request.nextUrl.searchParams;
   const subjectSlug = params.get("subject") || null;
   const gradeBandSlug = params.get("gradeBand") || null;
@@ -54,3 +55,5 @@ export async function GET(request: NextRequest) {
 
   return NextResponse.json({ subjects, gradeBands, grades, topics });
 }
+
+export const GET = apiHandler("GET /api/catalog", getCatalog);

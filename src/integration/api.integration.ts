@@ -175,7 +175,7 @@ describe("learner API journey", () => {
   it("rejects malformed and unbounded question filters", async () => {
     const unsafeSlug = await nextQuestion(new NextRequest("http://localhost/api/questions/next?subject=..%2Fmath"));
     expect(unsafeSlug.status).toBe(400);
-    expect(await unsafeSlug.json()).toEqual({ error: "Invalid question filters" });
+    expect(await unsafeSlug.json()).toEqual({ error: "Invalid question filters", code: "INVALID_REQUEST" });
 
     const tooManyExcluded = Array.from({ length: 21 }, (_, index) => `question_${index}`).join(",");
     const oversized = await nextQuestion(new NextRequest(`http://localhost/api/questions/next?exclude=${tooManyExcluded}`));
@@ -249,7 +249,9 @@ describe("learner API journey", () => {
       recommendationReason: "结合最近正确率和答题用时，重点巩固测试运算",
     });
 
-    expect((await getHealth()).status).toBe(200);
+    const health = await getHealth(new Request("http://localhost/api/health", { headers }));
+    expect(health.status).toBe(200);
+    expect(health.headers.get("x-request-id")).toBeTruthy();
   });
 
   it("requires explicit self-assessment for written work and supports data deletion", async () => {

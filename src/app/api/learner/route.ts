@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { calendarDay, calendarDaysBefore, previousCalendarDay } from "@/lib/dates";
-import { enforceRateLimit } from "@/lib/api";
+import { apiError, apiHandler, enforceRateLimit } from "@/lib/api";
 import { prisma } from "@/lib/prisma";
 import { findLearnerForRequest } from "@/lib/learner-identity";
 
@@ -12,9 +12,9 @@ const querySchema = z.object({
   timeZone: z.string().max(100).optional(),
 });
 
-export async function GET(request: NextRequest) {
+async function getLearner(request: NextRequest) {
   const parsed = querySchema.safeParse(Object.fromEntries(request.nextUrl.searchParams));
-  if (!parsed.success) return NextResponse.json({ error: "Invalid learner query" }, { status: 400 });
+  if (!parsed.success) return apiError("Invalid learner query", 400, "INVALID_REQUEST");
   const learner = await findLearnerForRequest(request, parsed.data.deviceKey);
   if (!learner) return NextResponse.json({ xp: 0, level: 1, currentStreak: 0, bestStreak: 0, streakFreezes: 1, todayAttempts: 0 });
   const today = calendarDay(new Date(), parsed.data.timeZone);
@@ -35,9 +35,9 @@ export async function GET(request: NextRequest) {
   });
 }
 
-export async function DELETE(request: NextRequest) {
+async function deleteLearner(request: NextRequest) {
   const parsed = querySchema.safeParse(Object.fromEntries(request.nextUrl.searchParams));
-  if (!parsed.success) return NextResponse.json({ error: "Invalid learner query" }, { status: 400 });
+  if (!parsed.success) return apiError("Invalid learner query", 400, "INVALID_REQUEST");
   const limited = enforceRateLimit(request, "delete-learner", parsed.data.deviceKey, 3, 60 * 60_000);
   if (limited) return limited;
   const learner = await findLearnerForRequest(request, parsed.data.deviceKey);
@@ -46,3 +46,6 @@ export async function DELETE(request: NextRequest) {
     : { count: 0 };
   return NextResponse.json({ deleted: removed.count > 0 });
 }
+
+export const GET = apiHandler("GET /api/learner", getLearner);
+export const DELETE = apiHandler("DELETE /api/learner", deleteLearner);

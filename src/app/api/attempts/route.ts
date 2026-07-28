@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { enforceRateLimit } from "@/lib/api";
+import { apiError, apiHandler, enforceRateLimit } from "@/lib/api";
 import { calendarDay, calendarDaysBefore, previousCalendarDay } from "@/lib/dates";
 import { prisma } from "@/lib/prisma";
 import { nextReviewState } from "@/lib/review";
@@ -40,7 +40,7 @@ async function replayAttempt(
   });
   if (!attempt) return null;
   if (attempt.learnerId !== learnerId || attempt.questionId !== questionId) {
-    return NextResponse.json({ error: "Attempt key already used" }, { status: 409 });
+    return apiError("Attempt key already used", 409, "CONFLICT");
   }
   const activity = await prisma.dailyActivity.findUnique({
     where: { learnerId_activityDate: { learnerId: attempt.learnerId, activityDate: today } },
@@ -72,15 +72,15 @@ async function replayAttempt(
   });
 }
 
-export async function POST(request: Request) {
+async function postAttempt(request: Request) {
   const body = await request.json().catch(() => null);
   const parsed = attemptSchema.safeParse(body);
-  if (!parsed.success) return NextResponse.json({ error: "Invalid attempt", details: parsed.error.flatten() }, { status: 400 });
+  if (!parsed.success) return apiError("Invalid attempt", 400, "INVALID_REQUEST", parsed.error.flatten());
   const input = parsed.data;
   const limited = enforceRateLimit(request, "attempts", input.deviceKey, 45);
   if (limited) return limited;
   const question = await prisma.question.findUnique({ where: { id: input.questionId } });
-  if (!question || question.status !== "PUBLISHED") return NextResponse.json({ error: "Question not found" }, { status: 404 });
+  if (!question || question.status !== "PUBLISHED") return apiError("Question not found", 404, "NOT_FOUND");
 
   const responseLabels = Array.isArray(input.response)
     ? [...new Set(input.response.map((item) => item.toUpperCase()))].sort()
@@ -245,16 +245,16 @@ export async function POST(request: Request) {
   });
 }
 
-export async function PATCH(request: Request) {
+async function patchAttempt(request: Request) {
   const body = await request.json().catch(() => null);
   const parsed = selfAssessmentSchema.safeParse(body);
-  if (!parsed.success) return NextResponse.json({ error: "Invalid self-assessment" }, { status: 400 });
+  if (!parsed.success) return apiError("Invalid self-assessment", 400, "INVALID_REQUEST");
   const input = parsed.data;
   const limited = enforceRateLimit(request, "assessments", input.deviceKey, 45);
   if (limited) return limited;
   const now = new Date();
   const learner = await findLearnerForRequest(request, input.deviceKey);
-  if (!learner) return NextResponse.json({ error: "Attempt not found" }, { status: 404 });
+  if (!learner) return apiError("Attempt not found", 404, "NOT_FOUND");
 
   const outcome = await prisma.$transaction(async (transaction) => {
     const attempt = await transaction.practiceAttempt.findFirst({
@@ -301,8 +301,12 @@ export async function PATCH(request: Request) {
   });
 
   if ("error" in outcome) {
-    const status = outcome.error === "Attempt not found" ? 404 : 409;
-    return NextResponse.json({ error: outcome.error }, { status });
+    const error = outcome.error ?? "Attempt already assessed";
+    const status = error === "Attempt not found" ? 404 : 409;
+    return apiError(error, status, status === 404 ? "NOT_FOUND" : "CONFLICT");
   }
   return NextResponse.json(outcome);
 }
+
+export const POST = apiHandler("POST /api/attempts", postAttempt);
+export const PATCH = apiHandler("PATCH /api/attempts", patchAttempt);

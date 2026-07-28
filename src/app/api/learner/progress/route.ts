@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
+import { apiError, apiHandler } from "@/lib/api";
 import { calendarDay, previousCalendarDay } from "@/lib/dates";
 import { prisma } from "@/lib/prisma";
 import { findLearnerForRequest } from "@/lib/learner-identity";
@@ -14,9 +15,9 @@ const querySchema = z.object({
 type Aggregate = { label: string; color?: string; attempts: number; correct: number };
 type TopicAggregate = Aggregate & { slug: string; subject: string };
 
-export async function GET(request: NextRequest) {
+async function getLearnerProgress(request: NextRequest) {
   const parsed = querySchema.safeParse(Object.fromEntries(request.nextUrl.searchParams));
-  if (!parsed.success) return NextResponse.json({ error: "Invalid progress query" }, { status: 400 });
+  if (!parsed.success) return apiError("Invalid progress query", 400, "INVALID_REQUEST");
   const learner = await findLearnerForRequest(request, parsed.data.deviceKey);
   if (!learner) return NextResponse.json({
     summary: { totalAttempts: 0, correctRate: 0, xp: 0, level: 1, currentStreak: 0, bestStreak: 0 },
@@ -146,3 +147,5 @@ export async function GET(request: NextRequest) {
     })),
   });
 }
+
+export const GET = apiHandler("GET /api/learner/progress", getLearnerProgress);

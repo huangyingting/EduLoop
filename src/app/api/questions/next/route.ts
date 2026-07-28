@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { enforceRateLimit } from "@/lib/api";
+import { apiError, apiHandler, enforceRateLimit } from "@/lib/api";
 import { QUESTION_TYPE_LABELS } from "@/lib/content";
 import { parseQuestionFilters, questionWhere } from "@/lib/question-filters";
 import { prisma } from "@/lib/prisma";
@@ -8,9 +8,9 @@ import { findLearnerForRequest } from "@/lib/learner-identity";
 
 export const dynamic = "force-dynamic";
 
-export async function GET(request: NextRequest) {
+async function getNextQuestion(request: NextRequest) {
   const filters = parseQuestionFilters(request.nextUrl.searchParams);
-  if (!filters) return NextResponse.json({ error: "Invalid question filters" }, { status: 400 });
+  if (!filters) return apiError("Invalid question filters", 400, "INVALID_REQUEST");
   const { deviceKey, excluded, mode, tagSlugs } = filters;
   const limited = enforceRateLimit(request, "questions", deviceKey || "anonymous", 120);
   if (limited) return limited;
@@ -100,7 +100,7 @@ export async function GET(request: NextRequest) {
     where = baseWhere;
     count = await prisma.question.count({ where });
   }
-  if (!count) return NextResponse.json({ error: "No matching questions" }, { status: 404 });
+  if (!count) return apiError("No matching questions", 404, "NOT_FOUND");
   const question = await prisma.question.findFirst({
     where, skip: Math.floor(Math.random() * count),
     include: {
@@ -111,7 +111,7 @@ export async function GET(request: NextRequest) {
       tags: { include: { tag: { include: { dimension: true } } } },
     },
   });
-  if (!question) return NextResponse.json({ error: "No matching questions" }, { status: 404 });
+  if (!question) return apiError("No matching questions", 404, "NOT_FOUND");
   const assetsByRole = new Map(question.assets.map((asset) => [asset.role, asset]));
   const stemAsset = assetsByRole.get("STEM");
   const saved = learner ? Boolean(await prisma.savedQuestion.findUnique({
@@ -131,3 +131,5 @@ export async function GET(request: NextRequest) {
     recommendationReason,
   });
 }
+
+export const GET = apiHandler("GET /api/questions/next", getNextQuestion);

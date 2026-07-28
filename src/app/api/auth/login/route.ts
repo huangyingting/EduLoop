@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { enforceRateLimit } from "@/lib/api";
+import { apiError, apiHandler, enforceRateLimit } from "@/lib/api";
 import { createSession, hashPassword, passwordHashNeedsUpgrade, verifyPassword } from "@/lib/auth";
 import { isSameOriginRequest, loginInputSchema, normalizeEmail } from "@/lib/auth-validation";
 import { linkLearnerToUser } from "@/lib/learner-identity";
@@ -7,13 +7,13 @@ import { prisma } from "@/lib/prisma";
 
 export const runtime = "nodejs";
 
-export async function POST(request: Request) {
+async function postLogin(request: Request) {
   if (!isSameOriginRequest(request)) {
-    return NextResponse.json({ error: "Invalid request origin." }, { status: 403 });
+    return apiError("Invalid request origin.", 403, "FORBIDDEN");
   }
   const parsed = loginInputSchema.safeParse(await request.json().catch(() => null));
   if (!parsed.success) {
-    return NextResponse.json({ error: "邮箱或密码不正确。" }, { status: 401 });
+    return apiError("邮箱或密码不正确。", 401, "UNAUTHORIZED");
   }
   const input = parsed.data;
   const email = normalizeEmail(input.email);
@@ -28,7 +28,7 @@ export async function POST(request: Request) {
     ? await verifyPassword(input.password, user.passwordHash)
     : (await hashPassword(input.password), false);
   if (!user || !valid) {
-    return NextResponse.json({ error: "邮箱或密码不正确。" }, { status: 401 });
+    return apiError("邮箱或密码不正确。", 401, "UNAUTHORIZED");
   }
 
   if (passwordHashNeedsUpgrade(user.passwordHash)) {
@@ -43,3 +43,5 @@ export async function POST(request: Request) {
     user: { id: user.id, email: user.email, displayName: user.displayName },
   }, { headers: { "Cache-Control": "no-store" } });
 }
+
+export const POST = apiHandler("POST /api/auth/login", postLogin);

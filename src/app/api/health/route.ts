@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
+import { apiHandler } from "@/lib/api";
 import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 
-export async function GET() {
+async function getHealth() {
   const startedAt = Date.now();
   try {
     const [subjects, questions] = await Promise.all([
@@ -34,3 +35,5 @@ export async function GET() {
     });
   }
 }
+
+export const GET = apiHandler("GET /api/health", getHealth);

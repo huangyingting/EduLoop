@@ -259,20 +259,25 @@ export async function PATCH(request: Request) {
   const outcome = await prisma.$transaction(async (transaction) => {
     const attempt = await transaction.practiceAttempt.findFirst({
       where: { id: input.attemptId, learnerId: learner.id },
-      include: { learner: { select: { id: true } } },
+      select: { id: true, learnerId: true, questionId: true, sessionId: true, createdAt: true, isSelfAssessed: true, isCorrect: true },
     });
     if (!attempt) return { error: "Attempt not found" as const };
     if (!attempt.isSelfAssessed || attempt.isCorrect !== null) return { error: "Attempt already assessed" as const };
 
+    const claimed = await transaction.practiceAttempt.updateMany({
+      where: { id: attempt.id, learnerId: learner.id, isSelfAssessed: true, isCorrect: null },
+      data: { isCorrect: input.isCorrect },
+    });
+    if (!claimed.count) return { error: "Attempt already assessed" as const };
+
     const existingReview = await transaction.reviewItem.findUnique({
-      where: { learnerId_questionId: { learnerId: attempt.learner.id, questionId: attempt.questionId } },
+      where: { learnerId_questionId: { learnerId: attempt.learnerId, questionId: attempt.questionId } },
     });
     const review = nextReviewState(existingReview, input.isCorrect, now);
-    await transaction.practiceAttempt.update({ where: { id: attempt.id }, data: { isCorrect: input.isCorrect } });
     if (input.isCorrect) {
       const activityDate = calendarDay(attempt.createdAt, input.timeZone);
       await transaction.dailyActivity.updateMany({
-        where: { learnerId: attempt.learner.id, activityDate },
+        where: { learnerId: attempt.learnerId, activityDate },
         data: { correct: { increment: 1 } },
       });
       if (attempt.sessionId) {
@@ -287,8 +292,8 @@ export async function PATCH(request: Request) {
     );
     if (shouldUpdateReview) {
       await transaction.reviewItem.upsert({
-        where: { learnerId_questionId: { learnerId: attempt.learner.id, questionId: attempt.questionId } },
-        create: { learnerId: attempt.learner.id, questionId: attempt.questionId, ...review },
+        where: { learnerId_questionId: { learnerId: attempt.learnerId, questionId: attempt.questionId } },
+        create: { learnerId: attempt.learnerId, questionId: attempt.questionId, ...review },
         update: review,
       });
     }

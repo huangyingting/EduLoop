@@ -247,8 +247,24 @@ describe("learner API journey", () => {
     const attempt = await attemptResponse.json() as { attemptId: string; isCorrect: boolean | null };
     expect(attempt.isCorrect).toBeNull();
 
-    const assessmentResponse = await assessAttempt(request("http://localhost/api/attempts", "PATCH", { deviceKey, attemptId: attempt.attemptId, isCorrect: false, timeZone: "Asia/Shanghai" }));
-    expect(await assessmentResponse.json()).toEqual({ isCorrect: false });
+    const learner = await prisma.learnerProfile.findUniqueOrThrow({ where: { deviceKey } });
+    const activityDate = calendarDay(new Date(), "Asia/Shanghai");
+    const before = await prisma.dailyActivity.findUniqueOrThrow({
+      where: { learnerId_activityDate: { learnerId: learner.id, activityDate } },
+    });
+    const assessmentInput = { deviceKey, attemptId: attempt.attemptId, isCorrect: true, timeZone: "Asia/Shanghai" };
+    const assessmentResponses = await Promise.all([
+      assessAttempt(request("http://localhost/api/attempts", "PATCH", assessmentInput)),
+      assessAttempt(request("http://localhost/api/attempts", "PATCH", assessmentInput)),
+    ]);
+    expect(assessmentResponses.map(({ status }) => status).sort()).toEqual([200, 409]);
+    expect(await assessmentResponses[0].json()).toMatchObject(
+      assessmentResponses[0].status === 200 ? { isCorrect: true } : { error: "Attempt already assessed" },
+    );
+    const after = await prisma.dailyActivity.findUniqueOrThrow({
+      where: { learnerId_activityDate: { learnerId: learner.id, activityDate } },
+    });
+    expect(after.correct).toBe(before.correct + 1);
 
     const exportResponse = await exportLearner(new NextRequest(`http://localhost/api/learner/export?deviceKey=${deviceKey}`, { headers }));
     expect(exportResponse.status).toBe(200);

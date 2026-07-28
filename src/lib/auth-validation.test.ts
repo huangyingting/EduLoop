@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { isSameOriginRequest, normalizeEmail, registerInputSchema, safeReturnPath } from "./auth-validation";
+import { accountDeletionSchema, isSameOriginRequest, normalizeEmail, passwordChangeSchema, registerInputSchema, safeReturnPath } from "./auth-validation";
 import { PASSWORD_HASH_COST, hashSessionToken, passwordHashNeedsUpgrade } from "./auth";
 
 describe("authentication helpers", () => {
@@ -20,6 +20,26 @@ describe("authentication helpers", () => {
     expect(isSameOriginRequest(cross)).toBe(false);
   });
 
+  it("uses the public request host instead of a standalone bind address", () => {
+    const direct = new Request("http://0.0.0.0:3000/api/auth/login", {
+      headers: { host: "learn.example:3000", origin: "http://learn.example:3000" },
+    });
+    const proxied = new Request("http://127.0.0.1:3000/api/auth/login", {
+      headers: {
+        host: "internal:3000",
+        origin: "https://learn.example",
+        "x-forwarded-host": "learn.example",
+        "x-forwarded-proto": "https",
+      },
+    });
+    const cross = new Request("http://0.0.0.0:3000/api/auth/login", {
+      headers: { host: "learn.example:3000", origin: "http://evil.example:3000" },
+    });
+    expect(isSameOriginRequest(direct)).toBe(true);
+    expect(isSameOriginRequest(proxied)).toBe(true);
+    expect(isSameOriginRequest(cross)).toBe(false);
+  });
+
   it("stores a one-way digest instead of the session token", () => {
     const token = "secret-session-token";
     expect(hashSessionToken(token)).toHaveLength(64);
@@ -32,6 +52,8 @@ describe("authentication helpers", () => {
       password: "学".repeat(25),
       deviceKey: "guest_test_device",
     }).success).toBe(false);
+    expect(passwordChangeSchema.safeParse({ currentPassword: "current-password", newPassword: "学".repeat(25) }).success).toBe(false);
+    expect(accountDeletionSchema.safeParse({ currentPassword: "" }).success).toBe(false);
   });
 
   it("upgrades old or unrecognized password hashes without downgrading stronger hashes", () => {

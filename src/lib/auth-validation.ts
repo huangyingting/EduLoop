@@ -19,6 +19,15 @@ export const registerInputSchema = z.object({
   deviceKey: z.string().min(8).max(100),
 });
 
+export const passwordChangeSchema = z.object({
+  currentPassword: bcryptPassword(1),
+  newPassword: bcryptPassword(8),
+});
+
+export const accountDeletionSchema = z.object({
+  currentPassword: bcryptPassword(1),
+});
+
 export function normalizeEmail(email: string) {
   return email.trim().toLowerCase();
 }
@@ -32,7 +41,13 @@ export function isSameOriginRequest(request: Request) {
   const origin = request.headers.get("origin");
   if (!origin) return true;
   try {
-    return new URL(origin).origin === new URL(request.url).origin;
+    const requestUrl = new URL(request.url);
+    const forwardedHost = request.headers.get("x-forwarded-host")?.split(",", 1)[0]?.trim();
+    const forwardedProtocol = request.headers.get("x-forwarded-proto")?.split(",", 1)[0]?.trim();
+    const host = forwardedHost || request.headers.get("host")?.trim() || requestUrl.host;
+    const protocol = forwardedProtocol || requestUrl.protocol.slice(0, -1);
+    if (!host || !/^https?$/.test(protocol)) return false;
+    return new URL(origin).origin === new URL(`${protocol}://${host}`).origin;
   } catch {
     return false;
   }

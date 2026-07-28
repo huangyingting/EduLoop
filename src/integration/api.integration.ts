@@ -12,8 +12,9 @@ import { POST as createReport } from "@/app/api/reports/route";
 import { GET as getReview, POST as saveQuestion } from "@/app/api/review/route";
 import { POST as createSession } from "@/app/api/sessions/route";
 import { prisma } from "@/lib/prisma";
+import { changeAccountPassword, deleteAccount } from "@/lib/account";
 import { calendarDay, calendarDaysBefore } from "@/lib/dates";
-import { createSessionRecord, getSessionUser, hashSessionToken, MAX_ACTIVE_SESSIONS, SESSION_COOKIE } from "@/lib/auth";
+import { createSessionRecord, getSessionUser, hashPassword, hashSessionToken, MAX_ACTIVE_SESSIONS, SESSION_COOKIE, verifyPassword } from "@/lib/auth";
 import { linkLearnerToUser } from "@/lib/learner-identity";
 
 const deviceKey = "guest_integration_device";
@@ -35,6 +36,8 @@ const headers = { "content-type": "application/json", "x-forwarded-for": "198.51
 const authUserId = "integration-auth-user";
 const authLearnerKey = "account_integration_device";
 const authGuestKey = "guest_auth_integration_device";
+const lifecycleUserId = "integration-lifecycle-user";
+const lifecycleLearnerKey = "account_lifecycle_integration";
 
 function request(url: string, method: string, body: unknown) {
   return new Request(url, { method, headers, body: JSON.stringify(body) });
@@ -73,7 +76,8 @@ beforeAll(async () => {
 
 afterAll(async () => {
   await prisma.learnerProfile.deleteMany({ where: { deviceKey: { in: [authLearnerKey, authGuestKey] } } });
-  await prisma.user.deleteMany({ where: { id: authUserId } });
+  await prisma.learnerProfile.deleteMany({ where: { deviceKey: lifecycleLearnerKey } });
+  await prisma.user.deleteMany({ where: { id: { in: [authUserId, lifecycleUserId] } } });
   await prisma.learnerProfile.deleteMany({ where: { deviceKey: { in: [deviceKey, shieldDeviceKey, concurrentDeviceKey] } } });
   await prisma.question.deleteMany({ where: { id: { in: [choiceId, writtenId, scienceQuestionId] } } });
   await prisma.badge.deleteMany({ where: { id: "integration-badge" } });
@@ -173,6 +177,36 @@ describe("learner API journey", () => {
       lastFreezeUsedOn: today,
       lastActiveOn: today,
     });
+  });
+
+  it("rotates account passwords, revokes sessions, and erases the full account", async () => {
+    const oldPassword = "old-password-123";
+    const newPassword = "new-password-456";
+    await prisma.user.create({ data: {
+      id: lifecycleUserId,
+      email: "lifecycle@example.com",
+      passwordHash: await hashPassword(oldPassword),
+      learner: { create: { deviceKey: lifecycleLearnerKey, xp: 17 } },
+      sessions: { create: { tokenHash: hashSessionToken("lifecycle-old-session"), expiresAt: new Date(Date.now() + 60_000) } },
+    } });
+
+    expect(await changeAccountPassword(lifecycleUserId, "wrong-password", newPassword)).toBe("INVALID_PASSWORD");
+    expect(await changeAccountPassword(lifecycleUserId, oldPassword, oldPassword)).toBe("UNCHANGED");
+    expect(await changeAccountPassword(lifecycleUserId, oldPassword, newPassword)).toBe("UPDATED");
+    const updated = await prisma.user.findUniqueOrThrow({ where: { id: lifecycleUserId } });
+    expect(await verifyPassword(newPassword, updated.passwordHash)).toBe(true);
+    expect(await prisma.authSession.count({ where: { userId: lifecycleUserId } })).toBe(0);
+
+    await prisma.authSession.create({ data: {
+      userId: lifecycleUserId,
+      tokenHash: hashSessionToken("lifecycle-new-session"),
+      expiresAt: new Date(Date.now() + 60_000),
+    } });
+    expect(await deleteAccount(lifecycleUserId, "wrong-password")).toBe(false);
+    expect(await deleteAccount(lifecycleUserId, newPassword)).toBe(true);
+    expect(await prisma.user.findUnique({ where: { id: lifecycleUserId } })).toBeNull();
+    expect(await prisma.learnerProfile.findUnique({ where: { deviceKey: lifecycleLearnerKey } })).toBeNull();
+    expect(await prisma.authSession.count({ where: { userId: lifecycleUserId } })).toBe(0);
   });
 
   it("returns grades and dimension-aware tags for cascading practice filters", async () => {

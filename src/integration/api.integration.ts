@@ -232,6 +232,18 @@ describe("learner API journey", () => {
     expect(await response.json()).toMatchObject({ id: choiceId });
   });
 
+  it("loads a targeted published question without exposing its answer", async () => {
+    const response = await nextQuestion(new NextRequest(
+      `http://localhost/api/questions/next?questionId=${writtenId}&subject=integration-math`,
+    ));
+
+    expect(response.status).toBe(200);
+    const question = await response.json() as { id: string; answer?: unknown; explanation?: unknown };
+    expect(question).toMatchObject({ id: writtenId });
+    expect(question).not.toHaveProperty("answer");
+    expect(question).not.toHaveProperty("explanation");
+  });
+
   it("records concurrent first attempts without losing progress or duplicating badges", async () => {
     const attempts = [
       "b3496bea-4c66-4e2d-a4e5-6496e6126966",
@@ -300,6 +312,15 @@ describe("learner API journey", () => {
     expect((await saveQuestion(request("http://localhost/api/review", "POST", { deviceKey, questionId: choiceId, saved: true }))).status).toBe(200);
     const review = await (await getReview(new NextRequest(`http://localhost/api/review?deviceKey=${deviceKey}`))).json() as { dueCount: number; savedCount: number };
     expect(review).toMatchObject({ dueCount: 1, savedCount: 1 });
+    await prisma.question.update({ where: { id: choiceId }, data: { status: "NEEDS_REVIEW" } });
+    try {
+      const hidden = await (await getReview(new NextRequest(`http://localhost/api/review?deviceKey=${deviceKey}`))).json() as {
+        dueCount: number; activeCount: number; savedCount: number; reviews: unknown[]; saved: unknown[];
+      };
+      expect(hidden).toMatchObject({ dueCount: 0, activeCount: 0, savedCount: 0, reviews: [], saved: [] });
+    } finally {
+      await prisma.question.update({ where: { id: choiceId }, data: { status: "PUBLISHED" } });
+    }
     const adaptiveQuestion = await (await nextQuestion(new NextRequest(`http://localhost/api/questions/next?subject=integration-math&mode=review&deviceKey=${deviceKey}`))).json() as { id: string; recommendationReason: string };
     expect(adaptiveQuestion).toMatchObject({ id: choiceId, recommendationReason: "复习一题到期的薄弱知识" });
 

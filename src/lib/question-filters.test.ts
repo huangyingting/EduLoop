@@ -6,6 +6,7 @@ describe("question filters", () => {
     const filters = parseQuestionFilters(new URLSearchParams({
       mode: "adaptive",
       deviceKey: "guest_device_123",
+      questionId: "question_a",
       subject: "math",
       gradeBand: "middle",
       difficulty: "HARD",
@@ -25,6 +26,7 @@ describe("question filters", () => {
     });
     expect(questionWhere(filters!)).toMatchObject({
       status: "PUBLISHED",
+      id: "question_a",
       subject: { slug: "math" },
       difficulty: "HARD",
       isAutoGradable: true,
@@ -44,6 +46,7 @@ describe("question filters", () => {
   it("rejects unknown enums, unsafe slugs, and oversized lists", () => {
     expect(parseQuestionFilters(new URLSearchParams({ difficulty: "IMPOSSIBLE" }))).toBeNull();
     expect(parseQuestionFilters(new URLSearchParams({ subject: "../math" }))).toBeNull();
+    expect(parseQuestionFilters(new URLSearchParams({ questionId: "question/unsafe" }))).toBeNull();
     expect(parseQuestionFilters(new URLSearchParams({ tags: "topic:geometry" }))).toBeNull();
     expect(parseQuestionFilters(new URLSearchParams({
       exclude: Array.from({ length: 21 }, (_, index) => `question_${index}`).join(","),

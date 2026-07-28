@@ -19,7 +19,7 @@
 4. Submit, then see correctness (where defensible), reference answer, explanation, and XP.
 5. Move to a non-repeating next question and complete a ten-question loop.
 6. Return later to maintain a daily learning streak and deepen topic mastery.
-7. Review mistakes when due; three successful spaced reviews graduate an item.
+7. Open a specific saved or scheduled question, review mistakes when due, and graduate an item after three successful spaced reviews.
 
 ## Information architecture
 

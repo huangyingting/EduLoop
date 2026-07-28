@@ -52,7 +52,7 @@ async function getReview(request: NextRequest) {
   const now = new Date();
   const [reviews, saved, dueCount, activeCount, savedCount] = await Promise.all([
     prisma.reviewItem.findMany({
-      where: { learnerId: learner.id, status: "ACTIVE" },
+      where: { learnerId: learner.id, status: "ACTIVE", question: { status: "PUBLISHED" } },
       orderBy: [{ dueAt: "asc" }, { updatedAt: "desc" }],
       take: 50,
       include: { question: { include: questionInclude } },
@@ -63,9 +63,9 @@ async function getReview(request: NextRequest) {
       take: 50,
       include: { question: { include: questionInclude } },
     }),
-    prisma.reviewItem.count({ where: { learnerId: learner.id, status: "ACTIVE", dueAt: { lte: now } } }),
-    prisma.reviewItem.count({ where: { learnerId: learner.id, status: "ACTIVE" } }),
-    prisma.savedQuestion.count({ where: { learnerId: learner.id } }),
+    prisma.reviewItem.count({ where: { learnerId: learner.id, status: "ACTIVE", dueAt: { lte: now }, question: { status: "PUBLISHED" } } }),
+    prisma.reviewItem.count({ where: { learnerId: learner.id, status: "ACTIVE", question: { status: "PUBLISHED" } } }),
+    prisma.savedQuestion.count({ where: { learnerId: learner.id, question: { status: "PUBLISHED" } } }),
   ]);
 
   return NextResponse.json({

@@ -10,6 +10,7 @@ const questionTypeSchema = z.enum(Object.keys(QUESTION_TYPE_LABELS) as [string, 
 const querySchema = z.object({
   mode: z.enum(["standard", "review", "adaptive"]).default("standard"),
   deviceKey: z.string().min(8).max(100).optional(),
+  questionId: identifierSchema.optional(),
   subject: slugSchema.optional(),
   gradeBand: slugSchema.optional(),
   grade: slugSchema.optional(),
@@ -31,6 +32,7 @@ export function parseQuestionFilters(params: URLSearchParams) {
   const scalar = querySchema.safeParse({
     mode: params.get("mode") || undefined,
     deviceKey: params.get("deviceKey") || undefined,
+    questionId: params.get("questionId") || undefined,
     subject: params.get("subject") || undefined,
     gradeBand: params.get("gradeBand") || undefined,
     grade: params.get("grade") || undefined,
@@ -60,6 +62,7 @@ export function questionWhere(filters: QuestionFilters): Prisma.QuestionWhereInp
   }
   return {
     status: "PUBLISHED",
+    ...(filters.questionId ? { id: filters.questionId } : {}),
     ...(filters.subject ? { subject: { slug: filters.subject } } : {}),
     ...(filters.gradeBand ? { gradeBand: { slug: filters.gradeBand } } : {}),
     ...(filters.grade ? { grade: { slug: filters.grade } } : {}),

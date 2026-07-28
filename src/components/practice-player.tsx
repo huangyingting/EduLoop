@@ -110,6 +110,7 @@ export function PracticePlayer() {
   const [hintError, setHintError] = useState("");
   const startedAt = useRef(0);
   const sessionId = useRef<string | null>(null);
+  const targetedQuestionId = useRef(search.get("questionId") ?? "");
   const questionRequest = useRef<AbortController | null>(null);
   const hintRequest = useRef<AbortController | null>(null);
   const requestGeneration = useRef(0);
@@ -147,7 +148,7 @@ export function PracticePlayer() {
     return null;
   }, [practiceMode]);
 
-  const loadQuestion = useCallback(async (nextFilters = filters, excluded = recent) => {
+  const loadQuestion = useCallback(async (nextFilters = filters, excluded = recent, requestedQuestionId = targetedQuestionId.current) => {
     const generation = ++requestGeneration.current;
     questionRequest.current?.abort();
     hintRequest.current?.abort();
@@ -157,6 +158,7 @@ export function PracticePlayer() {
     const params = new URLSearchParams();
     Object.entries(nextFilters).forEach(([key, value]) => value && params.set(key, value));
     params.set("deviceKey", getDeviceKey());
+    if (requestedQuestionId) params.set("questionId", requestedQuestionId);
     if (practiceMode !== "standard") params.set("mode", practiceMode);
     if (excluded.length) params.set("exclude", excluded.join(","));
     try {
@@ -164,6 +166,7 @@ export function PracticePlayer() {
       if (!response.ok) throw new Error(response.status === 404 ? "这个组合暂时没有可用题目，换个筛选试试吧。" : "题目加载失败，请稍后再试。");
       const payload = await response.json() as Question;
       if (generation !== requestGeneration.current) return;
+      if (targetedQuestionId.current === requestedQuestionId) targetedQuestionId.current = "";
       setQuestion(payload); setRecent((items) => [...items.slice(-7), payload.id]); clientAttemptId.current = crypto.randomUUID(); startedAt.current = Date.now();
     } catch (cause) {
       if (controller.signal.aborted || generation !== requestGeneration.current) return;

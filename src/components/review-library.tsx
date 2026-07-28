@@ -10,6 +10,12 @@ type QuestionCard = { id: string; stem: string; type: string; difficulty: string
 type ReviewCard = QuestionCard & { dueAt: string; isDue: boolean; intervalDays: number; repetitions: number; lastResult: boolean | null };
 type ReviewData = { dueCount: number; activeCount: number; savedCount: number; reviews: ReviewCard[]; saved: Array<QuestionCard & { savedAt: string }> };
 
+function practiceHref(item: QuestionCard, review: ReviewCard | null) {
+  const params = new URLSearchParams({ questionId: item.id, subject: item.subject.slug });
+  if (review?.isDue) params.set("mode", "review");
+  return `/practice?${params}`;
+}
+
 export function ReviewLibrary() {
   const [data, setData] = useState<ReviewData | null>(null);
   const [tab, setTab] = useState<"review" | "saved">("review");
@@ -60,7 +66,19 @@ export function ReviewLibrary() {
       <section id="review-panel" role="tabpanel" aria-labelledby={tab === "review" ? "review-tab" : "saved-tab"} className="mt-5 space-y-4">
         {cards.length ? cards.map((item) => {
           const review = "dueAt" in item ? item as ReviewCard : null;
-          return <article key={item.id} className="rounded-[26px] border-2 border-ink/10 bg-white p-5 shadow-[0_5px_0_#e3dfd4] sm:p-6"><div className="flex flex-wrap items-center gap-2"><span className="rounded-full px-3 py-1.5 text-xs font-black text-white" style={{ background: item.subject.color }}>{item.subject.name}</span><span className="rounded-full bg-canvas px-3 py-1.5 text-xs font-bold text-muted">{item.grade}</span>{item.tags.map((tag) => <span key={tag.slug} className="rounded-full bg-[#f0edff] px-3 py-1.5 text-xs font-bold text-violet">{tag.label}</span>)}{review ? <span className={`ml-auto flex items-center gap-1 text-xs font-black ${review.isDue ? "text-coral" : "text-muted"}`}>{review.isDue ? <><CalendarClock size={15} /> 现在可复习</> : <><Check size={15} /> 已安排后续复习</>}</span> : <button onClick={() => void removeSaved(item.id)} aria-label="取消收藏" className="ml-auto grid size-11 place-items-center rounded-xl text-muted hover:bg-[#fff0ed] hover:text-coral"><Trash2 size={17} /></button>}</div><div className="mt-4 line-clamp-3 text-[15px] font-bold leading-7"><MathText>{item.stem}</MathText></div>{review ? <div className="mt-4 flex items-center justify-between border-t border-dashed border-ink/10 pt-4 text-xs font-bold text-muted"><span>已复习 {review.repetitions} 次</span><span>{review.intervalDays ? `间隔 ${review.intervalDays} 天` : "等待再次挑战"}</span></div> : null}</article>;
+          return <article key={item.id} className="rounded-[26px] border-2 border-ink/10 bg-white p-5 shadow-[0_5px_0_#e3dfd4] sm:p-6">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="rounded-full px-3 py-1.5 text-xs font-black text-white" style={{ background: item.subject.color }}>{item.subject.name}</span>
+              <span className="rounded-full bg-canvas px-3 py-1.5 text-xs font-bold text-muted">{item.grade}</span>
+              {item.tags.map((tag) => <span key={tag.slug} className="rounded-full bg-[#f0edff] px-3 py-1.5 text-xs font-bold text-violet">{tag.label}</span>)}
+              {review ? <span className={`ml-auto flex items-center gap-1 text-xs font-black ${review.isDue ? "text-coral" : "text-muted"}`}>{review.isDue ? <><CalendarClock size={15} /> 现在可复习</> : <><Check size={15} /> 已安排后续复习</>}</span> : <button onClick={() => void removeSaved(item.id)} aria-label="取消收藏" className="ml-auto grid size-11 place-items-center rounded-xl text-muted hover:bg-[#fff0ed] hover:text-coral"><Trash2 size={17} /></button>}
+            </div>
+            <div className="mt-4 line-clamp-3 text-[15px] font-bold leading-7"><MathText>{item.stem}</MathText></div>
+            <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-dashed border-ink/10 pt-4">
+              {review ? <div className="flex gap-4 text-xs font-bold text-muted"><span>已复习 {review.repetitions} 次</span><span>{review.intervalDays ? `间隔 ${review.intervalDays} 天` : "等待再次挑战"}</span></div> : <span className="text-xs font-bold text-muted">从这道收藏题继续练习</span>}
+              <Link href={practiceHref(item, review)} className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-ink px-4 text-sm font-black text-white">{review?.isDue ? "现在复习" : "练习这题"} <ArrowRight size={16} /></Link>
+            </div>
+          </article>;
         }) : <div className="rounded-[28px] border-2 border-dashed border-ink/15 bg-white/50 p-10 text-center"><span className="mx-auto grid size-14 place-items-center rounded-2xl bg-lime text-2xl">{tab === "review" ? "✓" : "☆"}</span><h2 className="mt-4 font-display text-xl font-black">{tab === "review" ? "目前没有待复习错题" : "还没有收藏题目"}</h2><p className="mt-2 text-sm font-semibold text-muted">{tab === "review" ? "继续练习，系统会自动整理需要回看的知识。" : "练习时点击书签，就能把题目留在这里。"}</p><Link href="/practice" className="mt-5 inline-flex items-center gap-2 rounded-xl bg-ink px-5 py-3 text-sm font-black text-white">去练习 <ArrowRight size={16} /></Link></div>}
       </section>
     </div>

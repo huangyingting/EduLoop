@@ -27,7 +27,7 @@ public/question-assets/generated/zh-CN/<question-id>/*
   -> reviewed locale-specific replacement diagrams
 ```
 
-The catalog API discovers every filterable tag dimension from the database, so new curriculum dimensions do not require a new practice UI control. Question filters encode tags as `DIMENSION:slug` while retaining unqualified topic slugs for older links. The question API returns only the stem, options, display metadata, and tags. Correct labels, reference answers, and explanations remain server-side until an attempt is posted.
+The catalog API discovers every filterable tag dimension from the database, so new curriculum dimensions do not require a new practice UI control. Question filters encode tags as `DIMENSION:slug` while retaining unqualified topic slugs for older links. A bounded `questionId` filter lets saved and scheduled-review cards reuse the same player for targeted practice. The question API returns only the stem, options, display metadata, and tags. Correct labels, reference answers, and explanations remain server-side until an attempt is posted.
 
 ## Data-model decisions
 
@@ -37,7 +37,7 @@ The catalog API discovers every filterable tag dimension from the database, so n
 - Options are ordered child rows; answer labels are stored as a small JSON-encoded string because both database providers can handle it without provider-specific array types.
 - Tags are many-to-many and dimensioned. Confidence plus provenance prevents inferred metadata from masquerading as teacher-reviewed truth.
 - Practice attempts are immutable events. A browser-generated unique attempt ID makes network retries idempotent, while `DailyActivity` is a derived aggregate for efficient streak/history displays.
-- `ReviewItem` stores the explainable 1/3/7-day mistake schedule; `SavedQuestion` is independent of correctness.
+- `ReviewItem` stores the explainable 1/3/7-day mistake schedule; `SavedQuestion` is independent of correctness. Review lists and counts honor the same `PUBLISHED` boundary as question serving.
 - Written attempts are created before the learner sees the reference answer; their nullable correctness is then finalized by an explicit self-assessment update.
 - `QuestionReport` captures learner feedback for the protected content-review workflow.
 - `LearnerProfile` has one optional unique `User`. Guests resolve by `deviceKey`; authenticated requests resolve by the hashed database session and `userId` instead of trusting that client key.

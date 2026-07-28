@@ -15,6 +15,8 @@ npm run build
 
 Run migrations as a single pre-deploy job, not from every application replica. The included Dockerfile builds a standalone server; set `DATABASE_URL`, `EDULOOP_DATABASE_PROVIDER=postgresql`, `APP_VERSION`, and `PORT` at runtime. Container startup validates these values before launching Next.js. Terminate HTTPS at the trusted ingress.
 
+Production responses set HSTS, same-origin opener/resource isolation, and a resource-complete CSP. Next.js hydration currently requires inline scripts and the UI uses inline style values, so `script-src` and `style-src` allow inline content; `unsafe-eval` and WebSocket connections are development-only. Recheck the built application before tightening these remaining framework allowances.
+
 ## Observe
 
 Use `GET /api/health` for readiness and container health. Forward JSON stdout/stderr to the platform log service and alert on readiness failures, HTTP 5xx rate, attempt latency, and PostgreSQL connection saturation. Never log request bodies, answers, device keys, or report details.

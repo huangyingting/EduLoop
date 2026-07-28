@@ -21,6 +21,7 @@ School-managed accounts are a separate launch mode. Before using accounts with s
 | Content reports can be triaged safely | role-protected `/studio`, immediate quarantine, immutable `ContentReviewAction` history |
 | Both databases stay portable | paired schemas and migration stages enforced by `npm run schema:check` |
 | Failures are diagnosable | `/api/health`, structured request errors, error boundaries |
+| Browser resource loading is constrained | tested CSP, HSTS, framing, MIME, referrer, permission, and cross-origin response headers |
 | Supply and build are repeatable | lockfile, CI workflow, standalone Dockerfile |
 
 ## Release Gates

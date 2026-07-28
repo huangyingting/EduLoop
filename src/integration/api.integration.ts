@@ -18,6 +18,7 @@ import { linkLearnerToUser } from "@/lib/learner-identity";
 
 const deviceKey = "guest_integration_device";
 const shieldDeviceKey = "guest_integration_shield";
+const concurrentDeviceKey = "guest_integration_concurrent";
 const subjectId = "integration-subject";
 const bandId = "integration-band";
 const gradeId = "integration-grade";
@@ -69,7 +70,7 @@ beforeAll(async () => {
 afterAll(async () => {
   await prisma.learnerProfile.deleteMany({ where: { deviceKey: { in: [authLearnerKey, authGuestKey] } } });
   await prisma.user.deleteMany({ where: { id: authUserId } });
-  await prisma.learnerProfile.deleteMany({ where: { deviceKey: { in: [deviceKey, shieldDeviceKey] } } });
+  await prisma.learnerProfile.deleteMany({ where: { deviceKey: { in: [deviceKey, shieldDeviceKey, concurrentDeviceKey] } } });
   await prisma.question.deleteMany({ where: { id: { in: [choiceId, writtenId, scienceQuestionId] } } });
   await prisma.badge.deleteMany({ where: { id: "integration-badge" } });
   await prisma.tag.deleteMany({ where: { id: { in: [mathTopicId, scienceTopicId] } } });
@@ -116,6 +117,22 @@ describe("learner API journey", () => {
     expect(await getSessionUser(authenticatedRequest)).toMatchObject({ id: authUserId, email: "integration@example.com" });
     const response = await getLearner(authenticatedRequest);
     expect(await response.json()).toMatchObject({ xp: 33, level: 1 });
+
+    const authenticatedAttempt = await createAttempt(new NextRequest("http://localhost/api/attempts", {
+      method: "POST",
+      headers: { ...headers, cookie: `${SESSION_COOKIE}=${token}` },
+      body: JSON.stringify({
+        deviceKey: "spoofed_guest_device",
+        questionId: choiceId,
+        response: ["B"],
+        timeZone: "Asia/Shanghai",
+        clientAttemptId: "927160d2-bd5b-4348-9504-f0466beb3a80",
+      }),
+    }));
+    expect(authenticatedAttempt.status).toBe(200);
+    expect(await authenticatedAttempt.json()).toMatchObject({ totalXp: 43, isCorrect: true });
+    expect(await prisma.learnerProfile.findUnique({ where: { deviceKey: "spoofed_guest_device" } })).toBeNull();
+    expect(await prisma.learnerProfile.findUniqueOrThrow({ where: { userId: authUserId } })).toMatchObject({ xp: 43 });
 
     for (let index = 0; index < MAX_ACTIVE_SESSIONS + 2; index += 1) {
       await createSessionRecord(authUserId, new Date(Date.now() + index));
@@ -173,13 +190,52 @@ describe("learner API journey", () => {
   });
 
   it("rejects malformed and unbounded question filters", async () => {
-    const unsafeSlug = await nextQuestion(new NextRequest("http://localhost/api/questions/next?subject=..%2Fmath"));
+    const unsafeSlug = await nextQuestion(new NextRequest("http://localhost/api/questions/next?subject=..%2Fmath", {
+      headers: { "x-request-id": "integration-invalid-filters" },
+    }));
     expect(unsafeSlug.status).toBe(400);
     expect(await unsafeSlug.json()).toEqual({ error: "Invalid question filters", code: "INVALID_REQUEST" });
+    expect(unsafeSlug.headers.get("x-request-id")).toBe("integration-invalid-filters");
 
     const tooManyExcluded = Array.from({ length: 21 }, (_, index) => `question_${index}`).join(",");
     const oversized = await nextQuestion(new NextRequest(`http://localhost/api/questions/next?exclude=${tooManyExcluded}`));
     expect(oversized.status).toBe(400);
+  });
+
+  it("reuses a small filtered pool after recent exclusions exhaust it", async () => {
+    const response = await nextQuestion(new NextRequest(
+      `http://localhost/api/questions/next?subject=integration-math&autoGradable=true&exclude=${choiceId}`,
+    ));
+
+    expect(response.status).toBe(200);
+    expect(await response.json()).toMatchObject({ id: choiceId });
+  });
+
+  it("records concurrent first attempts without losing progress or duplicating badges", async () => {
+    const attempts = [
+      "b3496bea-4c66-4e2d-a4e5-6496e6126966",
+      "ba6839b3-b85a-43f8-95d8-7020a0defaba",
+    ].map((clientAttemptId) => createAttempt(request("http://localhost/api/attempts", "POST", {
+      deviceKey: concurrentDeviceKey,
+      questionId: choiceId,
+      response: ["B"],
+      timeZone: "Asia/Shanghai",
+      clientAttemptId,
+    })));
+
+    const responses = await Promise.all(attempts);
+    expect(responses.map(({ status }) => status)).toEqual([200, 200]);
+
+    const learner = await prisma.learnerProfile.findUniqueOrThrow({ where: { deviceKey: concurrentDeviceKey } });
+    const activity = await prisma.dailyActivity.findUniqueOrThrow({
+      where: { learnerId_activityDate: { learnerId: learner.id, activityDate: calendarDay(new Date(), "Asia/Shanghai") } },
+    });
+    expect(learner).toMatchObject({ xp: 20, currentStreak: 1, bestStreak: 1 });
+    expect(await prisma.practiceAttempt.count({ where: { learnerId: learner.id } })).toBe(2);
+    expect(activity).toMatchObject({ attempts: 2, correct: 2, earnedXp: 20 });
+    expect(await prisma.learnerBadge.count({
+      where: { learnerId: learner.id, badge: { slug: "first-spark" } },
+    })).toBe(1);
   });
 
   it("creates a session, grades a miss, schedules review, saves, reports, and exposes progress", async () => {

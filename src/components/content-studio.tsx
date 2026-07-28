@@ -6,6 +6,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useAuth } from "@/lib/use-auth";
 import { isContentOperator } from "@/lib/user-roles";
 import { MathText } from "./math-text";
+import { LearningHealthPanel } from "./learning-health-panel";
 
 type ReviewAction = {
   id: string;
@@ -151,6 +152,8 @@ export function ContentStudio() {
           <div className="rounded-2xl border-2 border-ink/10 bg-white px-5 py-4 text-sm font-black"><span className="text-coral">{data?.counts.open ?? "—"}</span> 条待处理</div>
         </div>
       </header>
+
+      <LearningHealthPanel />
 
       <div role="tablist" aria-label="报告状态" onKeyDown={navigateTabs} className="mt-8 flex max-w-md gap-2 rounded-2xl border-2 border-ink/10 bg-white p-1.5">
         {(["OPEN", "RESOLVED"] as const).map((value) => <button key={value} id={`studio-${value.toLowerCase()}-tab`} role="tab" aria-selected={status === value} aria-controls="studio-report-panel" tabIndex={status === value ? 0 : -1} onClick={() => { setStatus(value); setPage(1); }} className={`flex min-h-11 flex-1 items-center justify-center gap-2 rounded-xl px-4 text-sm font-black ${status === value ? "bg-ink text-white" : "text-muted"}`}>{value === "OPEN" ? <FileWarning size={17} /> : <CheckCircle2 size={17} />}{value === "OPEN" ? `待处理 ${data?.counts.open ?? ""}` : `已解决 ${data?.counts.resolved ?? ""}`}</button>)}

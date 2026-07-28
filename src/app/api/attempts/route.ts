@@ -23,6 +23,12 @@ const selfAssessmentSchema = z.object({
   timeZone: z.string().max(100).optional(),
 });
 
+const explanationViewSchema = z.object({
+  event: z.literal("EXPLANATION_VIEWED"),
+  attemptId: z.string().min(8),
+  deviceKey: z.string().min(8).max(100),
+});
+
 function levelForXp(xp: number) {
   return Math.floor(xp / 120) + 1;
 }
@@ -245,8 +251,39 @@ async function postAttempt(request: Request) {
   });
 }
 
+async function recordExplanationView(request: Request, input: z.infer<typeof explanationViewSchema>) {
+  const limited = enforceRateLimit(request, "explanation-views", input.deviceKey, 90);
+  if (limited) return limited;
+  const learner = await findLearnerForRequest(request, input.deviceKey);
+  if (!learner) return apiError("Attempt not found", 404, "NOT_FOUND");
+  const viewedAt = new Date();
+  const updated = await prisma.practiceAttempt.updateMany({
+    where: {
+      id: input.attemptId,
+      learnerId: learner.id,
+      isCorrect: false,
+      explanationViewedAt: null,
+      question: { explanation: { not: null } },
+    },
+    data: { explanationViewedAt: viewedAt },
+  });
+  if (updated.count) return NextResponse.json({ recorded: true, viewedAt });
+
+  const attempt = await prisma.practiceAttempt.findFirst({
+    where: { id: input.attemptId, learnerId: learner.id },
+    select: { explanationViewedAt: true },
+  });
+  if (!attempt) return apiError("Attempt not found", 404, "NOT_FOUND");
+  if (attempt.explanationViewedAt) {
+    return NextResponse.json({ recorded: false, viewedAt: attempt.explanationViewedAt });
+  }
+  return apiError("Explanation view is not eligible for this attempt", 409, "CONFLICT");
+}
+
 async function patchAttempt(request: Request) {
   const body = await request.json().catch(() => null);
+  const explanationView = explanationViewSchema.safeParse(body);
+  if (explanationView.success) return recordExplanationView(request, explanationView.data);
   const parsed = selfAssessmentSchema.safeParse(body);
   if (!parsed.success) return apiError("Invalid self-assessment", 400, "INVALID_REQUEST");
   const input = parsed.data;

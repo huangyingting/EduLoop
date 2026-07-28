@@ -215,24 +215,26 @@ model PracticeSession {
 }
 
 model PracticeAttempt {
-  id              String           @id @default(cuid())
-  clientAttemptId String?          @unique
-  learnerId       String
-  sessionId       String?
-  questionId      String
-  response        String
-  isCorrect       Boolean?
-  isSelfAssessed  Boolean          @default(false)
-  secondsSpent    Int?
-  earnedXp        Int              @default(0)
-  learner         LearnerProfile   @relation(fields: [learnerId], references: [id], onDelete: Cascade)
-  session         PracticeSession? @relation(fields: [sessionId], references: [id], onDelete: SetNull)
-  question        Question         @relation(fields: [questionId], references: [id])
-  createdAt       DateTime         @default(now())
+  id                  String           @id @default(cuid())
+  clientAttemptId     String?          @unique
+  learnerId           String
+  sessionId           String?
+  questionId          String
+  response            String
+  isCorrect           Boolean?
+  isSelfAssessed      Boolean          @default(false)
+  secondsSpent        Int?
+  earnedXp            Int              @default(0)
+  explanationViewedAt DateTime?
+  learner             LearnerProfile   @relation(fields: [learnerId], references: [id], onDelete: Cascade)
+  session             PracticeSession? @relation(fields: [sessionId], references: [id], onDelete: SetNull)
+  question            Question         @relation(fields: [questionId], references: [id])
+  createdAt           DateTime         @default(now())
 
   @@index([learnerId, createdAt])
   @@index([questionId, isCorrect])
   @@index([sessionId])
+  @@index([createdAt, isCorrect, explanationViewedAt])
 }
 
 model Badge {

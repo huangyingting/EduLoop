@@ -36,7 +36,7 @@ async function getLearnerExport(request: NextRequest) {
       attempts: {
         orderBy: { createdAt: "asc" },
         select: {
-          response: true, isCorrect: true, isSelfAssessed: true, secondsSpent: true, earnedXp: true, createdAt: true,
+          response: true, isCorrect: true, isSelfAssessed: true, secondsSpent: true, earnedXp: true, explanationViewedAt: true, createdAt: true,
           question: { select: { sourceId: true, stem: true, subject: { select: { name: true } }, grade: { select: { name: true } } } },
         },
       },

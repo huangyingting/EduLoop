@@ -19,6 +19,8 @@ Run migrations as a single pre-deploy job, not from every application replica. T
 
 Use `GET /api/health` for readiness and container health. Forward JSON stdout/stderr to the platform log service and alert on readiness failures, HTTP 5xx rate, attempt latency, and PostgreSQL connection saturation. Never log request bodies, answers, device keys, or report details.
 
+Authorized content operators can view 28-day aggregate learning-loop health in `/studio`. The endpoint returns no learner identifiers or responses. “Seven-day return” compares distinct learners in adjacent seven-day windows; repeat-topic change is capped at the latest 20,000 graded observations and declares when sampling is active. Move long-term or high-volume analytics to a privacy-reviewed warehouse rather than removing this bound.
+
 Application limits are a single-process safety net. Configure the trusted ingress or shared limiter for at least:
 
 - attempts: 45 per device/IP per minute;
@@ -27,6 +29,7 @@ Application limits are a single-process safety net. Configure the trusted ingres
 - login: 10 attempts per email/IP per 15 minutes;
 - registration: 5 attempts per email/IP per 15 minutes.
 - studio review: 180 reads and 60 transitions per operator/IP per 10 minutes.
+- studio metrics: 60 aggregate reads per operator/IP per 10 minutes.
 
 Periodically delete expired `AuthSession` rows if login traffic is too low for opportunistic pruning. A suspected session compromise should revoke the affected rows; a database credential compromise requires revoking all sessions and rotating database credentials.
 

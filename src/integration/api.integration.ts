@@ -12,6 +12,7 @@ import { POST as createReport } from "@/app/api/reports/route";
 import { GET as getReview, POST as saveQuestion } from "@/app/api/review/route";
 import { POST as createSession } from "@/app/api/sessions/route";
 import { GET as getStudioReports, PATCH as updateStudioReport } from "@/app/api/studio/reports/route";
+import { GET as getStudioMetrics } from "@/app/api/studio/metrics/route";
 import { prisma } from "@/lib/prisma";
 import { changeAccountPassword, deleteAccount } from "@/lib/account";
 import { calendarDay, calendarDaysBefore } from "@/lib/dates";
@@ -409,6 +410,31 @@ describe("learner API journey", () => {
       category: "WRONG_ANSWER",
       detail: "测试报告详情",
     } });
+    const missedAttemptResponse = await createAttempt(request("http://localhost/api/attempts", "POST", {
+      deviceKey: studioReporterKey,
+      questionId: choiceId,
+      response: ["A"],
+      timeZone: "Asia/Shanghai",
+    }));
+    const missedAttempt = await missedAttemptResponse.json() as { attemptId: string; isCorrect: boolean };
+    expect(missedAttempt.isCorrect).toBe(false);
+    expect((await assessAttempt(request("http://localhost/api/attempts", "PATCH", {
+      event: "EXPLANATION_VIEWED", attemptId: missedAttempt.attemptId, deviceKey: "studio_spoof_device",
+    }))).status).toBe(404);
+    const explanationView = await assessAttempt(request("http://localhost/api/attempts", "PATCH", {
+      event: "EXPLANATION_VIEWED", attemptId: missedAttempt.attemptId, deviceKey: studioReporterKey,
+    }));
+    expect(await explanationView.json()).toMatchObject({ recorded: true });
+    const replayedView = await assessAttempt(request("http://localhost/api/attempts", "PATCH", {
+      event: "EXPLANATION_VIEWED", attemptId: missedAttempt.attemptId, deviceKey: studioReporterKey,
+    }));
+    expect(await replayedView.json()).toMatchObject({ recorded: false });
+    await createAttempt(request("http://localhost/api/attempts", "POST", {
+      deviceKey: studioReporterKey,
+      questionId: choiceId,
+      response: ["B"],
+      timeZone: "Asia/Shanghai",
+    }));
     await prisma.user.createMany({ data: [
       { id: studioOperatorId, email: "studio-operator@example.com", passwordHash: "unused", role: "CONTENT_EDITOR" },
       { id: studioLearnerId, email: "studio-learner@example.com", passwordHash: "unused", role: "LEARNER" },
@@ -432,6 +458,18 @@ describe("learner API journey", () => {
     expect(queue.reports).toContainEqual(expect.objectContaining({ id: studioReportId, detail: "测试报告详情" }));
     expect(JSON.stringify(queue)).not.toContain(studioReporterKey);
     expect(JSON.stringify(queue.reports.find(({ id }) => id === studioReportId))).not.toContain("learnerId");
+
+    const metricsResponse = await getStudioMetrics(new Request("http://localhost/api/studio/metrics", { headers: operatorHeaders }));
+    expect(metricsResponse.status).toBe(200);
+    const metrics = await metricsResponse.json() as {
+      explanations: { eligibleMisses: number; viewed: number; viewRate: number };
+      repeatPractice: { learnerTopicPairs: number };
+    };
+    expect(metrics.explanations).toMatchObject({ eligibleMisses: expect.any(Number), viewed: expect.any(Number), viewRate: expect.any(Number) });
+    expect(metrics.explanations.eligibleMisses).toBeGreaterThanOrEqual(1);
+    expect(metrics.explanations.viewed).toBeGreaterThanOrEqual(1);
+    expect(metrics.repeatPractice.learnerTopicPairs).toBeGreaterThanOrEqual(1);
+    expect(JSON.stringify(metrics)).not.toContain("learnerId");
 
     const invalidResolution = await updateStudioReport(new NextRequest("http://localhost/api/studio/reports", {
       method: "PATCH", headers: operatorHeaders, body: JSON.stringify({ reportId: studioReportId, action: "RESOLVE" }),

@@ -117,6 +117,8 @@ export function PracticePlayer() {
   const clientAttemptId = useRef("");
   const questionHeading = useRef<HTMLHeadingElement>(null);
   const resultPanel = useRef<HTMLDivElement>(null);
+  const explanationDetails = useRef<HTMLDetailsElement>(null);
+  const viewedExplanations = useRef(new Set<string>());
 
   const resolveInitialFilters = useCallback((): PracticeFilters => {
     const next = { ...getPracticePreferences() };
@@ -291,9 +293,25 @@ export function PracticePlayer() {
       });
       if (!response.ok) throw new Error("自评保存失败，请再试一次。");
       setResult((current) => current ? { ...current, isCorrect } : current);
+      if (!isCorrect && explanationDetails.current?.open) void recordExplanationView({ ...result, isCorrect: false });
       if (isCorrect) { setCorrect((value) => value + 1); setCombo((value) => value + 1); } else setCombo(0);
     } catch (cause) { setError(cause instanceof Error ? cause.message : "自评保存失败"); }
     finally { setAssessing(false); }
+  }
+
+  async function recordExplanationView(attempt = result) {
+    if (!attempt || attempt.isCorrect !== false || !attempt.explanation || viewedExplanations.current.has(attempt.attemptId)) return;
+    viewedExplanations.current.add(attempt.attemptId);
+    try {
+      const response = await fetch("/api/attempts", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ event: "EXPLANATION_VIEWED", attemptId: attempt.attemptId, deviceKey: getDeviceKey() }),
+      });
+      if (!response.ok) viewedExplanations.current.delete(attempt.attemptId);
+    } catch {
+      viewedExplanations.current.delete(attempt.attemptId);
+    }
   }
 
   async function toggleSaved() {
@@ -469,7 +487,7 @@ export function PracticePlayer() {
             })}</div> : <><label htmlFor="written-answer" className="sr-only">写下你的思路或答案</label><textarea id="written-answer" value={written} disabled={Boolean(result) || loading} onChange={(event) => setWritten(event.target.value)} placeholder="写下你的思路或答案…" className="mt-7 min-h-32 w-full resize-y rounded-2xl border-2 border-ink/10 bg-[#fbfaf7] p-4 text-[15px] font-medium leading-6 outline-none transition focus:border-violet focus:bg-white" /></>}
 
             {result ? <div ref={resultPanel} role="status" aria-live="polite" tabIndex={-1} className={`reward-pop mt-7 rounded-[22px] border-2 p-5 outline-none ${result.isCorrect ? "border-[#2c9b73]/30 bg-[#e6f8ef]" : result.isCorrect === false ? "border-coral/30 bg-[#fff0ed]" : "border-violet/25 bg-[#f0edff]"}`}>
-              <div className="flex items-start gap-3"><span className={`grid size-10 shrink-0 place-items-center rounded-xl text-white ${result.isCorrect ? "bg-[#2c9b73]" : result.isCorrect === false ? "bg-coral" : "bg-violet"}`}>{result.isCorrect ? <Check /> : result.isCorrect === false ? <X /> : <Sparkles />}</span><div className="min-w-0"><div className="flex flex-wrap items-center gap-2"><h3 className="font-display text-lg font-black">{result.isCorrect ? `答对了，连胜 ${combo}！` : result.isCorrect === false ? "差一点，找到新线索了" : "对照答案，检查你的思路"}</h3><span className="rounded-full bg-ink px-2.5 py-1 text-xs font-black text-lime">+{result.earnedXp} XP</span></div>{result.answer && <div className="mt-3 text-sm font-semibold leading-6"><span className="font-black">参考答案：</span><MathText>{result.answer}</MathText></div>}{result.explanation && <details className="mt-3 text-sm"><summary className="font-black text-violet">展开解析</summary><div className="mt-2 whitespace-pre-line font-medium leading-6 text-ink/75"><MathText>{result.explanation}</MathText></div></details>}</div></div>
+              <div className="flex items-start gap-3"><span className={`grid size-10 shrink-0 place-items-center rounded-xl text-white ${result.isCorrect ? "bg-[#2c9b73]" : result.isCorrect === false ? "bg-coral" : "bg-violet"}`}>{result.isCorrect ? <Check /> : result.isCorrect === false ? <X /> : <Sparkles />}</span><div className="min-w-0"><div className="flex flex-wrap items-center gap-2"><h3 className="font-display text-lg font-black">{result.isCorrect ? `答对了，连胜 ${combo}！` : result.isCorrect === false ? "差一点，找到新线索了" : "对照答案，检查你的思路"}</h3><span className="rounded-full bg-ink px-2.5 py-1 text-xs font-black text-lime">+{result.earnedXp} XP</span></div>{result.answer && <div className="mt-3 text-sm font-semibold leading-6"><span className="font-black">参考答案：</span><MathText>{result.answer}</MathText></div>}{result.explanation && <details ref={explanationDetails} onToggle={(event) => { if (event.currentTarget.open) void recordExplanationView(); }} className="mt-3 text-sm"><summary className="font-black text-violet">展开解析</summary><div className="mt-2 whitespace-pre-line font-medium leading-6 text-ink/75"><MathText>{result.explanation}</MathText></div></details>}</div></div>
               {result.newBadges.map((badge) => <div key={badge.name} className="mt-4 flex items-center gap-2 rounded-xl bg-white/80 p-3 text-sm font-black"><Trophy size={18} className="text-coral" /> 新徽章：{badge.icon} {badge.name}</div>)}
               {result.streakFreezeUsed ? <div className="mt-4 flex items-center gap-2 rounded-xl bg-[#eaf8ff] p-3 text-sm font-black text-ink">🛡️ 连续练习保护已生效，昨天的空档没有中断记录。还剩 {result.streakFreezes} 枚保护盾。</div> : null}
               {result.isCorrect === null ? <div className="mt-5 border-t border-violet/15 pt-4"><p className="text-sm font-black">对照参考答案后，你的思路正确吗？</p><div className="mt-3 flex flex-wrap gap-2"><button onClick={() => void selfAssess(true)} disabled={assessing} className="flex min-h-11 items-center gap-2 rounded-xl bg-[#2c9b73] px-4 text-sm font-black text-white"><Check size={17} /> 思路正确</button><button onClick={() => void selfAssess(false)} disabled={assessing} className="flex min-h-11 items-center gap-2 rounded-xl bg-coral px-4 text-sm font-black text-white"><RotateCcw size={16} /> 还需练习</button></div></div> : null}

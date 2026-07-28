@@ -13,6 +13,7 @@ School-managed accounts are a separate launch mode. Before using accounts with s
 | Content is importable and traceable | Stable source IDs, `sourceFile`, `npm run data:audit`, quarantine status |
 | Answers are not leaked | `/api/questions/next` omits keys; `/api/attempts` grades server-side |
 | Learning continues after a mistake | `ReviewItem` scheduling, `/review`, adaptive due selection |
+| Learning-loop health is measurable | idempotent explanation views and aggregate `/api/studio/metrics` session, return, and repeat-practice signals |
 | Progress survives navigation | persisted profiles, sessions, attempts, activity, saved questions |
 | Learners control learning data | `/privacy`, export, and `DELETE /api/learner` cascade deletion |
 | Account sessions are revocable | hashed `AuthSession` rows and an HttpOnly logout flow |

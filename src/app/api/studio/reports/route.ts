@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { apiError, apiHandler, enforceRateLimit } from "@/lib/api";
-import { getSessionUser, isContentOperator, type SessionUser } from "@/lib/auth";
 import { isSameOriginRequest } from "@/lib/auth-validation";
+import { contentOperatorForRequest } from "@/lib/content-operator";
 import { prisma } from "@/lib/prisma";
 
 export const runtime = "nodejs";
@@ -24,17 +24,8 @@ const updateSchema = z.object({
   }
 });
 
-type OperatorResult = { user: SessionUser; error?: never } | { user?: never; error: NextResponse };
-
-async function operatorFor(request: Request): Promise<OperatorResult> {
-  const user = await getSessionUser(request);
-  if (!user) return { error: apiError("请先登录。", 401, "UNAUTHORIZED") } as const;
-  if (!isContentOperator(user)) return { error: apiError("你没有内容审核权限。", 403, "FORBIDDEN") } as const;
-  return { user } as const;
-}
-
 async function getReports(request: NextRequest) {
-  const operator = await operatorFor(request);
+  const operator = await contentOperatorForRequest(request);
   if (operator.error) return operator.error;
   const limited = enforceRateLimit(request, "studio-reports-list", operator.user.id, 180, 10 * 60_000);
   if (limited) return limited;
@@ -97,7 +88,7 @@ async function getReports(request: NextRequest) {
 
 async function patchReport(request: NextRequest) {
   if (!isSameOriginRequest(request)) return apiError("Invalid request origin.", 403, "FORBIDDEN");
-  const operator = await operatorFor(request);
+  const operator = await contentOperatorForRequest(request);
   if (operator.error) return operator.error;
   const limited = enforceRateLimit(request, "studio-reports", operator.user.id, 60, 10 * 60_000);
   if (limited) return limited;

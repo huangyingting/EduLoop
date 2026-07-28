@@ -37,6 +37,7 @@ The catalog API discovers every filterable tag dimension from the database, so n
 - Options are ordered child rows; answer labels are stored as a small JSON-encoded string because both database providers can handle it without provider-specific array types.
 - Tags are many-to-many and dimensioned. Confidence plus provenance prevents inferred metadata from masquerading as teacher-reviewed truth.
 - Practice attempts are immutable events. A browser-generated unique attempt ID makes network retries idempotent, while `DailyActivity` is a derived aggregate for efficient streak/history displays.
+- An attempt may receive one idempotent `explanationViewedAt` timestamp after an incorrect result. The protected studio derives bounded, aggregate learning-health signals from attempts, sessions, and daily activity; it never returns learner identity or responses.
 - `ReviewItem` stores the explainable 1/3/7-day mistake schedule; `SavedQuestion` is independent of correctness. Review lists and counts honor the same `PUBLISHED` boundary as question serving.
 - Written attempts are created before the learner sees the reference answer; their nullable correctness is then finalized by an explicit self-assessment update.
 - `QuestionReport` captures learner feedback for the protected content-review workflow.

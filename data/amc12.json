@@ -17785,11 +17785,11 @@
     "question_info": {
       "raw_content": {
         "title": "Two bees start at the same spot and fly at the same rate in the following directions. Bee $A$ travels 1 foot north, then 1 foot east, then 1 foot upwards, and then continues to repeat this pattern. Bee $B$ travels 1 foot south, then 1 foot west, and then continues to repeat this pattern. In what directions are the bees traveling when they are exactly 10 feet away from each other?",
-        "option_a": "$$A$ east, $B$ west$",
-        "option_b": "$$A$ north, $B$ south$",
-        "option_c": "$$A$ north, $B$ west$",
-        "option_d": "$$A$ up, $B$ south$",
-        "option_e": "$$A$ up, $B$ west$",
+        "option_a": "$A$ east, $B$ west",
+        "option_b": "$A$ north, $B$ south",
+        "option_c": "$A$ north, $B$ west",
+        "option_d": "$A$ up, $B$ south",
+        "option_e": "$A$ up, $B$ west",
         "answer1": "A"
       }
     },

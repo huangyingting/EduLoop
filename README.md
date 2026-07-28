@@ -43,6 +43,8 @@ npm run data:scrape:amc12
 npm run data:dedupe:amc  # merge exact cross-contest duplicates
 npm run data:assets:amc  # download/deduplicate figures and rewrite local paths
 npm run data:audit:amc   # verify slots, keys, figures, and duplicates
+npm run data:translate:amc # generate separate Simplified Chinese AMC archives
+npm run data:audit:amc:zh # verify translated IDs, answers, math, and figures
 npm run difficulty:audit # verify every imported difficulty assessment
 npm run seed:verify    # import into a fresh database and verify catalog counts
 npm run reports:review -- list # inspect the trusted content-report queue

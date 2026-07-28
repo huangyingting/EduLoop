@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { parseQuestionFilters, questionWhere } from "./question-filters";
 
 describe("question filters", () => {
-  it("parses bounded filters and scopes tag slugs to filterable topics", () => {
+  it("parses bounded legacy and dimension-qualified tag filters", () => {
     const filters = parseQuestionFilters(new URLSearchParams({
       mode: "adaptive",
       deviceKey: "guest_device_123",
@@ -11,12 +11,16 @@ describe("question filters", () => {
       difficulty: "HARD",
       type: "SINGLE_CHOICE",
       autoGradable: "true",
-      tags: "geometry,geometry,algebra",
+      tags: "geometry,TOPIC:algebra,SKILL:quantitative-reasoning",
       exclude: "question_a,question_b",
     }));
     expect(filters).toMatchObject({
       mode: "adaptive",
-      tagSlugs: ["geometry", "algebra"],
+      tagFilters: [
+        { dimension: "TOPIC", slug: "geometry" },
+        { dimension: "TOPIC", slug: "algebra" },
+        { dimension: "SKILL", slug: "quantitative-reasoning" },
+      ],
       excluded: ["question_a", "question_b"],
     });
     expect(questionWhere(filters!)).toMatchObject({
@@ -24,16 +28,23 @@ describe("question filters", () => {
       subject: { slug: "math" },
       difficulty: "HARD",
       isAutoGradable: true,
-      tags: { some: { tag: {
-        slug: { in: ["geometry", "algebra"] },
-        dimension: { key: "TOPIC", isFilterable: true },
-      } } },
+      AND: [
+        { tags: { some: { tag: {
+          slug: { in: ["geometry", "algebra"] },
+          dimension: { key: "TOPIC", isFilterable: true },
+        } } } },
+        { tags: { some: { tag: {
+          slug: { in: ["quantitative-reasoning"] },
+          dimension: { key: "SKILL", isFilterable: true },
+        } } } },
+      ],
     });
   });
 
   it("rejects unknown enums, unsafe slugs, and oversized lists", () => {
     expect(parseQuestionFilters(new URLSearchParams({ difficulty: "IMPOSSIBLE" }))).toBeNull();
     expect(parseQuestionFilters(new URLSearchParams({ subject: "../math" }))).toBeNull();
+    expect(parseQuestionFilters(new URLSearchParams({ tags: "topic:geometry" }))).toBeNull();
     expect(parseQuestionFilters(new URLSearchParams({
       exclude: Array.from({ length: 21 }, (_, index) => `question_${index}`).join(","),
     }))).toBeNull();

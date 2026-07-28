@@ -5,10 +5,10 @@ describe("practice preferences", () => {
   it("keeps supported filter values", () => {
     expect(normalizePracticePreferences({
       subject: "math", gradeBand: "middle-school", grade: "grade-8",
-      difficulty: "MEDIUM", type: "MULTIPLE_CHOICE", tags: "geometry",
+      difficulty: "MEDIUM", type: "MULTIPLE_CHOICE", tags: "TOPIC:geometry,SKILL:visual-interpretation",
     })).toEqual({
       subject: "math", gradeBand: "middle-school", grade: "grade-8",
-      difficulty: "MEDIUM", type: "MULTIPLE_CHOICE", tags: "geometry",
+      difficulty: "MEDIUM", type: "MULTIPLE_CHOICE", tags: "TOPIC:geometry,SKILL:visual-interpretation",
     });
   });
 
@@ -17,6 +17,9 @@ describe("practice preferences", () => {
       subject: "", gradeBand: "", grade: "", difficulty: "", type: "", tags: "",
     });
     expect(normalizePracticePreferences("not-an-object")).toEqual({
+      subject: "", gradeBand: "", grade: "", difficulty: "", type: "", tags: "",
+    });
+    expect(normalizePracticePreferences({ tags: "TOPIC:geometry,skill:unsafe" })).toEqual({
       subject: "", gradeBand: "", grade: "", difficulty: "", type: "", tags: "",
     });
   });

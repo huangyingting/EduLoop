@@ -3,11 +3,30 @@ import Link from "next/link";
 import { HomeWeeklyProgress } from "@/components/home-weekly-progress";
 import { LearnerHeaderStats } from "@/components/learner-provider";
 import { SubjectCard } from "@/components/subject-card";
-import { SUBJECTS } from "@/lib/content";
+import { prisma } from "@/lib/prisma";
 
-const counts: Record<string, string> = { math: "6,664", physics: "2,269", chemistry: "1,634", biology: "1,057" };
+export const dynamic = "force-dynamic";
 
-export default function Home() {
+export default async function Home() {
+  const [subjects, questionCount, gradeBandCount, sourceTypes] = await Promise.all([
+    prisma.subject.findMany({
+      where: { questions: { some: { status: "PUBLISHED" } } },
+      orderBy: [{ sortOrder: "asc" }, { name: "asc" }],
+      select: {
+        slug: true,
+        name: true,
+        icon: true,
+        color: true,
+        description: true,
+        _count: { select: { questions: { where: { status: "PUBLISHED" } } } },
+      },
+    }),
+    prisma.question.count({ where: { status: "PUBLISHED" } }),
+    prisma.gradeBand.count({ where: { questions: { some: { status: "PUBLISHED" } } } }),
+    prisma.question.groupBy({ by: ["sourceType"], where: { status: "PUBLISHED" } }),
+  ]);
+  const formatCount = (count: number) => count.toLocaleString("zh-CN");
+
   return (
     <div className="mx-auto max-w-[1500px] px-5 pb-20 pt-7 sm:px-8 lg:px-10 lg:pt-9 xl:px-14">
       <header className="flex items-center justify-between">
@@ -36,8 +55,8 @@ export default function Home() {
 
       <section className="mt-9 grid grid-cols-2 gap-3 lg:grid-cols-4">
         {[
-          ["13,812", "精选题目", BookOpenCheck, "bg-white"], ["3", "学习阶段", Target, "bg-lime"],
-          ["4", "核心学科", Brain, "bg-sky"], ["27", "原始题型", Trophy, "bg-peach"],
+          [formatCount(questionCount), "精选题目", BookOpenCheck, "bg-white"], [formatCount(gradeBandCount), "学习阶段", Target, "bg-lime"],
+          [formatCount(subjects.length), "核心学科", Brain, "bg-sky"], [formatCount(sourceTypes.length), "原始题型", Trophy, "bg-peach"],
         ].map(([value, label, Icon, bg]) => (
           <div key={String(label)} className={`flex items-center gap-4 rounded-[22px] border-2 border-ink/10 p-4 ${bg}`}><span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-ink text-white"><Icon size={20} /></span><div><p className="text-xl font-black tracking-tight">{String(value)}</p><p className="text-xs font-bold text-muted">{String(label)}</p></div></div>
         ))}
@@ -46,7 +65,7 @@ export default function Home() {
       <section id="subjects" className="scroll-mt-24 pt-14">
         <div className="flex items-end justify-between"><div><p className="text-xs font-black uppercase tracking-[0.2em] text-coral">Choose your track</p><h2 className="mt-2 font-display text-3xl font-black tracking-[-0.04em]">今天的学习路线</h2></div><Link href="/practice" className="hidden items-center gap-1 text-sm font-black text-violet sm:flex">自定义筛选 <ChevronRight size={17} /></Link></div>
         <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          {SUBJECTS.map((subject, index) => <SubjectCard key={subject.slug} {...subject} description={subject.description} count={counts[subject.slug]} accent={subject.color} index={index} />)}
+          {subjects.map((subject, index) => <SubjectCard key={subject.slug} {...subject} description={subject.description ?? "探索这一学科的核心概念与解题方法。"} count={formatCount(subject._count.questions)} accent={subject.color} index={index} />)}
         </div>
       </section>
 

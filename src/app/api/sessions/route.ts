@@ -7,7 +7,9 @@ import { getOrCreateLearnerForRequest } from "@/lib/learner-identity";
 const sessionSchema = z.object({
   deviceKey: z.string().min(8).max(100),
   questionGoal: z.number().int().min(1).max(50).default(10),
-  filters: z.record(z.string(), z.string().max(100)).default({}),
+  filters: z.record(z.string().max(40), z.string().max(1000))
+    .refine((filters) => Object.keys(filters).length <= 16, "Too many session filters")
+    .default({}),
   restart: z.boolean().default(false),
 });
 

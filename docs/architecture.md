@@ -27,7 +27,7 @@ public/question-assets/generated/zh-CN/<question-id>/*
   -> reviewed locale-specific replacement diagrams
 ```
 
-The question API returns only the stem, options, display metadata, and tags. Correct labels, reference answers, and explanations remain server-side until an attempt is posted.
+The catalog API discovers every filterable tag dimension from the database, so new curriculum dimensions do not require a new practice UI control. Question filters encode tags as `DIMENSION:slug` while retaining unqualified topic slugs for older links. The question API returns only the stem, options, display metadata, and tags. Correct labels, reference answers, and explanations remain server-side until an attempt is posted.
 
 ## Data-model decisions
 

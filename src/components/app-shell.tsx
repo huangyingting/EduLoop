@@ -27,7 +27,7 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
   const [desktopNavigation, setDesktopNavigation] = useState(false);
   const menuButton = useRef<HTMLButtonElement>(null);
   const navigation = useRef<HTMLElement>(null);
-  const { stats, refresh } = useLearner();
+  const { stats } = useLearner();
   const auth = useAuth();
   const remainingToday = Math.max(10 - stats.todayAttempts, 0);
   useEffect(() => {
@@ -68,8 +68,7 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
     try {
       await auth.logout();
       rotateDeviceKey();
-      await refresh();
-      setOpen(false);
+      window.location.assign("/");
     } catch (error) {
       window.alert(error instanceof Error ? error.message : "退出登录失败，请重试。");
     }

@@ -23,13 +23,19 @@ export function normalizePracticePreferences(value: unknown): PracticePreference
       ? candidate
       : "";
   };
+  const safeTags = () => {
+    if (typeof record.tags !== "string") return "";
+    const values = [...new Set(record.tags.split(",").map((item) => item.trim()).filter(Boolean))];
+    if (values.length > 8 || values.some((item) => !/^(?:[A-Z][A-Z0-9_]{0,39}:)?[a-z0-9]+(?:-[a-z0-9]+)*$/.test(item))) return "";
+    return values.join(",");
+  };
   return {
     subject: safeSlug("subject"),
     gradeBand: safeSlug("gradeBand"),
     grade: safeSlug("grade"),
     difficulty: safeSlug("difficulty"),
     type: safeSlug("type"),
-    tags: safeSlug("tags"),
+    tags: safeTags(),
   };
 }
 

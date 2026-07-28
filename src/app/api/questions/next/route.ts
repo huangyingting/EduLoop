@@ -11,7 +11,7 @@ export const dynamic = "force-dynamic";
 async function getNextQuestion(request: NextRequest) {
   const filters = parseQuestionFilters(request.nextUrl.searchParams);
   if (!filters) return apiError("Invalid question filters", 400, "INVALID_REQUEST");
-  const { deviceKey, excluded, mode, tagSlugs } = filters;
+  const { deviceKey, excluded, mode, tagFilters } = filters;
   const limited = enforceRateLimit(request, "questions", deviceKey || "anonymous", 120);
   if (limited) return limited;
   const baseWhere = questionWhere(filters);
@@ -42,7 +42,7 @@ async function getNextQuestion(request: NextRequest) {
     }
   }
 
-  if (learner && mode === "adaptive" && !preferredQuestionId && !tagSlugs.length) {
+  if (learner && mode === "adaptive" && !preferredQuestionId && !tagFilters.length) {
     const recentTopicAttempts = await prisma.practiceAttempt.findMany({
       where: { learnerId: learner.id, isCorrect: { not: null }, question: baseWhere },
       orderBy: { createdAt: "desc" },

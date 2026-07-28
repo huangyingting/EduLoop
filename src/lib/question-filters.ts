@@ -3,6 +3,7 @@ import { z } from "zod";
 import { DIFFICULTIES, QUESTION_TYPE_LABELS } from "@/lib/content";
 
 const slugSchema = z.string().min(1).max(80).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/);
+const dimensionSchema = z.string().min(1).max(40).regex(/^[A-Z][A-Z0-9_]*$/);
 const identifierSchema = z.string().min(1).max(100).regex(/^[A-Za-z0-9_-]+$/);
 const difficultySchema = z.enum(DIFFICULTIES.map(({ key }) => key) as [string, ...string[]]);
 const questionTypeSchema = z.enum(Object.keys(QUESTION_TYPE_LABELS) as [string, ...string[]]);
@@ -19,7 +20,7 @@ const querySchema = z.object({
 
 export type QuestionFilters = z.infer<typeof querySchema> & {
   excluded: string[];
-  tagSlugs: string[];
+  tagFilters: Array<{ dimension: string; slug: string }>;
 };
 
 function commaSeparated(value: string | null) {
@@ -38,12 +39,25 @@ export function parseQuestionFilters(params: URLSearchParams) {
     autoGradable: params.get("autoGradable") || undefined,
   });
   const excluded = z.array(identifierSchema).max(20).safeParse(commaSeparated(params.get("exclude")));
-  const tagSlugs = z.array(slugSchema).max(8).safeParse(commaSeparated(params.get("tags")));
-  if (!scalar.success || !excluded.success || !tagSlugs.success) return null;
-  return { ...scalar.data, excluded: excluded.data, tagSlugs: tagSlugs.data } satisfies QuestionFilters;
+  const tagFilters = z.array(z.object({ dimension: dimensionSchema, slug: slugSchema })).max(8).safeParse(
+    commaSeparated(params.get("tags")).map((value) => {
+      const separator = value.indexOf(":");
+      return separator === -1
+        ? { dimension: "TOPIC", slug: value }
+        : { dimension: value.slice(0, separator), slug: value.slice(separator + 1) };
+    }),
+  );
+  if (!scalar.success || !excluded.success || !tagFilters.success) return null;
+  return { ...scalar.data, excluded: excluded.data, tagFilters: tagFilters.data } satisfies QuestionFilters;
 }
 
 export function questionWhere(filters: QuestionFilters): Prisma.QuestionWhereInput {
+  const tagsByDimension = new Map<string, string[]>();
+  for (const filter of filters.tagFilters) {
+    const slugs = tagsByDimension.get(filter.dimension) ?? [];
+    if (!slugs.includes(filter.slug)) slugs.push(filter.slug);
+    tagsByDimension.set(filter.dimension, slugs);
+  }
   return {
     status: "PUBLISHED",
     ...(filters.subject ? { subject: { slug: filters.subject } } : {}),
@@ -52,8 +66,10 @@ export function questionWhere(filters: QuestionFilters): Prisma.QuestionWhereInp
     ...(filters.difficulty ? { difficulty: filters.difficulty } : {}),
     ...(filters.type ? { type: filters.type } : {}),
     ...(filters.autoGradable ? { isAutoGradable: true } : {}),
-    ...(filters.tagSlugs.length ? {
-      tags: { some: { tag: { slug: { in: filters.tagSlugs }, dimension: { key: "TOPIC", isFilterable: true } } } },
+    ...(tagsByDimension.size ? {
+      AND: [...tagsByDimension].map(([dimension, slugs]) => ({
+        tags: { some: { tag: { slug: { in: slugs }, dimension: { key: dimension, isFilterable: true } } } },
+      })),
     } : {}),
   };
 }

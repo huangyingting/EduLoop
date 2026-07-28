@@ -24,7 +24,7 @@ type PracticeCatalog = {
   subjects: Array<{ slug: string; name: string }>;
   gradeBands: Array<{ slug: string; name: string }>;
   grades: Array<{ slug: string; name: string }>;
-  topics: Array<{ slug: string; label: string }>;
+  tagDimensions: Array<{ key: string; label: string; tags: Array<{ slug: string; label: string }> }>;
 };
 type SessionSnapshot = {
   id: string; status: string; questionGoal: number; completedCount: number; correctCount: number;
@@ -50,6 +50,25 @@ const reportCategoryOptions = [
   { value: "OTHER", label: "其他问题" },
 ];
 
+function tagFilterEntries(value: string) {
+  return value.split(",").filter(Boolean).map((entry) => {
+    const separator = entry.indexOf(":");
+    return separator === -1
+      ? { dimension: "TOPIC", slug: entry }
+      : { dimension: entry.slice(0, separator), slug: entry.slice(separator + 1) };
+  });
+}
+
+function selectedTagFilter(value: string, dimension: string) {
+  return tagFilterEntries(value).find((entry) => entry.dimension === dimension)?.slug ?? "";
+}
+
+function replaceTagFilter(value: string, dimension: string, slug: string) {
+  const retained = tagFilterEntries(value).filter((entry) => entry.dimension !== dimension);
+  if (slug) retained.push({ dimension, slug });
+  return retained.map((entry) => `${entry.dimension}:${entry.slug}`).join(",");
+}
+
 export function PracticePlayer() {
   const search = useSearchParams();
   const practiceMode = search.get("mode") === "review" ? "review" : search.get("mode") === "adaptive" ? "adaptive" : "standard";
@@ -63,10 +82,10 @@ export function PracticePlayer() {
       grade: gradeBand ? search.get("grade") ?? "" : "",
       difficulty: search.get("difficulty") ?? "",
       type: search.get("type") ?? "",
-      tags: subject ? search.get("tags") ?? "" : "",
+      tags: search.get("tags") ?? "",
     };
   });
-  const [catalog, setCatalog] = useState<PracticeCatalog>({ subjects: [], gradeBands: [], grades: [], topics: [] });
+  const [catalog, setCatalog] = useState<PracticeCatalog>({ subjects: [], gradeBands: [], grades: [], tagDimensions: [] });
   const [catalogLoading, setCatalogLoading] = useState(true);
   const [catalogError, setCatalogError] = useState("");
   const [question, setQuestion] = useState<Question | null>(null);
@@ -107,7 +126,6 @@ export function PracticePlayer() {
     if (search.has("gradeBand") && !search.has("grade")) next.grade = "";
     if (search.has("subject") && !search.has("tags")) next.tags = "";
     if (!next.gradeBand) next.grade = "";
-    if (!next.subject) next.tags = "";
     return next;
   }, [search]);
 
@@ -387,14 +405,15 @@ export function PracticePlayer() {
           disabled={loading || catalogLoading}
           className="min-w-28"
         />
-        {filters.subject ? <CustomSelect
-          label="选择知识主题"
-          value={filters.tags}
-          options={[{ value: "", label: "全部知识主题" }, ...catalog.topics.map((topic) => ({ value: topic.slug, label: topic.label }))]}
-          onValueChange={(value) => changeFilter("tags", value)}
-          disabled={loading || catalogLoading || !catalog.topics.length}
+        {catalog.tagDimensions.map((dimension) => <CustomSelect
+          key={dimension.key}
+          label={`选择${dimension.label}`}
+          value={selectedTagFilter(filters.tags, dimension.key)}
+          options={[{ value: "", label: `全部${dimension.label}` }, ...dimension.tags.map((tag) => ({ value: tag.slug, label: tag.label }))]}
+          onValueChange={(value) => changeFilter("tags", replaceTagFilter(filters.tags, dimension.key, value))}
+          disabled={loading || catalogLoading || !dimension.tags.length}
           className="min-w-36"
-        /> : null}
+        />)}
         <CustomSelect
           label="选择难度"
           value={filters.difficulty}

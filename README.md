@@ -8,7 +8,7 @@ EduLoop is a Chinese-language practice app for primary, middle, and high school 
 - Prisma with SQLite for local development and a parallel PostgreSQL production schema
 - Idempotent import for all 13,812 unique questions, including 3,463 AMC questions representing 3,575 contest slots, with BOM-safe JSON parsing
 - Normalized subject, school stage, grade, difficulty, and question-family filters
-- Extensible topic, skill, and format tags with provenance and confidence
+- Extensible, learner-filterable topic, skill, and format dimensions with provenance and confidence
 - KaTeX rendering for the 4,570 questions detected with LaTeX-like notation, including inline AMC notation
 - Server-side answer checking, guest or account-linked learner profiles, XP, daily streaks, activity, and badges
 - Email/password accounts, hashed database sessions, cross-device progress merging, and guest-first use

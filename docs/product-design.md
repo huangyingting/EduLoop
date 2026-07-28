@@ -14,7 +14,7 @@
 ## Core journey
 
 1. Land in the learning hall and see the four subject tracks.
-2. Start immediately or set school stage, subject, and difficulty.
+2. Start immediately or filter by school stage, subject, difficulty, topic, skill, and content format.
 3. Work on one uncluttered question. The interface states whether one or multiple choices are expected.
 4. Submit, then see correctness (where defensible), reference answer, explanation, and XP.
 5. Move to a non-repeating next question and complete a ten-question loop.

@@ -19,12 +19,12 @@ async function getCatalog(request: NextRequest) {
     ...(gradeBandSlug ? { gradeBand: { slug: gradeBandSlug } } : {}),
     ...(gradeSlug ? { grade: { slug: gradeSlug } } : {}),
   };
-  const selectedTopicScope: Prisma.QuestionWhereInput = {
+  const selectedTagScope: Prisma.QuestionWhereInput = {
     ...selectedSubjectScope,
     ...(subjectSlug ? { subject: { slug: subjectSlug } } : {}),
   };
 
-  const [subjects, gradeBands, grades, topics] = await Promise.all([
+  const [subjects, gradeBands, grades, tagDimensions] = await Promise.all([
     prisma.subject.findMany({
       where: { questions: { some: selectedSubjectScope } },
       orderBy: [{ sortOrder: "asc" }, { name: "asc" }],
@@ -43,17 +43,26 @@ async function getCatalog(request: NextRequest) {
       orderBy: [{ sortOrder: "asc" }, { name: "asc" }],
       select: { slug: true, name: true },
     }) : Promise.resolve([]),
-    subjectSlug ? prisma.tag.findMany({
+    prisma.tagDimension.findMany({
       where: {
-        dimension: { key: "TOPIC", isFilterable: true },
-        questions: { some: { question: selectedTopicScope } },
+        isFilterable: true,
+        tags: { some: { questions: { some: { question: selectedTagScope } } } },
       },
-      orderBy: { label: "asc" },
-      select: { slug: true, label: true },
-    }) : Promise.resolve([]),
+      orderBy: [{ sortOrder: "asc" }, { label: "asc" }],
+      select: {
+        key: true,
+        label: true,
+        tags: {
+          where: { questions: { some: { question: selectedTagScope } } },
+          orderBy: { label: "asc" },
+          select: { slug: true, label: true },
+        },
+      },
+    }),
   ]);
 
-  return NextResponse.json({ subjects, gradeBands, grades, topics });
+  const topics = subjectSlug ? tagDimensions.find(({ key }) => key === "TOPIC")?.tags ?? [] : [];
+  return NextResponse.json({ subjects, gradeBands, grades, tagDimensions, topics });
 }
 
 export const GET = apiHandler("GET /api/catalog", getCatalog);

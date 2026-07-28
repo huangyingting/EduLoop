@@ -27,8 +27,10 @@ const writtenId = "integration-written-question";
 const scienceSubjectId = "integration-science-subject";
 const scienceQuestionId = "integration-science-question";
 const topicDimensionId = "integration-topic-dimension";
+const skillDimensionId = "integration-skill-dimension";
 const mathTopicId = "integration-math-topic";
 const scienceTopicId = "integration-science-topic";
+const mathSkillId = "integration-math-skill";
 const headers = { "content-type": "application/json", "x-forwarded-for": "198.51.100.42" };
 const authUserId = "integration-auth-user";
 const authLearnerKey = "account_integration_device";
@@ -44,15 +46,17 @@ beforeAll(async () => {
   await prisma.gradeBand.create({ data: { id: bandId, slug: "integration-middle", name: "测试初中" } });
   await prisma.grade.create({ data: { id: gradeId, slug: "integration-grade-7", name: "测试七年级", sortOrder: 7, gradeBandId: bandId } });
   await prisma.tagDimension.create({ data: { id: topicDimensionId, key: "TOPIC", label: "知识主题", sortOrder: 0 } });
+  await prisma.tagDimension.create({ data: { id: skillDimensionId, key: "SKILL", label: "能力维度", sortOrder: 1 } });
   await prisma.tag.create({ data: { id: mathTopicId, dimensionId: topicDimensionId, slug: "integration-arithmetic", label: "测试运算" } });
   await prisma.tag.create({ data: { id: scienceTopicId, dimensionId: topicDimensionId, slug: "integration-laboratory", label: "测试实验" } });
+  await prisma.tag.create({ data: { id: mathSkillId, dimensionId: skillDimensionId, slug: "integration-quantitative", label: "测试计算推理" } });
   await prisma.badge.create({ data: { id: "integration-badge", slug: "first-spark", name: "第一束光", description: "完成第一题", icon: "✦", threshold: 1 } });
   await prisma.question.create({ data: {
     id: choiceId, sourceId: choiceId, sourceFile: "integration.json", sourceType: "单选题", type: "SINGLE_CHOICE",
     difficulty: "EASY", stem: "1 + 1 等于？", answer: "B", correctAnswer: JSON.stringify(["B"]), explanation: "1 + 1 = 2。",
     status: "PUBLISHED", isAutoGradable: true, optionSplit: true, subjectId, gradeBandId: bandId, gradeId,
     options: { create: [{ label: "A", content: "1", sortOrder: 0 }, { label: "B", content: "2", sortOrder: 1 }] },
-    tags: { create: { tagId: mathTopicId } },
+    tags: { create: [{ tagId: mathTopicId }, { tagId: mathSkillId }] },
   } });
   await prisma.question.create({ data: {
     id: writtenId, sourceId: writtenId, sourceFile: "integration.json", sourceType: "解答题", type: "WRITTEN_RESPONSE",
@@ -73,8 +77,8 @@ afterAll(async () => {
   await prisma.learnerProfile.deleteMany({ where: { deviceKey: { in: [deviceKey, shieldDeviceKey, concurrentDeviceKey] } } });
   await prisma.question.deleteMany({ where: { id: { in: [choiceId, writtenId, scienceQuestionId] } } });
   await prisma.badge.deleteMany({ where: { id: "integration-badge" } });
-  await prisma.tag.deleteMany({ where: { id: { in: [mathTopicId, scienceTopicId] } } });
-  await prisma.tagDimension.deleteMany({ where: { id: topicDimensionId } });
+  await prisma.tag.deleteMany({ where: { id: { in: [mathTopicId, scienceTopicId, mathSkillId] } } });
+  await prisma.tagDimension.deleteMany({ where: { id: { in: [topicDimensionId, skillDimensionId] } } });
   await prisma.grade.deleteMany({ where: { id: gradeId } });
   await prisma.gradeBand.deleteMany({ where: { id: bandId } });
   await prisma.subject.deleteMany({ where: { id: { in: [subjectId, scienceSubjectId] } } });
@@ -171,7 +175,7 @@ describe("learner API journey", () => {
     });
   });
 
-  it("returns grades and subject-specific topics for cascading practice filters", async () => {
+  it("returns grades and dimension-aware tags for cascading practice filters", async () => {
     const response = await getCatalog(new NextRequest("http://localhost/api/catalog?gradeBand=integration-middle&subject=integration-math"));
     expect(response.status).toBe(200);
     const catalog = await response.json() as {
@@ -179,6 +183,7 @@ describe("learner API journey", () => {
       gradeBands: Array<{ slug: string; name: string }>;
       grades: Array<{ slug: string; name: string }>;
       topics: Array<{ slug: string; label: string }>;
+      tagDimensions: Array<{ key: string; label: string; tags: Array<{ slug: string; label: string }> }>;
     };
     expect(catalog.gradeBands).toContainEqual({ slug: "integration-middle", name: "测试初中" });
     expect(catalog.grades).toEqual([{ slug: "integration-grade-7", name: "测试七年级" }]);
@@ -187,6 +192,22 @@ describe("learner API journey", () => {
       { slug: "integration-science", name: "测试科学" },
     ]));
     expect(catalog.topics).toEqual([{ slug: "integration-arithmetic", label: "测试运算" }]);
+    expect(catalog.tagDimensions).toContainEqual({
+      key: "TOPIC",
+      label: "知识主题",
+      tags: [{ slug: "integration-arithmetic", label: "测试运算" }],
+    });
+    expect(catalog.tagDimensions).toContainEqual({
+      key: "SKILL",
+      label: "能力维度",
+      tags: [{ slug: "integration-quantitative", label: "测试计算推理" }],
+    });
+
+    const filtered = await nextQuestion(new NextRequest(
+      "http://localhost/api/questions/next?subject=integration-math&tags=SKILL%3Aintegration-quantitative",
+    ));
+    expect(filtered.status).toBe(200);
+    expect(await filtered.json()).toMatchObject({ id: choiceId });
   });
 
   it("rejects malformed and unbounded question filters", async () => {

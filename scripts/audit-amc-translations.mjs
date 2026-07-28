@@ -1,6 +1,7 @@
 import { readFile } from "node:fs/promises";
+import { collection, localeFileUrl } from "./content-manifest.mjs";
 
-const FILES = ["amc8.json", "amc10.json", "amc12.json"];
+const { files: FILES, sourceLocale: SOURCE_LOCALE, translatedLocales: [TRANSLATED_LOCALE] } = collection("amc");
 const errors = [];
 const report = {};
 
@@ -21,8 +22,8 @@ function mathBlockMultiset(value) {
 }
 
 for (const filename of FILES) {
-  const source = JSON.parse(await readFile(new URL(`../data/en/${filename}`, import.meta.url), "utf8"));
-  const translated = JSON.parse(await readFile(new URL(`../data/zh-CN/${filename}`, import.meta.url), "utf8"));
+  const source = JSON.parse(await readFile(localeFileUrl(SOURCE_LOCALE, filename), "utf8"));
+  const translated = JSON.parse(await readFile(localeFileUrl(TRANSLATED_LOCALE, filename), "utf8"));
   if (source.length !== translated.length) errors.push(`${filename}: question count changed`);
   let chineseQuestions = 0;
   let translatedFields = 0;

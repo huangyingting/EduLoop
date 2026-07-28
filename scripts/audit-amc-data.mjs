@@ -1,7 +1,8 @@
 import { createHash } from "node:crypto";
 import { access, readFile } from "node:fs/promises";
+import { collection, localeFileUrl } from "./content-manifest.mjs";
 
-const FILES = ["amc8.json", "amc10.json", "amc12.json"];
+const { files: FILES, sourceLocale: SOURCE_LOCALE } = collection("amc");
 
 function normalize(value) {
   return String(value ?? "")
@@ -30,7 +31,7 @@ function questionFingerprint(question) {
 }
 
 const records = (await Promise.all(FILES.map(async (filename) => {
-  const questions = JSON.parse((await readFile(new URL(`../data/en/${filename}`, import.meta.url), "utf8")).replace(/^\uFEFF/, ""));
+  const questions = JSON.parse((await readFile(localeFileUrl(SOURCE_LOCALE, filename), "utf8")).replace(/^\uFEFF/, ""));
   return questions.map((question) => ({ filename, question }));
 }))).flat();
 

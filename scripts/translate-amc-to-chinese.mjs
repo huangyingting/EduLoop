@@ -1,10 +1,11 @@
 import { createHash } from "node:crypto";
 import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { collection, localeDirectory } from "./content-manifest.mjs";
 
-const FILES = ["amc8.json", "amc10.json", "amc12.json"];
-const SOURCE_DIRECTORY = path.resolve(process.cwd(), "data", "en");
-const OUTPUT_DIRECTORY = path.resolve(process.cwd(), "data", "zh-CN");
+const { files: FILES, sourceLocale: SOURCE_LOCALE, translatedLocales: [TRANSLATED_LOCALE] } = collection("amc");
+const SOURCE_DIRECTORY = localeDirectory(SOURCE_LOCALE);
+const OUTPUT_DIRECTORY = localeDirectory(TRANSLATED_LOCALE);
 const CACHE_FILE = path.resolve(process.cwd(), ".cache/amc-zh-CN-translations.json");
 const ENDPOINT = "https://clients5.google.com/translate_a/t";
 const MAX_REQUEST_CHARACTERS = 3_800;

@@ -1,8 +1,10 @@
 import { createHash } from "node:crypto";
 import { readFile, rename, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { collection, localeDirectory } from "./content-manifest.mjs";
 
-const FILES = ["amc8.json", "amc10.json", "amc12.json"];
+const { files: FILES, sourceLocale: SOURCE_LOCALE } = collection("amc");
+const SOURCE_DIRECTORY = localeDirectory(SOURCE_LOCALE);
 
 function normalize(value) {
   return String(value ?? "").normalize("NFKC").replace(/\s+/g, " ").trim().toLowerCase();
@@ -19,7 +21,7 @@ function questionFingerprint(question) {
 
 const datasets = new Map();
 for (const filename of FILES) {
-  const file = path.resolve("data", "en", filename);
+  const file = path.join(SOURCE_DIRECTORY, filename);
   datasets.set(filename, JSON.parse((await readFile(file, "utf8")).replace(/^\uFEFF/, "")));
 }
 
@@ -50,7 +52,7 @@ for (const filename of FILES) {
 }
 
 for (const filename of FILES) {
-  const file = path.resolve("data", "en", filename);
+  const file = path.join(SOURCE_DIRECTORY, filename);
   const temporary = `${file}.tmp`;
   await writeFile(temporary, `${JSON.stringify(deduplicated.get(filename), null, 2)}\n`, "utf8");
   await rename(temporary, file);

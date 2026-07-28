@@ -1,11 +1,9 @@
-import { readdir, readFile } from "node:fs/promises";
-import path from "node:path";
+import { readFile } from "node:fs/promises";
+import { DEFAULT_CONTENT_FILES as files, DEFAULT_CONTENT_LOCALE, localeFileUrl } from "./content-manifest.mjs";
 
-const dataDirectory = path.resolve(process.cwd(), "data", "zh-CN");
-const files = (await readdir(dataDirectory)).filter((name) => name.endsWith(".json")).sort();
 const rows = [];
 for (const file of files) {
-  const source = (await readFile(path.join(dataDirectory, file), "utf8")).replace(/^\uFEFF/, "");
+  const source = (await readFile(localeFileUrl(DEFAULT_CONTENT_LOCALE, file), "utf8")).replace(/^\uFEFF/, "");
   rows.push(...JSON.parse(source).map((question) => ({ ...question, __file: file })));
 }
 const group = (key) => Object.fromEntries(Object.entries(rows.reduce((result, item) => {

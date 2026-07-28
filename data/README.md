@@ -2,8 +2,11 @@
 
 The application imports Simplified Chinese content by default. Keep question files grouped by locale and keep matching filenames, IDs, order, answers, metadata, LaTeX, and figure references aligned across translations.
 
+`catalog.json` is the versioned manifest for the default locale, every locale's file membership, and cross-locale collections. Update it whenever a dataset is added or moved; content commands reject missing or undeclared JSON files.
+
 ```text
 data/
+  catalog.json              # Locale and collection manifest consumed by all tools
   zh-CN/                    # Complete runtime catalog imported by the seed
     biology.json
     chemistry.json

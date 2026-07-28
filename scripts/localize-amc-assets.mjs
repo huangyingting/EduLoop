@@ -1,9 +1,10 @@
 import { createHash } from "node:crypto";
 import { access, mkdir, readFile, rename, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { collection, localeDirectory } from "./content-manifest.mjs";
 
-const DATA_FILES = ["amc8.json", "amc10.json", "amc12.json"];
-const DATA_DIRECTORY = path.resolve(process.cwd(), "data", "en");
+const { files: DATA_FILES, sourceLocale: SOURCE_LOCALE } = collection("amc");
+const DATA_DIRECTORY = localeDirectory(SOURCE_LOCALE);
 const ASSET_DIRECTORY = path.resolve(process.cwd(), "public/question-assets/source/amc");
 const MANIFEST_FILE = path.join(ASSET_DIRECTORY, "manifest.json");
 const FIGURE_PATTERN = /\[Figure:\s*(https?:\/\/[^\]\s]+)\]/g;

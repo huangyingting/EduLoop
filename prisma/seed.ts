@@ -1,13 +1,14 @@
 import { PrismaClient } from "@prisma/client";
-import { readdir, readFile } from "node:fs/promises";
+import { readFile } from "node:fs/promises";
 import path from "node:path";
 import {
   GRADE_BANDS, GRADES, SUBJECTS, TAG_DIMENSIONS, normalizeSourceQuestion,
   type NormalizedTag, type SourceQuestion,
 } from "../src/lib/content";
+import { DEFAULT_CONTENT_LOCALE, contentFilesForLocale } from "../src/lib/content-manifest";
 
 const prisma = new PrismaClient();
-const dataDirectory = path.resolve(process.cwd(), "data", "zh-CN");
+const dataDirectory = path.resolve(process.cwd(), "data", DEFAULT_CONTENT_LOCALE);
 
 async function seedCatalog() {
   for (const subject of SUBJECTS) {
@@ -51,7 +52,7 @@ async function ensureTags(allTags: NormalizedTag[]) {
 
 async function main() {
   await seedCatalog();
-  const filenames = (await readdir(dataDirectory)).filter((name) => name.endsWith(".json")).sort();
+  const filenames = contentFilesForLocale(DEFAULT_CONTENT_LOCALE);
   const normalized = [];
   for (const filename of filenames) {
     const body = (await readFile(path.join(dataDirectory, filename), "utf8")).replace(/^\uFEFF/, "");

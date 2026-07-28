@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "defaultLocale": "zh-CN",
+  "locales": {
+    "zh-CN": {
+      "purpose": "runtime",
+      "files": [
+        "amc8.json",
+        "amc10.json",
+        "amc12.json",
+        "biology.json",
+        "chemistry.json",
+        "mathematics.json",
+        "physics.json"
+      ]
+    },
+    "en": {
+      "purpose": "source",
+      "files": [
+        "amc8.json",
+        "amc10.json",
+        "amc12.json"
+      ]
+    }
+  },
+  "collections": {
+    "amc": {
+      "files": [
+        "amc8.json",
+        "amc10.json",
+        "amc12.json"
+      ],
+      "sourceLocale": "en",
+      "translatedLocales": [
+        "zh-CN"
+      ]
+    }
+  }
+}

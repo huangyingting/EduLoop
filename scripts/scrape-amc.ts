@@ -3,6 +3,7 @@ import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { load, type CheerioAPI } from "cheerio";
 import { Text, type Element } from "domhandler";
+import { contentCollection } from "../src/lib/content-manifest";
 
 const AOPS_ORIGIN = "https://artofproblemsolving.com";
 const ARCHIVE_ORIGIN = "https://web.archive.org";
@@ -47,9 +48,13 @@ function competitionFromArgs() {
 }
 
 const COMPETITION = competitionFromArgs();
+const AMC_COLLECTION = contentCollection("amc");
+if (!AMC_COLLECTION.files.includes(`${COMPETITION.key}.json`)) {
+  throw new Error(`${COMPETITION.key}.json is not declared in the AMC content collection`);
+}
 const INDEX_URL = `${AOPS_ORIGIN}/wiki/index.php/AMC_${COMPETITION.number}_Problems_and_Solutions`;
 const CACHE_DIRECTORY = path.resolve(process.cwd(), `.cache/${COMPETITION.key}`);
-const OUTPUT_FILE = path.resolve(process.cwd(), `data/en/${COMPETITION.key}.json`);
+const OUTPUT_FILE = path.resolve(process.cwd(), "data", AMC_COLLECTION.sourceLocale, `${COMPETITION.key}.json`);
 const USER_AGENT = `EduLoop${COMPETITION.key.toUpperCase()}Importer/1.0 (authorized curriculum archive import)`;
 
 type SourceQuestion = {

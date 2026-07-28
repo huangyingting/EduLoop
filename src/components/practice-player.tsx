@@ -95,6 +95,8 @@ export function PracticePlayer() {
   const hintRequest = useRef<AbortController | null>(null);
   const requestGeneration = useRef(0);
   const clientAttemptId = useRef("");
+  const questionHeading = useRef<HTMLHeadingElement>(null);
+  const resultPanel = useRef<HTMLDivElement>(null);
 
   const resolveInitialFilters = useCallback((): PracticeFilters => {
     const next = { ...getPracticePreferences() };
@@ -188,6 +190,14 @@ export function PracticePlayer() {
       .finally(() => { if (!controller.signal.aborted) setCatalogLoading(false); });
     return () => { controller.abort(); };
   }, [filters.grade, filters.gradeBand, filters.subject]);
+
+  useEffect(() => {
+    if (question?.id) questionHeading.current?.focus();
+  }, [question?.id]);
+
+  useEffect(() => {
+    if (result) resultPanel.current?.focus();
+  }, [result]);
 
   function changeFilter(key: keyof typeof filters, value: string) {
     const next = { ...filters, [key]: value };
@@ -352,7 +362,7 @@ export function PracticePlayer() {
         </div>
       </header>
 
-      <div className="mt-6 flex gap-2 overflow-x-auto pb-2">
+      <div role="region" aria-label="练习筛选条件" className="mt-6 flex gap-2 overflow-x-auto pb-2">
         <CustomSelect
           label="选择学段"
           value={filters.gradeBand}
@@ -402,28 +412,28 @@ export function PracticePlayer() {
           className="min-w-32"
         />
       </div>
-      {catalogError ? <p className="mt-1 text-xs font-bold text-coral">{catalogError}</p> : null}
+      {catalogError ? <p role="alert" className="mt-1 text-xs font-bold text-coral">{catalogError}</p> : null}
 
-      <div className="mt-4 flex items-center gap-3"><div className="h-3 flex-1 overflow-hidden rounded-full border border-ink/10 bg-white"><div className="h-full rounded-full bg-violet transition-all" style={{ width: `${Math.min(completed * 10, 100)}%` }} /></div><span className="text-xs font-black text-muted">{completed} / 10</span><button onClick={() => void restartChallenge()} disabled={loading} className="flex min-h-11 items-center gap-1.5 rounded-xl px-3 text-xs font-black text-muted hover:bg-white hover:text-violet disabled:opacity-40" title="保留答题记录并重新开始本轮"><RotateCcw size={14} /> 重开</button></div>
+      <div className="mt-4 flex items-center gap-3"><div role="progressbar" aria-label="十题挑战进度" aria-valuemin={0} aria-valuemax={10} aria-valuenow={Math.min(completed, 10)} className="h-3 flex-1 overflow-hidden rounded-full border border-ink/10 bg-white"><div className="h-full rounded-full bg-violet transition-all" style={{ width: `${Math.min(completed * 10, 100)}%` }} /></div><span className="text-xs font-black text-muted">{completed} / 10</span><button onClick={() => void restartChallenge()} disabled={loading} className="flex min-h-11 items-center gap-1.5 rounded-xl px-3 text-xs font-black text-muted hover:bg-white hover:text-violet disabled:opacity-40" title="保留答题记录并重新开始本轮"><RotateCcw size={14} /> 重开</button></div>
 
       {question?.recommendationReason ? <div className="mt-5 flex items-center gap-2 rounded-2xl border-2 border-violet/15 bg-[#f0edff] px-4 py-3 text-sm font-bold text-violet"><WandSparkles size={17} className="shrink-0" />{question.recommendationReason}</div> : null}
 
-      {loading && !question ? <div className="mt-8 grid min-h-[460px] place-items-center rounded-[30px] border-2 border-ink/10 bg-white"><div className="text-center"><LoaderCircle className="mx-auto animate-spin text-violet" size={34} /><p className="mt-3 text-sm font-bold text-muted">正在挑一道刚刚好的题…</p></div></div> : null}
-      {error && !question ? <div className="mt-8 grid min-h-[420px] place-items-center rounded-[30px] border-2 border-ink/10 bg-white p-8 text-center"><div><CircleAlert className="mx-auto text-coral" size={42} /><h2 className="mt-4 text-xl font-black">暂时没找到题目</h2><p className="mt-2 text-sm font-semibold text-muted">{error}</p><button onClick={() => loadQuestion()} className="mt-5 inline-flex items-center gap-2 rounded-xl bg-ink px-5 py-3 text-sm font-black text-white"><RotateCcw size={16} /> 重试</button></div></div> : null}
+      {loading && !question ? <div role="status" aria-live="polite" className="mt-8 grid min-h-[460px] place-items-center rounded-[30px] border-2 border-ink/10 bg-white"><div className="text-center"><LoaderCircle className="mx-auto animate-spin text-violet" size={34} /><p className="mt-3 text-sm font-bold text-muted">正在挑一道刚刚好的题…</p></div></div> : null}
+      {error && !question ? <div role="alert" className="mt-8 grid min-h-[420px] place-items-center rounded-[30px] border-2 border-ink/10 bg-white p-8 text-center"><div><CircleAlert className="mx-auto text-coral" size={42} /><h2 className="mt-4 text-xl font-black">暂时没找到题目</h2><p className="mt-2 text-sm font-semibold text-muted">{error}</p><button onClick={() => loadQuestion()} className="mt-5 inline-flex items-center gap-2 rounded-xl bg-ink px-5 py-3 text-sm font-black text-white"><RotateCcw size={16} /> 重试</button></div></div> : null}
 
       {question ? (
-        <article className="mt-7 overflow-hidden rounded-[30px] border-2 border-ink/10 bg-white shadow-[0_8px_0_#e3dfd4]">
+        <article aria-labelledby="practice-question-heading" className="mt-7 overflow-hidden rounded-[30px] border-2 border-ink/10 bg-white shadow-[0_8px_0_#e3dfd4]">
           <div className="flex flex-wrap items-center justify-between gap-3 border-b border-dashed border-ink/15 px-6 py-4 sm:px-9">
             <div className="flex flex-wrap items-center gap-2"><span className="rounded-full px-3 py-1.5 text-xs font-black text-white" style={{ background: question.subject.color }}>{question.subject.name}</span><span className="rounded-full bg-canvas px-3 py-1.5 text-xs font-bold text-muted">{question.grade}</span>{topicTags.map((tag) => <span key={tag.slug} className="rounded-full bg-[#efecff] px-3 py-1.5 text-xs font-bold text-violet">{tag.label}</span>)}</div>
             <div className="flex items-center gap-2"><span className="text-xs font-black text-muted">{typeNames[question.type] ?? question.typeLabel} · {question.difficulty === "EASY" ? "热身" : question.difficulty === "HARD" ? "挑战" : "进阶"}</span><button onClick={() => void toggleSaved()} disabled={saving} aria-label={question.isSaved ? "取消收藏" : "收藏题目"} aria-keyshortcuts="S" className={`grid size-11 place-items-center rounded-xl transition ${question.isSaved ? "bg-lime text-ink" : "bg-canvas text-muted hover:text-violet"}`}>{question.isSaved ? <BookmarkCheck size={19} /> : <Bookmark size={19} />}</button></div>
           </div>
 
           <div className="px-6 py-7 sm:px-9 sm:py-9">
-            <div className="question-copy text-[17px] font-bold leading-8 text-ink sm:text-[19px]"><MathText>{question.stem}</MathText></div>
+            <h2 ref={questionHeading} id="practice-question-heading" tabIndex={-1} className="question-copy text-[17px] font-bold leading-8 text-ink outline-none sm:text-[19px]"><MathText>{question.stem}</MathText></h2>
             {question.stemAsset ? <Image src={question.stemAsset.path} alt={question.stemAsset.altText} width={720} height={360} className="mx-auto mt-6 h-auto max-h-80 w-full max-w-2xl rounded-2xl border border-ink/10 bg-[#fffdf8] object-contain" /> : null}
             {!result && question.hasHint ? <div className="mt-6">
               {hint ? <div aria-live="polite" className="border-l-4 border-lime bg-[#f7fadf] px-4 py-3 text-sm"><p className="flex items-center gap-2 font-black"><Lightbulb size={17} /> 解题提示</p><div className="mt-2 whitespace-pre-line font-medium leading-6 text-ink/75"><MathText>{hint}</MathText></div></div> : <button onClick={() => void revealHint()} disabled={hintLoading} aria-keyshortcuts="H" className="flex min-h-11 items-center gap-2 rounded-xl border-2 border-ink/10 bg-canvas px-4 text-sm font-black text-muted transition hover:border-lime hover:text-ink disabled:opacity-50">{hintLoading ? <LoaderCircle className="animate-spin" size={17} /> : <Lightbulb size={17} />} 查看提示</button>}
-              {hintError ? <p className="mt-2 text-sm font-bold text-coral">{hintError}</p> : null}
+              {hintError ? <p role="alert" className="mt-2 text-sm font-bold text-coral">{hintError}</p> : null}
             </div> : null}
             {question.options.length ? <div role="group" aria-label={question.type === "MULTIPLE_CHOICE" ? "可多选的答案选项" : "答案选项"} className={`mt-7 grid gap-3 ${hasOptionAssets ? "sm:grid-cols-2" : ""}`}>{question.options.map((option, optionIndex) => {
               const chosen = selected.includes(option.label); const expected = result?.correctLabels.includes(option.label); const wrong = result?.isCorrect === false && chosen && !expected;
@@ -434,17 +444,17 @@ export function PracticePlayer() {
                   {option.content ? <MathText>{option.content}</MathText> : null}
                 </span>
               </button>;
-            })}</div> : <textarea value={written} disabled={Boolean(result) || loading} onChange={(event) => setWritten(event.target.value)} placeholder="写下你的思路或答案…" className="mt-7 min-h-32 w-full resize-y rounded-2xl border-2 border-ink/10 bg-[#fbfaf7] p-4 text-[15px] font-medium leading-6 outline-none transition focus:border-violet focus:bg-white" />}
+            })}</div> : <><label htmlFor="written-answer" className="sr-only">写下你的思路或答案</label><textarea id="written-answer" value={written} disabled={Boolean(result) || loading} onChange={(event) => setWritten(event.target.value)} placeholder="写下你的思路或答案…" className="mt-7 min-h-32 w-full resize-y rounded-2xl border-2 border-ink/10 bg-[#fbfaf7] p-4 text-[15px] font-medium leading-6 outline-none transition focus:border-violet focus:bg-white" /></>}
 
-            {result ? <div aria-live="polite" className={`reward-pop mt-7 rounded-[22px] border-2 p-5 ${result.isCorrect ? "border-[#2c9b73]/30 bg-[#e6f8ef]" : result.isCorrect === false ? "border-coral/30 bg-[#fff0ed]" : "border-violet/25 bg-[#f0edff]"}`}>
+            {result ? <div ref={resultPanel} role="status" aria-live="polite" tabIndex={-1} className={`reward-pop mt-7 rounded-[22px] border-2 p-5 outline-none ${result.isCorrect ? "border-[#2c9b73]/30 bg-[#e6f8ef]" : result.isCorrect === false ? "border-coral/30 bg-[#fff0ed]" : "border-violet/25 bg-[#f0edff]"}`}>
               <div className="flex items-start gap-3"><span className={`grid size-10 shrink-0 place-items-center rounded-xl text-white ${result.isCorrect ? "bg-[#2c9b73]" : result.isCorrect === false ? "bg-coral" : "bg-violet"}`}>{result.isCorrect ? <Check /> : result.isCorrect === false ? <X /> : <Sparkles />}</span><div className="min-w-0"><div className="flex flex-wrap items-center gap-2"><h3 className="font-display text-lg font-black">{result.isCorrect ? `答对了，连胜 ${combo}！` : result.isCorrect === false ? "差一点，找到新线索了" : "对照答案，检查你的思路"}</h3><span className="rounded-full bg-ink px-2.5 py-1 text-xs font-black text-lime">+{result.earnedXp} XP</span></div>{result.answer && <div className="mt-3 text-sm font-semibold leading-6"><span className="font-black">参考答案：</span><MathText>{result.answer}</MathText></div>}{result.explanation && <details className="mt-3 text-sm"><summary className="font-black text-violet">展开解析</summary><div className="mt-2 whitespace-pre-line font-medium leading-6 text-ink/75"><MathText>{result.explanation}</MathText></div></details>}</div></div>
               {result.newBadges.map((badge) => <div key={badge.name} className="mt-4 flex items-center gap-2 rounded-xl bg-white/80 p-3 text-sm font-black"><Trophy size={18} className="text-coral" /> 新徽章：{badge.icon} {badge.name}</div>)}
               {result.streakFreezeUsed ? <div className="mt-4 flex items-center gap-2 rounded-xl bg-[#eaf8ff] p-3 text-sm font-black text-ink">🛡️ 连续练习保护已生效，昨天的空档没有中断记录。还剩 {result.streakFreezes} 枚保护盾。</div> : null}
               {result.isCorrect === null ? <div className="mt-5 border-t border-violet/15 pt-4"><p className="text-sm font-black">对照参考答案后，你的思路正确吗？</p><div className="mt-3 flex flex-wrap gap-2"><button onClick={() => void selfAssess(true)} disabled={assessing} className="flex min-h-11 items-center gap-2 rounded-xl bg-[#2c9b73] px-4 text-sm font-black text-white"><Check size={17} /> 思路正确</button><button onClick={() => void selfAssess(false)} disabled={assessing} className="flex min-h-11 items-center gap-2 rounded-xl bg-coral px-4 text-sm font-black text-white"><RotateCcw size={16} /> 还需练习</button></div></div> : null}
             </div> : null}
-            {error && question ? <p className="mt-4 text-sm font-bold text-coral">{error}</p> : null}
+            {error && question ? <p role="alert" className="mt-4 text-sm font-bold text-coral">{error}</p> : null}
             <div className="mt-6 border-t border-dashed border-ink/10 pt-4">
-              {reported ? <p className="flex items-center gap-2 text-xs font-bold text-[#2c9b73]"><Check size={15} /> 已收到反馈，谢谢你帮助改进题目。</p> : <button onClick={() => setReportOpen((open) => !open)} className="flex min-h-11 items-center gap-2 rounded-xl px-3 text-xs font-bold text-muted hover:bg-canvas hover:text-coral"><Flag size={15} /> 这道题有问题</button>}
+              {reported ? <p role="status" className="flex items-center gap-2 text-xs font-bold text-[#2c9b73]"><Check size={15} /> 已收到反馈，谢谢你帮助改进题目。</p> : <button onClick={() => setReportOpen((open) => !open)} aria-expanded={reportOpen} className="flex min-h-11 items-center gap-2 rounded-xl px-3 text-xs font-bold text-muted hover:bg-canvas hover:text-coral"><Flag size={15} /> 这道题有问题</button>}
               {reportOpen && !reported ? <div className="mt-3 rounded-2xl border-2 border-ink/10 bg-canvas p-4"><p className="text-sm font-black">告诉我们哪里需要改进</p><div className="mt-3 grid gap-3 sm:grid-cols-[220px_1fr]"><CustomSelect label="问题类型" value={reportCategory} options={reportCategoryOptions} onValueChange={setReportCategory} className="w-full" /><input value={reportDetail} onChange={(event) => setReportDetail(event.target.value)} maxLength={1000} placeholder="可选：补充具体情况" className="min-h-11 rounded-xl border-2 border-ink/10 bg-white px-3 text-sm font-medium outline-none focus:border-violet" /></div><div className="mt-3 flex justify-end"><button onClick={() => void reportQuestion()} disabled={reporting} className="flex min-h-11 items-center gap-2 rounded-xl bg-ink px-4 text-sm font-black text-white disabled:opacity-50">{reporting ? <LoaderCircle className="animate-spin" size={16} /> : <Send size={16} />} 提交反馈</button></div></div> : null}
             </div>
           </div>
@@ -456,7 +466,7 @@ export function PracticePlayer() {
         </article>
       ) : null}
 
-      {completed >= 10 ? <div className="reward-pop mt-7 rounded-[26px] border-2 border-ink bg-lime p-6 text-center shadow-[0_7px_0_#242136]"><Trophy className="mx-auto text-violet" size={38} /><h2 className="mt-2 font-display text-2xl font-black">十题挑战完成！</h2><p className="mt-1 text-sm font-bold text-ink/65">本轮答对 {correct} 题。休息一下，或者继续探索。</p></div> : null}
+      {completed >= 10 ? <div role="status" className="reward-pop mt-7 rounded-[26px] border-2 border-ink bg-lime p-6 text-center shadow-[0_7px_0_#242136]"><Trophy className="mx-auto text-violet" size={38} /><h2 className="mt-2 font-display text-2xl font-black">十题挑战完成！</h2><p className="mt-1 text-sm font-bold text-ink/65">本轮答对 {correct} 题。休息一下，或者继续探索。</p></div> : null}
     </div>
   );
 }

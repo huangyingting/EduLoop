@@ -54,7 +54,7 @@ export function CustomSelect({ label, value, options, onValueChange, disabled = 
                 key={`${option.value}:${option.label}`}
                 value={option.value || emptyValue}
                 disabled={option.disabled}
-                className="relative flex min-h-10 cursor-default select-none items-center rounded-lg py-2 pl-3 pr-9 text-sm font-bold leading-5 text-ink outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-40 data-[highlighted]:bg-violet data-[highlighted]:text-white data-[state=checked]:bg-[#f0edff] data-[state=checked]:text-violet data-[highlighted]:data-[state=checked]:bg-violet data-[highlighted]:data-[state=checked]:text-white"
+                className="relative flex min-h-11 cursor-default select-none items-center rounded-lg py-2 pl-3 pr-9 text-sm font-bold leading-5 text-ink outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-40 data-[highlighted]:bg-violet data-[highlighted]:text-white data-[state=checked]:bg-[#f0edff] data-[state=checked]:text-violet data-[highlighted]:data-[state=checked]:bg-violet data-[highlighted]:data-[state=checked]:text-white"
               >
                 <SelectPrimitive.ItemText>{option.label}</SelectPrimitive.ItemText>
                 <SelectPrimitive.ItemIndicator className="absolute right-3 inline-flex items-center">

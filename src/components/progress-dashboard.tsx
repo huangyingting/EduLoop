@@ -49,8 +49,8 @@ export function ProgressDashboard() {
     return () => window.clearTimeout(timer);
   }, []);
 
-  if (!data && !error) return <div className="grid min-h-[70vh] place-items-center"><div className="text-center"><LoaderCircle className="mx-auto animate-spin text-violet" size={36} /><p className="mt-3 text-sm font-bold text-muted">正在拼好你的成长星图…</p></div></div>;
-  if (!data) return <div className="grid min-h-[70vh] place-items-center p-6 text-center"><div><RotateCcw className="mx-auto text-coral" size={40} /><p className="mt-4 font-bold">{error}</p><button onClick={() => void load()} className="mt-4 rounded-xl bg-ink px-5 py-3 text-sm font-black text-white">重新加载</button></div></div>;
+  if (!data && !error) return <div role="status" aria-live="polite" className="grid min-h-[70vh] place-items-center"><div className="text-center"><LoaderCircle className="mx-auto animate-spin text-violet" size={36} /><p className="mt-3 text-sm font-bold text-muted">正在拼好你的成长星图…</p></div></div>;
+  if (!data) return <div role="alert" className="grid min-h-[70vh] place-items-center p-6 text-center"><div><RotateCcw className="mx-auto text-coral" size={40} /><p className="mt-4 font-bold">{error}</p><button onClick={() => void load()} className="mt-4 rounded-xl bg-ink px-5 py-3 text-sm font-black text-white">重新加载</button></div></div>;
 
   const hasPractice = data.summary.totalAttempts > 0;
   const summaryCards = [
@@ -84,7 +84,7 @@ export function ProgressDashboard() {
         <div className="rounded-[30px] border-2 border-ink/10 bg-ink p-6 text-white shadow-[0_7px_0_#d9d3f5] sm:p-8">
           <div className="flex items-center justify-between"><div><p className="text-xs font-black uppercase tracking-[.18em] text-lime">Subject signals</p><h2 className="mt-1 font-display text-2xl font-black">学科信号</h2></div><BarChart3 /></div>
           <div className="mt-6 space-y-5">
-            {data.subjects.length ? data.subjects.map((subject) => <div key={subject.slug}><div className="flex items-center justify-between text-sm font-black"><span>{subject.label}</span><span>{subject.accuracy}% · {subject.attempts} 题</span></div><div className="mt-2 h-3 overflow-hidden rounded-full bg-white/15"><div className="h-full rounded-full" style={{ width: `${subject.accuracy}%`, background: subject.color }} /></div></div>) : <p className="text-sm font-semibold leading-6 text-white/60">完成自动批改题后，这里会显示各学科的近期表现。</p>}
+            {data.subjects.length ? data.subjects.map((subject) => <div key={subject.slug}><div className="flex items-center justify-between text-sm font-black"><span>{subject.label}</span><span>{subject.accuracy}% · {subject.attempts} 题</span></div><div role="progressbar" aria-label={`${subject.label}正确率`} aria-valuemin={0} aria-valuemax={100} aria-valuenow={subject.accuracy} className="mt-2 h-3 overflow-hidden rounded-full bg-white/15"><div className="h-full rounded-full" style={{ width: `${subject.accuracy}%`, background: subject.color }} /></div></div>) : <p className="text-sm font-semibold leading-6 text-white/60">完成自动批改题后，这里会显示各学科的近期表现。</p>}
           </div>
         </div>
       </section>

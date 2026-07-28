@@ -166,5 +166,11 @@ export async function getOrCreateLearnerForRequest(request: Request, deviceKey: 
     const learner = await prisma.learnerProfile.findUnique({ where: { userId: user.id } });
     return learner ?? linkLearnerToUser(user.id, deviceKey);
   }
-  return prisma.learnerProfile.upsert({ where: { deviceKey }, create: { deviceKey }, update: {} });
+  try {
+    return await prisma.learnerProfile.upsert({ where: { deviceKey }, create: { deviceKey }, update: {} });
+  } catch (error) {
+    const racedWithAnotherCreate = error && typeof error === "object" && "code" in error && error.code === "P2002";
+    if (!racedWithAnotherCreate) throw error;
+    return prisma.learnerProfile.findUniqueOrThrow({ where: { deviceKey } });
+  }
 }

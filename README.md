@@ -66,7 +66,10 @@ Production has its own schema and migration history under `prisma/postgresql/`. 
 
 ```bash
 export DATABASE_URL='postgresql://USER:PASSWORD@HOST:5432/eduloop?schema=public'
+export EDULOOP_DATABASE_PROVIDER='postgresql'
+export APP_VERSION='RELEASE_ID'
 npm ci
+npm run env:check
 npm run db:generate:postgres
 npm run db:deploy:postgres
 npm run build
@@ -74,7 +77,7 @@ npm run build
 
 Run `npm run db:seed` once if the production database should include the bundled question set. The SQLite and PostgreSQL Prisma models intentionally match; when the data model changes, update both schema files and generate a migration in each migration directory. This keeps local setup simple without pretending SQLite migrations are safe to apply to PostgreSQL.
 
-The included multi-stage `Dockerfile` builds the PostgreSQL Prisma client and Next.js standalone server. Apply migrations and seed content as release jobs before starting application replicas. See [production readiness](./docs/production-readiness.md) and [operations](./docs/operations.md) for launch gates, backups, monitoring, and rollback guidance.
+The included multi-stage `Dockerfile` builds the PostgreSQL Prisma client and Next.js standalone server. Its startup validation refuses provider drift and malformed ports before accepting traffic. Apply migrations and seed content as release jobs before starting application replicas. See [production readiness](./docs/production-readiness.md) and [operations](./docs/operations.md) for launch gates, backups, monitoring, and rollback guidance.
 
 ## Adding question content
 

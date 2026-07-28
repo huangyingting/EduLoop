@@ -2,6 +2,9 @@
   "name": "eduloop",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=24"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -11,7 +14,7 @@
     "db:generate": "prisma generate --schema prisma/schema.prisma",
     "db:migrate": "prisma migrate dev --schema prisma/schema.prisma",
     "db:push": "prisma db push --schema prisma/schema.prisma",
-    "db:seed": "tsx --env-file=.env prisma/seed.ts",
+    "db:seed": "node --env-file-if-exists=.env --import tsx prisma/seed.ts",
     "db:studio": "prisma studio --schema prisma/schema.prisma",
     "db:generate:postgres": "prisma generate --schema prisma/postgresql/schema.prisma",
     "db:deploy:postgres": "prisma migrate deploy --schema prisma/postgresql/schema.prisma",
@@ -26,10 +29,11 @@
     "data:scrape:amc10": "tsx scripts/scrape-amc.ts --competition amc10",
     "data:scrape:amc12": "tsx scripts/scrape-amc.ts --competition amc12",
     "data:translate:amc": "node scripts/translate-amc-to-chinese.mjs",
-    "difficulty:audit": "tsx --env-file=.env scripts/audit-question-difficulty.ts",
+    "difficulty:audit": "node --env-file-if-exists=.env --import tsx scripts/audit-question-difficulty.ts",
     "seed:verify": "node scripts/verify-seed.mjs",
-    "reports:review": "tsx --env-file=.env scripts/review-reports.ts",
-    "test": "vitest run && node --test scripts/amc-latex.test.mjs",
+    "reports:review": "node --env-file-if-exists=.env --import tsx scripts/review-reports.ts",
+    "env:check": "node --env-file-if-exists=.env scripts/validate-environment.mjs",
+    "test": "vitest run && node --test scripts/*.test.mjs",
     "test:integration": "node scripts/run-integration-tests.mjs",
     "test:integration:postgres": "vitest run --config vitest.integration.config.ts"
   },

@@ -6,13 +6,14 @@ Provision PostgreSQL with TLS, automated backups, and a restricted application r
 
 ```bash
 npm ci
+npm run env:check
 npm run db:generate:postgres
 npm run db:deploy:postgres
 npm run db:seed       # first release or content update only
 npm run build
 ```
 
-Run migrations as a single pre-deploy job, not from every application replica. The included Dockerfile builds a standalone server; set `DATABASE_URL`, `APP_VERSION`, and `PORT` at runtime. Terminate HTTPS at the trusted ingress.
+Run migrations as a single pre-deploy job, not from every application replica. The included Dockerfile builds a standalone server; set `DATABASE_URL`, `EDULOOP_DATABASE_PROVIDER=postgresql`, `APP_VERSION`, and `PORT` at runtime. Container startup validates these values before launching Next.js. Terminate HTTPS at the trusted ingress.
 
 ## Observe
 

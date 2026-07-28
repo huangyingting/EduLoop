@@ -7,7 +7,7 @@ import {
 } from "../src/lib/content";
 
 const prisma = new PrismaClient();
-const dataDirectory = path.resolve(process.cwd(), "data");
+const dataDirectory = path.resolve(process.cwd(), "data", "zh-CN");
 
 async function seedCatalog() {
   for (const subject of SUBJECTS) {

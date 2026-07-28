@@ -3,8 +3,8 @@ import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 const FILES = ["amc8.json", "amc10.json", "amc12.json"];
-const DATA_DIRECTORY = path.resolve(process.cwd(), "data");
-const OUTPUT_DIRECTORY = path.join(DATA_DIRECTORY, "zh-CN");
+const SOURCE_DIRECTORY = path.resolve(process.cwd(), "data", "en");
+const OUTPUT_DIRECTORY = path.resolve(process.cwd(), "data", "zh-CN");
 const CACHE_FILE = path.resolve(process.cwd(), ".cache/amc-zh-CN-translations.json");
 const ENDPOINT = "https://clients5.google.com/translate_a/t";
 const MAX_REQUEST_CHARACTERS = 3_800;
@@ -258,7 +258,7 @@ function resolveQuestion(question, cache) {
 
 const preparedFiles = [];
 for (const filename of FILES) {
-  const source = await readFile(path.join(DATA_DIRECTORY, filename), "utf8");
+  const source = await readFile(path.join(SOURCE_DIRECTORY, filename), "utf8");
   const questions = JSON.parse(source.replace(/^\uFEFF/, ""));
   preparedFiles.push({ filename, sourceDigest: digest(source), questions: questions.map(prepareQuestion) });
 }

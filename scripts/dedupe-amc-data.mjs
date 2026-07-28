@@ -19,7 +19,7 @@ function questionFingerprint(question) {
 
 const datasets = new Map();
 for (const filename of FILES) {
-  const file = path.resolve("data", filename);
+  const file = path.resolve("data", "en", filename);
   datasets.set(filename, JSON.parse((await readFile(file, "utf8")).replace(/^\uFEFF/, "")));
 }
 
@@ -50,7 +50,7 @@ for (const filename of FILES) {
 }
 
 for (const filename of FILES) {
-  const file = path.resolve("data", filename);
+  const file = path.resolve("data", "en", filename);
   const temporary = `${file}.tmp`;
   await writeFile(temporary, `${JSON.stringify(deduplicated.get(filename), null, 2)}\n`, "utf8");
   await rename(temporary, file);

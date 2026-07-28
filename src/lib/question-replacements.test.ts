@@ -70,7 +70,7 @@ describe("vertical-angle replacement diagrams", () => {
   });
 
   it("attaches each safe stem diagram to its source record without changing its answer", async () => {
-    const dataDirectory = path.join(process.cwd(), "data");
+    const dataDirectory = path.join(process.cwd(), "data", "zh-CN");
     const filenames = (await readdir(dataDirectory)).filter((filename) => filename.endsWith(".json"));
     const sourceQuestions = (await Promise.all(filenames.map(async (filename) => {
       const body = (await readFile(path.join(dataDirectory, filename), "utf8")).replace(/^\uFEFF/, "");

@@ -12,9 +12,19 @@ Browser
   -> Prisma Client
   -> SQLite locally / PostgreSQL in production
 
-data/*.json
+data/zh-CN/*.json (default runtime catalog)
   -> normalization boundary
   -> catalog + questions + options + inferred tags
+
+data/en/amc*.json
+  -> localization + structural parity audit
+  -> data/zh-CN/amc*.json
+
+public/question-assets/source/amc/*
+  -> shared, content-addressed upstream figures
+
+public/question-assets/generated/zh-CN/<question-id>/*
+  -> reviewed locale-specific replacement diagrams
 ```
 
 The question API returns only the stem, options, display metadata, and tags. Correct labels, reference answers, and explanations remain server-side until an attempt is posted.

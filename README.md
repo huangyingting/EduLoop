@@ -1,6 +1,6 @@
 # EduLoop
 
-EduLoop is a Chinese-language practice app for primary, middle, and high school students. The scaffold turns the seven source files in `data/`—four subject collections plus AMC 8, AMC 10, and AMC 12 archives—into a searchable question bank, supports automatically graded choice questions and self-assessed written work, and wraps the practice loop in lightweight XP, streak, and badge rewards.
+EduLoop is a Chinese-language practice app for primary, middle, and high school students. The scaffold turns the seven Simplified Chinese files in `data/zh-CN/`—four subject collections plus AMC 8, AMC 10, and AMC 12 archives—into a searchable question bank, supports automatically graded choice questions and self-assessed written work, and wraps the practice loop in lightweight XP, streak, and badge rewards. Matching English AMC source archives live in `data/en/`.
 
 ## What is included
 
@@ -43,7 +43,7 @@ npm run data:scrape:amc12
 npm run data:dedupe:amc  # merge exact cross-contest duplicates
 npm run data:assets:amc  # download/deduplicate figures and rewrite local paths
 npm run data:audit:amc   # verify slots, keys, figures, and duplicates
-npm run data:translate:amc # generate separate Simplified Chinese AMC archives
+npm run data:translate:amc # regenerate the default Simplified Chinese AMC archives
 npm run data:audit:amc:zh # verify translated IDs, answers, math, and figures
 npm run difficulty:audit # verify every imported difficulty assessment
 npm run seed:verify    # import into a fresh database and verify catalog counts
@@ -77,7 +77,7 @@ The included multi-stage `Dockerfile` builds the PostgreSQL Prisma client and Ne
 
 ## Adding question content
 
-Place another `.json` file with the same source contract in `data/`, then run `npm run data:audit` and `npm run db:seed`. Stable source IDs prevent duplicates. The normalization boundary is [content.ts](./src/lib/content.ts): add aliases there when a new provider uses different subject, grade, difficulty, or type labels.
+Place another `.json` file with the same source contract in `data/zh-CN/`, then run `npm run data:audit` and `npm run db:seed`. Put translated source material under its BCP 47 locale directory and keep matching filenames and stable IDs across locales. The normalization boundary is [content.ts](./src/lib/content.ts): add aliases there when a new provider uses different subject, grade, difficulty, or type labels. See [the content layout](./data/README.md) for the directory contract.
 
 For curated taxonomy, add or update `Tag` and `QuestionTag` rows through Prisma. Curated tags should use `source = "CURATED"` and confidence `1`; the importer currently produces deterministic `RULE` and `IMPORT` tags. A future admin workflow can manage these rows without changing the question table.
 
@@ -85,7 +85,7 @@ For curated taxonomy, add or update `Tag` and `QuestionTag` rows through Prisma.
 
 - Only answer keys that can be parsed with high confidence are auto-graded. Written and ambiguous answers reveal the reference answer for student self-assessment.
 - Unrecognized nested, missing-stem, malformed-choice, and figure-dependent imports are marked `NEEDS_REVIEW` by default. All current bundled records have reviewed corrections or replacements and are published; curation lives in `src/lib/content-curation.ts`.
-- The four original subject files contain no linked image assets. AMC figures are downloaded into `public/question-assets/amc/`, deduplicated by SHA-256, and traced to their original URLs in `manifest.json`; five remote hosts remain allowlisted only as a pre-localization fallback. Twelve generated replacement diagrams remain reviewed and approved. Topic tags are useful discovery hints, not authoritative curriculum classification.
+- The four original subject files contain no linked image assets. Shared AMC figures are downloaded into `public/question-assets/source/amc/`, deduplicated by SHA-256, and traced to their original URLs in `manifest.json`; five remote hosts remain allowlisted only as a pre-localization fallback. Twelve reviewed Chinese replacement diagrams live under `public/question-assets/generated/zh-CN/`. Topic tags are useful discovery hints, not authoritative curriculum classification.
 - Guest identity lives in local browser storage. Optional email/password accounts link that progress to one `LearnerProfile`; logging in on another browser merges its anonymous progress into the account. School-managed deployments still need guardian-consent, email-verification/recovery, and staff-role policies appropriate to their jurisdiction.
 
 See [authentication](./docs/authentication.md), [data audit](./docs/data-audit.md), [product design](./docs/product-design.md), and [architecture](./docs/architecture.md) for the decisions behind the scaffold.

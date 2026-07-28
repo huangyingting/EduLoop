@@ -295,6 +295,7 @@ export function normalizeSourceQuestion(question: SourceQuestion, sourceFile: st
   const options = extractOptions(question);
   const correctLabels = extractCorrectLabels(question);
   const sourceType = question.type || "其他";
+  const isAmcSource = /^amc(?:8|10|12)\.json$/.test(sourceFile);
   const normalizedType = normalizeQuestionType(question);
   const sourceDifficulty = normalizeDifficulty(question.difficulty);
   const answer = update?.answer ?? String(question.answer_info.raw_content ?? "").trim();
@@ -302,7 +303,7 @@ export function normalizeSourceQuestion(question: SourceQuestion, sourceFile: st
     question.solution_info.map((item) => item.solution_info?.trim()).filter(Boolean).join("\n\n") || null
   );
   const visualHeuristicMatch = /识图|填图/.test(sourceType) || referencesMissingFigure(stem);
-  const requiresVisual = visualHeuristicMatch && !reviewedSelfContainedVisualIds.has(question.id);
+  const requiresVisual = !isAmcSource && visualHeuristicMatch && !reviewedSelfContainedVisualIds.has(question.id);
   const hasUnparsedChoice = !selfAssessedCompositeIds.has(question.id) && /选择/.test(sourceType) && (
     options.length < 2 || options.some((option, index) => option.label !== String.fromCharCode(65 + index))
   );
@@ -342,13 +343,13 @@ export function normalizeSourceQuestion(question: SourceQuestion, sourceFile: st
   });
   return {
     ...normalized,
-    difficulty: update?.difficulty ?? (/^amc(?:8|10|12)\.json$/.test(sourceFile) ? sourceDifficulty : audit.difficulty),
+    difficulty: update?.difficulty ?? (isAmcSource ? sourceDifficulty : audit.difficulty),
     sourceDifficulty: audit.sourceDifficulty,
     difficultyScore: audit.score,
-    difficultyConfidence: update?.difficulty || /^amc(?:8|10|12)\.json$/.test(sourceFile) ? 1 : audit.confidence,
+    difficultyConfidence: update?.difficulty || isAmcSource ? 1 : audit.confidence,
     difficultyReason: update?.difficulty
       ? `curated subject review; ${audit.reason}`
-      : /^amc(?:8|10|12)\.json$/.test(sourceFile)
+      : isAmcSource
         ? `AMC contest position band retained after structural audit; ${audit.reason}`
         : audit.reason,
     difficultyAuditVersion: audit.version,

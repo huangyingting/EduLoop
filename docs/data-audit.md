@@ -4,7 +4,7 @@ Audit date: 2026-07-27. Reproduce the structural portion with `npm run data:audi
 
 ## Inventory
 
-The seven JSON files contain 13,812 unique question IDs: four subject-level collections and separate AMC 8, AMC 10, and AMC 12 archives. The AMC files hold 3,463 unique questions representing 3,575 contest slots; 112 exact AMC 10/12 overlaps are stored once with merged paper provenance and solutions.
+The seven Simplified Chinese runtime files under `data/zh-CN/` contain 13,812 unique question IDs: four subject-level collections and separate AMC 8, AMC 10, and AMC 12 archives. Matching English AMC source files live under `data/en/`. The AMC files hold 3,463 unique questions representing 3,575 contest slots; 112 exact AMC 10/12 overlaps are stored once with merged paper provenance and solutions.
 
 | Dimension | Distribution |
 | --- | --- |
@@ -36,7 +36,7 @@ The source has 27 question-type strings. Normalization reduces them to seven sta
 - 1,698 records lack `question_info.raw_content.answer1`. This is not treated as an error because many written-response questions keep the answer only in `answer_info`.
 - IDs are unique. There are 315 repeated stems, which may represent legitimate grade/source duplication and are retained under their source IDs. No AMC stem exactly duplicates a stem in the original files, and no exact question fingerprint is duplicated among the AMC files.
 - Two source records contain child questions. Their parent records are retained under the stable source IDs and have reviewed, self-contained written-response versions so both sets of learning objectives remain usable.
-- The AMC archives contain 1,675 figure references across 1,068 questions, including 688 question prompts. All are stored locally as 1,656 SHA-256-deduplicated files under `public/question-assets/amc/`; `manifest.json` retains each original source URL for provenance. The AMC audit rejects remote markers, malformed local markers, and missing files. The original subject files still use reviewed textual rewrites or approved generated replacements; unrecognized future figure references remain quarantined by default. Inline choices are recovered only when their `A/B/C...` sequence and content are complete.
+- The AMC archives contain 1,675 figure references across 1,068 questions, including 688 question prompts. All are stored locally as 1,656 SHA-256-deduplicated files under `public/question-assets/source/amc/`; `manifest.json` retains each original source URL for provenance. The AMC audit rejects remote markers, malformed local markers, and missing files. The original subject files still use reviewed textual rewrites or approved generated replacements; unrecognized future figure references remain quarantined by default. Inline choices are recovered only when their `A/B/C...` sequence and content are complete.
 
 Source normalization finds 9,743 questions with high-confidence choice or true/false answer labels. The approved replacement for question `8c502ae5d1d18e4743ada96d0adf0ebd` restores its recorded key and four graphical options, bringing the imported auto-gradable count to 9,744. The rest use reference-answer self-assessment. All 13,812 bundled records are published after curation; no bundled record remains in `NEEDS_REVIEW`.
 

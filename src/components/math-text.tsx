@@ -4,7 +4,7 @@ import { Fragment } from "react";
 import Image from "next/image";
 import { InlineMath } from "react-katex";
 
-const CONTENT_TOKEN = /(\$\$[\s\S]*?\$\$|(?<!\\)\$(?!\$)(?:\\.|[^$\n])+?(?<!\\)\$|\[Figure:\s*(?:https?:\/\/[^\]\s]+|\/question-assets\/amc\/[a-z0-9._/-]+)\])/gi;
+const CONTENT_TOKEN = /(\$\$[\s\S]*?\$\$|(?<!\\)\$(?!\$)(?:\\.|[^$\n])+?(?<!\\)\$|\[Figure:\s*(?:https?:\/\/[^\]\s]+|\/question-assets\/source\/amc\/[a-z0-9._/-]+)\])/gi;
 const TRUSTED_FIGURE_HOSTS = new Set([
   "artofproblemsolving.com",
   "latex.artofproblemsolving.com",
@@ -16,7 +16,7 @@ const TRUSTED_FIGURE_HOSTS = new Set([
 function figureUrl(part: string) {
   const match = part.match(/^\[Figure:\s*([^\]\s]+)\]$/);
   if (!match) return null;
-  if (/^\/question-assets\/amc\/[a-z0-9._/-]+$/i.test(match[1])) return match[1];
+  if (/^\/question-assets\/source\/amc\/[a-z0-9._/-]+$/i.test(match[1])) return match[1];
   try {
     const url = new URL(match[1]);
     return url.protocol === "https:" && TRUSTED_FIGURE_HOSTS.has(url.hostname) ? url.toString() : null;

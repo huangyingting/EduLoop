@@ -3,8 +3,8 @@ import { access, mkdir, readFile, rename, stat, writeFile } from "node:fs/promis
 import path from "node:path";
 
 const DATA_FILES = ["amc8.json", "amc10.json", "amc12.json"];
-const DATA_DIRECTORY = path.resolve(process.cwd(), "data");
-const ASSET_DIRECTORY = path.resolve(process.cwd(), "public/question-assets/amc");
+const DATA_DIRECTORY = path.resolve(process.cwd(), "data", "en");
+const ASSET_DIRECTORY = path.resolve(process.cwd(), "public/question-assets/source/amc");
 const MANIFEST_FILE = path.join(ASSET_DIRECTORY, "manifest.json");
 const FIGURE_PATTERN = /\[Figure:\s*(https?:\/\/[^\]\s]+)\]/g;
 const USER_AGENT = "EduLoopAMCAssetImporter/1.0 (authorized curriculum archive import)";
@@ -143,7 +143,7 @@ async function atomicJson(filename, value) {
 }
 
 async function usableManifestEntry(entry) {
-  if (!entry?.path?.startsWith("/question-assets/amc/")) return false;
+  if (!entry?.path?.startsWith("/question-assets/source/amc/")) return false;
   try {
     const file = path.join(process.cwd(), "public", entry.path.slice(1));
     const details = await stat(file);
@@ -191,7 +191,7 @@ const outcomes = await mapConcurrent(pending, 8, async (sourceUrl) => {
       await writeFile(destination, buffer);
     }
     manifest.assets[sourceUrl] = {
-      path: `/question-assets/amc/${basename}`,
+      path: `/question-assets/source/amc/${basename}`,
       sha256,
       bytes: buffer.length,
       contentType,

@@ -1,7 +1,7 @@
 import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 
-const dataDirectory = path.resolve(process.cwd(), "data");
+const dataDirectory = path.resolve(process.cwd(), "data", "zh-CN");
 const files = (await readdir(dataDirectory)).filter((name) => name.endsWith(".json")).sort();
 const rows = [];
 for (const file of files) {

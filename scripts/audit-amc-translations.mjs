@@ -21,7 +21,7 @@ function mathBlockMultiset(value) {
 }
 
 for (const filename of FILES) {
-  const source = JSON.parse(await readFile(new URL(`../data/${filename}`, import.meta.url), "utf8"));
+  const source = JSON.parse(await readFile(new URL(`../data/en/${filename}`, import.meta.url), "utf8"));
   const translated = JSON.parse(await readFile(new URL(`../data/zh-CN/${filename}`, import.meta.url), "utf8"));
   if (source.length !== translated.length) errors.push(`${filename}: question count changed`);
   let chineseQuestions = 0;

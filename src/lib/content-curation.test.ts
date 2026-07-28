@@ -15,7 +15,7 @@ type SourceRecord = { filename: string; question: SourceQuestion };
 let recordsById: Map<string, SourceRecord>;
 
 beforeAll(async () => {
-  const dataDirectory = path.join(process.cwd(), "data");
+  const dataDirectory = path.join(process.cwd(), "data", "zh-CN");
   const filenames = (await readdir(dataDirectory)).filter((filename) => filename.endsWith(".json"));
   const records = (await Promise.all(filenames.map(async (filename) => {
     const body = (await readFile(path.join(dataDirectory, filename), "utf8")).replace(/^\uFEFF/, "");

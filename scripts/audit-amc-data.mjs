@@ -30,7 +30,7 @@ function questionFingerprint(question) {
 }
 
 const records = (await Promise.all(FILES.map(async (filename) => {
-  const questions = JSON.parse((await readFile(new URL(`../data/${filename}`, import.meta.url), "utf8")).replace(/^\uFEFF/, ""));
+  const questions = JSON.parse((await readFile(new URL(`../data/en/${filename}`, import.meta.url), "utf8")).replace(/^\uFEFF/, ""));
   return questions.map((question) => ({ filename, question }));
 }))).flat();
 
@@ -58,7 +58,7 @@ for (const { filename, question } of records) {
     for (const match of String(value).matchAll(/\[Figure:\s*([^\]\s]+)\]/g)) {
       const reference = match[1];
       figureReferences.push({ filename, id: question.id, reference });
-      if (!/^\/question-assets\/amc\/[a-f0-9]{64}\.(?:avif|gif|jpe?g|png|svg|webp)$/i.test(reference)) {
+      if (!/^\/question-assets\/source\/amc\/[a-f0-9]{64}\.(?:avif|gif|jpe?g|png|svg|webp)$/i.test(reference)) {
         invalidFigureMarkers.push({ filename, id: question.id, reference });
       }
     }
@@ -76,7 +76,7 @@ for (const { filename, question } of records) {
 
 const localFigurePaths = [...new Set(figureReferences
   .map(({ reference }) => reference)
-  .filter((reference) => reference.startsWith("/question-assets/amc/")))];
+  .filter((reference) => reference.startsWith("/question-assets/source/amc/")))];
 const missingFigureAssets = (await Promise.all(localFigurePaths.map(async (reference) => {
   try {
     await access(new URL(`../public${reference}`, import.meta.url));

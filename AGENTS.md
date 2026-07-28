@@ -4,7 +4,7 @@
 
 EduLoop is a Next.js App Router project. Pages and API routes live in `src/app/`; reusable UI is in `src/components/`; database, learner, and question-normalization logic belongs in `src/lib/`. Keep unit tests next to their modules as `*.test.ts` or `*.test.tsx`.
 
-Question sources are the JSON files in `data/`. Import and audit utilities live in `prisma/seed.ts` and `scripts/`. SQLite uses `prisma/schema.prisma` and `prisma/migrations/`; production PostgreSQL uses `prisma/postgresql/`. Product, data, and architecture decisions are documented in `docs/`.
+The default question catalog is in `data/zh-CN/`; translated source archives are grouped under their locale, such as `data/en/`. Import and audit utilities live in `prisma/seed.ts` and `scripts/`. SQLite uses `prisma/schema.prisma` and `prisma/migrations/`; production PostgreSQL uses `prisma/postgresql/`. Product, data, and architecture decisions are documented in `docs/`.
 
 ## Build, Test, and Development Commands
 

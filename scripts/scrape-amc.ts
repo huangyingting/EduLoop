@@ -49,7 +49,7 @@ function competitionFromArgs() {
 const COMPETITION = competitionFromArgs();
 const INDEX_URL = `${AOPS_ORIGIN}/wiki/index.php/AMC_${COMPETITION.number}_Problems_and_Solutions`;
 const CACHE_DIRECTORY = path.resolve(process.cwd(), `.cache/${COMPETITION.key}`);
-const OUTPUT_FILE = path.resolve(process.cwd(), `data/${COMPETITION.key}.json`);
+const OUTPUT_FILE = path.resolve(process.cwd(), `data/en/${COMPETITION.key}.json`);
 const USER_AGENT = `EduLoop${COMPETITION.key.toUpperCase()}Importer/1.0 (authorized curriculum archive import)`;
 
 type SourceQuestion = {

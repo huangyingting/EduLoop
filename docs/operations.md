@@ -19,7 +19,7 @@ Run migrations as a single pre-deploy job, not from every application replica. T
 
 Use `GET /api/health` for readiness and container health. Forward JSON stdout/stderr to the platform log service and alert on readiness failures, HTTP 5xx rate, attempt latency, and PostgreSQL connection saturation. Never log request bodies, answers, device keys, or report details.
 
-Authorized content operators can view 28-day aggregate learning-loop health in `/studio`. The endpoint returns no learner identifiers or responses. “Seven-day return” compares distinct learners in adjacent seven-day windows; repeat-topic change is capped at the latest 20,000 graded observations and declares when sampling is active. Move long-term or high-volume analytics to a privacy-reviewed warehouse rather than removing this bound.
+Authorized content operators can view 28-day aggregate learning-loop health in `/studio`. The endpoint returns no learner identifiers or responses. Session totals use database-side aggregates. “Seven-day return” compares distinct learners in adjacent seven-day windows and caps each cohort at 50,000; repeat-topic change is capped at the latest 20,000 graded observations. Both declare when sampling is active. Move long-term or high-volume analytics to a privacy-reviewed warehouse rather than removing these bounds.
 
 Application limits are a single-process safety net. Configure the trusted ingress or shared limiter for at least:
 

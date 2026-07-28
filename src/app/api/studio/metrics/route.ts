@@ -11,6 +11,7 @@ export const dynamic = "force-dynamic";
 const DAY_MS = 86_400_000;
 const WINDOW_DAYS = 28;
 const TOPIC_OBSERVATION_LIMIT = 20_000;
+const WEEKLY_COHORT_LIMIT = 50_000;
 
 async function getLearningHealth(request: Request) {
   const operator = await contentOperatorForRequest(request);
@@ -23,10 +24,12 @@ async function getLearningHealth(request: Request) {
   const today = calendarDay(now, "UTC");
   const currentWeekStart = calendarDaysBefore(today, 6);
   const priorWeekStart = calendarDaysBefore(today, 13);
-  const [sessions, eligibleMisses, viewedExplanations, currentWeekLearners, priorWeekLearners, daily, rawTopicAttempts] = await Promise.all([
-    prisma.practiceSession.findMany({
+  const [startedSessions, completedSessions, sessionQuestions, eligibleMisses, viewedExplanations, rawCurrentWeekLearners, rawPriorWeekLearners, daily, rawTopicAttempts] = await Promise.all([
+    prisma.practiceSession.count({ where: { startedAt: { gte: since } } }),
+    prisma.practiceSession.count({ where: { startedAt: { gte: since }, status: "COMPLETED" } }),
+    prisma.practiceSession.aggregate({
       where: { startedAt: { gte: since } },
-      select: { status: true, completedCount: true },
+      _sum: { completedCount: true },
     }),
     prisma.practiceAttempt.count({
       where: { createdAt: { gte: since }, isCorrect: false, question: { explanation: { not: null } } },
@@ -37,11 +40,15 @@ async function getLearningHealth(request: Request) {
     prisma.dailyActivity.findMany({
       where: { activityDate: { gte: currentWeekStart, lte: today } },
       distinct: ["learnerId"],
+      orderBy: { learnerId: "asc" },
+      take: WEEKLY_COHORT_LIMIT + 1,
       select: { learnerId: true },
     }),
     prisma.dailyActivity.findMany({
       where: { activityDate: { gte: priorWeekStart, lt: currentWeekStart } },
       distinct: ["learnerId"],
+      orderBy: { learnerId: "asc" },
+      take: WEEKLY_COHORT_LIMIT + 1,
       select: { learnerId: true },
     }),
     prisma.dailyActivity.groupBy({
@@ -70,10 +77,12 @@ async function getLearningHealth(request: Request) {
     }),
   ]);
 
+  const cohortSampled = rawCurrentWeekLearners.length > WEEKLY_COHORT_LIMIT || rawPriorWeekLearners.length > WEEKLY_COHORT_LIMIT;
+  const currentWeekLearners = rawCurrentWeekLearners.slice(0, WEEKLY_COHORT_LIMIT);
+  const priorWeekLearners = rawPriorWeekLearners.slice(0, WEEKLY_COHORT_LIMIT);
   const currentLearnerIds = new Set(currentWeekLearners.map(({ learnerId }) => learnerId));
   const returnedLearners = priorWeekLearners.filter(({ learnerId }) => currentLearnerIds.has(learnerId)).length;
-  const completedSessions = sessions.filter(({ status }) => status === "COMPLETED").length;
-  const totalQuestions = sessions.reduce((total, session) => total + session.completedCount, 0);
+  const totalQuestions = sessionQuestions._sum.completedCount ?? 0;
   const sampled = rawTopicAttempts.length > TOPIC_OBSERVATION_LIMIT;
   const topicAttempts = rawTopicAttempts.slice(0, TOPIC_OBSERVATION_LIMIT).reverse().map((attempt) => ({
     learnerId: attempt.learnerId,
@@ -85,10 +94,10 @@ async function getLearningHealth(request: Request) {
     windowDays: WINDOW_DAYS,
     generatedAt: now,
     sessions: {
-      started: sessions.length,
+      started: startedSessions,
       completed: completedSessions,
-      completionRate: percentage(completedSessions, sessions.length),
-      averageQuestions: sessions.length ? Math.round((totalQuestions / sessions.length) * 10) / 10 : 0,
+      completionRate: percentage(completedSessions, startedSessions),
+      averageQuestions: startedSessions ? Math.round((totalQuestions / startedSessions) * 10) / 10 : 0,
     },
     explanations: {
       eligibleMisses,
@@ -99,6 +108,7 @@ async function getLearningHealth(request: Request) {
       priorWeekLearners: priorWeekLearners.length,
       returnedLearners,
       rate: percentage(returnedLearners, priorWeekLearners.length),
+      sampled: cohortSampled,
     },
     repeatPractice: repeatTopicChange(topicAttempts, sampled),
     activity: daily.map((day) => ({

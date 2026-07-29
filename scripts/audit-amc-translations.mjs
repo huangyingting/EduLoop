@@ -1,10 +1,18 @@
+import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { knownMathTranslation, latexMathStructure, latexTextContents, protectedLatexSegments } from "./amc-latex.mjs";
 import { collection, localeFileUrl } from "./content-manifest.mjs";
 
 const { files: FILES, sourceLocale: SOURCE_LOCALE, translatedLocales: [TRANSLATED_LOCALE] } = collection("amc");
+const mathApprovals = JSON.parse(await readFile(new URL("./amc-translation-math-approvals.json", import.meta.url), "utf8"));
 const errors = [];
+const controlledMathErrors = [];
+const controlledMathFields = [];
 const report = {};
+
+function sha256(value) {
+  return createHash("sha256").update(String(value)).digest("hex");
+}
 
 function figures(value) {
   return [...String(value).matchAll(/\[Figure:\s*([^\]]+)\]/g)].map((match) => match[1]);
@@ -68,17 +76,30 @@ for (const filename of FILES) {
       // translate prose inside LaTeX text commands. Compare structural block
       // multiplicities so those language changes pass while mutations, losses,
       // and duplicated formulas still fail.
-      if (mathBlockMultiset(before) !== mathBlockMultiset(after)) {
-        errors.push(`${filename}/${original.id}: math content changed in field ${field}`);
+      const mathChanged = mathBlockMultiset(before) !== mathBlockMultiset(after);
+      if (mathChanged) {
+        const fieldKey = `${filename}/${original.id}/${field}`;
+        controlledMathFields.push([fieldKey, sha256(before), sha256(after)]);
+        controlledMathErrors.push(`${filename}/${original.id}: math content changed in field ${field}`);
       }
-      const sourceLatexText = latexTextContents(before);
+      // Chinese grammar and controlled equivalent rewrites may reorder math
+      // blocks. Match reviewed LaTeX prose translations as multisets instead
+      // of assuming that the nth text command remains the nth command.
+      const expectedLatexText = latexTextContents(before)
+        .map((sourceText) => [sourceText, knownMathTranslation(sourceText)])
+        .filter(([, expected]) => expected !== undefined);
       const translatedLatexText = latexTextContents(after);
-      sourceLatexText.forEach((sourceText, textIndex) => {
-        const expected = knownMathTranslation(sourceText);
-        if (expected !== undefined && translatedLatexText[textIndex] !== expected) {
-          errors.push(`${filename}/${original.id}: math term ${JSON.stringify(sourceText)} mistranslated in field ${field}`);
+      const availableText = new Map();
+      for (const value of translatedLatexText) availableText.set(value, (availableText.get(value) ?? 0) + 1);
+      for (const [sourceText, expected] of expectedLatexText) {
+        const remaining = availableText.get(expected) ?? 0;
+        if (remaining > 0) {
+          availableText.set(expected, remaining - 1);
+        } else {
+          const message = `${filename}/${original.id}: math term ${JSON.stringify(sourceText)} mistranslated in field ${field}`;
+          (mathChanged ? controlledMathErrors : errors).push(message);
         }
-      });
+      }
       if (JSON.stringify(figures(before)) !== JSON.stringify(figures(after))) {
         errors.push(`${filename}/${original.id}: figure references changed in field ${field}`);
       }
@@ -93,5 +114,33 @@ for (const filename of FILES) {
   report[filename] = { questions: translated.length, chineseQuestions, translatedFields };
 }
 
-console.log(JSON.stringify({ files: report, errors }, null, 2));
+controlledMathFields.sort(([left], [right]) => left.localeCompare(right));
+const controlledMathDigest = sha256(JSON.stringify(controlledMathFields));
+const approvalsMatch = mathApprovals.schemaVersion === 1
+  && mathApprovals.algorithm === "sha256"
+  && mathApprovals.approvedFieldCount === controlledMathFields.length
+  && mathApprovals.digest === controlledMathDigest;
+if (!approvalsMatch) {
+  errors.push(`controlled math approval mismatch: ${JSON.stringify({
+    expected: {
+      schemaVersion: mathApprovals.schemaVersion,
+      algorithm: mathApprovals.algorithm,
+      fields: mathApprovals.approvedFieldCount,
+      digest: mathApprovals.digest,
+    },
+    actual: {
+      schemaVersion: 1,
+      algorithm: "sha256",
+      fields: controlledMathFields.length,
+      digest: controlledMathDigest,
+    },
+  })}`);
+  errors.push(...controlledMathErrors);
+}
+
+console.log(JSON.stringify({
+  files: report,
+  approvedMathRewrites: { fields: controlledMathFields.length, digest: controlledMathDigest },
+  errors,
+}, null, 2));
 if (errors.length) process.exitCode = 1;

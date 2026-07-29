@@ -58,7 +58,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "估算可知，所求和介于 $10 \\times 90=900$ 与 $10 \\times 100=1000$ 之间，因此只能是 $945$。\n\n$\\textbf{OR}$\n按图示将这些数两两配对。每一对的和都是 $189$，所以所求和为 $5 \\times 189= 945$。\n\n[Figure: /question-assets/source/amc/2f040479eef96094eaf46894e935c23c411c1b052a7c00745e305cac16923d8c.jpg]\n\n答案：$\\boxed{B}$。"
+        "solution_info": "估算可知，所求和介于 $10 \\times 90=900$ 与 $10 \\times 100=1000$ 之间，因此只能是 $945$。\n\n$\\textbf{或}$\n按图示将这些数两两配对。每一对的和都是 $189$，所以所求和为 $5 \\times 189= 945$。\n\n[Figure: /question-assets/source/amc/2f040479eef96094eaf46894e935c23c411c1b052a7c00745e305cac16923d8c.jpg]\n\n答案：$\\boxed{B}$。"
       }
     ],
     "children": []
@@ -90,7 +90,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "$\\dfrac{10^{7}}{5 \\times 10^{4}}=\\dfrac{10 \\times 10^{6}}{5 \\times 10^{4}}=2 \\times 10^{2}= 200.$\n$\\textbf{OR}$\n$\\dfrac{10^{7}}{5 \\times 10^{4}}=\\dfrac{10^{3}}{5}=\\dfrac{1000}{5}=200.$\n答案：$\\boxed{D}$。"
+        "solution_info": "$\\dfrac{10^{7}}{5 \\times 10^{4}}=\\dfrac{10 \\times 10^{6}}{5 \\times 10^{4}}=2 \\times 10^{2}= 200.$\n$\\textbf{或}$\n$\\dfrac{10^{7}}{5 \\times 10^{4}}=\\dfrac{10^{3}}{5}=\\dfrac{1000}{5}=200.$\n答案：$\\boxed{D}$。"
       }
     ],
     "children": []
@@ -122,7 +122,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "该面积大于 $6 \\times 5=30$ 且小于 $6 \\times 9=54$，所以正确选项必为 $(C)$。\n\n$\\textbf{OR}$\n延长 $FE$，可将多边形分成一个长方形和一个正方形，它们的面积分别为 $30$ 和 $16$。\n\n$\\textbf{OR}$\n\n[Figure: /question-assets/source/amc/9fbd5a15d00abc2475084b66ab562a2456e8a8a5d7c457baa82eee0caa8159f2.jpg]\n\n延长 $AF$ 和 $DC$ 构成大长方形，可见所求面积为 $(6 \\times 9)-(4 \\times 2)=54-8=46$。\n\n答案：$\\boxed{C}$。"
+        "solution_info": "该面积大于 $6 \\times 5=30$ 且小于 $6 \\times 9=54$，所以正确选项必为 $(C)$。\n\n$\\textbf{或}$\n延长 $FE$，可将多边形分成一个长方形和一个正方形，它们的面积分别为 $30$ 和 $16$。\n\n$\\textbf{或}$\n\n[Figure: /question-assets/source/amc/9fbd5a15d00abc2475084b66ab562a2456e8a8a5d7c457baa82eee0caa8159f2.jpg]\n\n延长 $AF$ 和 $DC$ 构成大长方形，可见所求面积为 $(6 \\times 9)-(4 \\times 2)=54-8=46$。\n\n答案：$\\boxed{C}$。"
       }
     ],
     "children": []
@@ -154,7 +154,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "由图可读出各等级人数为 $5 \\mathrm{~A}^{\\prime} \\mathrm{s}, 4 \\mathrm{~B}^{\\prime} \\mathrm{s}, 3 \\mathrm{C}^{\\prime} \\mathrm{s}, 3 \\mathrm{D}^{\\prime} \\mathrm{s}$，以及 $5 \\mathrm{F}^{\\prime} \\mathrm{s}$。因此，合格成绩所占比例为 $\\dfrac{5+4+3+3}{20}$ = $\\dfrac{15}{20}$ = $\\dfrac{3}{4}$。\n\n$\\textbf{OR}$\n由图可知，不合格成绩占 $\\dfrac{5}{20}=\\dfrac{1}{4}$，所以合格成绩占 $1-\\dfrac{1}{4}=\\dfrac{3}{4}$。\n\n答案：$\\boxed{C}$。"
+        "solution_info": "由图可读出各等级人数为 $5 \\mathrm{~A}^{\\prime} \\mathrm{s}, 4 \\mathrm{~B}^{\\prime} \\mathrm{s}, 3 \\mathrm{C}^{\\prime} \\mathrm{s}, 3 \\mathrm{D}^{\\prime} \\mathrm{s}$，以及 $5 \\mathrm{F}^{\\prime} \\mathrm{s}$。因此，合格成绩所占比例为 $\\dfrac{5+4+3+3}{20}$ = $\\dfrac{15}{20}$ = $\\dfrac{3}{4}$。\n\n$\\textbf{或}$\n由图可知，不合格成绩占 $\\dfrac{5}{20}=\\dfrac{1}{4}$，所以合格成绩占 $1-\\dfrac{1}{4}=\\dfrac{3}{4}$。\n\n答案：$\\boxed{C}$。"
       }
     ],
     "children": []
@@ -186,7 +186,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "高 $7.5 \\mathrm{~cm}$ 的纸摞是高 $5 \\mathrm{~cm}$ 的纸摞的 1.5 倍，因此共有 $500+\\dfrac{1}{2}(500)=500+250=750$ 张。\n\n$\\textbf{OR}$\n设高 $7.5 \\mathrm{~cm}$ 的纸摞有 $\\mathrm{n}$ 张，则 $\\dfrac{5}{500}=\\dfrac{7.5}{n}$，所以 $n=750$ 张。\n\n答案：$\\boxed{D}$。"
+        "solution_info": "高 $7.5 \\mathrm{~cm}$ 的纸摞是高 $5 \\mathrm{~cm}$ 的纸摞的 1.5 倍，因此共有 $500+\\dfrac{1}{2}(500)=500+250=750$ 张。\n\n$\\textbf{或}$\n设高 $7.5 \\mathrm{~cm}$ 的纸摞有 $\\mathrm{n}$ 张，则 $\\dfrac{5}{500}=\\dfrac{7.5}{n}$，所以 $n=750$ 张。\n\n答案：$\\boxed{D}$。"
       }
     ],
     "children": []
@@ -397,11 +397,11 @@
     "question_info": {
       "raw_content": {
         "title": "先以 $4 \\mathrm{mph}$ 的速度步行 $45$ 分钟，再以 $10 \\mathrm{mph}$ 的速度跑 $30$ 分钟。一小时 $15$ 分钟后，一共行进了多少英里？",
-        "option_a": "$3.5 \\text{ miles}$",
-        "option_b": "$8 \\text{ miles}$",
-        "option_c": "$9 \\text{ miles}$",
-        "option_d": "$25 \\dfrac{1}{3} \\text{ miles}$",
-        "option_e": "$480 \\text{ miles}$",
+        "option_a": "$3.5 \\text{ 英里}$",
+        "option_b": "$8 \\text{ 英里}$",
+        "option_c": "$9 \\text{ 英里}$",
+        "option_d": "$25 \\dfrac{1}{3} \\text{ 英里}$",
+        "option_e": "$480 \\text{ 英里}$",
         "answer1": "B"
       }
     },
@@ -410,7 +410,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "为统一使用英里和小时作单位，先注意到 $45$ 分钟 $=\\dfrac{45}{60}=\\dfrac{3}{4}$ 小时，而 30 分钟 $=\\dfrac{1}{2}$ 小时。因为路程 $=$ 速度 $\\times$ 时间，所以总路程为\n\n$4 \\times \\dfrac{3}{4}+10 \\times \\dfrac{1}{2}=3+5=8 \\text { miles. }$\n总路程小于 $4+10=14$ 英里，因此可轻易排除 $(D)$ 和 $(E)$。\n\n答案：$\\boxed{B}$。"
+        "solution_info": "为统一使用英里和小时作单位，先注意到 $45$ 分钟 $=\\dfrac{45}{60}=\\dfrac{3}{4}$ 小时，而 30 分钟 $=\\dfrac{1}{2}$ 小时。因为路程 $=$ 速度 $\\times$ 时间，所以总路程为\n\n$4 \\times \\dfrac{3}{4}+10 \\times \\dfrac{1}{2}=3+5=8 \\text{ miles. }$\n总路程小于 $4+10=14$ 英里，因此可轻易排除 $(D)$ 和 $(E)$。\n\n答案：$\\boxed{B}$。"
       }
     ],
     "children": []
@@ -538,7 +538,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "要使 $7$ 次测验的平均分为 $85$，总分应为 $7 \\times 85=595$。前 $6$ 次测验的总分为 $6 \\times 84=504$，所以第七次测验应得 $595-504=91$ 分。\n\n$\\textbf{OR}$\n设第七次测验得分为 $n$，则 $\\dfrac{6(84)+n}{7}=85$，所以 $\\mathrm{n}=91$。\n\n$\\textbf{OR}$\n要让平均分提高 1 分，第七次测验需比原平均分多得 7 分，因此得分为 $84+7=91$。\n\n答案：$\\boxed{D}$。"
+        "solution_info": "要使 $7$ 次测验的平均分为 $85$，总分应为 $7 \\times 85=595$。前 $6$ 次测验的总分为 $6 \\times 84=504$，所以第七次测验应得 $595-504=91$ 分。\n\n$\\textbf{或}$\n设第七次测验得分为 $n$，则 $\\dfrac{6(84)+n}{7}=85$，所以 $\\mathrm{n}=91$。\n\n$\\textbf{或}$\n要让平均分提高 1 分，第七次测验需比原平均分多得 7 分，因此得分为 $84+7=91$。\n\n答案：$\\boxed{D}$。"
       }
     ],
     "children": []
@@ -570,7 +570,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "只有 $(E)$ 满足 10 本小册子的价格超过 $\\$ 11.00$ 这一条件。\n\n$\\textbf{OR}$\n设小册子的单价为 $\\mathrm{P}$，则 $9 \\mathrm{P}<10$ 且 10P $>11$，即 $1.10<\\mathrm{P}<1.1111 \\ldots$，所以 $P=\\$ 1.11$。\n\n答案：$\\boxed{E}$。"
+        "solution_info": "只有 $(E)$ 满足 10 本小册子的价格超过 $\\$ 11.00$ 这一条件。\n\n$\\textbf{或}$\n设小册子的单价为 $\\mathrm{P}$，则 $9 \\mathrm{P}<10$ 且 10P $>11$，即 $1.10<\\mathrm{P}<1.1111 \\ldots$，所以 $P=\\$ 1.11$。\n\n答案：$\\boxed{E}$。"
       }
     ],
     "children": []
@@ -666,7 +666,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "若初始工资为 $\\$ 100$，第一次增加 $10 \\%$ 后为 $\\$ 110$；第二次增加 $10 \\%$ 后为 $\\$ 110+\\$ 11=\\$ 121$；第三次后为 $\\$ 121+\\$ 12.10=\\$ 133.10$；第四次后为 $\\$ 133.10+\\$ 13.31=\\$ 146.41$，总增幅为 $46.41 \\%$。\n\n$\\textbf{OR}$\n若初始工资为 $S$，连续四次增加 $10 \\%$ 后，工资为 $(1.1)(1.1)(1.1)(1.1)S =1.4641 S$，增幅为 $46.41 \\%$。\n\n答案：$\\boxed{E}$。"
+        "solution_info": "若初始工资为 $\\$ 100$，第一次增加 $10 \\%$ 后为 $\\$ 110$；第二次增加 $10 \\%$ 后为 $\\$ 110+\\$ 11=\\$ 121$；第三次后为 $\\$ 121+\\$ 12.10=\\$ 133.10$；第四次后为 $\\$ 133.10+\\$ 13.31=\\$ 146.41$，总增幅为 $46.41 \\%$。\n\n$\\textbf{或}$\n若初始工资为 $S$，连续四次增加 $10 \\%$ 后，工资为 $(1.1)(1.1)(1.1)(1.1)S =1.4641 S$，增幅为 $46.41 \\%$。\n\n答案：$\\boxed{E}$。"
       }
     ],
     "children": []
@@ -730,7 +730,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "学生每天上课的总人次为 $1200 \\times 5=6000$。因此教师每天授课的总节次为 $\\dfrac{6000}{30}=200$，所需教师人数为 $\\dfrac{200}{4}=50$。\n\n$\\textbf{OR}$\n若每名学生上 $4$ 节课、每名教师也教 $4$ 节课，则需要 $\\dfrac{1200}{30}=40$ 名教师。现在每名学生上 $5$ 节课，因此需要 $\\dfrac{5}{4} \\times 40=50$ 名教师。\n\n答案：$\\boxed{E}$。"
+        "solution_info": "学生每天上课的总人次为 $1200 \\times 5=6000$。因此教师每天授课的总节次为 $\\dfrac{6000}{30}=200$，所需教师人数为 $\\dfrac{200}{4}=50$。\n\n$\\textbf{或}$\n若每名学生上 $4$ 节课、每名教师也教 $4$ 节课，则需要 $\\dfrac{1200}{30}=40$ 名教师。现在每名学生上 $5$ 节课，因此需要 $\\dfrac{5}{4} \\times 40=50$ 名教师。\n\n答案：$\\boxed{E}$。"
       }
     ],
     "children": []
@@ -794,7 +794,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "若简的说法错误，就存在一张卡片，一面是元音字母，另一面是奇数。这样的卡片当前朝上的一面不可能是辅音字母或偶数。因此，唯一可能证明简错误的是一面写有“$3$”的卡片；它的另一面必须是元音字母。\n\n$\\textbf{OR}$\n玛丽若能翻开一张当前显示元音字母的卡片，最容易证明简错误，但桌面上没有这样的卡片。不过，如果简的说法正确，其逆否命题“若卡片一面是奇数，则另一面是辅音字母”也应成立。因此，玛丽翻开标有 $3$ 的卡片即可证明简错误。\n\n答案：$\\boxed{A}$。"
+        "solution_info": "若简的说法错误，就存在一张卡片，一面是元音字母，另一面是奇数。这样的卡片当前朝上的一面不可能是辅音字母或偶数。因此，唯一可能证明简错误的是一面写有“$3$”的卡片；它的另一面必须是元音字母。\n\n$\\textbf{或}$\n玛丽若能翻开一张当前显示元音字母的卡片，最容易证明简错误，但桌面上没有这样的卡片。不过，如果简的说法正确，其逆否命题“若卡片一面是奇数，则另一面是辅音字母”也应成立。因此，玛丽翻开标有 $3$ 的卡片即可证明简错误。\n\n答案：$\\boxed{A}$。"
       }
     ],
     "children": []
@@ -1114,7 +1114,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "由图可知，该距离为\n\n$\\begin{aligned} d &= 9.5\\ \\text{feet} - 1.5\\ \\text{feet} \\\\ &= 8\\ \\text{feet}. \\end{aligned}$\n\n[Figure: /question-assets/source/amc/4f023a55495db66570fc03797e6d30f204a2a98db4928bf58584c51256414143.jpg]\n\n答案：$\\boxed{B}$。"
+        "solution_info": "由图可知，该距离为\n\n$\\begin{aligned} d &= 9.5\\ \\text{英尺} - 1.5\\ \\text{英尺} \\\\ &= 8\\ \\text{英尺}. \\end{aligned}$\n\n[Figure: /question-assets/source/amc/4f023a55495db66570fc03797e6d30f204a2a98db4928bf58584c51256414143.jpg]\n\n答案：$\\boxed{B}$。"
       }
     ],
     "children": []
@@ -1274,7 +1274,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "外套售价是 $\\$ 180$ 的 $50 \\%$，即 $\\$ 90$。额外折扣为 $\\$ 90$ 的 $20 \\%$，即 $\\$ 18$，所以星期六售价为 $\\$ 90-\\$ 18=\\$ 72$。\n\n$\\textbf{OR}$\n星期六售价是平时售价的 $80 \\%$，而平时售价是原价的 $50 \\%$，所以星期六售价为 $.8(.5(\\$ 180))=.8(\\$ 90)=\\$ 72$。\n\n答案：$\\boxed{B}$。"
+        "solution_info": "外套售价是 $\\$ 180$ 的 $50 \\%$，即 $\\$ 90$。额外折扣为 $\\$ 90$ 的 $20 \\%$，即 $\\$ 18$，所以星期六售价为 $\\$ 90-\\$ 18=\\$ 72$。\n\n$\\textbf{或}$\n星期六售价是平时售价的 $80 \\%$，而平时售价是原价的 $50 \\%$，所以星期六售价为 $.8(.5(\\$ 180))=.8(\\$ 90)=\\$ 72$。\n\n答案：$\\boxed{B}$。"
       }
     ],
     "children": []
@@ -1978,7 +1978,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "大长方形可分成 $24$ 个全等的小长方形，其中 $2$ 个被涂色。\n\n$\\textbf{OR}$\n长方形区域的 $\\dfrac{1}{3}$ 的 $\\dfrac{1}{4}=\\dfrac{1}{12}$ 被涂色。\n\n答案：$\\boxed{C}$。"
+        "solution_info": "大长方形可分成 $24$ 个全等的小长方形，其中 $2$ 个被涂色。\n\n$\\textbf{或}$\n长方形区域的 $\\dfrac{1}{3}$ 的 $\\dfrac{1}{4}=\\dfrac{1}{12}$ 被涂色。\n\n答案：$\\boxed{C}$。"
       }
     ],
     "children": []
@@ -2394,7 +2394,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "杰克和吉尔不能取到同一号码，因此按网格中未涂色方格所示，共有 $10 \\cdot 9=90$ 种有序取法。和为偶数的方格标为“$E$”。这样的方格共有 $40$ 个，每列（或每行）有 $4$ 个，因为两个数必须同为奇数或同为偶数。所求概率为 $\\dfrac{40}{90}=\\dfrac{4}{9}$。\n\n[Figure: /question-assets/source/amc/e937cf087c4ef2972bcbdc9a251cd53e1a896414cbe526c481fdc4f5f26fa547.jpg]\n\n$\\textbf{OR}$\n第一个数有 $10$ 种选法；第二个数必须与第一个数奇偶性相同，因此只有 $4$ 种选法。故概率为 $\\dfrac{10 \\cdot 4}{10 \\cdot 9}=\\dfrac{4}{9}$。\n\n答案：$\\boxed{A}$。"
+        "solution_info": "杰克和吉尔不能取到同一号码，因此按网格中未涂色方格所示，共有 $10 \\cdot 9=90$ 种有序取法。和为偶数的方格标为“$E$”。这样的方格共有 $40$ 个，每列（或每行）有 $4$ 个，因为两个数必须同为奇数或同为偶数。所求概率为 $\\dfrac{40}{90}=\\dfrac{4}{9}$。\n\n[Figure: /question-assets/source/amc/e937cf087c4ef2972bcbdc9a251cd53e1a896414cbe526c481fdc4f5f26fa547.jpg]\n\n$\\textbf{或}$\n第一个数有 $10$ 种选法；第二个数必须与第一个数奇偶性相同，因此只有 $4$ 种选法。故概率为 $\\dfrac{10 \\cdot 4}{10 \\cdot 9}=\\dfrac{4}{9}$。\n\n答案：$\\boxed{A}$。"
       }
     ],
     "children": []
@@ -2554,7 +2554,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "因为 $\\angle \\mathrm{CBD}$ 是直角，边 $\\mathrm{BC}$ 必须经过量角器的 $70^{\\circ}$ 刻度，所以 $\\angle \\mathrm{ABC}$ 的度数为 $70^{\\circ}-20^{\\circ}=50^{\\circ}$。\n\n$\\textbf{OR}$\n$\\angle \\mathrm{ABC}$ = $\\angle \\mathrm{ABD}-\\angle \\mathrm{CBD}$ = $(\\angle \\mathrm{OBD}-\\angle \\mathrm{OBA})-\\angle \\mathrm{CBD} = \\left(160^{\\circ}-20^{\\circ}\\right)-90^{\\circ}$ = $50^{\\circ}$。\n\n答案：$\\boxed{C}$。"
+        "solution_info": "因为 $\\angle \\mathrm{CBD}$ 是直角，边 $\\mathrm{BC}$ 必须经过量角器的 $70^{\\circ}$ 刻度，所以 $\\angle \\mathrm{ABC}$ 的度数为 $70^{\\circ}-20^{\\circ}=50^{\\circ}$。\n\n$\\textbf{或}$\n$\\angle \\mathrm{ABC}$ = $\\angle \\mathrm{ABD}-\\angle \\mathrm{CBD}$ = $(\\angle \\mathrm{OBD}-\\angle \\mathrm{OBA})-\\angle \\mathrm{CBD} = \\left(160^{\\circ}-20^{\\circ}\\right)-90^{\\circ}$ = $50^{\\circ}$。\n\n答案：$\\boxed{C}$。"
       }
     ],
     "children": []
@@ -2586,7 +2586,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "$\\dfrac{(.2)^{3}}{(.02)^{2}}=\\dfrac{.008}{.0004}=\\dfrac{80}{4}=20.$\n$\\textbf{OR}$\n$\\dfrac{.2}{.02} \\times \\dfrac{.2}{.02} \\times .2=10 \\times 10 \\times .2=20.$\n答案：$\\boxed{E}$。"
+        "solution_info": "$\\dfrac{(.2)^{3}}{(.02)^{2}}=\\dfrac{.008}{.0004}=\\dfrac{80}{4}=20.$\n$\\textbf{或}$\n$\\dfrac{.2}{.02} \\times \\dfrac{.2}{.02} \\times .2=10 \\times 10 \\times .2=20.$\n答案：$\\boxed{E}$。"
       }
     ],
     "children": []
@@ -2714,7 +2714,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "$60$ 天等于 $8$ 周又 $4$ 天，所以所求日期是星期四后第四天，即星期一。\n\n$\\textbf{OR}$\n$60$ 天也可看作比 $9$ 周少 $3$ 天，所以所求日期是星期四前三天，同样是星期一。\n\n答案：$\\boxed{A}$。"
+        "solution_info": "$60$ 天等于 $8$ 周又 $4$ 天，所以所求日期是星期四后第四天，即星期一。\n\n$\\textbf{或}$\n$60$ 天也可看作比 $9$ 周少 $3$ 天，所以所求日期是星期四前三天，同样是星期一。\n\n答案：$\\boxed{A}$。"
       }
     ],
     "children": []
@@ -2778,7 +2778,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "每人费用 $=\\dfrac{\\text { total cost }}{\\text { number of people }}$，因此 $\\dfrac{\\$ 20 \\text { billion }}{250 \\text { million }}=\\dfrac{2 \\times 1010}{2.5 \\times 10^{8}}=.8 \\times 10^{2}=\\$ 80$。\n\n$\\textbf{OR}$\n由于 $\\dfrac{1000000000}{250000000}=4$，每人费用为 $(\\$ 4)(20)$，即 $\\$ 80$。\n\n答案：$\\boxed{C}$。"
+        "solution_info": "每人费用 $=\\dfrac{\\text{ total cost }}{\\text{ number of people }}$，因此 $\\dfrac{\\$ 20 \\text{ billion }}{250 \\text{ million }}=\\dfrac{2 \\times 1010}{2.5 \\times 10^{8}}=.8 \\times 10^{2}=\\$ 80$。\n\n$\\textbf{或}$\n由于 $\\dfrac{1000000000}{250000000}=4$，每人费用为 $(\\$ 4)(20)$，即 $\\$ 80$。\n\n答案：$\\boxed{C}$。"
       }
     ],
     "children": []
@@ -2938,7 +2938,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "[Figure: /question-assets/source/amc/714513a2df9738c65dc5cdd1ced66bf439ce74693fea91d0811263c06d5dd8b0.jpg]\n\n总阴影面积等于“横向”长方形面积加“纵向”长方形面积，再减去同时属于两者的“重叠”长方形面积。因此所求面积为 $2(10)+3(8)-2(3)=38$。\n\n$\\textbf{OR}$\n如右图所示移动两个长方形，使其组成 L 形。可见阴影面积为 $(10)(2)+(6)(3)=38$、$(7)(2)+(8)(3)=38$ 或 $(10)(8)-(7)(6)=38$。\n\n答案：$\\boxed{B}$。"
+        "solution_info": "[Figure: /question-assets/source/amc/714513a2df9738c65dc5cdd1ced66bf439ce74693fea91d0811263c06d5dd8b0.jpg]\n\n总阴影面积等于“横向”长方形面积加“纵向”长方形面积，再减去同时属于两者的“重叠”长方形面积。因此所求面积为 $2(10)+3(8)-2(3)=38$。\n\n$\\textbf{或}$\n如右图所示移动两个长方形，使其组成 L 形。可见阴影面积为 $(10)(2)+(6)(3)=38$、$(7)(2)+(8)(3)=38$ 或 $(10)(8)-(7)(6)=38$。\n\n答案：$\\boxed{B}$。"
       }
     ],
     "children": []
@@ -2970,7 +2970,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "十名儿童总重为 $6(150)+4(120)=1380$，所以平均体重为 $\\dfrac{1380}{10}$，即 $138$ 磅。\n\n$\\textbf{OR}$\n$4$ 名男生和 $4$ 名女生的平均体重为 $135$ 磅；另外两名男生会使这一平均数提高 $\\dfrac{30}{10}$，即 $3$ 磅。\n\n答案：$\\boxed{C}$。"
+        "solution_info": "十名儿童总重为 $6(150)+4(120)=1380$，所以平均体重为 $\\dfrac{1380}{10}$，即 $138$ 磅。\n\n$\\textbf{或}$\n$4$ 名男生和 $4$ 名女生的平均体重为 $135$ 磅；另外两名男生会使这一平均数提高 $\\dfrac{30}{10}$，即 $3$ 磅。\n\n答案：$\\boxed{C}$。"
       }
     ],
     "children": []
@@ -3002,7 +3002,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "原等差数列每项加 $3$，得到数列 $4,8,12,16,20, \\ldots$，其第 100 项为 $400$。每项再减去 $3$，可知原数列第 100 项为 $397$。\n\n$\\textbf{OR}$\n从首项 $1$ 开始，连续加 $4$ 共 $99$ 次，即可得到第 $100$ 项。因此第 $100 $ 项为 $1+99(4)=397$。\n\n答案：$\\boxed{A}$。"
+        "solution_info": "原等差数列每项加 $3$，得到数列 $4,8,12,16,20, \\ldots$，其第 100 项为 $400$。每项再减去 $3$，可知原数列第 100 项为 $397$。\n\n$\\textbf{或}$\n从首项 $1$ 开始，连续加 $4$ 共 $99$ 次，即可得到第 $100$ 项。因此第 $100 $ 项为 $1+99(4)=397$。\n\n答案：$\\boxed{A}$。"
       }
     ],
     "children": []
@@ -3034,7 +3034,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "设咖啡壶装满时可容纳 $n$ 杯，按图标注液位计并列出等比例式：\n\n$\\dfrac{45}{n}=\\dfrac{36}{100} \\text{ or } n=125 \\text{ cups}.$\n$\\textbf{OR}$\n若 $36 \\%$ 对应 $45 \\text{ cups}$，则 $4 \\%$ 对应 $\\dfrac{1}{9} (45)$，即 $5$ 杯，所以 $100 \\%$ 对应 $25(5)$，即 $125$ 杯。\n\n答案：$\\boxed{C}$。"
+        "solution_info": "设咖啡壶装满时可容纳 $n$ 杯，按图标注液位计并列出等比例式：\n\n$\\dfrac{45}{n}=\\dfrac{36}{100} \\text{ 或 } n=125 \\text{ cups}.$\n$\\textbf{或}$\n若 $36 \\%$ 对应 $45 \\text{ cups}$，则 $4 \\%$ 对应 $\\dfrac{1}{9} (45)$，即 $5$ 杯，所以 $100 \\%$ 对应 $25(5)$，即 $125$ 杯。\n\n答案：$\\boxed{C}$。"
       }
     ],
     "children": []
@@ -3162,7 +3162,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "[Figure: /question-assets/source/amc/0196dd123633920a084be62713a6979dd16f54be7df5f6396b9457107b391dbd.jpg]\n\n[Figure: /question-assets/source/amc/6891b3669e53cbf8a78f7bbe0f9276df90ffeb87457db19d0e40ef8e6a6074a2.jpg]\n\n[Figure: /question-assets/source/amc/43e778596b462f13955ca3df17c4c01f5e1f1f3b9743d8d08dae17fcdc371509.jpg]\n\n跟踪第一幅图中正方形的“底边”。在第四幅图中，该边会出现在左侧，因此实心三角形位于 $(A)$ 所示位置。\n\n$\\textbf{OR}$\n\n[Figure: /question-assets/source/amc/88f109edb7fa077e3d247ced542aa9346de1a0e2b86b4223f7d596ad20128843.jpg]\n\n正方形每“滚动”到六边形的下一条边，就转过 $150^{\\circ}$。从六边形顶部移到底部共转三次，总角度为 $3(150)=450^{\\circ}$。$450^{\\circ}$ 等于一整圈再加第二圈的 $1 / 4$。\n\n答案：$\\boxed{A}$。"
+        "solution_info": "[Figure: /question-assets/source/amc/0196dd123633920a084be62713a6979dd16f54be7df5f6396b9457107b391dbd.jpg]\n\n[Figure: /question-assets/source/amc/6891b3669e53cbf8a78f7bbe0f9276df90ffeb87457db19d0e40ef8e6a6074a2.jpg]\n\n[Figure: /question-assets/source/amc/43e778596b462f13955ca3df17c4c01f5e1f1f3b9743d8d08dae17fcdc371509.jpg]\n\n跟踪第一幅图中正方形的“底边”。在第四幅图中，该边会出现在左侧，因此实心三角形位于 $(A)$ 所示位置。\n\n$\\textbf{或}$\n\n[Figure: /question-assets/source/amc/88f109edb7fa077e3d247ced542aa9346de1a0e2b86b4223f7d596ad20128843.jpg]\n\n正方形每“滚动”到六边形的下一条边，就转过 $150^{\\circ}$。从六边形顶部移到底部共转三次，总角度为 $3(150)=450^{\\circ}$。$450^{\\circ}$ 等于一整圈再加第二圈的 $1 / 4$。\n\n答案：$\\boxed{A}$。"
       }
     ],
     "children": []
@@ -3226,7 +3226,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "按图示分组，可知和为 $5(50)=250$。\n\n[Figure: /question-assets/source/amc/de35453d7118c3a330309f00b89f05eb93b4776fcaa36c02d0546c650945bc8f.jpg]\n\n$\\textbf{OR}$\n按另一种图示分组，可知和为 $10+30+50+70+90=250$。\n\n[Figure: /question-assets/source/amc/08d92884865cbbd00527d0fb32444fd4408bec40038b4ad7092cc201272b5f35.jpg]\n\n答案：$\\boxed{E}$。"
+        "solution_info": "按图示分组，可知和为 $5(50)=250$。\n\n[Figure: /question-assets/source/amc/de35453d7118c3a330309f00b89f05eb93b4776fcaa36c02d0546c650945bc8f.jpg]\n\n$\\textbf{或}$\n按另一种图示分组，可知和为 $10+30+50+70+90=250$。\n\n[Figure: /question-assets/source/amc/08d92884865cbbd00527d0fb32444fd4408bec40038b4ad7092cc201272b5f35.jpg]\n\n答案：$\\boxed{E}$。"
       }
     ],
     "children": []
@@ -3386,7 +3386,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "相邻两刻度间距是总距离的 $\\dfrac{1}{5}$，因此 $y=3 \\times\\left(\\dfrac{1}{5} \\times 20\\right)=3 \\times 4=12$。\n\n$\\textbf{OR}$\n列比例式 $\\dfrac{y}{20}=\\dfrac{3}{5}$，所以 $y=12$。\n\n答案：$\\boxed{C}$。"
+        "solution_info": "相邻两刻度间距是总距离的 $\\dfrac{1}{5}$，因此 $y=3 \\times\\left(\\dfrac{1}{5} \\times 20\\right)=3 \\times 4=12$。\n\n$\\textbf{或}$\n列比例式 $\\dfrac{y}{20}=\\dfrac{3}{5}$，所以 $y=12$。\n\n答案：$\\boxed{C}$。"
       }
     ],
     "children": []
@@ -3418,7 +3418,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "$20$ 枚 25 美分硬币与 $10$ 枚 10 美分硬币共值 $\\$ 5.00+\\$ 1.00=\\$ 6.00$。$10$ 枚 25 美分硬币价值 $\\$ 2.50$，余下的 $\\$ 3.50$ 必须由 $35$ 枚 10 美分硬币组成。\n\n$\\textbf{OR}$\n也可以把相差的 $20-10=10$ 枚 25 美分硬币“换成”10 美分硬币。$10$ 枚 25 美分硬币价值 $\\$ 2.50$，相当于 25 枚 10 美分硬币；再加原有的 $10$ 枚，共 $35$ 枚。\n\n答案：$\\boxed{D}$。"
+        "solution_info": "$20$ 枚 25 美分硬币与 $10$ 枚 10 美分硬币共值 $\\$ 5.00+\\$ 1.00=\\$ 6.00$。$10$ 枚 25 美分硬币价值 $\\$ 2.50$，余下的 $\\$ 3.50$ 必须由 $35$ 枚 10 美分硬币组成。\n\n$\\textbf{或}$\n也可以把相差的 $20-10=10$ 枚 25 美分硬币“换成”10 美分硬币。$10$ 枚 25 美分硬币价值 $\\$ 2.50$，相当于 25 枚 10 美分硬币；再加原有的 $10$ 枚，共 $35$ 枚。\n\n答案：$\\boxed{D}$。"
       }
     ],
     "children": []
@@ -3578,7 +3578,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "$\\dfrac{1-\\dfrac{1}{3}}{1-\\dfrac{1}{2}}= \\dfrac{\\dfrac{2}{3}}{\\dfrac{1}{2}} = \\dfrac{2}{3} \\times \\dfrac{2}{1} = \\dfrac{4}{3}.$\n$\\textbf{OR}$\n分子、分母同乘 $6$，得到\n\n$\\dfrac{6\\left(1-\\dfrac{1}{3}\\right)}{6\\left(1-\\dfrac{1}{2}\\right)}= \\dfrac{6-2}{6-3} = \\dfrac{4}{3}.$\n答案：$\\boxed{E}$。"
+        "solution_info": "$\\dfrac{1-\\dfrac{1}{3}}{1-\\dfrac{1}{2}}= \\dfrac{\\dfrac{2}{3}}{\\dfrac{1}{2}} = \\dfrac{2}{3} \\times \\dfrac{2}{1} = \\dfrac{4}{3}.$\n$\\textbf{或}$\n分子、分母同乘 $6$，得到\n\n$\\dfrac{6\\left(1-\\dfrac{1}{3}\\right)}{6\\left(1-\\dfrac{1}{2}\\right)}= \\dfrac{6-2}{6-3} = \\dfrac{4}{3}.$\n答案：$\\boxed{E}$。"
       }
     ],
     "children": []
@@ -3674,7 +3674,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "阴影面积等于平行四边形面积减去未涂色三角形面积。平行四边形面积为 $10 \\times 8=80$。三角形底为 $10-6=4$，高为 $8$，面积为 $\\dfrac{1}{2} \\times 4 \\times 8=16$，所以阴影面积为 $80-16=64$。\n\n$\\textbf{OR}$\n阴影区域也可看作上、下底分别为 $10$ 和 $6$、高为 $8$ 的梯形，面积为 $\\dfrac{1}{2}(8)(10+6)=64$。\n\n答案：$\\boxed{D}$。"
+        "solution_info": "阴影面积等于平行四边形面积减去未涂色三角形面积。平行四边形面积为 $10 \\times 8=80$。三角形底为 $10-6=4$，高为 $8$，面积为 $\\dfrac{1}{2} \\times 4 \\times 8=16$，所以阴影面积为 $80-16=64$。\n\n$\\textbf{或}$\n阴影区域也可看作上、下底分别为 $10$ 和 $6$、高为 $8$ 的梯形，面积为 $\\dfrac{1}{2}(8)(10+6)=64$。\n\n答案：$\\boxed{D}$。"
       }
     ],
     "children": []
@@ -3738,7 +3738,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "由于 $\\mathrm{N}$ 介于 $9$ 与 $17$ 之间，平均数 $\\dfrac{6+10+\\mathrm{N}}{3}$ 必介于 $\\dfrac{6+10+9}{3}=8 \\dfrac{1}{3}$ 与 $\\dfrac{6+10+17}{3}=11$ 之间，只有 $10$ 落在这一范围内。\n\n$\\textbf{OR}$\n$6=10-4,10$ 和 $14=10+4$ 的平均数显然是 $10$。\n\n因为 $9<14<17$，所以 $10$ 是一个可能的平均数。本题只有一个正确选项，因此必为 $10$。\n\n答案：$\\boxed{B}$。"
+        "solution_info": "由于 $\\mathrm{N}$ 介于 $9$ 与 $17$ 之间，平均数 $\\dfrac{6+10+\\mathrm{N}}{3}$ 必介于 $\\dfrac{6+10+9}{3}=8 \\dfrac{1}{3}$ 与 $\\dfrac{6+10+17}{3}=11$ 之间，只有 $10$ 落在这一范围内。\n\n$\\textbf{或}$\n$6=10-4,10$ 和 $14=10+4$ 的平均数显然是 $10$。\n\n因为 $9<14<17$，所以 $10$ 是一个可能的平均数。本题只有一个正确选项，因此必为 $10$。\n\n答案：$\\boxed{B}$。"
       }
     ],
     "children": []
@@ -3866,7 +3866,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "因为 $25 \\%=.25=\\dfrac{1}{4}$，吉尔买了 $\\dfrac{1}{4} \\times 128=32$ 个苹果。朱恩买走余下 $128-32=96$ 个苹果的 $\\dfrac{1}{4}$，即 $24$ 个。还剩 $72$ 个，其中一个送给老师，杰克留下 $71$ 个。\n\n$\\textbf{OR}$\n依次记录每次交易后杰克拥有的苹果数：\n\n$\\begin{aligned} \\text{Jill:} \\quad &\\dfrac{3}{4} \\times 128 = 96 \\\\ \\text{June:} \\quad &\\dfrac{3}{4} \\times 96 = 72 \\\\ \\text{Teacher:} \\quad &72 - 1 = 71 \\end{aligned}$\n答案：$\\boxed{D}$。"
+        "solution_info": "因为 $25 \\%=.25=\\dfrac{1}{4}$，吉尔买了 $\\dfrac{1}{4} \\times 128=32$ 个苹果。朱恩买走余下 $128-32=96$ 个苹果的 $\\dfrac{1}{4}$，即 $24$ 个。还剩 $72$ 个，其中一个送给老师，杰克留下 $71$ 个。\n\n$\\textbf{或}$\n依次记录每次交易后杰克拥有的苹果数：\n\n$\\begin{aligned} \\text{Jill:} \\quad &\\dfrac{3}{4} \\times 128 = 96 \\\\ \\text{June:} \\quad &\\dfrac{3}{4} \\times 96 = 72 \\\\ \\text{Teacher:} \\quad &72 - 1 = 71 \\end{aligned}$\n答案：$\\boxed{D}$。"
       }
     ],
     "children": []
@@ -3994,7 +3994,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "两个转盘所有可能结果为\n\n$\\{(5,6),(5,7),(5,9),(8,6),(8,7),(8,9),(4,6),(4,7),(4,9),(3,6),(3,7),(3,9)\\}$\n$12$ 种结果中有 6 种的和为偶数，所以概率为 $\\dfrac{6}{12}=\\dfrac{1}{2}$。\n\n$\\textbf{OR}$\n先考虑右侧转盘。无论右侧出现哪个数，左侧四个数中都有两个能使总和为偶数，因此所求概率为 $\\dfrac{2}{4}=\\dfrac{1}{2}$。\n\n答案：$\\boxed{C}$。"
+        "solution_info": "两个转盘所有可能结果为\n\n$\\{(5,6),(5,7),(5,9),(8,6),(8,7),(8,9),(4,6),(4,7),(4,9),(3,6),(3,7),(3,9)\\}$\n$12$ 种结果中有 6 种的和为偶数，所以概率为 $\\dfrac{6}{12}=\\dfrac{1}{2}$。\n\n$\\textbf{或}$\n先考虑右侧转盘。无论右侧出现哪个数，左侧四个数中都有两个能使总和为偶数，因此所求概率为 $\\dfrac{2}{4}=\\dfrac{1}{2}$。\n\n答案：$\\boxed{C}$。"
       }
     ],
     "children": []
@@ -4154,7 +4154,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "所求乘积约为 $\\dfrac{1}{2} \\cdot \\dfrac{1}{2} \\cdot \\dfrac{1}{2}=\\dfrac{1}{8}=0.125$。\n\n$\\textbf{OR}$\n也可估算为 $(.5)(.5)(.5)=0.125$。\n\n答案：$\\boxed{B}$。"
+        "solution_info": "所求乘积约为 $\\dfrac{1}{2} \\cdot \\dfrac{1}{2} \\cdot \\dfrac{1}{2}=\\dfrac{1}{8}=0.125$。\n\n$\\textbf{或}$\n也可估算为 $(.5)(.5)(.5)=0.125$。\n\n答案：$\\boxed{B}$。"
       }
     ],
     "children": []
@@ -4442,7 +4442,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "蓝球占四分之一且共有 $6$ 个，所以袋中共有 $24$ 个球，绿球有 $24-6=18$ 个。\n\n$\\textbf{OR}$\n蓝球占四分之一，绿球就占四分之三，所以绿球数是蓝球数的三倍，即 $3 \\times 6=18$ 个。\n\n答案：$\\boxed{B}$。"
+        "solution_info": "蓝球占四分之一且共有 $6$ 个，所以袋中共有 $24$ 个球，绿球有 $24-6=18$ 个。\n\n$\\textbf{或}$\n蓝球占四分之一，绿球就占四分之三，所以绿球数是蓝球数的三倍，即 $3 \\times 6=18$ 个。\n\n答案：$\\boxed{B}$。"
       }
     ],
     "children": []
@@ -4602,7 +4602,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "要使已占座位最少，应从 $\\#2$ 号到 $\\#119$ 号每隔三个座位坐一人，共占 $\\dfrac{120}{3}=40$ 个座位。\n\n$\\textbf{OR}$\n先考察较简单的情况：\n\n$\\begin{array}{|c|c|c|c|c|} \\hline \\text{Number of seats in the row} & 3 & 6 & 9 & 12 \\\\ \\hline \\text{Number of occupied seats in the row} & 1 & 2 & 3 & 4 \\\\ \\hline \\end{array}$\n每组三个座位的中间位置都必须被占用，因此一排 $120$ 个座位所需的最少已占座位数为 $\\dfrac{120}{3}=40$。\n\n答案：$\\boxed{B}$。"
+        "solution_info": "要使已占座位最少，应从 $\\#2$ 号到 $\\#119$ 号每隔三个座位坐一人，共占 $\\dfrac{120}{3}=40$ 个座位。\n\n$\\textbf{或}$\n先考察较简单的情况：\n\n$\\begin{array}{|c|c|c|c|c|} \\hline \\text{Number of seats in the row} & 3 & 6 & 9 & 12 \\\\ \\hline \\text{Number of occupied seats in the row} & 1 & 2 & 3 & 4 \\\\ \\hline \\end{array}$\n每组三个座位的中间位置都必须被占用，因此一排 $120$ 个座位所需的最少已占座位数为 $\\dfrac{120}{3}=40$。\n\n答案：$\\boxed{B}$。"
       }
     ],
     "children": []
@@ -4826,7 +4826,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "竖式计算如下：\n\n$\\begin{array}{r} 1,000,000,000,000 \\\\ - \\quad 777,777,777,777 \\\\ \\hline 222,222,222,223 \\end{array}$\n$\\textbf{OR}$\n要给 $777,777,777,777$ 加上什么才能得到 $1,000,000,000,000?$？从右向左看，末位加 $3$，前面再加十一个 $2's$。\n\n答案：$\\boxed{B}$。"
+        "solution_info": "竖式计算如下：\n\n$\\begin{array}{r} 1,000,000,000,000 \\\\ - \\quad 777,777,777,777 \\\\ \\hline 222,222,222,223 \\end{array}$\n$\\textbf{或}$\n要给 $777,777,777,777$ 加上什么才能得到 $1,000,000,000,000?$？从右向左看，末位加 $3$，前面再加十一个 $2's$。\n\n答案：$\\boxed{B}$。"
       }
     ],
     "children": []
@@ -4890,7 +4890,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "用普通算式表示：\n\n$\\begin{array}{r} 200,000 \\\\ \\times \\qquad \\ 200,000 \\\\ \\hline 40,000,000,000 \\end{array}$\n$\\textbf{OR}$\n用科学记数法表示，$\\left(2 \\times 10^{5}\\right)\\left(2 \\times 10^{5}\\right)=4 \\times 10^{10}=40 \\times 10^{9}=40$ 十亿。\n\n$\\textbf{OR}$\n二百乘二百是四万，一千个一千是一百万，所以结果是四万个一百万，即四百亿。\n\n答案：$\\boxed{E}$。"
+        "solution_info": "用普通算式表示：\n\n$\\begin{array}{r} 200,000 \\\\ \\times \\qquad \\ 200,000 \\\\ \\hline 40,000,000,000 \\end{array}$\n$\\textbf{或}$\n用科学记数法表示，$\\left(2 \\times 10^{5}\\right)\\left(2 \\times 10^{5}\\right)=4 \\times 10^{10}=40 \\times 10^{9}=40$ 十亿。\n\n$\\textbf{或}$\n二百乘二百是四万，一千个一千是一百万，所以结果是四万个一百万，即四百亿。\n\n答案：$\\boxed{E}$。"
       }
     ],
     "children": []
@@ -4922,7 +4922,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "等式左边的五个数都接近 1000。$N$ 等于 1000 与各数之差的总和，所以 $N=9+7+5+3+1=25$。\n\n$\\textbf{OR}$\n因为\n\n$\\begin{aligned} 991 + 993 + 995 + 997 + 999 &= (1000 - 9) + (1000 - 7) + (1000 - 5) + (1000 - 3) + (1000 - 1) \\\\ &= 5000 - (9 + 7 + 5 + 3 + 1) \\\\ &= 5000 - 25 \\end{aligned}$\n所以 $N=25$。\n\n答案：$\\boxed{25}$。"
+        "solution_info": "等式左边的五个数都接近 1000。$N$ 等于 1000 与各数之差的总和，所以 $N=9+7+5+3+1=25$。\n\n$\\textbf{或}$\n因为\n\n$\\begin{aligned} 991 + 993 + 995 + 997 + 999 &= (1000 - 9) + (1000 - 7) + (1000 - 5) + (1000 - 3) + (1000 - 1) \\\\ &= 5000 - (9 + 7 + 5 + 3 + 1) \\\\ &= 5000 - 25 \\end{aligned}$\n所以 $N=25$。\n\n答案：$\\boxed{25}$。"
       }
     ],
     "children": []
@@ -5178,7 +5178,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "形如 $\\dfrac{(k-1)+k+(k+1)}{k}$ 的分数都等于 $3$，因为 $(k-1)+$ $k+(k+1)=3 k$ 且 $\\dfrac{3 k}{k}=3$。分母应等于分子三项的中间项，所以 $N=1991$。\n\n$\\textbf{OR}$\n注意\n\n$\\dfrac{2+3+4}{3}=\\dfrac{9}{3}=\\dfrac{3 \\times 3}{3}=3 \\times \\dfrac{3}{3}=3 \\times 1=3.$\n并且\n\n$\\dfrac{1990+1991+1992}{N}=\\dfrac{3 \\times 1991}{N}=3 \\times \\dfrac{1991}{N}=3 \\times 1=3.$\n因此 $N$ 必须等于 $1991$。\n\n答案：$\\boxed{D}$。"
+        "solution_info": "形如 $\\dfrac{(k-1)+k+(k+1)}{k}$ 的分数都等于 $3$，因为 $(k-1)+$ $k+(k+1)=3 k$ 且 $\\dfrac{3 k}{k}=3$。分母应等于分子三项的中间项，所以 $N=1991$。\n\n$\\textbf{或}$\n注意\n\n$\\dfrac{2+3+4}{3}=\\dfrac{9}{3}=\\dfrac{3 \\times 3}{3}=3 \\times \\dfrac{3}{3}=3 \\times 1=3.$\n并且\n\n$\\dfrac{1990+1991+1992}{N}=\\dfrac{3 \\times 1991}{N}=3 \\times \\dfrac{1991}{N}=3 \\times 1=3.$\n因此 $N$ 必须等于 $1991$。\n\n答案：$\\boxed{D}$。"
       }
     ],
     "children": []
@@ -5338,7 +5338,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "第一排有 $10$ 个座位，可坐 $5$ 人；第二排有 $11$ 个座位，可坐 $6$ 人；第三排有 $12$ 个座位，可坐 $6$ 人；……最后的第 $(20^{\\text {th }})$ 排有 $29$ 个座位，可坐 $15$ 人。总数为 $5+6+6+7+7+\\cdots+14+14+15$。重新分组得\n\n$\\begin{gathered} 5 + 6 + 6 + 7 + 7 + 8 + 8 + 9 + 9 + 10 + 15 + 14 + 14 + 13 + 13 + 12 + 12 + 11 + 11 + 10 \\\\ = \\overline{20 + 20 + 20 + 20 + 20 + 20 + 20 + 20 + 20 + 20} = 10(20) = 200. \\end{gathered}$\n$\\textbf{OR}$\n也可画图：\n\n[Figure: /question-assets/source/amc/9c1638a043fccd9b0b7413d64665f97b1bbba9b5c1a845fe00436a966ec433ed.jpg]\n\n因此总数为 $5+6+6+7+7+\\cdots+14+14+15=200$。\n\n答案：$\\boxed{C}$。"
+        "solution_info": "第一排有 $10$ 个座位，可坐 $5$ 人；第二排有 $11$ 个座位，可坐 $6$ 人；第三排有 $12$ 个座位，可坐 $6$ 人；……最后的第 $(20^{\\text{th }})$ 排有 $29$ 个座位，可坐 $15$ 人。总数为 $5+6+6+7+7+\\cdots+14+14+15$。重新分组得\n\n$\\begin{gathered} 5 + 6 + 6 + 7 + 7 + 8 + 8 + 9 + 9 + 10 + 15 + 14 + 14 + 13 + 13 + 12 + 12 + 11 + 11 + 10 \\\\ = \\overline{20 + 20 + 20 + 20 + 20 + 20 + 20 + 20 + 20 + 20} = 10(20) = 200. \\end{gathered}$\n$\\textbf{或}$\n也可画图：\n\n[Figure: /question-assets/source/amc/9c1638a043fccd9b0b7413d64665f97b1bbba9b5c1a845fe00436a966ec433ed.jpg]\n\n因此总数为 $5+6+6+7+7+\\cdots+14+14+15=200$。\n\n答案：$\\boxed{C}$。"
       }
     ],
     "children": []
@@ -5466,7 +5466,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "体积变化率为每 $3^{\\circ}$ 增加 $4$ 立方厘米。温差为 $32^{\\circ}-20^{\\circ}=12^{\\circ}$，相应体积变化为 $12 \\times \\dfrac{4}{3}=16$ 立方厘米，所以初始体积为 $24-16=8$。\n\n$\\textbf{OR}$\n也可反向逐步计算：温度每降低 $3^{\\circ}$，体积减少 $4$ 立方厘米。\n\n$\\begin{array}{|c|c|} \\hline \\text{Temperature} & \\text{Volume} \\\\ \\hline 32^\\circ & 24\\ \\text{cm}^3 \\\\ \\hline 29^\\circ & 20\\ \\text{cm}^3 \\\\ \\hline 26^\\circ & 16\\ \\text{cm}^3 \\\\ \\hline 23^\\circ & 12\\ \\text{cm}^3 \\\\ \\hline 20^\\circ & 8\\ \\text{cm}^3 \\\\ \\hline \\end{array}$\n因此初始体积为 $8$ 立方厘米。\n\n答案：$\\boxed{A}$。"
+        "solution_info": "体积变化率为每 $3^{\\circ}$ 增加 $4$ 立方厘米。温差为 $32^{\\circ}-20^{\\circ}=12^{\\circ}$，相应体积变化为 $12 \\times \\dfrac{4}{3}=16$ 立方厘米，所以初始体积为 $24-16=8$。\n\n$\\textbf{或}$\n也可反向逐步计算：温度每降低 $3^{\\circ}$，体积减少 $4$ 立方厘米。\n\n$\\begin{array}{|c|c|} \\hline \\text{Temperature} & \\text{体积} \\\\ \\hline 32^\\circ & 24\\ \\text{cm}^3 \\\\ \\hline 29^\\circ & 20\\ \\text{cm}^3 \\\\ \\hline 26^\\circ & 16\\ \\text{cm}^3 \\\\ \\hline 23^\\circ & 12\\ \\text{cm}^3 \\\\ \\hline 20^\\circ & 8\\ \\text{cm}^3 \\\\ \\hline \\end{array}$\n因此初始体积为 $8$ 立方厘米。\n\n答案：$\\boxed{A}$。"
       }
     ],
     "children": []
@@ -5626,7 +5626,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "从左向右分别把分子和分母两两分组：\n\n[Figure: /question-assets/source/amc/4595ace77a810227ba18862c7b8cdbcbb051178d4326eb46c79aadb6f2aaf497.jpg]\n\n所以结果为 $\\dfrac{5(1)}{4(-1)+9}=\\dfrac{5}{5}=1$。\n\n$\\textbf{OR}$\n也可把分子、分母中的正项和负项分别合并：\n\n$\\dfrac{(10+8+6+4+2)-(9+7+5+3+1)}{(1+3+5+7+9)-(2+4+6+8)}=\\dfrac{30-25}{25-20}=\\dfrac{5}{5}=1.$\n答案：$\\boxed{B}$。"
+        "solution_info": "从左向右分别把分子和分母两两分组：\n\n[Figure: /question-assets/source/amc/4595ace77a810227ba18862c7b8cdbcbb051178d4326eb46c79aadb6f2aaf497.jpg]\n\n所以结果为 $\\dfrac{5(1)}{4(-1)+9}=\\dfrac{5}{5}=1$。\n\n$\\textbf{或}$\n也可把分子、分母中的正项和负项分别合并：\n\n$\\dfrac{(10+8+6+4+2)-(9+7+5+3+1)}{(1+3+5+7+9)-(2+4+6+8)}=\\dfrac{30-25}{25-20}=\\dfrac{5}{5}=1.$\n答案：$\\boxed{B}$。"
       }
     ],
     "children": []
@@ -5690,7 +5690,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "要使差最大，应从最大数 $12$ 中减去最小数 $-16$，得到 $12-(-16)=28$。\n\n$\\textbf{OR}$\n在数轴上，差可表示为两点间距离；最远的两点是 $-16$ 与 $12$，距离为 $28$。\n\n[Figure: /question-assets/source/amc/4bbf23267361285b41b89af693e417141f911ebd3cf974ceb2e4d968feb3329a.jpg]\n\n答案：$\\boxed{D}$。"
+        "solution_info": "要使差最大，应从最大数 $12$ 中减去最小数 $-16$，得到 $12-(-16)=28$。\n\n$\\textbf{或}$\n在数轴上，差可表示为两点间距离；最远的两点是 $-16$ 与 $12$，距离为 $28$。\n\n[Figure: /question-assets/source/amc/4bbf23267361285b41b89af693e417141f911ebd3cf974ceb2e4d968feb3329a.jpg]\n\n答案：$\\boxed{D}$。"
       }
     ],
     "children": []
@@ -5722,7 +5722,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "朱迪共 $35$ 次安打，其中 $35-(1+1+5)=28$ 次是一垒安打，所以一垒安打占 $\\dfrac{28}{35}=\\dfrac{4}{5}$，即 $80 \\%$。\n\n$\\textbf{OR}$\n全部 $35$ 次安打中有 $1+1+5=7$ 次不是一垒安打，占 $\\dfrac{7}{35}=\\dfrac{1}{5}$，即 $20 \\%$，所以一垒安打占 $100 \\%-20 \\%=80 \\%$。\n\n答案：$\\boxed{E}$。"
+        "solution_info": "朱迪共 $35$ 次安打，其中 $35-(1+1+5)=28$ 次是一垒安打，所以一垒安打占 $\\dfrac{28}{35}=\\dfrac{4}{5}$，即 $80 \\%$。\n\n$\\textbf{或}$\n全部 $35$ 次安打中有 $1+1+5=7$ 次不是一垒安打，占 $\\dfrac{7}{35}=\\dfrac{1}{5}$，即 $20 \\%$，所以一垒安打占 $100 \\%-20 \\%=80 \\%$。\n\n答案：$\\boxed{E}$。"
       }
     ],
     "children": []
@@ -5754,7 +5754,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "圆面积介于 $1 / 2$ 与 $1$ 之间。可在圆内、外分别画正方形：大正方形面积为 $1$，小正方形面积为 $1 / 2$，圆位于两者之间。因此长方形挖去圆后的面积介于 $5$ 与 $5.5$ 之间，最接近整数 $5$。\n\n[Figure: /question-assets/source/amc/6feca534e12abd9e77afa3dbf233fca048913618bcde72ab13a1da7398cda3be.jpg]\n\n$\\textbf{OR}$\n长方形面积为 $2 \\times 3=6$，半径 $\\dfrac{1}{2}$ 的圆面积为 $\\pi\\left(\\dfrac{1}{2}\\right)^{2}=\\dfrac{\\pi}{4}$，略大于 $\\dfrac{3}{4}$。所以阴影面积略小于 $6-\\dfrac{3}{4}$，最接近 $5$。\n\n答案：$\\boxed{E}$。"
+        "solution_info": "圆面积介于 $1 / 2$ 与 $1$ 之间。可在圆内、外分别画正方形：大正方形面积为 $1$，小正方形面积为 $1 / 2$，圆位于两者之间。因此长方形挖去圆后的面积介于 $5$ 与 $5.5$ 之间，最接近整数 $5$。\n\n[Figure: /question-assets/source/amc/6feca534e12abd9e77afa3dbf233fca048913618bcde72ab13a1da7398cda3be.jpg]\n\n$\\textbf{或}$\n长方形面积为 $2 \\times 3=6$，半径 $\\dfrac{1}{2}$ 的圆面积为 $\\pi\\left(\\dfrac{1}{2}\\right)^{2}=\\dfrac{\\pi}{4}$，略大于 $\\dfrac{3}{4}$。所以阴影面积略小于 $6-\\dfrac{3}{4}$，最接近 $5$。\n\n答案：$\\boxed{E}$。"
       }
     ],
     "children": []
@@ -5786,7 +5786,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "$(1+3-4)+(2+5-6)=0+1=1.$\n$\\textbf{OR}$\n注意\n\n[Figure: /question-assets/source/amc/750d7ff43fc75cf7501a5691a28a258546177f6a21ea65fc6d59b11ade01c258.jpg]\n\n其中 $x=a+d, y=b+e$ 且 $z=c+f$；也就是说，两个“三角表达式”之和，等于把对应位置分别相加所得“三角表达式”的值。因此所求和为 $(1+2)+(3+5)-(4+6)=3+8-10=1$。\n\n答案：$\\boxed{D}$。"
+        "solution_info": "$(1+3-4)+(2+5-6)=0+1=1.$\n$\\textbf{或}$\n注意\n\n[Figure: /question-assets/source/amc/750d7ff43fc75cf7501a5691a28a258546177f6a21ea65fc6d59b11ade01c258.jpg]\n\n其中 $x=a+d, y=b+e$ 且 $z=c+f$；也就是说，两个“三角表达式”之和，等于把对应位置分别相加所得“三角表达式”的值。因此所求和为 $(1+2)+(3+5)-(4+6)=3+8-10=1$。\n\n答案：$\\boxed{D}$。"
       }
     ],
     "children": []
@@ -5914,7 +5914,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "每个阴影小三角形面积为 $\\dfrac{1}{2} \\times 2 \\times 2=2$，共有 10 个，所以阴影面积为 $2 \\times 10=20$。\n\n$\\textbf{OR}$\n大三角形面积为 $\\dfrac{1}{2} \\times 8 \\times 8=32$，$16$ 个小三角形中有 $10$ 个被涂色，所以阴影面积为 $32$ 的 $\\dfrac{10}{16}$，即 $20$。\n\n答案：$\\boxed{B}$。"
+        "solution_info": "每个阴影小三角形面积为 $\\dfrac{1}{2} \\times 2 \\times 2=2$，共有 10 个，所以阴影面积为 $2 \\times 10=20$。\n\n$\\textbf{或}$\n大三角形面积为 $\\dfrac{1}{2} \\times 8 \\times 8=32$，$16$ 个小三角形中有 $10$ 个被涂色，所以阴影面积为 $32$ 的 $\\dfrac{10}{16}$，即 $20$。\n\n答案：$\\boxed{B}$。"
       }
     ],
     "children": []
@@ -5978,7 +5978,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "轮胎总磨损里程为 $30,000 \\times 4=120,000$，由 $5$ 条轮胎平均分担，所以每条使用 $120,000 \\div 5= 24,000$ 英里。\n\n$\\textbf{OR}$\n每条轮胎参与了全程的 $\\dfrac{4}{5}$，所以使用里程为 $\\dfrac{4}{5} \\times 30,000=24,000$。\n\n答案：$\\boxed{C}$。"
+        "solution_info": "轮胎总磨损里程为 $30,000 \\times 4=120,000$，由 $5$ 条轮胎平均分担，所以每条使用 $120,000 \\div 5= 24,000$ 英里。\n\n$\\textbf{或}$\n每条轮胎参与了全程的 $\\dfrac{4}{5}$，所以使用里程为 $\\dfrac{4}{5} \\times 30,000=24,000$。\n\n答案：$\\boxed{C}$。"
       }
     ],
     "children": []
@@ -6060,7 +6060,7 @@
     "quality": "精品",
     "question_info": {
       "raw_content": {
-        "title": "下列字母序列的第 $1992^{\\text {nd }}$ 个字母是什么？\n\n$ABCDEDCBAABCDEDCBAABCDEDCBAABCDEDC...$",
+        "title": "下列字母序列的第 $1992^{\\text{nd }}$ 个字母是什么？\n\n$ABCDEDCBAABCDEDCBAABCDEDCBAABCDEDC...$",
         "option_a": "$A$",
         "option_b": "$B$",
         "option_c": "$C$",
@@ -6074,7 +6074,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "该模式每 $9$ 个字母重复一次。$1992$ 除以 $9$ 余 $3$，所以第 $1992^{\\text {nd }}$ 个字母对应每个周期的第三个字母，即 $C$。\n\n答案：$\\boxed{C}$。"
+        "solution_info": "该模式每 $9$ 个字母重复一次。$1992$ 除以 $9$ 余 $3$，所以第 $1992^{\\text{nd }}$ 个字母对应每个周期的第三个字母，即 $C$。\n\n答案：$\\boxed{C}$。"
       }
     ],
     "children": []
@@ -6188,7 +6188,7 @@
     "quality": "精品",
     "question_info": {
       "raw_content": {
-        "title": "州际公路第 $5^{\\text {th }}$ 个出口与第 $26^{\\text {th }}$ 个出口相距 $118$ 英里。若任意相邻出口至少相距 $5$ 英里，那么这两个出口之间某一对相邻出口的最大可能距离是多少英里？",
+        "title": "州际公路第 $5^{\\text{th }}$ 个出口与第 $26^{\\text{th }}$ 个出口相距 $118$ 英里。若任意相邻出口至少相距 $5$ 英里，那么这两个出口之间某一对相邻出口的最大可能距离是多少英里？",
         "option_a": "$8$",
         "option_b": "$13$",
         "option_c": "$18$",
@@ -6202,7 +6202,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "第 $5^{\\text {th }}$ 个出口与第 $26^{\\text {th }}$ 个出口之间有 $21$ 段。要使其中一段尽可能长，其余 $20$ 段都取最小长度 $5$ 英里，共 $20 \\times 5=100$ 英里，剩余一段可长 $118-100=18$ 英里。\n\n$\\textbf{OR}$\n也可先令全部 $21$ 段都取最小长度 $5$，总长 $105$ 英里。因为 $118-105=13$，可把额外的 $13$ 英里全部加在同一段上，该段长 $5+13=18$ 英里。\n\n答案：$\\boxed{C}$。"
+        "solution_info": "第 $5^{\\text{th }}$ 个出口与第 $26^{\\text{th }}$ 个出口之间有 $21$ 段。要使其中一段尽可能长，其余 $20$ 段都取最小长度 $5$ 英里，共 $20 \\times 5=100$ 英里，剩余一段可长 $118-100=18$ 英里。\n\n$\\textbf{或}$\n也可先令全部 $21$ 段都取最小长度 $5$，总长 $105$ 英里。因为 $118-105=13$，可把额外的 $13$ 英里全部加在同一段上，该段长 $5+13=18$ 英里。\n\n答案：$\\boxed{C}$。"
       }
     ],
     "children": []
@@ -6618,7 +6618,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "$3^{3}+3^{3}+3^{3}=3\\left(3^{3}\\right)=3(3 \\times 3 \\times 3)=3 \\times 3 \\times 3 \\times 3=3^{4}.$\n$\\textbf{OR}$\n$3^{3}+3^{3}+3^{3}=27+27+27=81=9 \\times 9=3 \\times 3 \\times 3 \\times 3=3^{4}.$\n答案：$\\boxed{A}$。"
+        "solution_info": "$3^{3}+3^{3}+3^{3}=3\\left(3^{3}\\right)=3(3 \\times 3 \\times 3)=3 \\times 3 \\times 3 \\times 3=3^{4}.$\n$\\textbf{或}$\n$3^{3}+3^{3}+3^{3}=27+27+27=81=9 \\times 9=3 \\times 3 \\times 3 \\times 3=3^{4}.$\n答案：$\\boxed{A}$。"
       }
     ],
     "children": []
@@ -6682,7 +6682,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "查表代入得\n\n$(2 * 4) *(1 * 3)=3 * 3=4.$\n思考：下列不同加括号方式\n\n$((2 * 4) * 1) * 3, \\quad(2 *(4 * 1)) * 3,2 *((4 * 1)) * 3) \\text { and } 2 *(4 *(1 * 3))$\n是否会得到相同结果？\n\n答案：$\\boxed{D}$。"
+        "solution_info": "查表代入得\n\n$(2 * 4) *(1 * 3)=3 * 3=4.$\n思考：下列不同加括号方式\n\n$((2 * 4) * 1) * 3, \\quad(2 *(4 * 1)) * 3,2 *((4 * 1)) * 3) \\text{ 和 } 2 *(4 *(1 * 3))$\n是否会得到相同结果？\n\n答案：$\\boxed{D}$。"
       }
     ],
     "children": []
@@ -6746,7 +6746,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "共有 $81$ 名学生，中位数是第 $41^{\\text {st }}$ 个成绩。包含第 $41^{\\text {st }}$ 个成绩的区间标号为 $70$。\n\n答案：$\\boxed{C}$。"
+        "solution_info": "共有 $81$ 名学生，中位数是第 $41^{\\text{st }}$ 个成绩。包含第 $41^{\\text{st }}$ 个成绩的区间标号为 $70$。\n\n答案：$\\boxed{C}$。"
       }
     ],
     "children": []
@@ -6810,7 +6810,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "白色部分可按图分成长方形：\n\n[Figure: /question-assets/source/amc/63f05258e83c24a0584e6149b19e49bf90b234a2cd7e072f064f69c7332612c7.jpg]\n\n面积和为 $4(2)+3(5)+8+1+4=36$。\n\n$\\textbf{OR}$\n也可先求黑色字母面积，再从标牌总面积 $5 \\times 15=75$ 中减去：\n\n$\\begin{aligned} \\textbf{H:} & \\; 2(1 \\times 5) + 1 \\times 1 = 11, \\\\ \\textbf{E:} & \\; 1 \\times 5 + 3(2 \\times 1) = 11, \\\\ \\textbf{L:} & \\; 1 \\times 5 + 1 \\times 2 = 7, \\\\ \\textbf{P:} & \\; 1 \\times 5 + 2(1 \\times 1) + 1 \\times 3 = 10. \\end{aligned}$\n白色面积为 $75-(11+11+7+10)=36$。\n\n$\\textbf{OR}$\n还可在标牌上叠加 $1 \\times 1$ 方格，数出 $36$ 个白色单位方格：\n\n[Figure: /question-assets/source/amc/2d46ab77916a2481c925aa7acfdd9b611e825c67ca005391bc60d200caad11bb.jpg]\n\n答案：$\\boxed{D}$。"
+        "solution_info": "白色部分可按图分成长方形：\n\n[Figure: /question-assets/source/amc/63f05258e83c24a0584e6149b19e49bf90b234a2cd7e072f064f69c7332612c7.jpg]\n\n面积和为 $4(2)+3(5)+8+1+4=36$。\n\n$\\textbf{或}$\n也可先求黑色字母面积，再从标牌总面积 $5 \\times 15=75$ 中减去：\n\n$\\begin{aligned} \\textbf{H:} & \\; 2(1 \\times 5) + 1 \\times 1 = 11, \\\\ \\textbf{E:} & \\; 1 \\times 5 + 3(2 \\times 1) = 11, \\\\ \\textbf{L:} & \\; 1 \\times 5 + 1 \\times 2 = 7, \\\\ \\textbf{P:} & \\; 1 \\times 5 + 2(1 \\times 1) + 1 \\times 3 = 10. \\end{aligned}$\n白色面积为 $75-(11+11+7+10)=36$。\n\n$\\textbf{或}$\n还可在标牌上叠加 $1 \\times 1$ 方格，数出 $36$ 个白色单位方格：\n\n[Figure: /question-assets/source/amc/2d46ab77916a2481c925aa7acfdd9b611e825c67ca005391bc60d200caad11bb.jpg]\n\n答案：$\\boxed{D}$。"
       }
     ],
     "children": []
@@ -6906,7 +6906,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "通分并化简得\n\n$\\dfrac{1}{1+\\dfrac{1}{2+\\dfrac{1}{3}}}=\\dfrac{1}{1+\\dfrac{1}{\\dfrac{7}{3}}}=\\dfrac{1}{1+\\dfrac{3}{7}}=\\dfrac{1}{\\dfrac{10}{7}}=\\dfrac{7}{10}$\n$\\textbf{OR}$\n消去复分数并化简也可得\n\n$\\dfrac{1}{1+\\dfrac{1 \\times 3}{\\left(2+\\dfrac{1}{3}\\right) \\times 3}}=\\dfrac{1}{1+\\dfrac{3}{6+1}}=\\dfrac{1 \\times 7}{\\left(1+\\dfrac{3}{7}\\right) \\times 7}=\\dfrac{7}{7+3}=\\dfrac{7}{10}$\n$\\textbf{OR}$\n估算可知结果介于\n\n$\\dfrac{1}{1+\\dfrac{1}{2}}=\\dfrac{1}{\\dfrac{3}{2}}=\\dfrac{2}{3} \\quad \\text { and } \\quad \\dfrac{1}{1+\\dfrac{1}{3}}=\\dfrac{1}{\\dfrac{4}{3}}=\\dfrac{3}{4}$\n该区间内唯一选项是 $\\dfrac{7}{10}$。\n\n答案：$\\boxed{C}$。"
+        "solution_info": "通分并化简得\n\n$\\dfrac{1}{1+\\dfrac{1}{2+\\dfrac{1}{3}}}=\\dfrac{1}{1+\\dfrac{1}{\\dfrac{7}{3}}}=\\dfrac{1}{1+\\dfrac{3}{7}}=\\dfrac{1}{\\dfrac{10}{7}}=\\dfrac{7}{10}$\n$\\textbf{或}$\n消去复分数并化简也可得\n\n$\\dfrac{1}{1+\\dfrac{1 \\times 3}{\\left(2+\\dfrac{1}{3}\\right) \\times 3}}=\\dfrac{1}{1+\\dfrac{3}{6+1}}=\\dfrac{1 \\times 7}{\\left(1+\\dfrac{3}{7}\\right) \\times 7}=\\dfrac{7}{7+3}=\\dfrac{7}{10}$\n$\\textbf{或}$\n估算可知结果介于\n\n$\\dfrac{1}{1+\\dfrac{1}{2}}=\\dfrac{1}{\\dfrac{3}{2}}=\\dfrac{2}{3} \\quad \\text{ 和 } \\quad \\dfrac{1}{1+\\dfrac{1}{3}}=\\dfrac{1}{\\dfrac{4}{3}}=\\dfrac{3}{4}$\n该区间内唯一选项是 $\\dfrac{7}{10}$。\n\n答案：$\\boxed{C}$。"
       }
     ],
     "children": []
@@ -7034,7 +7034,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "因为 $10^{93}=1 \\overbrace{00 \\cdots 00}^{93\\text{ zeros}}$，所以\n\n$\\begin{array}{rrrr} &100\\cdots000 \\\\ -&93 \\\\ \\hline &\\underbrace{99\\cdots9}_{91 \\text{ nines}}07 \\end{array}$\n各位数字之和为 $(91 \\times 9)+7=826$。\n\n$\\textbf{OR}$\n也可从较小指数观察规律：\n\n$\\begin{array}{rcrrr} & 10^{2} - 93 \\ = & 100 - 93 \\ = &07 \\\\ & 10^{3} - 93 \\ = & 1,000 - 93 \\ = &\\underline{9}07 \\\\ & 10^{4} - 93 \\ = & 10,000 - 93 \\ = &\\underline{9}\\underline{9}07 \\\\ & 10^{5} - 93 \\ = & 100,000 - 93 \\ = &\\underline{9}\\underline{9}\\underline{9}07 \\\\ & \\vdots & & \\vdots \\\\ & 10^{93} - 93 = & & \\underbrace{999 \\ldots 9}_{91 \\text{ nines }}07 \\end{array}$\n所以各位数字之和为 $(91 \\times 9)+7=826$。\n\n答案：$\\boxed{D}$。"
+        "solution_info": "因为 $10^{93}=1 \\overbrace{00 \\cdots 00}^{93\\text{ 数字0}}$，所以\n\n$\\begin{array}{rrrr} &100\\cdots000 \\\\ -&93 \\\\ \\hline &\\underbrace{99\\cdots9}_{91 \\text{ 数字9}}07 \\end{array}$\n各位数字之和为 $(91 \\times 9)+7=826$。\n\n$\\textbf{或}$\n也可从较小指数观察规律：\n\n$\\begin{array}{rcrrr} & 10^{2} - 93 \\ = & 100 - 93 \\ = &07 \\\\ & 10^{3} - 93 \\ = & 1,000 - 93 \\ = &\\underline{9}07 \\\\ & 10^{4} - 93 \\ = & 10,000 - 93 \\ = &\\underline{9}\\underline{9}07 \\\\ & 10^{5} - 93 \\ = & 100,000 - 93 \\ = &\\underline{9}\\underline{9}\\underline{9}07 \\\\ & \\vdots & & \\vdots \\\\ & 10^{93} - 93 = & & \\underbrace{999 \\ldots 9}_{91 \\text{ 数字9 }}07 \\end{array}$\n所以各位数字之和为 $(91 \\times 9)+7=826$。\n\n答案：$\\boxed{D}$。"
       }
     ],
     "children": []
@@ -7066,7 +7066,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "一般结论可用任一具体例子验证。设原长方形为 $10$ 乘 $10$，面积 $100$。新长为 $10+2=12$，新宽为 $10+5=15$，新面积 $12 \\times 15=180$，增幅 $80 \\%$。\n\n$\\textbf{OR}$\n长变为原来的 $120 \\%, or 1.2$ 倍，宽变为 $150 \\%$，即 $1.5$ 倍，所以面积变为原来的 $1.2 \\times 1.5=1.8$ 倍，增加 $80 \\%$。\n\n答案：$\\boxed{D}$。"
+        "solution_info": "一般结论可用任一具体例子验证。设原长方形为 $10$ 乘 $10$，面积 $100$。新长为 $10+2=12$，新宽为 $10+5=15$，新面积 $12 \\times 15=180$，增幅 $80 \\%$。\n\n$\\textbf{或}$\n长变为原来的 $120 \\%, or 1.2$ 倍，宽变为 $150 \\%$，即 $1.5$ 倍，所以面积变为原来的 $1.2 \\times 1.5=1.8$ 倍，增加 $80 \\%$。\n\n答案：$\\boxed{D}$。"
       }
     ],
     "children": []
@@ -7258,7 +7258,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "所有分子之和为 $100$，所以各分数之和为 $100 / 10=10$。\n\n$\\textbf{OR}$\n也可先重新配对：\n\n$\\begin{aligned} & \\left(\\frac{1}{10} + \\frac{9}{10}\\right) + \\left(\\frac{2}{10} + \\frac{8}{10}\\right) + \\left(\\frac{3}{10} + \\frac{7}{10}\\right) + \\left(\\frac{4}{10} + \\frac{6}{10}\\right) + \\left(\\frac{5}{10} + \\frac{55}{10}\\right) = 1 + 1 + 1 + 1 + 6 = 10. \\end{aligned}$\n答案：$\\boxed{D}$。"
+        "solution_info": "所有分子之和为 $100$，所以各分数之和为 $100 / 10=10$。\n\n$\\textbf{或}$\n也可先重新配对：\n\n$\\begin{aligned} & \\left(\\frac{1}{10} + \\frac{9}{10}\\right) + \\left(\\frac{2}{10} + \\frac{8}{10}\\right) + \\left(\\frac{3}{10} + \\frac{7}{10}\\right) + \\left(\\frac{4}{10} + \\frac{6}{10}\\right) + \\left(\\frac{5}{10} + \\frac{55}{10}\\right) = 1 + 1 + 1 + 1 + 6 = 10. \\end{aligned}$\n答案：$\\boxed{D}$。"
       }
     ],
     "children": []
@@ -7290,7 +7290,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "从上午 $7{:}25$ 起经过 $8$ 小时 $45$ 分钟。先过 8 小时到下午 $3{:}25$，再过 45 分钟到下午 $4{:}10$。\n\n$\\textbf{OR}$\n也可直接相加：\n\n$7{:}25 \\, \\text{A.M. begin} + 8{:}00 \\, \\text{work time} + 0{:}45 \\, \\text{lunch time} = 15{:}70 = 16{:}10 = 4{:}10 \\, \\text{P.M. end}.$\n$\\textbf{OR}$\n午休在内的总时长比 $9$ 小时少 $15$ 分钟。上午 $7{:}25$ 后 9 小时是下午 $4{:}25$，再提前 15 分钟就是下午 $4{:}10$。\n\n答案：$\\boxed{C}$。"
+        "solution_info": "从上午 $7{:}25$ 起经过 $8$ 小时 $45$ 分钟。先过 8 小时到下午 $3{:}25$，再过 45 分钟到下午 $4{:}10$。\n\n$\\textbf{或}$\n也可直接相加：\n\n$7{:}25 \\, \\text{A.M. begin} + 8{:}00 \\, \\text{work time} + 0{:}45 \\, \\text{lunch time} = 15{:}70 = 16{:}10 = 4{:}10 \\, \\text{P.M. end}.$\n$\\textbf{或}$\n午休在内的总时长比 $9$ 小时少 $15$ 分钟。上午 $7{:}25$ 后 9 小时是下午 $4{:}25$，再提前 15 分钟就是下午 $4{:}10$。\n\n答案：$\\boxed{C}$。"
       }
     ],
     "children": []
@@ -7354,7 +7354,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "$1 \\, \\text{mile} = 8 \\, \\text{furlongs} = 8 \\times (1 \\, \\text{furlong}) = 8 \\times (40 \\, \\text{rods}) = 320 \\, \\text{rods}.$\n$\\textbf{OR}$\n$1 \\, \\text{mile} \\times \\frac{8 \\, \\cancel{\\text{furlongs}}}{1 \\, \\text{mile}} \\times \\frac{40 \\, \\text{rods}}{1 \\, \\cancel{\\text{furlong}}} = (8 \\times 40) \\, \\text{rods} = 320 \\, \\text{rods}.$\n答案：$\\boxed{B}$。"
+        "solution_info": "$1 \\, \\text{英里} = 8 \\, \\text{furlongs} = 8 \\times (1 \\, \\text{furlong}) = 8 \\times (40 \\, \\text{rods}) = 320 \\, \\text{rods}.$\n$\\textbf{或}$\n$1 \\, \\text{英里} \\times \\frac{8 \\, \\cancel{\\text{furlongs}}}{1 \\, \\text{英里}} \\times \\frac{40 \\, \\text{rods}}{1 \\, \\cancel{\\text{furlong}}} = (8 \\times 40) \\, \\text{rods} = 320 \\, \\text{rods}.$\n答案：$\\boxed{B}$。"
       }
     ],
     "children": []
@@ -7386,7 +7386,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "任意六个连续正整数中至少有一个 $5$ 的倍数和一个 $2$ 的倍数，所以乘积至少含因数 $5 \\times 2=10$，个位必为 $0$。\n\n$\\textbf{OR}$\n也可计算 $1 \\times 2 \\times 3 \\times 4 \\times 5 \\times 6=120$，得到个位 $0$；或注意任意含 $10$ 的六个连续整数之积显然以 $0$ 结尾。\n\n答案：$\\boxed{A}$。"
+        "solution_info": "任意六个连续正整数中至少有一个 $5$ 的倍数和一个 $2$ 的倍数，所以乘积至少含因数 $5 \\times 2=10$，个位必为 $0$。\n\n$\\textbf{或}$\n也可计算 $1 \\times 2 \\times 3 \\times 4 \\times 5 \\times 6=120$，得到个位 $0$；或注意任意含 $10$ 的六个连续整数之积显然以 $0$ 结尾。\n\n答案：$\\boxed{A}$。"
       }
     ],
     "children": []
@@ -7482,7 +7482,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "$20 \\%$ 的折扣使价格降为 $\\$ 80$。\n\n再用 $\\$ 5$ 优惠券，价格降至 $\\$ 75$。\n\n销售税是 $\\$ 75$ 的 $8 \\%$，即 $0.08 \\times \\$ 75=\\$ 6$。\n\n最终支付 $\\$ 75+\\$ 6=\\$ 81.00$。\n\n$\\textbf{OR}$\n也可直接求折后价 $0.8(\\$ 100)-\\$ 5=\\$ 75$，含税价为 $1.08(\\$ 75)=\\$ 81.00$。\n\n答案：$\\boxed{A}$。"
+        "solution_info": "$20 \\%$ 的折扣使价格降为 $\\$ 80$。\n\n再用 $\\$ 5$ 优惠券，价格降至 $\\$ 75$。\n\n销售税是 $\\$ 75$ 的 $8 \\%$，即 $0.08 \\times \\$ 75=\\$ 6$。\n\n最终支付 $\\$ 75+\\$ 6=\\$ 81.00$。\n\n$\\textbf{或}$\n也可直接求折后价 $0.8(\\$ 100)-\\$ 5=\\$ 75$，含税价为 $1.08(\\$ 75)=\\$ 81.00$。\n\n答案：$\\boxed{A}$。"
       }
     ],
     "children": []
@@ -7514,7 +7514,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "$N$ 为正整数，所以 $N+2$ 必须是 $36$ 的正整数因数。$36$ 有 $9$ 个正因数：\n\n$36, \\quad 18, \\quad 12, \\quad 9,6, \\quad 4,3, \\quad 2, \\quad 1.$\n把它们写成 $N+2$ 的形式：\n\n$34+2, \\quad 16+2, \\quad 10+2, \\quad 7+2, \\quad 4+2, \\quad 2+2, \\quad 1+2, \\quad 0+2, \\quad-1+2.$\n其中有 7 个对应正的 $N$。\n\n$\\textbf{OR}$\n由于 $N>0$，有 $N+2>2$。$N+2$ 必须是 $36$ 的因数，而大于 2 的因数共有 $7$ 个，即 $2: 3,4,6,9,12,18,36$。\n\n答案：$\\boxed{A}$。"
+        "solution_info": "$N$ 为正整数，所以 $N+2$ 必须是 $36$ 的正整数因数。$36$ 有 $9$ 个正因数：\n\n$36, \\quad 18, \\quad 12, \\quad 9,6, \\quad 4,3, \\quad 2, \\quad 1.$\n把它们写成 $N+2$ 的形式：\n\n$34+2, \\quad 16+2, \\quad 10+2, \\quad 7+2, \\quad 4+2, \\quad 2+2, \\quad 1+2, \\quad 0+2, \\quad-1+2.$\n其中有 7 个对应正的 $N$。\n\n$\\textbf{或}$\n由于 $N>0$，有 $N+2>2$。$N+2$ 必须是 $36$ 的因数，而大于 2 的因数共有 $7$ 个，即 $2: 3,4,6,9,12,18,36$。\n\n答案：$\\boxed{A}$。"
       }
     ],
     "children": []
@@ -7578,7 +7578,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "正方形 $I I$ 的阴影显然占总面积的 $1 / 4$。在正方形 $I$ 中，每个阴影三角形占 $1 / 4$ 的 $1 / 2$，即总面积的 $1 / 8$，两个共 $\\dfrac{1}{8}+\\dfrac{1}{8}=\\dfrac{1}{4}$。在正方形 $I I I$ 中，每个阴影菱形可分为两个三角形，每个三角形占总面积的 $1 / 16$，四个三角形共 $4 / 16$，即 $1 / 4$。所以三者阴影面积相等。\n\n$\\textbf{OR}$\n也可分割图形，分别看出 $I$ 中 $8$ 个全等三角形有 $2$ 个涂色，$I I$ 中 $4$ 个全等小正方形有 $1$ 个涂色，$I I I$ 中 $16$ 个全等三角形有 $4$ 个涂色。\n\n[Figure: /question-assets/source/amc/1218fb07442b156d89fe13d90a79fd4b54d25f28111d05240b7c3ada3ff6f83a.jpg]\n\n[Figure: /question-assets/source/amc/0bfd85dcaef0bfdb2f3de6296d917726454a535b7ee5835e045ba8d708107b6e.jpg]\n\n答案：$\\boxed{A}$。"
+        "solution_info": "正方形 $I I$ 的阴影显然占总面积的 $1 / 4$。在正方形 $I$ 中，每个阴影三角形占 $1 / 4$ 的 $1 / 2$，即总面积的 $1 / 8$，两个共 $\\dfrac{1}{8}+\\dfrac{1}{8}=\\dfrac{1}{4}$。在正方形 $I I I$ 中，每个阴影菱形可分为两个三角形，每个三角形占总面积的 $1 / 16$，四个三角形共 $4 / 16$，即 $1 / 4$。所以三者阴影面积相等。\n\n$\\textbf{或}$\n也可分割图形，分别看出 $I$ 中 $8$ 个全等三角形有 $2$ 个涂色，$I I$ 中 $4$ 个全等小正方形有 $1$ 个涂色，$I I I$ 中 $16$ 个全等三角形有 $4$ 个涂色。\n\n[Figure: /question-assets/source/amc/1218fb07442b156d89fe13d90a79fd4b54d25f28111d05240b7c3ada3ff6f83a.jpg]\n\n[Figure: /question-assets/source/amc/0bfd85dcaef0bfdb2f3de6296d917726454a535b7ee5835e045ba8d708107b6e.jpg]\n\n答案：$\\boxed{A}$。"
       }
     ],
     "children": []
@@ -7610,7 +7610,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "由于 $\\dfrac{1}{6}=\\dfrac{2}{12}=\\dfrac{4}{24}$ 且 $\\dfrac{1}{4}=\\dfrac{3}{12}=\\dfrac{6}{24}$，可知 $\\dfrac{1}{6}$ 与 $\\dfrac{1}{4}$ 的中间数是 $\\dfrac{5}{24}$。\n\n$\\textbf{OR}$\n两数正中间的数等于它们的算术平均数：\n\n$\\dfrac{\\dfrac{1}{6}+\\dfrac{1}{4}}{2}=\\dfrac{\\dfrac{4+6}{24}}{2}=\\dfrac{\\dfrac{10}{24}}{2}=\\dfrac{5}{24}$\n$\\textbf{OR}$\n也可把分数化为三位小数后取平均：\n\n$\\dfrac{\\dfrac{1}{6}+\\dfrac{1}{4}}{2} \\approx \\dfrac{0.167+0.250}{2}=\\dfrac{0.417}{2}=0.2085$\n它最接近 $\\dfrac{5}{24} \\approx 0.2083.$。\n\n答案：$\\boxed{C}$。"
+        "solution_info": "由于 $\\dfrac{1}{6}=\\dfrac{2}{12}=\\dfrac{4}{24}$ 且 $\\dfrac{1}{4}=\\dfrac{3}{12}=\\dfrac{6}{24}$，可知 $\\dfrac{1}{6}$ 与 $\\dfrac{1}{4}$ 的中间数是 $\\dfrac{5}{24}$。\n\n$\\textbf{或}$\n两数正中间的数等于它们的算术平均数：\n\n$\\dfrac{\\dfrac{1}{6}+\\dfrac{1}{4}}{2}=\\dfrac{\\dfrac{4+6}{24}}{2}=\\dfrac{\\dfrac{10}{24}}{2}=\\dfrac{5}{24}$\n$\\textbf{或}$\n也可把分数化为三位小数后取平均：\n\n$\\dfrac{\\dfrac{1}{6}+\\dfrac{1}{4}}{2} \\approx \\dfrac{0.167+0.250}{2}=\\dfrac{0.417}{2}=0.2085$\n它最接近 $\\dfrac{5}{24} \\approx 0.2083.$。\n\n答案：$\\boxed{C}$。"
       }
     ],
     "children": []
@@ -7642,7 +7642,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "同时有两人上场，总上场人时为 $2 \\times 90=180$ 分钟，平均分给 $5$ 人，每人 $180 / 5=36$ 分钟。\n\n$\\textbf{OR}$\n若每次只上一人，每人可分到 $90$ 的 $1 / 5$，即 $18$ 分钟；实际每次需要两人，因此加倍为 $36$ 分钟。\n\n$\\textbf{OR}$\n五名儿童共有 $10$ 种两两配对，每组上场 $90 / 10=9$ 分钟；每人会与其他四人配对，所以每人上场 $4 \\times 9=36$ 分钟。\n\n思考：这 $10$ 种配对分别是什么？\n\n$\\textbf{OR}$\n任一时刻有 $2$ 人上场、$3$ 人不上场，即有 $2 / 5$ 的人上场，所以每人应上场总时间的 $2 / 5$，即 $\\dfrac{2}{5} \\times 90=36$ 分钟。\n\n答案：$\\boxed{E}$。"
+        "solution_info": "同时有两人上场，总上场人时为 $2 \\times 90=180$ 分钟，平均分给 $5$ 人，每人 $180 / 5=36$ 分钟。\n\n$\\textbf{或}$\n若每次只上一人，每人可分到 $90$ 的 $1 / 5$，即 $18$ 分钟；实际每次需要两人，因此加倍为 $36$ 分钟。\n\n$\\textbf{或}$\n五名儿童共有 $10$ 种两两配对，每组上场 $90 / 10=9$ 分钟；每人会与其他四人配对，所以每人上场 $4 \\times 9=36$ 分钟。\n\n思考：这 $10$ 种配对分别是什么？\n\n$\\textbf{或}$\n任一时刻有 $2$ 人上场、$3$ 人不上场，即有 $2 / 5$ 的人上场，所以每人应上场总时间的 $2 / 5$，即 $\\dfrac{2}{5} \\times 90=36$ 分钟。\n\n答案：$\\boxed{E}$。"
       }
     ],
     "children": []
@@ -7674,7 +7674,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "路径每四个数重复一次。$425$ 除以 $4$ 余 $1$，$427$ 除以 $4$ 余 $3$，所以从 $425$ 到 $427$ 的模式与从 $1$ 到 $3$ 相同。\n\n$\\textbf{OR}$\n图案在 $0, 4,8$ 等位置重新开始。所有 $4$ 的倍数在各周期中位置相同，因此可从小于 $425$ 的最近一个 $4$ 的倍数画出所需部分。\n\n[Figure: /question-assets/source/amc/861c18a24fb41085d2b6abc8bc9d53dfc74f2a48dc74b22215413c64c039c516.jpg]\n\n答案：$\\boxed{A}$。"
+        "solution_info": "路径每四个数重复一次。$425$ 除以 $4$ 余 $1$，$427$ 除以 $4$ 余 $3$，所以从 $425$ 到 $427$ 的模式与从 $1$ 到 $3$ 相同。\n\n$\\textbf{或}$\n图案在 $0, 4,8$ 等位置重新开始。所有 $4$ 的倍数在各周期中位置相同，因此可从小于 $425$ 的最近一个 $4$ 的倍数画出所需部分。\n\n[Figure: /question-assets/source/amc/861c18a24fb41085d2b6abc8bc9d53dfc74f2a48dc74b22215413c64c039c516.jpg]\n\n答案：$\\boxed{A}$。"
       }
     ],
     "children": []
@@ -7706,7 +7706,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "周长为 $3$ 倍，说明边长也是 $3$ 倍。正方形面积等于边长平方，所以面积为 $3^{2}=9$ 倍。\n\n$\\textbf{OR}$\n图中也可看出周长扩大三倍后，可容纳 $9$ 个原正方形：\n\n[Figure: /question-assets/source/amc/7e10bc713f7ab0444d2ca379ad231071ab1d32e0f7f0769bd228c7d52c63b802.jpg]\n\n$\\textbf{OR}$\n相似图形面积比等于对应线性比的平方，所以面积比为 $\\left(\\dfrac{3}{1}\\right)^{2}=\\dfrac{9}{1}$。\n\n$\\textbf{OR}$\n例如，$1$ 乘 $1$ 正方形面积为 $1$；$3$ 乘 $3$ 正方形面积为 $9$。\n\n[Figure: /question-assets/source/amc/953a2f93ffa72442dc44df0203a490026d9e084cfa9abadd26b60184ca12f0cd.jpg]\n\n答案：$\\boxed{E}$。"
+        "solution_info": "周长为 $3$ 倍，说明边长也是 $3$ 倍。正方形面积等于边长平方，所以面积为 $3^{2}=9$ 倍。\n\n$\\textbf{或}$\n图中也可看出周长扩大三倍后，可容纳 $9$ 个原正方形：\n\n[Figure: /question-assets/source/amc/7e10bc713f7ab0444d2ca379ad231071ab1d32e0f7f0769bd228c7d52c63b802.jpg]\n\n$\\textbf{或}$\n相似图形面积比等于对应线性比的平方，所以面积比为 $\\left(\\dfrac{3}{1}\\right)^{2}=\\dfrac{9}{1}$。\n\n$\\textbf{或}$\n例如，$1$ 乘 $1$ 正方形面积为 $1$；$3$ 乘 $3$ 正方形面积为 $9$。\n\n[Figure: /question-assets/source/amc/953a2f93ffa72442dc44df0203a490026d9e084cfa9abadd26b60184ca12f0cd.jpg]\n\n答案：$\\boxed{E}$。"
       }
     ],
     "children": []
@@ -7738,7 +7738,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "车道积雪体积为 $4 \\times 10 \\times 3=120$ 立方码。连续 $7$ 小时共可铲 $20+19+18+17+16+15+14=119$，连续 $8$ 小时共可铲 $20+19+18+17+16+15+14+13=132$，因此 $7$ 小时最接近所需的 $120$ 立方码。\n\n$\\textbf{OR}$\n也可逐小时计算剩余雪量：\n\n$\\begin{aligned} 120 - 20 = 100, \\quad 100 - 19 = 81, \\quad 81 - 18 = 63, \\quad 63 - 17 &= 46, \\\\ 46 - 16 = 30, \\quad 30 - 15 = 15, \\quad 15 - 14 = 1, \\quad 1 - 13 &= -12. \\end{aligned}$\n因为 $1$ 比 $-12$ 更接近 0，所以仍是 $7$ 小时最接近 $120$ 立方码。\n\n答案：$\\boxed{D}$。"
+        "solution_info": "车道积雪体积为 $4 \\times 10 \\times 3=120$ 立方码。连续 $7$ 小时共可铲 $20+19+18+17+16+15+14=119$，连续 $8$ 小时共可铲 $20+19+18+17+16+15+14+13=132$，因此 $7$ 小时最接近所需的 $120$ 立方码。\n\n$\\textbf{或}$\n也可逐小时计算剩余雪量：\n\n$\\begin{aligned} 120 - 20 = 100, \\quad 100 - 19 = 81, \\quad 81 - 18 = 63, \\quad 63 - 17 &= 46, \\\\ 46 - 16 = 30, \\quad 30 - 15 = 15, \\quad 15 - 14 = 1, \\quad 1 - 13 &= -12. \\end{aligned}$\n因为 $1$ 比 $-12$ 更接近 0，所以仍是 $7$ 小时最接近 $120$ 立方码。\n\n答案：$\\boxed{D}$。"
       }
     ],
     "children": []
@@ -7802,7 +7802,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "每个半圆半径为 $2$，即 $4$ 乘 $4$ 正方形边长的 $1 / 2$。正方形 $A B C D$ 的边长等于原正方形边长加两个半径，即 $4+2(2)=8$，所以面积为 $8^{2}=64$。\n\n[Figure: /question-assets/source/amc/9ce21647f11bca88cb2d7c7acef5e2b9e040b6f090907650ab8456d6d6a9e8d4.jpg]\n\n$\\textbf{OR}$\n也可把各半圆补成圆。四圆都经过两正方形公共中心，因此 $A B=E F=8$，因为 $\\overline{E F}$ 等于两个直径。故 $A B C D$ 面积为 $8^{2}=64$。\n\n[Figure: /question-assets/source/amc/06495ee794e2991d49d7da4963c57caa77d194e6d96e1cb885017e931e441b33.jpg]\n\n答案：$\\boxed{E}$。"
+        "solution_info": "每个半圆半径为 $2$，即 $4$ 乘 $4$ 正方形边长的 $1 / 2$。正方形 $A B C D$ 的边长等于原正方形边长加两个半径，即 $4+2(2)=8$，所以面积为 $8^{2}=64$。\n\n[Figure: /question-assets/source/amc/9ce21647f11bca88cb2d7c7acef5e2b9e040b6f090907650ab8456d6d6a9e8d4.jpg]\n\n$\\textbf{或}$\n也可把各半圆补成圆。四圆都经过两正方形公共中心，因此 $A B=E F=8$，因为 $\\overline{E F}$ 等于两个直径。故 $A B C D$ 面积为 $8^{2}=64$。\n\n[Figure: /question-assets/source/amc/06495ee794e2991d49d7da4963c57caa77d194e6d96e1cb885017e931e441b33.jpg]\n\n答案：$\\boxed{E}$。"
       }
     ],
     "children": []
@@ -7834,7 +7834,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "小分子、大分母会得到较小分数。用 $1$、$2$ 作分子，$8$、$9$ 作分母，比较\n\n$\\dfrac{1}{8}+\\dfrac{2}{9}=\\dfrac{9+16}{72}=\\dfrac{25}{72} \\quad \\text { and } \\quad \\dfrac{1}{9}+\\dfrac{2}{8}=\\dfrac{8+18}{72}=\\dfrac{26}{72}$\n可知答案为 $\\dfrac{25}{72}$。\n\n进一步比较可得 $\\dfrac{1}{8}+\\dfrac{1}{9}+\\dfrac{1}{9}$ 小于 $\\dfrac{1}{9}+\\dfrac{1}{8}+\\dfrac{1}{8}$。\n\n答案：$\\boxed{D}$。"
+        "solution_info": "小分子、大分母会得到较小分数。用 $1$、$2$ 作分子，$8$、$9$ 作分母，比较\n\n$\\dfrac{1}{8}+\\dfrac{2}{9}=\\dfrac{9+16}{72}=\\dfrac{25}{72} \\quad \\text{ 和 } \\quad \\dfrac{1}{9}+\\dfrac{2}{8}=\\dfrac{8+18}{72}=\\dfrac{26}{72}$\n可知答案为 $\\dfrac{25}{72}$。\n\n进一步比较可得 $\\dfrac{1}{8}+\\dfrac{1}{9}+\\dfrac{1}{9}$ 小于 $\\dfrac{1}{9}+\\dfrac{1}{8}+\\dfrac{1}{8}$。\n\n答案：$\\boxed{D}$。"
       }
     ],
     "children": []
@@ -7962,7 +7962,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "若某格为绿色，则它上方或右方的所有格也必须为绿色，因此可能图案为\n\n$\\begin{array}{ccc} \\left[\\begin{array}{ll} R & R \\\\ R & R \\\\ \\end{array}\\right] & \\left[\\begin{array}{ll} R & G \\\\ R & R \\\\ \\end{array}\\right] & \\left[\\begin{array}{ll} G & G \\\\ R & R \\\\ \\end{array}\\right] \\\\ \\\\ \\left[\\begin{array}{ll} R & G \\\\ R & G \\\\ \\end{array}\\right] & \\left[\\begin{array}{ll} G & G \\\\ R & G \\\\ \\end{array}\\right] & \\left[\\begin{array}{ll} G & G \\\\ G & G \\\\ \\end{array}\\right] \\end{array}$\n共有 $6$ 种。\n\n$\\textbf{OR}$\n每行绿色格必须靠右，且上行绿色格数不少于下行。令绿色格总数为 $n$，就是计算满足 $2 \\geq a \\geq b \\geq 0$ 的和 $a+b=n$。$n$ 可从 $0$ 到 $4$，共有 $6$ 种：\n\n$\\begin{array}{lll} 0+0=0 & 1+0=1 & 2+0=2 \\\\ 1+1=2 & 2+1=3 & 2+2=4 \\\\ \\end{array}$\n所以 $2$ 乘 $2$ 方格共有 $6$ 种合法涂法。\n\n思考：若原正方形为 $3$ 乘 $3?$，或 $4$ 乘 $4?$ 呢？\n\n答案：$\\boxed{B}$。"
+        "solution_info": "若某格为绿色，则它上方或右方的所有格也必须为绿色，因此可能图案为\n\n$\\begin{array}{ccc} \\left[\\begin{array}{ll} R & R \\\\ R & R \\\\ \\end{array}\\right] & \\left[\\begin{array}{ll} R & G \\\\ R & R \\\\ \\end{array}\\right] & \\left[\\begin{array}{ll} G & G \\\\ R & R \\\\ \\end{array}\\right] \\\\ \\\\ \\left[\\begin{array}{ll} R & G \\\\ R & G \\\\ \\end{array}\\right] & \\left[\\begin{array}{ll} G & G \\\\ R & G \\\\ \\end{array}\\right] & \\left[\\begin{array}{ll} G & G \\\\ G & G \\\\ \\end{array}\\right] \\end{array}$\n共有 $6$ 种。\n\n$\\textbf{或}$\n每行绿色格必须靠右，且上行绿色格数不少于下行。令绿色格总数为 $n$，就是计算满足 $2 \\geq a \\geq b \\geq 0$ 的和 $a+b=n$。$n$ 可从 $0$ 到 $4$，共有 $6$ 种：\n\n$\\begin{array}{lll} 0+0=0 & 1+0=1 & 2+0=2 \\\\ 1+1=2 & 2+1=3 & 2+2=4 \\\\ \\end{array}$\n所以 $2$ 乘 $2$ 方格共有 $6$ 种合法涂法。\n\n思考：若原正方形为 $3$ 乘 $3?$，或 $4$ 乘 $4?$ 呢？\n\n答案：$\\boxed{B}$。"
       }
     ],
     "children": []
@@ -7980,7 +7980,7 @@
     "quality": "精品",
     "question_info": {
       "raw_content": {
-        "title": "求下列乘积结果的各位数字和：\n\n$\\underbrace{9999 \\cdots 99}_{94 \\text { nines }} \\times \\underbrace{4444 \\cdots 44}_{94 \\text { fours }}$\n其中一个因数由 $94$ 个 9 组成，另一个由 $94$ 个 4 组成。",
+        "title": "求下列乘积结果的各位数字和：\n\n$\\underbrace{9999 \\cdots 99}_{94 \\text{ 数字9 }} \\times \\underbrace{4444 \\cdots 44}_{94 \\text{ 数字4 }}$\n其中一个因数由 $94$ 个 9 组成，另一个由 $94$ 个 4 组成。",
         "option_a": "$846$",
         "option_b": "$855$",
         "option_c": "$945$",
@@ -8154,7 +8154,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "[Figure: /question-assets/source/amc/d008ea05f824f1d35be092dbf449f185478aca29ea0d3fcd9fbd42a4d23fbf72.jpg]\n\n各分数部分之和介于 $1$ 与 $1 \\dfrac{1}{2}$ 之间，整数部分和为 $2+3+4+5=14$，所以总和介于 $15$ 与 $15 \\dfrac{1}{2}$ 之间，答案是 $16$。\n\n$\\textbf{OR}$\n也可由\n\n$1<\\dfrac{1}{2}+\\dfrac{1}{4}+\\dfrac{1}{4}+\\dfrac{1}{5}<\\dfrac{1}{2}+\\dfrac{1}{3}+\\dfrac{1}{4}+\\dfrac{1}{5}<\\dfrac{1}{2}+\\dfrac{1}{2}+\\dfrac{1}{2}+\\dfrac{1}{2}=2$\n看出分数部分介于 $1$ 与 $2$ 之间，仍得总和介于 $15$ 与 $16$，答案 $16$。\n\n$\\textbf{OR}$\n近似计算 $2.5+3.33+4.25+5.2$ 得 $15.28$，所以最小整数为 $16$。\n\n答案：$\\boxed{C}$。"
+        "solution_info": "[Figure: /question-assets/source/amc/d008ea05f824f1d35be092dbf449f185478aca29ea0d3fcd9fbd42a4d23fbf72.jpg]\n\n各分数部分之和介于 $1$ 与 $1 \\dfrac{1}{2}$ 之间，整数部分和为 $2+3+4+5=14$，所以总和介于 $15$ 与 $15 \\dfrac{1}{2}$ 之间，答案是 $16$。\n\n$\\textbf{或}$\n也可由\n\n$1<\\dfrac{1}{2}+\\dfrac{1}{4}+\\dfrac{1}{4}+\\dfrac{1}{5}<\\dfrac{1}{2}+\\dfrac{1}{3}+\\dfrac{1}{4}+\\dfrac{1}{5}<\\dfrac{1}{2}+\\dfrac{1}{2}+\\dfrac{1}{2}+\\dfrac{1}{2}=2$\n看出分数部分介于 $1$ 与 $2$ 之间，仍得总和介于 $15$ 与 $16$，答案 $16$。\n\n$\\textbf{或}$\n近似计算 $2.5+3.33+4.25+5.2$ 得 $15.28$，所以最小整数为 $16$。\n\n答案：$\\boxed{C}$。"
       }
     ],
     "children": []
@@ -8250,7 +8250,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "$\\$ 1.00=\\$ 1.00 \\times \\dfrac{3000 \\text { lire }}{\\$ 1.60}=1875$ 里拉。\n\n$\\textbf{OR}$\n$\\dfrac{\\$ 1.00}{\\$ 1.60}=\\dfrac{5}{8}$，所以 $\\$ 1.00$ 是 $\\$ 1.60$ 的 $\\dfrac{5}{8}$，里拉数为 $3000$ 的 $\\dfrac{5}{8}$，即 $1875$。\n\n$\\textbf{OR}$\n也可列比例 $\\dfrac{3000 \\text { lire }}{160 \\text { cents }}=\\dfrac{x \\text { lire }}{100 \\text { cents }}$，解得 $x$ 为 $1875$ 里拉。\n\n答案：$\\boxed{D}$。"
+        "solution_info": "$\\$ 1.00=\\$ 1.00 \\times \\dfrac{3000 \\text{ lire }}{\\$ 1.60}=1875$ 里拉。\n\n$\\textbf{或}$\n$\\dfrac{\\$ 1.00}{\\$ 1.60}=\\dfrac{5}{8}$，所以 $\\$ 1.00$ 是 $\\$ 1.60$ 的 $\\dfrac{5}{8}$，里拉数为 $3000$ 的 $\\dfrac{5}{8}$，即 $1875$。\n\n$\\textbf{或}$\n也可列比例 $\\dfrac{3000 \\text{ lire }}{160 \\text{ cents }}=\\dfrac{x \\text{ lire }}{100 \\text{ cents }}$，解得 $x$ 为 $1875$ 里拉。\n\n答案：$\\boxed{D}$。"
       }
     ],
     "children": []
@@ -8282,7 +8282,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "$\\overline{B C}$ 的长度等于圆心 $Q$ 所在圆的直径，所以 $B C=4$。圆心为 $P$、$R$ 的圆与平行边 $\\overline{A B}$、$\\overline{D C}$ 相切，直径也都是 $4$。两圆直径之和等于 $\\overline{A B}$，故 $A B=4+4=8$，长方形面积为 $8 \\times 4=32$。\n\n$\\textbf{OR}$\n圆心 $Q$ 所在圆半径为 $4 / 2=2$，所以 $P Q=R Q=2$。$\\overline{P Q}$、$\\overline{R Q}$ 又分别是另两圆的半径，故三圆半径都为 $2$，于是 $A B=8$ 且 $B C=4$，面积为 $8 \\times 4=32$。\n\n答案：$\\boxed{C}$。"
+        "solution_info": "$\\overline{B C}$ 的长度等于圆心 $Q$ 所在圆的直径，所以 $B C=4$。圆心为 $P$、$R$ 的圆与平行边 $\\overline{A B}$、$\\overline{D C}$ 相切，直径也都是 $4$。两圆直径之和等于 $\\overline{A B}$，故 $A B=4+4=8$，长方形面积为 $8 \\times 4=32$。\n\n$\\textbf{或}$\n圆心 $Q$ 所在圆半径为 $4 / 2=2$，所以 $P Q=R Q=2$。$\\overline{P Q}$、$\\overline{R Q}$ 又分别是另两圆的半径，故三圆半径都为 $2$，于是 $A B=8$ 且 $B C=4$，面积为 $8 \\times 4=32$。\n\n答案：$\\boxed{C}$。"
       }
     ],
     "children": []
@@ -8346,7 +8346,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "同一时间内，简走的路程是赫克托的两倍。赫克托走向 $E$ 时，简依次经过 $A$、$B$；赫克托到 $D$ 时，简又经过 $C$、$D$。\n\n$\\textbf{OR}$\n两人相遇时合计走完 $18$ 个街区。由于 $12+6=18$ 且 $12$ 是 $6$ 的两倍，相遇点在起点逆时针 $6$ 个街区处，即点 $D$。\n\n答案：$\\boxed{D}$。"
+        "solution_info": "同一时间内，简走的路程是赫克托的两倍。赫克托走向 $E$ 时，简依次经过 $A$、$B$；赫克托到 $D$ 时，简又经过 $C$、$D$。\n\n$\\textbf{或}$\n两人相遇时合计走完 $18$ 个街区。由于 $12+6=18$ 且 $12$ 是 $6$ 的两倍，相遇点在起点逆时针 $6$ 个街区处，即点 $D$。\n\n答案：$\\boxed{D}$。"
       }
     ],
     "children": []
@@ -8410,7 +8410,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "在 $\\triangle B D E, \\angle B E D+\\angle B D E+\\angle B=180^{\\circ}$ 中，由 $\\angle B E D=\\angle B D E$、$\\angle B=90^{\\circ}$ 得 $\\angle B E D=\\angle B D E=45^{\\circ}$。在 $\\triangle A E F$ 中，$\\angle A+\\angle A E F+\\angle A F E=180^{\\circ}$；由 $\\angle A=90^{\\circ}$、$\\angle A E F=40^{\\circ}$ 得 $\\angle A F E=50^{\\circ}$。于是 $\\angle B F G=50^{\\circ}$；再由 $\\angle B=$ $90^{\\circ}$ 得 $\\angle B G F=40^{\\circ}$。继而 $\\angle C G D=40^{\\circ}$；由 $\\angle C=90^{\\circ}$ 得 $\\angle C D G=50^{\\circ}$，所以 $\\angle C D E=50^{\\circ}+45^{\\circ}=95^{\\circ}$。\n\n$\\textbf{OR}$\n也可先得 $\\angle B E D=\\angle B D E=45^{\\circ}$，再有 $\\angle A E D=40^{\\circ}+45^{\\circ}=$ $85^{\\circ}$。四边形内角和为 $360^{\\circ}$，故 $\\angle A+\\angle C+$ $\\angle A E D+\\angle C D E=360^{\\circ}$，所以 $\\angle C D E=360^{\\circ}-90^{\\circ}-90^{\\circ}-85^{\\circ}=95^{\\circ}$。\n\n答案：$\\boxed{E}$。"
+        "solution_info": "在 $\\triangle B D E, \\angle B E D+\\angle B D E+\\angle B=180^{\\circ}$ 中，由 $\\angle B E D=\\angle B D E$、$\\angle B=90^{\\circ}$ 得 $\\angle B E D=\\angle B D E=45^{\\circ}$。在 $\\triangle A E F$ 中，$\\angle A+\\angle A E F+\\angle A F E=180^{\\circ}$；由 $\\angle A=90^{\\circ}$、$\\angle A E F=40^{\\circ}$ 得 $\\angle A F E=50^{\\circ}$。于是 $\\angle B F G=50^{\\circ}$；再由 $\\angle B=$ $90^{\\circ}$ 得 $\\angle B G F=40^{\\circ}$。继而 $\\angle C G D=40^{\\circ}$；由 $\\angle C=90^{\\circ}$ 得 $\\angle C D G=50^{\\circ}$，所以 $\\angle C D E=50^{\\circ}+45^{\\circ}=95^{\\circ}$。\n\n$\\textbf{或}$\n也可先得 $\\angle B E D=\\angle B D E=45^{\\circ}$，再有 $\\angle A E D=40^{\\circ}+45^{\\circ}=$ $85^{\\circ}$。四边形内角和为 $360^{\\circ}$，故 $\\angle A+\\angle C+$ $\\angle A E D+\\angle C D E=360^{\\circ}$，所以 $\\angle C D E=360^{\\circ}-90^{\\circ}-90^{\\circ}-85^{\\circ}=95^{\\circ}$。\n\n答案：$\\boxed{E}$。"
       }
     ],
     "children": []
@@ -8474,7 +8474,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "因为 $4 / 37=0.108108 \\ldots$，第 $3^{\\text {rd }}, 6^{\\text {th }}, 9^{\\text {th }} \\ldots, 99^{\\text {th }}$ 位数字都是 $8$，所以第 $100^{\\text {th }}$ 位数字为 $1$。\n\n答案：$\\boxed{B}$。"
+        "solution_info": "因为 $4 / 37=0.108108 \\ldots$，第 $3^{\\text{rd }}, 6^{\\text{th }}, 9^{\\text{th }} \\ldots, 99^{\\text{th }}$ 位数字都是 $8$，所以第 $100^{\\text{th }}$ 位数字为 $1$。\n\n答案：$\\boxed{B}$。"
       }
     ],
     "children": []
@@ -8570,7 +8570,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "四个 $L$ 形区域共占总面积的 $4 \\times\\left(\\dfrac{3}{16}\\right)=\\dfrac{12}{16}=\\dfrac{3}{4}$，中央正方形占余下 $\\dfrac{1}{4}$，面积为 $\\left(\\dfrac{1}{4}\\right)(100 \\times 100)=2500$ 平方英寸，所以边长为 $\\sqrt{2500}=50$ 英寸。\n\n$\\textbf{OR}$\n中央正方形占总面积的 $1 / 4$。把大正方形如图四等分，可见中央正方形为 $50$ 乘 $50$ 英寸。\n\n[Figure: /question-assets/source/amc/b774dda9434be97c758f308fff20923874d4452cb3e0296f7d422023dab78707.jpg]\n\n答案：$\\boxed{C}$。"
+        "solution_info": "四个 $L$ 形区域共占总面积的 $4 \\times\\left(\\dfrac{3}{16}\\right)=\\dfrac{12}{16}=\\dfrac{3}{4}$，中央正方形占余下 $\\dfrac{1}{4}$，面积为 $\\left(\\dfrac{1}{4}\\right)(100 \\times 100)=2500$ 平方英寸，所以边长为 $\\sqrt{2500}=50$ 英寸。\n\n$\\textbf{或}$\n中央正方形占总面积的 $1 / 4$。把大正方形如图四等分，可见中央正方形为 $50$ 乘 $50$ 英寸。\n\n[Figure: /question-assets/source/amc/b774dda9434be97c758f308fff20923874d4452cb3e0296f7d422023dab78707.jpg]\n\n答案：$\\boxed{C}$。"
       }
     ],
     "children": []
@@ -8986,7 +8986,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "要使结果最小，应使用最小的三个数，三种可能为\n\n$3(5+7)=36, \\quad 5(3+7)=50, \\quad \\text { and } \\quad 7(3+5)=56$\n所以最小值是 $36$。\n\n$\\textbf{OR}$\n把乘法看作重复加法，可知应以最小数作乘数，另两个较小数作和，因此最小结果是 $3(5+7)=36$。\n\n答案：$\\boxed{C}$。"
+        "solution_info": "要使结果最小，应使用最小的三个数，三种可能为\n\n$3(5+7)=36, \\quad 5(3+7)=50, \\quad \\text{ 和 } \\quad 7(3+5)=56$\n所以最小值是 $36$。\n\n$\\textbf{或}$\n把乘法看作重复加法，可知应以最小数作乘数，另两个较小数作和，因此最小结果是 $3(5+7)=36$。\n\n答案：$\\boxed{C}$。"
       }
     ],
     "children": []
@@ -9018,7 +9018,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "列表计算：\n\n$\\begin{array}{|c|c|c|c|c|c|c|} \\hline \\text{Month:} & 0 & 1 & 2 & 3 & 4 & 5 \\\\ \\hline \\text{Brent:} & 4 & 16 & 64 & 256 & 1024 & 4096 \\\\ \\hline \\text{Gretel:} & 128 & 256 & 512 & 1024 & 2048 & 4096 \\\\ \\hline \\end{array}$\n所以 $5$ 个月后相等。\n\n$\\textbf{OR}$\n格蕾特与布伦特金鱼数之比每月缩小为原来的一半。初始比为 $128 / 4=32=2^{5}$，因此需 $5$ 个月。\n\n答案：$\\boxed{B}$。"
+        "solution_info": "列表计算：\n\n$\\begin{array}{|c|c|c|c|c|c|c|} \\hline \\text{Month:} & 0 & 1 & 2 & 3 & 4 & 5 \\\\ \\hline \\text{Brent:} & 4 & 16 & 64 & 256 & 1024 & 4096 \\\\ \\hline \\text{Gretel:} & 128 & 256 & 512 & 1024 & 2048 & 4096 \\\\ \\hline \\end{array}$\n所以 $5$ 个月后相等。\n\n$\\textbf{或}$\n格蕾特与布伦特金鱼数之比每月缩小为原来的一半。初始比为 $128 / 4=32=2^{5}$，因此需 $5$ 个月。\n\n答案：$\\boxed{B}$。"
       }
     ],
     "children": []
@@ -9050,7 +9050,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "最短距离在四点共线时取得。此时 $B C=4$ 且 $C D=3$，所以 $A D=3$，如图。\n\n[Figure: /question-assets/source/amc/3244a7e94d4c2e740cd8a2092a3863e4b5032f92e4e1dd178ba97299b5dd1c04.jpg]\n\n$\\textbf{OR}$\n也可把 $C$ 看作以 $B$ 为圆心、半径 $4$ 圆上的点，最近位置在连向 $A$ 的方向；再把 $D$ 看作以 $C$ 为圆心、半径 $3$ 圆上的点，最近位置仍在连向 $A$ 的方向。因此 $A$ 与 $D$ 相距 $3$。\n\n[Figure: /question-assets/source/amc/76647643c427495aa9ac581aaf8e7a4d22cbb98cc7d0fb69a59c506e028912a4.jpg]\n\n答案：$\\boxed{B}$。"
+        "solution_info": "最短距离在四点共线时取得。此时 $B C=4$ 且 $C D=3$，所以 $A D=3$，如图。\n\n[Figure: /question-assets/source/amc/3244a7e94d4c2e740cd8a2092a3863e4b5032f92e4e1dd178ba97299b5dd1c04.jpg]\n\n$\\textbf{或}$\n也可把 $C$ 看作以 $B$ 为圆心、半径 $4$ 圆上的点，最近位置在连向 $A$ 的方向；再把 $D$ 看作以 $C$ 为圆心、半径 $3$ 圆上的点，最近位置仍在连向 $A$ 的方向。因此 $A$ 与 $D$ 相距 $3$。\n\n[Figure: /question-assets/source/amc/76647643c427495aa9ac581aaf8e7a4d22cbb98cc7d0fb69a59c506e028912a4.jpg]\n\n答案：$\\boxed{B}$。"
       }
     ],
     "children": []
@@ -9082,7 +9082,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "该数为 $2$ 除以 $5$，即 $2 / 5$；其倒数为 $5 / 2$，再乘 $100$ 得 $250$。\n\n$\\textbf{OR}$\n设未知数为 $n$，则 $5 \\cdot n=2$，所以 $n=2 / 5$。其倒数为 $\\dfrac{5}{2}$，于是 $100 \\cdot \\dfrac{5}{2}=250$。\n\n答案：$\\boxed{D}$。"
+        "solution_info": "该数为 $2$ 除以 $5$，即 $2 / 5$；其倒数为 $5 / 2$，再乘 $100$ 得 $250$。\n\n$\\textbf{或}$\n设未知数为 $n$，则 $5 \\cdot n=2$，所以 $n=2 / 5$。其倒数为 $\\dfrac{5}{2}$，于是 $100 \\cdot \\dfrac{5}{2}=250$。\n\n答案：$\\boxed{D}$。"
       }
     ],
     "children": []
@@ -9132,7 +9132,7 @@
     "quality": "精品",
     "question_info": {
       "raw_content": {
-        "title": "设 $x$ 为\n\n$0 . \\underbrace{0000 \\ldots 0000}_{1996 \\text { zeros }} 1$\n\n即小数点后有 $1996$ 个 0。下列哪个表达式最大？",
+        "title": "设 $x$ 为\n\n$0 . \\underbrace{0000 \\ldots 0000}_{1996 \\text{ 数字0 }} 1$\n\n即小数点后有 $1996$ 个 0。下列哪个表达式最大？",
         "option_a": "$3+x$",
         "option_b": "$3-x$",
         "option_c": "$3 \\cdot x$",
@@ -9210,7 +9210,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "$800$ 的 $50 \\%$ 为 $400$，所以 $1997$ 年预计 $800+400=1200$ 人；再增加 $50 \\%$ 得 $600,1200+600=1800$ 人参加 $1998$ 年；再增加 $50 \\%$ 得 $900,1800+900=2700$ 人参加 $1999$ 年。\n\n$\\textbf{OR}$\n列表如下：\n\n$\\begin{array}{|c|c|} \\hline \\text{YEAR} & \\text{NUMBER OF PARTICIPANTS} \\\\ \\hline 1996 & 800 \\\\ \\hline 1997 & 800 + (0.5 \\times 800) = 1200 \\\\ \\hline 1998 & 1200 + (0.5 \\times 1200) = 1800 \\\\ \\hline 1999 & 1800 + (0.5 \\times 1800) = 2700 \\\\ \\hline \\end{array}$\n$\\textbf{OR}$\n增加 $50 \\%$ 表示每年人数变为原来的 $1.5$ 倍。因此 $1999$ 年距 $1996$ 年三年，人数为 $800 \\times 1.5^{3}=2700$。\n\n答案：$\\boxed{E}$。"
+        "solution_info": "$800$ 的 $50 \\%$ 为 $400$，所以 $1997$ 年预计 $800+400=1200$ 人；再增加 $50 \\%$ 得 $600,1200+600=1800$ 人参加 $1998$ 年；再增加 $50 \\%$ 得 $900,1800+900=2700$ 人参加 $1999$ 年。\n\n$\\textbf{或}$\n列表如下：\n\n$\\begin{array}{|c|c|} \\hline \\text{YEAR} & \\text{NUMBER OF PARTICIPANTS} \\\\ \\hline 1996 & 800 \\\\ \\hline 1997 & 800 + (0.5 \\times 800) = 1200 \\\\ \\hline 1998 & 1200 + (0.5 \\times 1200) = 1800 \\\\ \\hline 1999 & 1800 + (0.5 \\times 1800) = 2700 \\\\ \\hline \\end{array}$\n$\\textbf{或}$\n增加 $50 \\%$ 表示每年人数变为原来的 $1.5$ 倍。因此 $1999$ 年距 $1996$ 年三年，人数为 $800 \\times 1.5^{3}=2700$。\n\n答案：$\\boxed{E}$。"
       }
     ],
     "children": []
@@ -9242,7 +9242,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "可找出图示一种排列，并计算\n\n$8+6+9+1+2+3=29.$\n\n[Figure: /question-assets/source/amc/e3dc63854e8f8edc94df651f164b70215d8011e0ece5377e4a73cf054d078fea.jpg]\n\n$\\textbf{OR}$\n因为 $7+8+9=24$，竖列三个数只能是 $6,8$ 和 $9$ 的某种排列。横行中不与竖列重合的三个数之和至少为 $1+2+3=6$，所以公共格数字至多为 $12-(1+2+3)=12-6=6$。因此 $8$、$9$ 不能放在公共格，该格只能是 $6$。所用数字为 $1,2,3,6,8$ 和 $9$，总和 $29$。\n\n答案：$\\boxed{B}$。"
+        "solution_info": "可找出图示一种排列，并计算\n\n$8+6+9+1+2+3=29.$\n\n[Figure: /question-assets/source/amc/e3dc63854e8f8edc94df651f164b70215d8011e0ece5377e4a73cf054d078fea.jpg]\n\n$\\textbf{或}$\n因为 $7+8+9=24$，竖列三个数只能是 $6,8$ 和 $9$ 的某种排列。横行中不与竖列重合的三个数之和至少为 $1+2+3=6$，所以公共格数字至多为 $12-(1+2+3)=12-6=6$。因此 $8$、$9$ 不能放在公共格，该格只能是 $6$。所用数字为 $1,2,3,6,8$ 和 $9$，总和 $29$。\n\n答案：$\\boxed{B}$。"
       }
     ],
     "children": []
@@ -9306,7 +9306,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "每四项一组：\n\n$1-2-3+4=0, \\quad 5-6-7+8=0, \\quad 9-10-11+12=0$\n依此类推。$1996$ 中共有 $499$ 组四项，所以和为 0。\n\n$\\textbf{OR}$\n也可两两分组：\n\n[Figure: /question-assets/source/amc/358bb2827d6667d9aa6f858d1f23921004be90c7e5fa478c154dfed8e6796323.jpg]\n\n所以总和为 $0$。\n\n答案：$\\boxed{C}$。"
+        "solution_info": "每四项一组：\n\n$1-2-3+4=0, \\quad 5-6-7+8=0, \\quad 9-10-11+12=0$\n依此类推。$1996$ 中共有 $499$ 组四项，所以和为 0。\n\n$\\textbf{或}$\n也可两两分组：\n\n[Figure: /question-assets/source/amc/358bb2827d6667d9aa6f858d1f23921004be90c7e5fa478c154dfed8e6796323.jpg]\n\n所以总和为 $0$。\n\n答案：$\\boxed{C}$。"
       }
     ],
     "children": []
@@ -9370,7 +9370,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "第一次调整后为 $\\$ 2000+0.20(\\$ 2000)=\\$ 2400$，第二次调整后为 $\\$ 2400-0.20(\\$ 2400)=\\$ 1920$。\n\n$\\textbf{OR}$\n也可计算原工资 $\\$ 2000$ 的 $120 \\%$ 的 $80 \\%$，即 $0.80(1.20)(\\$ 2000)=\\$ 1920$。\n\n答案：$\\boxed{A}$。"
+        "solution_info": "第一次调整后为 $\\$ 2000+0.20(\\$ 2000)=\\$ 2400$，第二次调整后为 $\\$ 2400-0.20(\\$ 2400)=\\$ 1920$。\n\n$\\textbf{或}$\n也可计算原工资 $\\$ 2000$ 的 $120 \\%$ 的 $80 \\%$，即 $0.80(1.20)(\\$ 2000)=\\$ 1920$。\n\n答案：$\\boxed{A}$。"
       }
     ],
     "children": []
@@ -9402,7 +9402,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "东校有 $2000$ 的 $22 \\%$，即 $440$ 人偏爱网球；西校有 $2500$ 的 $40 \\%$，即 $1000$ 人。合计 $1440$ 人，占总数 $4500$ 的 $1440 / 4500=0.32$，即 $32 \\%$。\n\n$\\textbf{OR}$\n按加权平均也可得 $\\dfrac{2000}{4500} \\cdot 0.22+\\dfrac{2500}{4500} \\cdot 0.40=0.32$，即 $32 \\%$。\n\n答案：$\\boxed{C}$。"
+        "solution_info": "东校有 $2000$ 的 $22 \\%$，即 $440$ 人偏爱网球；西校有 $2500$ 的 $40 \\%$，即 $1000$ 人。合计 $1440$ 人，占总数 $4500$ 的 $1440 / 4500=0.32$，即 $32 \\%$。\n\n$\\textbf{或}$\n按加权平均也可得 $\\dfrac{2000}{4500} \\cdot 0.22+\\dfrac{2500}{4500} \\cdot 0.40=0.32$，即 $32 \\%$。\n\n答案：$\\boxed{C}$。"
       }
     ],
     "children": []
@@ -9530,7 +9530,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "若基金再多 $\\$ 5$，就有 $\\$ 95+\\$ 5=\\$ 100$，恰好能给每名员工多发 $\\$ 5$，所以员工有 $\\$ 100 / \\$ 5=20$ 人。原基金为 $20 \\cdot \\$ 45+\\$ 95=\\$ 995$。\n\n$\\textbf{OR}$\n也可看出剩余 $\\$ 95$ 相当于每名原本领取 $\\$ 50$ 的员工少发 $\\$ 5$，据此同样得到基金为 $(19 \\times \\$ 50)+(1 \\times \\$ 45)=$ $\\$ 995$。\n\n答案：$\\boxed{E}$。"
+        "solution_info": "若基金再多 $\\$ 5$，就有 $\\$ 95+\\$ 5=\\$ 100$，恰好能给每名员工多发 $\\$ 5$，所以员工有 $\\$ 100 / \\$ 5=20$ 人。原基金为 $20 \\cdot \\$ 45+\\$ 95=\\$ 995$。\n\n$\\textbf{或}$\n也可看出剩余 $\\$ 95$ 相当于每名原本领取 $\\$ 50$ 的员工少发 $\\$ 5$，据此同样得到基金为 $(19 \\times \\$ 50)+(1 \\times \\$ 45)=$ $\\$ 995$。\n\n答案：$\\boxed{E}$。"
       }
     ],
     "children": []
@@ -9754,7 +9754,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "两位数的 $7$ 倍数为\n\n$14,21,28, 35,42,49,56,63,70,77,84,91 \\text {, and } 98.$\n只有 $28$ 与 $91$ 的各位数字和为 $10$，两数和为 $119$。\n\n答案：$\\boxed{A}$。"
+        "solution_info": "两位数的 $7$ 倍数为\n\n$14,21,28, 35,42,49,56,63,70,77,84,91 \\text{, and } 98.$\n只有 $28$ 与 $91$ 的各位数字和为 $10$，两数和为 $119$。\n\n答案：$\\boxed{A}$。"
       }
     ],
     "children": []
@@ -10682,7 +10682,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "第一次降价后为 $10-0.2(10)=10-2=8$；第二次降价后为 $8-0.5(8)=8-4=4$。\n\n$\\textbf{OR}$\n折后价是原价的 $80 \\%$，再减半后为原价的 $40 \\%$，所以 $0.4(10)=4$。\n\n答案：$\\boxed{C}$。"
+        "solution_info": "第一次降价后为 $10-0.2(10)=10-2=8$；第二次降价后为 $8-0.5(8)=8-4=4$。\n\n$\\textbf{或}$\n折后价是原价的 $80 \\%$，再减半后为原价的 $40 \\%$，所以 $0.4(10)=4$。\n\n答案：$\\boxed{C}$。"
       }
     ],
     "children": []
@@ -11066,7 +11066,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "不接触侧面或底面的核心为 $2 \\times 2 \\times 3$，含 $12$ 个小正方体，所以所求为 $64$ 减 $12$，即 $52$。\n\n[Figure: /question-assets/source/amc/44f36537653a0506e955693dbb49e51436cf7d8f1cab048f75b459e0fad398ef.jpg]\n\n$\\textbf{OR}$\n\n[Figure: /question-assets/source/amc/7ee45ae90e4d8adbdfb18704b1e84d119a4819c65ab27107dccf338855f70e7a.jpg]\n\n答案：$\\boxed{B}$。"
+        "solution_info": "不接触侧面或底面的核心为 $2 \\times 2 \\times 3$，含 $12$ 个小正方体，所以所求为 $64$ 减 $12$，即 $52$。\n\n[Figure: /question-assets/source/amc/44f36537653a0506e955693dbb49e51436cf7d8f1cab048f75b459e0fad398ef.jpg]\n\n$\\textbf{或}$\n\n[Figure: /question-assets/source/amc/7ee45ae90e4d8adbdfb18704b1e84d119a4819c65ab27107dccf338855f70e7a.jpg]\n\n答案：$\\boxed{B}$。"
       }
     ],
     "children": []
@@ -11084,7 +11084,7 @@
     "quality": "精品",
     "question_info": {
       "raw_content": {
-        "title": "特里按三条规则生成正整数数列：小于 $10$ 时乘 $9$；大于 $9$ 且为偶数时除以 $2$；大于 $9$ 且为奇数时减 $5$。示例：$23,18,9,81,76, \\ldots$。求以 $98,49, \\ldots$ 开始的数列第 $98^{\\text {th }}$ 项。",
+        "title": "特里按三条规则生成正整数数列：小于 $10$ 时乘 $9$；大于 $9$ 且为偶数时除以 $2$；大于 $9$ 且为奇数时减 $5$。示例：$23,18,9,81,76, \\ldots$。求以 $98,49, \\ldots$ 开始的数列第 $98^{\\text{th }}$ 项。",
         "option_a": "$6$",
         "option_b": "$11$",
         "option_c": "$22$",
@@ -11098,7 +11098,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "数列为 $98,49,44,22,11,6,54,27,22, \\ldots$。前三项后循环 $(22,11,6,54,27)$ 重复。第 $98^{\\text {th }}$ 项对应循环第 5 项，即 $27$。\n\n答案：$\\boxed{D}$。"
+        "solution_info": "数列为 $98,49,44,22,11,6,54,27,22, \\ldots$。前三项后循环 $(22,11,6,54,27)$ 重复。第 $98^{\\text{th }}$ 项对应循环第 5 项，即 $27$。\n\n答案：$\\boxed{D}$。"
       }
     ],
     "children": []
@@ -11450,7 +11450,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "以 $\\text{G}$ 为底时，$\\mathrm{B}$ 成为后面，$\\mathrm{W}$ 成为前面，因此 $\\mathrm{B}$ 与 $\\mathrm{W}$ 相对。\n\n[Figure: /question-assets/source/amc/75ead0d084c398aa0c24807c69b27eb3020a740f8ea9b02326b84b61207898fb.jpg]\n\n$\\textbf{OR}$\n也可令 $\\text{Y}$ 为顶面，把 $\\text{G}, \\text{O}$ 和 $\\text{W}$ 向下折，$\\text{B}$ 成为后面，与 $\\text{W}$ 相对。\n\n[Figure: /question-assets/source/amc/5ec32c0ff20f13c8c2ecd9f8213f907091f5ddc9d67fa8c5da2ffe9adc574e12.jpg]\n\n答案：$\\boxed{A}$。"
+        "solution_info": "以 $\\text{G}$ 为底时，$\\mathrm{B}$ 成为后面，$\\mathrm{W}$ 成为前面，因此 $\\mathrm{B}$ 与 $\\mathrm{W}$ 相对。\n\n[Figure: /question-assets/source/amc/75ead0d084c398aa0c24807c69b27eb3020a740f8ea9b02326b84b61207898fb.jpg]\n\n$\\textbf{或}$\n也可令 $\\text{Y}$ 为顶面，把 $\\text{G}, \\text{O}$ 和 $\\text{W}$ 向下折，$\\text{B}$ 成为后面，与 $\\text{W}$ 相对。\n\n[Figure: /question-assets/source/amc/5ec32c0ff20f13c8c2ecd9f8213f907091f5ddc9d67fa8c5da2ffe9adc574e12.jpg]\n\n答案：$\\boxed{A}$。"
       }
     ],
     "children": []
@@ -11482,7 +11482,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "$A$ 独有 $350$ 株，$B$ 独有 $400$ 株，$C$ 独有 $250$ 株。总数为 $350+400+250+50+$ $100=1150$。\n\n[Figure: /question-assets/source/amc/baa8588702f7829f97d991ab71c33166936c58c50db72b2d88579a9905b12466.jpg]\n\n$\\textbf{OR}$\n也可将重复计算的交集减去：$500+450+350-50-100=1150$。\n\n答案：$\\boxed{C}$。"
+        "solution_info": "$A$ 独有 $350$ 株，$B$ 独有 $400$ 株，$C$ 独有 $250$ 株。总数为 $350+400+250+50+$ $100=1150$。\n\n[Figure: /question-assets/source/amc/baa8588702f7829f97d991ab71c33166936c58c50db72b2d88579a9905b12466.jpg]\n\n$\\textbf{或}$\n也可将重复计算的交集减去：$500+450+350-50-100=1150$。\n\n答案：$\\boxed{C}$。"
       }
     ],
     "children": []
@@ -11514,7 +11514,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "$\\dfrac{\\text { time not green }}{\\text { total time }}=\\dfrac{\\mathrm{R}+\\mathrm{Y}}{\\mathrm{R}+\\mathrm{Y}+\\mathrm{G}}=\\dfrac{35}{60}=\\dfrac{7}{12}.$\n$\\textbf{OR}$\n绿灯概率为 $\\dfrac{25}{60}=\\dfrac{5}{12}$，所以非绿灯概率为 $1-\\dfrac{5}{12}=\\dfrac{7}{12}$。\n\n答案：$\\boxed{E}$。"
+        "solution_info": "$\\dfrac{\\text{ time not green }}{\\text{ total time }}=\\dfrac{\\mathrm{R}+\\mathrm{Y}}{\\mathrm{R}+\\mathrm{Y}+\\mathrm{G}}=\\dfrac{35}{60}=\\dfrac{7}{12}.$\n$\\textbf{或}$\n绿灯概率为 $\\dfrac{25}{60}=\\dfrac{5}{12}$，所以非绿灯概率为 $1-\\dfrac{5}{12}=\\dfrac{7}{12}$。\n\n答案：$\\boxed{E}$。"
       }
     ],
     "children": []
@@ -11546,7 +11546,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "把 $13$ 放在中心时公共和最大，为 $13+10+1=$ $13+7+4=24$。\n\n[Figure: /question-assets/source/amc/22fdbbbfe71d996e7b4cf56262e343994a053eb0be6ce457d45311fa834a710c.jpg]\n\n$\\textbf{OR}$\n公共和的两倍等于五数总和再加中心数。中心取 $13$ 时最大，公共和为 $[10+4+1+7+2(13)] / 2=48 / 2=24$。\n\n答案：$\\boxed{D}$。"
+        "solution_info": "把 $13$ 放在中心时公共和最大，为 $13+10+1=$ $13+7+4=24$。\n\n[Figure: /question-assets/source/amc/22fdbbbfe71d996e7b4cf56262e343994a053eb0be6ce457d45311fa834a710c.jpg]\n\n$\\textbf{或}$\n公共和的两倍等于五数总和再加中心数。中心取 $13$ 时最大，公共和为 $[10+4+1+7+2(13)] / 2=48 / 2=24$。\n\n答案：$\\boxed{D}$。"
       }
     ],
     "children": []
@@ -11898,7 +11898,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "一条鱼值 $\\dfrac{2}{3}$ 条面包，而 $\\dfrac{2}{3}$ 条面包值 $\\dfrac{2}{3} \\cdot 4=\\dfrac{8}{3}=2 \\dfrac{2}{3}$ 袋米。\n\n$\\textbf{OR}$\n$\\begin{aligned} 3F &= 2B \\\\ \\frac{3}{2}F &= B = 4R \\\\ \\left(\\frac{2}{3}\\right)\\left(\\frac{3}{2}\\right) &= \\frac{2}{3}(4R) \\\\ F &= \\frac{8}{3}R = 2\\frac{2}{3}R. \\end{aligned}$\n答案：$\\boxed{D}$。"
+        "solution_info": "一条鱼值 $\\dfrac{2}{3}$ 条面包，而 $\\dfrac{2}{3}$ 条面包值 $\\dfrac{2}{3} \\cdot 4=\\dfrac{8}{3}=2 \\dfrac{2}{3}$ 袋米。\n\n$\\textbf{或}$\n$\\begin{aligned} 3F &= 2B \\\\ \\frac{3}{2}F &= B = 4R \\\\ \\left(\\frac{2}{3}\\right)\\left(\\frac{3}{2}\\right) &= \\frac{2}{3}(4R) \\\\ F &= \\frac{8}{3}R = 2\\frac{2}{3}R. \\end{aligned}$\n答案：$\\boxed{D}$。"
       }
     ],
     "children": []
@@ -12794,7 +12794,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "三角形 $\\triangle A M N$ 外有三个直角三角形，面积分别占长方形的 $\\dfrac{1}{4}, \\dfrac{1}{4}$ 和 $\\dfrac{1}{8}$，合计 $\\dfrac{5}{8}$，所以 $\\triangle A M N$ 面积为 $\\dfrac{3}{8}(72)=27$。\n\n$\\textbf{OR}$\n\n[Figure: /question-assets/source/amc/bd31679c405c59eb9f91117e6d3775f1ffc64d8adbf558e3da2b59fbeebe3bfb.jpg]\n也可设长方形边长 $2 a$、$2 b$，则 $4 a b=72$、$a b=18$。外部三个直角三角形面积为 $\\dfrac{1}{2}(2 a)(b)$、$\\dfrac{1}{2}(2 b)(a)$、$\\dfrac{1}{2}(a)(b)$，合计 $\\dfrac{5}{2}(a b)=\\dfrac{5}{2}(18)=45$，所以三角形 $A M N$ 面积 $72-45=27$。\n\n答案：$\\boxed{B}$。"
+        "solution_info": "三角形 $\\triangle A M N$ 外有三个直角三角形，面积分别占长方形的 $\\dfrac{1}{4}, \\dfrac{1}{4}$ 和 $\\dfrac{1}{8}$，合计 $\\dfrac{5}{8}$，所以 $\\triangle A M N$ 面积为 $\\dfrac{3}{8}(72)=27$。\n\n$\\textbf{或}$\n\n[Figure: /question-assets/source/amc/bd31679c405c59eb9f91117e6d3775f1ffc64d8adbf558e3da2b59fbeebe3bfb.jpg]\n也可设长方形边长 $2 a$、$2 b$，则 $4 a b=72$、$a b=18$。外部三个直角三角形面积为 $\\dfrac{1}{2}(2 a)(b)$、$\\dfrac{1}{2}(2 b)(a)$、$\\dfrac{1}{2}(a)(b)$，合计 $\\dfrac{5}{2}(a b)=\\dfrac{5}{2}(18)=45$，所以三角形 $A M N$ 面积 $72-45=27$。\n\n答案：$\\boxed{B}$。"
       }
     ],
     "children": []
@@ -12954,7 +12954,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "用 $d=r t$：$1088$ 英尺/秒 $\\times 10$ 秒 $=10880$ 英尺，只比 2 英里多 $320$ 英尺，约为 2 英里。\n\n$\\textbf{OR}$\n估算时把声速取 $1000$、一英里取 $5000$，每英里需 $5000 \\div 1000=5$ 秒，$10$ 秒约传播 $2$ 英里。\n\n答案：$\\boxed{C}$。"
+        "solution_info": "用 $d=r t$：$1088$ 英尺/秒 $\\times 10$ 秒 $=10880$ 英尺，只比 2 英里多 $320$ 英尺，约为 2 英里。\n\n$\\textbf{或}$\n估算时把声速取 $1000$、一英里取 $5000$，每英里需 $5000 \\div 1000=5$ 秒，$10$ 秒约传播 $2$ 英里。\n\n答案：$\\boxed{C}$。"
       }
     ],
     "children": []
@@ -13018,7 +13018,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "上方两个三角形可拼成 $2 \\times 3$ 长方形，下方两个可拼成 $5 \\times 3$ 长方形，总面积 $6+15=21$。\n\n[Figure: /question-assets/source/amc/63e288d3a05e56bb65a9ebf31fa83c182f9ef66a35f47cf13ffd03e1619ca2e0.jpg]\n\n$\\textbf{OR}$\n也可分成两个底 $7$、高 $3$ 的三角形，每个面积 $(1 / 2)(7)(3)=10.5$，总面积 $2(10.5)=21$。\n\n[Figure: /question-assets/source/amc/7afb0925d1c14981ce2919cfe48b653a52c1f8005a636ca0c252784cc86ac589.jpg]\n\n答案：$\\boxed{A}$。"
+        "solution_info": "上方两个三角形可拼成 $2 \\times 3$ 长方形，下方两个可拼成 $5 \\times 3$ 长方形，总面积 $6+15=21$。\n\n[Figure: /question-assets/source/amc/63e288d3a05e56bb65a9ebf31fa83c182f9ef66a35f47cf13ffd03e1619ca2e0.jpg]\n\n$\\textbf{或}$\n也可分成两个底 $7$、高 $3$ 的三角形，每个面积 $(1 / 2)(7)(3)=10.5$，总面积 $2(10.5)=21$。\n\n[Figure: /question-assets/source/amc/7afb0925d1c14981ce2919cfe48b653a52c1f8005a636ca0c252784cc86ac589.jpg]\n\n答案：$\\boxed{A}$。"
       }
     ],
     "children": []
@@ -13082,7 +13082,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "上角可拼成 $6 \\times 9$ 长方形，下角可拼成 $15 \\times 9$ 长方形，废料总面积 $54+135=189$。\n\n[Figure: /question-assets/source/amc/4affe22fa5e4ead086b7a293ab946d1d6042600dbaa2041ed9d644b124e5317f.jpg]\n\n$\\textbf{OR}$\n也可利用面积随长、宽各放大 3 倍而放大 $3 \\times 3=9$ 倍，得到 $21 \\times 9=189$。\n\n答案：$\\boxed{D}$。"
+        "solution_info": "上角可拼成 $6 \\times 9$ 长方形，下角可拼成 $15 \\times 9$ 长方形，废料总面积 $54+135=189$。\n\n[Figure: /question-assets/source/amc/4affe22fa5e4ead086b7a293ab946d1d6042600dbaa2041ed9d644b124e5317f.jpg]\n\n$\\textbf{或}$\n也可利用面积随长、宽各放大 3 倍而放大 $3 \\times 3=9$ 倍，得到 $21 \\times 9=189$。\n\n答案：$\\boxed{D}$。"
       }
     ],
     "children": []
@@ -13146,7 +13146,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "下部是 $6 \\times 2$ 长方形，面积 $12$；上部三角形底 $6$、高 $2$，面积 $6$，总面积 $12+6=18$。\n\n[Figure: /question-assets/source/amc/001982a450a38c51441d346047f47c08346f74b9d41e75e71a4654e261cbf8cd.jpg]\n\n$\\textbf{OR}$\n也可把 $A B C D$ 看作上下底 $2$、$4$、高 $6$ 的梯形，面积 $A=\\dfrac{h\\left(b_{1}+b_{2}\\right)}{2}, \\text { the area is } \\dfrac{6(2+4)}{2}=18.$。\n\n答案：$\\boxed{C}$。"
+        "solution_info": "下部是 $6 \\times 2$ 长方形，面积 $12$；上部三角形底 $6$、高 $2$，面积 $6$，总面积 $12+6=18$。\n\n[Figure: /question-assets/source/amc/001982a450a38c51441d346047f47c08346f74b9d41e75e71a4654e261cbf8cd.jpg]\n\n$\\textbf{或}$\n也可把 $A B C D$ 看作上下底 $2$、$4$、高 $6$ 的梯形，面积 $A=\\dfrac{h\\left(b_{1}+b_{2}\\right)}{2}, \\text{ the area is } \\dfrac{6(2+4)}{2}=18.$。\n\n答案：$\\boxed{C}$。"
       }
     ],
     "children": []
@@ -13338,7 +13338,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "从 $a$ 增至 $b$ 的百分比为 $\\dfrac{b-a}{a}(100 \\%)$。例如前两题增幅 $\\dfrac{200-100}{100}(100 \\%)=100 \\%$。奖金翻倍时增幅 $100 \\%$；例外中，第 $2$ 到 $3$ 题增幅 $(50\\%)$ 最小，所以选 $(B)$。\n\n$\\textbf{OR}$\n\n[Figure: /question-assets/source/amc/bf737ad91903ee850dbf2faa5defd66ac094550960209683ce3006497255d9b8.jpg]\n\n答案：$\\boxed{B}$。"
+        "solution_info": "从 $a$ 增至 $b$ 的百分比为 $\\dfrac{b-a}{a}(100 \\%)$。例如前两题增幅 $\\dfrac{200-100}{100}(100 \\%)=100 \\%$。奖金翻倍时增幅 $100 \\%$；例外中，第 $2$ 到 $3$ 题增幅 $(50\\%)$ 最小，所以选 $(B)$。\n\n$\\textbf{或}$\n\n[Figure: /question-assets/source/amc/bf737ad91903ee850dbf2faa5defd66ac094550960209683ce3006497255d9b8.jpg]\n\n答案：$\\boxed{B}$。"
       }
     ],
     "children": []
@@ -13530,7 +13530,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "共有四类互不全等三角形。\n\n[Figure: /question-assets/source/amc/dc4673b3bbd021571177f8beb1801358b9e4f121963fe93e29f0dc8273a9f68d.jpg]\n\n$\\textbf{OR}$\n17 个可能三角形可分为四个全等类别：\n\n$\\{first\\}; \\{RXY, XTZ, YZS, XYZ\\}; \\{RXS, TXS, RZS, RZT, TYR, TYS\\}; \\{RXZ, RYZ, TXY, TZY, XYS, XZS\\}$\n答案：$\\boxed{D}$。"
+        "solution_info": "共有四类互不全等三角形。\n\n[Figure: /question-assets/source/amc/dc4673b3bbd021571177f8beb1801358b9e4f121963fe93e29f0dc8273a9f68d.jpg]\n\n$\\textbf{或}$\n17 个可能三角形可分为四个全等类别：\n\n$\\{first\\}; \\{RXY, XTZ, YZS, XYZ\\}; \\{RXS, TXS, RZS, RZT, TYR, TYS\\}; \\{RXZ, RYZ, TXY, TZY, XYS, XZS\\}$\n答案：$\\boxed{D}$。"
       }
     ],
     "children": []
@@ -13946,7 +13946,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "从第一到第二增加 $3$，第二到第三增加 $5$，之后继续增加奇数：第四增加 $7$、第五 $9$、第六 $11$、第七 $13$。\n\n$\\textbf{OR}$\n也可计算 $7^{2}-6^{2}=49-36=13$。\n\n答案：$\\boxed{C}$。"
+        "solution_info": "从第一到第二增加 $3$，第二到第三增加 $5$，之后继续增加奇数：第四增加 $7$、第五 $9$、第六 $11$、第七 $13$。\n\n$\\textbf{或}$\n也可计算 $7^{2}-6^{2}=49-36=13$。\n\n答案：$\\boxed{C}$。"
       }
     ],
     "children": []
@@ -14106,7 +14106,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "各面积为 $W=\\dfrac{1}{2}(3)(4)=6, X=\\dfrac{1}{2}(3)(3)=4 \\dfrac{1}{2}, Y=\\dfrac{1}{2}(4)(4)=8$ 和 $Z=\\dfrac{1}{2}(5)(5)=12 \\dfrac{1}{2}$，所以 $(E)$ 正确：$X+Y=4 \\dfrac{1}{2}+8=12 \\dfrac{1}{2}=Z$。\n\n$\\textbf{OR}$\n由勾股定理也有 $2 X+2 Y=2 Z$，即 $X+Y=Z$。\n\n答案：$\\boxed{E}$。"
+        "solution_info": "各面积为 $W=\\dfrac{1}{2}(3)(4)=6, X=\\dfrac{1}{2}(3)(3)=4 \\dfrac{1}{2}, Y=\\dfrac{1}{2}(4)(4)=8$ 和 $Z=\\dfrac{1}{2}(5)(5)=12 \\dfrac{1}{2}$，所以 $(E)$ 正确：$X+Y=4 \\dfrac{1}{2}+8=12 \\dfrac{1}{2}=Z$。\n\n$\\textbf{或}$\n由勾股定理也有 $2 X+2 Y=2 Z$，即 $X+Y=Z$。\n\n答案：$\\boxed{E}$。"
       }
     ],
     "children": []
@@ -14298,7 +14298,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "从上、下看各有 $4$ 个面，从左、右各 $4$ 个，从前、后各 $5$ 个，总计 $4+4+4+4+5+5=26$。\n\n$\\textbf{OR}$\n也可从原有 $6 \\times 6=36$ 个面中减去五对粘合面 $5 \\times 2=10$，剩 $36-10=26$。\n\n答案：$\\boxed{C}$。"
+        "solution_info": "从上、下看各有 $4$ 个面，从左、右各 $4$ 个，从前、后各 $5$ 个，总计 $4+4+4+4+5+5=26$。\n\n$\\textbf{或}$\n也可从原有 $6 \\times 6=36$ 个面中减去五对粘合面 $5 \\times 2=10$，剩 $36-10=26$。\n\n答案：$\\boxed{C}$。"
       }
     ],
     "children": []
@@ -14490,7 +14490,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "填充物占 $\\dfrac{30}{120}=25 \\%$，所以非填充物占 $100 \\%-25 \\%=75 \\%$。\n\n$\\textbf{OR}$\n也可算非填充物 $120-30=90$ 克，占 $\\dfrac{90}{120}=75 \\%$。\n\n答案：$\\boxed{D}$。"
+        "solution_info": "填充物占 $\\dfrac{30}{120}=25 \\%$，所以非填充物占 $100 \\%-25 \\%=75 \\%$。\n\n$\\textbf{或}$\n也可算非填充物 $120-30=90$ 克，占 $\\dfrac{90}{120}=75 \\%$。\n\n答案：$\\boxed{D}$。"
       }
     ],
     "children": []
@@ -14554,7 +14554,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "该数为 $60$，其 $30 \\%$ 为 $0.30 \\times 60=18$。\n\n$\\textbf{OR}$\n也可由 $20 \\%$ 对应 $12$，推出 $10 \\%$ 对应 $6$，故 $30 \\%$ 对应 $18$。\n\n答案：$\\boxed{B}$。"
+        "solution_info": "该数为 $60$，其 $30 \\%$ 为 $0.30 \\times 60=18$。\n\n$\\textbf{或}$\n也可由 $20 \\%$ 对应 $12$，推出 $10 \\%$ 对应 $6$，故 $30 \\%$ 对应 $18$。\n\n答案：$\\boxed{B}$。"
       }
     ],
     "children": []
@@ -14618,7 +14618,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "珍妮总分比布莱克多 $10-10+20+20=40$，所以平均分高 $10$。\n\n$\\textbf{OR}$\n也可直接把总差 $10-10+$ $20+20=40$ 除以 4，得 $\\dfrac{40}{4}=10$。\n\n答案：$\\boxed{A}$。"
+        "solution_info": "珍妮总分比布莱克多 $10-10+20+20=40$，所以平均分高 $10$。\n\n$\\textbf{或}$\n也可直接把总差 $10-10+$ $20+20=40$ 除以 4，得 $\\dfrac{40}{4}=10$。\n\n答案：$\\boxed{A}$。"
       }
     ],
     "children": []
@@ -15258,7 +15258,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "用 $2,0,0$、$4$ 组成四位数，千位只能是 $2$ 或 $4$。三个位置可放其他非零数字，无论是 $4$ 还是 $2$。最终答案为 $6$。\n\n$\\textbf{OR}$ 列举：$2004,2040,2400,4002,4020$ 和 $4200$。共 $6$ 个。\n\n答案：$\\boxed{B}$。"
+        "solution_info": "用 $2,0,0$、$4$ 组成四位数，千位只能是 $2$ 或 $4$。三个位置可放其他非零数字，无论是 $4$ 还是 $2$。最终答案为 $6$。\n\n$\\textbf{或}$ 列举：$2004,2040,2400,4002,4020$ 和 $4200$。共 $6$ 个。\n\n答案：$\\boxed{B}$。"
       }
     ],
     "children": []
@@ -15290,7 +15290,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "若 $12$ 人点的食物足够 $\\dfrac{18}{12}=1 \\dfrac{1}{2}$ 人食用，应点 $\\dfrac{12}{\\dfrac{3}{2}}=\\dfrac{2}{3} \\times 12=8$ 份饭。\n\n$\\textbf{OR}$ 设应点 $x$ 份饭，则\n\n$\\dfrac{12}{18}=\\dfrac{x}{12},$\n\n所以 $x=8.$\n\n答案：$\\boxed{A}$。"
+        "solution_info": "若 $12$ 人点的食物足够 $\\dfrac{18}{12}=1 \\dfrac{1}{2}$ 人食用，应点 $\\dfrac{12}{\\dfrac{3}{2}}=\\dfrac{2}{3} \\times 12=8$ 份饭。\n\n$\\textbf{或}$ 设应点 $x$ 份饭，则\n\n$\\dfrac{12}{18}=\\dfrac{x}{12},$\n\n所以 $x=8.$\n\n答案：$\\boxed{A}$。"
       }
     ],
     "children": []
@@ -15578,7 +15578,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "手机通话 $60$ 分钟，即 $1$ 小时，消耗 $\\dfrac{1}{3}$ 的电池。手机开启 $8$ 小时未通话，又消耗 $\\dfrac{8}{24}$ 即 $\\dfrac{1}{3}$ 的电池。总共消耗 $\\dfrac{1}{3}+\\dfrac{1}{3}=\\dfrac{2}{3}$，剩余 $\\dfrac{1}{3}$ 的电池，即 $\\dfrac{1}{3} \\times 24=8$ 小时。\n\n$\\textbf{OR}$ 手机共有 $24$ 小时电池寿命。通话一小时消耗 $\\dfrac{1}{3} \\times 24=8$ 小时。手机开启 $8$ 小时未使用消耗 $8$ 小时。若不通话但开启，剩余 $24-8-8=8$ 小时。\n\n答案：$\\boxed{B}$。"
+        "solution_info": "手机通话 $60$ 分钟，即 $1$ 小时，消耗 $\\dfrac{1}{3}$ 的电池。手机开启 $8$ 小时未通话，又消耗 $\\dfrac{8}{24}$ 即 $\\dfrac{1}{3}$ 的电池。总共消耗 $\\dfrac{1}{3}+\\dfrac{1}{3}=\\dfrac{2}{3}$，剩余 $\\dfrac{1}{3}$ 的电池，即 $\\dfrac{1}{3} \\times 24=8$ 小时。\n\n$\\textbf{或}$ 手机共有 $24$ 小时电池寿命。通话一小时消耗 $\\dfrac{1}{3} \\times 24=8$ 小时。手机开启 $8$ 小时未使用消耗 $8$ 小时。若不通话但开启，剩余 $24-8-8=8$ 小时。\n\n答案：$\\boxed{B}$。"
       }
     ],
     "children": []
@@ -15610,7 +15610,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "比尔非最大，否则前两个陈述均真。塞琳非最大，否则后两个陈述均真。故艾米最大。前两个陈述为假，最后一个为真。塞琳非最小，故比尔最小。顺序：艾米、塞琳、比尔。\n\n$\\textbf{OR}$ 三个陈述的可能情况为\n\n$\\begin{array}{cccc} & I & II & III \\\\ \\hline 1 & T & F & F \\\\ 2 & F & T & F \\\\ 3 & F & F & T \\\\ \\end{array}$ 情况 $1$ 导致陈述 $I$ 和 $II$ 矛盾。\n\n情况 $2$ 意味塞琳最小但比尔艾米中必有一个最大。\n\n仅情况 $3$ 可能。顺序：艾米、塞琳、比尔。\n\n答案：$\\boxed{E}$。"
+        "solution_info": "比尔非最大，否则前两个陈述均真。塞琳非最大，否则后两个陈述均真。故艾米最大。前两个陈述为假，最后一个为真。塞琳非最小，故比尔最小。顺序：艾米、塞琳、比尔。\n\n$\\textbf{或}$ 三个陈述的可能情况为\n\n$\\begin{array}{cccc} & I & II & III \\\\ \\hline 1 & T & F & F \\\\ 2 & F & T & F \\\\ 3 & F & F & T \\\\ \\end{array}$ 情况 $1$ 导致陈述 $I$ 和 $II$ 矛盾。\n\n情况 $2$ 意味塞琳最小但比尔艾米中必有一个最大。\n\n仅情况 $3$ 可能。顺序：艾米、塞琳、比尔。\n\n答案：$\\boxed{E}$。"
       }
     ],
     "children": []
@@ -15642,7 +15642,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "为求面积，从外围正方形面积减去区域 $A, B, C, D$ 和 $E$ 的面积。\n\n正方形：$10 \\times 10=100$。\n\n区域 $A$：$3 \\times 5=15$。\n\n区域 $B$：$\\dfrac{1}{2} \\times 6 \\times 7=21$。\n\n区域 $C$：$\\dfrac{1}{2} \\times 1 \\times 3=1 \\dfrac{1}{2}$。\n\n区域 $D$：$\\dfrac{1}{2} \\times 4 \\times 5=10$。\n\n区域 $E$：$\\dfrac{1}{2} \\times 6 \\times 10=30$。\n\n[Figure: /question-assets/source/amc/5593258d891c03b49885887e327ae4f55b0a80b8fa388ab12243a04f667b4bff.jpg]\n\n面积为 $100-\\left(15+21+1 \\dfrac{1}{2}+10+30\\right)=100-77 \\dfrac{1}{2}=22 \\dfrac{1}{2}$ 平方单位。\n\n$\\textbf{OR}$ 根据皮克定理，顶点在格点的多边形面积为\n\n$\\text { (number of points inside) }+\\dfrac{\\text { number of points on boundary }}{2}-1.$\n此例中，面积为 $21+\\dfrac{5}{2}-1=22 \\dfrac{1}{2}$。\n\n答案：$\\boxed{C}$。"
+        "solution_info": "为求面积，从外围正方形面积减去区域 $A, B, C, D$ 和 $E$ 的面积。\n\n正方形：$10 \\times 10=100$。\n\n区域 $A$：$3 \\times 5=15$。\n\n区域 $B$：$\\dfrac{1}{2} \\times 6 \\times 7=21$。\n\n区域 $C$：$\\dfrac{1}{2} \\times 1 \\times 3=1 \\dfrac{1}{2}$。\n\n区域 $D$：$\\dfrac{1}{2} \\times 4 \\times 5=10$。\n\n区域 $E$：$\\dfrac{1}{2} \\times 6 \\times 10=30$。\n\n[Figure: /question-assets/source/amc/5593258d891c03b49885887e327ae4f55b0a80b8fa388ab12243a04f667b4bff.jpg]\n\n面积为 $100-\\left(15+21+1 \\dfrac{1}{2}+10+30\\right)=100-77 \\dfrac{1}{2}=22 \\dfrac{1}{2}$ 平方单位。\n\n$\\textbf{或}$ 根据皮克定理，顶点在格点的多边形面积为\n\n$\\text{ (number of points inside) }+\\dfrac{\\text{ number of points on boundary }}{2}-1.$\n此例中，面积为 $21+\\dfrac{5}{2}-1=22 \\dfrac{1}{2}$。\n\n答案：$\\boxed{C}$。"
       }
     ],
     "children": []
@@ -15738,7 +15738,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "任何人最多四支。有 $3$ 种方式：$(4,1,1)$、$(1,4,1)$ 和 $(1,1,4)$。有 $6$ 种方式一人有 $3$ 支：$(3,2,1)$、$(3,1,2)$、$(2,3,1)$、$(2,1,3)$、$(1,2,3)$ 和 $(1,3,2)$。三人各两支只有 $(2,2,2)$ 种。总共 $3+6+1=10$ 种。\n\n$\\textbf{OR}$ 将 $6$ 支铅笔分配给 $3$ 个朋友的可能分配为：\n\n$\\begin{array}{ccc} 1 & 1 & 4 \\\\ 1 & 2 & 3 \\\\ 1 & 3 & 2 \\\\ 1 & 4 & 1 \\\\ 2 & 1 & 3 \\\\ 2 & 2 & 2 \\\\ 2 & 3 & 1 \\\\ 3 & 1 & 2 \\\\ 3 & 2 & 1 \\\\ 4 & 1 & 1 \\\\ \\end{array}$\n共 $10$ 种。\n\n答案：$\\boxed{D}$。"
+        "solution_info": "任何人最多四支。有 $3$ 种方式：$(4,1,1)$、$(1,4,1)$ 和 $(1,1,4)$。有 $6$ 种方式一人有 $3$ 支：$(3,2,1)$、$(3,1,2)$、$(2,3,1)$、$(2,1,3)$、$(1,2,3)$ 和 $(1,3,2)$。三人各两支只有 $(2,2,2)$ 种。总共 $3+6+1=10$ 种。\n\n$\\textbf{或}$ 将 $6$ 支铅笔分配给 $3$ 个朋友的可能分配为：\n\n$\\begin{array}{ccc} 1 & 1 & 4 \\\\ 1 & 2 & 3 \\\\ 1 & 3 & 2 \\\\ 1 & 4 & 1 \\\\ 2 & 1 & 3 \\\\ 2 & 2 & 2 \\\\ 2 & 3 & 1 \\\\ 3 & 1 & 2 \\\\ 3 & 2 & 1 \\\\ 4 & 1 & 1 \\\\ \\end{array}$\n共 $10$ 种。\n\n答案：$\\boxed{D}$。"
       }
     ],
     "children": []
@@ -15770,7 +15770,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "本必击 $1$ 和 $3$。辛迪必击 $5$ 和 $2$，因得分 $7$ 用两个不同数字，都非 $1$ 或 $3$。类似推理，爱丽丝击 $10$ 和 $6$，戴夫击 $7$ 和 $4$，埃伦击 $9$ 和 $8$。爱丽丝击 $6$。\n\n$\\textbf{OR}$ 埃伦得分可由 $10+7$ 或 $9+8$ 得到。若前者，爱丽丝不可能得 $16$。故埃伦 $17$ 由 $9$ 和 $8$ 得，爱丽丝 $16$ 由击 $10$ 和 $6$ 得。其他人得 $11=7+4,7=5+2$ 和 $4=3+1$。\n\n答案：$\\boxed{A}$。"
+        "solution_info": "本必击 $1$ 和 $3$。辛迪必击 $5$ 和 $2$，因得分 $7$ 用两个不同数字，都非 $1$ 或 $3$。类似推理，爱丽丝击 $10$ 和 $6$，戴夫击 $7$ 和 $4$，埃伦击 $9$ 和 $8$。爱丽丝击 $6$。\n\n$\\textbf{或}$ 埃伦得分可由 $10+7$ 或 $9+8$ 得到。若前者，爱丽丝不可能得 $16$。故埃伦 $17$ 由 $9$ 和 $8$ 得，爱丽丝 $16$ 由击 $10$ 和 $6$ 得。其他人得 $11=7+4,7=5+2$ 和 $4=3+1$。\n\n答案：$\\boxed{A}$。"
       }
     ],
     "children": []
@@ -15802,7 +15802,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "除以 $2$ 和 $4$ 时余 $5$ 的数为 $22,42,62$ 等。检验这些除以 $2$ 和 $3$ 都余 $6$，最小为 $62$。\n\n$\\textbf{OR}$ 被 $3,4,5$ 和 $6$ 整除的最小数为 $\\operatorname{LCM}\\{3,4,5,6\\}=2^{2} \\times 3 \\times 5=60$。故大于 $2$ 且除以 $2$ 和 $3,4,5$ 都余 $6$ 的最小数为 $62$。\n\n答案：$\\boxed{B}$。"
+        "solution_info": "除以 $2$ 和 $4$ 时余 $5$ 的数为 $22,42,62$ 等。检验这些除以 $2$ 和 $3$ 都余 $6$，最小为 $62$。\n\n$\\textbf{或}$ 被 $3,4,5$ 和 $6$ 整除的最小数为 $\\operatorname{LCM}\\{3,4,5,6\\}=2^{2} \\times 3 \\times 5=60$。故大于 $2$ 且除以 $2$ 和 $3,4,5$ 都余 $6$ 的最小数为 $62$。\n\n答案：$\\boxed{B}$。"
       }
     ],
     "children": []
@@ -15834,7 +15834,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "$6$ 张空椅子是房间椅子的 $\\dfrac{1}{4}$，故共有 $6 \\times 4=24$ 张椅子。坐着的人数为 $\\left(\\dfrac{3}{4}\\right) 24=18$，这是 $\\dfrac{2}{3}$ 的人数。因此\n\n$\\dfrac{18}{\\text { people present }}=\\dfrac{2}{3}.$ 房间里有 $27$ 人。\n\n答案：$\\boxed{D}$。"
+        "solution_info": "$6$ 张空椅子是房间椅子的 $\\dfrac{1}{4}$，故共有 $6 \\times 4=24$ 张椅子。坐着的人数为 $\\left(\\dfrac{3}{4}\\right) 24=18$，这是 $\\dfrac{2}{3}$ 的人数。因此\n\n$\\dfrac{18}{\\text{ people present }}=\\dfrac{2}{3}.$ 房间里有 $27$ 人。\n\n答案：$\\boxed{D}$。"
       }
     ],
     "children": []
@@ -15866,7 +15866,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "十二种结果中八种乘积为偶：$1 \\times 2,2 \\times 1,2 \\times 2$、$2 \\times 3,3 \\times 2,4 \\times 1,4 \\times 2,4 \\times 3$。十二种中四种乘积为奇：$1 \\times 1$、$1 \\times 3,3 \\times 1,3 \\times 3$。故乘积为偶的概率为 $\\dfrac{8}{12}$ 或 $\\dfrac{2}{3}$。\n\n$\\textbf{OR}$ 奇数乘积，两次转都须为奇。转盘 $A$ 上奇数概率 $\\dfrac{1}{2}$，转盘 $B$ 上 $\\dfrac{2}{3}$。故奇数乘积概率 $\\left(\\dfrac{1}{2}\\right)\\left(\\dfrac{2}{3}\\right)=\\dfrac{1}{3}$。偶数乘积概率 $1-\\dfrac{1}{3}=\\dfrac{2}{3}$。\n\n答案：$\\boxed{D}$。"
+        "solution_info": "十二种结果中八种乘积为偶：$1 \\times 2,2 \\times 1,2 \\times 2$、$2 \\times 3,3 \\times 2,4 \\times 1,4 \\times 2,4 \\times 3$。十二种中四种乘积为奇：$1 \\times 1$、$1 \\times 3,3 \\times 1,3 \\times 3$。故乘积为偶的概率为 $\\dfrac{8}{12}$ 或 $\\dfrac{2}{3}$。\n\n$\\textbf{或}$ 奇数乘积，两次转都须为奇。转盘 $A$ 上奇数概率 $\\dfrac{1}{2}$，转盘 $B$ 上 $\\dfrac{2}{3}$。故奇数乘积概率 $\\left(\\dfrac{1}{2}\\right)\\left(\\dfrac{2}{3}\\right)=\\dfrac{1}{3}$。偶数乘积概率 $1-\\dfrac{1}{3}=\\dfrac{2}{3}$。\n\n答案：$\\boxed{D}$。"
       }
     ],
     "children": []
@@ -16058,7 +16058,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "卡尔花费$5 \\times \\$ 2.50=\\$ 12.50$购买这些文件夹。如果他在一天后购买，他将节省这个总数的$20 \\%$，即$0.20 \\times \\$ 12.50=\\$ 2.50$。\n\n$\\textbf{OR}$\n卡尔在$20 \\%$打折促销时可以以四个文件夹的价格购买五个，所以他可以省$\\$ 2.50$。\n\n答案：$\\boxed{C}$。"
+        "solution_info": "卡尔花费$5 \\times \\$ 2.50=\\$ 12.50$购买这些文件夹。如果他在一天后购买，他将节省这个总数的$20 \\%$，即$0.20 \\times \\$ 12.50=\\$ 2.50$。\n\n$\\textbf{或}$\n卡尔在$20 \\%$打折促销时可以以四个文件夹的价格购买五个，所以他可以省$\\$ 2.50$。\n\n答案：$\\boxed{C}$。"
       }
     ],
     "children": []
@@ -16250,7 +16250,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "为了检验可能的答案，选择最简单的奇数$m$和$n$。如果$m=n=1$，那么\n\n$m+3 n=4, \\quad 3 m-n=2, \\quad 3 m^{2}+3 n^{2}=6, \\quad(m n+3)^{2}=16 \\text{ and } 3 m n=3.$\n这说明当$m$和$n$是奇数时，$(A)$、$(B)$、$(C)$和$(D)$可以是偶数。另一方面，因为奇数的乘积总是奇数，所以当$m$和$n$是奇数时，$3 \\mathrm{mn}$总是奇数。\n\n问题：当$m$和$n$是奇数时，哪些表达式总是偶数？当$m$和$n$都是偶数时会怎样？一个是偶数，另一个是奇数时呢？\n\n答案：$\\boxed{E}$。"
+        "solution_info": "为了检验可能的答案，选择最简单的奇数$m$和$n$。如果$m=n=1$，那么\n\n$m+3 n=4, \\quad 3 m-n=2, \\quad 3 m^{2}+3 n^{2}=6, \\quad(m n+3)^{2}=16 \\text{ 和 } 3 m n=3.$\n这说明当$m$和$n$是奇数时，$(A)$、$(B)$、$(C)$和$(D)$可以是偶数。另一方面，因为奇数的乘积总是奇数，所以当$m$和$n$是奇数时，$3 \\mathrm{mn}$总是奇数。\n\n问题：当$m$和$n$是奇数时，哪些表达式总是偶数？当$m$和$n$都是偶数时会怎样？一个是偶数，另一个是奇数时呢？\n\n答案：$\\boxed{E}$。"
       }
     ],
     "children": []
@@ -16378,7 +16378,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "你可以通过猜测和检查来解决这个问题。如果大个子艾尔在5月$1$日吃了$10$根香蕉，那么他将吃掉$10+16+22+28+34=110$根香蕉。这比实际多了$10$根，所以他实际上每天吃的香蕉少$2$根。因此，大个子艾尔在5月$1$日吃了$8$根香蕉，在5月$5$日吃了$32$根香蕉。\n\n$\\textbf{OR}$\n每天吃的香蕉平均数是$\\dfrac{100}{5}=20$。因为连续日期的香蕉数相差$6$，并且有奇数天，所以平均值也是中位数。因此，他每天吃的平均香蕉数$20$等于他在5月$3$日吃的香蕉数。所以在5月$5$日大个子艾尔吃了$20+12=32$根香蕉。\n\n$\\textbf{OR}$\n设大个子艾尔在5月$5$日吃了$x$根香蕉。下面的表格记录了他五天的香蕉摄入量。\n\n$\\begin{array}{|c|c|c|c|c|} \\hline \\text{May 5} & \\text{May 4} & \\text{May 3} & \\text{May 2} & \\text{May 1} \\\\ \\hline x & x - 6 & x - 12 & x - 18 & x - 24 \\\\ \\hline \\end{array}$\n大个子艾尔吃的香蕉总数是$5 x-60$，必须是$100$。所以大个子艾尔在5月$5$日吃了$x=\\dfrac{160}{5}=32$根香蕉。\n\n答案：$\\boxed{D}$。"
+        "solution_info": "你可以通过猜测和检查来解决这个问题。如果大个子艾尔在5月$1$日吃了$10$根香蕉，那么他将吃掉$10+16+22+28+34=110$根香蕉。这比实际多了$10$根，所以他实际上每天吃的香蕉少$2$根。因此，大个子艾尔在5月$1$日吃了$8$根香蕉，在5月$5$日吃了$32$根香蕉。\n\n$\\textbf{或}$\n每天吃的香蕉平均数是$\\dfrac{100}{5}=20$。因为连续日期的香蕉数相差$6$，并且有奇数天，所以平均值也是中位数。因此，他每天吃的平均香蕉数$20$等于他在5月$3$日吃的香蕉数。所以在5月$5$日大个子艾尔吃了$20+12=32$根香蕉。\n\n$\\textbf{或}$\n设大个子艾尔在5月$5$日吃了$x$根香蕉。下面的表格记录了他五天的香蕉摄入量。\n\n$\\begin{array}{|c|c|c|c|c|} \\hline \\text{May 5} & \\text{May 4} & \\text{May 3} & \\text{May 2} & \\text{May 1} \\\\ \\hline x & x - 6 & x - 12 & x - 18 & x - 24 \\\\ \\hline \\end{array}$\n大个子艾尔吃的香蕉总数是$5 x-60$，必须是$100$。所以大个子艾尔在5月$5$日吃了$x=\\dfrac{160}{5}=32$根香蕉。\n\n答案：$\\boxed{D}$。"
       }
     ],
     "children": []
@@ -16538,7 +16538,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "伊夫琳在比布里亚娜、黛布拉和安吉拉更短的时间内覆盖了更多距离，所以她的平均速度大于他们任何人的平均速度。伊夫琳走的距离几乎和卡拉一样远，但花费的时间不到卡拉的一半，所以伊夫琳的平均速度也大于卡拉的。\n\n$\\textbf{OR}$\n距离与时间的比率，即平均速度，由从原点到图表中每位跑步者点的直线的斜率表示。因此，从原点出发斜率最大的直线对应于平均速度最快的跑步者。因为伊夫琳的直线斜率最大，她的平均速度最快。\n\n答案：$\\boxed{E}$。"
+        "solution_info": "伊夫琳在比布里亚娜、黛布拉和安吉拉更短的时间内覆盖了更多距离，所以她的平均速度大于他们任何人的平均速度。伊夫琳走的距离几乎和卡拉一样远，但花费的时间不到卡拉的一半，所以伊夫琳的平均速度也大于卡拉的。\n\n$\\textbf{或}$\n距离与时间的比率，即平均速度，由从原点到图表中每位跑步者点的直线的斜率表示。因此，从原点出发斜率最大的直线对应于平均速度最快的跑步者。因为伊夫琳的直线斜率最大，她的平均速度最快。\n\n答案：$\\boxed{E}$。"
       }
     ],
     "children": []
@@ -16570,7 +16570,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "最小的能被$13$整除的三位数是$13 \\times 8=104$，所以有七个能被$13$整除的两位数。最大的能被$13$整除的三位数是$13 \\times 76=988$。因此，有$76-7=69$个三位数能被$13$整除。\n\n$\\textbf{OR}$\n因为$\\dfrac{999}{13}$的整数部分是$76$，所以有$76$个不超过$999$的$13$的倍数。因为$\\dfrac{99}{13}$的整数部分是$7$，所以有$7$个不超过$99$的$13$的倍数。这意味着在$100$到$999$之间有$76-7=69$个$13$的倍数。\n\n答案：$\\boxed{C}$。"
+        "solution_info": "最小的能被$13$整除的三位数是$13 \\times 8=104$，所以有七个能被$13$整除的两位数。最大的能被$13$整除的三位数是$13 \\times 76=988$。因此，有$76-7=69$个三位数能被$13$整除。\n\n$\\textbf{或}$\n因为$\\dfrac{999}{13}$的整数部分是$76$，所以有$76$个不超过$999$的$13$的倍数。因为$\\dfrac{99}{13}$的整数部分是$7$，所以有$7$个不超过$99$的$13$的倍数。这意味着在$100$到$999$之间有$76-7=69$个$13$的倍数。\n\n答案：$\\boxed{C}$。"
       }
     ],
     "children": []
@@ -16634,7 +16634,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "写出爱丽丝和鲍勃在每次移动后停留的点并比较。\n\n$\\begin{array}{|c|c|c|c|c|c|c|c|} \\hline \\text{Move} & 0 & 1 & 2 & 3 & 4 & 5 & 6 \\\\ \\hline \\text{Alice} & 12 & 5 & 10 & 3 & 8 & 1 & 6 \\\\ \\text{Bob} & 12 & 3 & 6 & 9 & 12 & 3 & 6 \\\\ \\hline \\end{array}$\n所以爱丽丝和鲍勃将在六次移动后再次相遇。\n\n$\\textbf{OR}$\n如果鲍勃不动而爱丽丝每次分别移动$9+5=14$或$2$个点，他们从彼此的相对位置仍将在每一轮后保持相同。如果鲍勃不动，当爱丽丝首次停在她的起点$12$时，他们会在同一点。所以爱丽丝必须移动$2$步$6$次才能停在起点。\n\n答案：$\\boxed{A}$。"
+        "solution_info": "写出爱丽丝和鲍勃在每次移动后停留的点并比较。\n\n$\\begin{array}{|c|c|c|c|c|c|c|c|} \\hline \\text{Move} & 0 & 1 & 2 & 3 & 4 & 5 & 6 \\\\ \\hline \\text{Alice} & 12 & 5 & 10 & 3 & 8 & 1 & 6 \\\\ \\text{Bob} & 12 & 3 & 6 & 9 & 12 & 3 & 6 \\\\ \\hline \\end{array}$\n所以爱丽丝和鲍勃将在六次移动后再次相遇。\n\n$\\textbf{或}$\n如果鲍勃不动而爱丽丝每次分别移动$9+5=14$或$2$个点，他们从彼此的相对位置仍将在每一轮后保持相同。如果鲍勃不动，当爱丽丝首次停在她的起点$12$时，他们会在同一点。所以爱丽丝必须移动$2$步$6$次才能停在起点。\n\n答案：$\\boxed{A}$。"
       }
     ],
     "children": []
@@ -16986,7 +16986,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "[Figure: /question-assets/source/amc/702cf975b54c054a5e35c14246446f510b850354918db3be3e040cc308962a65.jpg]\n\n周长是$4+2+1+4+2+4+1+2=20$英寸。\n\n$\\textbf{OR}$\n每个矩形的周长为$=2 l+2 w=2(4)+2(2)=8+4=12$英寸。当两个矩形排列成$\\mathrm{T}$形时，每个矩形的2英寸线段在$\\mathrm{T}$内部，不在$\\mathrm{T}$的周长上。所以$\\mathrm{T}$的周长是$2(12)-2(2)=24-4=20$英寸。\n\n答案：$\\boxed{C}$。"
+        "solution_info": "[Figure: /question-assets/source/amc/702cf975b54c054a5e35c14246446f510b850354918db3be3e040cc308962a65.jpg]\n\n周长是$4+2+1+4+2+4+1+2=20$英寸。\n\n$\\textbf{或}$\n每个矩形的周长为$=2 l+2 w=2(4)+2(2)=8+4=12$英寸。当两个矩形排列成$\\mathrm{T}$形时，每个矩形的2英寸线段在$\\mathrm{T}$内部，不在$\\mathrm{T}$的周长上。所以$\\mathrm{T}$的周长是$2(12)-2(2)=24-4=20$英寸。\n\n答案：$\\boxed{C}$。"
       }
     ],
     "children": []
@@ -17274,7 +17274,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "鲍勃读一页花费的时间与钱德拉读一页花费的时间的比例是$45: 30$或$3: 2$，所以鲍勃应该读钱德拉读的页数的$\\dfrac{2}{3}$。将这本书分成$5$部分，每部分$\\dfrac{760}{5}=152$页。钱德拉将读前$3 \\cdot 152=456$页，而鲍勃读最后$2 \\cdot 152= 304$页。\n\n$\\textbf{OR}$\n如果钱德拉读$x$页，她需要阅读$30 x$秒。鲍勃需要读$760-x$页，这需要$45(760-x)$秒。因为钱德拉和鲍勃花费相同的阅读时间，$30 x=45(760-x)$。\n\n求解$x$，\n\n$\\begin{aligned} 30x &= 45 \\cdot 760 - 45x, \\\\ 75x &= 45 \\cdot 760, \\\\ x &= \\dfrac{45 \\cdot 760}{75} = 456. \\end{aligned}$\n所以钱德拉将读前$456$页。\n\n答案：$\\boxed{C}$。"
+        "solution_info": "鲍勃读一页花费的时间与钱德拉读一页花费的时间的比例是$45: 30$或$3: 2$，所以鲍勃应该读钱德拉读的页数的$\\dfrac{2}{3}$。将这本书分成$5$部分，每部分$\\dfrac{760}{5}=152$页。钱德拉将读前$3 \\cdot 152=456$页，而鲍勃读最后$2 \\cdot 152= 304$页。\n\n$\\textbf{或}$\n如果钱德拉读$x$页，她需要阅读$30 x$秒。鲍勃需要读$760-x$页，这需要$45(760-x)$秒。因为钱德拉和鲍勃花费相同的阅读时间，$30 x=45(760-x)$。\n\n求解$x$，\n\n$\\begin{aligned} 30x &= 45 \\cdot 760 - 45x, \\\\ 75x &= 45 \\cdot 760, \\\\ x &= \\dfrac{45 \\cdot 760}{75} = 456. \\end{aligned}$\n所以钱德拉将读前$456$页。\n\n答案：$\\boxed{C}$。"
       }
     ],
     "children": []
@@ -17466,7 +17466,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "使用体积公式$l w h=V$，水族箱中水的体积为$100 \\times 40 \\times 37=148,000 \\mathrm{~cm}^{3}$。当放入岩石时，水和岩石将占据一个箱形区域，体积为$148,000+1000=149,000 \\mathrm{~cm}^{3}$。水和岩石的体积为$100 \\times 40 \\times h$，其中$h$是水的新高度。新体积$=4000 h=149,000 \\mathrm{~cm}^{3}$，所以新高度为\n\n$h=\\dfrac{149000}{4000}=37.25 \\mathrm{~cm}.$\n加入岩石后，水上升$37.25-37=0.25 \\mathrm{~cm}$。\n\n$\\textbf{OR}$\n因为岩石的形状是无关的，我们可以假设岩石的形状像一个矩形框，底部尺寸为$100 \\mathrm{~cm} \\times 40 \\mathrm{~cm}$，高度$h$ $\\mathrm{cm}$。使用体积公式，$100 \\times 40 \\times h=1000$，所以$h=\\dfrac{1000}{100 \\times 40}=0.25 \\mathrm{~cm}$。当岩石放入水族箱时，水位将上升$0.25 \\mathrm{~cm}$。\n\n答案：$\\boxed{A}$。"
+        "solution_info": "使用体积公式$l w h=V$，水族箱中水的体积为$100 \\times 40 \\times 37=148,000 \\mathrm{~cm}^{3}$。当放入岩石时，水和岩石将占据一个箱形区域，体积为$148,000+1000=149,000 \\mathrm{~cm}^{3}$。水和岩石的体积为$100 \\times 40 \\times h$，其中$h$是水的新高度。新体积$=4000 h=149,000 \\mathrm{~cm}^{3}$，所以新高度为\n\n$h=\\dfrac{149000}{4000}=37.25 \\mathrm{~cm}.$\n加入岩石后，水上升$37.25-37=0.25 \\mathrm{~cm}$。\n\n$\\textbf{或}$\n因为岩石的形状是无关的，我们可以假设岩石的形状像一个矩形框，底部尺寸为$100 \\mathrm{~cm} \\times 40 \\mathrm{~cm}$，高度$h$ $\\mathrm{cm}$。使用体积公式，$100 \\times 40 \\times h=1000$，所以$h=\\dfrac{1000}{100 \\times 40}=0.25 \\mathrm{~cm}$。当岩石放入水族箱时，水位将上升$0.25 \\mathrm{~cm}$。\n\n答案：$\\boxed{A}$。"
       }
     ],
     "children": []
@@ -17530,7 +17530,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "被 $6$ 除时余 $4$ 的正整数为 $4,10,16,22,28,34, \\ldots$。被 $5$ 除时余 $3$ 的正整数为 $3,8,13,18,23,28,33, \\ldots$。所以 $28$ 是满足两个条件的最小可能金币数。因为 $4 \\times 7=28$，平均分给 7 个人时没有剩余。\n\n$\\textbf{OR}$\n如果盒子里多 2 枚金币，金币数就能同时被 $6$ 和 $5$ 整除。能同时被 $6$ 和 $5$ 整除的最小正整数是 $30$，所以盒子里最少有 $28$ 枚金币。\n\n答案：$\\boxed{A}$。"
+        "solution_info": "被 $6$ 除时余 $4$ 的正整数为 $4,10,16,22,28,34, \\ldots$。被 $5$ 除时余 $3$ 的正整数为 $3,8,13,18,23,28,33, \\ldots$。所以 $28$ 是满足两个条件的最小可能金币数。因为 $4 \\times 7=28$，平均分给 7 个人时没有剩余。\n\n$\\textbf{或}$\n如果盒子里多 2 枚金币，金币数就能同时被 $6$ 和 $5$ 整除。能同时被 $6$ 和 $5$ 整除的最小正整数是 $30$，所以盒子里最少有 $28$ 枚金币。\n\n答案：$\\boxed{A}$。"
       }
     ],
     "children": []
@@ -17818,7 +17818,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "最初房间里的人的年龄总和是$5 \\times 30=150$。$18$岁的人离开后，剩余人的年龄总和是$150-18=132$。所以剩余四个人的平均年龄是$\\dfrac{132}{4}=33$岁。\n\n$\\textbf{OR}$\n$18$岁的人比$12$年轻$30$岁，所以四个剩余的人平均比$\\dfrac{12}{4}=3$年轻$30$岁。\n\n答案：$\\boxed{D}$。"
+        "solution_info": "最初房间里的人的年龄总和是$5 \\times 30=150$。$18$岁的人离开后，剩余人的年龄总和是$150-18=132$。所以剩余四个人的平均年龄是$\\dfrac{132}{4}=33$岁。\n\n$\\textbf{或}$\n$18$岁的人比$12$年轻$30$岁，所以四个剩余的人平均比$\\dfrac{12}{4}=3$年轻$30$岁。\n\n答案：$\\boxed{D}$。"
       }
     ],
     "children": []
@@ -17850,7 +17850,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "注意$A B E D$是边长为$3$的正方形。从$D E$中减去$D C$，得到$\\overline{E C}$的底边$\\triangle B E C$的长度为$3$。$\\triangle B E C$的面积为$\\dfrac{1}{2} \\cdot 3 \\cdot 3=\\dfrac{9}{2}=4.5$。\n\n$\\textbf{OR}$\n\n[Figure: /question-assets/source/amc/e8c0eb963ff90ab4ba53c2e8e8d6e8b7ecc3fc0b86f28ab3ff5c6a389ff5eaca.jpg]\n\n$\\triangle B E C$的面积是梯形$A B C D$的面积减去正方形$A B E D$的面积。$\\triangle B E C$的面积是$\\dfrac{1}{2}(3+6) 3-3^{2}=13.5-9=4.5$。\n\n答案：$\\boxed{B}$。"
+        "solution_info": "注意$A B E D$是边长为$3$的正方形。从$D E$中减去$D C$，得到$\\overline{E C}$的底边$\\triangle B E C$的长度为$3$。$\\triangle B E C$的面积为$\\dfrac{1}{2} \\cdot 3 \\cdot 3=\\dfrac{9}{2}=4.5$。\n\n$\\textbf{或}$\n\n[Figure: /question-assets/source/amc/e8c0eb963ff90ab4ba53c2e8e8d6e8b7ecc3fc0b86f28ab3ff5c6a389ff5eaca.jpg]\n\n$\\triangle B E C$的面积是梯形$A B C D$的面积减去正方形$A B E D$的面积。$\\triangle B E C$的面积是$\\dfrac{1}{2}(3+6) 3-3^{2}=13.5-9=4.5$。\n\n答案：$\\boxed{B}$。"
       }
     ],
     "children": []
@@ -18010,7 +18010,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "令$C$表示在$A$中但不在$B$中的元素集合。令$D$表示在$B$中但不在$A$中的元素集合。因为集合$A$和$B$有相同数量的元素，$C$中的元素数与$D$中的元素数相同。这个数是$A$和$B$的并集元素数减去$A$和$B$的交集元素数的一半。也就是说，$C$和$D$中每一个的元素数是\n\n$\\dfrac{1}{2}(2007-1001)=\\dfrac{1}{2} \\cdot 1006=503.$\n将$A$和$B$中的元素数加上$A$中但不在$B$中的元素数，得到$1001+503=1504$个$A$中的元素。\n\n[Figure: /question-assets/source/amc/c78715274d4fece8969681f2d567fb9b02c18b2dc1969041e45795c2986d2551.jpg]\n\n$\\textbf{OR}$\n令$x$为$A$和$B$中各自的元素数。那么$2 x-1001=2007$、$2 x=3008$和$x=1504$。\n\n答案：$\\boxed{C}$。"
+        "solution_info": "令$C$表示在$A$中但不在$B$中的元素集合。令$D$表示在$B$中但不在$A$中的元素集合。因为集合$A$和$B$有相同数量的元素，$C$中的元素数与$D$中的元素数相同。这个数是$A$和$B$的并集元素数减去$A$和$B$的交集元素数的一半。也就是说，$C$和$D$中每一个的元素数是\n\n$\\dfrac{1}{2}(2007-1001)=\\dfrac{1}{2} \\cdot 1006=503.$\n将$A$和$B$中的元素数加上$A$中但不在$B$中的元素数，得到$1001+503=1504$个$A$中的元素。\n\n[Figure: /question-assets/source/amc/c78715274d4fece8969681f2d567fb9b02c18b2dc1969041e45795c2986d2551.jpg]\n\n$\\textbf{或}$\n令$x$为$A$和$B$中各自的元素数。那么$2 x-1001=2007$、$2 x=3008$和$x=1504$。\n\n答案：$\\boxed{C}$。"
       }
     ],
     "children": []
@@ -18042,7 +18042,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "令$\\overline{B D}$为$B$到$\\overline{A C}$在$\\triangle A B C$中的高。\n\n[Figure: /question-assets/source/amc/dfc25140b29e7649a7d813065697551056ccb7f762537c6564ab1400917de9b6.jpg]\n\n那么$60=$的$\\triangle A B C=\\dfrac{1}{2} \\cdot 24 \\cdot B D$面积，所以$B D=5$。因为$\\triangle A B C$是等腰的，$\\triangle A B D$和$\\triangle C B D$是全等的直角三角形。这意味着$A D=D C=\\dfrac{24}{2}=12$。对$\\triangle A B D$应用勾股定理得\n\n$A B^{2}=5^{2}+12^{2}=169=13^{2}, \\text { so } A B=13.$\n答案：$\\boxed{C}$。"
+        "solution_info": "令$\\overline{B D}$为$B$到$\\overline{A C}$在$\\triangle A B C$中的高。\n\n[Figure: /question-assets/source/amc/dfc25140b29e7649a7d813065697551056ccb7f762537c6564ab1400917de9b6.jpg]\n\n那么$60=$的$\\triangle A B C=\\dfrac{1}{2} \\cdot 24 \\cdot B D$面积，所以$B D=5$。因为$\\triangle A B C$是等腰的，$\\triangle A B D$和$\\triangle C B D$是全等的直角三角形。这意味着$A D=D C=\\dfrac{24}{2}=12$。对$\\triangle A B D$应用勾股定理得\n\n$A B^{2}=5^{2}+12^{2}=169=13^{2}, \\text{ so } A B=13.$\n答案：$\\boxed{C}$。"
       }
     ],
     "children": []
@@ -18156,7 +18156,7 @@
     "quality": "精品",
     "question_info": {
       "raw_content": {
-        "title": "两个$99$位数的乘积\n\n$303,030,303, \\ldots, 030,303 \\text { and } 505,050,505, \\ldots, 050,505$\n有千位数字$A$和个位数字$B$。$A$和$B?$的和是多少？",
+        "title": "两个$99$位数的乘积\n\n$303,030,303, \\ldots, 030,303 \\text{ 和 } 505,050,505, \\ldots, 050,505$\n有千位数字$A$和个位数字$B$。$A$和$B?$的和是多少？",
         "option_a": "$3$",
         "option_b": "$5$",
         "option_c": "$6$",
@@ -18202,7 +18202,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "两个连续整数的平方中，一个是奇数，另一个是偶数，所以它们的差必须是奇数。这消除了$A, B$和$D$。和小于$100$的最大连续整数是$49$和$50$，其平方是$2401$和$2500$，差是$99$。因为连续正整数平方差随着整数增加而增加，差不能是$131$。$40$和$39$的平方差是$79$。\n\n$\\textbf{OR}$\n令连续整数为$n$和$n+1$，其中$n \\leq 49$。那么\n\n$(n+1)^{2}-n^{2}=\\left(n^{2}+2 n+1\\right)-n^{2}=2 n+1=n+(n+1).$\n这意味着平方的差是一个奇数。因此，差是一个奇数，小于或等于$49+(49+1)=99$，选择$\\mathrm{C}$是唯一可能的答案。$n=39$和$n+1=40$的和是$79$。\n\n注意：任何两个连续整数平方的差不仅是奇数，而且是这两个连续整数的和。每个大于$1$且小于$100$的正奇数都可以是答案。\n\n从几何意义上看，$(n+1)^{2}-n^{2}$看起来像\n\n[Figure: /question-assets/source/amc/def59c6575afb8263d6cce8ea832487ecc013899da4b61b888581c752b743d75.jpg]\n\n答案：$\\boxed{C}$。"
+        "solution_info": "两个连续整数的平方中，一个是奇数，另一个是偶数，所以它们的差必须是奇数。这消除了$A, B$和$D$。和小于$100$的最大连续整数是$49$和$50$，其平方是$2401$和$2500$，差是$99$。因为连续正整数平方差随着整数增加而增加，差不能是$131$。$40$和$39$的平方差是$79$。\n\n$\\textbf{或}$\n令连续整数为$n$和$n+1$，其中$n \\leq 49$。那么\n\n$(n+1)^{2}-n^{2}=\\left(n^{2}+2 n+1\\right)-n^{2}=2 n+1=n+(n+1).$\n这意味着平方的差是一个奇数。因此，差是一个奇数，小于或等于$49+(49+1)=99$，选择$\\mathrm{C}$是唯一可能的答案。$n=39$和$n+1=40$的和是$79$。\n\n注意：任何两个连续整数平方的差不仅是奇数，而且是这两个连续整数的和。每个大于$1$且小于$100$的正奇数都可以是答案。\n\n从几何意义上看，$(n+1)^{2}-n^{2}$看起来像\n\n[Figure: /question-assets/source/amc/def59c6575afb8263d6cce8ea832487ecc013899da4b61b888581c752b743d75.jpg]\n\n答案：$\\boxed{C}$。"
       }
     ],
     "children": []
@@ -18234,7 +18234,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "因为$45 \\%$与简化分数$\\dfrac{9}{20}$相同，独角兽队每$20$场比赛中赢了$9$场。这意味着独角兽队在分区赛前必须赢了一些$20$的倍数的比赛。该表显示满足问题条件的可能性。\n\n[Figure: /question-assets/source/amc/807839b7ef6316d92fd112cb3d5ee9b34988d4106a498e25e19c0d5b8adca21d.jpg]\n\n只有当独角兽队在分区赛前打了$40$场比赛时，他们才能赢得他们比赛的一半。所以独角兽队打了$24+24=48$场比赛。\n\n$\\textbf{OR}$\n令$n$为独角兽分区赛前的比赛数。那么$0.45 n+6=$$0.5(n+8)$。求解$n$得\n\n$\\begin{aligned} 0.45n + 6 &= 0.5n + 4, \\\\ 2 &= 0.05n, \\\\ n &= 40. \\end{aligned}$\n所以总比赛数是$40+8=48$。\n\n答案：$\\boxed{A}$。"
+        "solution_info": "因为$45 \\%$与简化分数$\\dfrac{9}{20}$相同，独角兽队每$20$场比赛中赢了$9$场。这意味着独角兽队在分区赛前必须赢了一些$20$的倍数的比赛。该表显示满足问题条件的可能性。\n\n[Figure: /question-assets/source/amc/807839b7ef6316d92fd112cb3d5ee9b34988d4106a498e25e19c0d5b8adca21d.jpg]\n\n只有当独角兽队在分区赛前打了$40$场比赛时，他们才能赢得他们比赛的一半。所以独角兽队打了$24+24=48$场比赛。\n\n$\\textbf{或}$\n令$n$为独角兽分区赛前的比赛数。那么$0.45 n+6=$$0.5(n+8)$。求解$n$得\n\n$\\begin{aligned} 0.45n + 6 &= 0.5n + 4, \\\\ 2 &= 0.05n, \\\\ n &= 40. \\end{aligned}$\n所以总比赛数是$40+8=48$。\n\n答案：$\\boxed{A}$。"
       }
     ],
     "children": []
@@ -18476,7 +18476,7 @@
     "quality": "精品",
     "question_info": {
       "raw_content": {
-        "title": "如果二月是一个包含星期五$13^{\\text {th }}$的月份，那么二月$1?$是星期几？\n\n[Figure: /question-assets/source/amc/75db67ed0408f40fc897c06ff6ba732e4ed2496cc1018e069fc387576de312c3.jpg]",
+        "title": "如果二月是一个包含星期五$13^{\\text{th }}$的月份，那么二月$1?$是星期几？\n\n[Figure: /question-assets/source/amc/75db67ed0408f40fc897c06ff6ba732e4ed2496cc1018e069fc387576de312c3.jpg]",
         "option_a": "星期日",
         "option_b": "星期一",
         "option_c": "星期三",
@@ -18490,7 +18490,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "比$13^{\\text {th }}$早一周是$6^{\\text {th }}$，那是该月第一个星期五。从那往前数，$5^{\\text {th }}$是星期四，$4^{\\text {th }}$是星期三，$3^{\\text {rd }}$是星期二，$2^{\\text {nd }}$是星期一，$1^{\\text {st }}$是星期日。\n\n$\\textbf{OR}$\n每隔七天，二月$1$与二月$8$和二月$15$是同一周的同一天。因为二月$13$是星期五，二月$15$是星期日，二月$1$也是。\n\n答案：$\\boxed{A}$。"
+        "solution_info": "比$13^{\\text{th }}$早一周是$6^{\\text{th }}$，那是该月第一个星期五。从那往前数，$5^{\\text{th }}$是星期四，$4^{\\text{th }}$是星期三，$3^{\\text{rd }}$是星期二，$2^{\\text{nd }}$是星期一，$1^{\\text{st }}$是星期日。\n\n$\\textbf{或}$\n每隔七天，二月$1$与二月$8$和二月$15$是同一周的同一天。因为二月$13$是星期五，二月$15$是星期日，二月$1$也是。\n\n答案：$\\boxed{A}$。"
       }
     ],
     "children": []
@@ -18618,7 +18618,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "注意$\\dfrac{M}{45}=\\dfrac{3}{5}=\\dfrac{3.9}{5.9}=\\dfrac{27}{45}$，所以$M=27$。类似地，$\\dfrac{60}{N}=\\dfrac{3}{5}=$$\\dfrac{3 \\cdot 20}{5 \\cdot 20}=\\dfrac{60}{100}$，所以$N=100$。和为$M+N=27+100=127$。\n\n$\\textbf{OR}$\n注意$\\dfrac{M}{45}=\\dfrac{3}{5}$，所以$M=\\dfrac{3}{5} \\cdot 45=27$。同时$\\dfrac{60}{N}=\\dfrac{3}{5}$，所以$\\dfrac{N}{60}=\\dfrac{5}{3}$，$N=\\dfrac{5}{3} \\cdot 60 = 100$。$\\operatorname{sum} M+N=27+100=127$。\n\n答案：$\\boxed{E}$。"
+        "solution_info": "注意$\\dfrac{M}{45}=\\dfrac{3}{5}=\\dfrac{3.9}{5.9}=\\dfrac{27}{45}$，所以$M=27$。类似地，$\\dfrac{60}{N}=\\dfrac{3}{5}=$$\\dfrac{3 \\cdot 20}{5 \\cdot 20}=\\dfrac{60}{100}$，所以$N=100$。和为$M+N=27+100=127$。\n\n$\\textbf{或}$\n注意$\\dfrac{M}{45}=\\dfrac{3}{5}$，所以$M=\\dfrac{3}{5} \\cdot 45=27$。同时$\\dfrac{60}{N}=\\dfrac{3}{5}$，所以$\\dfrac{N}{60}=\\dfrac{5}{3}$，$N=\\dfrac{5}{3} \\cdot 60 = 100$。$\\operatorname{sum} M+N=27+100=127$。\n\n答案：$\\boxed{E}$。"
       }
     ],
     "children": []
@@ -18650,7 +18650,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "$4$个月的销售额分别为$\\$ 100, \\$ 60, \\$ 40$和$\\$ 120$。平均销售额为$\\dfrac{100+60+40+120}{4}=\\dfrac{320}{4}=\\$ 80$。\n\n$\\textbf{OR}$\n按照$\\$ 20$的间隔，销售额在图中为$5,3,2$和$6$。它们的和是$5+3+2+6=16$，平均值是$\\dfrac{16}{4}=4$。平均销售额为$4 \\cdot \\$ 20=\\$ 80$。\n\n答案：$\\boxed{D}$。"
+        "solution_info": "$4$个月的销售额分别为$\\$ 100, \\$ 60, \\$ 40$和$\\$ 120$。平均销售额为$\\dfrac{100+60+40+120}{4}=\\dfrac{320}{4}=\\$ 80$。\n\n$\\textbf{或}$\n按照$\\$ 20$的间隔，销售额在图中为$5,3,2$和$6$。它们的和是$5+3+2+6=16$，平均值是$\\dfrac{16}{4}=4$。平均销售额为$4 \\cdot \\$ 20=\\$ 80$。\n\n答案：$\\boxed{D}$。"
       }
     ],
     "children": []
@@ -18746,7 +18746,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "有猫的学生数加上有狗的学生数为$20+26=46$。因为班级中只有$39$学生，所以有$46-39$$=7$学生既有猫又有狗。\n\n$\\textbf{OR}$\n因为每个学生至少有一只猫或狗，有$39-20=19$学生只有猫但没有狗，$39-26=13$学生只有狗但没有猫。所以有$39-13-19=7$学生既有猫又有狗。\n\n[Figure: /question-assets/source/amc/f73624698919db11e4db58035a69aab2bb8591a37c5790c94c85dde5c8bfdb77.jpg]\n\n答案：$\\boxed{A}$。"
+        "solution_info": "有猫的学生数加上有狗的学生数为$20+26=46$。因为班级中只有$39$学生，所以有$46-39$$=7$学生既有猫又有狗。\n\n$\\textbf{或}$\n因为每个学生至少有一只猫或狗，有$39-20=19$学生只有猫但没有狗，$39-26=13$学生只有狗但没有猫。所以有$39-13-19=7$学生既有猫又有狗。\n\n[Figure: /question-assets/source/amc/f73624698919db11e4db58035a69aab2bb8591a37c5790c94c85dde5c8bfdb77.jpg]\n\n答案：$\\boxed{A}$。"
       }
     ],
     "children": []
@@ -18842,7 +18842,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "第$1$行中$\\text{B}$的位置只有两个可能，第$2$行中$\\mathrm{A}$的位置也只有两个可能。一旦这些被放置，剩余空格中的条目就被确定了。\n\n四种排列为：\n\n[Figure: /question-assets/source/amc/0e6ad77c4c5f510117296cce4319f4ef9ae96fd1412b80da232901fd5bde8371.jpg]\n\n$\\textbf{OR}$\n$\\text{A}$可以被放置为：\n\n[Figure: /question-assets/source/amc/9faf6a5a2195d17b236946eca34e07a91a981d22986b1bc2a816fb97d2de5737.jpg]\n\n在每种情况下，顶部$\\mathrm{A}$旁边的字母可以是$\\mathrm{B}$或$\\mathrm{C}$。此时网格完全被确定。所以有$2+2=4$种可能的排列。\n\n答案：$\\boxed{C}$。"
+        "solution_info": "第$1$行中$\\text{B}$的位置只有两个可能，第$2$行中$\\mathrm{A}$的位置也只有两个可能。一旦这些被放置，剩余空格中的条目就被确定了。\n\n四种排列为：\n\n[Figure: /question-assets/source/amc/0e6ad77c4c5f510117296cce4319f4ef9ae96fd1412b80da232901fd5bde8371.jpg]\n\n$\\textbf{或}$\n$\\text{A}$可以被放置为：\n\n[Figure: /question-assets/source/amc/9faf6a5a2195d17b236946eca34e07a91a981d22986b1bc2a816fb97d2de5737.jpg]\n\n在每种情况下，顶部$\\mathrm{A}$旁边的字母可以是$\\mathrm{B}$或$\\mathrm{C}$。此时网格完全被确定。所以有$2+2=4$种可能的排列。\n\n答案：$\\boxed{C}$。"
       }
     ],
     "children": []
@@ -18906,7 +18906,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "体积为$7 \\times 1=7$立方单位。六个立方体各有$5$平方面暴露。中间立方体没有暴露面。所以图形的总表面积为$5 \\times 6=30$平方单位。体积与表面积的比为$7: 30$。\n\n$\\textbf{OR}$\n体积为$7 \\times 1=7$立方单位。前、后、上、下、左、右六个方向各有五个单位正方形，总共$30$平方单位的表面积。体积与表面积的比为$7: 30$。\n\n答案：$\\boxed{D}$。"
+        "solution_info": "体积为$7 \\times 1=7$立方单位。六个立方体各有$5$平方面暴露。中间立方体没有暴露面。所以图形的总表面积为$5 \\times 6=30$平方单位。体积与表面积的比为$7: 30$。\n\n$\\textbf{或}$\n体积为$7 \\times 1=7$立方单位。前、后、上、下、左、右六个方向各有五个单位正方形，总共$30$平方单位的表面积。体积与表面积的比为$7: 30$。\n\n答案：$\\boxed{D}$。"
       }
     ],
     "children": []
@@ -18938,7 +18938,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "矩形周长公式为$2 l+2 w$，所以$2 l+2 w=50$，$l+w=25$。假设所有宽度都短于所有长度，制作一个可能的宽度、长度和面积的表格。\n\n$\\begin{array}{|c|c|c|c|c|c|c|c|c|c|c|c|c|} \\hline \\text{Width} & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 \\\\ \\hline \\text{Length} & 24 & 23 & 22 & 21 & 20 & 19 & 18 & 17 & 16 & 15 & 14 & 13 \\\\ \\hline \\text{Area} & 24 & 46 & 66 & 84 & 100 & 114 & 126 & 136 & 144 & 150 & 154 & 156 \\\\ \\hline \\end{array}$\n最大可能面积为$13 \\times 12=156$，最小面积为$1 \\times 24=24$，差为$156-24=132$平方单位。\n\n注：两个数的乘积，当它们的和固定时，当这两个数越接近时乘积越大。这意味着，给定相同的周长，正方形的面积大于任何矩形，最接近正方形形状的矩形的面积大于其他周长相等的矩形。\n\n答案：$\\boxed{D}$。"
+        "solution_info": "矩形周长公式为$2 l+2 w$，所以$2 l+2 w=50$，$l+w=25$。假设所有宽度都短于所有长度，制作一个可能的宽度、长度和面积的表格。\n\n$\\begin{array}{|c|c|c|c|c|c|c|c|c|c|c|c|c|} \\hline \\text{Width} & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 \\\\ \\hline \\text{Length} & 24 & 23 & 22 & 21 & 20 & 19 & 18 & 17 & 16 & 15 & 14 & 13 \\\\ \\hline \\text{面积} & 24 & 46 & 66 & 84 & 100 & 114 & 126 & 136 & 144 & 150 & 154 & 156 \\\\ \\hline \\end{array}$\n最大可能面积为$13 \\times 12=156$，最小面积为$1 \\times 24=24$，差为$156-24=132$平方单位。\n\n注：两个数的乘积，当它们的和固定时，当这两个数越接近时乘积越大。这意味着，给定相同的周长，正方形的面积大于任何矩形，最接近正方形形状的矩形的面积大于其他周长相等的矩形。\n\n答案：$\\boxed{D}$。"
       }
     ],
     "children": []
@@ -19002,7 +19002,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "选择两个点。$8$个点中的任何一个可以作为第一个选择，$7$个其他点中的任何一个可以作为第二个选择。所以有$8 \\times 7=56$\n种有序选择方法。但每对点被计数两次，所以有$\\dfrac{56}{2}=28$种可能的配对。\n\n[Figure: /question-assets/source/amc/686e7e33233afa23b7c4efa04c3b217cf16bca822bf416b79599c30d89a22455.jpg]\n\n按图标记八个点。只有线段 $\\overline{A B}, \\overline{B C}, \\overline{C D}, \\overline{D E}, \\overline{E F}, \\overline{F G}$、$\\overline{G H}$ 和 $\\overline{H A}$ 的长度为 $1$ 个单位。因此，在 $28$ 条可能线段中，有 $8$ 条长度为 $1$ 个单位，两点相距一个单位的概率为 $\\dfrac{8}{28}=\\dfrac{2}{7}$。\n\n$\\textbf{OR}$\n依次选择两个点。无论如何选择第一个点，其余$7$个点中恰好有$2$个距该点$1$单位。所以第二个点距第一个点$1$单位的概率为$\\dfrac{2}{7}$。\n\n答案：$\\boxed{B}$。"
+        "solution_info": "选择两个点。$8$个点中的任何一个可以作为第一个选择，$7$个其他点中的任何一个可以作为第二个选择。所以有$8 \\times 7=56$\n种有序选择方法。但每对点被计数两次，所以有$\\dfrac{56}{2}=28$种可能的配对。\n\n[Figure: /question-assets/source/amc/686e7e33233afa23b7c4efa04c3b217cf16bca822bf416b79599c30d89a22455.jpg]\n\n按图标记八个点。只有线段 $\\overline{A B}, \\overline{B C}, \\overline{C D}, \\overline{D E}, \\overline{E F}, \\overline{F G}$、$\\overline{G H}$ 和 $\\overline{H A}$ 的长度为 $1$ 个单位。因此，在 $28$ 条可能线段中，有 $8$ 条长度为 $1$ 个单位，两点相距一个单位的概率为 $\\dfrac{8}{28}=\\dfrac{2}{7}$。\n\n$\\textbf{或}$\n依次选择两个点。无论如何选择第一个点，其余$7$个点中恰好有$2$个距该点$1$单位。所以第二个点距第一个点$1$单位的概率为$\\dfrac{2}{7}$。\n\n答案：$\\boxed{B}$。"
       }
     ],
     "children": []
@@ -19034,7 +19034,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "因为$\\dfrac{2}{3}$的男生通过了，班级中男生人数是$3$的倍数。因为$\\dfrac{3}{4}$的女生通过了，班级中女生人数是$4$的倍数。制作一个表格并比较通过的男生人数和女生人数，以找出何时它们相等。\n\n$\\begin{array}{|c|c|} \\hline \\text{Total boys} & \\text{Boys passed} \\\\ \\hline 3 & 2 \\\\ \\hline 6 & 4 \\\\ \\hline 9 & 6 \\\\ \\hline \\end{array} \\qquad \\begin{array}{|c|c|} \\hline \\text{Total girls} & \\text{Girls passed} \\\\ \\hline 4 & 3 \\\\ \\hline 8 & 6 \\\\ \\hline \\end{array}$\n第一次通过的男生人数等于通过的女生人数时，它们都是$6$。学生总数最少为$9+8=17$。\n\n$\\textbf{OR}$\n因为$\\dfrac{2}{3}$的男生通过了，通过的男生人数必须是$2$的倍数。因为$\\dfrac{3}{4}$的女生通过了，通过的女生人数必须是$3$的倍数。因为相同数量的男生和女生通过了，最小可能的数字是$6$，即$2$和$3$的最小公倍数。如果$9$个男生中的$6$和$8$个女生中的$6$通过了，班级中有$17$学生，这是最少可能的数字。\n\n$\\textbf{OR}$\n设$G=$女生人数，$B=$男生人数。则$\\dfrac{2}{3} B=\\dfrac{3}{4} G$，所以$8 B=9 G$。因为$8$和$9$互质，男生和女生的最少人数分别是$9$和$8$，总共$9+8=17$学生。\n\n答案：$\\boxed{B}$。"
+        "solution_info": "因为$\\dfrac{2}{3}$的男生通过了，班级中男生人数是$3$的倍数。因为$\\dfrac{3}{4}$的女生通过了，班级中女生人数是$4$的倍数。制作一个表格并比较通过的男生人数和女生人数，以找出何时它们相等。\n\n$\\begin{array}{|c|c|} \\hline \\text{Total boys} & \\text{Boys passed} \\\\ \\hline 3 & 2 \\\\ \\hline 6 & 4 \\\\ \\hline 9 & 6 \\\\ \\hline \\end{array} \\qquad \\begin{array}{|c|c|} \\hline \\text{Total girls} & \\text{Girls passed} \\\\ \\hline 4 & 3 \\\\ \\hline 8 & 6 \\\\ \\hline \\end{array}$\n第一次通过的男生人数等于通过的女生人数时，它们都是$6$。学生总数最少为$9+8=17$。\n\n$\\textbf{或}$\n因为$\\dfrac{2}{3}$的男生通过了，通过的男生人数必须是$2$的倍数。因为$\\dfrac{3}{4}$的女生通过了，通过的女生人数必须是$3$的倍数。因为相同数量的男生和女生通过了，最小可能的数字是$6$，即$2$和$3$的最小公倍数。如果$9$个男生中的$6$和$8$个女生中的$6$通过了，班级中有$17$学生，这是最少可能的数字。\n\n$\\textbf{或}$\n设$G=$女生人数，$B=$男生人数。则$\\dfrac{2}{3} B=\\dfrac{3}{4} G$，所以$8 B=9 G$。因为$8$和$9$互质，男生和女生的最少人数分别是$9$和$8$，总共$9+8=17$学生。\n\n答案：$\\boxed{B}$。"
       }
     ],
     "children": []
@@ -19194,7 +19194,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "$\\begin{array}{|c|c|c|} \\hline \\text{Circle }\\# & \\text{Radius} & \\text{Area} \\\\ \\hline 1 & 2 & 4\\pi \\\\ \\hline 2 & 4 & 16\\pi \\\\ \\hline 3 & 6 & 36\\pi \\\\ \\hline 4 & 8 & 64\\pi \\\\ \\hline 5 & 10 & 100\\pi \\\\ \\hline 6 & 12 & 144\\pi \\\\ \\hline \\end{array}$\n黑色的总面积为$4 \\pi+(36-16) \\pi+(100-64) \\pi=60 \\pi \\mathrm{in}^{2}$。\n\n所以设计中黑色百分比为$100 \\times \\dfrac{60 \\pi}{144 \\pi}=100 \\times \\dfrac{5}{12}$或约$42 \\%$。\n\n答案：$\\boxed{A}$。"
+        "solution_info": "$\\begin{array}{|c|c|c|} \\hline \\text{Circle }\\# & \\text{Radius} & \\text{面积} \\\\ \\hline 1 & 2 & 4\\pi \\\\ \\hline 2 & 4 & 16\\pi \\\\ \\hline 3 & 6 & 36\\pi \\\\ \\hline 4 & 8 & 64\\pi \\\\ \\hline 5 & 10 & 100\\pi \\\\ \\hline 6 & 12 & 144\\pi \\\\ \\hline \\end{array}$\n黑色的总面积为$4 \\pi+(36-16) \\pi+(100-64) \\pi=60 \\pi \\mathrm{in}^{2}$。\n\n所以设计中黑色百分比为$100 \\times \\dfrac{60 \\pi}{144 \\pi}=100 \\times \\dfrac{5}{12}$或约$42 \\%$。\n\n答案：$\\boxed{A}$。"
       }
     ],
     "children": []
@@ -19226,7 +19226,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "从后往前推。布里吉特给凯西$3$个苹果前有$7$个。这$7$个苹果是布里吉特最初$14$个苹果的一半。\n\n$\\textbf{OR}$\n设布里吉特最初的苹果数为$B=$。\n\n$\\begin{aligned} \\dfrac{B}{2} - 3 &= 4 \\\\ \\dfrac{B}{2} &= 7 \\\\ B &= 14 \\end{aligned}$\n所以布里吉特最初有$14$个苹果。\n\n答案：$\\boxed{E}$。"
+        "solution_info": "从后往前推。布里吉特给凯西$3$个苹果前有$7$个。这$7$个苹果是布里吉特最初$14$个苹果的一半。\n\n$\\textbf{或}$\n设布里吉特最初的苹果数为$B=$。\n\n$\\begin{aligned} \\dfrac{B}{2} - 3 &= 4 \\\\ \\dfrac{B}{2} &= 7 \\\\ B &= 14 \\end{aligned}$\n所以布里吉特最初有$14$个苹果。\n\n答案：$\\boxed{E}$。"
       }
     ],
     "children": []
@@ -19258,7 +19258,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "设轿车数为$s=$。建立比例：$\\dfrac{4}{7}=\\dfrac{28}{s}=$ $\\dfrac{4(7)}{7(7)}=\\dfrac{28}{49}$。所以经销商预期将售出$49$辆轿车。\n\n$\\textbf{OR}$\n因为售出$4$辆跑车对应售出$7$辆轿车，$28 \\text{ sports cars} =7(4 \\text{ sports cars})$对应$7(7 \\text{ sedans})= 49 \\text{ sedans}$。\n\n答案：$\\boxed{D}$。"
+        "solution_info": "设轿车数为$s=$。建立比例：$\\dfrac{4}{7}=\\dfrac{28}{s}=$ $\\dfrac{4(7)}{7(7)}=\\dfrac{28}{49}$。所以经销商预期将售出$49$辆轿车。\n\n$\\textbf{或}$\n因为售出$4$辆跑车对应售出$7$辆轿车，$28 \\text{ sports cars} =7(4 \\text{ sports cars})$对应$7(7 \\text{ sedans})= 49 \\text{ sedans}$。\n\n答案：$\\boxed{D}$。"
       }
     ],
     "children": []
@@ -19290,7 +19290,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "苏珊娜以每 $5$ 分钟骑 1 英里的恒定速度骑行。$30$ 分钟包含 6 个这样的时段，所以她骑了 6 英里。\n\n$\\textbf{OR}$\n苏珊娜在 $15$ 分钟内骑了 $3$ 英里，所以在 $30$ 分钟内将骑 $6$ 英里。\n\n答案：$\\boxed{C}$。"
+        "solution_info": "苏珊娜以每 $5$ 分钟骑 1 英里的恒定速度骑行。$30$ 分钟包含 6 个这样的时段，所以她骑了 6 英里。\n\n$\\textbf{或}$\n苏珊娜在 $15$ 分钟内骑了 $3$ 英里，所以在 $30$ 分钟内将骑 $6$ 英里。\n\n答案：$\\boxed{C}$。"
       }
     ],
     "children": []
@@ -19386,7 +19386,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "软管总共每分钟供水$10$加仑给游泳池。游泳池容纳$24{,}000$加仑，所以总共需要$\\dfrac{24000\\ \\text{gallons}}{10\\ \\text{gallons/minute}} = 2400\\ \\text{minutes}$。因为$2400$分钟等于$40$小时，填满史蒂夫的游泳池需要$40$小时。\n\n$\\textbf{OR}$\n软管供水$(10\\ \\text{gallons/minute})(60\\ \\text{minutes/hour}) = 600\\ \\text{gallons/hour}$。所以填满史蒂夫的游泳池需要$\\dfrac{24000\\ \\text{gallons}}{600\\ \\text{gallons/hour}} = 40\\ \\text{hours}$。\n\n答案：$\\boxed{A}$。"
+        "solution_info": "软管总共每分钟供水$10$加仑给游泳池。游泳池容纳$24{,}000$加仑，所以总共需要$\\dfrac{24000\\ \\text{gallons}}{10\\ \\text{gallons/minute}} = 2400\\ \\text{minutes}$。因为$2400$分钟等于$40$小时，填满史蒂夫的游泳池需要$40$小时。\n\n$\\textbf{或}$\n软管供水$(10\\ \\text{gallons/minute})(60\\ \\text{minutes/hour}) = 600\\ \\text{gallons/hour}$。所以填满史蒂夫的游泳池需要$\\dfrac{24000\\ \\text{gallons}}{600\\ \\text{gallons/hour}} = 40\\ \\text{hours}$。\n\n答案：$\\boxed{A}$。"
       }
     ],
     "children": []
@@ -19418,7 +19418,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "$\\triangle A B C$的面积是$\\dfrac{1}{2}(3)(3)=\\dfrac{9}{2}$平方英里。$\\triangle A B D=\\dfrac{1}{2}(3)(6)=9$的面积是平方英里。阴影区域是$\\triangle A B D$的面积减去$\\triangle A B C$的面积，等于$9-\\dfrac{9}{2}=\\dfrac{9}{2}=4.5$平方英里。\n\n$\\textbf{OR}$\n$\\triangle A C D$的底$\\overline{C D}$是$3$英里。$\\triangle A C D$的高$\\overline{A B}$是$3$英里。$\\triangle A C D$的面积是$\\dfrac{1}{2} \\cdot 3 \\cdot 3=$ $\\dfrac{9}{2}=4.5$平方英里。\n\n[Figure: /question-assets/source/amc/e8ac5e32396b00d9de15f3ff361704bb81731b1775da4c62ccb4ddd87a32b61e.jpg]\n\n答案：$\\boxed{C}$。"
+        "solution_info": "$\\triangle A B C$的面积是$\\dfrac{1}{2}(3)(3)=\\dfrac{9}{2}$平方英里。$\\triangle A B D=\\dfrac{1}{2}(3)(6)=9$的面积是平方英里。阴影区域是$\\triangle A B D$的面积减去$\\triangle A B C$的面积，等于$9-\\dfrac{9}{2}=\\dfrac{9}{2}=4.5$平方英里。\n\n$\\textbf{或}$\n$\\triangle A C D$的底$\\overline{C D}$是$3$英里。$\\triangle A C D$的高$\\overline{A B}$是$3$英里。$\\triangle A C D$的面积是$\\dfrac{1}{2} \\cdot 3 \\cdot 3=$ $\\dfrac{9}{2}=4.5$平方英里。\n\n[Figure: /question-assets/source/amc/e8ac5e32396b00d9de15f3ff361704bb81731b1775da4c62ccb4ddd87a32b61e.jpg]\n\n答案：$\\boxed{C}$。"
       }
     ],
     "children": []
@@ -19514,7 +19514,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "棋盘有$64$个单位正方形。外缘有$2 \\cdot 8+2 \\cdot 6=28$个单位正方形，内部有$64-28=36$个单位正方形。因此选择不接触外边缘的单位正方形的概率是$\\dfrac{36}{64}=\\dfrac{18}{32}=\\dfrac{9}{16}$。\n\n$\\textbf{OR}$\n\n[Figure: /question-assets/source/amc/67874a15792dd8058acfb56480383b8ab1a8e6d11ab9954196a89e939aadf92f.jpg]\n\n内部有$(8-2)^{2}=36$个单位正方形。因此选择不接触外边缘的单位正方形的概率是$\\dfrac{36}{64}=\\dfrac{18}{32}=\\dfrac{9}{16}$。\n\n答案：$\\boxed{D}$。"
+        "solution_info": "棋盘有$64$个单位正方形。外缘有$2 \\cdot 8+2 \\cdot 6=28$个单位正方形，内部有$64-28=36$个单位正方形。因此选择不接触外边缘的单位正方形的概率是$\\dfrac{36}{64}=\\dfrac{18}{32}=\\dfrac{9}{16}$。\n\n$\\textbf{或}$\n\n[Figure: /question-assets/source/amc/67874a15792dd8058acfb56480383b8ab1a8e6d11ab9954196a89e939aadf92f.jpg]\n\n内部有$(8-2)^{2}=36$个单位正方形。因此选择不接触外边缘的单位正方形的概率是$\\dfrac{36}{64}=\\dfrac{18}{32}=\\dfrac{9}{16}$。\n\n答案：$\\boxed{D}$。"
       }
     ],
     "children": []
@@ -19610,7 +19610,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "使用数字$1, 3$和$5$各一个可以形成$6$个三位数：$135,153,315,351,513$和$531$。因为被$5$整除的数字以$0$或$5$结尾，只有$135$和$315$被$5$整除。该三位数被$5$整除的概率是$\\dfrac{2}{6}=\\dfrac{1}{3}$。\n\n$\\textbf{OR}$\n该数字同样可能以$1,3$或$5$结尾。该数字被$5$整除当且仅当它以$5$结尾，所以概率是$\\dfrac{1}{3}$。\n\n答案：$\\boxed{B}$。"
+        "solution_info": "使用数字$1, 3$和$5$各一个可以形成$6$个三位数：$135,153,315,351,513$和$531$。因为被$5$整除的数字以$0$或$5$结尾，只有$135$和$315$被$5$整除。该三位数被$5$整除的概率是$\\dfrac{2}{6}=\\dfrac{1}{3}$。\n\n$\\textbf{或}$\n该数字同样可能以$1,3$或$5$结尾。该数字被$5$整除当且仅当它以$5$结尾，所以概率是$\\dfrac{1}{3}$。\n\n答案：$\\boxed{B}$。"
       }
     ],
     "children": []
@@ -19770,7 +19770,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "为了保持图案，白色正方形总是占据角落，方形图案的每条边始终有奇数块瓷砖。从角落有白色正方形的图案开始，制作一个表格，边长增加$2$块瓷砖。\n\n$\\begin{array}{|c|c|c|} \\hline \\text{Floor area} & \\#\\ \\text{of white squares} & \\text{Pattern} \\\\ \\hline 1 \\times 1 & 1 & 1^2 \\\\ \\hline 3 \\times 3 & 4 & 2^2 \\\\ \\hline 5 \\times 5 & 9 & 3^2 \\\\ \\hline 7 \\times 7 & 16 & 4^2 \\\\ \\hline 9 \\times 9 & 25 & 5^2 \\\\ \\hline \\end{array}$\n按照图案，$11 \\times 11$区域有$36$个正方形，$13 \\times 13$区域有$49$个，$15 \\times 15$有$64$个。\n\n$\\textbf{OR}$\n会有$8$行，每行包含$8$块白色瓷砖，所以总数是$8(8)=64$。\n\n答案：$\\boxed{C}$。"
+        "solution_info": "为了保持图案，白色正方形总是占据角落，方形图案的每条边始终有奇数块瓷砖。从角落有白色正方形的图案开始，制作一个表格，边长增加$2$块瓷砖。\n\n$\\begin{array}{|c|c|c|} \\hline \\text{Floor area} & \\#\\ \\text{of white squares} & \\text{Pattern} \\\\ \\hline 1 \\times 1 & 1 & 1^2 \\\\ \\hline 3 \\times 3 & 4 & 2^2 \\\\ \\hline 5 \\times 5 & 9 & 3^2 \\\\ \\hline 7 \\times 7 & 16 & 4^2 \\\\ \\hline 9 \\times 9 & 25 & 5^2 \\\\ \\hline \\end{array}$\n按照图案，$11 \\times 11$区域有$36$个正方形，$13 \\times 13$区域有$49$个，$15 \\times 15$有$64$个。\n\n$\\textbf{或}$\n会有$8$行，每行包含$8$块白色瓷砖，所以总数是$8(8)=64$。\n\n答案：$\\boxed{C}$。"
       }
     ],
     "children": []
@@ -19898,7 +19898,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "有$8$个一位数的正整数（不包括$1$）。有$8 \\cdot 9=72$个两位整数不包含数字$1$。有$8 \\cdot 9 \\cdot 9=648$个三位整数不包含数字$1$。在$1$到$1000$之间有$8+72+648=728$个整数不包含数字$1$。\n\n$\\textbf{OR}$\n把$1$到$1000$之间的每个数字看作一个三位数。例如，把$2$看作$002$，把$27$看作$027$。有$9^{3}=729$个三位数不使用数字$1$。因为$000$不代表$1$到$1000$之间的整数，总数是$728$。\n\n答案：$\\boxed{D}$。"
+        "solution_info": "有$8$个一位数的正整数（不包括$1$）。有$8 \\cdot 9=72$个两位整数不包含数字$1$。有$8 \\cdot 9 \\cdot 9=648$个三位整数不包含数字$1$。在$1$到$1000$之间有$8+72+648=728$个整数不包含数字$1$。\n\n$\\textbf{或}$\n把$1$到$1000$之间的每个数字看作一个三位数。例如，把$2$看作$002$，把$27$看作$027$。有$9^{3}=729$个三位数不使用数字$1$。因为$000$不代表$1$到$1000$之间的整数，总数是$728$。\n\n答案：$\\boxed{D}$。"
       }
     ],
     "children": []
@@ -19994,7 +19994,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "从两端看，可见面积总计$\\dfrac{1}{2}$平方英尺，因为碎片$A$的尺寸为$\\dfrac{1}{2} \\times 1=\\dfrac{1}{2} \\mathrm{ft}^{2}$，其他碎片的高度从该碎片递减。两个侧视图各显示四个可堆叠成一个单位立方体的块。所以从各侧面看的面积是$1 \\mathrm{ft}^{2}$。最后，俯视图和仰视图各显示四个单位正方形。所以顶视图和底视图各贡献$4 \\mathrm{ft}^{2}$到总面积。合计，总表面积是\n\n$\\dfrac{1}{2}+\\dfrac{1}{2}+1+1+4+4=11 \\text { square feet}.$\n$\\text{CHALLENGE}$：假设切割线为$\\dfrac{1}{2}, \\dfrac{1}{4}$和$\\dfrac{1}{8}$。这改变解答吗？\n\n答案：$\\boxed{E}$。"
+        "solution_info": "从两端看，可见面积总计$\\dfrac{1}{2}$平方英尺，因为碎片$A$的尺寸为$\\dfrac{1}{2} \\times 1=\\dfrac{1}{2} \\mathrm{ft}^{2}$，其他碎片的高度从该碎片递减。两个侧视图各显示四个可堆叠成一个单位立方体的块。所以从各侧面看的面积是$1 \\mathrm{ft}^{2}$。最后，俯视图和仰视图各显示四个单位正方形。所以顶视图和底视图各贡献$4 \\mathrm{ft}^{2}$到总面积。合计，总表面积是\n\n$\\dfrac{1}{2}+\\dfrac{1}{2}+1+1+4+4=11 \\text{ square feet}.$\n$\\text{CHALLENGE}$：假设切割线为$\\dfrac{1}{2}, \\dfrac{1}{4}$和$\\dfrac{1}{8}$。这改变解答吗？\n\n答案：$\\boxed{E}$。"
       }
     ],
     "children": []
@@ -20250,7 +20250,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "艾米莉以$12-8=4$英里/小时的速率接近埃默森。从落后埃默森$\\dfrac{1}{2}$英里到领先他$\\dfrac{1}{2}$英里，她必须接近他$1$英里。这需要$\\dfrac{1}{4}$小时，即$15$分钟。\n\n$\\text{OR}$\n\n制作一张图表，显示艾米莉和埃默森每$5$分钟的位置。请注意，每5分钟艾米莉骑$\\dfrac{12}{60}$英里/分钟$\\times 5$分钟$=1$英里，埃默森滑$\\dfrac{8}{12}$英里。最终，艾米莉将领先埃默森$\\dfrac{1}{2}$英里。注意这发生在$15$分钟后。\n\n$\\begin{array}{|l|c|c|c|c|} \\hline \\text{Time (minutes)} & 0 & 5 & 10 & 15 \\\\ \\hline \\text{Emily's Distance (miles)} & 0 & 1 & 2 & 3 \\\\ \\hline \\text{Emerson's Distance (miles)} & \\dfrac{1}{2} & 1\\ \\dfrac{1}{6} & 1\\ \\dfrac{5}{6} & 2\\ \\dfrac{1}{2} \\\\ \\hline \\end{array}$\n\n答案：$\\boxed{D}$。"
+        "solution_info": "艾米莉以$12-8=4$英里/小时的速率接近埃默森。从落后埃默森$\\dfrac{1}{2}$英里到领先他$\\dfrac{1}{2}$英里，她必须接近他$1$英里。这需要$\\dfrac{1}{4}$小时，即$15$分钟。\n\n$\\text{或}$\n\n制作一张图表，显示艾米莉和埃默森每$5$分钟的位置。请注意，每5分钟艾米莉骑$\\dfrac{12}{60}$英里/分钟$\\times 5$分钟$=1$英里，埃默森滑$\\dfrac{8}{12}$英里。最终，艾米莉将领先埃默森$\\dfrac{1}{2}$英里。注意这发生在$15$分钟后。\n\n$\\begin{array}{|l|c|c|c|c|} \\hline \\text{Time (minutes)} & 0 & 5 & 10 & 15 \\\\ \\hline \\text{Emily's Distance (miles)} & 0 & 1 & 2 & 3 \\\\ \\hline \\text{Emerson's Distance (miles)} & \\dfrac{1}{2} & 1\\ \\dfrac{1}{6} & 1\\ \\dfrac{5}{6} & 2\\ \\dfrac{1}{2} \\\\ \\hline \\end{array}$\n\n答案：$\\boxed{D}$。"
       }
     ],
     "children": []
@@ -20378,7 +20378,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "袋子里蓝球的数量是$20 \\%$乘以$500$，即$(0.20)(500)=100$。移除一些红球后，$100$个蓝球必须是$25 \\%$，即$\\dfrac{1}{4}$，占袋子里球数的比例。袋子里必须有$(4)(100)=400$个球，所以必须移除$500-400=100$个红球。\n\n$\\textbf{OR}$\n\n设$x$表示移除的红球数量。记住$0.80(500)=$ 400是原来袋子里的红球数量。设置并求解比例：\n\n$\\begin{aligned} 75\\% &= \\dfrac{3}{4} = \\dfrac{400 - x}{500 - x} \\\\ 3(500 - x) &= 4(400 - x) \\\\ 1500 - 3x &= 1600 - 4x \\end{aligned}$\n\n移除的红球数量是$x=100$。\n\n答案：$\\boxed{D}$。"
+        "solution_info": "袋子里蓝球的数量是$20 \\%$乘以$500$，即$(0.20)(500)=100$。移除一些红球后，$100$个蓝球必须是$25 \\%$，即$\\dfrac{1}{4}$，占袋子里球数的比例。袋子里必须有$(4)(100)=400$个球，所以必须移除$500-400=100$个红球。\n\n$\\textbf{或}$\n\n设$x$表示移除的红球数量。记住$0.80(500)=$ 400是原来袋子里的红球数量。设置并求解比例：\n\n$\\begin{aligned} 75\\% &= \\dfrac{3}{4} = \\dfrac{400 - x}{500 - x} \\\\ 3(500 - x) &= 4(400 - x) \\\\ 1500 - 3x &= 1600 - 4x \\end{aligned}$\n\n移除的红球数量是$x=100$。\n\n答案：$\\boxed{D}$。"
       }
     ],
     "children": []
@@ -20410,7 +20410,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "一个策略是尝试选择项：\n\n$\\begin{aligned} 5 + 6 + 7 &= 18; \\quad & 5 &\\neq 30\\% \\text{ of } 18 \\\\ 6 + 7 + 8 &= 21; \\quad & 6 &\\neq 30\\% \\text{ of } 21 \\\\ 7 + 8 + 9 &= 24; \\quad & 7 &\\neq 30\\% \\text{ of } 24 \\\\ 8 + 9 + 10 &= 27; \\quad & 8 &\\neq 30\\% \\text{ of } 27 \\\\ 9 + 10 + 11 &= 30; \\quad & 9 &= 30\\% \\text{ of } 30 \\end{aligned}$\n\n如果最短的边是$9$，那么最长的边是$11$。\n\n$\\textbf{OR}$\n\n设三个连续整数为边长$x, x-1$和$x-2$。\n\n$\\begin{aligned} x - 2 &= 0.3(x + x - 1 + x - 2) \\\\ x - 2 &= 0.3(3x - 3) \\\\ x - 2 &= 0.9x - 0.9 \\\\ 0.1x &= 1.1 \\\\ x &= 11 \\end{aligned}$\n\n最长边是$11$。\n\n答案：$\\boxed{E}$。"
+        "solution_info": "一个策略是尝试选择项：\n\n$\\begin{aligned} 5 + 6 + 7 &= 18; \\quad & 5 &\\neq 30\\% \\text{ of } 18 \\\\ 6 + 7 + 8 &= 21; \\quad & 6 &\\neq 30\\% \\text{ of } 21 \\\\ 7 + 8 + 9 &= 24; \\quad & 7 &\\neq 30\\% \\text{ of } 24 \\\\ 8 + 9 + 10 &= 27; \\quad & 8 &\\neq 30\\% \\text{ of } 27 \\\\ 9 + 10 + 11 &= 30; \\quad & 9 &= 30\\% \\text{ of } 30 \\end{aligned}$\n\n如果最短的边是$9$，那么最长的边是$11$。\n\n$\\textbf{或}$\n\n设三个连续整数为边长$x, x-1$和$x-2$。\n\n$\\begin{aligned} x - 2 &= 0.3(x + x - 1 + x - 2) \\\\ x - 2 &= 0.3(3x - 3) \\\\ x - 2 &= 0.9x - 0.9 \\\\ 0.1x &= 1.1 \\\\ x &= 11 \\end{aligned}$\n\n最长边是$11$。\n\n答案：$\\boxed{E}$。"
       }
     ],
     "children": []
@@ -20634,7 +20634,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "因为房间里$\\dfrac{2}{5}$和$\\dfrac{3}{4}$的人数是整数，房间里的人数是$5$和$4$的倍数。$4$和$5$的最小公倍数是$20$，所以房间里的最少人数是$20$。如果$\\dfrac{2}{5}$的$20$人戴着手套，那么$8$人戴着手套。如果$\\dfrac{3}{4}$的$20$人戴着帽子，那么$15$人戴着帽子。戴着手套和帽子的最少人数发生在$5$不戴帽子的人每个都戴着手套的情况下。这样就留下$8-5=3$人同时戴着手套和帽子。\n\n$\\textbf{OR}$\n\n如果$8$戴着手套，$15$戴着帽子，那么$8+15$戴着手套和/或帽子。房间里最少有$20$人，所以$23-20=3$人同时戴着帽子和手套。\n\n答案：$\\boxed{A}$。"
+        "solution_info": "因为房间里$\\dfrac{2}{5}$和$\\dfrac{3}{4}$的人数是整数，房间里的人数是$5$和$4$的倍数。$4$和$5$的最小公倍数是$20$，所以房间里的最少人数是$20$。如果$\\dfrac{2}{5}$的$20$人戴着手套，那么$8$人戴着手套。如果$\\dfrac{3}{4}$的$20$人戴着帽子，那么$15$人戴着帽子。戴着手套和帽子的最少人数发生在$5$不戴帽子的人每个都戴着手套的情况下。这样就留下$8-5=3$人同时戴着手套和帽子。\n\n$\\textbf{或}$\n\n如果$8$戴着手套，$15$戴着帽子，那么$8+15$戴着手套和/或帽子。房间里最少有$20$人，所以$23-20=3$人同时戴着帽子和手套。\n\n答案：$\\boxed{A}$。"
       }
     ],
     "children": []
@@ -20666,7 +20666,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "反向推理如下。第三天，慧读了剩余页数的$\\dfrac{1}{3}$加上$18$页，剩下$62$页要读。这意味着$62+18=80$是第二天结束时剩余页数的$\\dfrac{2}{3}$。她在第二天结束时有$\\dfrac{3}{2} \\times 80=120$页要读。第二天她读了剩余页数的$\\dfrac{1}{4}$加上$15$页，所以$120+15=135$是第一天结束时剩余页数的$\\dfrac{3}{4}$。她在第一天结束时有$\\dfrac{4}{3} \\times 135=180$页要读。第一天她读了总页数的$\\dfrac{1}{5}$加上$12$页。所以$180+12=192$是这本书总页数的$\\dfrac{4}{5}$。总页数是$\\dfrac{5}{4} \\times 192=240$。\n\n$\\textbf{OR}$\n\n制作一张图表，从后往前显示慧每天需要阅读的页数。\n\n$\\begin{array}{|c|c|c|c|c|c|} \\hline \\text{Day} & \\text{Extra Pages Read} & \\text{Fraction Read} & \\text{Fraction Left} & \\text{Calculation} & \\text{Pages to be Read} \\\\ \\hline 4 & 0 & & & & 62 \\\\ \\hline 3 & 18 & \\dfrac{1}{3} & \\dfrac{2}{3} & \\dfrac{62 + 18}{2/3} & 120 \\\\ \\hline 2 & 15 & \\dfrac{1}{4} & \\dfrac{3}{4} & \\dfrac{120 + 15}{3/4} & 180 \\\\ \\hline 1 & 12 & \\dfrac{1}{5} & \\dfrac{4}{5} & \\dfrac{180 + 12}{4/5} & 240 \\\\ \\hline \\end{array}$\n\n答案：$\\boxed{C}$。"
+        "solution_info": "反向推理如下。第三天，慧读了剩余页数的$\\dfrac{1}{3}$加上$18$页，剩下$62$页要读。这意味着$62+18=80$是第二天结束时剩余页数的$\\dfrac{2}{3}$。她在第二天结束时有$\\dfrac{3}{2} \\times 80=120$页要读。第二天她读了剩余页数的$\\dfrac{1}{4}$加上$15$页，所以$120+15=135$是第一天结束时剩余页数的$\\dfrac{3}{4}$。她在第一天结束时有$\\dfrac{4}{3} \\times 135=180$页要读。第一天她读了总页数的$\\dfrac{1}{5}$加上$12$页。所以$180+12=192$是这本书总页数的$\\dfrac{4}{5}$。总页数是$\\dfrac{5}{4} \\times 192=240$。\n\n$\\textbf{或}$\n\n制作一张图表，从后往前显示慧每天需要阅读的页数。\n\n$\\begin{array}{|c|c|c|c|c|c|} \\hline \\text{Day} & \\text{Extra Pages Read} & \\text{Fraction Read} & \\text{Fraction Left} & \\text{Calculation} & \\text{Pages to be Read} \\\\ \\hline 4 & 0 & & & & 62 \\\\ \\hline 3 & 18 & \\dfrac{1}{3} & \\dfrac{2}{3} & \\dfrac{62 + 18}{2/3} & 120 \\\\ \\hline 2 & 15 & \\dfrac{1}{4} & \\dfrac{3}{4} & \\dfrac{120 + 15}{3/4} & 180 \\\\ \\hline 1 & 12 & \\dfrac{1}{5} & \\dfrac{4}{5} & \\dfrac{180 + 12}{4/5} & 240 \\\\ \\hline \\end{array}$\n\n答案：$\\boxed{C}$。"
       }
     ],
     "children": []
@@ -20698,7 +20698,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "取$452$作为原数字，然后减去$254$。差数是$198$，个位数是$8$。使用任何满足条件的数字都会得到相同的结果。\n\n$\\textbf{OR}$\n\n原数字是$100 a+10 b+c$，其中$a-c=2$。反转后的数字将是$100 c+10 b+a$。差数是$99 a-99 c=99(a-c)=99(2)=198$。所以个位数是$8$。\n\n答案：$\\boxed{E}$。"
+        "solution_info": "取$452$作为原数字，然后减去$254$。差数是$198$，个位数是$8$。使用任何满足条件的数字都会得到相同的结果。\n\n$\\textbf{或}$\n\n原数字是$100 a+10 b+c$，其中$a-c=2$。反转后的数字将是$100 c+10 b+a$。差数是$99 a-99 c=99(a-c)=99(2)=198$。所以个位数是$8$。\n\n答案：$\\boxed{E}$。"
       }
     ],
     "children": []
@@ -20794,7 +20794,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "乔可以爬$1$级台阶有$1$种方法，$2$级台阶有$2$种方法：$1+1$或$2$，$3$级台阶有$4$种方法：$1+1+1,1+2,2+1$或$3$。乔可以以$1$级台阶开始一段$4$级台阶，剩下$3$级台阶要爬，有$4$种方法，或者以$2$级台阶开始，剩下$2$级台阶要爬，有$2$种方法，或者以$3$级台阶开始，剩下$1$级台阶要爬，有$1$种方法。这意味着有$1+2+4=7$种方法爬$4$级台阶。根据同样的论证，必然有$2+4+7=13$种方法爬$5$级台阶，有$4+7+13=24$种方法爬$6$级台阶。\n\n$\\textbf{OR}$\n\n制作一个系统的列表是另一种方法。\n\n[Figure: /question-assets/source/amc/3b26a7b78d88e9c9885a5e3a40611fcaa1ce6c3126fe07f1524282123430a746.jpg]\n\n乔爬台阶的方法数是$1+5+10+7+1=24$。\n\n答案：$\\boxed{E}$。"
+        "solution_info": "乔可以爬$1$级台阶有$1$种方法，$2$级台阶有$2$种方法：$1+1$或$2$，$3$级台阶有$4$种方法：$1+1+1,1+2,2+1$或$3$。乔可以以$1$级台阶开始一段$4$级台阶，剩下$3$级台阶要爬，有$4$种方法，或者以$2$级台阶开始，剩下$2$级台阶要爬，有$2$种方法，或者以$3$级台阶开始，剩下$1$级台阶要爬，有$1$种方法。这意味着有$1+2+4=7$种方法爬$4$级台阶。根据同样的论证，必然有$2+4+7=13$种方法爬$5$级台阶，有$4+7+13=24$种方法爬$6$级台阶。\n\n$\\textbf{或}$\n\n制作一个系统的列表是另一种方法。\n\n[Figure: /question-assets/source/amc/3b26a7b78d88e9c9885a5e3a40611fcaa1ce6c3126fe07f1524282123430a746.jpg]\n\n乔爬台阶的方法数是$1+5+10+7+1=24$。\n\n答案：$\\boxed{E}$。"
       }
     ],
     "children": []
@@ -21146,7 +21146,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "阿莎的学习时间合计 $60+90+100+80+70=400$ 分钟，平均每天 $\\dfrac{400}{5}=80$ 分钟。萨莎合计 $70+80+120+110+50= 430$ 分钟，平均每天 $\\dfrac{430}{5}=86$ 分钟，因此萨莎平均每天比阿莎多 $6$ 分钟。\n\n$\\textbf{OR}$\n萨莎与阿莎每天学习时间之差为 $+10,-10,+20,+30$ 和 $-20$ 分钟，合计 $+30$ 分钟，因此平均每天相差 $\\dfrac{30}{5}=6$ 分钟。\n\n答案：$\\boxed{A}$。"
+        "solution_info": "阿莎的学习时间合计 $60+90+100+80+70=400$ 分钟，平均每天 $\\dfrac{400}{5}=80$ 分钟。萨莎合计 $70+80+120+110+50= 430$ 分钟，平均每天 $\\dfrac{430}{5}=86$ 分钟，因此萨莎平均每天比阿莎多 $6$ 分钟。\n\n$\\textbf{或}$\n萨莎与阿莎每天学习时间之差为 $+10,-10,+20,+30$ 和 $-20$ 分钟，合计 $+30$ 分钟，因此平均每天相差 $\\dfrac{30}{5}=6$ 分钟。\n\n答案：$\\boxed{A}$。"
       }
     ],
     "children": []
@@ -21178,7 +21178,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "从Angie开始顺时针，座位可能是：$B C D$、$B D C, C B D, C D B, D B C$或$D C B$。在$2$种$6$种可能性中，Carlos与Angie相对，所以概率是$\\dfrac{2}{6}=\\dfrac{1}{3}$。\n\n$\\textbf{OR}$\n如果Angie先坐下，Carlos有三个同样可能的座位选择。其中只有一个与Angie相对。因此概率是$\\dfrac{1}{3}$。\n\n答案：$\\boxed{B}$。"
+        "solution_info": "从Angie开始顺时针，座位可能是：$B C D$、$B D C, C B D, C D B, D B C$或$D C B$。在$2$种$6$种可能性中，Carlos与Angie相对，所以概率是$\\dfrac{2}{6}=\\dfrac{1}{3}$。\n\n$\\textbf{或}$\n如果Angie先坐下，Carlos有三个同样可能的座位选择。其中只有一个与Angie相对。因此概率是$\\dfrac{1}{3}$。\n\n答案：$\\boxed{B}$。"
       }
     ],
     "children": []
@@ -21370,7 +21370,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "制作一个$36$种可能的等可能结果表。在$21$种情况下（由星号表示）第一个数字大于或等于第二个数字，所以概率是$\\dfrac{21}{36}=\\dfrac{7}{12}$。\n\n$\\begin{aligned} &\\begin{array}{|c|c|c|c|c|c|c|} \\hline & 1 & 2 & 3 & 4 & 5 & 6 \\\\ \\hline 1 & 1,1 * & 1,2 & 1,3 & 1,4 & 1,5 & 1,6 \\\\ \\hline 2 & 2,1 * & 2,2 * & 2,3 & 2,4 & 2,5 & 2,6 \\\\ \\hline 3 & 3,1 * & 3,2 * & 3,3 * & 3,4 & 3,5 & 3,6 \\\\ \\hline 4 & 4,1 * & 4,2 * & 4,3 * & 4,4 * & 4,5 & 4,6 \\\\ \\hline 5 & 5,1 * & 5,2 * & 5,3 * & 5,4 * & 5,5 * & 5,6 \\\\ \\hline 6 & 6,1 * & 6,2 * & 6,3 * & 6,4 * & 6,5 * & 6,6 * \\\\ \\hline \\end{array} \\end{aligned}$\n$\\textbf{OR}$\n在$6$种$36$种可能结果中两个数字相等。在剩余$30$种结果的一半中，第一个数字大于第二个数字，所以第一个数字大于或等于第二个数字出现在$6+15=21$种结果中。概率是$\\dfrac{21}{36}=\\dfrac{7}{12}$。\n\n答案：$\\boxed{D}$。"
+        "solution_info": "制作一个$36$种可能的等可能结果表。在$21$种情况下（由星号表示）第一个数字大于或等于第二个数字，所以概率是$\\dfrac{21}{36}=\\dfrac{7}{12}$。\n\n$\\begin{aligned} &\\begin{array}{|c|c|c|c|c|c|c|} \\hline & 1 & 2 & 3 & 4 & 5 & 6 \\\\ \\hline 1 & 1,1 * & 1,2 & 1,3 & 1,4 & 1,5 & 1,6 \\\\ \\hline 2 & 2,1 * & 2,2 * & 2,3 & 2,4 & 2,5 & 2,6 \\\\ \\hline 3 & 3,1 * & 3,2 * & 3,3 * & 3,4 & 3,5 & 3,6 \\\\ \\hline 4 & 4,1 * & 4,2 * & 4,3 * & 4,4 * & 4,5 & 4,6 \\\\ \\hline 5 & 5,1 * & 5,2 * & 5,3 * & 5,4 * & 5,5 * & 5,6 \\\\ \\hline 6 & 6,1 * & 6,2 * & 6,3 * & 6,4 * & 6,5 * & 6,6 * \\\\ \\hline \\end{array} \\end{aligned}$\n$\\textbf{或}$\n在$6$种$36$种可能结果中两个数字相等。在剩余$30$种结果的一半中，第一个数字大于第二个数字，所以第一个数字大于或等于第二个数字出现在$6+15=21$种结果中。概率是$\\dfrac{21}{36}=\\dfrac{7}{12}$。\n\n答案：$\\boxed{D}$。"
       }
     ],
     "children": []
@@ -21434,7 +21434,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "设$E$和$F$为从$A$和$B$向$\\overline{D C}$作垂直的足。在直角$\\triangle A E D$中，$D E^{2}=15^{2}-12^{2}=225-144=81$，所以$D E=9$。在直角$\\triangle B F C, F C^{2}=20^{2}-12^{2}=400-144=256$中，所以$F C=16$。\n\n[Figure: /question-assets/source/amc/c77a8aab521ab14eec27609b14aa9ec246baaa2fe9620b01db605096bd003b37.jpg]\n\n直角$\\triangle A E D$的面积是$\\dfrac{1}{2} \\cdot 9 \\cdot 12=54$，直角$\\triangle B F C$的面积是$\\dfrac{1}{2} \\cdot 16 \\cdot 12=96$，矩形$A B F E$的面积是$50 \\cdot 12=600$。梯形$A B C D$的面积是$54+96+600=750$。\n\n$\\textbf{OR}$\n如第一个解法一样开始，并注意$D C=D E+E F+F C=9+50+16=$75。然后梯形的面积是$\\dfrac{1}{2}(A B+D C) \\cdot A E=\\dfrac{1}{2}(50+75) \\cdot 12=125 \\cdot 6=750$。\n\n答案：$\\boxed{D}$。"
+        "solution_info": "设$E$和$F$为从$A$和$B$向$\\overline{D C}$作垂直的足。在直角$\\triangle A E D$中，$D E^{2}=15^{2}-12^{2}=225-144=81$，所以$D E=9$。在直角$\\triangle B F C, F C^{2}=20^{2}-12^{2}=400-144=256$中，所以$F C=16$。\n\n[Figure: /question-assets/source/amc/c77a8aab521ab14eec27609b14aa9ec246baaa2fe9620b01db605096bd003b37.jpg]\n\n直角$\\triangle A E D$的面积是$\\dfrac{1}{2} \\cdot 9 \\cdot 12=54$，直角$\\triangle B F C$的面积是$\\dfrac{1}{2} \\cdot 16 \\cdot 12=96$，矩形$A B F E$的面积是$50 \\cdot 12=600$。梯形$A B C D$的面积是$54+96+600=750$。\n\n$\\textbf{或}$\n如第一个解法一样开始，并注意$D C=D E+E F+F C=9+50+16=$75。然后梯形的面积是$\\dfrac{1}{2}(A B+D C) \\cdot A E=\\dfrac{1}{2}(50+75) \\cdot 12=125 \\cdot 6=750$。\n\n答案：$\\boxed{D}$。"
       }
     ],
     "children": []
@@ -21626,7 +21626,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "拉切尔需要为野餐制作的汉堡包所需的肉量是为家人制作所需肉量的 $\\dfrac{24}{8}=3$ 倍。因此她需要 $3 \\times 3=9$ 磅的肉。\n\n$\\textbf{OR}$\n建立比例关系来比较肉的磅数与汉堡包数量的两个比率。\n\n$\\dfrac{3}{8}=\\dfrac{x}{24}$\n求解 $x, 8 x=72$，所以 $x=9$ 磅的肉。\n\n答案：$\\boxed{E}$。"
+        "solution_info": "拉切尔需要为野餐制作的汉堡包所需的肉量是为家人制作所需肉量的 $\\dfrac{24}{8}=3$ 倍。因此她需要 $3 \\times 3=9$ 磅的肉。\n\n$\\textbf{或}$\n建立比例关系来比较肉的磅数与汉堡包数量的两个比率。\n\n$\\dfrac{3}{8}=\\dfrac{x}{24}$\n求解 $x, 8 x=72$，所以 $x=9$ 磅的肉。\n\n答案：$\\boxed{E}$。"
       }
     ],
     "children": []
@@ -21818,7 +21818,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "为了在四次测试中获得 $95$ 的平均成绩，伊莎贝拉必须获得总共 $4 \\times 95=380$ 分。她在前两次测试中获得了总共 $97+91=188$ 分，因此她必须在最后两次测试中至少获得 $380-188=192$ 分。因为她在第四次测试中最多只能得 $100$ 分，她在第三次测试中必须至少得 $92$ 分。\n\n$\\textbf{OR}$\n伊莎贝拉的第一个成绩是 $95+2$，第二个成绩是 $95-4$，第四个成绩最多是 $95+5$。因为她仍然可以达到 $95$ 的平均成绩，她的第三个成绩必须至少是 $95-2+4-5=92$。\n\n答案：$\\boxed{B}$。"
+        "solution_info": "为了在四次测试中获得 $95$ 的平均成绩，伊莎贝拉必须获得总共 $4 \\times 95=380$ 分。她在前两次测试中获得了总共 $97+91=188$ 分，因此她必须在最后两次测试中至少获得 $380-188=192$ 分。因为她在第四次测试中最多只能得 $100$ 分，她在第三次测试中必须至少得 $92$ 分。\n\n$\\textbf{或}$\n伊莎贝拉的第一个成绩是 $95+2$，第二个成绩是 $95-4$，第四个成绩最多是 $95+5$。因为她仍然可以达到 $95$ 的平均成绩，她的第三个成绩必须至少是 $95-2+4-5=92$。\n\n答案：$\\boxed{B}$。"
       }
     ],
     "children": []
@@ -22234,7 +22234,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "使用公分母，$\\dfrac{5}{19}=\\dfrac{105}{399}$ 和 $\\dfrac{7}{21}=\\dfrac{133}{399}$，所以 $\\dfrac{5}{19}<\\dfrac{7}{21}$。\n\n同样 $\\dfrac{7}{21}=\\dfrac{161}{483}$ 和 $\\dfrac{9}{23}=\\dfrac{189}{483}$，所以 $\\dfrac{7}{21}<\\dfrac{9}{23}$。\n\n$\\textbf{OR}$\n比较每个分数，$\\dfrac{7}{21}=\\dfrac{1}{3}, \\dfrac{5}{19}<\\dfrac{5}{15}=\\dfrac{1}{3}$ 和 $\\dfrac{9}{23}>\\dfrac{9}{27}=\\dfrac{1}{3}$，所以正确的递增顺序是 $\\dfrac{5}{19}<\\dfrac{7}{21}<\\dfrac{9}{23}$。\n\n答案：$\\boxed{B}$。"
+        "solution_info": "使用公分母，$\\dfrac{5}{19}=\\dfrac{105}{399}$ 和 $\\dfrac{7}{21}=\\dfrac{133}{399}$，所以 $\\dfrac{5}{19}<\\dfrac{7}{21}$。\n\n同样 $\\dfrac{7}{21}=\\dfrac{161}{483}$ 和 $\\dfrac{9}{23}=\\dfrac{189}{483}$，所以 $\\dfrac{7}{21}<\\dfrac{9}{23}$。\n\n$\\textbf{或}$\n比较每个分数，$\\dfrac{7}{21}=\\dfrac{1}{3}, \\dfrac{5}{19}<\\dfrac{5}{15}=\\dfrac{1}{3}$ 和 $\\dfrac{9}{23}>\\dfrac{9}{27}=\\dfrac{1}{3}$，所以正确的递增顺序是 $\\dfrac{5}{19}<\\dfrac{7}{21}<\\dfrac{9}{23}$。\n\n答案：$\\boxed{B}$。"
       }
     ],
     "children": []
@@ -22540,7 +22540,7 @@
     "quality": "精品",
     "question_info": {
       "raw_content": {
-        "title": "哈米是 $6^{\\text {th }}$ 年级学生，体重 $106$ 磅。他的四胞胎妹妹是小婴儿，体重分别为 $5,5,6$ 和 $8$ 磅。这五个孩子的平均体重和中位数哪个更大，相差多少磅？",
+        "title": "哈米是 $6^{\\text{th }}$ 年级学生，体重 $106$ 磅。他的四胞胎妹妹是小婴儿，体重分别为 $5,5,6$ 和 $8$ 磅。这五个孩子的平均体重和中位数哪个更大，相差多少磅？",
         "option_a": "中位数，相差 $60$ 磅",
         "option_b": "中位数，相差 $20$ 磅",
         "option_c": "平均数，相差 $5$ 磅",
@@ -22618,7 +22618,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "因为特雷在 $10$ 秒钟内数了 $6$ 节车厢，接近 $6 \\cdot 6=36$ 节车厢在 $10 \\cdot 6=60$ 秒或 $1$ 分钟内通过。在 $2$ 分 $45$ 秒内，大约 $2 \\cdot 36+\\dfrac{45}{60}(36)=72+\\dfrac{3}{4}(36)=72+27=99$ 节车厢通过，所以火车中大约有 $100$ 节车厢。\n\n$\\textbf{OR}$\n$45$ 秒加 2 分钟等于 $2(60)+45=165$ 秒。设 $N$ 为车厢数，建立比例：\n\n$\\dfrac{6}{10}=\\dfrac{N}{165}$\n求解得 $10 N=6(165)=990$，所以 $N=99$。大约 $100$ 节火车车厢通过。\n\n答案：$\\boxed{C}$"
+        "solution_info": "因为特雷在 $10$ 秒钟内数了 $6$ 节车厢，接近 $6 \\cdot 6=36$ 节车厢在 $10 \\cdot 6=60$ 秒或 $1$ 分钟内通过。在 $2$ 分 $45$ 秒内，大约 $2 \\cdot 36+\\dfrac{45}{60}(36)=72+\\dfrac{3}{4}(36)=72+27=99$ 节车厢通过，所以火车中大约有 $100$ 节车厢。\n\n$\\textbf{或}$\n$45$ 秒加 2 分钟等于 $2(60)+45=165$ 秒。设 $N$ 为车厢数，建立比例：\n\n$\\dfrac{6}{10}=\\dfrac{N}{165}$\n求解得 $10 N=6(165)=990$，所以 $N=99$。大约 $100$ 节火车车厢通过。\n\n答案：$\\boxed{C}$"
       }
     ],
     "children": []
@@ -22669,11 +22669,11 @@
     "question_info": {
       "raw_content": {
         "title": "超级绿巨人每次跳跃的距离都是前一次的两倍。如果他第一次跳跃 $1$ 米，第二次跳跃 $2$ 米，第三次跳跃 $4$ 米，依此类推，他在第几次跳跃时会首次跳过 $1$ 公里？",
-        "option_a": "$9^{\\text {th }}$",
-        "option_b": "$10^{\\text {th }}$",
-        "option_c": "$11^{\\text {th }}$",
+        "option_a": "$9^{\\text{th }}$",
+        "option_b": "$10^{\\text{th }}$",
+        "option_c": "$11^{\\text{th }}$",
         "option_d": "$12^{\\mathrm{th}}$",
-        "option_e": "$13^{\\text {th }}$",
+        "option_e": "$13^{\\text{th }}$",
         "answer1": "C"
       }
     },
@@ -22682,7 +22682,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "$\\begin{aligned} &\\begin{array}{|c|c|} \\hline \\text{Jump} & \\text{Distance (meters)} \\\\ \\hline 1 & 1 = 2^{0} \\\\ \\hline 2 & 2 = 2^{1} \\\\ \\hline 3 & 4 = 2^{2} \\\\ \\hline \\ldots & \\ldots \\\\ \\hline 10 & 512 = 2^{9} \\\\ \\hline 11 & 1024 = 2^{10} \\\\ \\hline \\end{array} \\end{aligned}$\n因为 $1024$ 米大于 $1$ 公里，他在第 $11^{\\text {th }}$ 次跳跃时会首次超过 $1$ 公里。\n\n答案：$\\boxed{C}$"
+        "solution_info": "$\\begin{aligned} &\\begin{array}{|c|c|} \\hline \\text{Jump} & \\text{Distance (meters)} \\\\ \\hline 1 & 1 = 2^{0} \\\\ \\hline 2 & 2 = 2^{1} \\\\ \\hline 3 & 4 = 2^{2} \\\\ \\hline \\ldots & \\ldots \\\\ \\hline 10 & 512 = 2^{9} \\\\ \\hline 11 & 1024 = 2^{10} \\\\ \\hline \\end{array} \\end{aligned}$\n因为 $1024$ 米大于 $1$ 公里，他在第 $11^{\\text{th }}$ 次跳跃时会首次超过 $1$ 公里。\n\n答案：$\\boxed{C}$"
       }
     ],
     "children": []
@@ -22898,7 +22898,7 @@
     "quality": "精品",
     "question_info": {
       "raw_content": {
-        "title": "斐波那契中学的一些学生参加了社区服务项目。$8^{\\text {th }}$ 年级学生与 $6^{\\text {th }}$ 年级学生的比例为 $5: 3$，$8^{\\text {th }}$ 年级学生与 $7^{\\text {th }}$ 年级学生的比例为 $8: 5$。参加项目的学生最少人数是多少？",
+        "title": "斐波那契中学的一些学生参加了社区服务项目。$8^{\\text{th }}$ 年级学生与 $6^{\\text{th }}$ 年级学生的比例为 $5: 3$，$8^{\\text{th }}$ 年级学生与 $7^{\\text{th }}$ 年级学生的比例为 $8: 5$。参加项目的学生最少人数是多少？",
         "option_a": "$16$",
         "option_b": "$40$",
         "option_c": "$55$",
@@ -23072,7 +23072,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "她有 $3$ 种方式从家骑自行车到公园西南角：$EEN$、$ENE$ 或 $NEE$。有 $6$ 种方式从公园东北角骑自行车到学校：$EENN$、$ENEN$、$ENNE$、$NEEN$、$NENE$ 或 $NNEE$。所以有 $6 \\cdot 3=18$ 条路线。\n\n$\\textbf{OR}$\n使用帕斯卡三角形方法，从家出发到学校，计算到每个中间点的路线数，下图仅向北或向东移动。\n\n[Figure: /question-assets/source/amc/6bd72289921c1fc9bd75b6d25ff4efea45adae742f20c5b42ff95561e9a638b9.jpg]\n\n答案：$\\boxed{E}$"
+        "solution_info": "她有 $3$ 种方式从家骑自行车到公园西南角：$EEN$、$ENE$ 或 $NEE$。有 $6$ 种方式从公园东北角骑自行车到学校：$EENN$、$ENEN$、$ENNE$、$NEEN$、$NENE$ 或 $NNEE$。所以有 $6 \\cdot 3=18$ 条路线。\n\n$\\textbf{或}$\n使用帕斯卡三角形方法，从家出发到学校，计算到每个中间点的路线数，下图仅向北或向东移动。\n\n[Figure: /question-assets/source/amc/6bd72289921c1fc9bd75b6d25ff4efea45adae742f20c5b42ff95561e9a638b9.jpg]\n\n答案：$\\boxed{E}$"
       }
     ],
     "children": []
@@ -23168,7 +23168,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "[Figure: /question-assets/source/amc/ed1295e1821730d0b650211d54267cc6d7d616a3ebf617c9fb886d279aa861b9.jpg]\n\n设每个正方形边长为 $1$，并如图所示将边 $A D$ 延伸到 $Y$。三个正方形的总面积是 $3$。未阴影区域为面积 $(E D Y F)$ + 面积 $(A Y J)=1\\left(\\dfrac{1}{2}\\right)+\\dfrac{1}{2} \\cdot \\dfrac{3}{2} \\cdot 2=\\dfrac{1}{2}+\\dfrac{3}{2}=2$，所以阴影面积是 $1$，所求比例是 $\\dfrac{1}{3}$。\n\n$\\textbf{OR}$\n如图所示标记点 $X$。直观地，将 $\\triangle X I J$ 绕 $X$ 旋转 $180^{\\circ}$ 得到 $\\triangle X D A$，所以阴影面积与正方形 $A B C D$ 相同，所求比例是 $\\dfrac{1}{3}$。更准确地说，线段 $A X, X D$ 和 $D A$ 分别平行于线段 $J X, X I$ 和 $I J$。同时，$D A=I J$，所以 $\\triangle A D X$ 全等于 $\\triangle J I X$。\n\n答案：$\\boxed{C}$"
+        "solution_info": "[Figure: /question-assets/source/amc/ed1295e1821730d0b650211d54267cc6d7d616a3ebf617c9fb886d279aa861b9.jpg]\n\n设每个正方形边长为 $1$，并如图所示将边 $A D$ 延伸到 $Y$。三个正方形的总面积是 $3$。未阴影区域为面积 $(E D Y F)$ + 面积 $(A Y J)=1\\left(\\dfrac{1}{2}\\right)+\\dfrac{1}{2} \\cdot \\dfrac{3}{2} \\cdot 2=\\dfrac{1}{2}+\\dfrac{3}{2}=2$，所以阴影面积是 $1$，所求比例是 $\\dfrac{1}{3}$。\n\n$\\textbf{或}$\n如图所示标记点 $X$。直观地，将 $\\triangle X I J$ 绕 $X$ 旋转 $180^{\\circ}$ 得到 $\\triangle X D A$，所以阴影面积与正方形 $A B C D$ 相同，所求比例是 $\\dfrac{1}{3}$。更准确地说，线段 $A X, X D$ 和 $D A$ 分别平行于线段 $J X, X I$ 和 $I J$。同时，$D A=I J$，所以 $\\triangle A D X$ 全等于 $\\triangle J I X$。\n\n答案：$\\boxed{C}$"
       }
     ],
     "children": []
@@ -23392,7 +23392,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "这六个矩形的面积分别为$2,8,18,32,50$和$72$。相加得$182$。\n\n$\\textbf{OR}$\n面积之和为\n\n$2 \\cdot 1+2 \\cdot 4+2 \\cdot 9+2 \\cdot 16+2 \\cdot 25+2 \\cdot 36=2(1+4+9+16+25+36)=2 \\cdot 91=182$。\n\n答案：$\\boxed{D}$。"
+        "solution_info": "这六个矩形的面积分别为$2,8,18,32,50$和$72$。相加得$182$。\n\n$\\textbf{或}$\n面积之和为\n\n$2 \\cdot 1+2 \\cdot 4+2 \\cdot 9+2 \\cdot 16+2 \\cdot 25+2 \\cdot 36=2(1+4+9+16+25+36)=2 \\cdot 91=182$。\n\n答案：$\\boxed{D}$。"
       }
     ],
     "children": []
@@ -23424,7 +23424,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "如果女生和男生人数相等，各有$14$人。通过增加$2$名女生，减少$2$名男生，我们得到$16$名女生和$12$名男生，比例为$16: 12$或$4: 3$。\n\n$\\textbf{OR}$\n如果少了$4$名女生，那么班级就是一半男生一半女生。从$4$中移除$28$名女生，剩下的$24$名学生平分为$12$名男生和$12$名女生。加回$4$名女生得到$16$名女生和$12$名男生，比例为$16: 12$，简化为$4: 3$。\n\n答案：$\\boxed{B}$。"
+        "solution_info": "如果女生和男生人数相等，各有$14$人。通过增加$2$名女生，减少$2$名男生，我们得到$16$名女生和$12$名男生，比例为$16: 12$或$4: 3$。\n\n$\\textbf{或}$\n如果少了$4$名女生，那么班级就是一半男生一半女生。从$4$中移除$28$名女生，剩下的$24$名学生平分为$12$名男生和$12$名女生。加回$4$名女生得到$16$名女生和$12$名男生，比例为$16: 12$，简化为$4: 3$。\n\n答案：$\\boxed{B}$。"
       }
     ],
     "children": []
@@ -23520,7 +23520,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "第七届 $\\text{AMC } 8$ 于 $1991$ 年举行，所以萨曼莎出生于 $1991-12=1979$ 年。\n\n$\\textbf{OR}$\n因为第七届 $\\text{AMC } 8$ 在萨曼莎 $12$ 岁时举行，第一届早 $6$ 年；在第一届举办的 $1985$ 年，她是 $6$ 岁。她出生于此前 $6$ 年，即 $1979$ 年。\n\n答案：$\\boxed{A}$。"
+        "solution_info": "第七届 $\\text{AMC } 8$ 于 $1991$ 年举行，所以萨曼莎出生于 $1991-12=1979$ 年。\n\n$\\textbf{或}$\n因为第七届 $\\text{AMC } 8$ 在萨曼莎 $12$ 岁时举行，第一届早 $6$ 年；在第一届举办的 $1985$ 年，她是 $6$ 岁。她出生于此前 $6$ 年，即 $1979$ 年。\n\n答案：$\\boxed{A}$。"
       }
     ],
     "children": []
@@ -23552,7 +23552,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "设$E$表示向东骑一个街区，$N$表示向北骑一个街区。为了避开危险交叉路口，前两个街区必须是$EE$或$NN$。所以有$4$条可能的路径：$EEENN, EENEN, EENNE$和$NNEEE$。\n\n[Figure: /question-assets/source/amc/cdd5d21eca49b87739efd5dcadcf241d47727f2f8d397f04c03ca7488d0e49f4.jpg]\n\n$\\textbf{OR}$\n在下面的图中，数字表示到达每个交叉路口的方式数。在每种情况下，到达任何特定交叉路口的方式数是到达直接相连交叉路口的方式数之和。因此有四条路径到达吉尔的家，避开了危险的交叉路口。\n\n[Figure: /question-assets/source/amc/466568f36fba611e24962cc220ebcb9e777f6e7c3efb56f798ef1a27cfccf0ff.jpg]\n\n答案：$\\boxed{A}$。"
+        "solution_info": "设$E$表示向东骑一个街区，$N$表示向北骑一个街区。为了避开危险交叉路口，前两个街区必须是$EE$或$NN$。所以有$4$条可能的路径：$EEENN, EENEN, EENNE$和$NNEEE$。\n\n[Figure: /question-assets/source/amc/cdd5d21eca49b87739efd5dcadcf241d47727f2f8d397f04c03ca7488d0e49f4.jpg]\n\n$\\textbf{或}$\n在下面的图中，数字表示到达每个交叉路口的方式数。在每种情况下，到达任何特定交叉路口的方式数是到达直接相连交叉路口的方式数之和。因此有四条路径到达吉尔的家，避开了危险的交叉路口。\n\n[Figure: /question-assets/source/amc/466568f36fba611e24962cc220ebcb9e777f6e7c3efb56f798ef1a27cfccf0ff.jpg]\n\n答案：$\\boxed{A}$。"
       }
     ],
     "children": []
@@ -23904,7 +23904,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "检测十个连续数字，个位数为$0$到$9$。对于$10$到$19$，我们发现数字的乘积和数字的和得$1,3,5,7,9,11,13,15,17$，和$19$。在这个序列中只有$19$满足所需条件。很容易验证$29,39, \\ldots, 99$也满足所需条件。\n\n$\\textbf{OR}$\n设十位数为$a$，个位数为$b$，该数为$10 a+b$。所以$a+b+a b=10 a+b, a+a b=10 a, a b=9 a$和$b=9$。\n\n答案：$\\boxed{E}$。"
+        "solution_info": "检测十个连续数字，个位数为$0$到$9$。对于$10$到$19$，我们发现数字的乘积和数字的和得$1,3,5,7,9,11,13,15,17$，和$19$。在这个序列中只有$19$满足所需条件。很容易验证$29,39, \\ldots, 99$也满足所需条件。\n\n$\\textbf{或}$\n设十位数为$a$，个位数为$b$，该数为$10 a+b$。所以$a+b+a b=10 a+b, a+a b=10 a, a b=9 a$和$b=9$。\n\n答案：$\\boxed{E}$。"
       }
     ],
     "children": []
@@ -23936,7 +23936,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "任意两个女孩号码的和不能超过$31$。不超过$2$的两个$31$位质数的和的所有可能值是\n\n$11+13=24, \\quad 11+17=28, \\quad 11+19=30, \\quad \\text { and } \\quad 13+17=30.$\n因此所需日期为$24,28$和$30$。凯特琳的号码必须出现在两个最小的和中，$11+13=24$和$11+17=28$。所以凯特琳的号码是$11$。其他两个女孩的号码分别是阿什利的$13$和贝瑟尼的$17$。\n\n答案：$\\boxed{A}$。"
+        "solution_info": "任意两个女孩号码的和不能超过$31$。不超过$2$的两个$31$位质数的和的所有可能值是\n\n$11+13=24, \\quad 11+17=28, \\quad 11+19=30, \\quad \\text{ 和 } \\quad 13+17=30.$\n因此所需日期为$24,28$和$30$。凯特琳的号码必须出现在两个最小的和中，$11+13=24$和$11+17=28$。所以凯特琳的号码是$11$。其他两个女孩的号码分别是阿什利的$13$和贝瑟尼的$17$。\n\n答案：$\\boxed{A}$。"
       }
     ],
     "children": []
@@ -23968,7 +23968,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "假设$100$个顾客购买的罐数从小到大排列。中位数是排序列表中第$50$和第$51$个数字的平均值。为了最大化中位数，通过都取$49$来最小化前$1$个数字。如果第$50$个数字是$4$，那么所有$100$个数字的总和至少$49+51 \\cdot 4=253$，太大了。如果第$50$个数字是$3$，后续数字都等于$4$，那么$100$个数字的和是$49+3+50 \\cdot 4=252$，中位数是$(3+4) \\div 2=3.5$。\n\n$\\textbf{OR}$\n为了最大化中位数，最大的$50$应该相同并尽可能大。最小的$49$应尽可能小。列表的中位数是第$50$和第$51$个数字的平均值。如果每个顾客都有$1$罐汽水，还剩$152$罐待分配。给上面$50$个每人额外三罐意味着前$50$个各有四罐（$(200$总数）和下面$50$个各一罐（$(50$总数）。还剩$2$罐。把$50$个额外的给第$2$人意味着第$50$人有$3$罐，第$51$人有$4$罐，中位数为$(3+4) \\div 2=3.5$。\n\n答案：$\\boxed{C}$。"
+        "solution_info": "假设$100$个顾客购买的罐数从小到大排列。中位数是排序列表中第$50$和第$51$个数字的平均值。为了最大化中位数，通过都取$49$来最小化前$1$个数字。如果第$50$个数字是$4$，那么所有$100$个数字的总和至少$49+51 \\cdot 4=253$，太大了。如果第$50$个数字是$3$，后续数字都等于$4$，那么$100$个数字的和是$49+3+50 \\cdot 4=252$，中位数是$(3+4) \\div 2=3.5$。\n\n$\\textbf{或}$\n为了最大化中位数，最大的$50$应该相同并尽可能大。最小的$49$应尽可能小。列表的中位数是第$50$和第$51$个数字的平均值。如果每个顾客都有$1$罐汽水，还剩$152$罐待分配。给上面$50$个每人额外三罐意味着前$50$个各有四罐（$(200$总数）和下面$50$个各一罐（$(50$总数）。还剩$2$罐。把$50$个额外的给第$2$人意味着第$50$人有$3$罐，第$51$人有$4$罐，中位数为$(3+4) \\div 2=3.5$。\n\n答案：$\\boxed{C}$。"
       }
     ],
     "children": []
@@ -24000,7 +24000,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "每个半圆使罗伯特向前移动$40$英尺，所以他必须骑$5280 \\div 40=132$个半圆才能完成$1$英里。骑$132$个半圆等于$66$个完整圆的距离。每个圆的周长是$40 \\pi$，所以罗伯特骑了$66 \\cdot 40 \\pi$英尺。转换为英里，这是$\\dfrac{66 \\cdot 40 \\pi}{5280}=\\dfrac{\\pi}{2}$英里。由于他以$5$英里/小时的速度骑行，将需要$\\dfrac{\\pi}{2} \\div 5=\\dfrac{\\pi}{10}$小时。\n\n$\\textbf{OR}$\n每条半圆路径的长度是直线路径的$\\dfrac{\\pi}{2}$倍。由于直线路径需要$\\dfrac{1}{5}$小时的骑行时间，曲线路径将需要$\\dfrac{1}{5} \\cdot \\dfrac{\\pi}{2}=\\dfrac{\\pi}{10}$小时。\n\n答案：$\\boxed{B}$。"
+        "solution_info": "每个半圆使罗伯特向前移动$40$英尺，所以他必须骑$5280 \\div 40=132$个半圆才能完成$1$英里。骑$132$个半圆等于$66$个完整圆的距离。每个圆的周长是$40 \\pi$，所以罗伯特骑了$66 \\cdot 40 \\pi$英尺。转换为英里，这是$\\dfrac{66 \\cdot 40 \\pi}{5280}=\\dfrac{\\pi}{2}$英里。由于他以$5$英里/小时的速度骑行，将需要$\\dfrac{\\pi}{2} \\div 5=\\dfrac{\\pi}{10}$小时。\n\n$\\textbf{或}$\n每条半圆路径的长度是直线路径的$\\dfrac{\\pi}{2}$倍。由于直线路径需要$\\dfrac{1}{5}$小时的骑行时间，曲线路径将需要$\\dfrac{1}{5} \\cdot \\dfrac{\\pi}{2}=\\dfrac{\\pi}{10}$小时。\n\n答案：$\\boxed{B}$。"
       }
     ],
     "children": []
@@ -24032,7 +24032,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "地板长$\\dfrac{12}{3}=4$码，宽$\\dfrac{9}{3}=3$码，需要$4 \\times 3=12$平方码的地毯来覆盖。\n\n$\\textbf{OR}$\n地板面积为$12 \\times 9$平方英尺。一平方码等于$3^{2}=9$平方英尺，所以需要的平方码数为$\\dfrac{12 \\times 9}{9}=12$。\n\n答案：$\\boxed{A}$。"
+        "solution_info": "地板长$\\dfrac{12}{3}=4$码，宽$\\dfrac{9}{3}=3$码，需要$4 \\times 3=12$平方码的地毯来覆盖。\n\n$\\textbf{或}$\n地板面积为$12 \\times 9$平方英尺。一平方码等于$3^{2}=9$平方英尺，所以需要的平方码数为$\\dfrac{12 \\times 9}{9}=12$。\n\n答案：$\\boxed{A}$。"
       }
     ],
     "children": []
@@ -24192,7 +24192,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "设$D$是$\\overline{A C}$的中点。那么$\\overline{B D}$是到$\\overline{A C}$的高，$\\triangle B D C$是一个直角三角形，其中$B C=29$和$D C=21$。所以$B D=$$\\sqrt{29^{2}-21^{2}}=\\sqrt{400}=20$。$\\triangle A B C=\\dfrac{1}{2} \\cdot 20 \\cdot 42=420$的面积。\n\n$\\textbf{OR}$\n海伦公式用三角形边长来表示三角形面积。如果边长为$a, b$和$c$，设$s=\\dfrac{a+b+c}{2}$。面积为$\\sqrt{s(s-a)(s-b)(s-c)}$。在本题中，$s=\\dfrac{29+29+42}{2}=50$，面积为$\\sqrt{50 \\cdot 21 \\cdot 21 \\cdot 8}=21 \\sqrt{400}=21 \\cdot 20=420$。\n\n答案：$\\boxed{B}$。"
+        "solution_info": "设$D$是$\\overline{A C}$的中点。那么$\\overline{B D}$是到$\\overline{A C}$的高，$\\triangle B D C$是一个直角三角形，其中$B C=29$和$D C=21$。所以$B D=$$\\sqrt{29^{2}-21^{2}}=\\sqrt{400}=20$。$\\triangle A B C=\\dfrac{1}{2} \\cdot 20 \\cdot 42=420$的面积。\n\n$\\textbf{或}$\n海伦公式用三角形边长来表示三角形面积。如果边长为$a, b$和$c$，设$s=\\dfrac{a+b+c}{2}$。面积为$\\sqrt{s(s-a)(s-b)(s-c)}$。在本题中，$s=\\dfrac{29+29+42}{2}=50$，面积为$\\sqrt{50 \\cdot 21 \\cdot 21 \\cdot 8}=21 \\sqrt{400}=21 \\cdot 20=420$。\n\n答案：$\\boxed{B}$。"
       }
     ],
     "children": []
@@ -24224,7 +24224,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "九种等可能的结果是：\n\n$(1,1),(1,2),(1,3),(2,1),(2,2),(2,3),(3,1),(3,2),(3,3)$\n在九种结果中，有五种乘积为偶数。因此概率为$\\dfrac{5}{9}$。\n\n$\\textbf{OR}$\n使两个值的乘积为奇数的唯一方式是从各盒子中各抽一个奇数。这发生的概率为$\\dfrac{2}{3} \\cdot \\dfrac{2}{3}=\\dfrac{4}{9}$。所以乘积为偶数的概率为$1-\\dfrac{4}{9}=\\dfrac{5}{9}$。\n\n答案：$\\boxed{E}$。"
+        "solution_info": "九种等可能的结果是：\n\n$(1,1),(1,2),(1,3),(2,1),(2,2),(2,3),(3,1),(3,2),(3,3)$\n在九种结果中，有五种乘积为偶数。因此概率为$\\dfrac{5}{9}$。\n\n$\\textbf{或}$\n使两个值的乘积为奇数的唯一方式是从各盒子中各抽一个奇数。这发生的概率为$\\dfrac{2}{3} \\cdot \\dfrac{2}{3}=\\dfrac{4}{9}$。所以乘积为偶数的概率为$1-\\dfrac{4}{9}=\\dfrac{5}{9}$。\n\n答案：$\\boxed{E}$。"
       }
     ],
     "children": []
@@ -24288,7 +24288,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "注意詹纳贝尔工作$1$天后总共卖出$1$个小工具，$2$天后卖出$1+3=4=2^{2}$个，$3$天后卖出$1+3+5=3^{2}$个。可以证明这个规律继续，所以工作$20$天后，詹纳贝尔总共卖出了$20^{2}=400$个小工具。\n\n$\\textbf{OR}$\n需要前$20$个奇数$1,3,5, \\ldots, 39$的和。第一个和最后一个的和是$40$，第二个和第$19$个的和也是$40$，实际上有$10$对数字，每对的和都是$40$。因此所需的和为$400$。\n\n答案：$\\boxed{D}$。"
+        "solution_info": "注意詹纳贝尔工作$1$天后总共卖出$1$个小工具，$2$天后卖出$1+3=4=2^{2}$个，$3$天后卖出$1+3+5=3^{2}$个。可以证明这个规律继续，所以工作$20$天后，詹纳贝尔总共卖出了$20^{2}=400$个小工具。\n\n$\\textbf{或}$\n需要前$20$个奇数$1,3,5, \\ldots, 39$的和。第一个和最后一个的和是$40$，第二个和第$19$个的和也是$40$，实际上有$10$对数字，每对的和都是$40$。因此所需的和为$400$。\n\n答案：$\\boxed{D}$。"
       }
     ],
     "children": []
@@ -24384,7 +24384,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "$12$条边中的每一条都平行于$3$条其他边，给出$36$对可能的平行边。但在这个过程中每对平行边被计算了两次，所以有$18$对平行边。\n\n$\\textbf{OR}$\n与$\\overline{A B}(\\overline{A B}\\|\\overline{E F}, \\overline{A B}\\| \\overline{H G}, \\overline{A B} \\| \\overline{D C}$、$\\overline{E F}\\|\\overline{H G}, \\overline{E F}\\| \\overline{D C}, \\overline{H G} \\| \\overline{D C})$相关有$6$对平行边。类似地与$\\overline{A E}$相关有$6$对平行边，与$\\overline{A D}$相关有$6$对平行边，总共$18$对平行边。\n\n答案：$\\boxed{C}$。"
+        "solution_info": "$12$条边中的每一条都平行于$3$条其他边，给出$36$对可能的平行边。但在这个过程中每对平行边被计算了两次，所以有$18$对平行边。\n\n$\\textbf{或}$\n与$\\overline{A B}(\\overline{A B}\\|\\overline{E F}, \\overline{A B}\\| \\overline{H G}, \\overline{A B} \\| \\overline{D C}$、$\\overline{E F}\\|\\overline{H G}, \\overline{E F}\\| \\overline{D C}, \\overline{H G} \\| \\overline{D C})$相关有$6$对平行边。类似地与$\\overline{A E}$相关有$6$对平行边，与$\\overline{A D}$相关有$6$对平行边，总共$18$对平行边。\n\n答案：$\\boxed{C}$。"
       }
     ],
     "children": []
@@ -24480,7 +24480,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "$149+119+29=297$的和计算了赞成两个议案的学生数两次。所以赞成两个议案的学生数为$297-198$或$99$。\n\n$\\textbf{OR}$\n在下图中，左圆代表$149$名赞成第一个议案的学生，右圆代表$119$名赞成第二个议案的学生。设$x$为赞成两个议案的学生数。则$149-x$名学生赞成第一个议案但不赞成第二个，$119-x$名学生赞成第二个议案但不赞成第一个，$29$名学生反对两个议案。图中的数字之和必须为$198$，所以\n\n$\\begin{aligned} (149 - x) + x + (119 - x) + 29 &= 198 \\\\ 297 - x &= 198 \\\\ x &= 99. \\end{aligned}$\n\n[Figure: /question-assets/source/amc/f6e197e58fc90b88d7c58b7581dca8ea0b691ec5a2b1a5020eaaf933292ba831.jpg]\n\n答案：$\\boxed{D}$。"
+        "solution_info": "$149+119+29=297$的和计算了赞成两个议案的学生数两次。所以赞成两个议案的学生数为$297-198$或$99$。\n\n$\\textbf{或}$\n在下图中，左圆代表$149$名赞成第一个议案的学生，右圆代表$119$名赞成第二个议案的学生。设$x$为赞成两个议案的学生数。则$149-x$名学生赞成第一个议案但不赞成第二个，$119-x$名学生赞成第二个议案但不赞成第一个，$29$名学生反对两个议案。图中的数字之和必须为$198$，所以\n\n$\\begin{aligned} (149 - x) + x + (119 - x) + 29 &= 198 \\\\ 297 - x &= 198 \\\\ x &= 99. \\end{aligned}$\n\n[Figure: /question-assets/source/amc/f6e197e58fc90b88d7c58b7581dca8ea0b691ec5a2b1a5020eaaf933292ba831.jpg]\n\n答案：$\\boxed{D}$。"
       }
     ],
     "children": []
@@ -24512,7 +24512,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "每$5$个六年级学生中有$2$个与九年级伙伴配对，每$6$个九年级学生中有$2$个与六年级伙伴配对。（现在比例被表示为六年级学生数与九年级学生数匹配。）所以每$11$个学生中有$4$个参加导师制项目。比例为$\\dfrac{4}{11}$。\n\n$\\textbf{OR}$\n假设有$n$个六年级学生与$n$个九年级学生配对。则六年级学生总数为$\\dfrac{5}{2} n$，九年级学生总数为$3 n$，六年级和九年级学生总数为$\\dfrac{5}{2} n+3 n=\\dfrac{11}{2} n$。有$2 n$名学生参加导师制项目，这是全部学生数$\\dfrac{2 n}{\\dfrac{11}{2} n}=\\dfrac{4}{11}$。\n\n答案：$\\boxed{B}$。"
+        "solution_info": "每$5$个六年级学生中有$2$个与九年级伙伴配对，每$6$个九年级学生中有$2$个与六年级伙伴配对。（现在比例被表示为六年级学生数与九年级学生数匹配。）所以每$11$个学生中有$4$个参加导师制项目。比例为$\\dfrac{4}{11}$。\n\n$\\textbf{或}$\n假设有$n$个六年级学生与$n$个九年级学生配对。则六年级学生总数为$\\dfrac{5}{2} n$，九年级学生总数为$3 n$，六年级和九年级学生总数为$\\dfrac{5}{2} n+3 n=\\dfrac{11}{2} n$。有$2 n$名学生参加导师制项目，这是全部学生数$\\dfrac{2 n}{\\dfrac{11}{2} n}=\\dfrac{4}{11}$。\n\n答案：$\\boxed{B}$。"
       }
     ],
     "children": []
@@ -24544,7 +24544,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "因为新时间是原时间的$\\dfrac{12}{20}=\\dfrac{3}{5}$，新速度必须是原速度的$\\dfrac{5}{3}=1 \\dfrac{2}{3}$。则额外的$18$英里/小时必须是原速度的$\\dfrac{2}{3}$，所以原速度是$27 \\mathrm{mph}$。在$20$分钟内，杰瑞米的父亲行驶$\\dfrac{1}{3} \\cdot 27=9$英里。\n\n$\\textbf{OR}$\n设杰瑞米原来的速度为$r$英里/小时。二十分钟是一小时的$\\dfrac{20}{60}=\\dfrac{1}{3}$，十二分钟是一小时的$\\dfrac{12}{60}=\\dfrac{1}{5}$。则$\\dfrac{1}{3} r=\\dfrac{1}{5}(r+18)$，所以$5 r=3 r+54$，$r=27$。因此到学校的距离是$\\dfrac{1}{3} r=9$英里。\n\n答案：$\\boxed{D}$。"
+        "solution_info": "因为新时间是原时间的$\\dfrac{12}{20}=\\dfrac{3}{5}$，新速度必须是原速度的$\\dfrac{5}{3}=1 \\dfrac{2}{3}$。则额外的$18$英里/小时必须是原速度的$\\dfrac{2}{3}$，所以原速度是$27 \\mathrm{mph}$。在$20$分钟内，杰瑞米的父亲行驶$\\dfrac{1}{3} \\cdot 27=9$英里。\n\n$\\textbf{或}$\n设杰瑞米原来的速度为$r$英里/小时。二十分钟是一小时的$\\dfrac{20}{60}=\\dfrac{1}{3}$，十二分钟是一小时的$\\dfrac{12}{60}=\\dfrac{1}{5}$。则$\\dfrac{1}{3} r=\\dfrac{1}{5}(r+18)$，所以$5 r=3 r+54$，$r=27$。因此到学校的距离是$\\dfrac{1}{3} r=9$英里。\n\n答案：$\\boxed{D}$。"
       }
     ],
     "children": []
@@ -24608,7 +24608,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "三角形内接于一个顶点在$(1,1),(1,4),(5,4)$、$(5,1)$的$4 \\times 3$矩形。有三个三角形区域在$4 \\times 3$矩形内但在$\\triangle A B C$外。左下三角形的面积为$\\dfrac{1}{2} \\cdot 4 \\cdot 2=4$平方单位。左上三角形的面积为$\\dfrac{1}{2} \\cdot 1 \\cdot 3=\\dfrac{3}{2}$平方单位。第三个三角形的面积也为$\\dfrac{1}{2} \\cdot 1 \\cdot 3=\\dfrac{3}{2}$平方单位。所以$\\triangle A B C$的面积为$12-4-\\dfrac{3}{2}-\\dfrac{3}{2}=5$平方单位。$6 \\times 5$网格的面积为$30$平方单位。因此被三角形覆盖的比例为$\\dfrac{5}{30}=\\dfrac{1}{6}$。\n\n[Figure: /question-assets/source/amc/05b53febe9dd3ae209fa42280dd7335bd8b9aad14a3bf116ef45088bef5da83f.jpg]\n\n$\\textbf{OR}$\n皮克定理说多边形区域（其顶点在格点处，即坐标为整数的点）的面积由$A=I+\\dfrac{1}{2} B-1$给出，其中$I$是该区域内部的格点数，$B$是边界上的格点数。根据上面的图，在$\\triangle A B C$的边界上有$B=4$个格点在$(1,3),(3,2),(5,1)$和$(4,4)$处。在$\\triangle A B C$内部有$I=4$个整数坐标的点在$(2,3)$、$(3,3),(4,2)$和$(4,3)$处。则$\\triangle A B C$的面积为$I+\\dfrac{1}{2} B-1=4+2-1=5$平方单位。如前所述，被三角形覆盖的矩形比例为$\\dfrac{5}{30}=\\dfrac{1}{6}$。\n\n答案：$\\boxed{A}$。"
+        "solution_info": "三角形内接于一个顶点在$(1,1),(1,4),(5,4)$、$(5,1)$的$4 \\times 3$矩形。有三个三角形区域在$4 \\times 3$矩形内但在$\\triangle A B C$外。左下三角形的面积为$\\dfrac{1}{2} \\cdot 4 \\cdot 2=4$平方单位。左上三角形的面积为$\\dfrac{1}{2} \\cdot 1 \\cdot 3=\\dfrac{3}{2}$平方单位。第三个三角形的面积也为$\\dfrac{1}{2} \\cdot 1 \\cdot 3=\\dfrac{3}{2}$平方单位。所以$\\triangle A B C$的面积为$12-4-\\dfrac{3}{2}-\\dfrac{3}{2}=5$平方单位。$6 \\times 5$网格的面积为$30$平方单位。因此被三角形覆盖的比例为$\\dfrac{5}{30}=\\dfrac{1}{6}$。\n\n[Figure: /question-assets/source/amc/05b53febe9dd3ae209fa42280dd7335bd8b9aad14a3bf116ef45088bef5da83f.jpg]\n\n$\\textbf{或}$\n皮克定理说多边形区域（其顶点在格点处，即坐标为整数的点）的面积由$A=I+\\dfrac{1}{2} B-1$给出，其中$I$是该区域内部的格点数，$B$是边界上的格点数。根据上面的图，在$\\triangle A B C$的边界上有$B=4$个格点在$(1,3),(3,2),(5,1)$和$(4,4)$处。在$\\triangle A B C$内部有$I=4$个整数坐标的点在$(2,3)$、$(3,3),(4,2)$和$(4,3)$处。则$\\triangle A B C$的面积为$I+\\dfrac{1}{2} B-1=4+2-1=5$平方单位。如前所述，被三角形覆盖的矩形比例为$\\dfrac{5}{30}=\\dfrac{1}{6}$。\n\n答案：$\\boxed{A}$。"
       }
     ],
     "children": []
@@ -24640,7 +24640,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "如果拉尔夫购买$6$双$\\$ 1$袜子，则其他$6$双袜子至少花费$\\$ 19$，使总成本超过$\\$ 24$。购买少于$6$双$\\$ 1$袜子会使拉尔夫的成本更高。如果他购买$8$双$\\$ 1$袜子，则其他$4$双花费少于$\\$ 16$，使总成本少于$\\$ 24$。购买超过$8$双$\\$ 1$袜子会使他的总成本更低。所以拉尔夫购买了$7$双$\\$ 1$袜子、$3$双$\\$ 3$袜子和$2$双$\\$ 4$袜子。\n\n$\\textbf{OR}$\n设$a, b$和$c$分别为$\\$ 1, \\$ 3$和$\\$ 4$袜子的双数。则$a+b+c=12$和$a+3 b+4 c=24$。从第二个方程中减去第一个给出$2 b+3 c=12$。既然$3$是$12$和$3 c, 3$的因子，它也必须是$2 b$的因子。既然$c>0$，得出$b=3, c=2$和$a=7$。\n\n答案：$\\boxed{D}$。"
+        "solution_info": "如果拉尔夫购买$6$双$\\$ 1$袜子，则其他$6$双袜子至少花费$\\$ 19$，使总成本超过$\\$ 24$。购买少于$6$双$\\$ 1$袜子会使拉尔夫的成本更高。如果他购买$8$双$\\$ 1$袜子，则其他$4$双花费少于$\\$ 16$，使总成本少于$\\$ 24$。购买超过$8$双$\\$ 1$袜子会使他的总成本更低。所以拉尔夫购买了$7$双$\\$ 1$袜子、$3$双$\\$ 3$袜子和$2$双$\\$ 4$袜子。\n\n$\\textbf{或}$\n设$a, b$和$c$分别为$\\$ 1, \\$ 3$和$\\$ 4$袜子的双数。则$a+b+c=12$和$a+3 b+4 c=24$。从第二个方程中减去第一个给出$2 b+3 c=12$。既然$3$是$12$和$3 c, 3$的因子，它也必须是$2 b$的因子。既然$c>0$，得出$b=3, c=2$和$a=7$。\n\n答案：$\\boxed{D}$。"
       }
     ],
     "children": []
@@ -24768,7 +24768,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "每队比赛总数为 $3 N+4 M=76$。由 $M>4$ 和 $N>2 M$ 可得 $N>8$。因为 $4$ 同时整除 $76$ 和 $4 M, 4$，所以 $3 N$ 也能被 4 整除，进而得到 $N$。若 $N=12$，则 $M=10$，不满足 $N>2 M$；若 $N \\geq 20$，则 $M \\leq 4$，不满足 $M>4$。因此唯一可能是 $N=16$ 和 $M=7$。所以每队在本分区内进行 $3 \\cdot 16=48$ 场比赛，与另一分区进行 $4 \\cdot 7=28$ 场比赛。\n\n$\\textbf{OR}$\n每队进行的比赛总数是$3 N+4 M=76$。制作$M>4$的可能性表格：\n\n$\\begin{array}{|c|c|c|c|} \\hline M & 4M & 76 - 4M = 3N & N \\\\ \\hline 5 & 20 & 56 & \\\\ 6 & 24 & 52 & \\text{(not an integer)} \\\\ 7 & 28 & 48 & \\text{(not an integer)} \\\\ 8 & 32 & 44 & 16 \\\\ 9 & 36 & 40 & \\text{(not an integer)} \\\\ 10 & 40 & 36 & \\text{(not an integer)} \\\\ 11 & 44 & 32 & 12 \\\\ 12 & 48 & 28 & \\text{(not an integer)} \\\\ 13 & 52 & 24 & \\text{(not an integer)} \\\\ \\hline \\end{array}$\n仅$M=7$和$N=16$满足条件。\n\n情况$M=10$和$N=12$违反条件$N>2 M$。\n\n所以每队进行$3 N=48$场分区内比赛和对另一分区$4 M=28$场比赛。\n\n这是以科罗拉多州、爱达荷州、蒙大拿州和犹他州的先驱棒球联赛为原型。\n\n答案：$\\boxed{B}$。"
+        "solution_info": "每队比赛总数为 $3 N+4 M=76$。由 $M>4$ 和 $N>2 M$ 可得 $N>8$。因为 $4$ 同时整除 $76$ 和 $4 M, 4$，所以 $3 N$ 也能被 4 整除，进而得到 $N$。若 $N=12$，则 $M=10$，不满足 $N>2 M$；若 $N \\geq 20$，则 $M \\leq 4$，不满足 $M>4$。因此唯一可能是 $N=16$ 和 $M=7$。所以每队在本分区内进行 $3 \\cdot 16=48$ 场比赛，与另一分区进行 $4 \\cdot 7=28$ 场比赛。\n\n$\\textbf{或}$\n每队进行的比赛总数是$3 N+4 M=76$。制作$M>4$的可能性表格：\n\n$\\begin{array}{|c|c|c|c|} \\hline M & 4M & 76 - 4M = 3N & N \\\\ \\hline 5 & 20 & 56 & \\\\ 6 & 24 & 52 & \\text{(not an integer)} \\\\ 7 & 28 & 48 & \\text{(not an integer)} \\\\ 8 & 32 & 44 & 16 \\\\ 9 & 36 & 40 & \\text{(not an integer)} \\\\ 10 & 40 & 36 & \\text{(not an integer)} \\\\ 11 & 44 & 32 & 12 \\\\ 12 & 48 & 28 & \\text{(not an integer)} \\\\ 13 & 52 & 24 & \\text{(not an integer)} \\\\ \\hline \\end{array}$\n仅$M=7$和$N=16$满足条件。\n\n情况$M=10$和$N=12$违反条件$N>2 M$。\n\n所以每队进行$3 N=48$场分区内比赛和对另一分区$4 M=28$场比赛。\n\n这是以科罗拉多州、爱达荷州、蒙大拿州和犹他州的先驱棒球联赛为原型。\n\n答案：$\\boxed{B}$。"
       }
     ],
     "children": []
@@ -24800,7 +24800,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "如图所示，设$E Q=c$和$T Q=s$。三角形$Q U V$和$F E Q$相似，因为$\\angle F Q E$和$\\angle Q V U$是全等的（都互为$\\angle V Q U$的补角）。所以\n\n$\\dfrac{Q U}{U V}=\\dfrac{F E}{E Q}$\n因此$Q U=\\dfrac{1}{c}$。则$A B=1+c+1 / c+1=5$，所以$c+1 / c=3$。既然正方形$A B C D$的面积等于正方形$Q R S T$的面积加上四个单位正方形的面积加上四个$1 \\times c$三角形的面积和四个$\\dfrac{1}{c} \\times 1$三角形的面积，得出\n\n$\\begin{array}{rcl} 25 & = & s^2 + 4\\left(1 + \\frac{c}{2} + \\frac{1}{2c}\\right) \\\\ & = & s^2 + 4 + 2\\left(c + \\frac{1}{c}\\right) \\\\ & = & s^2 + 4 + 2 \\cdot 3 \\end{array}$\n因此，正方形$Q R S T=s^{2}=15$的面积。\n\n[Figure: /question-assets/source/amc/16d63896077aa164eb7147e05797a84a9d2611e06e790e73b77c1a58d12ffa7a.jpg]\n\n$\\textbf{OR}$\n正方形$F V M P$的面积为$9$，四个三角形$F Q V, V R M, M S P$、$P T F$的面积各为$\\dfrac{3}{2}$。所以正方形$S T Q R$的面积为$9+6=15$。\n\n答案：$\\boxed{C}$。"
+        "solution_info": "如图所示，设$E Q=c$和$T Q=s$。三角形$Q U V$和$F E Q$相似，因为$\\angle F Q E$和$\\angle Q V U$是全等的（都互为$\\angle V Q U$的补角）。所以\n\n$\\dfrac{Q U}{U V}=\\dfrac{F E}{E Q}$\n因此$Q U=\\dfrac{1}{c}$。则$A B=1+c+1 / c+1=5$，所以$c+1 / c=3$。既然正方形$A B C D$的面积等于正方形$Q R S T$的面积加上四个单位正方形的面积加上四个$1 \\times c$三角形的面积和四个$\\dfrac{1}{c} \\times 1$三角形的面积，得出\n\n$\\begin{array}{rcl} 25 & = & s^2 + 4\\left(1 + \\frac{c}{2} + \\frac{1}{2c}\\right) \\\\ & = & s^2 + 4 + 2\\left(c + \\frac{1}{c}\\right) \\\\ & = & s^2 + 4 + 2 \\cdot 3 \\end{array}$\n因此，正方形$Q R S T=s^{2}=15$的面积。\n\n[Figure: /question-assets/source/amc/16d63896077aa164eb7147e05797a84a9d2611e06e790e73b77c1a58d12ffa7a.jpg]\n\n$\\textbf{或}$\n正方形$F V M P$的面积为$9$，四个三角形$F Q V, V R M, M S P$、$P T F$的面积各为$\\dfrac{3}{2}$。所以正方形$S T Q R$的面积为$9+6=15$。\n\n答案：$\\boxed{C}$。"
       }
     ],
     "children": []
@@ -24864,7 +24864,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "$\\triangle A C D$的面积是$\\dfrac{1}{2} \\cdot 8 \\cdot 6=24$。$\\triangle M C D$的面积是$\\dfrac{1}{2} \\cdot 4 \\cdot 6=12$。所以$\\triangle A M C$的面积是$24-12=12$。\n\n$\\textbf{OR}$\n\n[Figure: /question-assets/source/amc/31eaef12a525d5428a90cbdb219d3d4026d4b437e73f5ecfff57304f6fb762bc.jpg]\n\n如上图所示，从$C$到底边$\\overline{A M}$的高为$\\overline{C D}$。因此阴影部分$\\triangle A M C$的面积为\n\n$\\dfrac{1}{2} \\cdot A M \\cdot C D=\\dfrac{1}{2} \\cdot 4 \\cdot 6=12.$\n答案：$\\boxed{A}$"
+        "solution_info": "$\\triangle A C D$的面积是$\\dfrac{1}{2} \\cdot 8 \\cdot 6=24$。$\\triangle M C D$的面积是$\\dfrac{1}{2} \\cdot 4 \\cdot 6=12$。所以$\\triangle A M C$的面积是$24-12=12$。\n\n$\\textbf{或}$\n\n[Figure: /question-assets/source/amc/31eaef12a525d5428a90cbdb219d3d4026d4b437e73f5ecfff57304f6fb762bc.jpg]\n\n如上图所示，从$C$到底边$\\overline{A M}$的高为$\\overline{C D}$。因此阴影部分$\\triangle A M C$的面积为\n\n$\\dfrac{1}{2} \\cdot A M \\cdot C D=\\dfrac{1}{2} \\cdot 4 \\cdot 6=12.$\n答案：$\\boxed{A}$"
       }
     ],
     "children": []
@@ -24896,7 +24896,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "已知成绩$70,80$和$90$的总和比平均值高$30$分。因此第四个人的成绩比平均值低$30$分，即$70-30=40$。\n\n$\\textbf{OR}$\n设缺少的成绩为$x$。则$70+80+90+x=70 \\cdot 4=280$。所以$x$必须是$40$。\n\n答案：$\\boxed{A}$"
+        "solution_info": "已知成绩$70,80$和$90$的总和比平均值高$30$分。因此第四个人的成绩比平均值低$30$分，即$70-30=40$。\n\n$\\textbf{或}$\n设缺少的成绩为$x$。则$70+80+90+x=70 \\cdot 4=280$。所以$x$必须是$40$。\n\n答案：$\\boxed{A}$"
       }
     ],
     "children": []
@@ -25024,7 +25024,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "$1^{2016}, 3^{2018}, 5^{2020}$的指数都是偶数，因此是完全平方数。$2^{2017}$不是完全平方数，因为它等于平方数的两倍$2\\left(2^{1008}\\right)^{2}$。由于$4^{2019}=\\left(2^{2}\\right)^{2019}=2^{4038}$，它也是完全平方数。\n\n$\\textbf{OR}$\n任何平方数的正整数次幂仍然是平方数。这排除了选项$(A)$和$(D)$。任何整数的偶数次幂都是平方数。这排除了选项$(C)$和$(E)$。唯一剩下的选项是$(B)$，而且非平方数的任何奇数次幂都不能是平方数。\n\n答案：$\\boxed{B}$"
+        "solution_info": "$1^{2016}, 3^{2018}, 5^{2020}$的指数都是偶数，因此是完全平方数。$2^{2017}$不是完全平方数，因为它等于平方数的两倍$2\\left(2^{1008}\\right)^{2}$。由于$4^{2019}=\\left(2^{2}\\right)^{2019}=2^{4038}$，它也是完全平方数。\n\n$\\textbf{或}$\n任何平方数的正整数次幂仍然是平方数。这排除了选项$(A)$和$(D)$。任何整数的偶数次幂都是平方数。这排除了选项$(C)$和$(E)$。唯一剩下的选项是$(B)$，而且非平方数的任何奇数次幂都不能是平方数。\n\n答案：$\\boxed{B}$"
       }
     ],
     "children": []
@@ -25184,7 +25184,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "将给定的分数化为相同分母，我们看到$\\dfrac{9}{12}$的女生和$\\dfrac{8}{12}$的男生参加了旅行。所以女生与男生的人数比为$9: 8$，因此旅行中女生占$\\dfrac{9}{17}$。\n\n$\\textbf{OR}$\n男生和女生的人数必须是$4$和$3$的公倍数。假设杰弗逊中学有$12$名男生和$12$名女生。则$9$名女生和$8$名男生参加旅行，共$17$人。旅行中女生的比例为$9 / 17$。\n\n答案：$\\boxed{B}$"
+        "solution_info": "将给定的分数化为相同分母，我们看到$\\dfrac{9}{12}$的女生和$\\dfrac{8}{12}$的男生参加了旅行。所以女生与男生的人数比为$9: 8$，因此旅行中女生占$\\dfrac{9}{17}$。\n\n$\\textbf{或}$\n男生和女生的人数必须是$4$和$3$的公倍数。假设杰弗逊中学有$12$名男生和$12$名女生。则$9$名女生和$8$名男生参加旅行，共$17$人。旅行中女生的比例为$9 / 17$。\n\n答案：$\\boxed{B}$"
       }
     ],
     "children": []
@@ -25248,7 +25248,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "行驶$350$英里，卡尔消耗了$\\dfrac{350}{35}=10$加仑汽油，油箱剩余$14-10=4$加仑。加了$8$加仑后，油箱有$4+8=12$加仑。到达目的地时油箱剩余$\\dfrac{14}{2}=7$加仑，因此消耗了$12-7=5$加仑。这使他能再行驶$5 \\cdot 35=175$英里，所以总共行驶了$350+175=525$英里。\n\n$\\textbf{OR}$\n卡尔的整个旅程消耗了$14+8-\\dfrac{14}{2}=15$加仑汽油，所以他行驶了$15 \\cdot 35=525$英里。\n\n答案：$\\boxed{A}$"
+        "solution_info": "行驶$350$英里，卡尔消耗了$\\dfrac{350}{35}=10$加仑汽油，油箱剩余$14-10=4$加仑。加了$8$加仑后，油箱有$4+8=12$加仑。到达目的地时油箱剩余$\\dfrac{14}{2}=7$加仑，因此消耗了$12-7=5$加仑。这使他能再行驶$5 \\cdot 35=175$英里，所以总共行驶了$350+175=525$英里。\n\n$\\textbf{或}$\n卡尔的整个旅程消耗了$14+8-\\dfrac{14}{2}=15$加仑汽油，所以他行驶了$15 \\cdot 35=525$英里。\n\n答案：$\\boxed{A}$"
       }
     ],
     "children": []
@@ -25312,7 +25312,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "设安妮超过邦妮时跑了$N$圈。邦妮跑了$N-1$圈。则$\\dfrac{N}{N-1}=1.25=\\dfrac{5}{4}$。所以$N=5$。\n\n$\\textbf{OR}$\n安妮在邦妮完成每一圈时跑$11 / 4$圈，因此每圈领先$1 / 4$圈。当邦妮跑了$4$圈时安妮会超过她，此时安妮跑了$5$圈。\n\n答案：$\\boxed{D}$"
+        "solution_info": "设安妮超过邦妮时跑了$N$圈。邦妮跑了$N-1$圈。则$\\dfrac{N}{N-1}=1.25=\\dfrac{5}{4}$。所以$N=5$。\n\n$\\textbf{或}$\n安妮在邦妮完成每一圈时跑$11 / 4$圈，因此每圈领先$1 / 4$圈。当邦妮跑了$4$圈时安妮会超过她，此时安妮跑了$5$圈。\n\n答案：$\\boxed{D}$"
       }
     ],
     "children": []
@@ -25376,7 +25376,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "将$216$名运动员分成$36$组，每组$6$人。进行$36$场比赛淘汰$180$人，剩$36$名获胜者。将$36$名获胜者分成$6$组，每组$6$人，进行$6$场比赛淘汰$30$人，剩$6$名获胜者。最后进行决赛。比赛总数为$36+6+1=43$。\n\n$\\textbf{OR}$\n所有比赛结束后，将淘汰$215$名运动员。由于每场比赛淘汰$5$人，所以需要$\\dfrac{215}{5}=43$场比赛才能确定冠军。\n\n答案：$\\boxed{C}$"
+        "solution_info": "将$216$名运动员分成$36$组，每组$6$人。进行$36$场比赛淘汰$180$人，剩$36$名获胜者。将$36$名获胜者分成$6$组，每组$6$人，进行$6$场比赛淘汰$30$人，剩$6$名获胜者。最后进行决赛。比赛总数为$36+6+1=43$。\n\n$\\textbf{或}$\n所有比赛结束后，将淘汰$215$名运动员。由于每场比赛淘汰$5$人，所以需要$\\dfrac{215}{5}=43$场比赛才能确定冠军。\n\n答案：$\\boxed{C}$"
       }
     ],
     "children": []
@@ -25408,7 +25408,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "这$25$个偶数的平均值是$10000 / 25=400$。其中$12$个连续偶数大于$400$，$12$个连续偶数小于$400$。所以$376+378+\\cdots+398+400+402+\\cdots+422+$$424=10000$。这些数中最大的是$424$。\n\n$\\textbf{OR}$\n这$25$个偶数的平均值是$\\dfrac{10000}{25}=400$。由于$12$个连续偶数大于$400$，最大的数是$400+12 \\cdot 2=424$。\n\n答案：$\\boxed{E}$"
+        "solution_info": "这$25$个偶数的平均值是$10000 / 25=400$。其中$12$个连续偶数大于$400$，$12$个连续偶数小于$400$。所以$376+378+\\cdots+398+400+402+\\cdots+422+$$424=10000$。这些数中最大的是$424$。\n\n$\\textbf{或}$\n这$25$个偶数的平均值是$\\dfrac{10000}{25}=400$。由于$12$个连续偶数大于$400$，最大的数是$400+12 \\cdot 2=424$。\n\n答案：$\\boxed{E}$"
       }
     ],
     "children": []
@@ -25536,7 +25536,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "我们知道$\\triangle A E B$是等边三角形，因为它的每条边都是其中一个圆的半径。因此$\\angle A E B$的度数是$60^{\\circ}$。由于$\\overline{D B}$是圆$A$的直径，$\\overline{A C}$是圆$B$的直径，因此$\\angle D E B$和$\\angle A E C$都是直角。所以$\\angle D E C$的度数是$90^{\\circ}+90^{\\circ}-60^{\\circ}=$$120^{\\circ}$。\n\n$\\textbf{OR}$\n我们知道$\\triangle A E B$是等边三角形，因为它的每条边都是其中一个圆的半径。因此$\\angle A E B$和$\\angle E A B$的度数都是$60^{\\circ}$。那么$\\angle D A E$的度数是$120^{\\circ}$，由于$\\triangle D A E$是等腰的，$\\angle D E A$的度数是$30^{\\circ}$。类似地，$\\angle B E C$的度数也是$30^{\\circ}$。所以$\\angle D E C$的度数是$30^{\\circ}+60^{\\circ}+30^{\\circ}=120^{\\circ}$。\n\n[Figure: /question-assets/source/amc/544341148fb64b998708836f5bcc87dbd54cb8b14edfaec1dd8d3dd128c9a044.jpg]\n\n答案：$\\boxed{C}$"
+        "solution_info": "我们知道$\\triangle A E B$是等边三角形，因为它的每条边都是其中一个圆的半径。因此$\\angle A E B$的度数是$60^{\\circ}$。由于$\\overline{D B}$是圆$A$的直径，$\\overline{A C}$是圆$B$的直径，因此$\\angle D E B$和$\\angle A E C$都是直角。所以$\\angle D E C$的度数是$90^{\\circ}+90^{\\circ}-60^{\\circ}=$$120^{\\circ}$。\n\n$\\textbf{或}$\n我们知道$\\triangle A E B$是等边三角形，因为它的每条边都是其中一个圆的半径。因此$\\angle A E B$和$\\angle E A B$的度数都是$60^{\\circ}$。那么$\\angle D A E$的度数是$120^{\\circ}$，由于$\\triangle D A E$是等腰的，$\\angle D E A$的度数是$30^{\\circ}$。类似地，$\\angle B E C$的度数也是$30^{\\circ}$。所以$\\angle D E C$的度数是$30^{\\circ}+60^{\\circ}+30^{\\circ}=120^{\\circ}$。\n\n[Figure: /question-assets/source/amc/544341148fb64b998708836f5bcc87dbd54cb8b14edfaec1dd8d3dd128c9a044.jpg]\n\n答案：$\\boxed{C}$"
       }
     ],
     "children": []
@@ -25600,7 +25600,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "设 $O$ 是 $\\triangle A B C$ 的底边 $\\overline{A B}$ 的中点，也是半圆的圆心。$\\triangle O B C$ 是直角三角形，其中 $O B=8$、$O C=15$，由勾股定理得 $B C=17$。设 $E$ 为半圆与 $\\overline{B C}$ 的交点，则半径 $\\overline{O E}$ 垂直于 $\\overline{B C}$。因此 $\\triangle O E B$ 与 $\\triangle C O B$ 相似，从而 $O E: C O=O B: C B$。所以 $\\dfrac{O E}{15}=\\dfrac{8}{17}$，进而 $O E=$ $\\dfrac{120}{17}$。\n\n$\\textbf{OR}$\n设 $O$ 为半圆圆心，也是底边 $\\overline{A B}$ 的中点。由 $O B=8$ 和 $O C=15$，根据勾股定理得 $B C=17$。设 $E$ 为半圆与 $\\overline{B C}$ 的交点，则半径 $\\overline{O E}$ 垂直于 $\\overline{B C}$。因为 $\\triangle O B C$ 的面积为 $\\dfrac{1}{2}(B C)(O E)=\\dfrac{1}{2}(O B)(O C)$，所以 $\\dfrac{1}{2}(17)(O E)=\\dfrac{1}{2}(8)(15)$，从而 $O E=120 / 17$。\n\n[Figure: /question-assets/source/amc/e6140dd3722664ee65a54ee34669c8a8838d9dc3ed10548f45a8fda5945d9247.jpg]\n\n答案：$\\boxed{B}$。"
+        "solution_info": "设 $O$ 是 $\\triangle A B C$ 的底边 $\\overline{A B}$ 的中点，也是半圆的圆心。$\\triangle O B C$ 是直角三角形，其中 $O B=8$、$O C=15$，由勾股定理得 $B C=17$。设 $E$ 为半圆与 $\\overline{B C}$ 的交点，则半径 $\\overline{O E}$ 垂直于 $\\overline{B C}$。因此 $\\triangle O E B$ 与 $\\triangle C O B$ 相似，从而 $O E: C O=O B: C B$。所以 $\\dfrac{O E}{15}=\\dfrac{8}{17}$，进而 $O E=$ $\\dfrac{120}{17}$。\n\n$\\textbf{或}$\n设 $O$ 为半圆圆心，也是底边 $\\overline{A B}$ 的中点。由 $O B=8$ 和 $O C=15$，根据勾股定理得 $B C=17$。设 $E$ 为半圆与 $\\overline{B C}$ 的交点，则半径 $\\overline{O E}$ 垂直于 $\\overline{B C}$。因为 $\\triangle O B C$ 的面积为 $\\dfrac{1}{2}(B C)(O E)=\\dfrac{1}{2}(O B)(O C)$，所以 $\\dfrac{1}{2}(17)(O E)=\\dfrac{1}{2}(8)(15)$，从而 $O E=120 / 17$。\n\n[Figure: /question-assets/source/amc/e6140dd3722664ee65a54ee34669c8a8838d9dc3ed10548f45a8fda5945d9247.jpg]\n\n答案：$\\boxed{B}$。"
       }
     ],
     "children": []
@@ -25792,7 +25792,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "设三角形的三个角的度数分别为$3 x, 3 x$、$4 x$。则$3 x+3 x+4 x=10 x=180$，$x=18$。所以最大角的度数为$4 x=4 \\cdot 18=72$。\n\n$\\textbf{OR}$\n\n最大角的度数是三角形所有角的度数和的$\\dfrac{4}{3+3+4}=\\dfrac{2}{5}$，所以它是$\\dfrac{2}{5} \\cdot 180=72$度。\n\n答案：$\\boxed{D}$。"
+        "solution_info": "设三角形的三个角的度数分别为$3 x, 3 x$、$4 x$。则$3 x+3 x+4 x=10 x=180$，$x=18$。所以最大角的度数为$4 x=4 \\cdot 18=72$。\n\n$\\textbf{或}$\n\n最大角的度数是三角形所有角的度数和的$\\dfrac{4}{3+3+4}=\\dfrac{2}{5}$，所以它是$\\dfrac{2}{5} \\cdot 180=72$度。\n\n答案：$\\boxed{D}$。"
       }
     ],
     "children": []
@@ -25824,7 +25824,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "假设$Z$的形式为$a b c a b c$。则\n\n$Z=1001 \\cdot a b c=7 \\cdot 11 \\cdot 13 \\cdot a b c$\n\n所以$11$必定是$Z$的因数。\n\n$\\textbf{OR}$\n\n一个正整数能被$11$整除当且仅当其在偶数位和奇数位的数字和的差能被$11$整除。对于$Z=a b c a b c$，偶数位的数字和等于奇数位的数字和，所以两个和的差为$0$。因此，$11$整除$Z$。\n\n答案：$\\boxed{A}$。"
+        "solution_info": "假设$Z$的形式为$a b c a b c$。则\n\n$Z=1001 \\cdot a b c=7 \\cdot 11 \\cdot 13 \\cdot a b c$\n\n所以$11$必定是$Z$的因数。\n\n$\\textbf{或}$\n\n一个正整数能被$11$整除当且仅当其在偶数位和奇数位的数字和的差能被$11$整除。对于$Z=a b c a b c$，偶数位的数字和等于奇数位的数字和，所以两个和的差为$0$。因此，$11$整除$Z$。\n\n答案：$\\boxed{A}$。"
       }
     ],
     "children": []
@@ -25920,7 +25920,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "共有$10$种等可能的结果：\n\n[Figure: /question-assets/source/amc/b8371093d1244d267e364f9226c1c91a0422158b576f30cac178e0c79c09e716.jpg]\n\n其中$4$是所抽取值中最大值的有三种结果。因此概率为$\\dfrac{3}{10}$。\n\n$\\textbf{OR}$\n\n从 $5$ 张卡片中无放回地选取 $3$ 张共有 $10$ 种方法。若所选最大值为 $4$，其余两张可从卡片 $1,2$ 和 $3$ 中以 $3$ 种方式选取。因此，$4$ 为最大值的概率是 $\\dfrac{3}{10}$。\n\n答案：$\\boxed{C}$。"
+        "solution_info": "共有$10$种等可能的结果：\n\n[Figure: /question-assets/source/amc/b8371093d1244d267e364f9226c1c91a0422158b576f30cac178e0c79c09e716.jpg]\n\n其中$4$是所抽取值中最大值的有三种结果。因此概率为$\\dfrac{3}{10}$。\n\n$\\textbf{或}$\n\n从 $5$ 张卡片中无放回地选取 $3$ 张共有 $10$ 种方法。若所选最大值为 $4$，其余两张可从卡片 $1,2$ 和 $3$ 中以 $3$ 种方式选取。因此，$4$ 为最大值的概率是 $\\dfrac{3}{10}$。\n\n答案：$\\boxed{C}$。"
       }
     ],
     "children": []
@@ -26048,7 +26048,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "为了简单起见，假设作业有$100$题。Chloe 在她独立完成的$50$题中正确解答了$80 \\%$，即$40$题。她的总正确答案数是$88$，所以她和 Zoe 一起完成的$50$题中有$88-40=48$题答案是正确的。此外，Zoe 在她独立完成的$50$题中正确解答了$90 \\%$，即$45$题。她的总体正确百分比是$45+48=93$。\n\n$\\textbf{OR}$\n\nChloe 在独立完成的部分的成功率是$80$，比$88$低$8$个百分点。所以她在另一部分的成功率比$88$高$8$个百分点，即$96$。Zoe 在一半题目的成功率是$90$，在另一半的成功率是$96$，所以她的总体成功率是$90$和$96$的平均值，即$93$。\n\n答案：$\\boxed{C}$。"
+        "solution_info": "为了简单起见，假设作业有$100$题。Chloe 在她独立完成的$50$题中正确解答了$80 \\%$，即$40$题。她的总正确答案数是$88$，所以她和 Zoe 一起完成的$50$题中有$88-40=48$题答案是正确的。此外，Zoe 在她独立完成的$50$题中正确解答了$90 \\%$，即$45$题。她的总体正确百分比是$45+48=93$。\n\n$\\textbf{或}$\n\nChloe 在独立完成的部分的成功率是$80$，比$88$低$8$个百分点。所以她在另一部分的成功率比$88$高$8$个百分点，即$96$。Zoe 在一半题目的成功率是$90$，在另一半的成功率是$96$，所以她的总体成功率是$90$和$96$的平均值，即$93$。\n\n答案：$\\boxed{C}$。"
       }
     ],
     "children": []
@@ -26144,7 +26144,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "在除去两个之外的所有宝箱中放入$9$个金币之后，我可以从每个宝箱中取出$3$个金币，在这些宝箱中留下$6$个金币。这样做将使我能够用$6$个金币填满剩余的$2$个宝箱，并还剩$3$个金币。所以我必须从$5$个宝箱中各取出了$15$个金币（$(3$）。因此，我最初在$5$个宝箱中各放入了$9$个金币，总共是$45$个金币（和$7$个宝箱）。\n\n$\\textbf{OR}$\n\n设$c$为宝箱的数量。则$9(c-2)=6 c+3$。解得$c=7$，所以金币的数量是$6 \\cdot 7+3=9(7-2)=45$。\n\n答案：$\\boxed{C}$。"
+        "solution_info": "在除去两个之外的所有宝箱中放入$9$个金币之后，我可以从每个宝箱中取出$3$个金币，在这些宝箱中留下$6$个金币。这样做将使我能够用$6$个金币填满剩余的$2$个宝箱，并还剩$3$个金币。所以我必须从$5$个宝箱中各取出了$15$个金币（$(3$）。因此，我最初在$5$个宝箱中各放入了$9$个金币，总共是$45$个金币（和$7$个宝箱）。\n\n$\\textbf{或}$\n\n设$c$为宝箱的数量。则$9(c-2)=6 c+3$。解得$c=7$，所以金币的数量是$6 \\cdot 7+3=9(7-2)=45$。\n\n答案：$\\boxed{C}$。"
       }
     ],
     "children": []
@@ -26304,7 +26304,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "设$O$是$\\overline{A C}$上内接半圆的圆心，$D$是半圆与$\\overline{A B}$相切的点。因为$\\overline{O D}$是半圆的半径，它垂直于$\\overline{A B}$，使$\\overline{O D}$成为$\\triangle A O B$的一条高。由勾股定理，$A B=13$。在图中，$\\overline{O B}$将$\\triangle A B C$分成\n\n$\\operatorname{Area}(\\triangle A B C)=\\operatorname{Area}(\\triangle B O C)+\\operatorname{Area}(\\triangle A O B)$\n\n因为我们知道$\\triangle A B C$的面积为$30$，我们有\n\n$\\begin{aligned} 30 &= \\operatorname{Area}(\\triangle BOC) + \\operatorname{Area}(\\triangle AOB) \\\\ &= \\dfrac{1}{2}(BC)r + \\dfrac{1}{2}(AB)r = \\dfrac{5}{2}r + \\dfrac{13}{2}r = 9r. \\end{aligned}$\n\n因此$r=\\dfrac{30}{9}=\\dfrac{10}{3}$。\n\n[Figure: /question-assets/source/amc/8df324a9de8d3c3b176daa682948189cfa220cce7a0dc2a5dfb3bc5b4fc0d30a.jpg]\n\n$\\textbf{OR}$\n\n因为$\\overline{O D}$是半圆的半径，它垂直于$\\overline{A B}$，使$\\triangle A D O$与$\\triangle A C B$相似。因为$\\overline{B C}$和$\\overline{B D}$都与半圆相切，所以它们相等。因此$B D=5$和$A D=8$。由此可得$\\dfrac{r}{8}=\\dfrac{5}{12}$，所以$r=\\dfrac{40}{12}=\\dfrac{10}{3}$。\n\n答案：$\\boxed{D}$。"
+        "solution_info": "设$O$是$\\overline{A C}$上内接半圆的圆心，$D$是半圆与$\\overline{A B}$相切的点。因为$\\overline{O D}$是半圆的半径，它垂直于$\\overline{A B}$，使$\\overline{O D}$成为$\\triangle A O B$的一条高。由勾股定理，$A B=13$。在图中，$\\overline{O B}$将$\\triangle A B C$分成\n\n$\\operatorname{Area}(\\triangle A B C)=\\operatorname{Area}(\\triangle B O C)+\\operatorname{Area}(\\triangle A O B)$\n\n因为我们知道$\\triangle A B C$的面积为$30$，我们有\n\n$\\begin{aligned} 30 &= \\operatorname{Area}(\\triangle BOC) + \\operatorname{Area}(\\triangle AOB) \\\\ &= \\dfrac{1}{2}(BC)r + \\dfrac{1}{2}(AB)r = \\dfrac{5}{2}r + \\dfrac{13}{2}r = 9r. \\end{aligned}$\n\n因此$r=\\dfrac{30}{9}=\\dfrac{10}{3}$。\n\n[Figure: /question-assets/source/amc/8df324a9de8d3c3b176daa682948189cfa220cce7a0dc2a5dfb3bc5b4fc0d30a.jpg]\n\n$\\textbf{或}$\n\n因为$\\overline{O D}$是半圆的半径，它垂直于$\\overline{A B}$，使$\\triangle A D O$与$\\triangle A C B$相似。因为$\\overline{B C}$和$\\overline{B D}$都与半圆相切，所以它们相等。因此$B D=5$和$A D=8$。由此可得$\\dfrac{r}{8}=\\dfrac{5}{12}$，所以$r=\\dfrac{40}{12}=\\dfrac{10}{3}$。\n\n答案：$\\boxed{D}$。"
       }
     ],
     "children": []
@@ -26368,7 +26368,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "在一个$60$天的周期中，第一个孙子打$20$天电话，第二个打$15$天，第三个打$12$天。和$20+15+12=47$重复计算了一个以上的孙子都打过电话的日子。第一个和第二个都打的有$60 \\div 12=5$天。第一个和第三个都打的有$60 \\div 15=4$天。第二个和第三个都打的有$60 \\div 20=3$天。从$47$中减去$5+4+3$得$35$天。但$60^{\\text {th }}$天被加了三次又减了三次，所以她收到至少一个电话的$36$天。因此在每个$60$天的周期中，她没有收到电话的日子有$60-36=24$天。一年有六个完整周期。另外，在第$361^{\\text {st }}$和第$362^{\\text {nd }}$天她没有收到电话。因此，她一整年没有收到任何电话的总天数是$6 \\cdot 24+2=146$天。\n\n$\\textbf{OR}$\n\n在下面的文氏图中，设$A$是一年中第一个孙子给她打电话的日子集合，$B$是第二个给她打电话的日子集合，$C$是第三个给她打电话的日子集合。那么$3$个集合的公共区域代表全部$3$个都打电话的日子，每$3 \\cdot 4 \\cdot 5=60$天一次，即一年中的$6$天。\n\n[Figure: /question-assets/source/amc/8156b6649c573591c8c7ff46075b89140efe7cc45defa91efd70a037215385e5.jpg]\n\n$A$ 与 $B$ 的公共区域表示第一个和第二个孙辈都打电话的日子，即每 $3 \\cdot 4=12$ 天一次，一年共有 $30$ 天。其中 $6$ 天已计入三者公共区域，因此在 $6$ 下方标为 $30-6=24$。类似地，$A$ 与 $C$ 的公共区域共有 $24$ 天，所以三者公共区域左侧为 $24-6=18$，右侧为 $18-6=12$。\n\n第一个孙子打$121$天电话，其中$48$天已经被计算过。因此左下区域包含$73$天。类似地，$B$包含$91$天，所以右下区域包含$49$天，上方区域有$37$天。\n\n所有区域总计$219$天，所以没有电话的日子是$365-219=146$天。注意在闰年中，左下区域增加到$74$，所以答案仍然是$366-220=146$天。\n\n答案：$\\boxed{D}$。"
+        "solution_info": "在一个$60$天的周期中，第一个孙子打$20$天电话，第二个打$15$天，第三个打$12$天。和$20+15+12=47$重复计算了一个以上的孙子都打过电话的日子。第一个和第二个都打的有$60 \\div 12=5$天。第一个和第三个都打的有$60 \\div 15=4$天。第二个和第三个都打的有$60 \\div 20=3$天。从$47$中减去$5+4+3$得$35$天。但$60^{\\text{th }}$天被加了三次又减了三次，所以她收到至少一个电话的$36$天。因此在每个$60$天的周期中，她没有收到电话的日子有$60-36=24$天。一年有六个完整周期。另外，在第$361^{\\text{st }}$和第$362^{\\text{nd }}$天她没有收到电话。因此，她一整年没有收到任何电话的总天数是$6 \\cdot 24+2=146$天。\n\n$\\textbf{或}$\n\n在下面的文氏图中，设$A$是一年中第一个孙子给她打电话的日子集合，$B$是第二个给她打电话的日子集合，$C$是第三个给她打电话的日子集合。那么$3$个集合的公共区域代表全部$3$个都打电话的日子，每$3 \\cdot 4 \\cdot 5=60$天一次，即一年中的$6$天。\n\n[Figure: /question-assets/source/amc/8156b6649c573591c8c7ff46075b89140efe7cc45defa91efd70a037215385e5.jpg]\n\n$A$ 与 $B$ 的公共区域表示第一个和第二个孙辈都打电话的日子，即每 $3 \\cdot 4=12$ 天一次，一年共有 $30$ 天。其中 $6$ 天已计入三者公共区域，因此在 $6$ 下方标为 $30-6=24$。类似地，$A$ 与 $C$ 的公共区域共有 $24$ 天，所以三者公共区域左侧为 $24-6=18$，右侧为 $18-6=12$。\n\n第一个孙子打$121$天电话，其中$48$天已经被计算过。因此左下区域包含$73$天。类似地，$B$包含$91$天，所以右下区域包含$49$天，上方区域有$37$天。\n\n所有区域总计$219$天，所以没有电话的日子是$365-219=146$天。注意在闰年中，左下区域增加到$74$，所以答案仍然是$366-220=146$天。\n\n答案：$\\boxed{D}$。"
       }
     ],
     "children": []
@@ -27296,7 +27296,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "为了确定$\\dfrac{19}{15}$和$\\dfrac{17}{13}$的顺序，用通分的方法重写分数：$\\dfrac{19 \\cdot 13} {15\\cdot13}$和$\\dfrac{17 \\cdot 15} {13\\cdot15}$。因为\n\n$19\\cdot 13 = (16 + 3)(16 - 3) = 16^2- 3^2$\n$17\\cdot 15 = (16 + 1)(16 - 1) = 16^2- 1^2$\n且$16^2 -3^2 < 16^2 - 1^2$，所以$\\dfrac{19}{15}$ < $\\dfrac{17}{13}$。\n\n类似地，为了确定$\\dfrac{17}{13}$和$\\dfrac{15}{11}$的顺序，用通分的方法重写分数：$\\dfrac{17 \\cdot 11} {13\\cdot11}$和$\\dfrac{15 \\cdot 13} {11\\cdot13}$。因为\n\n$17\\cdot11 = ( 14 + 3) (14-3) = 14^2 - 3^2,$\n$15\\cdot13 = ( 14 + 1) (14-1) = 14^2 - 1^2,$\n且$14^2 - 3^2 < 14^2 - 1^2$，所以$\\dfrac{17}{13}$ < $\\dfrac{15}{11}$。\n\n$\\text{OR}$\n从每个分数中减去1可得到分数$\\dfrac{4}{11}$、$\\dfrac{4}{15}$和$\\dfrac{4}{13}$。因为$\\dfrac{4}{15}$ < $\\dfrac{4}{13}$ < $\\dfrac{4}{11}$，所以$\\dfrac{19}{15}$ < $\\dfrac{17}{13}$ < $\\dfrac{15}{11}$。\n\n$\\text{OR}$\n对于分数$\\dfrac{a}{b}$，其中$0 < b < a$，如果$n$是正整数，那么$bn < an$，因此$b(a+n) = ab + bn < ab + an = a(b + n)$。从而$\\dfrac{a+n} {b+n}$ < $\\dfrac{a} {b}$。因此$\\frac{19}{15} < \\frac{17}{13} < \\frac{15}{11}$。\n\n答案：$\\boxed{E}$。"
+        "solution_info": "为了确定$\\dfrac{19}{15}$和$\\dfrac{17}{13}$的顺序，用通分的方法重写分数：$\\dfrac{19 \\cdot 13} {15\\cdot13}$和$\\dfrac{17 \\cdot 15} {13\\cdot15}$。因为\n\n$19\\cdot 13 = (16 + 3)(16 - 3) = 16^2- 3^2$\n$17\\cdot 15 = (16 + 1)(16 - 1) = 16^2- 1^2$\n且$16^2 -3^2 < 16^2 - 1^2$，所以$\\dfrac{19}{15}$ < $\\dfrac{17}{13}$。\n\n类似地，为了确定$\\dfrac{17}{13}$和$\\dfrac{15}{11}$的顺序，用通分的方法重写分数：$\\dfrac{17 \\cdot 11} {13\\cdot11}$和$\\dfrac{15 \\cdot 13} {11\\cdot13}$。因为\n\n$17\\cdot11 = ( 14 + 3) (14-3) = 14^2 - 3^2,$\n$15\\cdot13 = ( 14 + 1) (14-1) = 14^2 - 1^2,$\n且$14^2 - 3^2 < 14^2 - 1^2$，所以$\\dfrac{17}{13}$ < $\\dfrac{15}{11}$。\n\n$\\text{或}$\n从每个分数中减去1可得到分数$\\dfrac{4}{11}$、$\\dfrac{4}{15}$和$\\dfrac{4}{13}$。因为$\\dfrac{4}{15}$ < $\\dfrac{4}{13}$ < $\\dfrac{4}{11}$，所以$\\dfrac{19}{15}$ < $\\dfrac{17}{13}$ < $\\dfrac{15}{11}$。\n\n$\\text{或}$\n对于分数$\\dfrac{a}{b}$，其中$0 < b < a$，如果$n$是正整数，那么$bn < an$，因此$b(a+n) = ab + bn < ab + an = a(b + n)$。从而$\\dfrac{a+n} {b+n}$ < $\\dfrac{a} {b}$。因此$\\frac{19}{15} < \\frac{17}{13} < \\frac{15}{11}$。\n\n答案：$\\boxed{E}$。"
       }
     ],
     "children": []
@@ -27858,7 +27858,7 @@
     "quality": "精品",
     "question_info": {
       "raw_content": {
-        "title": "直线\n\n$y = 5, \\quad y = 1 + x, \\quad \\text{and} \\quad y = 1 - x?$",
+        "title": "直线\n\n$y = 5, \\quad y = 1 + x, \\quad \\text{和} \\quad y = 1 - x?$",
         "option_a": "$4$",
         "option_b": "$8$",
         "option_c": "$10$",
@@ -28832,7 +28832,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "乘法符号由$4$个正方形组成，每个正方形的尺寸为$1$英寸乘$1$英寸，周围有$12$个直角三角形，每个正好是一个正方形的一半。因此标志的总面积是$4 \\cdot 1 + 12 \\cdot \\dfrac{1}{2} = 4+6 =10$平方英寸。\n\n[Figure: /question-assets/source/amc/10f8beb7240770a185212ebb67361c7b7df09b261642eae318b2a994831d56e6.jpg]\n\n根据勾股定理，每个$1$乘$1$英寸的正方形的对角线长度为$\\overline{\\sqrt{1^2 + 1^2}} = \\overline{\\sqrt{2}}$。乘法符号由$5$个全等的边长为$\\overline{\\sqrt{2}}$的正方形组成。因此标志的总面积是$5(\\sqrt{2})^2 = 5 \\cdot 2 = 10$平方英寸。\n\n[Figure: /question-assets/source/amc/10e42c9d2ff3a99c375e9d0ce4654f0836958ec507b8867f53f677c9cee736d7.jpg]\n\n$\\text{OR}$\n标志可以放在一个边长为$4$的大正方形内。有$12$个直角三角形，每个面积为平方英寸，在标志外部且在该正方形内部。标志的面积等于大正方形的面积减去三角形的面积：$4^2 - 12 \\cdot \\dfrac{1}{2} = 16 -6 = 10$\n\n[Figure: /question-assets/source/amc/05cc08c2401c922fb0eb2f2720b9d395ffd67a17e65f701dc3afa9470b21956a.jpg]\n\n答案：$\\boxed{A}$。"
+        "solution_info": "乘法符号由$4$个正方形组成，每个正方形的尺寸为$1$英寸乘$1$英寸，周围有$12$个直角三角形，每个正好是一个正方形的一半。因此标志的总面积是$4 \\cdot 1 + 12 \\cdot \\dfrac{1}{2} = 4+6 =10$平方英寸。\n\n[Figure: /question-assets/source/amc/10f8beb7240770a185212ebb67361c7b7df09b261642eae318b2a994831d56e6.jpg]\n\n根据勾股定理，每个$1$乘$1$英寸的正方形的对角线长度为$\\overline{\\sqrt{1^2 + 1^2}} = \\overline{\\sqrt{2}}$。乘法符号由$5$个全等的边长为$\\overline{\\sqrt{2}}$的正方形组成。因此标志的总面积是$5(\\sqrt{2})^2 = 5 \\cdot 2 = 10$平方英寸。\n\n[Figure: /question-assets/source/amc/10e42c9d2ff3a99c375e9d0ce4654f0836958ec507b8867f53f677c9cee736d7.jpg]\n\n$\\text{或}$\n标志可以放在一个边长为$4$的大正方形内。有$12$个直角三角形，每个面积为平方英寸，在标志外部且在该正方形内部。标志的面积等于大正方形的面积减去三角形的面积：$4^2 - 12 \\cdot \\dfrac{1}{2} = 16 -6 = 10$\n\n[Figure: /question-assets/source/amc/05cc08c2401c922fb0eb2f2720b9d395ffd67a17e65f701dc3afa9470b21956a.jpg]\n\n答案：$\\boxed{A}$。"
       }
     ],
     "children": []
@@ -28960,7 +28960,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "小猫现在$5$岁，贝拉是$6 + 5 = 11$岁。因此安娜的年龄是$30 − (5 + 11) = 14$岁，所以安娜比贝拉大$14 − 11 = 3$岁。\n\n$\\textbf{OR}$\n令$x$表示安娜和贝拉年龄的差异。下表显示了孩子们和小猫$5$年前和现在的年龄。\n\n[Figure: /question-assets/source/amc/0947d436ed95e70fc2f5fda955f8774619938027560b4f09b9578a6bfc939d1c.jpg]\n\n他们今天的年龄总和是$30$，所以$11 + (11 + x) + 5 = 30$，这给出$x = 3$。因此安娜比贝拉大$3$岁。\n\n$\\textbf{OR}$\n五年前安娜、贝拉和小猫的总年龄是$30 − 3 \\cdot 5 = 15$岁。因为贝拉当时$6$岁，小猫是新生的，安娜一定是$15 − 6 = 9$岁，所以安娜比贝拉大$3$岁。\n\n答案：$\\boxed{C}$。"
+        "solution_info": "小猫现在$5$岁，贝拉是$6 + 5 = 11$岁。因此安娜的年龄是$30 − (5 + 11) = 14$岁，所以安娜比贝拉大$14 − 11 = 3$岁。\n\n$\\textbf{或}$\n令$x$表示安娜和贝拉年龄的差异。下表显示了孩子们和小猫$5$年前和现在的年龄。\n\n[Figure: /question-assets/source/amc/0947d436ed95e70fc2f5fda955f8774619938027560b4f09b9578a6bfc939d1c.jpg]\n\n他们今天的年龄总和是$30$，所以$11 + (11 + x) + 5 = 30$，这给出$x = 3$。因此安娜比贝拉大$3$岁。\n\n$\\textbf{或}$\n五年前安娜、贝拉和小猫的总年龄是$30 − 3 \\cdot 5 = 15$岁。因为贝拉当时$6$岁，小猫是新生的，安娜一定是$15 − 6 = 9$岁，所以安娜比贝拉大$3$岁。\n\n答案：$\\boxed{C}$。"
       }
     ],
     "children": []
@@ -30386,7 +30386,7 @@
     "quality": "精品",
     "question_info": {
       "raw_content": {
-        "title": "十五个整数 $a_1, a_2, a_3, \\dots, a_{15}$ 按顺序排列在数轴上。这些整数等间距排列，并且具有以下属性\n\n$1 \\leq a_1 \\leq 10, \\quad 13 \\leq a_2 \\leq 20, \\quad \\text{and} \\quad 241 \\leq a_{15} \\leq 250.$\n什么是 $a_{14}?$ 的位数之和？",
+        "title": "十五个整数 $a_1, a_2, a_3, \\dots, a_{15}$ 按顺序排列在数轴上。这些整数等间距排列，并且具有以下属性\n\n$1 \\leq a_1 \\leq 10, \\quad 13 \\leq a_2 \\leq 20, \\quad \\text{和} \\quad 241 \\leq a_{15} \\leq 250.$\n什么是 $a_{14}?$ 的位数之和？",
         "option_a": "$8$",
         "option_b": "$9$",
         "option_c": "$10$",
@@ -31040,7 +31040,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "我们首先注意到，只有通过正方形面的对角线才能形成等边三角形；否则，三角形的至少一个角将不同。之后，很容易穷举所有可能形成的等边三角形：\n\n$\\triangle PVT, \\quad \\triangle PRT, \\quad \\text{and} \\quad \\triangle PRV.$\n因此，$D$是正确答案。\n\n答案：$\\boxed{D}$。"
+        "solution_info": "我们首先注意到，只有通过正方形面的对角线才能形成等边三角形；否则，三角形的至少一个角将不同。之后，很容易穷举所有可能形成的等边三角形：\n\n$\\triangle PVT, \\quad \\triangle PRT, \\quad \\text{和} \\quad \\triangle PRV.$\n因此，$D$是正确答案。\n\n答案：$\\boxed{D}$。"
       }
     ],
     "children": []
@@ -32244,7 +32244,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "由 $\\text{distance} = \\text{rate} \\cdot \\text{time}$，可以求出以 $40\\text{ miles per hour}$ 行驶 $100\\text{ miles}$ 所需时间。设不停留时需要 $t$ 小时，则 $100 = 40 \\cdot t \\implies t = \\dfrac{5}{2}$。因此，若不停留行驶 $100\\text{ miles}$ 需要 $\\dfrac{5}{2}$，即 $2.5\\text{ hours}$，而全程实际耗时 $3\\text{ hours}$，则午餐停留时间为 $3 - 2.5 = 0.5\\text{ hours}$。换算成分钟为 $0.5\\text{ hours}$，即 $\\boxed{\\text{(B) } 30}$。"
+        "solution_info": "由 $\\text{distance} = \\text{rate} \\cdot \\text{time}$，可以求出以 $40\\text{ miles per hour}$ 行驶 $100\\text{ 英里}$ 所需时间。设不停留时需要 $t$ 小时，则 $100 = 40 \\cdot t \\implies t = \\dfrac{5}{2}$。因此，若不停留行驶 $100\\text{ 英里}$ 需要 $\\dfrac{5}{2}$，即 $2.5\\text{ hours}$，而全程实际耗时 $3\\text{ hours}$，则午餐停留时间为 $3 - 2.5 = 0.5\\text{ hours}$。换算成分钟为 $0.5\\text{ hours}$，即 $\\boxed{\\text{(B) } 30}$。"
       }
     ],
     "children": []
@@ -32308,7 +32308,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "美加在两次旅行中总共使用了电池总容量的$\\dfrac{1}{2} + \\dfrac{3}{10} = \\dfrac{4}{5}$。这些旅行共$40\\text{ miles}$，所以自行车在充满电的情况下能行驶的英里数是$40 \\div \\dfrac{4}{5} = \\boxed{\\text{(C) } 50}\\text{ miles}$。"
+        "solution_info": "美加在两次旅行中总共使用了电池总容量的$\\dfrac{1}{2} + \\dfrac{3}{10} = \\dfrac{4}{5}$。这些旅行共$40\\text{ 英里}$，所以自行车在充满电的情况下能行驶的英里数是$40 \\div \\dfrac{4}{5} = \\boxed{\\text{(C) } 50}\\text{ 英里}$。"
       }
     ],
     "children": []

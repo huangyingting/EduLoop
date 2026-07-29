@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { knownMathTranslation, protectedLatexSegments } from "./amc-latex.mjs";
+import { knownMathTranslation, protectedLatexSegments, translateKnownMathText } from "./amc-latex.mjs";
 
 test("finds independent inline formulas", () => {
   assert.deepEqual(
@@ -24,4 +24,11 @@ test("uses math-specific translations for ambiguous terms", () => {
   assert.equal(knownMathTranslation("sin"), "sin");
   assert.equal(knownMathTranslation("LCM"), "最小公倍数");
   assert.equal(knownMathTranslation("Case 2:"), "情形 2:");
+});
+
+test("translates only reviewed prose inside LaTeX text commands", () => {
+  assert.equal(
+    translateKnownMathText("$x\\text{ OR }y\\text{ unknown }z$"),
+    "$x\\text{ 或 }y\\text{ unknown }z$",
+  );
 });

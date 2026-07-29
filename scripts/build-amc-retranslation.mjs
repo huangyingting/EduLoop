@@ -1,6 +1,7 @@
 import { mkdir, readFile, readdir, rename, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { translateKnownMathText } from "./amc-latex.mjs";
 
 const workspace = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const dataset = process.argv[2];
@@ -102,6 +103,7 @@ function resolveProtectedContent(source, template, location, expectedChoice = nu
     translated = template.replace(/\{\{P(\d+)\}\}/g, (_, rawIndex) => protectedValues[Number(rawIndex)]);
   }
   if (/\{\{P\d+\}\}/.test(translated)) throw new Error(`${location} contains an unresolved protected placeholder`);
+  translated = translateKnownMathText(translated);
   const sourceFigures = figureReferences(source);
   const translatedFigures = figureReferences(translated);
   if (JSON.stringify(sourceFigures) !== JSON.stringify(translatedFigures)) {
@@ -165,6 +167,9 @@ const output = source.map((question) => {
   for (const field of ["title", "option_a", "option_b", "option_c", "option_d", "option_e"]) {
     if (!(field in translation.fields)) continue;
     targetRaw[field] = resolveProtectedContent(sourceRaw[field], translation.fields[field], `${question.id}/${field}`);
+  }
+  for (const field of Object.keys(targetRaw)) {
+    targetRaw[field] = translateKnownMathText(targetRaw[field]);
   }
   translated.solution_info = question.solution_info.map((entry, index) => ({
     ...structuredClone(entry),

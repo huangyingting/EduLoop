@@ -66,6 +66,10 @@ export function knownMathTranslation(value) {
   return undefined;
 }
 
+export function translateKnownMathText(value) {
+  return transformLatexText(value, (content) => knownMathTranslation(content) ?? content);
+}
+
 function closingDollar(value, start) {
   const display = value.startsWith("$$", start);
   let braceDepth = 0;

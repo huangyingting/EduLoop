@@ -1585,7 +1585,7 @@
         "option_b": "$4$",
         "option_c": "$6$",
         "option_d": "$8$",
-        "option_e": "$more than }8$",
+        "option_e": "$\\text{more than }8$",
         "answer1": "E"
       }
     },
@@ -2566,7 +2566,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "Since there are twelve steps between $(0,0)$ and $(5,7), A$ and $B$ can meet only after they have each moved six steps. The possible meeting places are $P_{0}=(0,6), P_{1}=(1,5), P_{2}=(2,4), P_{3}=(3,3), P_{4}=(4,2)$, and $P_{5}=(5,1)$. Let $a_{i}$ and $b_{i}$ denote the number of paths to $P_{i}$ from $(0,0)$ and $(5,7)$, respectively. Since $A$ has to take $i$ steps to the right and $B$ has to take $i+1$ steps down, the number of ways in which $A$ and $B$ can meet at $P_{i}$ is\n\n$a_{i} \\cdot b_{i}=\\binom{6}{i}\\binom{6}{i+1}$\nSince $A$ and $B$ can each take $2^{6}$ paths in six steps, the probability that they meet is\n\n$\\begin{aligned} \\sum_{i=0}^{5}\\left(\\dfrac{a_{i}}{2^{6}}\\right)\\left(\\dfrac{b_{i}}{2^{6}}\\right) =\\dfrac{\\binom{6}{0}\\binom{6}{1}+\\binom{6}{1}\\binom{6}{2}+\\binom{6}{2}\\binom{6}{3}+\\binom{6}{3}\\binom{6}{4}+\\binom{6}{4}\\binom{6}{5}+\\binom{6}{5}\\binom{6}{6}}{2^{12}} \\\\ =\\dfrac{99}{512} \\approx \\boxed{0.20} \\end{aligned}$\nOR\n\nConsider the $\\binom{12}{5}$ walks that start at $(0,0)$, end at $(5,7)$, and consist of 12 steps, each one either up or to the right. There is a one-to-one correspondence between these walks and the set of $(A, B)$-paths where $A$ and $B$ meet. In particular, given one of the $\\binom{12}{5}$ walks from $(0,0)$ to $(5,7)$, the path followed by $A$ consists of the the first six steps of the walk, and the path followed by $B$ is obtained by starting at $(5,7)$ and reversing the last six steps of the walk. There are $2^{6}$ paths that take 6 steps from $(0,0)$ and $2^{6}$ paths that take 6 steps from $(5,7)$, so there are $2^{12}$ pairs of paths that $A$ and $B$ can take. The probability that they meet is\n\n$P=\\dfrac{1}{2^{12}}\\binom{12}{5}=\\dfrac{99}{2^{9}}$"
+        "solution_info": "The objects can meet only after each has taken $6$ steps. If they meet at $(i,6-i)$ for $0\\le i\\le5$, then object $A$ has $\\binom6i$ possible paths and object $B$ has $\\binom6{i+1}$ possible paths. Since each object has $2^6$ possible six-step paths, the meeting probability is\n\n$\\frac{\\sum_{i=0}^{5}\\binom6i\\binom6{i+1}}{2^{12}}=\\frac{\\binom{12}{5}}{2^{12}}=\\frac{99}{512}\\approx0.193$.\n\nThe closest listed value is $\\boxed{\\textbf{(C)}\\ 0.20}$."
       }
     ],
     "children": []
@@ -4102,7 +4102,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "Since $z_{1}=0$, it follows that $c_{0}=P(0)=0$. The nonreal zeros of $P$ must occur in conjugate pairs, so $\\sum_{k=1}^{2004} b_{k}=0$ and $\\sum_{k=1}^{2004} a_{k}=0$ also. The coefficient $c_{2003}$ is the sum of the zeros of $P$, which is\n\n$\\sum_{k=1}^{2004} z_{k}=\\sum_{k=1}^{2004} a_{k}+i \\sum_{k=1}^{2004} b_{k}=0$\nFinally, since the degree of $P$ is even, at least one of $z_{2}, \\ldots, z_{2004}$ must be real, so at least one of $b_{2}, \\ldots, b_{2004}$ is 0 and consequently $\\boxed{b_{2} b_{3} \\ldots b_{2004}}=0$. Thus the quantities in (A), (B), (C), and (D) must all be 0 .\n\nNote that the polynomial\n\n$\\left.P(x)=x\\left(\\begin{array}{ll} x 2 \\end{array}\\right)\\left(\\begin{array}{ll} x 3 \\end{array}\\right) \\quad\\left(\\begin{array}{ll} x 2003 \\end{array}\\right) \\quad x+\\sum_{k=2}^{2003} k\\right)$\nsatis es the given conditions, and $\\sum_{k=1}^{2004} c_{k}=P(1) \\neq 0$."
+        "solution_info": "Because $z_1=0$, we have $c_0=P(0)=0$. Nonreal zeros occur in conjugate pairs, so $\\sum b_k=0$; the given equality then also gives $\\sum a_k=0$. Hence the sum of the zeros is $0$, and Vieta's formulas give $c_{2003}=0$. Because the degree is even and one zero is real, at least one of the other $2003$ zeros is real, so $b_2b_3\\cdots b_{2004}=0$. Thus choices A through D must all be zero.\n\nChoice E can be nonzero. For example, take a monic polynomial whose distinct real roots are\n\n$0,2,3,\\ldots,2003,-\\sum_{k=2}^{2003}k$.\n\nTheir sum is $0$, so the hypotheses hold, and none of the roots is $1$. Therefore\n\n$\\sum_{k=1}^{2004}c_k=P(1)\\ne0$,\n\nso the answer is $\\boxed{\\textbf{(E)}}$."
       }
     ],
     "children": []
@@ -9464,7 +9464,7 @@
     "quality": "精品",
     "question_info": {
       "raw_content": {
-        "title": "Older television screens have an aspect ratio of 4:3. That is, the ratio of the width to the height is $4: 3$. The aspect ratio of many movies is not $4: 3$, so they are sometimes shown on a television screen by \"letterboxing\" Â darkening strips of equal height at the top and bottom of the screen, as shown. Suppose a movie has an aspect ratio of 2:1 and is shown on an older television screen with a 27-inch diagonal. What is the height, in inches, of each darkened strip?\n\n[Figure: /question-assets/source/amc/6d604699a1bf249ef4f5b01efae6a39e9472e6c9cf36cfee48e7d1e5953a1b0c.jpg]",
+        "title": "The aspect ratio of a television screen is the ratio of the width to the height of the screen. The standard television screen has an aspect ratio of $4:3$. Many movies have a different aspect ratio, so they are sometimes shown on a standard television screen by \"letterboxing\"—darkening strips of equal height at the top and bottom of the screen, as shown. A movie with an aspect ratio of $2:1$ is shown on a standard television set whose screen has a diagonal of $27$ inches. What is the height, in inches, of each darkened strip?\n\n[Figure: /question-assets/source/amc/6d604699a1bf249ef4f5b01efae6a39e9472e6c9cf36cfee48e7d1e5953a1b0c.jpg]",
         "option_a": "$2$",
         "option_b": "$2.25$",
         "option_c": "$2.5$",
@@ -18502,7 +18502,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "Let $P>100$ be the listed price. Then the price reductions in dollars are as follows:\n\nCoupon 1: \\dfrac{P}\n\nCoupon 2: 20\n\nCoupon 3: $\\dfrac{18}{100}(P-100)$\n\nCoupon 1 gives a greater price reduction than coupon 2 when $\\dfrac{P}{10}>20$, that is, $P>200$. Coupon 1 gives a greater price reduction than coupon 3 when $\\dfrac{P}{10}>\\dfrac{18}{100}(P-100)$, that is, $P<225$. The only choice that satisfies these inequalities is $\\boxed{\\$ 219.95}$."
+        "solution_info": "Let the list price be $P>100$. The three discounts are\n\n$\\frac{P}{10},\\qquad 20,\\qquad \\frac{18}{100}(P-100)$.\n\nCoupon 1 beats Coupon 2 when $P/10>20$, or $P>200$. It beats Coupon 3 when\n\n$\\frac{P}{10}>\\frac{18}{100}(P-100)$,\n\nor $P<225$. The only listed price between $200$ and $225$ is $\\boxed{\\textbf{(C)}\\ \\$219.95}$."
       }
     ],
     "children": []
@@ -20006,7 +20006,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "As long as $x$ and $y$ and their rounded values are positive, rounding the dividend $x$ up in a division problem $\\dfrac{x}{y}$ makes the answer larger, and rounding $x$ down makes the answer smaller. Similarly, rounding the divisor $y$ up makes the answer smaller, and rounding $y$ down makes the answer larger. In a subtraction problem $x-y$, rounding $x$ up or rounding $y$ down increases the answer, and rounding $x$ down or rounding $y$ up decreases it. Only in choice (D) do all the roundings contribute to increasing the answer. In the other situations, the estimate may be larger or smaller than the exact value, depending on the the amount by which each number is rounded and their values. In particular, the rounding may make the answer smaller.\n\nFor (A), $\\dfrac{999999}{900}-490>\\dfrac{1000000}{1000}-500$.\n\nFor (B), $\\dfrac{999999}{900}-510>\\dfrac{1000000}{1000}-500$.\n\nFor (C), $\\dfrac{999999}{1001}-490>\\dfrac{1000000}{1000}-500$.\n\nFor (E), $\\dfrac{1000001}{1001}-490>\\dfrac{1000000}{1000}-500$."
+        "solution_info": "As long as $x$ and $y$ and their rounded values are positive, rounding the dividend $x$ up in a division problem $\\dfrac{x}{y}$ makes the answer larger, and rounding $x$ down makes the answer smaller. Similarly, rounding the divisor $y$ up makes the answer smaller, and rounding $y$ down makes the answer larger. In a subtraction problem $x-y$, rounding $x$ up or rounding $y$ down increases the answer, and rounding $x$ down or rounding $y$ up decreases it. Only in choice (D) do all the roundings contribute to increasing the answer. In the other situations, the estimate may be larger or smaller than the exact value, depending on the amount by which each number is rounded and their values. In particular, the rounding may make the answer smaller.\n\nFor (A), $\\dfrac{999999}{900}-490>\\dfrac{1000000}{1000}-500$.\n\nFor (B), $\\dfrac{999999}{900}-510>\\dfrac{1000000}{1000}-500$.\n\nFor (C), $\\dfrac{999999}{1001}-490>\\dfrac{1000000}{1000}-500$.\n\nFor (E), $\\dfrac{1000001}{1001}-490>\\dfrac{1000000}{1000}-500$."
       }
     ],
     "children": []
@@ -24966,7 +24966,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "Let $z=a+b i$ be a solution of the first equation, where $a$ and $b$ are real numbers. Then $(a+b i)^{2}=4+4 \\sqrt{15} i$. Expanding the left-hand side and equating real and imaginary parts yields\n\n$a^{2}-b^{2}=4 \\quad \\text { and } \\quad 2 a b=4 \\sqrt{15}$\nFrom the second equation, $b=\\dfrac{2 \\sqrt{15}}{a}$, and substituting this into the first equation and simplifying gives $\\left(a^{2}\\right)^{2}-4 a^{2}-60=0$, which factors as $\\left(a^{2}-10\\right)\\left(a^{2}+6\\right)=0$. Because $a$ is real, it follows that $a= \\pm \\sqrt{10}$, from which it then follows that $b= \\pm \\sqrt{6}$. Thus two vertices of the parallelogram are $\\sqrt{10}+\\sqrt{6} i$ and $-\\sqrt{10}-\\sqrt{6} i$. A similar calculation with the other given equation shows that the other two vertices of the parallelogram are $\\sqrt{3}+i$ and $-\\sqrt{3}-i$. The area of this parallogram can be computed using the shoelace formula, which gives the area of a polygon in terms of the coordinates of its vertices $\\left(x_{1}, y_{1}\\right),\\left(x_{2}, y_{2}\\right)$, $\\ldots,\\left(x_{n}, y_{n}\\right)$ in clockwise or counter-clockwise order:\n\n$\\begin{aligned} \\dfrac{1}{2} \\cdot \\mid\\left(x_{1} y_{2}+x_{2} y_{3}\\right. \\left.+\\cdots+x_{n-1} y_{n}+x_{n} y_{1}\\right) \\\\ -\\left(y_{1} x_{2}+y_{2} x_{3}+\\cdots+y_{n-1} x_{n}+y_{n} x_{1}\\right) \\mid \\end{aligned}$\nIn this case $x_{1}=\\sqrt{10}, y_{1}=\\sqrt{6}, x_{2}=\\sqrt{3}, y_{2}=1, x_{3}=-\\sqrt{10}$, $y_{3}=-\\sqrt{6}, x_{4}=-\\sqrt{3}$, and $y_{4}=-1$. The area is $6 \\sqrt{2}-2 \\sqrt{10}$, and the requested sum of the four positive integers in this expression is $\\boxed{20}$ .\n\nOR\n\nThe solutions of $z^{2}=4+4 \\sqrt{15} i=16 \\operatorname{cis} 2 \\theta_{1}$ are $z_{1}=4 \\operatorname{cis} \\theta_{1}$ and its opposite, with $0<\\theta_{1}<\\dfrac{\\pi}{4}$ and $\\tan 2 \\theta_{1}=\\sqrt{15}$. Then $\\cos 2 \\theta_{1}=\\dfrac{1}{4}$, and by the half-angle identities, $\\cos \\theta_{1}=\\dfrac{\\sqrt{10}}{4}$ and $\\sin \\theta_{1}=\\dfrac{\\sqrt{6}}{4}$. Similarly, the solutions of $z^{2}=2+2 \\sqrt{3} i=4 \\operatorname{cos} \\theta_{2}$ are $z_{2}=2 \\operatorname{cos} \\theta_{2}$ and its opposite, with $0<\\theta_{2}<\\dfrac{\\pi}{4}$ and $\\tan 2 \\theta_{2}=\\sqrt{3}$. Then $\\cos \\theta_{2}=\\dfrac{\\sqrt{3}}{2}$ and \\sin \\theta_{2}=\\dfrac{1}\n\nThe area of the parallelogram in the complex plane with vertices $z_{1}$, $z_{2}$, and their opposites is 4 times the area of the triangle with vertices $0, z_{1}$, and $z_{2}$, and because the area of a triangle is one-half the product of the lengths of two of its sides and the sine of their included angle, it follows that the area of the parallelogram is\n\n$\\begin{aligned} 4\\left(\\dfrac{1}{2} \\cdot 4 \\cdot 2 \\cdot \\sin \\left(\\theta_{1}-\\theta_{2}\\right)\\right) =16\\left(\\sin \\theta_{1} \\cos \\theta_{2}-\\cos \\theta_{1} \\sin \\theta_{2}\\right) \\\\ =16\\left(\\dfrac{\\sqrt{6}}{4} \\cdot \\dfrac{\\sqrt{3}}{2}-\\dfrac{\\sqrt{10}}{4} \\cdot \\dfrac{1}{2}\\right) \\\\ =6 \\sqrt{2}-2 \\sqrt{10} \\end{aligned}$\nTherefore, $p+q+r+s=6+2+2+10=\\boxed{20}$."
+        "solution_info": "Write a root of the first equation as $a+bi$. Comparing real and imaginary parts gives\n\n$a^2-b^2=4,\\qquad 2ab=4\\sqrt{15}$.\n\nAlso $a^2+b^2=|4+4\\sqrt{15}i|=16$, so $a^2=10$ and $b^2=6$. Its roots are $\\pm(\\sqrt{10}+\\sqrt6i)$. Similarly, the roots of the second equation are $\\pm(\\sqrt3+i)$.\n\nLet $u=(\\sqrt{10},\\sqrt6)$ and $v=(\\sqrt3,1)$. The diagonals of the parallelogram are $2u$ and $2v$, so its area is\n\n$\\frac12|\\det(2u,2v)|=2|\\sqrt{10}-\\sqrt{18}|=6\\sqrt2-2\\sqrt{10}$.\n\nThus $p+q+r+s=6+2+2+10=\\boxed{\\textbf{(A)}\\ 20}$."
       }
     ],
     "children": []
@@ -26022,7 +26022,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "It is possible to obtain $0,1,3,4,5$, and 6 points of intersection, as demonstrated in the following figures:\n\n[Figure: /question-assets/source/amc/6013405159624d8cd3dda3237bd2f0b22ed36e73d2cc8fb937af75db66092eb4.jpg]\n\nIt is clear that the maximum number of possible intersections is $\\binom{4}{2}=6$, since each pair of lines can intersect at most once. We now prove that it is impossible to obtain two intersections.\n\nWe proceed by contradiction. Assume a configuration of four lines exists such that there exist only two intersection points. Let these intersection points be $A$ and $B$. Consider two cases:\n\nCase $1$: No line passes through both $A$ and $B$\n\nThen, since an intersection point is obtained by an intersection between at least two lines, two lines pass through each of $A$ and $B$. Then, since there can be no additional intersections, the $2$ lines that pass through $A$ cant intersect the $2$ lines that pass through $B$, and so $2$ lines passing through $A$ must be parallel to $2$ lines passing through $B$. Then the two lines passing through $B$ are parallel to each other by transitivity of parallelism, so they coincide, contradiction.\n\nCase $2$: There is a line passing through $A$ and $B$\n\nThen there must be a line $l_{a}$ passing through $A$, and a line $l_{b}$ passing through $B$. These lines must be parallel. The fourth line $l$ must pass through either $A$ or $B$. Without loss of generality, suppose $l$ passes through $A$. Then since $l$ and $l_{a}$ cannot coincide, they cannot be parallel. Then $l$ and $l_{b}$ cannot be parallel either, so they intersect, contradiction.\n\nAll possibilities have been exhausted, and thus we can conclude that two intersections is impossible. Our answer is given by the sum $0+1+3+4+5+6=\\boxed{(D) 19}$ ."
+        "solution_info": "It is possible to obtain $0,1,3,4,5$, and 6 points of intersection, as demonstrated in the following figures:\n\n[Figure: /question-assets/source/amc/6013405159624d8cd3dda3237bd2f0b22ed36e73d2cc8fb937af75db66092eb4.jpg]\n\nIt is clear that the maximum number of possible intersections is $\\binom{4}{2}=6$, since each pair of lines can intersect at most once. We now prove that it is impossible to obtain two intersections.\n\nWe proceed by contradiction. Assume a configuration of four lines exists such that there exist only two intersection points. Let these intersection points be $A$ and $B$. Consider two cases:\n\nCase $1$: No line passes through both $A$ and $B$\n\nThen, since an intersection point is obtained by an intersection between at least two lines, two lines pass through each of $A$ and $B$. Then, since there can be no additional intersections, the $2$ lines that pass through $A$ cannot intersect the $2$ lines that pass through $B$, and so $2$ lines passing through $A$ must be parallel to $2$ lines passing through $B$. Then the two lines passing through $B$ are parallel to each other by transitivity of parallelism, so they coincide, contradiction.\n\nCase $2$: There is a line passing through $A$ and $B$\n\nThen there must be a line $l_{a}$ passing through $A$, and a line $l_{b}$ passing through $B$. These lines must be parallel. The fourth line $l$ must pass through either $A$ or $B$. Without loss of generality, suppose $l$ passes through $A$. Then since $l$ and $l_{a}$ cannot coincide, they cannot be parallel. Then $l$ and $l_{b}$ cannot be parallel either, so they intersect, contradiction.\n\nAll possibilities have been exhausted, and thus we can conclude that two intersections is impossible. Our answer is given by the sum $0+1+3+4+5+6=\\boxed{(D) 19}$ ."
       }
     ],
     "children": []
@@ -26040,7 +26040,7 @@
     "quality": "精品",
     "question_info": {
       "raw_content": {
-        "title": "A sequence of numbers is defined recursively by $a_{1}=1, a_{2}=\\dfrac{3}{7}$, and\n\n$a_{n}=\\dfrac{a_{n-2} \\cdot a_{n-1}}{2 a_{n-2}-a_{n-1}}$\nfor all $n \\geq 3$ Then $a_{2019}$ can be written as $\\dfrac{p}{q}$, where $p$ and $q$ are relatively prime positive inegers. What is $p+q$ ?",
+        "title": "The sequence is defined by $a_1=1$, $a_2=\\dfrac{3}{7}$, and\n\n$a_n=\\dfrac{a_{n-2}a_{n-1}}{2a_{n-2}-a_{n-1}}$\n\nfor $n\\ge3$. Suppose that $a_{2019}=\\dfrac pq$, where $p$ and $q$ are relatively prime positive integers. Find $p+q$.",
         "option_a": "$2020$",
         "option_b": "$4039$",
         "option_c": "$6057$",
@@ -26054,7 +26054,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "We have $\\dfrac{1}{a_{n}}=\\dfrac{2 a_{n-2}-a_{n-1}}{a_{n-2} \\cdot a_{n-1}}=\\dfrac{2}{a_{n-1}}-\\dfrac{1}{a_{n-2}}$, in other words, $\\dfrac{1}{a_{n}}-\\dfrac{1}{a_{n-1}}=\\dfrac{1}{a_{n-1}}-\\dfrac{1}{a_{n-2}}$. So $\\left\\{\\dfrac{1}{a_{n}}\\right\\}$ is an arithmetic sequence with step size $\\dfrac{7}{3}-1=\\dfrac{4}{3}$, which means $\\dfrac{1}{a_{n}}=1+2018 \\cdot \\dfrac{4}{3}=\\dfrac{8075}{3}$. Since the numerator and the denominator are relatively prime, the answer is $\\boxed{(E)8078}$.\n\nOR\n\nIt seems reasonable to transform the equation into something else. Let $a_{n}=x, a_{n-1}=y$, and $a_{n-2}=z$. Therefore, we have\n\n$x =\\dfrac{z y}{2 z-y}$\n\n$2 x z -x y=z y$\n\n$2 x z =y(x+z)$\n\ny =\\dfrac{2 x z}\n\nThus, $y$ is the harmonic mean of $x$ and $z$. This implies $a_{n}$ is a harmonic sequence or equivalently $b_{n}=\\dfrac{1}{a_{n}}$ is arithmetic. Now, we have $b_{1}=1, b_{2}=\\dfrac{7}{3}, b_{3}=\\dfrac{11}{3}$, and so on. Since the common difference is $\\dfrac{4}{3}$, we can express $b_{n}$ explicitly as $b_{n}=\\dfrac{4}{3}(n-1)+1$. This gives $b_{2019}=\\dfrac{4}{3}(2019-1)+1=\\dfrac{8075}{3}$ which implies $a_{2019}=\\dfrac{3}{8075}=\\dfrac{p}{q}$. $p+q=\\boxed{(E) 8078}$."
+        "solution_info": "Taking reciprocals in the recurrence gives\n\n$\\frac1{a_n}=\\frac2{a_{n-1}}-\\frac1{a_{n-2}}$.\n\nTherefore\n\n$\\frac1{a_n}-\\frac1{a_{n-1}}=\\frac1{a_{n-1}}-\\frac1{a_{n-2}}$,\n\nso $\\left(1/a_n\\right)$ is arithmetic. Its common difference is\n\n$\\frac1{a_2}-\\frac1{a_1}=\\frac73-1=\\frac43$.\n\nThus\n\n$\\frac1{a_{2019}}=1+2018\\cdot\\frac43=\\frac{8075}{3}$,\n\nand $a_{2019}=3/8075$. Hence $p+q=3+8075=\\boxed{\\textbf{(E)}\\ 8078}$."
       }
     ],
     "children": []
@@ -26406,7 +26406,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "There are several cases depending on what the first coin flip is when determining $x$ and what the first coin flip is when determining $y$.\n\nThe four cases are:\n\nCase $1$: $x$ is either $0 or 1$ , and $y$ is either $0 or 1$ .\n\nCase $2$: $x$ is either $0 or 1$ , and $y$ is chosen from the interval $[0,1]$.\n\nCase $3$: $x$ is is chosen from the interval $[0,1]$, and $y$ is either $0 or 1$ .\n\nCase $4$: $x$ is is chosen from the interval $[0,1]$, and $y$ is also chosen from the interval $[0,1]$.\n\nEach case has a $\\dfrac{1}{4}$ chance of occurring (as it requires two coin flips).\n\nFor Case $1$, we need $x$ and $y$ to be different. Therefore, the probability for success in Case $1$ is $\\dfrac{1}{2}$.\n\nFor Case $2$, if $x$ is $0$ , we need $y$ to be in the interval $\\left(\\dfrac{1}{2}, 1\\right]$. If $x$ is $1$ , we need $y$ to be in the interval $\\left[0, \\dfrac{1}{2}\\right)$. Regardless of what $x$ is, the probability for success for Case 2 is $\\dfrac{1}{2}$.\n\nBy symmetry, Case $3$ has the same success rate as Case $2$.\n\nFor Case $4$, we must use geometric probability because there are an infinite number of pairs $(x, y)$ that can be selected, whether they satisfy the inequality or not. Graphing $|x-y|>\\dfrac{1}{2}$ gives us the following picture where the shaded area is the set of all the points that fulfill the inequality:\n\n[Figure: /question-assets/source/amc/620f5d49efe173cc053fcc6bb3e678cc1158e5f284e645abbad93a0a972230b4.jpg]\n\nThe shaded area is $\\dfrac{1}{4}$, which means the probability for success for case $4$ is $\\dfrac{1}{4}$ (since the total area of the bounding square, containing all possible pairs, is $1$ ).\n\nAdding up the success rates from each case, we get:\n\n$(\\dfrac{1}{4}) \\cdot (\\dfrac{1}{2}+\\dfrac{1}{2}+\\dfrac{1}{2}+\\dfrac{1}{4})=\\boxed{ (B) \\dfrac{7}{16}}$\n\nOR\n\nTaking into account that there are two options for the result of the first coin flip, there are four possible combinations with equal possibility of initial coins flips.\n\n$(1)$ $x$ : heads, $y$ : heads\n\n$(2)$ $x$ : heads, $y$ : tails\n\n$(3)$ $x$ : tails, $y$ : heads\n\n$(4)$ $x$ : tails, $y$ : tails\n\n$(1)$ Because $\\mathrm{x}$ and $\\mathrm{y}$ both must be integers, so it's simple to see that the probability that $|x-y|>\\dfrac{1}{2}$ is $\\dfrac{1}{2}$.\n\n$(2)$ Since $x$ has to be an integer it is also easy to see that the probability is again $\\dfrac{1}{2}$.\n\n$(3)$ This is the same as case $2$ so the probability is $\\dfrac{1}{2}$.\n\n$(4)$ This one is a little bit tricky. You could use geometric probability shown above, but if you don't understand it or happened to not think of it, there is another solution that involves using the multiple choice answers.\n\nFirst, the probability we have so far is $\\dfrac{3}{8}$. This is greater than $\\dfrac{1}{3}$ so $A$ is the not the answer. It is either $B, C, D$, or $E$. Let's draw out the probability with two parallel lines on a paper with represent a number line from $0-1$. The concept is to compare one point and find the fraction of the other line that contains points that are at least $\\dfrac{1}{2}$ away from it. If the point we choose is on the endpoints, then the fraction of the other line that works is exactly $\\dfrac{1}{2}$. But as we move this point closer to the middle, the deadzone (area where the other point cannot be) grows, diminishing the probability. Finally, when it is directly in the middle, there are no points that pass the requirements except at $1$ and $0$.\n\nSo, looking at the choices again, we have $\\dfrac{7}{16}, \\dfrac{1}{2}, \\dfrac{9}{16}$, and $\\dfrac{2}{3}$.\n\n$\\dfrac{1}{2}$ is exactly $\\dfrac{1}{8}$ more than the probability we had before. Notice that this is impossible because we proved that the average probability of the fourth case is lower than $\\dfrac{1}{2}$, so the answer is $\\boxed{B}$."
+        "solution_info": "There are several cases depending on what the first coin flip is when determining $x$ and what the first coin flip is when determining $y$.\n\nThe four cases are:\n\nCase $1$: $x$ is either $0 or 1$ , and $y$ is either $0 or 1$ .\n\nCase $2$: $x$ is either $0 or 1$ , and $y$ is chosen from the interval $[0,1]$.\n\nCase $3$: $x$ is chosen from the interval $[0,1]$, and $y$ is either $0 or 1$ .\n\nCase $4$: $x$ is chosen from the interval $[0,1]$, and $y$ is also chosen from the interval $[0,1]$.\n\nEach case has a $\\dfrac{1}{4}$ chance of occurring (as it requires two coin flips).\n\nFor Case $1$, we need $x$ and $y$ to be different. Therefore, the probability for success in Case $1$ is $\\dfrac{1}{2}$.\n\nFor Case $2$, if $x$ is $0$ , we need $y$ to be in the interval $\\left(\\dfrac{1}{2}, 1\\right]$. If $x$ is $1$ , we need $y$ to be in the interval $\\left[0, \\dfrac{1}{2}\\right)$. Regardless of what $x$ is, the probability for success for Case 2 is $\\dfrac{1}{2}$.\n\nBy symmetry, Case $3$ has the same success rate as Case $2$.\n\nFor Case $4$, we must use geometric probability because there are an infinite number of pairs $(x, y)$ that can be selected, whether they satisfy the inequality or not. Graphing $|x-y|>\\dfrac{1}{2}$ gives us the following picture where the shaded area is the set of all the points that fulfill the inequality:\n\n[Figure: /question-assets/source/amc/620f5d49efe173cc053fcc6bb3e678cc1158e5f284e645abbad93a0a972230b4.jpg]\n\nThe shaded area is $\\dfrac{1}{4}$, which means the probability for success for case $4$ is $\\dfrac{1}{4}$ (since the total area of the bounding square, containing all possible pairs, is $1$ ).\n\nAdding up the success rates from each case, we get:\n\n$(\\dfrac{1}{4}) \\cdot (\\dfrac{1}{2}+\\dfrac{1}{2}+\\dfrac{1}{2}+\\dfrac{1}{4})=\\boxed{ (B) \\dfrac{7}{16}}$\n\nOR\n\nTaking into account that there are two options for the result of the first coin flip, there are four possible combinations with equal possibility of initial coins flips.\n\n$(1)$ $x$ : heads, $y$ : heads\n\n$(2)$ $x$ : heads, $y$ : tails\n\n$(3)$ $x$ : tails, $y$ : heads\n\n$(4)$ $x$ : tails, $y$ : tails\n\n$(1)$ Because $\\mathrm{x}$ and $\\mathrm{y}$ both must be integers, so it's simple to see that the probability that $|x-y|>\\dfrac{1}{2}$ is $\\dfrac{1}{2}$.\n\n$(2)$ Since $x$ has to be an integer it is also easy to see that the probability is again $\\dfrac{1}{2}$.\n\n$(3)$ This is the same as case $2$ so the probability is $\\dfrac{1}{2}$.\n\n$(4)$ This one is a little bit tricky. You could use geometric probability shown above, but if you don't understand it or happened to not think of it, there is another solution that involves using the multiple choice answers.\n\nFirst, the probability we have so far is $\\dfrac{3}{8}$. This is greater than $\\dfrac{1}{3}$ so $A$ is the not the answer. It is either $B, C, D$, or $E$. Let's draw out the probability with two parallel lines on a paper with represent a number line from $0-1$. The concept is to compare one point and find the fraction of the other line that contains points that are at least $\\dfrac{1}{2}$ away from it. If the point we choose is on the endpoints, then the fraction of the other line that works is exactly $\\dfrac{1}{2}$. But as we move this point closer to the middle, the deadzone (area where the other point cannot be) grows, diminishing the probability. Finally, when it is directly in the middle, there are no points that pass the requirements except at $1$ and $0$.\n\nSo, looking at the choices again, we have $\\dfrac{7}{16}, \\dfrac{1}{2}, \\dfrac{9}{16}$, and $\\dfrac{2}{3}$.\n\n$\\dfrac{1}{2}$ is exactly $\\dfrac{1}{8}$ more than the probability we had before. Notice that this is impossible because we proved that the average probability of the fourth case is lower than $\\dfrac{1}{2}$, so the answer is $\\boxed{B}$."
       }
     ],
     "children": []
@@ -27096,12 +27096,12 @@
     "quality": "精品",
     "question_info": {
       "raw_content": {
-        "title": "Raashan, Sylvia, and Ted play the following game. Each starts with $\\$ 1$. A bell rings every 15 seconds, at which time each of the players who currently have money simultaneously chooses one of the other two players independently and at random and gives $\\$ 1$ to that player. What is the probability that after the bell has rung 2019 times, each player will have $\\$ 1$ ? (For example, Raashan and Ted may each decide to give $\\$ 1$ to Sylvia, and Sylvia may decide to give her dollar to Ted, at which point Raashan will have $\\$ 0$, Sylvia would have $\\$ 2$, and Ted would have $\\$ 1$, and and that is the end of the first round of play. In the second round Raashan has no money to give, but Sylvia and Ted might choose each other to give their $\\$ 1$ to, and and the holdings will be the same at the end of the second round.",
+        "title": "Raashan, Sylvia, and Ted play the following game. Each starts with $\\$1$. A bell rings every 15 seconds, at which time each of the players who currently have money simultaneously chooses one of the other two players independently and at random and gives $\\$1$ to that player. What is the probability that after the bell has rung 2019 times, each player will have $\\$1$? (For example, Raashan and Ted may each decide to give $\\$1$ to Sylvia, and Sylvia may decide to give her dollar to Ted, at which point Raashan will have $\\$0$, Sylvia will have $\\$2$, and Ted will have $\\$1$, and that is the end of the first round of play. In the second round Raashan has no money to give, but Sylvia and Ted might choose each other to give their $\\$1$ to, and the holdings will be the same at the end of the second round.)",
         "option_a": "$\\dfrac{1}{7}$",
         "option_b": "$\\dfrac{1}{4}$",
         "option_c": "$\\dfrac{1}{3}$",
         "option_d": "$\\dfrac{1}{2}$",
-        "option_e": "\\dfrac{2}",
+        "option_e": "$\\dfrac{2}{3}$",
         "answer1": "B"
       }
     },
@@ -27206,7 +27206,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "We first prove that $x_{n}>4$ for all $n \\geq 0$, by induction. Observe that\n\n$x_{n+1}-4=\\dfrac{x_{n}^{2}+5 x_{n}+4-4\\left(x_{n}+6\\right)}{x_{n}+6}=\\dfrac{\\left(x_{n}-4\\right)\\left(x_{n}+5\\right)}{x_{n}+6}$\n\nso (since $x_{n}$ is clearly positive for all $n$, from the initial definition), $x_{n+1}>4$ if and only if $x_{n}>4$. We similarly prove that $x_{n}$ is decreasing:\n\n$x_{n+1}-x_{n}=\\dfrac{x_{n}^{2}+5 x_{n}+4-x_{n}\\left(x_{n}+6\\right)}{x_{n}+6}=\\dfrac{4-x_{n}}{x_{n}+6}<0$\n\nNow we need to estimate the value of $x_{n+1}-4$, which we can do using the rearranged equation:\n\n$x_{n+1}-4=\\left(x_{n}-4\\right) \\cdot \\dfrac{x_{n}+5}{x_{n}+6}$\n\nSince $x_{n}$ is decreasing, $\\dfrac{x_{n}+5}{x_{n}+6}$ is also decreasing, so we have\n\n\\dfrac{9}{10}<\\dfrac{x_{n}+5}{x_{n}+6} \\leq \\dfrac{10}\n\nand\n\n$\\dfrac{9}{10}\\left(x_{n}-4\\right)<x_{n+1}-4 \\leq \\dfrac{10}{11}\\left(x_{n}-4\\right)$\n\nThis becomes\n\n\\left(\\dfrac{9}{10}\\right)^{n}=\\left(\\dfrac{9}{10}\\right)^{n}\\left(x_{0}-4\\right)\n\nThe problem thus reduces to finding the least value of $n$ such that\n\n$\\left(\\dfrac{9}{10}\\right)^{n}<x_{n}-4 \\leq \\dfrac{1}{2^{20}} \\text { and }\\left(\\dfrac{10}{11}\\right)^{n-1}>x_{n-1}-4>\\dfrac{1}{2^{20}}$\n\nTaking logarithms, we get $n \\ln \\dfrac{9}{10}<-20 \\ln 2$ and $(n-1) \\ln \\dfrac{10}{11}>-20 \\ln 2$, i.e.\n\n$n>\\dfrac{20 \\ln 2}{\\ln \\dfrac{10}{9}} \\text { and } n-1<\\dfrac{20 \\ln 2}{\\ln \\dfrac{11}{10}}$\n\nAs approximations, we can use $\\ln \\dfrac{10}{9} \\approx \\dfrac{1}{9}, \\ln \\dfrac{11}{10} \\approx \\dfrac{1}{10}$, and $\\ln 2 \\approx 0.7$. These approximations allow us to estimate\n\n$126<n<141$\n\nwhich gives $\\boxed{(\\mathrm{C}) \\quad [81,242]}$.\n\nOR\n\nThe condition where $x_{m} \\leq 4+\\dfrac{1}{2^{20}}$ gives the motivation to make a substitution to change the equilibrium from 4 to 0 . We can substitute $x_{n}=y_{n}+4$ to achieve that. Now, we need to find the smallest value of $m$ such that $y_{m} \\leq \\dfrac{1}{2^{20}}$ given that $y_{0}=1$.\n\nFactoring the recursion $x_{n+1}=\\dfrac{x_{n}^{2}+5 x_{n}+4}{x_{n}+6}$, we get:\n\n$x_{n+1}=\\dfrac{\\left(x_{n}+4\\right)\\left(x_{n}+1\\right)}{x_{n}+6} \\Rightarrow y_{n+1}+4=\\dfrac{\\left(y_{n}+8\\right)\\left(y_{n}+5\\right)}{y_{n}+10}$\n\n$y_{n+1}+4=\\dfrac{y_{n}^{2}+13 y_{n}+40}{y_{n}+10}=\\dfrac{y_{n}^{2}+9 y_{n}+\\left(4 y_{n}+40\\right)}{y_{n}+10}$\n\n$y_{n+1}+4=\\dfrac{y_{n}^{2}+9 y_{n}}{y_{n}+10}+4$\n\n$y_{n+1}=\\dfrac{y_{n}^{2}+9 y_{n}}{y_{n}+10}$\n\nUsing wishful thinking, we can simplify the recursion as follows:\n\n$y_{n+1}=\\dfrac{y_{n}^{2}+9 y_{n}+y_{n}-y_{n}}{y_{n}+10}$\n\n$y_{n+1}=\\dfrac{y_{n}\\left(y_{n}+10\\right)-y_{n}}{y_{n}+10}$\n\n$y_{n+1}=y_{n}-\\dfrac{y_{n}}{y_{n}+10}$\n\n$y_{n+1}=y_{n}\\left(1-\\dfrac{1}{y_{n}+10}\\right)$\n\nThe recursion looks like a geometric sequence with the ratio changing slightly after each term. Notice from the recursion that the $y_{n}$ sequence is strictly decreasing, so all the terms after $y_{0}$ will be less than $1$ . Also, notice that all the terms in sequence will be positive. Both of these can be proven by induction.\n\nWith both of those observations in mind, $\\dfrac{9}{10}<1-\\dfrac{1}{y_{n}+10} \\leq \\dfrac{10}{11}$. Combining this with the fact that the recursion resembles a geometric sequence, we conclude that $\\left(\\dfrac{9}{10}\\right)^{n}<y_{n} \\leq\\left(\\dfrac{10}{11}\\right)^{n}$.\n\n$\\dfrac{9}{10}$ is approximately equal to $\\dfrac{10}{11}$ and the ranges that the answer choices give us are generous, so we should use either $\\dfrac{9}{10}$ or $\\dfrac{10}{11}$ to find a rough estimate for $m$.\n\nSince $\\dfrac{1}{2}=0.5$, that means $\\dfrac{1}{\\sqrt{2}}=2^{-\\dfrac{1}{2}} \\approx 0.7$. Additionally, $\\left(\\dfrac{9}{10}\\right)^{3}=0.729$\n\nTherefore, we can estimate that $2^{-\\dfrac{1}{2}}<y_{3}$.\n\nRaising both sides to the 40th power, we get 2^{-20}<\\left(y_{3}\\right)^\n\nBut $y_{3}=\\left(y_{0}\\right)^{3}$, so $2^{-20}<\\left(y_{0}\\right)^{120}$ and therefore, $2^{-20}<y_{120}$.\n\nThis tells us that $m$ is somewhere around $120$, so our answer is $\\boxed{(C) \\quad [81, 242]}$."
+        "solution_info": "Set $y_n=x_n-4$. From the recurrence,\n\n$y_{n+1}=y_n\\frac{x_n+5}{x_n+6}$.\n\nInduction shows that $x_n>4$ and that $(x_n)$ is decreasing, so $4<x_n\\le5$. Consequently,\n\n$\\frac9{10}<\\frac{x_n+5}{x_n+6}\\le\\frac{10}{11}$,\n\nand, since $y_0=1$,\n\n$\\left(\\frac9{10}\\right)^n<y_n\\le\\left(\\frac{10}{11}\\right)^n$.\n\nNow $(9/10)^{81}>2^{-20}$, so $m>81$, while $(10/11)^{242}<2^{-20}$, so $m\\le242$. Therefore $m$ lies in $\\boxed{\\textbf{(C)}\\ [81,242]}$."
       }
     ],
     "children": []
@@ -28294,7 +28294,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "We first expand the expression:\n\n$\\dfrac{(n+2)!-(n+1)!}{n!}=$ \\dfrac{(n+2)(n+1) n!-(n+1) n!}\n\nWe can now divide out a common factor of $n$ ! from each term of the numerator:\n\n$(n+2)(n+1)-(n+1)$\n\nFactoring out $(n+1)$, we get\n\n$[(n+2)-1](n+1)=$ ${(n+1)^{2}}$\n\nwhich proves that the answer is\n\n${\\boxed{(D) \\quad a perfect square }}$\n\nOR\n\nIn the numerator, we factor out an $n$ ! to get\n\n$\\dfrac{(n+2)!-(n+1)!}{n!}=(n+2)(n+1)-(n+1)$\n\nNow, without loss of generality, test values of $n$ until only one answer choice is left valid:\n\n$n=1 \\Longrightarrow(3)(2)-(2)=$ $4$, knocking out $(B), (C)$, and $(E)$. $n=$ $2 \\Longrightarrow(4)(3)-(3)=$ $9$, knocking out $(A)$. This leaves $\\boxed{(D) a perfect square}$ as the only answer choice left.\n\nThis solution does not consider the condition $n \\geq 9$. The reason is that, with further testing it becomes clear that for all $n$, we get\n\n$(n+2)(n+1)-(n+1)=$ ${(n+1)^{2}}$\n\nas proved in Solution $1$. The condition $n \\geq 9$ was added most likely to encourage picking $(B)$ and discourage substituting smaller values into $n$."
+        "solution_info": "Expanding the factorials and canceling $n!$ gives\n\n$\\frac{(n+2)!-(n+1)!}{n!}=(n+2)(n+1)-(n+1)$\n\n$=(n+1)((n+2)-1)=(n+1)^2$.\n\nThus the value is always a $\\boxed{\\textbf{(D) perfect square}}$."
       }
     ],
     "children": []
@@ -28440,7 +28440,7 @@
     "quality": "精品",
     "question_info": {
       "raw_content": {
-        "title": "As shown in the figure below, six semicircles lie in the interior of a regular hexagon with side length 2 so that the diameters of the semicircles coincide with the sides of the hexagon. What is the area of the shaded regioninside the hexagon but outside all of the semicircles?\n\n[Figure: /question-assets/source/amc/b32919e21efec629b7aa56c5f1c647a786bd22eb111fdf2d0dcbcabdc87bc928.jpg]",
+        "title": "As shown in the figure, six semicircles lie in the interior of a regular hexagon with side length $2$ so that the diameters of the semicircles coincide with the sides of the hexagon. What is the area of the shaded region inside the hexagon but outside all of the semicircles?\n\n[Figure: /question-assets/source/amc/b32919e21efec629b7aa56c5f1c647a786bd22eb111fdf2d0dcbcabdc87bc928.jpg]",
         "option_a": "$6 \\sqrt{3}-3 \\pi$",
         "option_b": "$\\dfrac{9 \\sqrt{3}}{2}-2 \\pi$",
         "option_c": "$\\dfrac{3 \\sqrt{3}}{2}-\\dfrac{\\pi}{3}$",
@@ -28454,7 +28454,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "[Figure: /question-assets/source/amc/20ebfa5191b1ea7f609e60292f761934d8846786dbbd0cd907db29c863a05e68.jpg]\n\nLet point $A$ be a vertex of the regular hexagon, let point $B$ be the midpoint of the line connecting point $A$ and a neighboring vertex, and let point $C$ be the second intersection of the two semicircles that pass through point $A$. Then, $B C=1$, since $B$ is the center of the semicircle with radius $1$ that $C$ lies on, $A B=1$, since $B$ is the center of the semicircle with radius $1$ that $A$ lies on, and $\\angle B A C=60^{\\circ}$, as a regular hexagon has angles of $120^{\\circ}$, and $\\angle B A C$ is half of any angle in this hexagon. Now, using the Law of Sines, $\\dfrac{1}{\\sin \\angle A C B}=\\dfrac{1}{\\sin 60^{\\circ}}$, so $\\angle A C B=60^{\\circ}$. Since the angles in a triangle sum to $180^{\\circ}, \\angle A B C$ is also $60^{\\circ}$. Therefore, $\\triangle A B C$ is an equilateral triangle with side lengths of $1$ .\n\n[Figure: /question-assets/source/amc/de98df97b0a50fc37ca0dd81f6999ed4bfef258b700744a8c73042224ee07d58.jpg]\n\nSince the area of a regular hexagon can be found with the formula $\\dfrac{3 \\sqrt{3} s^{2}}{2}$, where $s$ is the side length of the hexagon, the area of this hexagon is $\\dfrac{3 \\sqrt{3}\\left(2^{2}\\right)}{2}=6 \\sqrt{3}$. Since the area of an equilateral triangle can be found with the formula $\\dfrac{\\sqrt{3}}{4} s^{2}$, where $s$ is the side length of the equilateral triangle, the area of an equilateral triangle with side lengths of 1 is $\\dfrac{\\sqrt{3}}{4}\\left(1^{2}\\right)=\\dfrac{\\sqrt{3}}{4}$. Since the area of a circle can be found with the formula $\\pi r^{2}$, the area of a sixth of a circle with radius $1$ is $\\dfrac{\\pi\\left(1^{2}\\right)}{6}=\\dfrac{\\pi}{6}$. In each sixth of the hexagon, there are two equilateral triangles colored white, each with an area of $\\dfrac{\\sqrt{3}}{4}$, and one-sixth of a circle with radius $1$ colored white, with an area of $\\dfrac{\\pi}{6}$. The rest of the sixth is colored gray. Therefore, the total area that is colored white in each sixth of the hexagon is $2\\left(\\dfrac{\\sqrt{3}}{4}\\right)+\\dfrac{\\pi}{6}$, which equals $\\dfrac{\\sqrt{3}}{2}+\\dfrac{\\pi}{6}$, and the total area colored white is $6\\left(\\dfrac{\\sqrt{3}}{2}+\\dfrac{\\pi}{6}\\right)$, which equals $3 \\sqrt{3}+\\pi$. Since the area colored gray equals the total area of the hexagon minus the area colored white, the area colored gray is $6 \\sqrt{3}-(3 \\sqrt{3}+\\pi)$, which equals $\\boxed{(D) 3 \\sqrt{3}-\\pi}$.\n\nOR\n\nFirst, subdivide the hexagon into $24$ equilateral triangles with side length $1$:\n\n[Figure: /question-assets/source/amc/70461b7d3316d16e613c27c41a43697a4a04577e6ee705f1915d5a9afd7c4b14.jpg]\n\nNow note that the entire shaded region is just 6 times this part:\n\n[Figure: /question-assets/source/amc/6a8c7dfc70e9ea0f81fe96d9e346d0dd66c34e8ed25aff0dad3804c7fbd09d51.jpg]\n\nThe entire rhombus is just $2$ equilateral triangles with side lengths of $1$ , so it has an area of:\n\n2\\cdot\\dfrac{\\sqrt{3}}{4}=\\dfrac{\\sqrt{3}}\n\nThe arc that is not included has an area of:\n\n\\dfrac{1}{6}\\cdot\\pi\\cdot1^{2}=\\dfrac{\\pi}\n\nHence, the area of the shaded region in that section is\n\n\\dfrac{\\sqrt{3}}{2}-\\dfrac{\\pi}\n\nFor a final area of:\n\n$6\\left(\\dfrac{\\sqrt{3}}{2}-\\dfrac{\\pi}{6}\\right)=\\boxed{(D) 3 \\sqrt{3}-\\pi}$"
+        "solution_info": "[Figure: /question-assets/source/amc/20ebfa5191b1ea7f609e60292f761934d8846786dbbd0cd907db29c863a05e68.jpg]\n\nPartition the regular hexagon into six congruent pieces. The intersection points of adjacent semicircles form equilateral triangles of side length $1$ with the relevant vertex and side midpoints.\n\n[Figure: /question-assets/source/amc/de98df97b0a50fc37ca0dd81f6999ed4bfef258b700744a8c73042224ee07d58.jpg]\n\nThe hexagon has area\n\n$\\frac{3\\sqrt3}{2}\\cdot2^2=6\\sqrt3$.\n\nIn each sixth, the unshaded portion consists of two equilateral triangles of side $1$ and one sixth of a unit circle, with area\n\n$2\\cdot\\frac{\\sqrt3}{4}+\\frac{\\pi}{6}=\\frac{\\sqrt3}{2}+\\frac{\\pi}{6}$.\n\n[Figure: /question-assets/source/amc/70461b7d3316d16e613c27c41a43697a4a04577e6ee705f1915d5a9afd7c4b14.jpg]\n\n[Figure: /question-assets/source/amc/6a8c7dfc70e9ea0f81fe96d9e346d0dd66c34e8ed25aff0dad3804c7fbd09d51.jpg]\n\nThus the total unshaded area is $3\\sqrt3+\\pi$, and the shaded area is\n\n$6\\sqrt3-(3\\sqrt3+\\pi)=\\boxed{\\textbf{(D)}\\ 3\\sqrt3-\\pi}$."
       }
     ],
     "children": []
@@ -34513,7 +34513,7 @@
       "raw_content": {
         "title": "For how many integers $n$ does the expression\n\n$\\sqrt{\\frac{\\log \\left(n^{2}\\right)-(\\log n)^{2}}{\\log n-3}}$\nrepresent a real number, where log denotes the base $10$ logarithm?",
         "option_a": "$900$",
-        "option_b": "$2$",
+        "option_b": "$3$",
         "option_c": "$902$",
         "option_d": "$2$",
         "option_e": "$901$",
@@ -34610,7 +34610,7 @@
         "title": "In the $x y$-plane, a circle of radius $4$ with center on the positive $x$ axis is tangent to the $y$-axis at the origin, and a circle of radius $10$ with center on the positive $y$-axis is tangent to the $x$-axis at the origin. What is the slope of the line passing through the two points at which these circles intersect?",
         "option_a": "$\\frac{2}{7}$",
         "option_b": "$\\frac{3}{7}$",
-        "option_c": "$\\frac{3}{7}$",
+        "option_c": "$\\frac{2}{\\sqrt{29}}$",
         "option_d": "$\\frac{1}{\\sqrt{29}}$",
         "option_e": "$\\frac{2}{5}$",
         "answer1": "E"
@@ -34767,7 +34767,7 @@
     "quality": "精品",
     "question_info": {
       "raw_content": {
-        "title": "Suppose that $a, b$, and $c$ are positive integers such that\n\n$\\frac{a}{14}+\\frac{b}{15}=\\frac{c}{210}$\nWhich of the following statements are necessarily true?\n\n$I$. If $\\operatorname{gcd}(a, 14)=1$ or $\\operatorname{gcd}(b, 15)=1$ or both, then $\\operatorname{gcd}(c, 210)=1$.\n\n$II$. If $\\operatorname{gcd}(c, 210)=1$, then $\\operatorname{gcd}(a, 14)=1$ or $\\operatorname{gcd}(b, 15)=1$ or both.\n\n$III$. $\\operatorname{gcd}(c, 210)=1$ if and only if $\\operatorname{gcd}(a, 14)=1$ and \\operatorname{gcd (b, 15)=1.",
+        "title": "Suppose that $a, b$, and $c$ are positive integers such that\n\n$\\frac{a}{14}+\\frac{b}{15}=\\frac{c}{210}$\n\nWhich of the following statements are necessarily true?\n\n$I$. If $\\operatorname{gcd}(a,14)=1$ or $\\operatorname{gcd}(b,15)=1$ or both, then $\\operatorname{gcd}(c,210)=1$.\n\n$II$. If $\\operatorname{gcd}(c,210)=1$, then $\\operatorname{gcd}(a,14)=1$ or $\\operatorname{gcd}(b,15)=1$ or both.\n\n$III$. $\\operatorname{gcd}(c,210)=1$ if and only if $\\operatorname{gcd}(a,14)=1$ and $\\operatorname{gcd}(b,15)=1$.",
         "option_a": "$I, II$, and $III$",
         "option_b": "$I$ only",
         "option_c": "$I$ and $II$ only",
@@ -35965,7 +35965,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "Observe that}\n\n$\\begin{aligned} 2 & =\\frac{\\log _{2} x \\cdot \\log _{3} x}{\\log _{2} x+\\log _{3} x} \\\\ & =\\frac{1}{\\frac{1}{\\log _{3} x}+\\frac{1}{\\log _{2} x}} \\\\ & =\\frac{1}{\\log _{x} 3+\\log _{x} 2} \\\\ & =\\frac{1}{\\log _{x} 6}=\\log _{6} x . \\end{aligned}$\nIt follows that $x=6^{2}=(\\text{C})\\boxed{36}$.\n\n$\\textbf{OR}$\nThe given equation is equivalent to\n\n$\\log _{2} x \\cdot \\log _{3} x=2 \\log _{2} x+2 \\log _{3} x$\nNote that $\\log _{3} x=\\frac{\\log _{2} x}{\\log _{2} 3}$, so\n\n$\\log _{2} x \\cdot \\frac{\\log _{2} x}{\\log _{2} 3}=2 \\log _{2} x+2 \\frac{\\log _{2} x}{\\log _{2} 3}$\nMultiplying both sides by $\\frac{\\log _{2} 3}{\\log _{2} x}$ gives\n\n$\\log _{2} x=2 \\log _{2} 3+2=\\log _{2} 9+2$\nThen\n\n$x=2^{\\log _{2} 9+2}=2^{\\log _{2} 9} \\cdot 2^{2}=9 \\cdot 4=(\\text{C})\\boxed{36}.$"
+        "solution_info": "Observe that\n\n$\\begin{aligned}\n2&=\\frac{\\log_2x\\cdot\\log_3x}{\\log_2x+\\log_3x}\\\\\n&=\\frac{1}{\\frac1{\\log_3x}+\\frac1{\\log_2x}}\\\\\n&=\\frac{1}{\\log_x3+\\log_x2}\\\\\n&=\\frac{1}{\\log_x6}=\\log_6x.\n\\end{aligned}$\n\nIt follows that $x=6^2=\\boxed{\\textbf{(C)}\\ 36}$."
       }
     ],
     "children": []
@@ -37065,38 +37065,6 @@
     "children": []
   },
   {
-    "id": "55fcd29f04aa5c326c71b7b1bc8c55e2",
-    "type": "单选题",
-    "grade_band": "AMC-12",
-    "difficulty": "容易",
-    "grade": "AMC-12",
-    "course": "数学",
-    "paper": "2025 AMC 12B · Problem 1",
-    "online_test": true,
-    "option_split": true,
-    "quality": "精品",
-    "question_info": {
-      "raw_content": {
-        "title": "The instructions on a $350$-gram bag of coffee beans say that proper brewing of a large mug of pour-over coffee requires $20$ grams of coffee beans. What is the greatest number of properly brewed large mugs of coffee that can be made from the coffee beans in that bag?",
-        "option_a": "$16$",
-        "option_b": "$17$",
-        "option_c": "$18$",
-        "option_d": "$19$",
-        "option_e": "$20$\n\n💬 Join the Discussion\n\nStuck on this problem or want to share your approach?\n\nContinue the conversation and see what others are thinking: View Forum Thread",
-        "answer1": "B"
-      }
-    },
-    "answer_info": {
-      "raw_content": "B"
-    },
-    "solution_info": [
-      {
-        "solution_info": "We have a $350$-gram bag and each large mug needs $20$ grams. Therefore, number of full mugs we can make is\n\n$\\left\\lfloor\\frac{350}{20}\\right\\rfloor = \\lfloor17.5\\rfloor = \\boxed{{\\textbf{(B)~17}}}$\nWe simply do the division to find the number of bags we could get if we could allocate partial bags, and drop the remainder. In this case, we could fill $17$ full bags and half of the next bag, but the half bag is irrelevant here."
-      }
-    ],
-    "children": []
-  },
-  {
     "id": "4fc13d308085ffa1ca58ec178f5669ea",
     "type": "单选题",
     "grade_band": "AMC-12",
@@ -37114,7 +37082,7 @@
         "option_b": "$-10i$",
         "option_c": "$10i$",
         "option_d": "$-10$",
-        "option_e": "$10$\n\n💬 Join the Discussion\n\nStuck on this problem or want to share your approach?\n\nContinue the conversation and see what others are thinking: View Forum Thread",
+        "option_e": "$10$",
         "answer1": "D"
       }
     },
@@ -37146,7 +37114,7 @@
         "option_b": "$9$",
         "option_c": "$10$",
         "option_d": "$11$",
-        "option_e": "$14$\n\n💬 Join the Discussion\n\nStuck on this problem or want to share your approach?\n\nContinue the conversation and see what others are thinking: View Forum Thread",
+        "option_e": "$14$",
         "answer1": "A"
       }
     },
@@ -37178,7 +37146,7 @@
         "option_b": "$11$",
         "option_c": "$13$",
         "option_d": "$14$",
-        "option_e": "$15$\n\n💬 Join the Discussion\n\nStuck on this problem or want to share your approach?\n\nContinue the conversation and see what others are thinking: View Forum Thread",
+        "option_e": "$15$",
         "answer1": "E"
       }
     },
@@ -37210,7 +37178,7 @@
         "option_b": "$1-\\dfrac{1}{\\log_{2}255}$",
         "option_c": "$\\dfrac{7}{8}$",
         "option_d": "$\\dfrac{15}{16}$",
-        "option_e": "$1$\n\n💬 Join the Discussion\n\nStuck on this problem or want to share your approach?\n\nContinue the conversation and see what others are thinking: View Forum Thread",
+        "option_e": "$1$",
         "answer1": "C"
       }
     },
@@ -37242,7 +37210,7 @@
         "option_b": "$17$",
         "option_c": "$20$",
         "option_d": "$30$",
-        "option_e": "$68$\n\n💬 Join the Discussion\n\nStuck on this problem or want to share your approach?\n\nContinue the conversation and see what others are thinking: View Forum Thread",
+        "option_e": "$68$",
         "answer1": "C"
       }
     },
@@ -37274,7 +37242,7 @@
         "option_b": "$3$",
         "option_c": "$5$",
         "option_d": "$7$",
-        "option_e": "$9$\n\n💬 Join the Discussion\n\nStuck on this problem or want to share your approach?\n\nContinue the conversation and see what others are thinking: View Forum Thread",
+        "option_e": "$9$",
         "answer1": "C"
       }
     },
@@ -37306,7 +37274,7 @@
         "option_b": "$\\dfrac{\\sqrt{3}}{4}$",
         "option_c": "$\\dfrac{4}{9}$",
         "option_d": "$\\dfrac{5}{11}$",
-        "option_e": "$\\dfrac{4\\sqrt{3}}{15}$\n\n💬 Join the Discussion\n\nStuck on this problem or want to share your approach?\n\nContinue the conversation and see what others are thinking: View Forum Thread",
+        "option_e": "$\\dfrac{4\\sqrt{3}}{15}$",
         "answer1": "A"
       }
     },
@@ -37341,7 +37309,7 @@
         "option_b": "$\\dfrac{2}{7}$",
         "option_c": "$\\dfrac{9}{28}$",
         "option_d": "$\\dfrac{1}{3}$",
-        "option_e": "$\\dfrac{3}{8}$\n\n💬 Join the Discussion\n\nStuck on this problem or want to share your approach?\n\nContinue the conversation and see what others are thinking: View Forum Thread",
+        "option_e": "$\\dfrac{3}{8}$",
         "answer1": "C"
       }
     },
@@ -37373,7 +37341,7 @@
         "option_b": "$10.14$",
         "option_c": "$10.50$",
         "option_d": "$11.32$",
-        "option_e": "$12.00$\n\n💬 Join the Discussion\n\nStuck on this problem or want to share your approach?\n\nContinue the conversation and see what others are thinking: View Forum Thread",
+        "option_e": "$12.00$",
         "answer1": "C"
       }
     },
@@ -37405,7 +37373,7 @@
         "option_b": "$1014$",
         "option_c": "$1016$",
         "option_d": "$2016$",
-        "option_e": "$2025$\n\n💬 Join the Discussion\n\nStuck on this problem or want to share your approach?\n\nContinue the conversation and see what others are thinking: View Forum Thread",
+        "option_e": "$2025$",
         "answer1": "B"
       }
     },
@@ -37437,7 +37405,7 @@
         "option_b": "$\\sqrt{2}-1$",
         "option_c": "$2-\\sqrt{2}$",
         "option_d": "$\\dfrac{\\sqrt{2}}{2}$",
-        "option_e": "$3-\\sqrt{2}$\n\n💬 Join the Discussion\n\nStuck on this problem or want to share your approach?\n\nContinue the conversation and see what others are thinking: View Forum Thread",
+        "option_e": "$3-\\sqrt{2}$",
         "answer1": "B"
       }
     },
@@ -37469,7 +37437,7 @@
         "option_b": "$3$",
         "option_c": "$\\dfrac{16}{5}$",
         "option_d": "$\\dfrac{7}{2}$",
-        "option_e": "$\\dfrac{15}{4}$\n\n💬 Join the Discussion\n\nStuck on this problem or want to share your approach?\n\nContinue the conversation and see what others are thinking: View Forum Thread",
+        "option_e": "$\\dfrac{15}{4}$",
         "answer1": "D"
       }
     },
@@ -37478,7 +37446,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "After the first game, there is a $\\dfrac{1}{3}$ chance he has won a game and a $\\dfrac{2}{3}$ chance he has lost a game. If he has won, then he plays until he loses a game, so in expectation, he will play $\\dfrac{1}{2/3} = \\dfrac{3}{2}$ more games. If he has lost, then he plays until he wins a game, so in expectation, he will play $\\dfrac{1}{1/3} = 3$ more games. Hence, the expected value of the number of additional games he will play is given by:\n\n$\\begin{aligned} \\mathbb E[\\text{additional games}] &= \\mathbb P\\left(\\text{win 1st game}\\right) \\cdot \\mathbb E[\\text{additional games} \\mid \\text{win 1st game}] \\\\ & \\hspace{3.5mm} + \\mathbb P\\left(\\text{lose 1st game}\\right) \\cdot \\mathbb E[\\text{additional games} \\mid \\text{lose 1st game}] \\\\ &= \\dfrac{1}{3} \\cdot \\dfrac{3}{2} + \\dfrac{2}{3} \\cdot 3 = \\dfrac{5}{2} \\end{aligned}$\nHence, including the first gmae, Awnik will play $\\dfrac{7}{2}$ games on average, which corresponds to $\\boxed{{\\textbf{(D)}~\\dfrac{7}{2}}}$."
+        "solution_info": "After the first game, there is a $\\dfrac{1}{3}$ chance he has won a game and a $\\dfrac{2}{3}$ chance he has lost a game. If he has won, then he plays until he loses a game, so in expectation, he will play $\\dfrac{1}{2/3} = \\dfrac{3}{2}$ more games. If he has lost, then he plays until he wins a game, so in expectation, he will play $\\dfrac{1}{1/3} = 3$ more games. Hence, the expected value of the number of additional games he will play is given by:\n\n$\\begin{aligned} \\mathbb E[\\text{additional games}] &= \\mathbb P\\left(\\text{win 1st game}\\right) \\cdot \\mathbb E[\\text{additional games} \\mid \\text{win 1st game}] \\\\ & \\hspace{3.5mm} + \\mathbb P\\left(\\text{lose 1st game}\\right) \\cdot \\mathbb E[\\text{additional games} \\mid \\text{lose 1st game}] \\\\ &= \\dfrac{1}{3} \\cdot \\dfrac{3}{2} + \\dfrac{2}{3} \\cdot 3 = \\dfrac{5}{2} \\end{aligned}$\nHence, including the first game, Awnik will play $\\dfrac{7}{2}$ games on average, which corresponds to $\\boxed{{\\textbf{(D)}~\\dfrac{7}{2}}}$."
       }
     ],
     "children": []
@@ -37501,7 +37469,7 @@
         "option_b": "$10$",
         "option_c": "$11$",
         "option_d": "$12$",
-        "option_e": "$19$\n\n💬 Join the Discussion\n\nStuck on this problem or want to share your approach?\n\nContinue the conversation and see what others are thinking: View Forum Thread",
+        "option_e": "$19$",
         "answer1": "C"
       }
     },
@@ -37533,7 +37501,7 @@
         "option_b": "$\\dfrac{1}{100}$",
         "option_c": "$\\dfrac{1}{99}$",
         "option_d": "$\\dfrac{1}{98}$",
-        "option_e": "$\\dfrac{1}{97}$\n\n💬 Join the Discussion\n\nStuck on this problem or want to share your approach?\n\nContinue the conversation and see what others are thinking: View Forum Thread",
+        "option_e": "$\\dfrac{1}{97}$",
         "answer1": "E"
       }
     },
@@ -37565,7 +37533,7 @@
         "option_b": "$22$",
         "option_c": "$24$",
         "option_d": "$26$",
-        "option_e": "$28$\n\n💬 Join the Discussion\n\nStuck on this problem or want to share your approach?\n\nContinue the conversation and see what others are thinking: View Forum Thread",
+        "option_e": "$28$",
         "answer1": "C"
       }
     },
@@ -37597,7 +37565,7 @@
         "option_b": "$\\dfrac{1}{2}$",
         "option_c": "$\\dfrac{9}{16}$",
         "option_d": "$\\dfrac{3}{4}$",
-        "option_e": "$1$\n\n💬 Join the Discussion\n\nStuck on this problem or want to share your approach?\n\nContinue the conversation and see what others are thinking: View Forum Thread",
+        "option_e": "$1$",
         "answer1": "C"
       }
     },
@@ -37629,7 +37597,7 @@
         "option_b": "$3542$",
         "option_c": "$3750$",
         "option_d": "$4044$",
-        "option_e": "$4319$\n\n💬 Join the Discussion\n\nStuck on this problem or want to share your approach?\n\nContinue the conversation and see what others are thinking: View Forum Thread",
+        "option_e": "$4319$",
         "answer1": "E"
       }
     },
@@ -37661,7 +37629,7 @@
         "option_b": "$200$",
         "option_c": "$398$",
         "option_d": "$399$",
-        "option_e": "$400$\n\n💬 Join the Discussion\n\nStuck on this problem or want to share your approach?\n\nContinue the conversation and see what others are thinking: View Forum Thread",
+        "option_e": "$400$",
         "answer1": "D"
       }
     },
@@ -37693,7 +37661,7 @@
         "option_b": "$\\dfrac{25}{4}$",
         "option_c": "$\\dfrac{13}{2}$",
         "option_d": "$\\dfrac{27}{4}$",
-        "option_e": "$7$\n\n💬 Join the Discussion\n\nStuck on this problem or want to share your approach?\n\nContinue the conversation and see what others are thinking: View Forum Thread",
+        "option_e": "$7$",
         "answer1": "E"
       }
     },

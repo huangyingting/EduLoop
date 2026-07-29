@@ -2638,7 +2638,7 @@
       "raw_content": {
         "title": "Betty used a calculator to find the product $0.075 \\times 2.56$. She forgot to enter the decimal points. The calculator showed $19200$. If Betty had entered the decimal points correctly, the answer would have been",
         "option_a": "$.0192$",
-        "option_b": "$192$",
+        "option_b": "$.192$",
         "option_c": "$1.92$",
         "option_d": "$19.2$",
         "option_e": "$192$",
@@ -3322,7 +3322,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "$\\dfrac{401}{.205} \\approx \\dfrac{400}{.2}=\\dfrac{4000}{2}=2000$ where $\\approx$ means \"is approximately equal to\".\n\n$\\textbf{OR}$\n$\\dfrac{401}{.205}=\\dfrac{1}{.205} \\times 401 \\approx 5 \\times 400=2000$.\n\nAnswer: $\\boxed{D}$."
+        "solution_info": "Estimate by replacing the numerator and denominator with nearby convenient values:\n\n$\\dfrac{401}{0.205}\\approx\\dfrac{400}{0.2}=2000$.\n\nTherefore the closest choice is $\\boxed{\\textbf{(E)}\\ 2000}$."
       }
     ],
     "children": []
@@ -5873,7 +5873,7 @@
         "option_b": "$160$",
         "option_c": "$200$",
         "option_d": "$240$",
-        "option_e": "$240$",
+        "option_e": "$360$",
         "answer1": "B"
       }
     },
@@ -8113,7 +8113,7 @@
         "option_b": "$24$",
         "option_c": "$26$",
         "option_d": "$27$",
-        "option_e": "$27$",
+        "option_e": "$30$",
         "answer1": "C"
       }
     },
@@ -14321,7 +14321,7 @@
         "option_b": "$\\dfrac{4}{9}$",
         "option_c": "$\\dfrac{1}{2}$",
         "option_d": "$\\dfrac{5}{9}$",
-        "option_e": "$\\dfrac{5}{9}$",
+        "option_e": "$\\dfrac{5}{8}$",
         "answer1": "B"
       }
     },
@@ -21658,7 +21658,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "The net growth per day in East Westmore is $3$ births $-1$ death $=2$ people. There are typically $365$ days in a year, so the population grows by about $2 \\times 365=730$, or close to $700$ people a year.\n\nAnswer: $\\boxed{D}$."
+        "solution_info": "There are $24/8=3$ births per day and $1$ death per day, so the net increase is $2$ people per day. Over a year this is approximately\n\n$2\\cdot365=730$,\n\nwhich rounds to the nearest hundred as $\\boxed{\\textbf{(B)}\\ 700}$."
       }
     ],
     "children": []
@@ -27616,7 +27616,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "$Answer (A)$: The two-digit palindromes are $11, 22, 33, ..., 99$, all of which are multiples of $11$. A sum of three of these palindromes will also be a multiple of $11$. The smallest three-digit multiple of $11$ is $110$, and 110 can be expressed as the sum of three two-digit palindromes. For example, $110 = 22+33+55$. The sum of the digits of $110$ is $1+1+0 =2$.\n\nNote: Javier Cilleruelo, Florian Luca, and Lewis Baxter recently proved that any positive inte-ger can be written as the sum of three palindromes. (See https://arxiv.org/pdf/1602.06208.pdf.)\n\nAnswer: $\\boxed{A}$."
+        "solution_info": "$Answer (A)$: The two-digit palindromes are $11, 22, 33, ..., 99$, all of which are multiples of $11$. A sum of three of these palindromes will also be a multiple of $11$. The smallest three-digit multiple of $11$ is $110$, and 110 can be expressed as the sum of three two-digit palindromes. For example, $110 = 22+33+55$. The sum of the digits of $110$ is $1+1+0 =2$.\n\nNote: Javier Cilleruelo, Florian Luca, and Lewis Baxter recently proved that any positive integer can be written as the sum of three palindromes. (See https://arxiv.org/pdf/1602.06208.pdf.)\n\nAnswer: $\\boxed{A}$."
       }
     ],
     "children": []
@@ -29952,7 +29952,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "The average speed of the Rover can be calculated by dividing the total distance traveled by the number of hours in flight. The Rover covered almost $300,000,000$ miles over $6\\cdot5$ months. Assuming about $30$ days in a month, the trip lasted about $6\\cdot5 \\times 30 = 195$ days, which is almost $200$ days. Therefore the Rover’s average interplanetary speed was approximately\n\n$\\dfrac{300,000,000\\ miles}{200\\ days}\\cdot\\dfrac{1\\ day}{24\\ hours} \\approx \\dfrac{300,000,000\\ miles}{5000\\ hours} = 60,000 mph.$\n$Note:$ Input data was ta ken from the NASA website https://mars.nasa.gov/mars2020/.\n\nAnswer: $\\boxed{C}$."
+        "solution_info": "The average speed of the Rover can be calculated by dividing the total distance traveled by the number of hours in flight. The Rover covered almost $300,000,000$ miles over $6\\cdot5$ months. Assuming about $30$ days in a month, the trip lasted about $6\\cdot5 \\times 30 = 195$ days, which is almost $200$ days. Therefore the Rover’s average interplanetary speed was approximately\n\n$\\dfrac{300,000,000\\ miles}{200\\ days}\\cdot\\dfrac{1\\ day}{24\\ hours} \\approx \\dfrac{300,000,000\\ miles}{5000\\ hours} = 60,000 mph.$\n$Note:$ Input data was taken from the NASA website https://mars.nasa.gov/mars2020/.\n\nAnswer: $\\boxed{C}$."
       }
     ],
     "children": []
@@ -30592,7 +30592,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "From inspection, we can notice that Path $R$ is the shortest path since it avoids going through the entire loop by taking straight-line shortcuts instead of going through the arc portions of the rink. This leaves us with two possible answer choices, $D$ and $E$, which only differ in how they sort Path $P$ and $S$. To determine which path is longer between Path $P$ and $S$, notice that the difference between the two paths can be related by a right triangle as shown here:\n\n[Figure: /question-assets/source/amc/560fe1b89ae81d6a24864ed4c1eab9285df3802f7b7b7cac923497b24cc43cf8.png]\n\nThe hypotenuse of the triangle was traversed by Sergei in Path $S$ while one of the legs is part of Path $P$. By the Pythagorean Theorem, we know that the hypotenuse will always be longer than the legs, and so Path $S$ will be longer than Path $P$.\n\nThus, $B$ is the correct answer.\n\nAnswer: $\\boxed{B}$."
+        "solution_info": "Route $R$ is shortest because it replaces part of the curved boundary by a straight chord. Route $Q$ is longest because it follows the full outer detour. It remains to compare $P$ and $S$.\n\n[Figure: /question-assets/source/amc/560fe1b89ae81d6a24864ed4c1eab9285df3802f7b7b7cac923497b24cc43cf8.png]\n\nIn the indicated right triangle, the segment used by route $S$ is the hypotenuse, while the corresponding segment used by route $P$ is a leg. Thus $S$ is longer than $P$. The order from shortest to longest is\n\n$R,P,S,Q$,\n\nso the answer is $\\boxed{\\textbf{(D)}}$."
       }
     ],
     "children": []
@@ -31982,7 +31982,7 @@
         "solution_info": "Say Paulina placed $n$ coats. That will divide the 35 hooks into $n+1$ spaces and $35-n$ empty hooks. Therefore, $n+1|35-n$ The values of $n$ that satisfy this are $n\\in{1,2,3,5,8,11,17}$The answer is $\\boxed{\\text{(D) }7}$."
       },
       {
-        "solution_info": "Let the number of empty hooks before the first coat be denoted as $n$.\n\nThis means that there are $n$ empty hooks between all the coats. In every situation, there are $n + 1$ gaps, since $n$ cannot be zero.\n\nTo solve the problem, subtract $2n$ from 35 (accounting for the $n$ empty hooks at the beginning and $n$ empty hooks at the end). Then subtract 1 (for the first occupied hook). After that, divide the remaining number of hooks by $n + 1$ (the number of hooks between coats). We do this because the first occupied hook is always after $n$ hooks; we just need to check if the remaining hooks can be evenly divided by the number of gaps.\n\nTo clarify:\n\nIf $n = 1$:\n\\begin{align*}\n35 - 2n &= 33 \\\\\n33 - 1 &= 32 \\\\\n\\frac{32}{n + 1} &= 16\n\\end{align*}\n\nSince 16 is an integer, this situation satisfies the conditions.\n\nIf $n = 2$:\nWe can skip the the third step, as each time you add 1 to $n$, it decreases by 2 from the previous situation.\n\n$\\frac{30}{n + 1} = 16$\n\nThis situation also satisfies the conditions.\n\nContinue this process until the difference exceeds $35 - (2n + 1)$. We find that 7 situations satisfy the conditions. Therefore, the answer is 7.\n\nNote: This method is slow but easy to check and understand.\n\n~LIBAIKO"
+        "solution_info": "Suppose there are $c$ coats and $k\\ge1$ empty hooks in each of the $c+1$ gaps. Then\n\n$c+k(c+1)=35$,\n\nso\n\n$(c+1)(k+1)=36$.\n\nBoth factors must exceed $1$. The nine positive divisors of $36$ give nine ordered factor choices, and excluding the two choices with a factor equal to $1$ leaves $9-2=\\boxed{\\textbf{(D)}\\ 7}$ possible coat counts."
       },
       {
         "solution_info": "Suppose there are $n$ occupied hooks on the rack. Observe that there are $n+1$ intervals, each of which must have the same number of empty hooks. Let's suppose $m$ is the number of empty hooks plus the occupied hook to its right. Then, we have the equation $(n+1)m-1=35$ $\\implies (n+1)m=36$ Our restrictions are n > 0 and m > 1. 36 has 9 factors, and two pairs do not meet the restriction. Our answer is then $9-2=\\boxed{\\textbf{(D)}~7}$.\n\n~Brainwhizz"

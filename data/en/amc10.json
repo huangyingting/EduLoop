@@ -588,11 +588,11 @@
     "question_info": {
       "raw_content": {
         "title": "Sarah places four ounces of coffee into an eight-ounce cup and four ounces of cream into a second cup of the same size. She then pours half the coffee from the first cup to the second and, after stirring thoroughly, pours half the liquid in the second cup back to the first. What fraction of the liquid in the first cup is now cream?",
-        "option_a": "$\\ } \\frac{1}{4$",
-        "option_b": "$\\ } \\frac13$",
-        "option_c": "$\\ } \\frac38$",
-        "option_d": "$\\ } \\frac25$",
-        "option_e": "$\\ } \\frac12$",
+        "option_a": "$\\frac{1}{4}$",
+        "option_b": "$\\frac{1}{3}$",
+        "option_c": "$\\frac{3}{8}$",
+        "option_d": "$\\frac{2}{5}$",
+        "option_e": "$\\frac{1}{2}$",
         "answer1": "D"
       }
     },
@@ -906,11 +906,11 @@
     "question_info": {
       "raw_content": {
         "title": "The ratio $\\frac{2^{2001}\\cdot3^{2003}}{6^{2002}}$ is:",
-        "option_a": "$\\ } 1/6$",
-        "option_b": "$\\ } 1/3$",
-        "option_c": "$\\ } 1/2$",
-        "option_d": "$\\ } 2/3$",
-        "option_e": "$\\ } 3/2\\qquad$",
+        "option_a": "$\\frac{1}{6}$",
+        "option_b": "$\\frac{1}{3}$",
+        "option_c": "$\\frac{1}{2}$",
+        "option_d": "$\\frac{2}{3}$",
+        "option_e": "$\\frac{3}{2}$",
         "answer1": "E"
       }
     },
@@ -944,11 +944,11 @@
     "question_info": {
       "raw_content": {
         "title": "For the nonzero numbers a, b, and c, define\n\n$D(a,b,c)=\\frac{abc}{a+b+c}$\n\nFind $D(2,4,6)$.",
-        "option_a": "$\\ } 1$",
-        "option_b": "$\\ } 2$",
-        "option_c": "$\\ } 4$",
-        "option_d": "$\\ } 6$",
-        "option_e": "$\\ } 24$",
+        "option_a": "$1$",
+        "option_b": "$2$",
+        "option_c": "$4$",
+        "option_d": "$6$",
+        "option_e": "$24$",
         "answer1": "C"
       }
     },
@@ -1180,11 +1180,11 @@
     "question_info": {
       "raw_content": {
         "title": "Using the letters $A$, $M$, $O$, $S$, and $U$, we can form five-letter \"words\". If these \"words\" are arranged in alphabetical order, then the \"word\" $USAMO$ occupies position",
-        "option_a": "$\\ } 112$",
-        "option_b": "$\\ } 113$",
-        "option_c": "$\\ } 114$",
-        "option_d": "$\\ } 115$",
-        "option_e": "$\\ } 116$",
+        "option_a": "$112$",
+        "option_b": "$113$",
+        "option_c": "$114$",
+        "option_d": "$115$",
+        "option_e": "$116$",
         "answer1": "D"
       }
     },
@@ -1553,11 +1553,11 @@
     "question_info": {
       "raw_content": {
         "title": "Let $a$, $b$, and $c$ be real numbers such that $a-7b+8c=4$ and $8a+4b-c=7$. Then $a^2-b^2+c^2$ is",
-        "option_a": "$\\ }0$",
-        "option_b": "$\\ }1$",
-        "option_c": "$\\ }4$",
-        "option_d": "$\\ }7$",
-        "option_e": "$\\ }8$",
+        "option_a": "$0$",
+        "option_b": "$1$",
+        "option_c": "$4$",
+        "option_d": "$7$",
+        "option_e": "$8$",
         "answer1": "B"
       }
     },
@@ -2986,11 +2986,11 @@
     "question_info": {
       "raw_content": {
         "title": "The sum of three numbers is $20$. The first is four times the sum of the other two. The second is seven times the third. What is the product of all three?",
-        "option_a": "$\\ } 28$",
-        "option_b": "$\\ } 40$",
-        "option_c": "$\\ } 100$",
-        "option_d": "$\\ } 400$",
-        "option_e": "$\\ } 800$",
+        "option_a": "$28$",
+        "option_b": "$40$",
+        "option_c": "$100$",
+        "option_d": "$400$",
+        "option_e": "$800$",
         "answer1": "A"
       }
     },
@@ -6055,7 +6055,7 @@
     "quality": "精品",
     "question_info": {
       "raw_content": {
-        "title": "In the figure, the length of side $A B$ of square $A B C D$ is $\\sqrt{50}, E$ is between $B$ and $H$, and $B E=1$. What is the the area of the inner square $E F G H?$\n\n[Figure: /question-assets/source/amc/9580a4cd3e968e0a9ed4bfc0c1fe823e39449aedbf114b33431591a7a801f55d.jpg]",
+        "title": "In the figure, the length of side $A B$ of square $A B C D$ is $\\sqrt{50}, E$ is between $B$ and $H$, and $B E=1$. What is the area of the inner square $E F G H?$\n\n[Figure: /question-assets/source/amc/9580a4cd3e968e0a9ed4bfc0c1fe823e39449aedbf114b33431591a7a801f55d.jpg]",
         "option_a": "$25$",
         "option_b": "$32$",
         "option_c": "$36$",
@@ -8300,11 +8300,11 @@
     "question_info": {
       "raw_content": {
         "title": "For real numbers $x$ and $y$, define $x \\spadesuit y = (x+y)(x-y)$. What is $3 \\spadesuit (4 \\spadesuit 5)$?",
-        "option_a": "$\\ } -72$",
-        "option_b": "$\\ } -27$",
-        "option_c": "$\\ } -24$",
-        "option_d": "$\\ } 24$",
-        "option_e": "$\\ } 72$",
+        "option_a": "$-72$",
+        "option_b": "$-27$",
+        "option_c": "$-24$",
+        "option_d": "$24$",
+        "option_e": "$72$",
         "answer1": "A"
       }
     },
@@ -8469,11 +8469,11 @@
     "question_info": {
       "raw_content": {
         "title": "Which of the following is equivalent to $\\sqrt{\\frac{x}{1-\\frac{x-1}{x}}}$ when $x < 0$?",
-        "option_a": "$\\ } -x$",
-        "option_b": "$\\ } x$",
-        "option_c": "$\\ } 1$",
-        "option_d": "$\\ } \\sqrt{\\frac{x}{2}$",
-        "option_e": "$\\ } x\\sqrt{-1$",
+        "option_a": "$-x$",
+        "option_b": "$x$",
+        "option_c": "$1$",
+        "option_d": "$\\sqrt{\\frac{x}{2}}$",
+        "option_e": "$x\\sqrt{-1}$",
         "answer1": "A"
       }
     },
@@ -8667,7 +8667,7 @@
         "option_a": "$\\frac{6}{7}$",
         "option_b": "$\\frac{13}{14}$",
         "option_c": "$1$",
-        "option_d": "$\\ } \\frac{14}{13$",
+        "option_d": "$\\frac{14}{13}$",
         "option_e": "$\\frac{7}{6}$",
         "answer1": "E"
       }
@@ -8894,11 +8894,11 @@
     "question_info": {
       "raw_content": {
         "title": "In rectangle $ABCD$, we have $A=(6,-22)$, $B=(2006,178)$, $D=(8,y)$, for some integer $y$. What is the area of rectangle $ABCD$?",
-        "option_a": "$\\ } 4000$",
-        "option_b": "$\\ } 4040$",
-        "option_c": "$\\ } 4400$",
-        "option_d": "$\\ } 40,000$",
-        "option_e": "$\\ } 40,400$",
+        "option_a": "$4000$",
+        "option_b": "$4040$",
+        "option_c": "$4400$",
+        "option_d": "$40,000$",
+        "option_e": "$40,400$",
         "answer1": "E"
       }
     },
@@ -8935,11 +8935,11 @@
     "question_info": {
       "raw_content": {
         "title": "For a particular peculiar pair of dice, the probabilities of rolling $1$, $2$, $3$, $4$, $5$, and $6$, on each die are in the ratio $1:2:3:4:5:6$. What is the probability of rolling a total of $7$ on the two dice?",
-        "option_a": "$\\ } \\frac{4}{63$",
-        "option_b": "$\\ } \\frac{1}{8$",
-        "option_c": "$\\ } \\frac{8}{63$",
-        "option_d": "$\\ } \\frac{1}{6$",
-        "option_e": "$\\ } \\frac{2}{7$",
+        "option_a": "$\\frac{4}{63}$",
+        "option_b": "$\\frac{1}{8}$",
+        "option_c": "$\\frac{8}{63}$",
+        "option_d": "$\\frac{1}{6}$",
+        "option_e": "$\\frac{2}{7}$",
         "answer1": "C"
       }
     },
@@ -8976,11 +8976,11 @@
     "question_info": {
       "raw_content": {
         "title": "Elmo makes $N$ sandwiches for a fundraiser. For each sandwich he uses $B$ globs of peanut butter at $4\\cent$ per glob and $J$ blobs of jam at $5\\cent$ per blob. The cost of the peanut butter and jam to make all the sandwiches is $\\$ 2.53$. Assume that $B$, $J$, and $N$ are positive integers with $N>1$. What is the cost of the jam Elmo uses to make the sandwiches?",
-        "option_a": "$\\ } \\$ 1.05$",
-        "option_b": "$\\ } \\$ 1.25$",
-        "option_c": "$\\ } \\$ 1.45$",
-        "option_d": "$\\ } \\$ 1.65$",
-        "option_e": "$\\ } \\$ 1.85$",
+        "option_a": "$\\$ 1.05$",
+        "option_b": "$\\$ 1.25$",
+        "option_c": "$\\$ 1.45$",
+        "option_d": "$\\$ 1.65$",
+        "option_e": "$\\$ 1.85$",
         "answer1": "D"
       }
     },
@@ -9075,11 +9075,11 @@
     "question_info": {
       "raw_content": {
         "title": "Mr. Jones has eight children of different ages. On a family trip his oldest child, who is 9, spots a license plate with a 4-digit number in which each of two digits appears two times. \"Look, daddy!\" she exclaims. \"That number is evenly divisible by the age of each of us kids!\" \"That's right,\" replies Mr. Jones, \"and the last two digits just happen to be my age.\" Which of the following is not the age of one of Mr. Jones's children?",
-        "option_a": "$\\ } 4$",
-        "option_b": "$\\ } 5$",
-        "option_c": "$\\ } 6$",
-        "option_d": "$\\ } 7$",
-        "option_e": "$\\ } 8$",
+        "option_a": "$4$",
+        "option_b": "$5$",
+        "option_c": "$6$",
+        "option_d": "$7$",
+        "option_e": "$8$",
         "answer1": "B"
       }
     },
@@ -21054,7 +21054,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "We can let the two lines be $y=mx+b$ $y=-\\frac{1}{m}x-b$ This is because the lines are perpendicular, hence the $m$ and $-\\frac{1}{m}$, and the sum of the y-intercepts is equal to 0, hence the $b, -b$.\n\nSince both lines contain the point $(6,8)$, we can plug this into the two equations to obtain $8=6m+b$ and $8=-6\\frac{1}{m}-b$\n\nAdding the two equations gives $16=6m+\\frac{-6}{m}$ Multiplying by $m$ gives $16m=6m^2-6$ $\\implies 6m^2-16m-6=0$ $\\implies 3m^2-8m-3=0$ Factoring gives $(3m+1)(m-3)=0$\n\nPlugging $m=3$ into one of our original equations, we obtain $8=6(3)+b$ $\\implies b=8-6(3)=-10$\n\nSince $\\bigtriangleup APQ$ has hypotenuse $2|b|=20$ and the altitude to the hypotenuse is equal to the the x-coordinate of point $A$, or 6, the area of $\\bigtriangleup APQ$ is equal to $\\frac{20\\cdot6}{2}=\\boxed{\\textbf{(D)}\\ 60}$"
+        "solution_info": "We can let the two lines be $y=mx+b$ $y=-\\frac{1}{m}x-b$ This is because the lines are perpendicular, hence the $m$ and $-\\frac{1}{m}$, and the sum of the y-intercepts is equal to 0, hence the $b, -b$.\n\nSince both lines contain the point $(6,8)$, we can plug this into the two equations to obtain $8=6m+b$ and $8=-6\\frac{1}{m}-b$\n\nAdding the two equations gives $16=6m+\\frac{-6}{m}$ Multiplying by $m$ gives $16m=6m^2-6$ $\\implies 6m^2-16m-6=0$ $\\implies 3m^2-8m-3=0$ Factoring gives $(3m+1)(m-3)=0$\n\nPlugging $m=3$ into one of our original equations, we obtain $8=6(3)+b$ $\\implies b=8-6(3)=-10$\n\nSince $\\bigtriangleup APQ$ has hypotenuse $2|b|=20$ and the altitude to the hypotenuse is equal to the x-coordinate of point $A$, or 6, the area of $\\bigtriangleup APQ$ is equal to $\\frac{20\\cdot6}{2}=\\boxed{\\textbf{(D)}\\ 60}$"
       },
       {
         "solution_info": "Like Solution 2 but solving directly for intercepts (b):\n\n1. Solve for m using: $8=6m+b$\n\n$m=\\frac{8-b}{6}$\n\n2. Substitute into the other equation:\n\n$8=-6\\cdot(\\frac{1}{\\frac{8-b}{6}})-b$\n\nFlip the inverse:\n\n$8=-6\\cdot(\\frac{6}{8-b})-b$\n\nMultiply $6$'s:\n\n$8=-(\\frac{36}{8-b})-b$\n\n3. Multiply through by $8-b$ (Watch distributing minus!)\n\n$64-8b=-36-8b+b^2$\n\n4. Add $36$ to both sides, and cancel $-8b$ by adding to both sides:\n\n$100=b^2$\n\n$b=10$ (or $-10$)\n\nThe rest is as above."
@@ -21813,7 +21813,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "Note from the addition of the last digits that $A+B=D\\text{ or }A+B=D+10$.\nFrom the addition of the frontmost digits, $A+B$ cannot have a carry, since the answer is still a five-digit number. Also $A + B$ cant have a carry since then for the second column, $C + 1 + D$ cant equal $D$.\nTherefore $A+B=D$.\n\nUsing the second or fourth column, this then implies that $C=0$, so that $B+C=B$ and $C+D=D$.\nNote that all of the remaining equalities are now satisfied: $A+B=D, B+C=B,$ and $B+A=D$. Since the digits must be distinct, the smallest possible value of $D$ is $1+2=3$, and the largest possible value is $9$. Thus we have that $3\\le D\\le9$, so the number of possible values is $\\boxed{\\textbf{(C) }7}$"
+        "solution_info": "Note from the addition of the last digits that $A+B=D\\text{ or }A+B=D+10$.\nFrom the addition of the frontmost digits, $A+B$ cannot have a carry, since the answer is still a five-digit number. Also $A + B$ cannot have a carry since then for the second column, $C + 1 + D$ cannot equal $D$.\nTherefore $A+B=D$.\n\nUsing the second or fourth column, this then implies that $C=0$, so that $B+C=B$ and $C+D=D$.\nNote that all of the remaining equalities are now satisfied: $A+B=D, B+C=B,$ and $B+A=D$. Since the digits must be distinct, the smallest possible value of $D$ is $1+2=3$, and the largest possible value is $9$. Thus we have that $3\\le D\\le9$, so the number of possible values is $\\boxed{\\textbf{(C) }7}$"
       }
     ],
     "children": []
@@ -21865,10 +21865,10 @@
       "raw_content": {
         "title": "The largest divisor of $2,014,000,000$ is itself. What is its fifth largest divisor?",
         "option_a": "$125,875,000$",
-        "option_b": "$503,500,000$",
-        "option_c": "$201,400,000$",
-        "option_d": "$251,750,000$",
-        "option_e": "$402,800,000$",
+        "option_b": "$201,400,000$",
+        "option_c": "$251,750,000$",
+        "option_d": "$402,800,000$",
+        "option_e": "$503,500,000$",
         "answer1": "C"
       }
     },
@@ -21877,7 +21877,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "By inspection, the five smallest positive divisors of $2,014,000,000$ are $1,2,4,5$, and $8$. Therefore the fifth largest divisor is $\\frac{2,014,000,000}{8}=(\\text{C})\\boxed{251,750,000}$."
+        "solution_info": "The five smallest positive divisors of $2,014,000,000$ are $1,2,4,5,$ and $8$. Divisors pair to have product $2,014,000,000$, so the fifth-largest divisor is\n\n$\\dfrac{2,014,000,000}{8}=251,750,000$.\n\nTherefore the answer is $\\boxed{\\textbf{(C)}\\ 251,750,000}$."
       }
     ],
     "children": []
@@ -26026,7 +26026,7 @@
         "solution_info": "The triangle inequality generalizes to all polygons, so $x < 3+7+15$ and $15<x+3+7$ yields $5<x<25$. Now, we know that there are $19$ numbers between $5$ and $25$ exclusive, but we must subtract $2$ to account for the 2 lengths already used that are between those numbers, which gives $19-2=\\boxed{\\textbf{(B)}\\ 17}$"
       },
       {
-        "solution_info": "https://www.youtube.com/watch?v=7u4uE2Fh1NY&feature=youtu.be"
+        "solution_info": "Four positive lengths form a nondegenerate quadrilateral exactly when the longest is less than the sum of the other three. If the fourth rod has length $x$, the conditions reduce to\n\n$15<3+7+x\\quad\\text{and}\\quad x<3+7+15$,\n\nso $5<x<25$. There are $19$ integers in this interval, but lengths $7$ and $15$ have already been used. Therefore Joy has $19-2=\\boxed{\\textbf{(B)}\\ 17}$ choices."
       }
     ],
     "children": []
@@ -26064,7 +26064,7 @@
         "solution_info": "Because this is just a cylinder and $2$ hemispheres (\"half spheres\"), and the radius is $3$, the volume of the $2$ hemispheres is $\\frac{4(3^3)\\pi}{3} = 36 \\pi$. Since we also know that the volume of this whole thing is $216 \\pi$, we do $216 \\pi-36 \\pi$ to get $180 \\pi$ as the volume of the cylinder. Thus the height is $180 \\pi$ divided by the area of the base, or $\\frac{180 \\pi}{9\\pi}=20$, so our answer is $\\boxed{\\textbf{(D)}\\ 20}.$\n\n~Minor edit by virjoy2001 and slamgirls"
       },
       {
-        "solution_info": "http://i.imgur.com/cwNt293.png"
+        "solution_info": "The region is a cylinder of radius $3$ and length $L=AB$, capped by two hemispheres that form a sphere of radius $3$. Hence\n\n$9\\pi L+\\frac43\\pi(3^3)=216\\pi$.\n\nThus $9\\pi L+36\\pi=216\\pi$, so $L=\\boxed{\\textbf{(D)}\\ 20}$."
       }
     ],
     "children": []
@@ -26286,7 +26286,7 @@
         "solution_info": "Because $P$, $Q$, $R$, and $S$ are lattice points, there are only a few coordinates that actually satisfy the equation. The coordinates are $(\\pm 3,\\pm 4), (\\pm 4, \\pm 3), (0,\\pm 5),$ and $(\\pm 5,0).$ We want to maximize $PQ$ and minimize $RS.$ They also have to be non perfect squares, because they are both irrational. The greatest value of $PQ$ happens when $P$ and $Q$ are almost directly across from each other and are in different quadrants. For example, the endpoints of the segment could be $(-4,3)$ and $(3,-4)$ because the two points are almost across from each other. Another possible pair could be $(-4,3)$ and $(5,0)$. To find out which segment is longer, we have to compare the distances from their endpoints to a diameter (which must be the longest possible segment). The closest diameter would be from $(-4,3)$ to $(4,-3)$. The distance between $(3,-4)$ and $(-4,3)$ is greater than the distance between $(5,0)$ and $(4,-3)$. Therefore, the segment from $(3,-4)$ to $(-4,3)$ is the longest attainable (the other possible coordinates for $P$ and $Q$ are $(4,3)$ and $(-3, -4)$, $(3, 4)$ and $(-4, -3)$, $(-3, 4)$ and $(4, -3)$. The least value of $RS$ is when the two endpoints are in the same quadrant and are very close to each other. This can occur when, for example, $R$ is $(3,4)$ and $S$ is $(4,3).$ They are in the same quadrant and no other point on the circle with integer coordinates is closer to the point $(3,4)$ than $(4,3)$ and vice versa. Using the distance formula, we get that $PQ$ is $\\sqrt{98}$ and that $RS$ is $\\sqrt{2}.$ $\\frac{\\sqrt{98}}{\\sqrt{2}}=\\sqrt{49}=\\boxed{\\mathrm{\\textbf{(D)}}\\ 7}$"
       },
       {
-        "solution_info": "We can look at the option choices. Since we are aiming for the highest possible ratio, let's try using $7$ (though $5 \\sqrt{2}$ actually is the highest ratio.) Now, looking at the problem alone, we know that to have the largest ratio possible, we have to let $RS$ be the minimum possible value while at the same time using integer coordinates. Thus, the smallest possible value of $RS$ is $\\sqrt{1^{2}+1^{2}} = \\sqrt{2}$. Assuming that $\\frac{PQ}{RS} = 7$, we plug in $RS = \\sqrt{2}$ and solve for $PQ$: $PQ=7\\sqrt{2}$. Remember, we don't know if this is possible yet, we are only trying to figure out if it is. But for what values of $x$ and $y$ does $\\sqrt{x^{2}+y^{2}}=7\\sqrt2$? We see that this can easily be made into a $45-45-90$ triangle. But, instead of substituting $y=x$ into the equation and then using a whole lot of algebra, we can save time and use the little trick, that if in a $45-45-90$ triangle, the two $45$ degree sides have side length $s$, then the hypotenuse is $s\\sqrt2$. Using this, we can see that $s=7$, and since our equation does in fact yield a sensible solution, we can be assured that our answer is $\\boxed{\\mathrm{\\textbf{(D)}}\\ 7}$.\n\nQuality Control by fasterthanlight\n\n(Note by Carrot_Karen: We tried $7$, but some might be confused why we concluded that it was the answer after verifying without trying the others, like why wasn't option $\\textbf{(E)}$ tried? This is because the problem can only have one correct answer, so if we have an option that already works, we can conclude that none of the others work and $\\textbf{(D)}$ is the answer.\n\ncomment:(but in other problems, they had different answer choices that worked, so you cant be sure.)\n\n(Note by Pinotation: The above reasoning for why $\\textbf{(E)}$ was not tried is incorrect. Option $\\textbf{(E)}$ is gotten by not reading the question thoroughly and choosing the diameter as the longest length. Then, to get the shortest length, you choose points $(-3, -4)$ and $(-4,-3)$ to get a length of $ \\sqrt{2} $. This then gives $ \\frac{PQ}{RS} = \\frac{10}{\\sqrt{2}} = 5\\sqrt{2} $. This answer is gotten from assuming the diameter, which is 10, but the questions states that PQ and RS are irrational lengths. That is the reason why the answer is $\\boxed{\\mathrm{\\textbf{(D)}}\\ 7}$ and not $\\textbf{(E)}$. You may also check out Beauty Of Math's video linked here.)"
+        "solution_info": "The integer points on the circle are $(\\pm5,0)$, $(0,\\pm5)$, $(\\pm3,\\pm4)$, and $(\\pm4,\\pm3)$. The smallest irrational distance between two of them is attained by $(3,4)$ and $(4,3)$ and equals $\\sqrt2$. The largest irrational distance is attained, for example, by $(-3,4)$ and $(4,-3)$ and equals $\\sqrt{98}=7\\sqrt2$. Therefore\n\n$\\frac{PQ}{RS}\\le\\frac{7\\sqrt2}{\\sqrt2}=\\boxed{\\textbf{(D)}\\ 7}$,\n\nand the displayed pairs show that equality is attainable."
       },
       {
         "solution_info": "By inspection, when $R$ is at $(3, 4)$ and $S$ is at $(4, 3),$ it makes $RS$ as small as possible with a distance of $\\sqrt{2}$. The greatest possible length of $PQ$ arises when $P$ is at $(-3, 4)$ and $Q$ is at $(4, -3).$ Using the distance formula, we find that $PQ$ has a length of $7\\sqrt{2}.$ The requested fraction is then $\\dfrac{PQ}{RS} = \\dfrac{7\\sqrt{2}}{\\sqrt{2}} = \\boxed{\\mathrm{\\textbf{(D)}}\\ 7}$."
@@ -30209,7 +30209,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "Because Casper has exactly enough money to buy $12$ pieces of red candy, the amount of money he has must be a multiple of $12$ cents. Similarly, it must be a multiple of both $14$ cents and $15$ cents. Furthermore, this amount of money will buy a whole number of purple candies that cost $20$ cents each, so the amount of money must also be a multiple of $20$ . The least common multiple of $12=2^{2} \\cdot 3,14=2 \\cdot 7$, $15=3 \\cdot 5$, and $20=2^{2} \\cdot 5$ is $2^{2} \\cdot 3 \\cdot 5 \\cdot 7=420$. Therefore the number of purple candies that Casper can buy, $n$, must be a multiple of $420 \\div 20=21$. Thus the least possible value of $n$ is $21$ . In this case the red candies cost $420 \\div 12=35$ cents each, the green candies cost $420 \\div 14=30$ cents each, and the blue candies cost $420 \\div 15=(\\text{E})\\boxed{28}$ cents each."
+        "solution_info": "Let Casper have $M$ cents. Because his money buys exactly $12$, $14$, or $15$ candies of the first three colors, and purple candies cost $20$ cents each, $M$ must be divisible by $12,14,15,$ and $20$. Their least common multiple is\n\n$\\operatorname{lcm}(12,14,15,20)=420$.\n\nThus the least possible number of purple candies is\n\n$n=\\dfrac{420}{20}=\\boxed{\\textbf{(B)}\\ 21}$.\n\nThis value is attainable: the other candy prices would be $35$, $30$, and $28$ cents, all integers."
       }
     ],
     "children": []
@@ -30848,7 +30848,7 @@
         "solution_info": "You can split the sequence into $0$ and $6$ strings of three numbers, which can only be $010$,$011$,$110$,$101$, labelled as A,B,C,D respectively. For example, $0101....010$ is labelled $0DADADA$. This can also be stated as 0, $D_{1}, A_{2}, D_{3},$ etc. The problem is equivalent to find the number of such sequences. For each string, A can be followed by C and D, B can be followed by A and B, C can be followed by C and D, D can be followed by A,B, and D. If we define $n(A_{i})$ as number of possible sequences that ends with string A at the $i$th spot (thus be $3i+1$ numbers long), we may find relationship between these numbers by noting that, for the $i+1$ th string, with $i \\geq 1$\n\n$n(A_{i+1}) = n(B_{i+1}) = n(B_{i}) + n(D_{i}), n(C_{i+1}) = n(A_{i}) + n(C_{i})$\n$n(D_{i+1}) = n(A_{i}) + n(C_{i}) + n(D_{i})$.\n\nSince the first number of the sequence must be zero, we must start with $n(A_1) = n(B_1) = 0, n(C_1) = n(D_1) = 1$. Using the above steps to evolve the situation from i = 1 to i = 6, we get $n(A_{6}) = 37, n(B_{6}) = 37, n(C_{6}) = 28, n(D_{6}) = 49$.\nSince the sequence ends with 0, we only need to sum $n(A_{6})$ and $n(C_{6})$, which yields $37+28=65$. $\\boxed{\\textbf{(C) }65}$\n\nSolution by ~Cc2010cc2015\n\nminor edit by ~CLA"
       },
       {
-        "solution_info": "We define a sequences of $01$ ($a$) or $011$ ($b$). Observe that we can put the the $a$'s and $b$'s in any way and we meet all the different requirements. Note that this can be found through just playing around with the problem's mechanics. Now we can see a big problem. With sequences of $a$ and $b$, the main sequence always end with a $1$. '\n\nNow a simple fix is just to add zero to the end of the sequence, shortening it effectively to 18 undecided digits. Now we have multiple cases.\n\n\\begin{align*}\n18 &= 9a + 0b &\\rightarrow \\dfrac{(9+0)!}{9!} \\\\\n&= 6a + 2b &\\rightarrow \\dfrac{(6+2)!}{6!}\\\\\n&= 3a + 4b &\\rightarrow \\dfrac{(3 + 4)!}{4!}\\\\\n&= 0a + 6b &\\rightarrow \\dfrac{(0+6)!}{6!}\\\\\n\\end{align*}\n\n(Here's how I was able to see this, I put a zero, than I have to put a one, and then I can put a one or a zero. Then I saw that after every zero, a certain pattern repeats.)\n\n- Created by wiselion :)"
+        "solution_info": "After the initial $0$, every subsequent $0$ must be preceded by either the block $10$ or the block $110$. These blocks must fill the remaining $18$ positions. If there are $x$ blocks of length $2$ and $y$ blocks of length $3$, then\n\n$2x+3y=18$.\n\nThe nonnegative solutions are $(x,y)=(9,0),(6,2),(3,4),(0,6)$. Their block arrangements number\n\n$1+\\binom82+\\binom74+1=1+28+35+1=\\boxed{\\textbf{(C)}\\ 65}$."
       }
     ],
     "children": []
@@ -32636,7 +32636,7 @@
         "solution_info": "Let $(+)$ denote counterclockwise/starting orientation and $(-)$ denote clockwise orientation.\nLet $1,2,3,$ and $4$ denote which quadrant $A$ is in.\n\nRealize that from any odd quadrant and any orientation, the $4$ transformations result in some permutation of $(2+, 2-, 4+, 4-).$\n\nThe same goes that from any even quadrant and any orientation, the $4$ transformations result in some permutation of $(1+, 1-, 3+, 3-).$\n\nWe start our first $19$ moves by doing whatever we want, $4$ choices each time. Since $19$ is odd, we must end up on an even quadrant.\n\nAs said above, we know that exactly one of the four transformations will give us $(1+),$ and we must use that transformation.\n\nThus, the answer is $4^{19}=\\boxed{\\textbf{(C)}\\ 2^{38}}.$"
       },
       {
-        "solution_info": "Notice that any pair of transformations either swaps the $x$ and $y$-coordinates, negates the $x$ and $y$-coordinates, swaps and negates the $x$ and $y$-coordinates, or leaves the original unchanged. Furthermore, notice that for each of these results, if we apply another pair of transformations, one of these results will happen again, and with equal probability. Therefore, no matter what state we are in after we apply the first $9$ pairs of transformations, there is a $\\frac{1}{4}$ chance the last pair of transformations will return the figure to its original position. Therefore, the answer is $\\frac{4^{20}}{8} = 2^{37} = \\boxed{\\textbf{(A)}\\ 2^{37}}.$"
+        "solution_info": "Choose the first $19$ transformations arbitrarily. After those transformations, exactly one of $L,R,H,V$ returns the labeled square to its original state on the twentieth step. Hence the number of restoring sequences is\n\n$4^{19}=\\boxed{\\textbf{(C)}\\ 2^{38}}$."
       },
       {
         "solution_info": "The total number of sequences is $4^{20}=2^{40}.$\n\nNote that there can only be an even number of reflections since they result in the same anti-clockwise orientation of the vertices $A,B,C,D.$ Therefore, the probability of having the same anti-clockwise orientation with the original arrangement after the transformation is $\\frac{1}{2}.$\n\nNext, the even number of reflections means that there must be an even number of rotations since their sum is even. Even rotations result in only the original position or a $180^{\\circ}$ rotation of it.\n\nSince rotation $R$ and rotation $L$ cancel each other out, the difference between the numbers of them define the final position. The probability of the transformation returning the vertices to the original position, given that there are even number of rotations, is equivalent to the probability that\n\n$|n(R)-n(L)|\\equiv0\\pmod{4}$ when $|n(H)-n(V)|\\equiv0\\pmod{4}$or$|n(R)-n(L)|\\equiv2\\pmod{4}$ when $|n(H)-n(V)|\\equiv2\\pmod{4}$which is again, $\\frac{1}{2}.$\n\nTherefore, the answer is $2^{40}\\cdot\\frac{1}{2}\\cdot\\frac{1}{2}=\\boxed{\\textbf{(C)}\\ 2^{38}}.$\n\n~joshuamh111\n\n~Edits by Eric X"
@@ -37572,7 +37572,7 @@
         "title": "Consider the following $100$ sets of $10$ elements each:\n\n$\\begin{array}{l} \\{1,2,3,\\ldots,10\\}, \\\\ \\{11,12,13,\\ldots,20\\},\\\\ \\{21,22,23,\\ldots,30\\},\\\\ \\\\ \\vdots \\\\ \\{991,992,993,\\ldots,1000\\}. \\end{array}$\nHow many of these sets contain exactly two multiples of $7$?",
         "option_a": "$40$",
         "option_b": "$42$",
-        "option_c": "$42$",
+        "option_c": "$43$",
         "option_d": "$49$",
         "option_e": "$50$",
         "answer1": "B"
@@ -39071,7 +39071,7 @@
         "solution_info": "Note that the vertices of an icosahedron are in a $1-5-5-1$ configuration.\n\nWe will denote the probability of event $A$ happening as $P(A)$\n\nWe should also note that $P(d(Q, R) > d(R, S)) + P(d(Q, R) < d(R, S)) + P(d(Q, R) = d(R, S)) = 1$\n\nAlso, $P(d(Q, R) > d(R, S)) = P(d(Q, R) < d(R, S))$ since $Q$ and $S$ are basically the same.\n\nTherefore, what we are trying to find is just $\\frac{1-P(d(Q, R) = d(R, S))}{2}$ which can easily be computed when we fix $R$ at the top vertex in the $1-5-5-1$ structure.\n\nSince all the points are distinct (stated in problem), the conditions are only satisfied where $Q$ and $S$ are at $5$s of the $1-5-5-1$ structure.\n\n$P(d(Q, R) = d(R, S)) = 2 \\cdot \\frac{5}{11} \\cdot \\frac{4}{10} = \\frac{4}{11}$ since we have to choose one of the $5$ out of $11$ possible vertices and another one of $4$ out of $10$ two times.\n\nAnd the answer is $\\frac{1-\\frac{4}{11}}{2} = \\boxed{ \\textbf{(A) } \\frac{7}{22}}$\n\n~jjaamm"
       },
       {
-        "solution_info": "https://www.youtube.com/watch?v=4FEwxwgbliQ"
+        "solution_info": "Fix $R$. The other vertices of an icosahedron occur at distances $1,2,3$ from $R$ in groups of $5,5,1$. There are $11\\cdot10=110$ ordered choices for distinct $(Q,S)$. Equal distances occur in\n\n$5\\cdot4+5\\cdot4=40$\n\nordered choices. By symmetry, half of the remaining $70$ choices have $d(Q,R)>d(R,S)$. Therefore the probability is\n\n$\\frac{35}{110}=\\boxed{\\textbf{(A)}\\ \\frac7{22}}$."
       }
     ],
     "children": []
@@ -41501,7 +41501,7 @@
         "solution_info": "(I will denote even numbers as $e$ and odd numbers as $\\normalsize o$ for the purpose of this question, and $x$ as the answer we need)\n\nFirst, we observe that each time Jerry replaces four number with one (let's call this an \"$operation$\"), we lose exactly three numbers regardless of the type of $operation$ ($Additive$ or $Multiplicative$).\n\n$\\Rightarrow x \\equiv 2024 \\equiv 2\\pmod3$\n\nAlready, we see that the only possible options are $\\textbf{(A) } 1010$ or $\\textbf{(D) } 1013$\n\nWe need there to be no $e$'s on the board at the end, so we attempt to convert them into $\\normalsize o$ while retaining as many existing $\\normalsize o$'s as possible.\n\nNotice that converting 4 $e$'s into an $\\normalsize o$ is not possible. We can apply an $Additive \\, operation$ on 3 $e$'s and 1 $\\normalsize o$ to get back 1 $\\normalsize o$ ($e+e+e+\\normalsize o=\\normalsize o$) By doing so, we retain all the $\\normalsize o$'s we use in an $operation$ (and don't generate any new ones). In the first $2024$ numbers, there are $1012$ $\\normalsize o$'s. This means that $x \\le 1012$, and the only option left is $\\boxed{\\textbf{(A) } 1010}$\n\nNote: For the exact steps to arrive at 1010 odd numbers, perform\n\n$e+e+e+o=o$ (337 times)\n\n$e+o+o+o=o$ (1 time)\n\n~laythe_enjoyer211\n\n~minor edit by MathCrafter314"
       },
       {
-        "solution_info": "Notice that with every step, Jerry removes $4$ numbers and adds $1$ number to the board. Thus, $3$ numbers are removed from the board in every step. Since $2024\\equiv2\\pmod{3}$, the answer choice must also be congruent to $2$ mod $3$. Only $1010$ and $1013$ among the answer choices satisfy this condition. This alone eliminates three choices, and one can guess from here for a 3 point expected value.\n\nHowever, we start out with $1012$ even numbers and $1012$ odd numbers, and it is is not possible to get more odds than there were initially (every time we add or multiply four numbers, we can only produce one odd number, which cannot occur if only even numbers are used; therefore, there cannot be more odd numbers after an operation than before it). Thus, we choose $\\boxed{\\textbf{(A) } 1010.}$\n\n~Elephant200"
+        "solution_info": "Notice that with every step, Jerry removes $4$ numbers and adds $1$ number to the board. Thus, $3$ numbers are removed from the board in every step. Since $2024\\equiv2\\pmod{3}$, the answer choice must also be congruent to $2$ mod $3$. Only $1010$ and $1013$ among the answer choices satisfy this condition. This alone eliminates three choices, and one can guess from here for a 3 point expected value.\n\nHowever, we start out with $1012$ even numbers and $1012$ odd numbers, and it is not possible to get more odds than there were initially (every time we add or multiply four numbers, we can only produce one odd number, which cannot occur if only even numbers are used; therefore, there cannot be more odd numbers after an operation than before it). Thus, we choose $\\boxed{\\textbf{(A) } 1010.}$\n\n~Elephant200"
       },
       {
         "solution_info": "There are $1012$ odd numbers and $1012$ even numbers. In order to maximize the remaining numbers, then we must minimize the number of times the operation is performed.\n\nSince we want to be left with all odd numbers, then we must get rid of the even numbers as quick as possible, which implies $EEEE$. This doesn't give an odd product or sum, so our next best option is $OEEE$, which gives an odd sum.\n\nThe maximum number of times this operation can be performed with $OEEE$ is $\\left\\lfloor{\\dfrac{1012}{3}}\\right\\rfloor=337$. This will eliminate $3\\cdot337=1011$ even numbers and no odd numbers (because each time the operation is performed, one odd number is eliminated but another one is created).\n\nTherefore after the operation is performed $337$ times with $OEEE$, there will be $1$ even number left and $1012$ odd numbers left. Performing this operation one more time with $EOOO$ will give $0$ even numbers and $\\boxed{\\text{(A) }1010}$ odd numbers. ~Tacos_are_yummy_1"
@@ -41869,7 +41869,7 @@
         "solution_info": "Let $ t $ denote time in hours measured from 1:30 PM:\n\n$ t := \\text{hours after } 1:30 \\text{ PM} $.\n\nThus $ t = 0 $ at 1:30 PM, $ t = 1 $ at 2:30 PM, and the physically relevant domain for both riders having left is $ t \\geq 1 $.\n\nVelocity/position (vectorized).\nChoose orthonormal basis $ \\{ i, j \\} $ with $ i $ east and $ j $ north. Define piecewise position vectors $ r_A(t), r_B(t) \\in \\mathbb{R}^2 $ (for all $ t \\geq 0 $):\n\n$ r_A(t) = 8t \\, j = (0, 8t) $,\n$r_B(t) = \\begin{cases} (0, 0), & 0 \\leq t < 1, \\\\ 12(t - 1) \\, i, & t \\geq 1, \\end{cases} = (12 \\max\\{t - 1, 0\\}, 0).$\n\nDefine scalar distance functions (Euclidean norm / 2-norm):\n\n$ D_A(t) := \\| r_A(t) \\|_2 = \\sqrt{0^2 + (8t)^2} = 8t $,\n$ D_B(t) := \\| r_B(t) \\|_2 = 12 \\max\\{t - 1, 0\\} $.\n\nWe seek $ t $ with $ D_A(t) = D_B(t) $ and $ t \\geq 1 $. For $ t \\geq 1 $ the equality reduces to the linear equation\n\n$ 8t = 12(t - 1) $.\n\nBring like terms together:\n\n$ 8t = 12t - 12 \\implies 12 = 12t - 8t $.\n\nCompute the difference $ 12t - 8t $ digit-by-digit: $ 12t - 8t = (12 - 8)t = 4t $. So\n\n$ 12 = 4t $.\n\nDivide $ 12 $ by $ 4 $ carefully: $ 12 \\div 4 = 3 $. Hence\n\n$ t = 3 $.\n\n~N0lan"
       },
       {
-        "solution_info": "https://www.youtube.com/watch?v=kHwBHvvvTbY"
+        "solution_info": "Let $t$ be the number of hours after $1{:}30$. Andy's distance is $8t$, while Betsy's distance, for $t\\ge1$, is $12(t-1)$. Setting the distances equal gives\n\n$8t=12(t-1)$,\n\nso $t=3$. Three hours after $1{:}30$ is $\\boxed{\\textbf{(E)}\\ 4{:}30}$."
       },
       {
         "solution_info": "Let $t$ be the number of hours after $1{:}30$. Then, if we represent Andy's distance as $d_A$ and Betsy's distance as $d_B$, we get\n\n$d_A=8t\\qquad d_B=12(t-1)$\nThus, for these to be equal, we set $8t=12(t-1)=12t-12$, so $4t=12$, or $t=3$. This means that they reach this equidistant point $3$ hours after $1{:}30$, or at $\\boxed{\\textbf{(E)~4:30}}$."
@@ -42560,7 +42560,7 @@
         "solution_info": "For a general quadratic polynomial $ax^2 + bx + c = 0$ with roots $p$ and $q$, the sum of the reciprocals is:\n\\begin{align*}\n\\frac{1}{p} + \\frac{1}{q} &= \\frac{p+q}{pq} \\\\\n\\end{align*}\nUsing Vieta's formulas ($p+q = -\\frac{b}{a}$ and $pq = \\frac{c}{a}$):\n\\begin{align*}\n\\frac{1}{p} + \\frac{1}{q} &= \\frac{-\\frac{b}{a}}{\\frac{c}{a}} = -\\frac{b}{c}\n\\end{align*}\nThis result demonstrates that the sum of the reciprocals depends only on the coefficients $b$ and $c$, and is independent of the leading coefficient $a$. Since the overall polynomial is a product of quadratics, and all these quadratics share the same $b$ and $c$ coefficients, the sum of the reciprocals for the roots of every individual quadratic is the same. We use the coefficients from one of the quadratics, which is $ax^2 - 4x - 3 = 0$. Thus, $b=-4$ and $c=-3$.\n\n$\\sum (\\text{reciprocals}) = -\\frac{b}{c} = -\\frac{(-4)}{(-3)} = -\\frac{4}{3}$\n\nWe substitute the calculated sum of the reciprocals into the formula for the harmonic mean of 2 numbers:\n\n$\\text{HM} = \\frac{2}{-\\frac{4}{3}} = 2 \\times \\left(-\\frac{3}{4}\\right) = -\\frac{6}{4} = -\\frac{3}{2}$\n\nThe harmonic mean of the roots of any single quadratic is $-\\frac{3}{2}$. Since the sum of the reciprocals is the same for all quadratics, the harmonic mean of all the roots of the overall polynomial is also $\\boxed{\\textbf{(B) }\\dfrac{-3}{2}}$.\n\n~Voidling\n\n~small type fix by i_am_not_suk_at_math (saharshdevaraju 13:39, 8 November 2025 (EST)saharshdevaraju)"
       },
       {
-        "solution_info": "Let the polynomial be $f(x),$ and denote the $4050$ roots to be $x_1,x_2,...,x_{4050}.$ Hence, $HM = \\dfrac{4050}{\\frac{1}{x_1}+\\frac{1}{x_2}+...\\frac{1}{x_{4050}}}.$\nWe can multiply the numerator and denominator of this fraction by $x_1x_2...x_{4050}$ to create symmetric sums, which yields $HM = \\dfrac{4050(x_1x_2...x_{4050})}{x_2x_3...x_{4050}+x_1x_3...x_{4050}+...+x_1x_2...x_{4049}}.$\n\nBy Vieta's Formulas, since $f(x)$ is of even degree, the product of its roots, $x_1x_2...x_{4050},$ is just the constant term of $f(x),$ call it $c_0.$\nLikewise, the denominator of our harmonic mean, $x_2x_3...x_{4050}+x_1x_3...x_{4050}+...+x_1x_2...x_{4049},$ is the negated coefficient of $x$ in the standard form of $f(x).$ Let the coefficient of $x$ in the standard form of $f(x)$ be $c_1.$\nNote that we do not have to worry about dividing by the coefficient of $x^{4050}$ when using Vieta's Formulas, as they will eventually cancel out in our harmonic mean calculations.\n\nSo, $HM = \\dfrac{4050c_0}{-c_1}.$\n\nThe constant term in $f(x)$ is just $c_0=(-3)^{2025}.$ For the coefficient of the $x$ term in $f(x),$ there are $\\dbinom{2025}{2024}=2025$ ways to choose $2024$ of the trinomials to include a $-3,$ and the one trinomial not chosen will include a $-4x.$ Hence, $c_1=2025\\cdot (-3)^{2024}\\cdot (-4).$\n\nFinally, $HM=\\dfrac{4050\\cdot(-3)^{2025}}{-2025\\cdot (-3)^{2024}\\cdot (-4)}=\\dfrac{2\\cdot(-3)}{-(-4)}=\\boxed{\\text{(A) }-\\dfrac{3}{2}}.$\n\n~Tacos_are_yummy_1"
+        "solution_info": "Let the roots of the complete polynomial be $x_1,x_2,\\ldots,x_{4050}$. Its constant term is $c_0=(-3)^{2025}$. The coefficient of $x$ is\n\n$c_1=2025(-4)(-3)^{2024}$,\n\nbecause one factor supplies $-4x$ and the other $2024$ factors supply $-3$. By Vieta's formulas,\n\n$\\sum_{i=1}^{4050}\\frac1{x_i}=-\\frac{c_1}{c_0}=2025\\left(-\\frac43\\right)$.\n\nTherefore the harmonic mean is\n\n$\\frac{4050}{2025(-4/3)}=\\boxed{\\textbf{(B)}\\ -\\frac32}$."
       },
       {
         "solution_info": "We can try replacing the $2025$ in the problem with smaller numbers like $1$ and $2$. For $1$, we have the quadratic $x^2-4x-3$. Using the quadratic formula, we have the roots are $2+\\sqrt{7}$ and $2-\\sqrt{7}$ The harmonic mean of these two is $\\frac{2}{\\frac{1}{2+\\sqrt{7}} + \\frac{1}{2-\\sqrt{7}}}=\\frac{2}{\\frac{\\sqrt{7}-2}{3}+\\frac{2+\\sqrt{7}}{-3}}=\\frac{2}{\\frac{-4}{3}}=-\\frac{3}{2}$.\n\nWe notice that this is one of the answer choices. Also, given that the random choice of $2025$, and that the rest of the answer choices are also simple fractions, we can safely guess that the answer is $\\boxed{\\textbf{(B)}~-\\frac{3}{2}}$\n\n~andliu766"
@@ -42692,7 +42692,7 @@
         "solution_info": "Note that there are multiple solutions that lead to a set with size $10$ - two examples are the odd numbers $\\{1,3,5,\\ldots,19\\}$ and $\\{11,12,\\ldots,20\\}$.\n\nWe aim to prove that $11$ elements is impossible. Let the largest element of our subset $S$ be $k$, and consider the ordered pairs $(1, k - 1), (2, k - 2), \\ldots, (\\lfloor \\tfrac{k}{2} \\rfloor, \\lceil \\tfrac{k}{2} \\rceil)$.\n\nNote that both elements of a pair may not be in $S$, as they would add to $k$. Therefore, we have at most $\\left\\lfloor \\tfrac{k}{2} \\right\\rfloor \\le \\dfrac{20}{2} = \\boxed{\\textbf{(C)~10}}$ elements, as desired.\n\nRemark. This is a very famous problem in combinatorics, namely the sum-free subset problem. It was proven by Erdős that any set $S$ of size $n$ has a sum-free subset of size at least $\\frac{n - 1}{3}$."
       },
       {
-        "solution_info": "Note that there are multiple solutions that lead to a set with size $10$ - two examples are the odd numbers $\\{1,3,5,\\ldots,19\\}$ and $\\{11,12,\\ldots,20\\}$.\n\nWe aim to prove that $11$ elements is impossible. Let the largest element of our subset $S$ be $k$, and consider the ordered pairs $(1, k - 1), (2, k - 2), \\ldots, (\\lfloor \\tfrac{k}{2} \\rfloor, \\lceil \\tfrac{k}{2} \\rceil)$.\n\nNote that both elements of a pair may not be in $S$, as they would add to $k$. Therefore, we have at most $\\left\\lfloor \\tfrac{k}{2} \\right\\rfloor \\le \\dfrac{20}{2} = \\boxed{\\textbf{(D)~10}}$ elements, as desired.\n\nRemark. This is a very famous problem in combinatorics, namely the sum-free subset problem. It was proven by Erdős that any set $S$ of size $n$ has a sum-free subset of size at least $\\frac{n - 1}{3}$."
+        "solution_info": "The set of all odd numbers in $\\{1,2,\\ldots,20\\}$ is sum-free and has $10$ elements. For an upper bound, let $k$ be the largest member of a sum-free set. Pair the smaller positive integers whose sum is $k$; at most one number from each pair can be chosen, and if $k$ is even then $k/2$ cannot be chosen. Including $k$, this gives at most $10$ elements. Therefore the maximum is $\\boxed{\\textbf{(C)}\\ 10}$."
       }
     ],
     "children": []
@@ -42850,7 +42850,7 @@
     "difficulty": "容易",
     "grade": "AMC-10",
     "course": "数学",
-    "paper": "2025 AMC 10B · Problem 1",
+    "paper": "2025 AMC 10B · Problem 1 | 2025 AMC 12B · Problem 1",
     "online_test": true,
     "option_split": true,
     "quality": "精品",
@@ -42902,7 +42902,7 @@
         "option_b": "$9070$",
         "option_c": "$9090$",
         "option_d": "$9115$",
-        "option_e": "$9160$\n\n💬 Join the Discussion\n\nStuck on this problem or want to share your approach?\n\nContinue the conversation and see what others are thinking: View Forum Thread",
+        "option_e": "$9160$",
         "answer1": "D"
       }
     },
@@ -43025,7 +43025,7 @@
         "option_b": "$30$",
         "option_c": "$40$",
         "option_d": "$50$",
-        "option_e": "$60$\n\n💬 Join the Discussion\n\nStuck on this problem or want to share your approach?\n\nContinue the conversation and see what others are thinking: View Forum Thread",
+        "option_e": "$60$",
         "answer1": "C"
       }
     },
@@ -43057,7 +43057,7 @@
         "option_b": "$19$",
         "option_c": "$20$",
         "option_d": "$21$",
-        "option_e": "$22$\n\n💬 Join the Discussion\n\nStuck on this problem or want to share your approach?\n\nContinue the conversation and see what others are thinking: View Forum Thread",
+        "option_e": "$22$",
         "answer1": "C"
       }
     },
@@ -43124,7 +43124,7 @@
         "option_b": "$8$",
         "option_c": "$11$",
         "option_d": "$14$",
-        "option_e": "$15$\n\n💬 Join the Discussion\n\nStuck on this problem or want to share your approach?\n\nContinue the conversation and see what others are thinking: View Forum Thread",
+        "option_e": "$15$",
         "answer1": "C"
       }
     },
@@ -43273,7 +43273,7 @@
         "option_b": "$H<R=T$",
         "option_c": "$H=R<T$",
         "option_d": "$H<R<T$",
-        "option_e": "$H<T<R$\n\n💬 Join the Discussion\n\nStuck on this problem or want to share your approach?\n\nContinue the conversation and see what others are thinking: View Forum Thread",
+        "option_e": "$H<T<R$",
         "answer1": "C"
       }
     },
@@ -43458,7 +43458,7 @@
         "option_b": "$16$",
         "option_c": "$18$",
         "option_d": "$24$",
-        "option_e": "$28$\n\n💬 Join the Discussion\n\nStuck on this problem or want to share your approach?\n\nContinue the conversation and see what others are thinking: View Forum Thread",
+        "option_e": "$28$",
         "answer1": "D"
       }
     },
@@ -43505,7 +43505,7 @@
         "solution_info": "The average of the first 3 terms in the sequence is 2025, which means $\\frac{x_1 + x_2 + x_3}{3} = 2025,$ so $x_1 + x_2 + x_3 = 6075$.\n\nFor $k = 4$, we have $\\frac{x_1 + x_2 + x_3 + x_4}{4} = 2025 - 1 = 2024,$ so $x_1 + x_2 + x_3 + x_4 = 8096$. We know $x_1 + x_2 + x_3 = 6075$, so $x_4 = 8096 - 6075 = 2021.$\n\nFor $k = 5$, we have $\\frac{x_1 + x_2 + x_3 + x_4 + x_5}{5} = 2024 - 1 = 2023.$ That means $x_1 + x_2 + x_3 + x_4 + x_5 = 10115$. We know $x_1 + x_2 + x_3 + x_4 = 8096$, so $x_5 = 10115 - 8096 = 2019.$\n\nContinuing on for $k = 6, 7, 8, \\ldots$, we can see that each term decreases by 2. So, $x_6 = 2017,\\ x_7 = 2015,\\ x_8 = 2013,\\ \\text{and likewise,}\\ x_3 = 2023,\\ x_2 = 2025,\\ x_1 = 2027.$\n\nTo find the greatest possible value of $n$, we need to find when the numbers in this sequence become negative. The general term is $x_n = 2027 - 2(n-1).$ We require $x_n > 0$, so $2027 - 2(n-1) > 0.$ This simplifies to $2027 > 2n - 2 \\Rightarrow 2029 > 2n \\Rightarrow n < 1014.5.$\n\nThus the greatest possible integer value of $n$ is $1014$, so the answer is $\\text{(B) } 1014$. ~anzhuPro"
       },
       {
-        "solution_info": "Assume that the first three terms are $2026$, $2025$, and $2024$, respectively. The average of the first four terms is $2025-1=2024$, which means the fourth term is $2021$. Continuing this process, we realize that the next term is $2019$ and each subsequent term is 2 fewer. This means the $n^{th}$ term of this sequence where $n>5$ is the the ${n-1}^{th}$ term minus 2. Realizing this is an arithmetic sequence and all the terms must be positive, we get the answer, $\\boxed{\\textbf{(B) }1014}$\n\n~Bros1"
+        "solution_info": "Assume that the first three terms are $2026$, $2025$, and $2024$, respectively. The average of the first four terms is $2025-1=2024$, which means the fourth term is $2021$. Continuing this process, we realize that the next term is $2019$ and each subsequent term is 2 fewer. This means the $n^{th}$ term of this sequence where $n>5$ is the ${n-1}^{th}$ term minus 2. Realizing this is an arithmetic sequence and all the terms must be positive, we get the answer, $\\boxed{\\textbf{(B) }1014}$\n\n~Bros1"
       },
       {
         "solution_info": "If the first k terms average to $2028-k$, note that they sum to $2028k-k^2$. Then, $k+1$ terms average to $2027-k$, so they sum to $-k^2+2026k+2027$, so the ${k+1}^{th}$ term is $(-k^2+2026k+2027)-(2028k-k^2)$, where $k \\ge 3$, so ${k+1}^{th}$ term is $2027-2k$. Note that for this to be positive, $k \\le 1013$, so $k+1$th term is the 1014th term, answer is 1014.\n\n~ScoutViolet\n~$Latex$ edits by Bros1"
@@ -43552,7 +43552,7 @@
         "solution_info": "As stated in the first Solution, we can notice that the first to third terms will equal 1, the second to eighth terms will equal $2$, and so on. This is because the square roots of $5$, $6,$ and $7$ are in between $2$ and $3,$ so using floor function, they would equal $2$.This concept applies to all the following numbers.\n\nWe can notice that the pattern goes like:\n$1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 4, 4,\\dots44, 44, 44, 44, 45$\nThe square roots of perfect squares will not have to be rounded down through the floor function, so to make it easier, we can pull those numbers out. By doing this we get, $(1+2+3+4+5+6+7+\\dots+44+45)$, since $\\sqrt{2025} = 45$ and $\\sqrt{1} = 1$.\n\nPulling out these numbers leaves us with 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, and so on. By looking at the remaining numbers, we can notice a pattern! There are two 1s, four 2s, six 3s, eight 4s...all the way until eighty-eight 44s! This can be simplified into, $2(1)+4(2)+6(3)+8(4)+10(5)+13(6)+\\dots+88(44)$. Notice that the problem is asking for the units digit, so we can do some simple multiplication to find another pattern.\n\nWe will expand our second expression:\n\\begin{align*}\n2\\cdot1=2 \\\\\n4\\cdot2=8 \\\\\n6\\cdot3=8 \\\\\n8\\cdot4=32 \\\\\n10\\cdot5=50 \\\\\n12\\cdot6=72 \\\\\n14\\cdot7=98 \\\\\n16\\cdot8=128 \\\\\n18\\cdot9=162 \\\\\n20\\cdot10=200 \\\\\n\\end{align*}\n\nBy looking only at the units digit:\n\\begin{align*}\n2\\cdot1=2 \\\\\n4\\cdot2=8 \\\\\n6\\cdot3=8 \\\\\n8\\cdot4=2 \\\\\n10\\cdot5=0 \\\\\n12\\cdot6=2 \\\\\n14\\cdot7=8 \\\\\n16\\cdot8=8 \\\\\n18\\cdot9=2 \\\\\n20\\cdot10=0 \\\\\n\\end{align*}\n\nHuh..a pattern! It seems that this expression cycles in a pattern of $2,8,8,2,0$. And notice again, if you add up the digits, $2+8+8+2+0=20$. Notice that the unit's digit is $0$.\n\nHowever, we can't immediately assume that the cycle ends neatly, so we must do a quick check with the last four terms of the sequence: $82(41)+84(42)+86(43)+88(44)$.\nThe units digits end up being $2+8+8+2$, so this time we're lucky and the cycle ends neatly. As a result, we know that because the cycle adds up to $20$ and doesn't stop mid-cycle, the units digit will be $0.$\n\nNow, we can't just go ahead and give up because we got $0$ as our answer. We still have our first expression to deal with. $(1+2+3+4+5+\\dots+44+45)$ By using the sum of numbers formula, we get: $(45(1+45))/2$, which simplifies to: $45\\cdot23 = 1035.$ Since our second expression will have a unit digit of $0$, we get $0+5 = \\boxed{\\textbf{(D)}\\hspace{3pt}5}$, as our answer.\n\n~PinkbIbtoy"
       },
       {
-        "solution_info": "We know that $\\lfloor$n$\\rfloor$ is the lowest integer less or equal than $x$. We also know that $\\sqrt{4}=2$, so that $\\lfloor \\sqrt{1} \\rfloor$, $\\lfloor \\sqrt{2} \\rfloor$, and $\\lfloor \\sqrt{3}\\rfloor$ all are $1$. $1-1+1=1$, so the first $3$ terms equals one. Then, we look to the next $4$ terms. $\\lfloor \\sqrt{4} \\rfloor$, $\\lfloor \\sqrt{5} \\rfloor$, $\\lfloor \\sqrt{6} \\rfloor$, $\\lfloor \\sqrt{7} \\rfloor$, and $\\lfloor \\sqrt{8} \\rfloor$ all equals 2, making a total of $2+2-2+2-2=-2$ Then all the values from $\\lfloor \\sqrt{9} \\rfloor$ to $\\lfloor \\sqrt{15} \\rfloor$ all equals 3, so now all the terms that equal $3$ or $-3$ have a grand total of$3-3+3-3+3-3+3=3$. We quickly see a pattern. All the terms that equals $1$ or $-1$ have a total of $1$, then $-2$, then $3$, and so on. $\\sqrt{2025}=45$, so then we can quickly figure out the value to be $1-2+3-4+5-6+7-\\dots+45$. $1-2=-1$, $3-4=-1$, and $5-6$ to be $-1$, all the way to $43-44$. We can see that $43$ is the $22$nd odd number, so that we have $-22+45=\\boxed{\\textbf{}\\hspace{3pt}23}$.\n\n~Coin1"
+        "solution_info": "For each $k=1,2,\\ldots,44$, the value $\\lfloor\\sqrt n\\rfloor=k$ occurs for $n=k^2,k^2+1,\\ldots,(k+1)^2-1$, a total of $2k+1$ times. The final value $n=2025=45^2$ contributes one additional $45$. Thus the sum is\n\n$\\sum_{k=1}^{44}k(2k+1)+45$.\n\nUsing the standard formulas for $\\sum k$ and $\\sum k^2$, the summation has ones digit $0$, so the full sum has ones digit $5$. The answer is $\\boxed{\\textbf{(D)}\\ 5}$."
       },
       {
         "solution_info": "Sure, somehow this is #18, but we can solve this problem with basically no algebra or any hard formulas. Also no confusing summation notation or modular arithmetic because we hate those!\n\nRecall that the perfect squares differ by odd numbers. What does this mean?\n\nWell, it means that from all $\\lfloor \\sqrt{1} \\rfloor$ to $\\lfloor \\sqrt{3} \\rfloor$ , it will equal 1, for 3 values because $3-1+1=3$\n\nLikewise, from $\\lfloor \\sqrt{4} \\rfloor$ to $\\lfloor \\sqrt{8} \\rfloor$, it will equal 2, for 5 values because $8-4+1=5$\n\nTherefore, we can infer that there will be $2n+1$ copies of each number $n$.\n\nSo, the entire sum will be\n$1 \\cdot 3 + 2 \\cdot 5 + 3 \\cdot 7 + \\dots + 44 \\cdot 89 + 45$\n\nWe could $(mod 10)$ this, but that is too hard, so let's try to just look at the units digit for each term.\nFor example, the first two terms units digit will be\n\n$1*3\\equiv3$\n\n$2*5\\equiv0$\n\nFrom here, you could just bash out all of them because there are only 45 (which isn't too bad to do, especially considering this is #18 and a lot of people here have already finished the first 15 problems).\n\nHowever, that is kinda dumb to do in competition, so let's try to use induction!\n\nOnce we get to the 11th, 12th, 13th, such terms it will actually be congruent to the first 10 terms, because we are only looking at the units digits.\n\nSo, we can just compute the first 10 terms from 1-10, because that will be much quicker:\n\n$1*3\\equiv3$\n\n$2*5\\equiv0$\n\n$3*7\\equiv1$\n\n$4*9\\equiv6$\n\n$5*11\\equiv5$\n\n$6*13\\equiv8$\n\n$7*15\\equiv5$\n\n$8*17\\equiv6$\n\n$9*19\\equiv1$\n\n$10*21\\equiv0$\n\nAdding all these up, we have $3+0+1+6+5+8+5+6+1+0\\equiv35\\equiv5$\n\nThen, the units digit of the first 40 will be equal to $5*4\\equiv20\\equiv0$\n\nSo, we just have to find the last 5 now\n\nThe first 4 is obviously $3+0+1+6\\equiv10\\equiv0$, then adding the 45th term:\n\n$1*45\\equiv5$\n\nFinally, we add all these together:\n\n$0+0+5\\equiv5$\n\nAnd therefore our answer is $\\boxed{\\textbf{(D)}\\hspace{3pt}5}$.\n\n~notvalid"
@@ -43578,7 +43578,7 @@
         "option_b": "$85$",
         "option_c": "$90$",
         "option_d": "$95$",
-        "option_e": "$105$\n\n💬 Join the Discussion\n\nStuck on this problem or want to share your approach?\n\nContinue the conversation and see what others are thinking: View Forum Thread",
+        "option_e": "$105$",
         "answer1": "D"
       }
     },
@@ -43610,7 +43610,7 @@
         "option_b": "$5$",
         "option_c": "$8$",
         "option_d": "$9$",
-        "option_e": "$11$\n\n💬 Join the Discussion\n\nStuck on this problem or want to share your approach?\n\nContinue the conversation and see what others are thinking: View Forum Thread",
+        "option_e": "$11$",
         "answer1": "A"
       }
     },
@@ -43642,7 +43642,7 @@
         "option_b": "$9$",
         "option_c": "$12$",
         "option_d": "$18$",
-        "option_e": "$27$\n\n💬 Join the Discussion\n\nStuck on this problem or want to share your approach?\n\nContinue the conversation and see what others are thinking: View Forum Thread",
+        "option_e": "$27$",
         "answer1": "C"
       }
     },
@@ -43674,7 +43674,7 @@
         "option_b": "$\\dfrac{3}{11}$",
         "option_c": "$\\dfrac{2}{7}$",
         "option_d": "$\\dfrac{4}{11}$",
-        "option_e": "$\\dfrac{3}{7}$\n\n💬 Join the Discussion\n\nStuck on this problem or want to share your approach?\n\nContinue the conversation and see what others are thinking: View Forum Thread",
+        "option_e": "$\\dfrac{3}{7}$",
         "answer1": "A"
       }
     },
@@ -43788,7 +43788,7 @@
         "option_b": "$B$",
         "option_c": "$C$",
         "option_d": "$D$",
-        "option_e": "The path continues forever\n\n💬 Join the Discussion\n\nStuck on this problem or want to share your approach?\n\nContinue the conversation and see what others are thinking: View Forum Thread",
+        "option_e": "The path continues forever",
         "answer1": "B"
       }
     },

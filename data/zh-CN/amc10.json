@@ -588,11 +588,11 @@
     "question_info": {
       "raw_content": {
         "title": "Sarah 把 4 盎司咖啡倒入一个容量为 8 盎司的杯子，又把 4 盎司奶油倒入另一个同样大小的杯子。然后她将第一杯中一半的咖啡倒入第二杯，充分搅匀后，再把第二杯中一半的液体倒回第一杯。此时第一杯液体中奶油占几分之几？",
-        "option_a": "$\\ } \\frac{1}{4$",
-        "option_b": "$\\ } \\frac13$",
-        "option_c": "$\\ } \\frac38$",
-        "option_d": "$\\ } \\frac25$",
-        "option_e": "$\\ } \\frac12$",
+        "option_a": "$\\frac{1}{4}$",
+        "option_b": "$\\frac{1}{3}$",
+        "option_c": "$\\frac{3}{8}$",
+        "option_d": "$\\frac{2}{5}$",
+        "option_e": "$\\frac{1}{2}$",
         "answer1": "D"
       }
     },
@@ -906,11 +906,11 @@
     "question_info": {
       "raw_content": {
         "title": "比值 $\\frac{2^{2001}\\cdot3^{2003}}{6^{2002}}$ 等于：",
-        "option_a": "$\\ } 1/6$",
-        "option_b": "$\\ } 1/3$",
-        "option_c": "$\\ } 1/2$",
-        "option_d": "$\\ } 2/3$",
-        "option_e": "$\\ } 3/2\\qquad$",
+        "option_a": "$\\frac{1}{6}$",
+        "option_b": "$\\frac{1}{3}$",
+        "option_c": "$\\frac{1}{2}$",
+        "option_d": "$\\frac{2}{3}$",
+        "option_e": "$\\frac{3}{2}$",
         "answer1": "E"
       }
     },
@@ -944,11 +944,11 @@
     "question_info": {
       "raw_content": {
         "title": "对非零数 a、b、c，定义\n\n$D(a,b,c)=\\frac{abc}{a+b+c}$\n\n求 $D(2,4,6)$。",
-        "option_a": "$\\ } 1$",
-        "option_b": "$\\ } 2$",
-        "option_c": "$\\ } 4$",
-        "option_d": "$\\ } 6$",
-        "option_e": "$\\ } 24$",
+        "option_a": "$1$",
+        "option_b": "$2$",
+        "option_c": "$4$",
+        "option_d": "$6$",
+        "option_e": "$24$",
         "answer1": "C"
       }
     },
@@ -1180,11 +1180,11 @@
     "question_info": {
       "raw_content": {
         "title": "用字母 $A$、$M$、$O$、$S$、$U$ 可以组成五个字母的“单词”。若将这些“单词”按字母顺序排列，则“单词” $USAMO$ 位于第几位？",
-        "option_a": "$\\ } 112$",
-        "option_b": "$\\ } 113$",
-        "option_c": "$\\ } 114$",
-        "option_d": "$\\ } 115$",
-        "option_e": "$\\ } 116$",
+        "option_a": "$112$",
+        "option_b": "$113$",
+        "option_c": "$114$",
+        "option_d": "$115$",
+        "option_e": "$116$",
         "answer1": "D"
       }
     },
@@ -1553,11 +1553,11 @@
     "question_info": {
       "raw_content": {
         "title": "设 $a$、$b$、$c$ 为实数，满足 $a-7b+8c=4$ 和 $8a+4b-c=7$。则 $a^2-b^2+c^2$ 等于",
-        "option_a": "$\\ }0$",
-        "option_b": "$\\ }1$",
-        "option_c": "$\\ }4$",
-        "option_d": "$\\ }7$",
-        "option_e": "$\\ }8$",
+        "option_a": "$0$",
+        "option_b": "$1$",
+        "option_c": "$4$",
+        "option_d": "$7$",
+        "option_e": "$8$",
         "answer1": "B"
       }
     },
@@ -2986,11 +2986,11 @@
     "question_info": {
       "raw_content": {
         "title": "三个数之和为 $20$。第一个数是另外两个数之和的四倍，第二个数是第三个数的七倍。求这三个数的乘积。",
-        "option_a": "$\\ } 28$",
-        "option_b": "$\\ } 40$",
-        "option_c": "$\\ } 100$",
-        "option_d": "$\\ } 400$",
-        "option_e": "$\\ } 800$",
+        "option_a": "$28$",
+        "option_b": "$40$",
+        "option_c": "$100$",
+        "option_d": "$400$",
+        "option_e": "$800$",
         "answer1": "A"
       }
     },
@@ -8300,11 +8300,11 @@
     "question_info": {
       "raw_content": {
         "title": "对实数 $x$、$y$，定义 $x \\spadesuit y = (x+y)(x-y)$。求 $3 \\spadesuit (4 \\spadesuit 5)$。",
-        "option_a": "$\\ } -72$",
-        "option_b": "$\\ } -27$",
-        "option_c": "$\\ } -24$",
-        "option_d": "$\\ } 24$",
-        "option_e": "$\\ } 72$",
+        "option_a": "$-72$",
+        "option_b": "$-27$",
+        "option_c": "$-24$",
+        "option_d": "$24$",
+        "option_e": "$72$",
         "answer1": "A"
       }
     },
@@ -8469,11 +8469,11 @@
     "question_info": {
       "raw_content": {
         "title": "当 $x < 0$ 时，下列哪一项与 $\\sqrt{\\frac{x}{1-\\frac{x-1}{x}}}$ 等价？",
-        "option_a": "$\\ } -x$",
-        "option_b": "$\\ } x$",
-        "option_c": "$\\ } 1$",
-        "option_d": "$\\ } \\sqrt{\\frac{x}{2}$",
-        "option_e": "$\\ } x\\sqrt{-1$",
+        "option_a": "$-x$",
+        "option_b": "$x$",
+        "option_c": "$1$",
+        "option_d": "$\\sqrt{\\frac{x}{2}}$",
+        "option_e": "$x\\sqrt{-1}$",
         "answer1": "A"
       }
     },
@@ -8667,7 +8667,7 @@
         "option_a": "$\\frac{6}{7}$",
         "option_b": "$\\frac{13}{14}$",
         "option_c": "$1$",
-        "option_d": "$\\ } \\frac{14}{13$",
+        "option_d": "$\\frac{14}{13}$",
         "option_e": "$\\frac{7}{6}$",
         "answer1": "E"
       }
@@ -8894,11 +8894,11 @@
     "question_info": {
       "raw_content": {
         "title": "在矩形 $ABCD$ 中，$A=(6,-22)$、$B=(2006,178)$、$D=(8,y)$，其中 $y$ 为整数。求矩形 $ABCD$ 的面积。",
-        "option_a": "$\\ } 4000$",
-        "option_b": "$\\ } 4040$",
-        "option_c": "$\\ } 4400$",
-        "option_d": "$\\ } 40,000$",
-        "option_e": "$\\ } 40,400$",
+        "option_a": "$4000$",
+        "option_b": "$4040$",
+        "option_c": "$4400$",
+        "option_d": "$40,000$",
+        "option_e": "$40,400$",
         "answer1": "E"
       }
     },
@@ -8935,11 +8935,11 @@
     "question_info": {
       "raw_content": {
         "title": "有一对特殊骰子，每枚骰子掷出 $1$、$2$、$3$、$4$、$5$、$6$ 的概率之比为 $1:2:3:4:5:6$。两枚骰子的点数之和为 $7$ 的概率是多少？",
-        "option_a": "$\\ } \\frac{4}{63$",
-        "option_b": "$\\ } \\frac{1}{8$",
-        "option_c": "$\\ } \\frac{8}{63$",
-        "option_d": "$\\ } \\frac{1}{6$",
-        "option_e": "$\\ } \\frac{2}{7$",
+        "option_a": "$\\frac{4}{63}$",
+        "option_b": "$\\frac{1}{8}$",
+        "option_c": "$\\frac{8}{63}$",
+        "option_d": "$\\frac{1}{6}$",
+        "option_e": "$\\frac{2}{7}$",
         "answer1": "C"
       }
     },
@@ -8976,11 +8976,11 @@
     "question_info": {
       "raw_content": {
         "title": "Elmo 为募款活动制作 $N$ 个三明治。每个三明治使用 $B$ 份花生酱，每份 $4\\cent$，以及 $J$ 份果酱，每份 $5\\cent$。制作全部三明治所用花生酱和果酱共花费 $\\$ 2.53$。设 $B$、$J$、$N$ 为正整数，且 $N>1$。Elmo 所用果酱共花费多少？",
-        "option_a": "$\\ } \\$ 1.05$",
-        "option_b": "$\\ } \\$ 1.25$",
-        "option_c": "$\\ } \\$ 1.45$",
-        "option_d": "$\\ } \\$ 1.65$",
-        "option_e": "$\\ } \\$ 1.85$",
+        "option_a": "$\\$ 1.05$",
+        "option_b": "$\\$ 1.25$",
+        "option_c": "$\\$ 1.45$",
+        "option_d": "$\\$ 1.65$",
+        "option_e": "$\\$ 1.85$",
         "answer1": "D"
       }
     },
@@ -9075,11 +9075,11 @@
     "question_info": {
       "raw_content": {
         "title": "Jones 先生有八个年龄各不相同的孩子。一次家庭旅行中，最大的孩子今年 9 岁，她看到一块车牌，上面的四位数由两个不同数字各重复两次组成。她说：“爸爸快看！这个数能被我们每个孩子的年龄整除！”Jones 先生回答：“没错，而且它的末两位恰好是我的年龄。”下列哪一个数不是 Jones 先生某个孩子的年龄？",
-        "option_a": "$\\ } 4$",
-        "option_b": "$\\ } 5$",
-        "option_c": "$\\ } 6$",
-        "option_d": "$\\ } 7$",
-        "option_e": "$\\ } 8$",
+        "option_a": "$4$",
+        "option_b": "$5$",
+        "option_c": "$6$",
+        "option_d": "$7$",
+        "option_e": "$8$",
         "answer1": "B"
       }
     },
@@ -21865,10 +21865,10 @@
       "raw_content": {
         "title": "$2,014,000,000$ 的最大因数是它本身。它的第五大因数是多少？",
         "option_a": "$125,875,000$",
-        "option_b": "$503,500,000$",
-        "option_c": "$201,400,000$",
-        "option_d": "$251,750,000$",
-        "option_e": "$402,800,000$",
+        "option_b": "$201,400,000$",
+        "option_c": "$251,750,000$",
+        "option_d": "$402,800,000$",
+        "option_e": "$503,500,000$",
         "answer1": "C"
       }
     },
@@ -21877,7 +21877,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "$2,014,000,000$ 的五个最小正因数依次为 $1,2,4,5,8$。因数成对相乘等于原数，所以第五大因数为\n$\\dfrac{2,014,000,000}{8}=\\boxed{\\textbf{(D)}\\ 251,750,000}$。"
+        "solution_info": "$2,014,000,000$ 的五个最小正因数依次为 $1,2,4,5,8$。因数成对相乘等于原数，所以第五大因数为\n$\\dfrac{2,014,000,000}{8}=\\boxed{\\textbf{(C)}\\ 251,750,000}$。"
       }
     ],
     "children": []
@@ -37572,7 +37572,7 @@
         "title": "考虑下面 $100$ 个各含 $10$ 个元素的集合：\n\n$\\begin{array}{l} \\{1,2,3,\\ldots,10\\}, \\\\ \\{11,12,13,\\ldots,20\\},\\\\ \\{21,22,23,\\ldots,30\\},\\\\ \\\\ \\vdots \\\\ \\{991,992,993,\\ldots,1000\\}. \\end{array}$\n\n其中有多少个集合恰好包含两个 $7$ 的倍数？",
         "option_a": "$40$",
         "option_b": "$42$",
-        "option_c": "$42$",
+        "option_c": "$43$",
         "option_d": "$49$",
         "option_e": "$50$",
         "answer1": "B"
@@ -42689,10 +42689,10 @@
     },
     "solution_info": [
       {
-        "solution_info": "取所有奇数 $\\{1,3,\\ldots,19\\}$ 可得大小为 10 的无和集。证明上界：设无和集最大元为 $k$。把 $1,ldots,k-1$ 配成和为 $k$ 的对，每对至多选一个；若 $k$ 偶数，中点 $k/2$ 也不能选。连同 $k$ 本身，偶数 $k$ 时至多 $k/2\\le10$ 个，奇数 $k$ 时至多 $(k+1)/2\\le10$ 个。因此最大为 $\\boxed{\\textbf{(C)}\\ 10}$。"
+        "solution_info": "取所有奇数 $\\{1,3,\\ldots,19\\}$ 可得大小为 $10$ 的无和集。证明上界：设无和集最大元为 $k$。把 $1,\\ldots,k-1$ 配成和为 $k$ 的数对，每对至多选一个；若 $k$ 为偶数，中点 $k/2$ 也不能选。连同 $k$ 本身，集合至多有 $10$ 个元素。因此最大值为 $\\boxed{\\textbf{(C)}\\ 10}$。"
       },
       {
-        "solution_info": "取所有奇数 $\\{1,3,\\ldots,19\\}$ 可得大小为 10 的无和集。证明上界：设无和集最大元为 $k$。把 $1,ldots,k-1$ 配成和为 $k$ 的对，每对至多选一个；若 $k$ 偶数，中点 $k/2$ 也不能选。连同 $k$ 本身，偶数 $k$ 时至多 $k/2\\le10$ 个，奇数 $k$ 时至多 $(k+1)/2\\le10$ 个。因此最大为 $\\boxed{\\textbf{(C)}\\ 10}$。"
+        "solution_info": "取所有奇数 $\\{1,3,\\ldots,19\\}$ 可得大小为 $10$ 的无和集。证明上界：设无和集最大元为 $k$。把 $1,\\ldots,k-1$ 配成和为 $k$ 的数对，每对至多选一个；若 $k$ 为偶数，中点 $k/2$ 也不能选。连同 $k$ 本身，集合至多有 $10$ 个元素。因此最大值为 $\\boxed{\\textbf{(C)}\\ 10}$。"
       }
     ],
     "children": []
@@ -42850,7 +42850,7 @@
     "difficulty": "容易",
     "grade": "AMC-10",
     "course": "数学",
-    "paper": "2025 AMC 10B · 第 1 题",
+    "paper": "2025 AMC 10B · 第 1 题 | 2025 AMC 12B · 第 1 题",
     "online_test": true,
     "option_split": true,
     "quality": "精品",

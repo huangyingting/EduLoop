@@ -24966,7 +24966,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "设第一个方程的一个根为 $z=a+bi$。比较\n\\[\n(a+bi)^2=4+4\\sqrt{15},i\n\\]\n的实部与虚部，得\n$a^2-b^2=4$、$2ab=4\\sqrt{15}$。消去 $b$ 后得到\n$(a^2-10)(a^2+6)=0$，所以两根为\n\\[\n\\pm(\\sqrt{10}+\\sqrt6,i).\n\\]\n类似地，第二个方程的两根为\n\\[\n\\pm(\\sqrt3+i).\n\\]\n\n令 $u=(\\sqrt{10},\\sqrt6)$、$v=(\\sqrt3,1)$。平行四边形的两条对角线向量为 $2u$、$2v$，所以面积为\n\\[\n\\frac12|\\det(2u,2v)|\n=2|\\sqrt{10}-\\sqrt{18}|\n=6\\sqrt2-2\\sqrt{10}.\n\\]\n因此 $p=6,q=2,r=2,s=10$，所求和为\n$6+2+2+10=\\boxed{20}$。"
+        "solution_info": "设第一个方程的一个根为 $z=a+bi$。比较\n\\[\n(a+bi)^2=4+4\\sqrt{15}i\n\\]\n的实部与虚部，得 $a^2-b^2=4$、$2ab=4\\sqrt{15}$。又有 $a^2+b^2=16$，所以两根为\n\\[\n\\pm(\\sqrt{10}+\\sqrt6i).\n\\]\n类似地，第二个方程的两根为\n\\[\n\\pm(\\sqrt3+i).\n\\]\n\n令 $u=(\\sqrt{10},\\sqrt6)$、$v=(\\sqrt3,1)$。平行四边形的两条对角线向量为 $2u$、$2v$，所以面积为\n\\[\n\\frac12|\\det(2u,2v)|\n=2|\\sqrt{10}-\\sqrt{18}|\n=6\\sqrt2-2\\sqrt{10}.\n\\]\n因此 $p=6,q=2,r=2,s=10$，所求和为 $6+2+2+10=\\boxed{\\textbf{(A)}\\ 20}$。"
       }
     ],
     "children": []
@@ -27101,7 +27101,7 @@
         "option_b": "$\\dfrac{1}{4}$",
         "option_c": "$\\dfrac{1}{3}$",
         "option_d": "$\\dfrac{1}{2}$",
-        "option_e": "\\dfrac{2}",
+        "option_e": "$\\dfrac{2}{3}$",
         "answer1": "B"
       }
     },
@@ -34513,7 +34513,7 @@
       "raw_content": {
         "title": "有多少个整数 $n$ 使表达式\n\n$\\sqrt{\\frac{\\log \\left(n^{2}\\right)-(\\log n)^{2}}{\\log n-3}}$\n表示一个实数？其中 $\\log$ 表示以 $10$ 为底的对数。",
         "option_a": "$900$",
-        "option_b": "$2$",
+        "option_b": "$3$",
         "option_c": "$902$",
         "option_d": "$2$",
         "option_e": "$901$",
@@ -34610,7 +34610,7 @@
         "title": "在 $x y$ 平面内，一个半径为 $4$、圆心位于 $x$ 轴正半轴上的圆在原点与 $y$ 轴相切；另一个半径为 $10$、圆心位于 $y$ 轴正半轴上的圆在原点与 $x$ 轴相切。经过这两个圆的两个交点的直线斜率是多少？",
         "option_a": "$\\frac{2}{7}$",
         "option_b": "$\\frac{3}{7}$",
-        "option_c": "$\\frac{3}{7}$",
+        "option_c": "$\\frac{2}{\\sqrt{29}}$",
         "option_d": "$\\frac{1}{\\sqrt{29}}$",
         "option_e": "$\\frac{2}{5}$",
         "answer1": "E"
@@ -34781,7 +34781,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "注意 14 与 15 互质，且 $210=14 \\cdot 15$。设 $q$ 和 $r$ 为两个互质正整数（例如 14 和 15）。方程 $\\frac{a}{q}+\\frac{b}{r}=\\frac{c}{q r}$ 等价于 $a r+b q=c$。因此\n\n$\\operatorname{gcd}(c, q)=\\operatorname{gcd}(a r+b q, q)=\\operatorname{gcd}(a r, q)=\\operatorname{gcd}(a, q)$\n同理，$\\operatorname{gcd}(c, r)=\\operatorname{gcd}(b, r)$。此外，$\\operatorname{gcd}(c, q r)=1$ 当且仅当 $\\operatorname{gcd}(c, q)=1$ 且 $\\operatorname{gcd}(c, r)=1$。所以命题 III 正确，而且它在逻辑上蕴含命题 II。为说明命题 I 可能错误，取 $a=1, b=3$ 和 $c=57$；此时假设成立而结论不成立。因此，只有命题 $(\\text{E})\\boxed{II and III}$ 一定成立。"
+        "solution_info": "注意 $14$ 与 $15$ 互质，且 $210=14\\cdot15$。更一般地，若 $q,r$ 互质，则\n$\\frac aq+\\frac br=\\frac c{qr}$ 等价于 $ar+bq=c$。因此\n\n$\\operatorname{gcd}(c,q)=\\operatorname{gcd}(ar+bq,q)=\\operatorname{gcd}(a,q)$，\n\n同理 $\\operatorname{gcd}(c,r)=\\operatorname{gcd}(b,r)$。所以命题 III 正确，并且蕴含命题 II。命题 I 不一定成立，例如 $a=1,b=3,c=57$。因此只有命题 $\\boxed{\\textbf{(E)}\\ II\\text{ 和 }III}$ 一定成立。"
       }
     ],
     "children": []
@@ -37060,38 +37060,6 @@
       },
       {
         "solution_info": "由于 $P,Q$ 都是首一三次多项式，$f(x)=P(x)/Q(x)$ 在 $x\\to\\pm\\infty$ 时趋于 1。要求的符号依次为\n\n$+,-,+,-,+$，\n\n分界点为 $a,b,c,d$。闭端点 $a,b$ 要求 $P(a)=P(b)=0$ 且 $Q(a),Q(b)\\ne0$；开端点 $c,d$ 要求 $Q(c)=Q(d)=0$。各分界处净根重数必须为奇数，剩余第五个数处净重数必须为偶数。\n\n次数总和迫使\n\n$P=(x-a)(x-b)(x-r),\\qquad Q=(x-c)(x-d)(x-r)$。\n\n其中 $r$ 不能在 $[a,b]\\cup(c,d)$ 中造成额外空点。对 $\\{1,2,3,4,5\\}$ 的五种四元素选择，允许的公共根数依次为 $3,2,3,2,3$。因此可能的有序多项式对共有\n\n$3+2+3+2+3=\\boxed{\\textbf{(E)}~13}$。\n\n约分后其中若干对表示同一函数，所以不同函数只有 8 个，但这不改变本题所问的多项式对数量。"
-      }
-    ],
-    "children": []
-  },
-  {
-    "id": "55fcd29f04aa5c326c71b7b1bc8c55e2",
-    "type": "单选题",
-    "grade_band": "AMC-12",
-    "difficulty": "容易",
-    "grade": "AMC-12",
-    "course": "数学",
-    "paper": "2025 AMC 12B · 第 1 题",
-    "online_test": true,
-    "option_split": true,
-    "quality": "精品",
-    "question_info": {
-      "raw_content": {
-        "title": "一袋咖啡豆重 $350$ 克。包装说明指出，正确冲泡一大杯手冲咖啡需要 $20$ 克咖啡豆。这袋咖啡豆最多能正确冲泡多少大杯咖啡？",
-        "option_a": "$16$",
-        "option_b": "$17$",
-        "option_c": "$18$",
-        "option_d": "$19$",
-        "option_e": "$20$",
-        "answer1": "B"
-      }
-    },
-    "answer_info": {
-      "raw_content": "B"
-    },
-    "solution_info": [
-      {
-        "solution_info": "这袋咖啡豆重 $350$ 克，而每大杯需要 $20$ 克。因此能冲泡的完整杯数为\n\n$\\left\\lfloor\\frac{350}{20}\\right\\rfloor = \\lfloor17.5\\rfloor = \\boxed{{\\textbf{(B)~17}}}$\n直接相除可得，如果允许使用不满一杯所需的咖啡豆，相当于可分出 $17$ 份完整用量和下一份的一半；但这里剩余的半份无法再冲泡一杯，因此不计。"
       }
     ],
     "children": []

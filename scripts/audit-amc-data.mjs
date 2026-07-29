@@ -1,5 +1,10 @@
 import { createHash } from "node:crypto";
 import { access, readFile } from "node:fs/promises";
+import {
+  contentDamageIssues,
+  normalizeOption,
+  terminalLabeledChoice,
+} from "./amc-audit-rules.mjs";
 import { collection, localeFileUrl } from "./content-manifest.mjs";
 
 const { files: FILES, sourceLocale: SOURCE_LOCALE } = collection("amc");
@@ -66,12 +71,27 @@ for (const { filename, question } of records) {
   }
   if (content.some((value) => !value)) issues.push("missing content");
   if (!/^[A-E]$/.test(raw.answer1 ?? "") || question.answer_info?.raw_content !== raw.answer1) issues.push("invalid answer key");
+  const options = [raw.option_a, raw.option_b, raw.option_c, raw.option_d, raw.option_e];
+  const normalizedOptions = options.map(normalizeOption);
+  if (new Set(normalizedOptions).size !== normalizedOptions.length) issues.push("duplicate option");
   if (solutionFingerprints.length !== new Set(solutionFingerprints).size) issues.push("duplicate solution");
   if (content.some((value) => /problems and solutions on this page are the property of the MAA/i.test(String(value)))) {
     issues.push("source attribution boilerplate");
   }
   if (content.some((value) => [...String(value).matchAll(/(?<!\\)\$/g)].length % 2 !== 0)) issues.push("unbalanced math");
   if (content.some((value) => /\[(?:asy|tikz)[\s\S]*?\[\/(?:asy|tikz)\]/i.test(value))) issues.push("unrendered figure source");
+  const fields = [
+    ["title", raw.title, false],
+    ...options.map((value, index) => [`option_${"abcde"[index]}`, value, false]),
+    ...(question.solution_info ?? []).map(({ solution_info: solution }, index) => [`solution_${index}`, solution, true]),
+  ];
+  for (const [field, value, solution] of fields) {
+    for (const issue of contentDamageIssues(value, { solution })) issues.push(`${field}: ${issue}`);
+  }
+  for (let index = 0; index < (question.solution_info ?? []).length; index += 1) {
+    const choice = terminalLabeledChoice(question.solution_info[index].solution_info);
+    if (choice && choice !== raw.answer1) issues.push(`solution_${index}: terminal answer ${choice} disagrees with key ${raw.answer1}`);
+  }
   if (issues.length) invalid.push({ filename, id: question.id, paper: question.paper, issues });
 }
 

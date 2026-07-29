@@ -77,8 +77,8 @@ describe("catalog content curation", () => {
 
   it("publishes the complete repaired catalog", () => {
     const questions = [...recordsById.values()].map(({ question, filename }) => normalizeSourceQuestion(question, filename));
-    expect(questions).toHaveLength(13_812);
-    expect(questions.filter((question) => question.status === "PUBLISHED")).toHaveLength(13_812);
+    expect(questions).toHaveLength(13_811);
+    expect(questions.filter((question) => question.status === "PUBLISHED")).toHaveLength(13_811);
     expect(questions.filter((question) => question.status === "NEEDS_REVIEW")).toHaveLength(0);
   });
 });

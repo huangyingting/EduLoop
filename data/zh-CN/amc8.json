@@ -2638,7 +2638,7 @@
       "raw_content": {
         "title": "贝蒂用计算器求乘积 $0.075 \\times 2.56$，却忘了输入小数点，计算器显示 $19200$。若她正确输入小数点，结果应为",
         "option_a": "$.0192$",
-        "option_b": "$0.192$",
+        "option_b": "$.192$",
         "option_c": "$1.92$",
         "option_d": "$19.2$",
         "option_e": "$192$",
@@ -5873,7 +5873,7 @@
         "option_b": "$160$",
         "option_c": "$200$",
         "option_d": "$240$",
-        "option_e": "$240$",
+        "option_e": "$360$",
         "answer1": "B"
       }
     },
@@ -8113,7 +8113,7 @@
         "option_b": "$24$",
         "option_c": "$26$",
         "option_d": "$27$",
-        "option_e": "$27$",
+        "option_e": "$30$",
         "answer1": "C"
       }
     },
@@ -14321,7 +14321,7 @@
         "option_b": "$\\dfrac{4}{9}$",
         "option_c": "$\\dfrac{1}{2}$",
         "option_d": "$\\dfrac{5}{9}$",
-        "option_e": "$\\dfrac{5}{9}$",
+        "option_e": "$\\dfrac{5}{8}$",
         "answer1": "B"
       }
     },

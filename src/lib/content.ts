@@ -18,6 +18,9 @@ export const GRADE_BANDS = [
   { slug: "primary", name: "小学", sortOrder: 1 },
   { slug: "middle", name: "初中", sortOrder: 2 },
   { slug: "high", name: "高中", sortOrder: 3 },
+  { slug: "amc-8", name: "AMC-8", sortOrder: 4 },
+  { slug: "amc-10", name: "AMC-10", sortOrder: 5 },
+  { slug: "amc-12", name: "AMC-12", sortOrder: 6 },
 ] as const;
 
 export const GRADES = [
@@ -27,6 +30,8 @@ export const GRADES = [
   ["grade-7", "七年级", "middle", 7], ["grade-8", "八年级", "middle", 8],
   ["grade-9", "九年级", "middle", 9], ["grade-10", "高一", "high", 10],
   ["grade-11", "高二", "high", 11], ["grade-12", "高三", "high", 12],
+  ["amc-8", "AMC-8", "amc-8", 8], ["amc-10", "AMC-10", "amc-10", 10],
+  ["amc-12", "AMC-12", "amc-12", 12],
 ] as const;
 
 const GRADE_ORDER_BY_NAME = new Map<string, number>(GRADES.map(([, name, , sortOrder]) => [name, sortOrder]));

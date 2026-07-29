@@ -10,7 +10,7 @@ School-managed accounts are a separate launch mode. Before using accounts with s
 
 | Requirement | Repository evidence |
 | --- | --- |
-| Content is importable and traceable | Stable source IDs, `sourceFile`, `npm run data:audit`, quarantine status |
+| Content is importable and traceable | Stable source IDs, `sourceFile`, `npm run data:verify`, quarantine status |
 | Answers are not leaked | `/api/questions/next` omits keys; `/api/attempts` grades server-side |
 | Learning continues after a mistake | `ReviewItem` scheduling, `/review`, adaptive due selection |
 | Learning-loop health is measurable | idempotent explanation views and aggregate `/api/studio/metrics` session, return, and repeat-practice signals |

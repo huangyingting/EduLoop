@@ -1,6 +1,6 @@
 # Source data audit
 
-Audit date: 2026-07-27. Reproduce the structural portion with `npm run data:audit`.
+Audit date: 2026-07-29. Reproduce the structural portion with `node scripts/analyze-data.mjs`.
 
 ## Inventory
 
@@ -8,10 +8,10 @@ The seven Simplified Chinese runtime files under `data/zh-CN/` contain 13,812 un
 
 | Dimension | Distribution |
 | --- | --- |
-| School stage | Primary 1,815; middle 5,640; high 6,357 |
+| Grade band | Primary 1,815; middle 4,615; high 3,919; AMC-8 1,025; AMC-10 1,275; AMC-12 1,163 |
 | Subject | Mathematics 8,852; physics 2,269; chemistry 1,634; biology 1,057 |
 | Difficulty | Easy 6,786; medium 6,118; hard 908 |
-| Largest grades | High school year 3: 2,810; high school year 1: 2,463; grade 9: 2,405 |
+| Largest grades | Grade 9: 2,405; high school year 3: 1,647; AMC-10: 1,275 |
 | Online-ready flag | True 9,984; false 3,828 |
 | Quality label | All 13,812 are labelled `精品`, so this field is not a useful ranking signal yet |
 
@@ -31,10 +31,10 @@ The source has 27 question-type strings. Normalization reduces them to seven sta
 
 - All records use the same outer and nested key shape. Several files start with a UTF-8 BOM; the importer removes it before parsing.
 - 9,469 questions have options. Of these, 5,798 have four, 182 have three, 3,485 have five, and four have two.
-- 4,570 stems match the structural LaTeX audit. The renderer supports both the original `$$...$$` convention and the AMC archives' `$...$` inline notation.
+- 4,577 stems match the structural LaTeX audit. The renderer supports both the original `$$...$$` convention and the AMC archives' `$...$` inline notation.
 - Every record has non-empty `answer_info.raw_content`; 43 lack a distinct solution/explanation.
 - 1,698 records lack `question_info.raw_content.answer1`. This is not treated as an error because many written-response questions keep the answer only in `answer_info`.
-- IDs are unique. There are 315 repeated stems, which may represent legitimate grade/source duplication and are retained under their source IDs. No AMC stem exactly duplicates a stem in the original files, and no exact question fingerprint is duplicated among the AMC files.
+- IDs are unique. There are 319 repeated stems, which may represent legitimate grade/source duplication and are retained under their source IDs. No AMC stem exactly duplicates a stem in the original files, and no exact question fingerprint is duplicated among the AMC files.
 - Two source records contain child questions. Their parent records are retained under the stable source IDs and have reviewed, self-contained written-response versions so both sets of learning objectives remain usable.
 - The AMC archives contain 1,675 figure references across 1,068 questions, including 688 question prompts. All are stored locally as 1,656 SHA-256-deduplicated files under `public/question-assets/source/amc/`; `manifest.json` retains each original source URL for provenance. The AMC audit rejects remote markers, malformed local markers, and missing files. The original subject files still use reviewed textual rewrites or approved generated replacements; unrecognized future figure references remain quarantined by default. Inline choices are recovered only when their `A/B/C...` sequence and content are complete.
 
@@ -50,7 +50,7 @@ The eight nonvisual records previously held for malformed choices are also usabl
 
 Source difficulty labels are treated as a prior, not ground truth. Every import runs a versioned, grade-relative structural audit over the normalized stem, options, response type, sub-question count, reasoning demands, formula load, and expected response. Each `Question` stores the original label, calibrated score, confidence, reason, and audit version. A disagreement changes the learner-facing level only when confidence is at least 0.8; otherwise the source label is retained for future subject review.
 
-Run `npm run difficulty:audit` after seeding to verify that every row was assessed and to see transition counts and representative corrections. Add `-- --all` for the complete per-question JSON audit.
+After seeding, run `node --env-file-if-exists=.env --import tsx scripts/audit-question-difficulty.ts` to verify that every row was assessed and to see transition counts and representative corrections. Add `--all` for the complete per-question JSON audit.
 
 The three product levels retain their existing meanings: `EASY` is direct recall or one-step application, `MEDIUM` requires connected concepts or several operations, and `HARD` requires sustained multi-step reasoning, proof, synthesis, or experimental design. Difficulty is relative to the assigned grade; advanced vocabulary alone does not make a question hard.
 
@@ -58,7 +58,7 @@ Audit version 1 assessed all 13,812 bundled questions and changed 4,088 high-con
 
 ## Taxonomy strategy
 
-Stable, mutually understood fields are modeled as relations or constrained strings: subject, school stage, grade, difficulty, normalized type, status, and auto-gradability.
+Stable, mutually understood fields are modeled as relations or constrained strings: subject, grade band, grade, difficulty, normalized type, status, and auto-gradability.
 
 Open-ended dimensions use `TagDimension -> Tag -> QuestionTag`:
 

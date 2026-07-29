@@ -116,12 +116,15 @@ describe("question normalization", () => {
   });
 
   it.each(["amc8.json", "amc10.json", "amc12.json"])("retains position bands and tags English competition content for %s", (sourceFile) => {
+    const level = `AMC-${sourceFile.match(/\d+/)![0]}`;
     const source = question({
-      type: "单选题", course: "数学", grade_band: "高中", grade: "高一", difficulty: "困难",
+      type: "单选题", course: "数学", grade_band: level, grade: level, difficulty: "困难",
     });
     source.question_info.raw_content.title = "How many arrangements of five integers have the largest possible sum?";
     const normalized = normalizeSourceQuestion(source, sourceFile);
-    expect(normalized).toMatchObject({ difficulty: "HARD", difficultyConfidence: 1 });
+    expect(normalized).toMatchObject({
+      gradeBandName: level, gradeName: level, difficulty: "HARD", difficultyConfidence: 1,
+    });
     expect(normalized.difficultyReason).toContain("AMC contest position band retained");
     expect(normalized.tags).toEqual(expect.arrayContaining([
       expect.objectContaining({ slug: "combinatorics" }),

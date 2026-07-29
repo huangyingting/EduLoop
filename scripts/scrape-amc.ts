@@ -14,26 +14,26 @@ const REQUEST_INTERVAL_MS = 500;
 const MAX_ATTEMPTS = 8;
 
 type CompetitionKey = "amc8" | "amc10" | "amc12";
+type CompetitionLevel = "AMC-8" | "AMC-10" | "AMC-12";
 
 type CompetitionConfig = {
   key: CompetitionKey;
   number: 8 | 10 | 12;
-  gradeBand: "初中" | "高中";
-  grade: "八年级" | "高一" | "高三";
+  level: CompetitionLevel;
   contestPattern: RegExp;
 };
 
 const COMPETITIONS: Record<CompetitionKey, CompetitionConfig> = {
   amc8: {
-    key: "amc8", number: 8, gradeBand: "初中", grade: "八年级",
+    key: "amc8", number: 8, level: "AMC-8",
     contestPattern: /^(?:(?:19|20)\d{2})_(?:AJHSME|AMC_8)$/,
   },
   amc10: {
-    key: "amc10", number: 10, gradeBand: "高中", grade: "高一",
+    key: "amc10", number: 10, level: "AMC-10",
     contestPattern: /^20\d{2}_(?:Fall_)?AMC_10[ABP]$/,
   },
   amc12: {
-    key: "amc12", number: 12, gradeBand: "高中", grade: "高三",
+    key: "amc12", number: 12, level: "AMC-12",
     contestPattern: /^20\d{2}_(?:Fall_)?AMC_12[ABP]$/,
   },
 };
@@ -805,9 +805,9 @@ function makeQuestion(contest: string, problemNumber: number, answer: string, pa
   return {
     id: digest(`aops-${COMPETITION.key}:${contest}:${problemNumber}`, "md5"),
     type: "单选题",
-    grade_band: COMPETITION.gradeBand,
+    grade_band: COMPETITION.level,
     difficulty: sourceDifficulty(problemNumber),
-    grade: COMPETITION.grade,
+    grade: COMPETITION.level,
     course: "数学",
     paper: `${displayContest(contest)} · Problem ${problemNumber}`,
     online_test: true,

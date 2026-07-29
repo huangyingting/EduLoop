@@ -14,7 +14,7 @@ The default question catalog is in `data/zh-CN/`; translated source archives are
 - `npm run build` creates a production build; `npm start` serves it.
 - `npm test` runs Vitest once.
 - `npm run lint` and `npm run typecheck` run ESLint and strict TypeScript checks.
-- `npm run data:audit` profiles source JSON; `npm run schema:check` verifies that both Prisma model definitions match.
+- `npm run data:verify` audits source JSON; `npm run schema:check` verifies that both Prisma model definitions match.
 
 ## Coding Style & Naming Conventions
 

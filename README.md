@@ -38,18 +38,8 @@ Open [http://localhost:3000](http://localhost:3000). The full seed takes roughly
 Useful commands:
 
 ```bash
-npm run data:audit       # profile all source JSON files
-npm run data:scrape:amc8 # resumably refresh the AMC 8 archive
-npm run data:scrape:amc10
-npm run data:scrape:amc12
-npm run data:dedupe:amc  # merge exact cross-contest duplicates
-npm run data:assets:amc  # download/deduplicate figures and rewrite local paths
-npm run data:audit:amc   # verify slots, keys, figures, and duplicates
-npm run data:translate:amc # regenerate the default Simplified Chinese AMC archives
-npm run data:audit:amc:zh # verify translated IDs, answers, math, and figures
 npm run data:verify      # run every source and translated-content gate
-npm run difficulty:audit # verify every imported difficulty assessment
-npm run seed:verify    # import into a fresh database and verify catalog counts
+npm run seed:verify      # import into a fresh database and verify catalog counts
 npm run reports:review -- list # inspect the trusted content-report queue
 npm run users:role -- editor@example.com CONTENT_EDITOR # grant review workspace access
 npm run schema:check   # ensure SQLite/PostgreSQL models still match
@@ -60,6 +50,8 @@ npm run typecheck
 npm run lint
 npm run build
 ```
+
+Specialist content-import commands are documented in [`data/README.md`](data/README.md) and run directly from `scripts/`.
 
 The main student routes are `/practice`, `/progress`, and `/review`; `/login` and `/register` add optional cross-device sync. Authorized content editors use `/studio`; `/api/health` is the deployment readiness probe.
 

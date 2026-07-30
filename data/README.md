@@ -10,6 +10,7 @@ data/
   zh-CN/                    # Complete runtime catalog imported by the seed
     biology.json
     chemistry.json
+    chinese.json
     mathematics.json
     physics.json
     amc8.json
@@ -27,6 +28,8 @@ public/question-assets/
 
 Add runtime content to `data/zh-CN/`. Acquisition and deduplication scripts operate on `data/en/`; the translation script writes their Simplified Chinese counterparts to `data/zh-CN/`. AMC records use `AMC-8`, `AMC-10`, or `AMC-12` for both `grade_band` and `grade`.
 
+The licensed CJEval junior-high Chinese import is pinned to an upstream commit and source-file hashes. Rebuild `chinese.json` with `npm run data:import:cjeval`. CJEval does not identify an individual grade, so its records use `初中综合`; do not infer seventh, eighth, or ninth grade from question wording alone. Source `<dotted>` and related presentation tags are converted into visible plain-text emphasis, nested answers are formatted for self-assessment, and source knowledge concepts become imported topic tags.
+
 Run specialist maintenance tools directly:
 
 ```bash
@@ -42,7 +45,7 @@ Validate all source and translated content with `npm run data:verify`.
 
 ## Source record schema
 
-Question archives intentionally retain the upstream snake-case envelope. Every record has the same required fields: `id`, `type`, `grade_band`, `difficulty`, `grade`, `course`, `paper`, `online_test`, `option_split`, `quality`, `question_info`, `answer_info`, `solution_info`, and `children`. The prompt, five option slots, and source answer key live under `question_info.raw_content`; the reference answer is `answer_info.raw_content`; and each explanation is a `solution_info` entry. Empty option strings are meaningful placeholders for non-choice questions.
+Question archives intentionally retain the upstream snake-case envelope. Every record has the same required fields: `id`, `type`, `grade_band`, `difficulty`, `grade`, `course`, `paper`, `online_test`, `option_split`, `quality`, `question_info`, `answer_info`, `solution_info`, and `children`. A record may also carry `source_tags`, an array of imported `TOPIC`, `SKILL`, or `FORMAT` tags with a stable slug, display label, confidence, and source. The prompt, five option slots, and source answer key live under `question_info.raw_content`; the reference answer is `answer_info.raw_content`; and each explanation is a `solution_info` entry. Empty option strings are meaningful placeholders for non-choice questions.
 
 Names such as `question_info.raw_content` and `solution_info[].solution_info` are legacy source-contract names. Do not rename them in an individual archive: acquisition, translation, audit, deduplication, and import tools all consume that contract. `src/lib/content.ts` is the normalization boundary where source fields become the application's cleaner question model. New product-facing code should use normalized fields rather than expose the archive envelope.
 

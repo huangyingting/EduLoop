@@ -26,6 +26,21 @@ describe("question normalization", () => {
     expect(normalizeSourceQuestion(source, "fixture.json").status).toBe("NEEDS_REVIEW");
   });
 
+  it("honors source audit review markers", () => {
+    const source = question({ quality: "CJEval许可导入；NEEDS_REVIEW：答案疑似冲突" });
+    expect(normalizeSourceQuestion(source, "chinese.json").status).toBe("NEEDS_REVIEW");
+  });
+
+  it("keeps imported knowledge concepts as filterable topics", () => {
+    const source = question({
+      course: "语文",
+      source_tags: [{ dimension: "TOPIC", slug: "cjeval-abc123", label: "字音", confidence: 1, source: "IMPORT" }],
+    });
+    expect(normalizeSourceQuestion(source, "chinese.json").tags).toEqual(expect.arrayContaining([
+      expect.objectContaining({ dimension: "TOPIC", slug: "cjeval-abc123", label: "字音", source: "IMPORT" }),
+    ]));
+  });
+
   it("does not mistake a long explanation for an answer key", () => {
     const source = question();
     source.question_info.raw_content.answer1 = "";
@@ -113,6 +128,11 @@ describe("question normalization", () => {
     expect(referencesMissingFigure(String(source.question_info.raw_content.title))).toBe(true);
     expect(normalizeSourceQuestion(source, "fixture.json").status).toBe("NEEDS_REVIEW");
     expect(referencesMissingFigure("函数图象的性质是")).toBe(false);
+    expect(referencesMissingFigure("当我们试图一次获取大量信息时")).toBe(false);
+    expect(referencesMissingFigure("营销团队负责推广图书")).toBe(false);
+    expect(referencesMissingFigure("猕猴在屏上图片中做出选择")).toBe(false);
+    expect(referencesMissingFigure("新剧本里的地图中不该有匕首")).toBe(false);
+    expect(referencesMissingFigure("观察图1中的曲线")).toBe(true);
   });
 
   it.each(["amc8.json", "amc10.json", "amc12.json"])("retains position bands and tags English competition content for %s", (sourceFile) => {

@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { contentDamageIssues } from "./amc-audit-rules.mjs";
 import { localeFileUrl } from "./content-manifest.mjs";
 
-const FILES = ["biology.json", "chemistry.json", "mathematics.json", "physics.json"];
+const FILES = ["biology.json", "chemistry.json", "chinese.json", "mathematics.json", "physics.json"];
 const OPTION_KEYS = ["option_a", "option_b", "option_c", "option_d", "option_e"];
 const PLACEHOLDER = /^(?:略|无|暂无|暂无解析|答案略|解析略|【答案】)[。.]?$/u;
 
@@ -35,6 +35,10 @@ function digest(value) {
   return createHash("sha256").update(value).digest("hex");
 }
 
+function isReviewableIssue(issue) {
+  return /^(?:duplicate option|choice question lacks a direct answer key|answer key [A-E]+ references a missing option|answer conclusion [A-E]+ disagrees with key [A-E]+|solution_\d+ conclusion [A-E]+ disagrees with key [A-E]+)$/u.test(issue);
+}
+
 const records = (await Promise.all(FILES.map(async (filename) => {
   const questions = JSON.parse((await readFile(localeFileUrl("zh-CN", filename), "utf8")).replace(/^\uFEFF/u, ""));
   return questions.map((question) => ({ filename, question }));
@@ -42,6 +46,7 @@ const records = (await Promise.all(FILES.map(async (filename) => {
 const ids = new Set();
 const fingerprints = new Map();
 const invalid = [];
+const quarantined = [];
 
 for (const { filename, question } of records) {
   const raw = question.question_info?.raw_content ?? {};
@@ -106,7 +111,15 @@ for (const { filename, question } of records) {
   } else {
     fingerprints.set(fingerprint, { filename, id: question.id });
   }
-  if (issues.length) invalid.push({ filename, id: question.id, issues: [...new Set(issues)] });
+  const reviewReason = String(question.quality ?? "").match(/NEEDS_REVIEW[：:]\s*(.+)$/u)?.[1]?.trim();
+  if (issues.length) {
+    const uniqueIssues = [...new Set(issues)];
+    const entry = { filename, id: question.id, issues: uniqueIssues };
+    if (reviewReason && uniqueIssues.every(isReviewableIssue)) quarantined.push(entry);
+    else invalid.push(entry);
+  } else if (reviewReason) {
+    quarantined.push({ filename, id: question.id, issues: [`source review marker: ${reviewReason}`] });
+  }
 }
 
 const report = {
@@ -114,6 +127,7 @@ const report = {
   total: records.length,
   uniqueIds: ids.size,
   exactDuplicateContent: fingerprints.get("__duplicates__") ?? [],
+  quarantined,
   invalid,
 };
 console.log(JSON.stringify(report, null, 2));

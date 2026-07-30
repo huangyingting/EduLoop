@@ -43,10 +43,10 @@ const questionSchema = z.object({
   difficulty: z.enum(["容易", "一般", "困难"]),
   grade: z.enum([
     "一年级", "二年级", "三年级", "四年级", "五年级", "六年级",
-    "七年级", "八年级", "九年级", "高一", "高二", "高三",
+    "七年级", "八年级", "九年级", "初中综合", "高一", "高二", "高三",
     "AMC-8", "AMC-10", "AMC-12",
   ]),
-  course: z.enum(["数学", "物理", "化学", "生物"]),
+  course: z.enum(["数学", "物理", "化学", "生物", "语文"]),
   paper: z.string(),
   online_test: z.boolean(),
   option_split: z.boolean(),
@@ -55,6 +55,13 @@ const questionSchema = z.object({
   answer_info: z.object({ raw_content: z.string() }).strict(),
   solution_info: z.array(z.object({ solution_info: z.string() }).strict()).min(1),
   children: z.array(childQuestionSchema),
+  source_tags: z.array(z.object({
+    dimension: z.enum(["TOPIC", "SKILL", "FORMAT"]),
+    slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+    label: z.string().min(1),
+    confidence: z.number().min(0).max(1),
+    source: z.enum(["RULE", "IMPORT"]),
+  }).strict()).optional(),
 }).strict();
 
 const localeEntrySchema = z.object({
@@ -136,7 +143,7 @@ function validate(filename, schema, value, context = filename) {
 }
 
 async function loadTrackedJson() {
-  const tracked = execFileSync("git", ["ls-files", "-z", "--", "*.json"], {
+  const tracked = execFileSync("git", ["ls-files", "--cached", "--others", "--exclude-standard", "-z", "--", "*.json"], {
     cwd: ROOT,
     encoding: "utf8",
   }).split("\0").filter(Boolean);
@@ -195,6 +202,7 @@ async function validateQuestionArchives(catalog) {
     "chemistry.json": "化学",
     "mathematics.json": "数学",
     "physics.json": "物理",
+    "chinese.json": "语文",
   };
 
   for (const [locale, entry] of Object.entries(catalog.locales)) {

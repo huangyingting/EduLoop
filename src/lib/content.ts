@@ -12,6 +12,7 @@ export const SUBJECTS = [
   { slug: "physics", name: "物理", icon: "⚡", color: "#0984e3", description: "从力与运动探索世界规律", sortOrder: 2 },
   { slug: "chemistry", name: "化学", icon: "⚗", color: "#00a67e", description: "理解物质、反应与实验", sortOrder: 3 },
   { slug: "biology", name: "生物", icon: "⌁", color: "#e17055", description: "认识生命、遗传与生态", sortOrder: 4 },
+  { slug: "chinese", name: "语文", icon: "文", color: "#d35400", description: "品读语言、文学与表达", sortOrder: 5 },
 ] as const;
 
 export const GRADE_BANDS = [
@@ -30,11 +31,13 @@ export const GRADES = [
   ["grade-7", "七年级", "middle", 7], ["grade-8", "八年级", "middle", 8],
   ["grade-9", "九年级", "middle", 9], ["grade-10", "高一", "high", 10],
   ["grade-11", "高二", "high", 11], ["grade-12", "高三", "high", 12],
+  ["middle-general", "初中综合", "middle", 10],
   ["amc-8", "AMC-8", "amc-8", 8], ["amc-10", "AMC-10", "amc-10", 10],
   ["amc-12", "AMC-12", "amc-12", 12],
 ] as const;
 
 const GRADE_ORDER_BY_NAME = new Map<string, number>(GRADES.map(([, name, , sortOrder]) => [name, sortOrder]));
+GRADE_ORDER_BY_NAME.set("初中综合", 8);
 
 export const DIFFICULTIES = [
   { key: "EASY", source: "容易", label: "热身", dot: "●" },
@@ -88,6 +91,7 @@ export type SourceQuestion = {
   answer_info: { raw_content: string };
   solution_info: Array<{ solution_info: string }>;
   children: SourceChildQuestion[];
+  source_tags?: NormalizedTag[];
 };
 
 export type NormalizedTag = {
@@ -274,7 +278,7 @@ export function inferTags(question: SourceQuestion): NormalizedTag[] {
   const stem = extractQuestionStem(question);
   const combined = `${stem} ${question.solution_info.map((item) => item.solution_info).join(" ")}`;
   const type = normalizeQuestionType(question);
-  const tags: NormalizedTag[] = [];
+  const tags: NormalizedTag[] = [...(question.source_tags ?? [])];
 
   for (const rule of TOPIC_RULES[question.course] ?? []) {
     if (rule.pattern.test(combined)) addTag(tags, { dimension: "TOPIC", slug: rule.slug, label: rule.label, confidence: 0.72, source: "RULE" });
@@ -312,7 +316,7 @@ export function inferTags(question: SourceQuestion): NormalizedTag[] {
 }
 
 export function referencesMissingFigure(stem: string) {
-  return /(?:如|见|观察|根据|分析|阅读|结合)(?:下列|下|右|左|上)?(?:图|图表)(?:所示|中|给出)?|(?:下列|下|右|左|上)图(?:所示|中)?|图\s*[0-9一二三四五六甲乙丙丁](?:所示|中)?|图中|图示|图略|示意图/.test(stem);
+  return /(?:如|见|观察|根据|分析|阅读|结合)(?:下列|下|右|左|上)?(?:图表|图)(?=所示|中|给出|\s*[0-9一二三四五六甲乙丙丁（(:：])|(?:下列|下|右|左|上)图(?:所示|中|给出|\s*[0-9一二三四五六甲乙丙丁（(:：])|图\s*[0-9一二三四五六甲乙丙丁](?=所示|中|[（(:：\s，。])|(?<!地)图中|图示|图略|示意图/.test(stem);
 }
 
 export function normalizeSourceQuestion(question: SourceQuestion, sourceFile: string) {
@@ -333,6 +337,7 @@ export function normalizeSourceQuestion(question: SourceQuestion, sourceFile: st
   const hasUnparsedChoice = !selfAssessedCompositeIds.has(question.id) && /选择/.test(sourceType) && (
     options.length < 2 || options.some((option, index) => option.label !== String.fromCharCode(65 + index))
   );
+  const sourceRequiresReview = /NEEDS_REVIEW/u.test(question.quality);
   const normalized = applyQuestionReplacement({
     id: question.id,
     sourceId: question.id,
@@ -347,7 +352,7 @@ export function normalizeSourceQuestion(question: SourceQuestion, sourceFile: st
     quality: question.quality || null,
     status: update?.publish
       ? "PUBLISHED"
-      : !stem || requiresVisual || hasUnparsedChoice || Boolean(question.children?.length) ? "NEEDS_REVIEW" : "PUBLISHED",
+      : !stem || requiresVisual || hasUnparsedChoice || sourceRequiresReview || Boolean(question.children?.length) ? "NEEDS_REVIEW" : "PUBLISHED",
     isAutoGradable: correctLabels.length > 0 && options.length >= 2,
     onlineTest: Boolean(question.online_test),
     optionSplit: Boolean(question.option_split),

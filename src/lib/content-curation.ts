@@ -30,6 +30,9 @@ export const reviewedSelfContainedVisualIds = new Set([
   "9dc7b9a4c37f2317bc78feaade033c26",
   "ab73d2af5f723893b15d11e9cb9db89b",
   "c6e6abb0795962a1ca699c67d70e886f",
+
+  // CJEval prose that describes a map experiment completely in text.
+  "f9d635a96e0d28b8cb19c8205b6c1218",
 ]);
 
 export const repairedMissingFigureIds = new Set([

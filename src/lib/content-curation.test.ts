@@ -32,7 +32,7 @@ function normalized(id: string) {
 
 describe("catalog content curation", () => {
   it("publishes all manually verified self-contained visual matches", () => {
-    expect(reviewedSelfContainedVisualIds.size).toBe(26);
+    expect(reviewedSelfContainedVisualIds.size).toBe(27);
     for (const id of reviewedSelfContainedVisualIds) expect(normalized(id).status).toBe("PUBLISHED");
   });
 
@@ -75,10 +75,10 @@ describe("catalog content curation", () => {
     }
   });
 
-  it("publishes the complete repaired catalog", () => {
+  it("publishes repaired content and quarantines new source audit findings", () => {
     const questions = [...recordsById.values()].map(({ question, filename }) => normalizeSourceQuestion(question, filename));
-    expect(questions).toHaveLength(13_811);
-    expect(questions.filter((question) => question.status === "PUBLISHED")).toHaveLength(13_811);
-    expect(questions.filter((question) => question.status === "NEEDS_REVIEW")).toHaveLength(0);
+    expect(questions).toHaveLength(16_310);
+    expect(questions.filter((question) => question.status === "PUBLISHED")).toHaveLength(16_303);
+    expect(questions.filter((question) => question.status === "NEEDS_REVIEW")).toHaveLength(7);
   });
 });

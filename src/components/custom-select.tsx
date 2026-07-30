@@ -30,7 +30,7 @@ export function CustomSelect({ label, value, options, onValueChange, disabled = 
       <SelectPrimitive.Trigger
         type="button"
         aria-label={label}
-        className={`group inline-flex h-11 items-center justify-between gap-3 rounded-xl border-2 border-ink/10 bg-white px-3 text-left text-sm font-bold text-ink shadow-[0_2px_0_rgba(36,33,54,.08)] outline-none transition hover:border-violet/40 focus-visible:border-violet data-[state=open]:border-violet data-[state=open]:shadow-[0_3px_0_#d9d3f5] disabled:pointer-events-none disabled:opacity-50 ${className ?? ""}`}
+        className={`group inline-flex h-11 min-w-0 max-w-full items-center justify-between gap-3 rounded-xl border-2 border-ink/10 bg-white px-3 text-left text-sm font-bold text-ink shadow-[0_2px_0_rgba(36,33,54,.08)] outline-none transition hover:border-violet/40 focus-visible:border-violet data-[state=open]:border-violet data-[state=open]:shadow-[0_3px_0_#d9d3f5] disabled:pointer-events-none disabled:opacity-50 ${className ?? ""}`}
       >
         <SelectPrimitive.Value className="min-w-0 flex-1 truncate" />
         <SelectPrimitive.Icon asChild>

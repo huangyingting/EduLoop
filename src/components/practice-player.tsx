@@ -1,6 +1,6 @@
 "use client";
 
-import { Bookmark, BookmarkCheck, Check, ChevronRight, CircleAlert, Flag, Flame, Keyboard, Lightbulb, LoaderCircle, RotateCcw, Send, Sparkles, Trophy, WandSparkles, X } from "lucide-react";
+import { Bookmark, BookmarkCheck, Check, ChevronDown, ChevronRight, CircleAlert, Flag, Flame, Keyboard, Lightbulb, ListFilter, LoaderCircle, RotateCcw, Send, Sparkles, Trophy, WandSparkles, X } from "lucide-react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -88,6 +88,7 @@ export function PracticePlayer() {
   const [catalog, setCatalog] = useState<PracticeCatalog>({ subjects: [], gradeBands: [], grades: [], tagDimensions: [] });
   const [catalogLoading, setCatalogLoading] = useState(true);
   const [catalogError, setCatalogError] = useState("");
+  const [advancedFiltersOpen, setAdvancedFiltersOpen] = useState(false);
   const [question, setQuestion] = useState<Question | null>(null);
   const [selected, setSelected] = useState<string[]>([]);
   const [written, setWritten] = useState("");
@@ -242,6 +243,20 @@ export function PracticePlayer() {
     void (async () => { const session = await startSession(next); await loadQuestion(next, session?.recentQuestionIds ?? []); })();
   }
 
+  function resetFilters() {
+    const next: PracticeFilters = { subject: "", gradeBand: "", grade: "", difficulty: "", type: "", tags: "" };
+    setFilters(next);
+    savePracticePreferences(next);
+    setRecent([]);
+    setCompleted(0);
+    setCorrect(0);
+    setCombo(0);
+    setCatalogLoading(true);
+    setCatalogError("");
+    setAdvancedFiltersOpen(false);
+    void (async () => { const session = await startSession(next); await loadQuestion(next, session?.recentQuestionIds ?? []); })();
+  }
+
   async function revealHint() {
     if (!question?.hasHint || result || hint || hintLoading) return;
     hintRequest.current?.abort();
@@ -390,6 +405,10 @@ export function PracticePlayer() {
   const answerable = question?.options.length ? selected.length > 0 : written.trim().length > 0;
   const topicTags = question?.tags.filter((tag) => tag.dimension === "TOPIC").slice(0, 2) ?? [];
   const hasOptionAssets = question?.options.some((option) => option.asset) ?? false;
+  const tagFilterCount = tagFilterEntries(filters.tags).length;
+  const activeFilterCount = [filters.gradeBand, filters.grade, filters.subject, filters.difficulty, filters.type]
+    .filter(Boolean).length + tagFilterCount;
+  const activeAdvancedFilterCount = [filters.difficulty, filters.type].filter(Boolean).length + tagFilterCount;
 
   return (
     <div className="mx-auto max-w-[1180px] px-4 pb-16 pt-6 sm:px-8 lg:px-10">
@@ -401,58 +420,86 @@ export function PracticePlayer() {
         </div>
       </header>
 
-      <div role="region" aria-label="练习筛选条件" className="mt-6 flex gap-2 overflow-x-auto pb-2">
-        <CustomSelect
-          label="选择学段"
-          value={filters.gradeBand}
-          options={[{ value: "", label: "全部学段" }, ...catalog.gradeBands.map((item) => ({ value: item.slug, label: item.name }))]}
-          onValueChange={(value) => changeFilter("gradeBand", value)}
-          disabled={loading || catalogLoading}
-          className="min-w-28"
-        />
-        {filters.gradeBand ? <CustomSelect
-          label="选择年级"
-          value={filters.grade}
-          options={[{ value: "", label: "全部年级" }, ...catalog.grades.map((item) => ({ value: item.slug, label: item.name }))]}
-          onValueChange={(value) => changeFilter("grade", value)}
-          disabled={loading || catalogLoading}
-          className="min-w-28"
-        /> : null}
-        <CustomSelect
-          label="选择学科"
-          value={filters.subject}
-          options={[{ value: "", label: "全部学科" }, ...catalog.subjects.map((item) => ({ value: item.slug, label: item.name }))]}
-          onValueChange={(value) => changeFilter("subject", value)}
-          disabled={loading || catalogLoading}
-          className="min-w-28"
-        />
-        {catalog.tagDimensions.map((dimension) => <CustomSelect
-          key={dimension.key}
-          label={`选择${dimension.label}`}
-          value={selectedTagFilter(filters.tags, dimension.key)}
-          options={[{ value: "", label: `全部${dimension.label}` }, ...dimension.tags.map((tag) => ({ value: tag.slug, label: tag.label }))]}
-          onValueChange={(value) => changeFilter("tags", replaceTagFilter(filters.tags, dimension.key, value))}
-          disabled={loading || catalogLoading || !dimension.tags.length}
-          className="min-w-36"
-        />)}
-        <CustomSelect
-          label="选择难度"
-          value={filters.difficulty}
-          options={difficultyOptions}
-          onValueChange={(value) => changeFilter("difficulty", value)}
-          disabled={loading}
-          className="min-w-28"
-        />
-        <CustomSelect
-          label="选择题型"
-          value={filters.type}
-          options={typeOptions}
-          onValueChange={(value) => changeFilter("type", value)}
-          disabled={loading}
-          className="min-w-32"
-        />
-      </div>
-      {catalogError ? <p role="alert" className="mt-1 text-xs font-bold text-coral">{catalogError}</p> : null}
+      <section aria-labelledby="practice-filter-heading" className="mt-6 rounded-2xl border-2 border-ink/10 bg-white/70 p-3 shadow-[0_3px_0_rgba(36,33,54,.06)] sm:p-4">
+        <div className="flex min-w-0 items-center justify-between gap-3">
+          <div className="flex min-w-0 items-center gap-2">
+            <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-[#efecff] text-violet"><ListFilter size={17} strokeWidth={2.5} /></span>
+            <div className="min-w-0">
+              <h2 id="practice-filter-heading" className="text-sm font-black">选择练习范围</h2>
+              <p className="truncate text-[11px] font-bold text-muted">{activeFilterCount ? `已启用 ${activeFilterCount} 个条件` : "默认从全部题目中选择"}</p>
+            </div>
+          </div>
+          {activeFilterCount ? <button type="button" onClick={resetFilters} disabled={loading} className="shrink-0 rounded-lg px-2 py-2 text-xs font-black text-muted transition hover:bg-white hover:text-violet disabled:opacity-40"><RotateCcw className="mr-1 inline" size={13} />重置</button> : null}
+        </div>
+
+        <div role="group" aria-label="基础筛选" className="mt-3 grid min-w-0 grid-cols-2 gap-2 sm:grid-cols-3">
+          <CustomSelect
+            label="选择学段"
+            value={filters.gradeBand}
+            options={[{ value: "", label: "全部学段" }, ...catalog.gradeBands.map((item) => ({ value: item.slug, label: item.name }))]}
+            onValueChange={(value) => changeFilter("gradeBand", value)}
+            disabled={loading || catalogLoading}
+            className="w-full"
+          />
+          {filters.gradeBand ? <CustomSelect
+            label="选择年级"
+            value={filters.grade}
+            options={[{ value: "", label: "全部年级" }, ...catalog.grades.map((item) => ({ value: item.slug, label: item.name }))]}
+            onValueChange={(value) => changeFilter("grade", value)}
+            disabled={loading || catalogLoading}
+            className="w-full"
+          /> : null}
+          <CustomSelect
+            label="选择学科"
+            value={filters.subject}
+            options={[{ value: "", label: "全部学科" }, ...catalog.subjects.map((item) => ({ value: item.slug, label: item.name }))]}
+            onValueChange={(value) => changeFilter("subject", value)}
+            disabled={loading || catalogLoading}
+            className={`w-full ${filters.gradeBand ? "col-span-2 sm:col-span-1" : ""}`}
+          />
+        </div>
+
+        <button
+          type="button"
+          aria-expanded={advancedFiltersOpen}
+          aria-controls="advanced-practice-filters"
+          onClick={() => setAdvancedFiltersOpen((open) => !open)}
+          className="mt-2 flex min-h-11 w-full items-center justify-center gap-2 rounded-xl text-xs font-black text-muted transition hover:bg-white hover:text-violet lg:hidden"
+        >
+          {advancedFiltersOpen ? "收起更多筛选" : "更多筛选"}
+          {activeAdvancedFilterCount ? <span className="grid min-w-5 place-items-center rounded-full bg-violet px-1.5 py-0.5 text-[10px] text-white">{activeAdvancedFilterCount}</span> : null}
+          <ChevronDown className={`transition-transform ${advancedFiltersOpen ? "rotate-180" : ""}`} size={15} />
+        </button>
+
+        <div id="advanced-practice-filters" role="group" aria-label="更多筛选" className={`${advancedFiltersOpen ? "grid" : "hidden"} mt-2 min-w-0 grid-cols-2 gap-2 border-t border-dashed border-ink/10 pt-3 sm:grid-cols-3 lg:grid lg:grid-cols-5`}>
+          {catalog.tagDimensions.map((dimension) => <CustomSelect
+            key={dimension.key}
+            label={`选择${dimension.label}`}
+            value={selectedTagFilter(filters.tags, dimension.key)}
+            options={[{ value: "", label: `全部${dimension.label}` }, ...dimension.tags.map((tag) => ({ value: tag.slug, label: tag.label }))]}
+            onValueChange={(value) => changeFilter("tags", replaceTagFilter(filters.tags, dimension.key, value))}
+            disabled={loading || catalogLoading || !dimension.tags.length}
+            className="w-full"
+          />)}
+          <CustomSelect
+            label="选择难度"
+            value={filters.difficulty}
+            options={difficultyOptions}
+            onValueChange={(value) => changeFilter("difficulty", value)}
+            disabled={loading}
+            className="w-full"
+          />
+          <CustomSelect
+            label="选择题型"
+            value={filters.type}
+            options={typeOptions}
+            onValueChange={(value) => changeFilter("type", value)}
+            disabled={loading}
+            className="w-full"
+          />
+        </div>
+        {catalogError ? <p role="alert" className="mt-2 text-xs font-bold text-coral">{catalogError}</p> : null}
+      </section>
 
       <div className="mt-4 flex items-center gap-3"><div role="progressbar" aria-label="十题挑战进度" aria-valuemin={0} aria-valuemax={10} aria-valuenow={Math.min(completed, 10)} className="h-3 flex-1 overflow-hidden rounded-full border border-ink/10 bg-white"><div className="h-full rounded-full bg-violet transition-all" style={{ width: `${Math.min(completed * 10, 100)}%` }} /></div><span className="text-xs font-black text-muted">{completed} / 10</span><button onClick={() => void restartChallenge()} disabled={loading} className="flex min-h-11 items-center gap-1.5 rounded-xl px-3 text-xs font-black text-muted hover:bg-white hover:text-violet disabled:opacity-40" title="保留答题记录并重新开始本轮"><RotateCcw size={14} /> 重开</button></div>
 

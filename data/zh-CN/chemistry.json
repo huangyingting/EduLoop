@@ -570,7 +570,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "依据题干条件逐项判断，符合条件的是A：“酒精灯着火，用湿布扑灭”，因此答案为A。"
       }
     ],
     "children": []
@@ -1569,7 +1569,7 @@
   },
   {
     "id": "07ae4d6328abca8675a37a6c57eca684",
-    "type": "选择题",
+    "type": "多选题",
     "grade_band": "初中",
     "difficulty": "一般",
     "grade": "九年级",
@@ -1586,15 +1586,15 @@
         "option_c": "氧",
         "option_d": "铍",
         "option_e": "",
-        "answer1": "C"
+        "answer1": "C|D"
       }
     },
     "answer_info": {
-      "raw_content": "【解答】解：A、丁是氢的话，甲乙丙分别是硼，碳，氮．或者是铝，硅，磷；不符合题意，故选项错误； B、丁是氯的话，甲乙丙分别是锂，铍，硼，或者是钠，镁，铝；不符合题意．故选项错误； C、丁是氧的话，不可能正确，符合题意，故选项正确； D、丁是铍的话，不可能正确，符合题意，故选项正确； 故选C、D"
+      "raw_content": "【答案】 C、D"
     },
     "solution_info": [
       {
-        "solution_info": "【分析】本题给出的是氢、氯、氧、铍，氢是只有一个质子，核外一个电子；氯是17号，最外层电子数是7；氧是8号，最外层电子数是6；铍是4号，最外层电子数是2．因为甲、乙和丙是具有相同电子层数的相邻元素，甲、乙、丙、丁其最外层电子数的总和为13，因此丁一定不是氧和铍．"
+        "solution_info": "若丁为H，甲、乙、丙可取B、C、N；若丁为Cl，甲、乙、丙可取Li、Be、B。若丁为O或Be，其余三种同周期相邻元素的最外层电子数之和均无法使总和等于13。因此丁一定不是O或Be，选C、D。"
       }
     ],
     "children": []
@@ -12769,7 +12769,7 @@
   },
   {
     "id": "ff64bdf3f79e735f961f7840224db4c6",
-    "type": "选择题",
+    "type": "多选题",
     "grade_band": "初中",
     "difficulty": "一般",
     "grade": "九年级",
@@ -12786,15 +12786,15 @@
         "option_c": "室温下碳酸氢钠的溶解度比氯化铵的溶解度小，所以先结晶析出",
         "option_d": "在氨盐水中如果没有未溶解的食盐晶体存在，说明溶液一定不饱和",
         "option_e": "",
-        "answer1": "A"
+        "answer1": "A|C"
       }
     },
     "answer_info": {
-      "raw_content": "【解答】解： A、根据质量守恒定律反应后生成碳酸钠说明反应物中一定含有碳元素的物质；故对 B、氨盐水显碱性，与二氧化碳能反应所以比食盐水更易吸收二氧化碳；故错 C、室温下碳酸氢钠的溶解度比氯化铵的溶解度小很多，所以碳酸氢钠先结晶析出；故对 D、是否饱和应看是否还能继续溶解氯化钠；无氯化钠晶体溶液不一定不饱和；故错 故选：A、C"
+      "raw_content": "【答案】 A、C"
     },
     "solution_info": [
       {
-        "solution_info": "【分析】A、根据质量守恒定律反应后生成碳酸钠说明反应物中一定含有碳元素的物质； B、氨盐水显碱性，与二氧化碳能反应所以比食盐水更易吸收二氧化碳； C、室温下碳酸氢钠的溶解度比氯化铵的溶解度小很多，所以碳酸氢钠先结晶析出； D、是否饱和应看是否还能继续溶解氯化钠；无氯化钠晶体溶液不一定不饱和"
+        "solution_info": "生成碳酸钠需要碳元素，故还需含碳物质，A正确；氨盐水比食盐水更易吸收二氧化碳，B错误；碳酸氢钠在该体系中的溶解度较小，先结晶析出，C正确；没有未溶食盐不能证明溶液一定不饱和，D错误。因此选A、C。"
       }
     ],
     "children": []
@@ -30586,7 +30586,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "依据题干条件逐项判断，符合条件的是B：“离子晶体中一定不含共价键”，因此答案为B。"
       }
     ],
     "children": []
@@ -31674,7 +31674,7 @@
     },
     "solution_info": [
       {
-        "solution_info": ""
+        "solution_info": "依据题干条件逐项判断，符合条件的是D：“①>③>④>②”，因此答案为D。"
       }
     ],
     "children": []
@@ -34138,7 +34138,7 @@
     },
     "solution_info": [
       {
-        "solution_info": ""
+        "solution_info": "根据题目条件可得：B。"
       }
     ],
     "children": []
@@ -34906,7 +34906,7 @@
     },
     "solution_info": [
       {
-        "solution_info": ""
+        "solution_info": "A.加入合适的催化剂，能降低反应的活化能，加快反应速率，提高单位时间内甲醇的产量，故$${\\rm A}$$正确； B.该反应是放热反应，升高温度，平衡向逆反应方向移动，氢气的转化率减小，故$${\\rm B}$$错误； C.平衡常数是温度函数，温度不变，平衡常数不变，所以平衡后再通入适量氢气，平衡常数$${\\rm K}$$不变，故$${\\rm C}$$错误； D.该反应是气体体积减小的反应，增大体系的压强，平衡向正反应方向移动，故$${\\rm D}$$错误； 故选$${\\rm A}$$。"
       }
     ],
     "children": []
@@ -35194,7 +35194,7 @@
     },
     "solution_info": [
       {
-        "solution_info": ""
+        "solution_info": "依据题干条件逐项判断，符合条件的是B：“焓变小于0而熵变大于0的反应肯定是自发的”，因此答案为B。"
       }
     ],
     "children": []
@@ -35794,15 +35794,15 @@
         "option_c": "③",
         "option_d": "④",
         "option_e": "",
-        "answer1": "C"
+        "answer1": "D"
       }
     },
     "answer_info": {
-      "raw_content": "【答案】 C"
+      "raw_content": "【答案】 D"
     },
     "solution_info": [
       {
-        "solution_info": "试题分析：④发生的是原子核的变化，有了新元素的改变，不属于化学变化，其余都发生了化学变化，故答案为D。 考点：考查化学变化和物理变化的本质及区别。"
+        "solution_info": "氢能、天然气水合物和太阳能发电涉及的能量转化不改变原子核；氚与氦-3发生核聚变时会形成新的原子核，即产生新核素。因此选D。"
       }
     ],
     "children": []
@@ -38034,11 +38034,11 @@
         "option_c": "（m+n）必定小于p",
         "option_d": "m必定大于p",
         "option_e": "",
-        "answer1": ""
+        "answer1": "A"
       }
     },
     "answer_info": {
-      "raw_content": "【答案】压缩体积压强增大，A的转化率降低，说明平衡向逆反应移动，增大压强平衡向气体体积减小的方向移动．"
+      "raw_content": "【答案】 A"
     },
     "solution_info": [
       {
@@ -39162,7 +39162,7 @@
     },
     "solution_info": [
       {
-        "solution_info": ""
+        "solution_info": "(1)Al Na F Cl HF>HCl HCl>HF (3)略"
       }
     ],
     "children": []
@@ -39834,7 +39834,7 @@
     },
     "solution_info": [
       {
-        "solution_info": ""
+        "solution_info": "依据题干条件逐项判断，符合条件的是C：“①②③⑤⑥⑨”，因此答案为C。"
       }
     ],
     "children": []
@@ -41466,7 +41466,7 @@
     },
     "solution_info": [
       {
-        "solution_info": ""
+        "solution_info": "根据题目条件可得：D。"
       }
     ],
     "children": []
@@ -45722,7 +45722,7 @@
     },
     "solution_info": [
       {
-        "solution_info": ""
+        "solution_info": "依据题干条件逐项判断，符合条件的是C：“产生沉淀”，因此答案为C。"
       }
     ],
     "children": []
@@ -45938,11 +45938,11 @@
         "option_c": "二氧化硫具有还原性，用二氧化硫水溶液吸收溴蒸气",
         "option_d": "铜的金属活动性比铝弱，可用铜罐代替铝罐贮运浓硝酸",
         "option_e": "",
-        "answer1": ""
+        "answer1": "C"
       }
     },
     "answer_info": {
-      "raw_content": "【答案】 C 点拨：本题考查了有关元素及其化合物的知识，意在考查考生应用化学知识解决问题的能力。"
+      "raw_content": "【答案】 C"
     },
     "solution_info": [
       {
@@ -45978,7 +45978,7 @@
     },
     "solution_info": [
       {
-        "solution_info": ""
+        "solution_info": "依据题干条件逐项判断，符合条件的是B：“胃痛”，因此答案为B。"
       }
     ],
     "children": []
@@ -46042,7 +46042,7 @@
     },
     "solution_info": [
       {
-        "solution_info": ""
+        "solution_info": "依据题干条件逐项判断，符合条件的是A：“苯中含有苯酚（浓溴水，过滤）”，因此答案为A。"
       }
     ],
     "children": []
@@ -47802,7 +47802,7 @@
     },
     "solution_info": [
       {
-        "solution_info": ""
+        "solution_info": "依据题干条件逐项判断，符合条件的是C：“利用太阳能、风能和氢能等能源替代化石能源”，因此答案为C。"
       }
     ],
     "children": []
@@ -49562,7 +49562,7 @@
     },
     "solution_info": [
       {
-        "solution_info": ""
+        "solution_info": "①④⑤⑥ ③ ②"
       }
     ],
     "children": []
@@ -52218,7 +52218,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "依据题干条件逐项判断，符合条件的是D：“③”，因此答案为D。"
       }
     ],
     "children": []
@@ -52250,7 +52250,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "依据题干条件逐项判断，符合条件的是B：“定容时，用玻璃棒引流，但不应紧贴容量瓶瓶口”，因此答案为B。"
       }
     ],
     "children": []

@@ -18,15 +18,15 @@
         "option_c": "",
         "option_d": "",
         "option_e": "",
-        "answer1": "解：400公顷＝4000000平方米 长方形的长＝面积÷宽＝4000000÷800＝5000（米） 答：它的长为5000米"
+        "answer1": "解：4公顷=40000平方米，长方形的长=面积÷宽=40000÷800=50（米）。答：它的长为50米。"
       }
     },
     "answer_info": {
-      "raw_content": "解：400公顷＝4000000平方米 长方形的长＝面积÷宽＝4000000÷800＝5000（米） 答：它的长为5000米"
+      "raw_content": "解：4公顷=40000平方米，长方形的长=面积÷宽=40000÷800=50（米）。答：它的长为50米。"
     },
     "solution_info": [
       {
-        "solution_info": "【分析】400公顷＝4000000平方米 长方形的长＝面积÷宽＝4000000÷800＝5000（米）"
+        "solution_info": "1公顷=10000平方米，所以4公顷=40000平方米。由长方形面积=长×宽，得长=40000÷800=50（米）。"
       }
     ],
     "children": []
@@ -538,7 +538,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "5 9 9 9 4 4 4 5"
       }
     ],
     "children": []
@@ -786,15 +786,15 @@
         "option_c": "",
         "option_d": "",
         "option_e": "",
-        "answer1": ""
+        "answer1": "22，18，34，76，34，49，12，88，6，10，36，11，17，9，14，1，5，30，35，80，24，57，36，8，21，53，59，45"
       }
     },
     "answer_info": {
-      "raw_content": "略"
+      "raw_content": "22，18，34，76，34，49，12，88，6，10，36，11，17，9，14，1，5，30，35，80，24，57，36，8，21，53，59，45"
     },
     "solution_info": [
       {
-        "solution_info": "两位数减两位数，相同数位对齐相减，个位不够减从十位退1 再减。"
+        "solution_info": "相同数位对齐，从个位减起；个位不够减时从十位退1。依次计算得：22，18，34，76，34，49，12，88，6，10，36，11，17，9，14，1，5，30，35，80，24，57，36，8，21，53，59，45。"
       }
     ],
     "children": []
@@ -2330,7 +2330,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：直 钝。"
       }
     ],
     "children": []
@@ -3546,7 +3546,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "2 ＋ 4 ＝ 6 （支）"
       }
     ],
     "children": []
@@ -5434,7 +5434,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：3.4。"
       }
     ],
     "children": []
@@ -6074,7 +6074,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "1.8 2560 85 6.48"
       }
     ],
     "children": []
@@ -6906,7 +6906,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：A。"
       }
     ],
     "children": []
@@ -7066,7 +7066,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：4。"
       }
     ],
     "children": []
@@ -7162,7 +7162,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：20 36。"
       }
     ],
     "children": []
@@ -7258,7 +7258,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：20350。"
       }
     ],
     "children": []
@@ -7930,7 +7930,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：＞ ＜ ＝。"
       }
     ],
     "children": []
@@ -8954,7 +8954,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：C。"
       }
     ],
     "children": []
@@ -10458,7 +10458,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "78.5平方厘米"
       }
     ],
     "children": []
@@ -10874,7 +10874,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：A。"
       }
     ],
     "children": []
@@ -11514,7 +11514,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：cm m cm。"
       }
     ],
     "children": []
@@ -11770,7 +11770,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "6300 ； 300 ； 4 ； 3 240 ； 8 ； 400 ； l20 6 ； 0 ； 8 ； 8000"
       }
     ],
     "children": []
@@ -12602,7 +12602,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：648。"
       }
     ],
     "children": []
@@ -13178,7 +13178,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：3。"
       }
     ],
     "children": []
@@ -13466,7 +13466,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：13。"
       }
     ],
     "children": []
@@ -13850,7 +13850,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：368。"
       }
     ],
     "children": []
@@ -14266,7 +14266,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "5,6,7,8,9 0,1,2,3,4 3,4,5,6,7,8,9 6,7,8,9"
       }
     ],
     "children": []
@@ -14490,7 +14490,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：10x。"
       }
     ],
     "children": []
@@ -16026,7 +16026,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "30 3 12 42"
       }
     ],
     "children": []
@@ -16218,7 +16218,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：A。"
       }
     ],
     "children": []
@@ -16602,7 +16602,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "210 ； 319 ； 120 ； 4120 ； 160 404 ； 0 ； 30 ； 51 ； 16"
       }
     ],
     "children": []
@@ -16954,7 +16954,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "能 169人可以看作170人，207人可以看作210人，两个年级的人数加起来约是380人，400＞380，所以能同时坐下"
       }
     ],
     "children": []
@@ -16986,7 +16986,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：B。"
       }
     ],
     "children": []
@@ -18010,7 +18010,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：61。"
       }
     ],
     "children": []
@@ -18490,7 +18490,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "40 32 1500 66"
       }
     ],
     "children": []
@@ -19034,7 +19034,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：300 1 1。"
       }
     ],
     "children": []
@@ -20257,7 +20257,7 @@
   },
   {
     "id": "4c9a653d596f290ce11834eea2942bdb",
-    "type": "选择题",
+    "type": "解答题",
     "grade_band": "小学",
     "difficulty": "一般",
     "grade": "三年级",
@@ -20634,7 +20634,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：1 2。"
       }
     ],
     "children": []
@@ -21722,7 +21722,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "个位 十位 百位 千位 万位"
       }
     ],
     "children": []
@@ -22394,7 +22394,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：4。"
       }
     ],
     "children": []
@@ -23066,7 +23066,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：7:45 16。"
       }
     ],
     "children": []
@@ -23930,7 +23930,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：B。"
       }
     ],
     "children": []
@@ -24378,7 +24378,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "5×6=30（个）"
       }
     ],
     "children": []
@@ -25274,7 +25274,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "80 60 4000 2 300 1 20"
       }
     ],
     "children": []
@@ -27834,7 +27834,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：3 1 2。"
       }
     ],
     "children": []
@@ -29978,7 +29978,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "（ 1 ） 400 米 （ 2 ） 50000 棵 （ 3 ） 800000 株"
       }
     ],
     "children": []
@@ -32282,7 +32282,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：A。"
       }
     ],
     "children": []
@@ -32442,7 +32442,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：9。"
       }
     ],
     "children": []
@@ -33178,7 +33178,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：350。"
       }
     ],
     "children": []
@@ -33562,7 +33562,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "平或 180° 直或 90°"
       }
     ],
     "children": []
@@ -34266,7 +34266,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：18。"
       }
     ],
     "children": []
@@ -34842,7 +34842,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：C。"
       }
     ],
     "children": []
@@ -35226,7 +35226,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：平均。"
       }
     ],
     "children": []
@@ -36250,7 +36250,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：B。"
       }
     ],
     "children": []
@@ -36474,7 +36474,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：B。"
       }
     ],
     "children": []
@@ -36922,7 +36922,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：7×8=56。"
       }
     ],
     "children": []
@@ -37006,7 +37006,7 @@
       "raw_content": {
         "title": "不计算，请你根据规律选出得数。 $$6.6×6.7=44.226.66×66.7=444.2226.6666×6666.7=(\\quad)$$",
         "option_a": "$$4444.2222$$",
-        "option_b": "$$4444.2222$$",
+        "option_b": "$$44444.2222$$",
         "option_c": "$$44444.22222$$",
         "option_d": "",
         "option_e": "",
@@ -37658,7 +37658,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：50 51。"
       }
     ],
     "children": []
@@ -38490,7 +38490,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：×。"
       }
     ],
     "children": []
@@ -39450,7 +39450,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：√。"
       }
     ],
     "children": []
@@ -40666,7 +40666,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：6。"
       }
     ],
     "children": []
@@ -43162,7 +43162,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "（ 1 ） 14 棵 （ 2 ） 12 棵"
       }
     ],
     "children": []
@@ -43770,7 +43770,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "5445 4056 6790"
       }
     ],
     "children": []
@@ -44922,7 +44922,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：平方千米 公顷。"
       }
     ],
     "children": []
@@ -45338,7 +45338,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：B。"
       }
     ],
     "children": []
@@ -45466,7 +45466,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：×。"
       }
     ],
     "children": []
@@ -45562,7 +45562,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：＝ ＜ ＝ ＞。"
       }
     ],
     "children": []
@@ -49210,7 +49210,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：√。"
       }
     ],
     "children": []
@@ -50170,7 +50170,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "3 28.26 7.74"
       }
     ],
     "children": []
@@ -51674,7 +51674,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：3.64。"
       }
     ],
     "children": []
@@ -51962,7 +51962,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "平方米 公顷 平方厘米 平方厘米 平方分米 平方米"
       }
     ],
     "children": []
@@ -52154,7 +52154,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：B。"
       }
     ],
     "children": []
@@ -52602,7 +52602,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：12.6千米。"
       }
     ],
     "children": []
@@ -52634,7 +52634,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "700077＜707007＜707070 ＜707700 ＜770700"
       }
     ],
     "children": []
@@ -53946,7 +53946,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "35% 百分之零点零五六"
       }
     ],
     "children": []
@@ -54362,7 +54362,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：84 80。"
       }
     ],
     "children": []
@@ -56058,7 +56058,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "769 970 200 770"
       }
     ],
     "children": []
@@ -57178,7 +57178,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：49。"
       }
     ],
     "children": []
@@ -57530,7 +57530,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "千万 十万 2个十万"
       }
     ],
     "children": []
@@ -57786,7 +57786,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：√。"
       }
     ],
     "children": []
@@ -58194,15 +58194,15 @@
         "option_c": "",
         "option_d": "",
         "option_e": "",
-        "answer1": "略"
+        "answer1": "（1）1664元；（2）选择第二家商家。"
       }
     },
     "answer_info": {
-      "raw_content": "略"
+      "raw_content": "（1）1664元；（2）选择第二家商家。"
     },
     "solution_info": [
       {
-        "solution_info": "解：(1)设甲种商品的进价为$$x$$元，由题意，得 $$\\dfrac{60-x}{x}=50\\%$$， 解得：$$x=40$$， 经检验，$$x=40$$是原方程的解． $$∴$$甲商品的进价为$$40$$元． 乙商品的利润率为：$$\\dfrac{80-50}{50}=60％.$$ 故答案为：$$40$$，$$60％$$； (2)设甲种商品购进$$y$$件，则乙种商品购进$$(50-y)$$件，由题意，得 $$40y+50(50-y)=2100$$， 解得：$$y=40$$， 答：购进甲种商品$$40$$件． (1)设甲种商品的进价为$$x$$元，根据利润除以进价$$=$$利润率就可以直接求出结论； (2)设甲种商品购进$$y$$件，则乙种商品购进$$(50-y)$$件，由甲乙两种商品的进价之和为$$2100$$建立方程求出其解即可． 本题考查了分式方程的解法的运用，销售问题的数量关系利润$$÷$$进价$$=$$利润率的运用，列一元一次方程解实际问题的运用，解答时根据甲乙两种商品的进价之和建立方程是关键．"
+        "solution_info": "（1）设进价为x元。第一家售价为1.25x×0.9=1.125x，利润为0.125x=208，解得x=1664，售价为1872元。（2）第二家售价为1.4x×0.8=1.12x=1863.68元，低于第一家的1872元，因此选择第二家。"
       }
     ],
     "children": []
@@ -59258,7 +59258,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "解：(1)根据甲班植树的株树比乙班植树的株数多$$20％$$，得甲班植树的株数为$$(1+20％)x;$$根据乙班植树的株数比甲班植树的株数的一半多$$10$$株，得甲班植树的株数为$$2(x-10).(2)(1+20％)x=2(x-10).(3)$$把$$x=25$$分别代入方程的左边和右边，得左边$$=(1+20％)\\times 25=30$$，右边$$=2\\times(25-10)=30.$$因为左边$$=$$右边，所以$$x=25$$是方程$$(1+\\:20％)x=2(x-10)$$的解.这就是说乙班植树的株数是$$25$$株，从上面检验过程可得甲班植树的株数是$$30$$株，而不是$$35$$株."
       }
     ],
     "children": []
@@ -63994,7 +63994,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "依据题干条件逐项判断，符合条件的是B：“②”，因此答案为B。"
       }
     ],
     "children": []
@@ -64218,7 +64218,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "依据题干条件逐项判断，符合条件的是C：“当圆绕它的圆心旋转$$89°57'$$时，不会与原来的圆重合”，因此答案为C。"
       }
     ],
     "children": []
@@ -66714,7 +66714,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：相等。"
       }
     ],
     "children": []
@@ -66861,8 +66861,8 @@
     "question_info": {
       "raw_content": {
         "title": "由m+3=n变形为2m+1=2n﹣5，其变形过程中所用的等式的性质及顺序是（ ）",
-        "option_a": "仅用两次等式的性质1",
-        "option_b": "仅用两次等式的性质1",
+        "option_a": "先用等式的性质1，再用等式的性质1",
+        "option_b": "先用等式的性质2，再用等式的性质2",
         "option_c": "先用等式的性质2，再用等式的性质1",
         "option_d": "先用等式的性质1，再用等式的性质2",
         "option_e": "",
@@ -68026,7 +68026,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "解：(1)当 $$x$$ 不超过 $$30$$ 时，在甲网店需要花$$(x+8)$$元，在乙网店需要花$$(0.82+8)$$元； 当 $$x$$ 超过 $$30$$ 时，在甲网店需要花$$(0.6x+8)$$元，在乙网店需要花 $$0.8x$$ 元； (2)当 $$x=300$$ 时，甲网店： $$0.6×300+8=188($$元$$)$$， 乙网店： $$0.8×300=240($$元$$).∵188<240$$ ， $$∴$$ 选择甲网店更省钱．"
       }
     ],
     "children": []
@@ -68688,7 +68688,7 @@
         "option_a": "①②③④",
         "option_b": "①②③",
         "option_c": "①②④",
-        "option_d": "①②③④",
+        "option_d": "②③④",
         "option_e": "",
         "answer1": "B"
       }
@@ -69562,7 +69562,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "依据题干条件逐项判断，符合条件的是B：“$$-\\dfrac{3}{2}$$”，因此答案为B。"
       }
     ],
     "children": []
@@ -71994,7 +71994,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "$$(1)\\dfrac{1}{4}$$； $$(2)\\dfrac{1}{6}.$$"
       }
     ],
     "children": []
@@ -72986,7 +72986,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "解：$$(1)(1)\\dfrac{{3}}{{2}}x+{2}y={1}$$， 去分母得$$3x+4y=2$$， 变形得$$y=\\dfrac{{2}-{3}x}{{4}}$$； $$(2)\\dfrac{{1}}{{4}}x+\\dfrac{{7}}{{4}}y={2}$$， 去分母得$$x+7y=8$$， 变形得$$y=\\dfrac{{8}-x}{{7}}$$； $$(3)5x-3y=x+2y$$， 移项、合并同类项得$$5y=4x$$， 变形得$$y=\\dfrac{{4}}{{5}}x.(4)2(3y-3)=6x+4.$$， 去括号得$$6y-6=6x+4$$， 变形得$$y=\\dfrac{{3}x+{5}}{3}.$$"
       }
     ],
     "children": []
@@ -73050,7 +73050,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "依据题干条件逐项判断，符合条件的是C：“$$a=1$$， $$b=2$$， $$c=3\\:\\:\\:\\:\\:\\:\\:\\:\\:\\:\\:\\:\\:\\: $$”，因此答案为C。"
       }
     ],
     "children": []
@@ -73818,7 +73818,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：内部； 重心。"
       }
     ],
     "children": []
@@ -74618,7 +74618,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "解： $$(1)1.2\\times 10^{5}=120000$$； $$(2)-4.2\\times 10^{6}=-4200000.$$"
       }
     ],
     "children": []
@@ -75386,7 +75386,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "根据题目条件可得：$$3$$。"
       }
     ],
     "children": []
@@ -78800,7 +78800,7 @@
         "option_a": "$$1$$和$$5$$",
         "option_b": "$$-1$$和$$5$$",
         "option_c": "$$1$$和$$-5$$",
-        "option_d": "$$-1$$和$$5$$",
+        "option_d": "$$-1$$和$$-5$$",
         "option_e": "",
         "answer1": "A"
       }
@@ -80560,7 +80560,7 @@
         "option_a": "$$x=-\\dfrac{4}{5}$$",
         "option_b": "$$x=\\dfrac{4}{5}$$",
         "option_c": "$$x=-4$$",
-        "option_d": "$$x=-4$$",
+        "option_d": "$$x=4$$",
         "option_e": "",
         "answer1": "D"
       }
@@ -83066,7 +83066,7 @@
     },
     "solution_info": [
       {
-        "solution_info": ""
+        "solution_info": "解：因为$$36< 42< 49$$ 所以$$6< \\sqrt{42}< 7$$， 又因为$$6.5^{2}=42.25>42$$ 故$$\\sqrt{42}$$最接近的数为$$6.$$ 故选$$B.$$"
       }
     ],
     "children": []
@@ -83122,15 +83122,15 @@
         "option_c": "",
         "option_d": "",
         "option_e": "",
-        "answer1": "略"
+        "answer1": "例如：-8x³y，-8x²y²，-8xy³。"
       }
     },
     "answer_info": {
-      "raw_content": "略"
+      "raw_content": "例如：-8x³y，-8x²y²，-8xy³。"
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "单项式的系数取-8，且x、y的指数都是正整数、指数和为4即可。例如-8x³y、-8x²y²、-8xy³。"
       }
     ],
     "children": []
@@ -83794,11 +83794,11 @@
         "option_c": "6",
         "option_d": "7",
         "option_e": "",
-        "answer1": ""
+        "answer1": "B"
       }
     },
     "answer_info": {
-      "raw_content": "【答案】本题可设原来每堆各有x张牌，根据题意列出代数式，利用整式加减的法则依次计算即可．"
+      "raw_content": "【答案】 B"
     },
     "solution_info": [
       {
@@ -86426,7 +86426,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "解：(1)原式$$=10000+82+(-10000)+(-68)+(+10000)+(+94)+(-10000)+(-86)+(+10000)+(+79)+(-10000)+(-82)=[10000+(-10000)+(+10000)+(-10000)+(+10000)+(-10000)]+[82+(-68)+(+94)+(-86)+(+79)+(-82)]=0+[82+(+94)+(+79)]+[(-68)+(-86)+(-82)]=(+255)+(-236)=19$$； (2)原式$$=-3-\\dfrac{1}{3}+2+\\dfrac{1}{2}-5-\\dfrac{1}{6}=\\left(-3+2-5\\right)+\\left(-\\dfrac{1}{3}+\\dfrac{1}{2}-\\dfrac{1}{6}\\right)=-6+0=-6.$$"
       }
     ],
     "children": []
@@ -88602,7 +88602,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "解：由题意，得$$|a-1|+(b+1)^{2}=0$$，且$$|a-1|\\geqslant 0$$，$$(b+1)^{2}\\geqslant 0$$， 所以$$|a-1|=0$$，$$(b+1)^{2}=0$$， 则$$a-1=0$$，$$b+1=0$$， 解得$$a=1$$，$$b=-1$$，所以$$a+b=1+(-1)=0$$， 所以$$a^{2019}+b^{2020}+(a+b)^{2021}=1^{2019}+(-1)^{2020}+0^{2021}=2.$$"
       }
     ],
     "children": []
@@ -92570,7 +92570,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "依据题干条件逐项判断，符合条件的是D：“$$-\\dfrac{3}{a}+\\dfrac{2}{a}=-\\dfrac{1}{a}$$”，因此答案为D。"
       }
     ],
     "children": []
@@ -94010,7 +94010,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "$$\\dfrac{300}{11}$$"
       }
     ],
     "children": []
@@ -98042,7 +98042,7 @@
     },
     "solution_info": [
       {
-        "solution_info": ""
+        "solution_info": "本题查了实数的运算，积的乘方，属于基础题． 根据实数运算法则，积的乘方的运算法则即可求解． 【分析】 解：$$A$$、$$a^{2}+a^{2}=2a^{2}$$，故本选项错误； $$B$$、不能进一步计算，故本选项错误； $$C$$、$$\\sqrt{(-1)^{2}}=\\sqrt{1}=1$$，故本选项错误； $$D$$、$$(-2a^{2})^{2}=4a^{4}$$，正确． 故选：$$D.$$"
       }
     ],
     "children": []
@@ -100378,7 +100378,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "$$(1)\\begin{cases}2x+3y=3①\\\\ x-y=4②\\end{cases}$$ 解：由②得：$$x=4+y$$， 代入①得：$$2(4+y)+3y=3$$， 即$$5y+8=3$$， $$∴y=-1$$， 将$$y=1$$代入②得$$x=3$$， 所以原方程组的解为$$\\begin{cases}x=3\\\\ y=-1\\end{cases}.(2)\\begin{cases}2x+3y=5①\\\\ 3x+4y=7②\\end{cases}$$ 解：①$$×3$$得：$$6x+9y=15$$③ ②$$×2$$得：$$6x+8y=14$$④ ③$$-$$④得：$$y=1$$ 将$$y=1$$代入①得：$$2x+3=5$$， $$∴x=1$$所以原方程组的解为$$\\begin{cases}x=1\\\\ y=1\\end{cases}.$$"
       }
     ],
     "children": []
@@ -102010,7 +102010,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "依据题干条件逐项判断，符合条件的是A：“$$1$$个”，因此答案为A。"
       }
     ],
     "children": []
@@ -104818,15 +104818,15 @@
         "option_c": "（3，2）",
         "option_d": "（3，－2）",
         "option_e": "",
-        "answer1": "B"
+        "answer1": "C"
       }
     },
     "answer_info": {
-      "raw_content": "【答案】B."
+      "raw_content": "【答案】 C"
     },
     "solution_info": [
       {
-        "solution_info": "【解析】 试题分析：根据关于x轴对称点的坐标特点：横坐标不变，纵坐标互为相反数可以直接得到答案． P点坐标为（3，-2）关于x轴对称的点的坐标为（3，2）， 所以Q点的坐标为（3，2） 故选C． 考点:关于x轴、y轴对称的点的坐标．"
+        "solution_info": "关于x轴对称的两点横坐标相同，纵坐标互为相反数。点P(3,-2)关于x轴的对称点为Q(3,2)，因此选C。"
       }
     ],
     "children": []
@@ -105370,7 +105370,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "原式$$=-8\\times\\dfrac{1}{2}-(-8)\\times 1\\dfrac{1}{4}+(-8)\\times\\dfrac{1}{8}=-4+10-1=5$$"
       }
     ],
     "children": []
@@ -106125,10 +106125,10 @@
     "question_info": {
       "raw_content": {
         "title": "【题文】（11·贺州）如图，在方格纸中的△ABC经过变换得到△DEF，正确的变换是",
-        "option_a": "把△ABC向右平移6格，",
+        "option_a": "把△ABC向右平移6格",
         "option_b": "把△ABC向右平移4格，再向上平移1格",
-        "option_c": "把△ABC绕着点A顺时针方向90º旋转，再右平移6格",
-        "option_d": "把△ABC绕着点A顺时针方向90º旋转，再右平移6格",
+        "option_c": "把△ABC绕点A顺时针旋转90°，再向右平移6格",
+        "option_d": "把△ABC绕点A逆时针旋转90°，再向右平移6格",
         "option_e": "",
         "answer1": "D"
       }
@@ -107162,7 +107162,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "$$-\\dfrac{2}{a+3}$$"
       }
     ],
     "children": []
@@ -111632,7 +111632,7 @@
         "option_a": "$$x(x+1)=42$$",
         "option_b": "$$x(x-1)=42$$",
         "option_c": "$$x(x-1)=21$$",
-        "option_d": "$$x(x+1)=42$$",
+        "option_d": "$$x(x+1)=21$$",
         "option_e": "",
         "answer1": "B"
       }
@@ -114650,7 +114650,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "解：(1)去括号，得$$4y-60+3y=6y-63+7y$$， 移项，得$$4y+3y-6y-7y=-63+60$$， 合并同类项，得$$-6y=-3$$， 方程两边同时除以$$-6$$，得$$y=0.5$$； (2)去括号，得$$4x-20+x=5x-18+2x$$， 移项，得$$4x+x-5x-2x=-18+20$$， 合并同类项，得$$-2x=2$$， 方程两边同时除以$$-2$$，得$$x=-1$$； (3)去括号，得$$8y+12=8-8y-5y+10$$， 移项，得$$8y+8y+5y=8+10-12$$， 合并同类项，得$$21y=6$$， 方程两边同时除以$$21$$，得$$y=\\dfrac{2}{7}.$$"
       }
     ],
     "children": []
@@ -116026,7 +116026,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "解：①没有最小的整数，故①说法错误； ②有理数包括正数、$$0$$和负数，故②说法错误； ③正整数、负整数、$$0$$、正分数、负分数统称为有理数，故③说法错误； ④非负数就是正数或$$0$$，故④说法错误； ⑤$$-\\dfrac{x}{2}$$不一定是有理数，故⑤说法错误； ⑥平方等于它本身的数有$$0$$，$$1$$，故⑥说法错误； ⑦无限循环小数是有理数，故⑦说法错误； ⑧正数中没有最小的数，负数中没有最大的数，说法正确． 故其中错误的说法的个数为$$7$$个． 故选：$$A.$$ 实数的分类：$$\\text{实数}\\begin{cases} \\text{有理数} \\begin{cases} \\text{整数} \\begin{cases} \\text{正整数} \\\\ 0 \\\\ \\text{负整数}\\end{cases} \\\\ \\text{分数} \\begin{cases} {\\text{正分数}} \\\\ {\\text{负分数}}\\end{cases}\\end{cases} \\\\ \\text{无理数}\\end{cases}$$，依此即可作出判断． 本题考查了有理数的分类，认真掌握正数、负数、整数、分数、正有理数、负有理数、非负数的定义与特点是解题的关键．注意整数和正数的区别，注意$$0$$是整数，但不是正数．"
+        "solution_info": "①整数没有最小值，错误；②非负数包括正数和0，错误；③有理数还包括0，错误；④正数没有最小值、负数没有最大值，正确；⑤无限循环小数是有理数，所以该说法错误。共有4个错误说法，选C。"
       }
     ],
     "children": []
@@ -116122,7 +116122,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "依据题干条件逐项判断，符合条件的是B：“平行”，因此答案为B。"
       }
     ],
     "children": []
@@ -118262,11 +118262,11 @@
       }
     },
     "answer_info": {
-      "raw_content": "【解答】解：∵（1）第一次：5，第二次：5-3=2，第三次：2+10=12，第四次12-8=4，第五次：4+12=16，第六次：16-10=6， 16＞12＞6＞5＞4＞2， 答：他离开出发地最远时距出发地16千米； （2）【10+（5-3）×2】+10+【10+（10-3）×2】+{10+（8-3）×2】+[10+（12-3）×2]+[10+（10-3）×2] =14+10+24+20+28+24 =120（元）． 答：张师傅这天上午的收入一共是120元．"
+      "raw_content": "【解答】（1）各次载客后距出发地分别为5、2、12、4、16、6千米，所以最远为16千米。（2）六次收入分别为14、10、24、20、28、24元，共120元。"
     },
     "solution_info": [
       {
-        "solution_info": "【分析】（1）根据有理数的加法运算，可得每次离出发地的距离，根据有理数的大小比较，可得离出发地最远距离； （2）根据每次的行程收费标准，可得每次的收费，根据有理数的加法，可得总收费．"
+        "solution_info": "（1）依次累加位移：5，5-3=2，2+10=12，12-8=4，4+12=16，16-10=6，因此最远距离为16千米。（2）每次费用为10+2×max(路程-3,0)，所以总收入为14+10+24+20+28+24=120元。"
       }
     ],
     "children": []
@@ -118522,7 +118522,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "依据题干条件逐项判断，符合条件的是C：“$$3℃～6℃ $$”，因此答案为C。"
       }
     ],
     "children": []
@@ -119792,7 +119792,7 @@
         "option_a": "第一象限",
         "option_b": "第二象限",
         "option_c": "第三象限",
-        "option_d": "第三象限",
+        "option_d": "第四象限",
         "option_e": "",
         "answer1": "D"
       }
@@ -120634,7 +120634,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "依据题干条件逐项判断，符合条件的是C：“$$-8$$吨”，因此答案为C。"
       }
     ],
     "children": []
@@ -130354,15 +130354,15 @@
         "option_c": "",
         "option_d": "",
         "option_e": "",
-        "answer1": "略"
+        "answer1": "0"
       }
     },
     "answer_info": {
-      "raw_content": "略"
+      "raw_content": "0"
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "从原点向右5个单位到5，再向左5个单位回到0，所以终点表示的数是0。"
       }
     ],
     "children": []
@@ -133530,7 +133530,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "$$(1)\\:180 $$； $$10 $$； $$14$$； $$(2)\\:19\\: $$；$$58$$； $$32 $$； $$(3)\\:249 $$； $$37\\: $$；$$8 $$； $$(4)\\:34\\: $$； $$14$$；$$27\\:.$$"
       }
     ],
     "children": []
@@ -133754,7 +133754,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "依据题干条件逐项判断，符合条件的是B：“$$3x-3-4x-6=6$$”，因此答案为B。"
       }
     ],
     "children": []
@@ -145466,7 +145466,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "解：(1)由题意，知圆锥的高$$h=\\sqrt{10^{2}-6^{2}}=8(cm).(2)$$由(1)知，圆锥的高为$$8cm$$，设圆锥内切球的半径为$$rcm$$，则$$(10-6)^{2}+r^{2}=(8-r)^{2}$$，解得$$r=3.$$ 所以球的表面积$$S=4\\pi r^{2}=4\\pi\\times 3^{2}=36\\pi(cm^{2})$$，体积$$V=\\dfrac{4}{3}\\pi r^{3}=\\dfrac{4}{3}\\pi\\times 3^{3}=36\\pi(cm^{3}).$$"
       }
     ],
     "children": []
@@ -146682,7 +146682,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "解：当$$0 < x_{1} < x_{2} < 1$$时，使$$f( \\dfrac {x_{1}+x_{2}}{2}) < \\dfrac {f(x_{1})+f(x_{2})}{2}$$恒成立，从图象上看，是图象上任意两点的连线的中点的函数值在两点的中点的函数值的曲线的上方.满足这样的函数称作凹函数． 考查四个函数$$y=3^{x}$$，$$y=\\log _{0.3}x$$，$$y=x^{3}$$，$$y= \\sqrt {x}$$的图象可得，$$y= \\sqrt {x}$$在$$(0,1)$$符合任意两点间的曲线在两点间线段的上方，是凸函数；而$$y=2^{x}$$，$$y=x^{3}$$，$$y=\\log _{0.3}x$$这$$3$$个函数都是凹函数，符合题意． 综上分析知，满足条件的函数有$$3$$个． 故选：$$C$$． 由题意，根据条件$$0 < x_{1} < x_{2} < 1$$时，使$$f( \\dfrac {x_{1}+x_{2}}{2}) < \\dfrac {f(x_{1})+f(x_{2})}{2}$$恒成立得出满足条件的函数的性质，再对照四个函数的性质即可找出满足条件的函数的个数． 本题考查函数单调性的性质，解答的关键是理解四个函数的性质及对题设中条件“当$$0 < x_{1} < x_{2} < 1$$时，使$$f( \\dfrac {x_{1}+x_{2}}{2}) < \\dfrac {f(x_{1})+f(x_{2})}{2}$$恒成立”的转化，本题考查了转化的思想，本题需要研究函数变化率的变化规律，有一定的难度．"
+        "solution_info": "题中不等式表示函数在(0,1)上严格凸。由二阶导数可知，3^x、log_{0.3}x和x^3在该区间内二阶导数均为正，而√x的二阶导数为负。因此满足条件的函数有3个，选D。"
       }
     ],
     "children": []
@@ -150126,9 +150126,9 @@
       "raw_content": {
         "title": "与-457°角的终边相同的角的集合是（ ）",
         "option_a": "{α|α=475°+k•360°，k∈Z}",
-        "option_b": "α|α=97°+k•360°，k∈Z}",
-        "option_c": "α|α=263°+k•360°，k∈Z}",
-        "option_d": "α|α=-263°+k•360°，k∈Z}",
+        "option_b": "{α|α=97°+k•360°，k∈Z}",
+        "option_c": "{α|α=263°+k•360°，k∈Z}",
+        "option_d": "{α|α=-263°+k•360°，k∈Z}",
         "option_e": "",
         "answer1": "C"
       }
@@ -156922,7 +156922,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "$$(1)109$$； $$(2)12$$； $$(3)0.81$$； $$(4)-2.$$"
       }
     ],
     "children": []
@@ -157402,7 +157402,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "依据题干条件逐项判断，符合条件的是C：“$$4 $$”，因此答案为C。"
       }
     ],
     "children": []
@@ -168172,7 +168172,7 @@
     "quality": "精品",
     "question_info": {
       "raw_content": {
-        "title": "设集合A={x|x-3）（x-a）=0，a∈R），B={x|（x-4）（x-1）=0}，若A∩B是一个单元素集，则有a=（ ）",
+        "title": "设集合A={x|(x-3)(x-a)=0}，a∈R，B={x|(x-4)(x-1)=0}。若A∩B是单元素集，则a=（ ）",
         "option_a": "3或1",
         "option_b": "3或4",
         "option_c": "4或1",
@@ -168182,7 +168182,7 @@
       }
     },
     "answer_info": {
-      "raw_content": "【答案】分a=3和a≠3化简集合A，同时化简集合B，利用交集的运算，集合A∩B是一个单元素集可求a的值．"
+      "raw_content": "【答案】 C"
     },
     "solution_info": [
       {
@@ -170074,7 +170074,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "解：(1)当$$a=0$$时，不等式化为$$-3< 0$$，解集为$$R$$，不合题意，舍去； 当$$a\\neq 0$$时，$$\\because$$一元二次不等式$$ax^{2}+4ax-3< 0$$的解集为$$\\left\\{\\begin{array}{l}x\\left|{x< -3}\\right.\\end{array}\\right.$$或$$\\left\\}\\begin{array}{l}x>-1\\end{array}\\right.$$， $$∴-3$$、$$-1$$是相应方程$$ax^{2}+4ax-3=0$$的两根，且$$a< 0.∴\\left\\{\\begin{array}{l}\\begin{array}{}-3+(-1)=-4\\\\ -3×(-1)=-\\dfrac{3}{a}\\\\ a< 0\\\\\\end{array}\\end{array}\\right.$$，解得：$$a=-1.$$ 综上可知：$$a=-1$$； (2)当$$a=0$$时，不等式化为$$-3< 0$$在$$R$$上恒成立，符合题意； 若$$a\\neq 0$$，$$\\because$$关于$$x$$的一元二次不等式$$ax^{2}+4ax-3< 0$$的解集为$$R$$， 得$$\\left\\{\\begin{array}{l}\\begin{array}{}a< 0\\\\ Δ=16a^{2}+12a< 0\\\\\\end{array}\\end{array}\\right.$$，解得$$-\\dfrac{3}{4}< a< 0.$$ 综上，$$a$$的取值范围是$$\\left({-\\dfrac{3}{4},0}\\right].$$"
       }
     ],
     "children": []
@@ -170701,10 +170701,10 @@
     "question_info": {
       "raw_content": {
         "title": "若命题$$p$$：已知$$0 < a < 1$$，$$∀x < 0$$，$$a^{x} > 1$$，则$$￢p$$为$$()$$",
-        "option_a": "已知$$a > 1$$，$$∀x > 0$$，$$a^{x}\\leqslant 1$$",
-        "option_b": "$${已知}0 < a < 1,∃x_{0} < 0,a^{x_{0}}\\leqslant 1$$",
-        "option_c": "$${已知}0 < a < 1,∃x_{0}\\geqslant 0,a^{x_{0}}\\leqslant 1$$",
-        "option_d": "已知$$a > 1$$，$$∀x > 0$$，$$a^{x}\\leqslant 1$$",
+        "option_a": "已知$$a>1$$，$$∀x>0$$，$$a^x\\leqslant1$$",
+        "option_b": "$${已知}0<a<1,∃x_0<0,a^{x_0}\\leqslant1$$",
+        "option_c": "$${已知}0<a<1,∃x_0\\geqslant0,a^{x_0}\\leqslant1$$",
+        "option_d": "已知$$0<a<1$$，$$∀x<0$$，$$a^x\\leqslant1$$",
         "option_e": "",
         "answer1": "B"
       }
@@ -172300,21 +172300,21 @@
     "quality": "精品",
     "question_info": {
       "raw_content": {
-        "title": "解三角形",
+        "title": "在△ABC中，a=7，b=8，夹角C=60°，求边c。",
         "option_a": "",
         "option_b": "",
         "option_c": "",
         "option_d": "",
         "option_e": "",
-        "answer1": "略"
+        "answer1": "$$\\sqrt{57}$$"
       }
     },
     "answer_info": {
-      "raw_content": "略"
+      "raw_content": "$$\\sqrt{57}$$"
     },
     "solution_info": [
       {
-        "solution_info": "略"
+        "solution_info": "由余弦定理，c²=a²+b²-2ab cos C=7²+8²-2×7×8×cos60°=49+64-56=57，所以c=√57。"
       }
     ],
     "children": []

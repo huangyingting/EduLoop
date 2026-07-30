@@ -40,4 +40,12 @@ node scripts/set-amc-grade-levels.mjs --check
 
 Validate all source and translated content with `npm run data:verify`.
 
+## Source record schema
+
+Question archives intentionally retain the upstream snake-case envelope. Every record has the same required fields: `id`, `type`, `grade_band`, `difficulty`, `grade`, `course`, `paper`, `online_test`, `option_split`, `quality`, `question_info`, `answer_info`, `solution_info`, and `children`. The prompt, five option slots, and source answer key live under `question_info.raw_content`; the reference answer is `answer_info.raw_content`; and each explanation is a `solution_info` entry. Empty option strings are meaningful placeholders for non-choice questions.
+
+Names such as `question_info.raw_content` and `solution_info[].solution_info` are legacy source-contract names. Do not rename them in an individual archive: acquisition, translation, audit, deduplication, and import tools all consume that contract. `src/lib/content.ts` is the normalization boundary where source fields become the application's cleaner question model. New product-facing code should use normalized fields rather than expose the archive envelope.
+
+`npm run data:verify` begins by validating every tracked JSON file. It enforces exact question keys and value types, stable 32-character hexadecimal IDs, per-locale ID uniqueness, catalog membership, configuration and approval-file shapes, and the path, size, media type, and SHA-256 integrity of every source asset manifest entry. Add a validator when introducing a new JSON family.
+
 Shared source assets are content-addressed and must retain their provenance in `public/question-assets/source/amc/manifest.json`. Put generated assets under `generated/<locale>/<question-id>/` whenever their text or accessibility metadata is locale-specific.

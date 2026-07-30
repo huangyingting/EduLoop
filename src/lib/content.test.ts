@@ -3,7 +3,7 @@ import { extractCorrectLabels, extractOptions, normalizeQuestionType, normalizeS
 
 function question(overrides: Partial<SourceQuestion> = {}): SourceQuestion {
   return {
-    id: "source-1", type: "选择题", grade_band: "初中", difficulty: "一般", grade: "九年级", course: "化学",
+    id: "source-1", type: "选择题", grade_band: "初中", difficulty: "一般", grade: "九年级", course: "化学", paper: "",
     online_test: true, option_split: true, quality: "精品",
     question_info: { raw_content: { title: "下列说法正确的是？", option_a: "甲", option_b: "乙", option_c: "", option_d: "", option_e: "", answer1: "A" } },
     answer_info: { raw_content: "故选A。" }, solution_info: [{ solution_info: "解析" }], children: [], ...overrides,

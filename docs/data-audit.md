@@ -9,7 +9,7 @@ The seven Simplified Chinese runtime files under `data/zh-CN/` contain 13,811 un
 | Dimension | Distribution |
 | --- | --- |
 | Grade band | Primary 1,815; middle 4,615; high 3,919; AMC-8 1,025; AMC-10 1,275; AMC-12 1,162 |
-| Subject | Mathematics 8,852; physics 2,269; chemistry 1,634; biology 1,057 |
+| Subject | Mathematics 8,851; physics 2,269; chemistry 1,634; biology 1,057 |
 | Difficulty | Easy 6,785; medium 6,118; hard 908 |
 | Largest grades | Grade 9: 2,405; high school year 3: 1,647; AMC-10: 1,275 |
 | Online-ready flag | True 9,983; false 3,828 |

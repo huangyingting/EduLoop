@@ -52,6 +52,27 @@ export const QUESTION_TYPE_LABELS: Record<string, string> = {
   WRITTEN_RESPONSE: "解答",
 };
 
+export type SourceQuestionRawContent = {
+  title: string;
+  option_a: string;
+  option_b: string;
+  option_c: string;
+  option_d: string;
+  option_e: string;
+  answer1: string;
+};
+
+export type SourceChildQuestion = {
+  title: string;
+  option_a: string;
+  option_b: string;
+  option_c: string;
+  option_d: string;
+  option_e?: string;
+  answer1: string;
+  order: number;
+};
+
 export type SourceQuestion = {
   id: string;
   type: string;
@@ -59,14 +80,14 @@ export type SourceQuestion = {
   difficulty: string;
   grade: string;
   course: string;
-  paper?: string;
+  paper: string;
   online_test: boolean;
   option_split: boolean;
-  quality?: string;
-  question_info: { raw_content: Record<string, unknown> };
+  quality: string;
+  question_info: { raw_content: SourceQuestionRawContent };
   answer_info: { raw_content: string };
   solution_info: Array<{ solution_info: string }>;
-  children?: unknown[];
+  children: SourceChildQuestion[];
 };
 
 export type NormalizedTag = {
@@ -187,10 +208,10 @@ export function extractOptions(question: SourceQuestion) {
     label: String.fromCharCode(65 + sortOrder), content, sortOrder,
   }));
   const raw = question.question_info.raw_content;
-  const options: NormalizedOption[] = ["a", "b", "c", "d", "e"]
-    .map((letter, index) => ({
-      label: letter.toUpperCase(),
-      content: String(raw[`option_${letter}`] ?? "").trim(),
+  const options: NormalizedOption[] = (["option_a", "option_b", "option_c", "option_d", "option_e"] as const)
+    .map((field, index) => ({
+      label: String.fromCharCode(65 + index),
+      content: raw[field].trim(),
       sortOrder: index,
     }))
     .filter((option) => option.content.length > 0);

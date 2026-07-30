@@ -11,13 +11,11 @@ export const dynamic = "force-dynamic";
 async function getNextQuestion(request: NextRequest) {
   const filters = parseQuestionFilters(request.nextUrl.searchParams);
   if (!filters) return apiError("Invalid question filters", 400, "INVALID_REQUEST");
-  const { deviceKey, excluded, mode, tagFilters } = filters;
-  const limited = enforceRateLimit(request, "questions", deviceKey || "anonymous", 120);
+  const { excluded, mode, tagFilters } = filters;
+  const limited = enforceRateLimit(request, "questions", "public", 120);
   if (limited) return limited;
   const baseWhere = questionWhere(filters);
-  const learner = deviceKey && deviceKey.length >= 8
-    ? await findLearnerForRequest(request, deviceKey)
-    : null;
+  const learner = await findLearnerForRequest(request);
   let recommendationReason: string | null = null;
   let preferredQuestionId: string | null = null;
 

@@ -5,7 +5,7 @@
 ```text
 Browser
   -> Next.js App Router pages and client practice player
-  -> /api/auth/* (optional account and database session)
+  -> /api/auth/* (Auth.js credentials, OAuth, and encrypted session)
   -> /api/questions/next (filtered selection; answer omitted)
   -> /api/attempts (server-side grading and rewards)
   -> /api/sessions, /api/review, /api/learner/progress
@@ -37,13 +37,16 @@ The catalog API discovers every filterable tag dimension from the database, so n
 - Options are ordered child rows; answer labels are stored as a small JSON-encoded string because both database providers can handle it without provider-specific array types.
 - Tags are many-to-many and dimensioned. Confidence plus provenance prevents inferred metadata from masquerading as teacher-reviewed truth.
 - Practice attempts are immutable events. A browser-generated unique attempt ID makes network retries idempotent, while `DailyActivity` is a derived aggregate for efficient streak/history displays.
+- `PracticeSession.activeKey` is a nullable unique learner slot. Active sessions carry the learner ID in that slot, while completed or abandoned sessions clear it, so the database—not a process-local check—enforces at most one active session per learner.
 - An attempt may receive one idempotent `explanationViewedAt` timestamp after an incorrect result. The protected studio derives bounded, aggregate learning-health signals from attempts, sessions, and daily activity; it never returns learner identity or responses.
 - `ReviewItem` stores the explainable 1/3/7-day mistake schedule; `SavedQuestion` is independent of correctness. Review lists and counts honor the same `PUBLISHED` boundary as question serving.
 - Written attempts are created before the learner sees the reference answer; their nullable correctness is then finalized by an explicit self-assessment update.
 - `QuestionReport` captures learner feedback for the protected content-review workflow.
 - `ContentReviewAction` is an immutable operator trail for quarantine, resolution, and reopening. Public registration always receives `LEARNER`; only trusted operators can assign `CONTENT_EDITOR` or `ADMIN`.
-- `LearnerProfile` has one optional unique `User`. Guests resolve by `deviceKey`; authenticated requests resolve by the hashed database session and `userId` instead of trusting that client key.
-- Registering links the current guest profile. Logging into an established account merges unowned guest activity into its profile while preserving dependent attempts, sessions, daily activity, badges, saved questions, reviews, and reports.
+- Every `LearnerProfile` belongs to exactly one `User`. Authenticated requests resolve an Auth.js encrypted token, verify its database `sessionVersion`, and use `userId`; guests never receive a persistent learner identity.
+- `src/proxy.ts` redirects signed-out page requests except `/practice`, `/login`, and `/register`. API authorization remains inside each route: only question discovery, hints, catalog data, health, Auth.js, registration, and stateless attempt grading are public.
+- Registering creates an account-owned profile. Logging into an established account resumes only that account's attempts, sessions, daily activity, badges, saved questions, reviews, and reports; guest practice is never merged because it is never persisted.
+- Application API responses default to `Cache-Control: no-store`; public question selection can become learner-specific when a valid Auth.js cookie enables recommendations or saved state.
 
 ## Selection and scaling
 
@@ -76,7 +79,7 @@ The importer rebuilds `IMPORT`/`RULE` option and tag links but preserves links w
 
 ## Production boundaries
 
-- Public mode supports anonymous use and optional first-party email/password accounts. Content roles are assigned only through the trusted operator CLI and gate `/studio` plus its API. Institutional identity, verified guardian consent, teacher/guardian roles, password recovery, and school lifecycle management remain separate launch requirements.
+- Public mode supports stateless anonymous practice and optional Auth.js email/password, Google, Microsoft, and Facebook accounts. Every non-practice product surface requires login. Content roles are assigned only through the trusted operator CLI and gate `/studio` plus its API. Institutional identity, verified guardian consent, teacher/guardian roles, password recovery, and school lifecycle management remain separate launch requirements.
 - Mutation endpoints have per-process protection. Multi-replica deployments must also enforce limits at the trusted ingress or a shared rate-limit service.
 - Errors are emitted as structured JSON through Next.js instrumentation; production must forward stdout/stderr to a monitored log or error service.
 - `/api/health` verifies database readiness. CI checks types, lint, unit tests, content audit, schema parity, and the production build.

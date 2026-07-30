@@ -147,36 +147,62 @@ model QuestionTag {
 }
 
 model User {
-  id            String                @id @default(cuid())
-  email         String                @unique
-  passwordHash  String
-  displayName   String?
-  role          String                @default("LEARNER")
-  learner       LearnerProfile?
-  sessions      AuthSession[]
-  reviewActions ContentReviewAction[]
-  createdAt     DateTime              @default(now())
-  updatedAt     DateTime              @updatedAt
+  id             String                @id @default(cuid())
+  email          String                @unique
+  emailVerified  DateTime?
+  name           String?               @map("displayName")
+  image          String?
+  passwordHash   String?
+  role           String                @default("LEARNER")
+  sessionVersion Int                   @default(0)
+  learner        LearnerProfile?
+  accounts       Account[]
+  sessions       Session[]
+  reviewActions  ContentReviewAction[]
+  createdAt      DateTime              @default(now())
+  updatedAt      DateTime              @updatedAt
 
   @@index([role])
 }
 
-model AuthSession {
-  id        String   @id @default(cuid())
-  tokenHash String   @unique
-  userId    String
-  expiresAt DateTime
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([provider, providerAccountId])
+  @@index([userId])
+}
+
+model Session {
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
-  @@index([expiresAt])
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@id([identifier, token])
 }
 
 model LearnerProfile {
   id               String            @id @default(cuid())
-  deviceKey        String            @unique
-  userId           String?           @unique
+  userId           String            @unique
   displayName      String?
   xp               Int               @default(0)
   level            Int               @default(1)
@@ -192,7 +218,7 @@ model LearnerProfile {
   savedQuestions   SavedQuestion[]
   reviewItems      ReviewItem[]
   reports          QuestionReport[]
-  user             User?             @relation(fields: [userId], references: [id], onDelete: SetNull)
+  user             User              @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt        DateTime          @default(now())
   updatedAt        DateTime          @updatedAt
 }
@@ -200,6 +226,7 @@ model LearnerProfile {
 model PracticeSession {
   id             String            @id @default(cuid())
   learnerId      String
+  activeKey      String?           @unique
   status         String            @default("ACTIVE")
   filtersJson    String
   questionGoal   Int               @default(10)

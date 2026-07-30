@@ -1,25 +1,46 @@
 # Authentication
 
-EduLoop uses an optional first-party email/password system modeled after Visdom. Guests can practice immediately; creating an account links the current browser profile, and later logins merge any unowned guest progress into the account.
+EduLoop uses Auth.js (`next-auth` v5) for email/password, Google, Microsoft Entra ID, and Facebook sign-in. Guests can practice immediately without receiving an identity or durable record. Registering or signing in starts or resumes the authenticated account's learner profile.
 
-## Flow and ownership
+## Auth.js flow
 
-- `POST /api/auth/register` validates and normalizes the email, hashes the password with bcrypt cost 12, creates `User`, and links the current `deviceKey` profile in one transaction.
-- `POST /api/auth/login` returns one generic credential error, merges eligible guest progress, and creates a database session.
-- `GET /api/auth/me` is the client auth probe; `POST /api/auth/logout` revokes the current session.
-- `PATCH /api/auth/account` verifies the current password, rotates the hash, and revokes every existing session before issuing a fresh cookie.
-- `DELETE /api/auth/account` verifies the current password and permanently deletes the user, sessions, learner profile, and cascade-owned learning records.
-- One `User` owns at most one `LearnerProfile`. Authenticated learner APIs resolve by session `userId`; guests resolve by browser `deviceKey`.
-- Session identity includes the current database role. Registration always creates `LEARNER`; `CONTENT_EDITOR` and `ADMIN` can access `/studio` and its API, and are assigned only with `npm run users:role` from a trusted terminal.
+- `src/auth.ts` is the single Auth.js configuration. It owns providers, the Prisma adapter, credential verification, callbacks, session projection, and OAuth sign-in events.
+- `GET|POST /api/auth/[...nextauth]` exposes Auth.js' CSRF, provider, callback, session, sign-in, and sign-out endpoints.
+- `POST /api/auth/register` remains an EduLoop endpoint because Auth.js Credentials authenticates existing users but deliberately does not create password users. After registration, the client signs in through the Auth.js Credentials callback.
+- Google, Microsoft, and Facebook use Auth.js providers. Buttons appear only when that provider has a complete client-ID/client-secret pair.
+- OAuth navigation goes directly through Auth.js. A successful account sign-in ensures that the user owns one learner profile; guests have no profile or progress to merge.
+- `PATCH|DELETE /api/auth/account` provides password setup/rotation and full account erasure. Social-only users can set an email password; deletion is confirmed with the account email when no password exists.
 
-Merging preserves profile totals and moves sessions, attempts, reports, badges, daily activity, saved questions, and review items. A profile already owned by another user is never merged. Account profiles receive an internal device key, so logging out cannot expose account progress through the former guest identifier.
+One `User` owns exactly one `LearnerProfile` once the account is used. Authenticated learner APIs resolve the user from the Auth.js token and never accept a client-supplied learner identity. Attempts, practice sessions, reports, badges, daily activity, saved questions, and review items are available only to signed-in users.
 
-## Session security
+Guests may open `/practice`, fetch public catalog/questions/hints, and submit an answer for immediate grading. That branch creates no learner, attempt, session, activity, review item, report, XP, or badge; written-response self-assessment and ten-question counters remain only in page memory. All other pages redirect to `/login`, and persistent APIs independently return `401` without a valid Auth.js session.
 
-The browser receives a random 256-bit `eduloop_session` token in an `HttpOnly`, `SameSite=Lax`, path-wide cookie that is `Secure` in production and expires after 30 days. Only its SHA-256 hash is stored in `AuthSession`; logout and cascade deletion revoke rows. Each account keeps at most 10 active sessions, with the oldest sessions revoked when a new one is created. Successful login transparently upgrades password hashes whose bcrypt cost is below the current policy. Auth mutations compare `Origin` with the public `Host` and trusted-proxy protocol/host headers, and login/register have per-process IP/email rate limits.
+## Sessions and revocation
 
-Production must terminate HTTPS and enforce shared rate limits when running multiple replicas. Role changes take effect on the next request because authorization is read from the database session relation, not embedded in the cookie. Self-service password changes and account erasure are available from `/privacy`; password recovery, email verification, OAuth, MFA, school teacher/guardian roles, and consent records are intentionally deferred and must be added before school-managed identity rollout.
+Credentials requires Auth.js' JWT session strategy. Auth.js encrypts the JWT as an HttpOnly, SameSite=Lax cookie and marks it Secure in production. `AUTH_SECRET` is the encryption key and must contain at least 32 random characters in production.
 
-## Database changes
+Every token contains the user's `sessionVersion`. Server authorization reads the current user from Prisma and accepts the token only when its version still matches. Password setup or rotation increments the version, invalidating every prior browser token before the client signs in again with the new password. Deleting the user invalidates all tokens immediately. Roles, linked providers, display name, and password availability are refreshed from the database rather than trusted as stale token claims.
 
-Auth models and the optional `LearnerProfile.userId` relation exist in both Prisma schemas. Apply `20260727050000_account_auth` and the later `20260728231500_content_review_studio` role/audit migration in SQLite and PostgreSQL before deploying the application.
+The JWT also carries an explicit `authenticatedAt` timestamp set only when Auth.js completes a credential or provider sign-in. It is preserved when Auth.js rotates the JWT instead of relying on the token's refreshable `iat`. Linking another provider and social-only password setup or account deletion require this authentication to be no more than 10 minutes old. Older and pre-migration tokens must sign in again; password-backed changes continue to require the current password.
+
+The migration retains existing `User` rows and bcrypt hashes but drops legacy `AuthSession` rows, so applying it signs existing browsers out once. Auth.js adapter models are `Account`, `Session`, and `VerificationToken`; `Session` is present for adapter compatibility but the current Credentials-compatible configuration uses encrypted JWT sessions.
+
+## Account linking policy
+
+- A provider account already stored in `Account` signs into its owning user.
+- A signed-in user can connect any unclaimed configured provider from `/privacy` after reauthenticating within 10 minutes; Auth.js verifies both sessions before linking.
+- Google may link an existing same-email user only when Google's `email_verified` claim is true.
+- Microsoft email claims are not used for automatic linking, including with a tenant-pinned issuer. Sign in with the existing account first and connect Microsoft from `/privacy`.
+- Facebook does not expose an equivalent verified-email claim, so same-email auto-linking remains disabled. Facebook accounts without an email are rejected.
+
+## Environment
+
+Use these callback URLs in provider consoles:
+
+- `{AUTH_URL}/api/auth/callback/google`
+- `{AUTH_URL}/api/auth/callback/microsoft-entra-id`
+- `{AUTH_URL}/api/auth/callback/facebook`
+
+Production requires `AUTH_SECRET` and a public HTTPS `AUTH_URL`. Provider variables are documented in `.env.example`; incomplete ID/secret pairs fail `npm run env:check`. Login and registration retain per-process rate limits, and production ingress must enforce shared limits across replicas.
+
+Password recovery, MFA, guardian consent, and institutional account lifecycle remain separate requirements for school-managed deployment.

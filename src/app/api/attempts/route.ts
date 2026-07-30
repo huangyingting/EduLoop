@@ -1,15 +1,19 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { apiError, apiHandler, enforceRateLimit } from "@/lib/api";
+import { getSessionUser } from "@/lib/auth";
+import { isSameOriginRequest } from "@/lib/auth-validation";
 import { calendarDay, calendarDaysBefore, previousCalendarDay } from "@/lib/dates";
 import { prisma } from "@/lib/prisma";
 import { nextReviewState } from "@/lib/review";
-import { findLearnerForRequest, getOrCreateLearnerForRequest } from "@/lib/learner-identity";
+import { ensureLearnerForUser, findLearnerForRequest } from "@/lib/learner-identity";
 
 const attemptSchema = z.object({
-  questionId: z.string().min(8),
-  deviceKey: z.string().min(8).max(100),
-  response: z.union([z.string().max(5000), z.array(z.string().max(10)).max(8)]),
+  questionId: z.string().min(8).max(100),
+  response: z.union([
+    z.string().max(5000).refine((value) => value.trim().length > 0, "Response is required"),
+    z.array(z.string().trim().min(1).max(10)).min(1).max(8),
+  ]),
   secondsSpent: z.number().int().min(0).max(7200).optional(),
   sessionId: z.string().min(8).max(100).optional(),
   clientAttemptId: z.string().uuid().optional(),
@@ -17,16 +21,14 @@ const attemptSchema = z.object({
 });
 
 const selfAssessmentSchema = z.object({
-  attemptId: z.string().min(8),
-  deviceKey: z.string().min(8).max(100),
+  attemptId: z.string().min(8).max(100),
   isCorrect: z.boolean(),
   timeZone: z.string().max(100).optional(),
 });
 
 const explanationViewSchema = z.object({
   event: z.literal("EXPLANATION_VIEWED"),
-  attemptId: z.string().min(8),
-  deviceKey: z.string().min(8).max(100),
+  attemptId: z.string().min(8).max(100),
 });
 
 function levelForXp(xp: number) {
@@ -75,18 +77,34 @@ async function replayAttempt(
       earnedXp: attempt.session.earnedXp,
     } : null,
     replayed: true,
+    persisted: true,
   });
 }
 
 async function postAttempt(request: Request) {
+  if (!isSameOriginRequest(request)) return apiError("Invalid request origin.", 403, "FORBIDDEN");
   const body = await request.json().catch(() => null);
   const parsed = attemptSchema.safeParse(body);
   if (!parsed.success) return apiError("Invalid attempt", 400, "INVALID_REQUEST", parsed.error.flatten());
   const input = parsed.data;
-  const limited = enforceRateLimit(request, "attempts", input.deviceKey, 45);
+  const user = await getSessionUser(request);
+  const limited = enforceRateLimit(request, "attempts", user?.id ?? "guest", 45);
   if (limited) return limited;
-  const question = await prisma.question.findUnique({ where: { id: input.questionId } });
+  const question = await prisma.question.findUnique({
+    where: { id: input.questionId },
+    include: { options: { select: { label: true } } },
+  });
   if (!question || question.status !== "PUBLISHED") return apiError("Question not found", 404, "NOT_FOUND");
+  const optionResponse = Array.isArray(input.response);
+  if (optionResponse !== (question.options.length > 0)) {
+    return apiError("Invalid response type", 400, "INVALID_REQUEST");
+  }
+  if (Array.isArray(input.response)) {
+    const validLabels = new Set(question.options.map(({ label }) => label.toUpperCase()));
+    if (input.response.some((label) => !validLabels.has(label.toUpperCase()))) {
+      return apiError("Invalid response option", 400, "INVALID_REQUEST");
+    }
+  }
 
   const responseLabels = Array.isArray(input.response)
     ? [...new Set(input.response.map((item) => item.toUpperCase()))].sort()
@@ -97,9 +115,31 @@ async function postAttempt(request: Request) {
     : null;
   const difficultyBonus = { EASY: 4, MEDIUM: 7, HARD: 11 }[question.difficulty] ?? 5;
   const earnedXp = isCorrect === true ? 6 + difficultyBonus : isCorrect === false ? 2 : 3;
+
+  if (!user) {
+    return NextResponse.json({
+      attemptId: null,
+      isCorrect,
+      correctLabels,
+      answer: question.answer,
+      explanation: question.explanation,
+      earnedXp: 0,
+      totalXp: 0,
+      level: 1,
+      currentStreak: 0,
+      streakFreezes: 0,
+      streakFreezeUsed: false,
+      todayAttempts: 0,
+      newBadges: [],
+      session: null,
+      replayed: false,
+      persisted: false,
+    }, { headers: { "Cache-Control": "no-store" } });
+  }
+
   const today = calendarDay(new Date(), input.timeZone);
   const now = new Date();
-  const identity = await getOrCreateLearnerForRequest(request, input.deviceKey);
+  const identity = await ensureLearnerForUser(user.id, user.displayName);
 
   if (input.clientAttemptId) {
     const replay = await replayAttempt(input.clientAttemptId, identity.id, input.questionId, question, today);
@@ -137,10 +177,11 @@ async function postAttempt(request: Request) {
         secondsSpent: input.secondsSpent,
         earnedXp,
       } });
-      const updatedLearner = await transaction.learnerProfile.update({
+      let updatedLearner = await transaction.learnerProfile.update({
         where: { id: learner.id },
         data: {
           xp: { increment: earnedXp },
+          level: levelForXp(learner.xp + earnedXp),
           currentStreak: nextStreak,
           bestStreak: Math.max(learner.bestStreak, nextStreak),
           streakFreezes: nextStreakFreezes,
@@ -148,6 +189,13 @@ async function postAttempt(request: Request) {
           lastActiveOn: today,
         },
       });
+      const storedLevel = levelForXp(updatedLearner.xp);
+      if (updatedLearner.level !== storedLevel) {
+        updatedLearner = await transaction.learnerProfile.update({
+          where: { id: learner.id },
+          data: { level: storedLevel },
+        });
+      }
       const activity = await transaction.dailyActivity.upsert({
         where: { learnerId_activityDate: { learnerId: learner.id, activityDate: today } },
         create: { learnerId: learner.id, activityDate: today, attempts: 1, correct: isCorrect ? 1 : 0, earnedXp },
@@ -168,29 +216,64 @@ async function postAttempt(request: Request) {
 
       let sessionProgress = null;
       if (session) {
-        const updatedSession = await transaction.practiceSession.update({
-          where: { id: session.id },
+        const incremented = await transaction.practiceSession.updateMany({
+          where: { id: session.id, status: "ACTIVE", activeKey: learner.id },
           data: {
             completedCount: { increment: 1 },
             correctCount: { increment: isCorrect ? 1 : 0 },
             earnedXp: { increment: earnedXp },
           },
         });
-        const completed = updatedSession.completedCount >= updatedSession.questionGoal;
-        const finalSession = completed ? await transaction.practiceSession.update({
-          where: { id: session.id }, data: { status: "COMPLETED", completedAt: now },
-        }) : updatedSession;
-        sessionProgress = {
-          id: finalSession.id,
-          status: finalSession.status,
-          questionGoal: finalSession.questionGoal,
-          completedCount: finalSession.completedCount,
-          correctCount: finalSession.correctCount,
-          earnedXp: finalSession.earnedXp,
-        };
+        if (!incremented.count) {
+          // Another device restarted this learner's session after the read
+          // above. Keep the immutable attempt, but do not attach it to or
+          // resurrect a session that is no longer active.
+          await transaction.practiceAttempt.update({
+            where: { id: attempt.id },
+            data: { sessionId: null },
+          });
+        } else {
+          const updatedSession = await transaction.practiceSession.findUniqueOrThrow({ where: { id: session.id } });
+          const completed = updatedSession.completedCount >= updatedSession.questionGoal;
+          const finalSession = completed ? await transaction.practiceSession.update({
+            where: { id: session.id }, data: { activeKey: null, status: "COMPLETED", completedAt: now },
+          }) : updatedSession;
+          sessionProgress = {
+            id: finalSession.id,
+            status: finalSession.status,
+            questionGoal: finalSession.questionGoal,
+            completedCount: finalSession.completedCount,
+            correctCount: finalSession.correctCount,
+            earnedXp: finalSession.earnedXp,
+          };
+        }
       }
 
-      return { learner, attempt, updatedLearner, activity, nextStreak, usesFreeze, sessionProgress };
+      const attempts = await transaction.practiceAttempt.count({ where: { learnerId: learner.id } });
+      const recent = await transaction.practiceAttempt.findMany({
+        where: { learnerId: learner.id, isCorrect: { not: null }, isSelfAssessed: false },
+        orderBy: { createdAt: "desc" },
+        take: 10,
+        select: { isCorrect: true },
+      });
+      const earnedBadgeSlugs = [
+        attempts >= 1 ? "first-spark" : null,
+        attempts >= 100 ? "century-club" : null,
+        recent.length === 10 && recent.every((item) => item.isCorrect) ? "ten-in-a-row" : null,
+      ].filter(Boolean) as string[];
+      const newBadges: Array<{ name: string; icon: string }> = [];
+      for (const slug of earnedBadgeSlugs) {
+        const badge = await transaction.badge.findUnique({ where: { slug } });
+        if (!badge) continue;
+        const inserted = await transaction.$executeRaw`
+          INSERT INTO "LearnerBadge" ("learnerId", "badgeId", "earnedAt")
+          VALUES (${learner.id}, ${badge.id}, ${new Date()})
+          ON CONFLICT ("learnerId", "badgeId") DO NOTHING
+        `;
+        if (inserted) newBadges.push({ name: badge.name, icon: badge.icon });
+      }
+
+      return { attempt, updatedLearner, activity, nextStreak, usesFreeze, sessionProgress, newBadges };
     });
   } catch (error) {
     const uniqueConflict = error && typeof error === "object" && "code" in error && error.code === "P2002";
@@ -203,34 +286,6 @@ async function postAttempt(request: Request) {
 
   const totalXp = result.updatedLearner.xp;
   const level = levelForXp(totalXp);
-  await prisma.learnerProfile.updateMany({
-    where: { id: result.learner.id, xp: totalXp },
-    data: { level },
-  });
-
-  const attempts = await prisma.practiceAttempt.count({ where: { learnerId: result.learner.id } });
-  const recent = await prisma.practiceAttempt.findMany({
-    where: { learnerId: result.learner.id, isCorrect: { not: null }, isSelfAssessed: false },
-    orderBy: { createdAt: "desc" },
-    take: 10,
-    select: { isCorrect: true },
-  });
-  const earnedBadgeSlugs = [
-    attempts >= 1 ? "first-spark" : null,
-    attempts >= 100 ? "century-club" : null,
-    recent.length === 10 && recent.every((item) => item.isCorrect) ? "ten-in-a-row" : null,
-  ].filter(Boolean) as string[];
-  const newBadges: Array<{ name: string; icon: string }> = [];
-  for (const slug of earnedBadgeSlugs) {
-    const badge = await prisma.badge.findUnique({ where: { slug } });
-    if (!badge) continue;
-    const inserted = await prisma.$executeRaw`
-      INSERT INTO "LearnerBadge" ("learnerId", "badgeId", "earnedAt")
-      VALUES (${result.learner.id}, ${badge.id}, ${new Date()})
-      ON CONFLICT ("learnerId", "badgeId") DO NOTHING
-    `;
-    if (inserted) newBadges.push({ name: badge.name, icon: badge.icon });
-  }
 
   return NextResponse.json({
     attemptId: result.attempt.id,
@@ -245,16 +300,19 @@ async function postAttempt(request: Request) {
     streakFreezes: result.updatedLearner.streakFreezes,
     streakFreezeUsed: result.usesFreeze,
     todayAttempts: result.activity.attempts,
-    newBadges,
+    newBadges: result.newBadges,
     session: result.sessionProgress,
     replayed: false,
+    persisted: true,
   });
 }
 
 async function recordExplanationView(request: Request, input: z.infer<typeof explanationViewSchema>) {
-  const limited = enforceRateLimit(request, "explanation-views", input.deviceKey, 90);
+  const user = await getSessionUser(request);
+  if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
+  const limited = enforceRateLimit(request, "explanation-views", user.id, 90);
   if (limited) return limited;
-  const learner = await findLearnerForRequest(request, input.deviceKey);
+  const learner = await findLearnerForRequest(request);
   if (!learner) return apiError("Attempt not found", 404, "NOT_FOUND");
   const viewedAt = new Date();
   const updated = await prisma.practiceAttempt.updateMany({
@@ -281,16 +339,19 @@ async function recordExplanationView(request: Request, input: z.infer<typeof exp
 }
 
 async function patchAttempt(request: Request) {
+  if (!isSameOriginRequest(request)) return apiError("Invalid request origin.", 403, "FORBIDDEN");
+  const user = await getSessionUser(request);
+  if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
   const body = await request.json().catch(() => null);
   const explanationView = explanationViewSchema.safeParse(body);
   if (explanationView.success) return recordExplanationView(request, explanationView.data);
   const parsed = selfAssessmentSchema.safeParse(body);
   if (!parsed.success) return apiError("Invalid self-assessment", 400, "INVALID_REQUEST");
   const input = parsed.data;
-  const limited = enforceRateLimit(request, "assessments", input.deviceKey, 45);
+  const limited = enforceRateLimit(request, "assessments", user.id, 45);
   if (limited) return limited;
   const now = new Date();
-  const learner = await findLearnerForRequest(request, input.deviceKey);
+  const learner = await findLearnerForRequest(request);
   if (!learner) return apiError("Attempt not found", 404, "NOT_FOUND");
 
   const outcome = await prisma.$transaction(async (transaction) => {

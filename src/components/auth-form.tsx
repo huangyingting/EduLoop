@@ -2,23 +2,42 @@
 
 import { ArrowRight, BookOpenCheck, LoaderCircle, LockKeyhole, Mail, Sparkles, UserRound } from "lucide-react";
 import Link from "next/link";
+import { getProviders, signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
-import { getDeviceKey } from "@/lib/learner";
-import type { SessionUser } from "@/lib/auth";
+import { useEffect, useState } from "react";
 import { safeReturnPath } from "@/lib/auth-validation";
-import { setAuthenticatedUser } from "@/lib/use-auth";
+import { useAuth } from "@/lib/use-auth";
+
+type SocialProvider = { id: string; name: string };
 
 export function AuthForm({ mode }: { mode: "login" | "register" }) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const auth = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [displayName, setDisplayName] = useState("");
-  const [error, setError] = useState("");
+  const [error, setError] = useState(() => authErrorMessage(searchParams.get("error")));
   const [busy, setBusy] = useState(false);
+  const [socialBusy, setSocialBusy] = useState<string | null>(null);
+  const [providers, setProviders] = useState<SocialProvider[]>([]);
   const isLogin = mode === "login";
   const next = safeReturnPath(searchParams.get("next"));
+
+  useEffect(() => {
+    if (auth.status === "authenticated") return;
+    void getProviders().then((available) => {
+      setProviders(Object.values(available ?? {})
+        .filter((provider) => provider.type !== "credentials")
+        .map(({ id, name }) => ({ id, name })));
+    }).catch(() => setProviders([]));
+  }, [auth.status]);
+
+  useEffect(() => {
+    if (auth.status !== "authenticated") return;
+    router.replace(next);
+    router.refresh();
+  }, [auth.status, next, router]);
 
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -26,19 +45,22 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
     setBusy(true);
     setError("");
     try {
-      const response = await fetch(`/api/auth/${mode}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email,
-          password,
-          deviceKey: getDeviceKey(),
-          ...(isLogin ? {} : { displayName: displayName.trim() || undefined }),
-        }),
+      if (!isLogin) {
+        const response = await fetch("/api/auth/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password, displayName: displayName.trim() || undefined }),
+        });
+        const body = await response.json() as { error?: string };
+        if (!response.ok) throw new Error(body.error ?? "暂时无法创建账号，请稍后重试。");
+      }
+      const result = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+        redirectTo: next,
       });
-      const body = await response.json() as { user?: SessionUser; error?: string };
-      if (!response.ok || !body.user) throw new Error(body.error ?? "暂时无法登录，请稍后重试。");
-      setAuthenticatedUser(body.user);
+      if (!result.ok) throw new Error(authErrorMessage(result.error) || "邮箱或密码不正确。");
       router.push(next);
       router.refresh();
     } catch (cause) {
@@ -47,8 +69,24 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
     }
   }
 
+  async function socialLogin(provider: SocialProvider) {
+    if (socialBusy || busy) return;
+    setSocialBusy(provider.id);
+    setError("");
+    try {
+      await signIn(provider.id, { redirectTo: next });
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : "暂时无法开始社交登录，请稍后重试。");
+      setSocialBusy(null);
+    }
+  }
+
   const alternate = isLogin ? "/register" : "/login";
   const alternateHref = next === "/" ? alternate : `${alternate}?next=${encodeURIComponent(next)}`;
+
+  if (auth.status !== "guest") {
+    return <main id="main-content" className="grid min-h-screen place-items-center bg-canvas p-6"><p role="status" className="font-bold text-muted">{auth.status === "authenticated" ? "正在返回学习空间…" : "正在确认登录状态…"}</p></main>;
+  }
 
   return (
     <main id="main-content" className="relative flex min-h-screen items-center justify-center overflow-hidden bg-canvas px-5 py-12">
@@ -60,7 +98,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
         <section className="relative hidden overflow-hidden bg-violet p-10 text-white lg:block">
           <div className="dot-grid absolute inset-0 opacity-20" />
           <div className="relative">
-            <Link href="/" className="inline-flex items-center gap-2 font-display text-2xl font-black"><span className="grid size-10 place-items-center rounded-2xl bg-lime text-ink">∞</span>EduLoop</Link>
+            <Link href="/practice" className="inline-flex items-center gap-2 font-display text-2xl font-black"><span className="grid size-10 place-items-center rounded-2xl bg-lime text-ink">∞</span>EduLoop</Link>
             <div className="mt-20 inline-flex -rotate-2 items-center gap-2 rounded-full border-2 border-ink bg-lime px-4 py-2 text-xs font-black text-ink shadow-[4px_4px_0_#242136]"><Sparkles size={15} /> 进度跟着你走</div>
             <h1 className="mt-7 font-display text-4xl font-black leading-tight">把今天的努力，<br />带到每一台设备。</h1>
             <ul className="mt-8 space-y-4 text-sm font-bold text-white/85">
@@ -72,12 +110,22 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
         </section>
 
         <section className="p-7 sm:p-10 lg:p-12">
-          <Link href="/" className="inline-flex items-center gap-2 font-display text-xl font-black lg:hidden"><span className="grid size-9 place-items-center rounded-xl bg-lime">∞</span>EduLoop</Link>
+          <Link href="/practice" className="inline-flex items-center gap-2 font-display text-xl font-black lg:hidden"><span className="grid size-9 place-items-center rounded-xl bg-lime">∞</span>EduLoop</Link>
           <p className="mt-8 text-xs font-black uppercase tracking-[.2em] text-coral lg:mt-0">{isLogin ? "Welcome back" : "Start your learning loop"}</p>
           <h2 className="mt-2 font-display text-3xl font-black tracking-tight">{isLogin ? "欢迎回来，探索者" : "创建你的学习账号"}</h2>
-          <p className="mt-2 text-sm font-semibold leading-6 text-muted">{isLogin ? "登录后继续你的学习路线。" : "当前浏览器中的匿名学习进度会自动加入账号。"}</p>
+          <p className="mt-2 text-sm font-semibold leading-6 text-muted">{isLogin ? "登录后继续你的学习路线。" : "创建账号后，学习记录会安全保存在你的账号中。"}</p>
 
-          <form onSubmit={submit} className="mt-7 space-y-4">
+          {providers.length ? <>
+            <div className="mt-7 space-y-3">
+              {providers.map((provider) => <button key={provider.id} type="button" disabled={Boolean(socialBusy) || busy} onClick={() => void socialLogin(provider)} className="flex min-h-12 w-full items-center justify-center gap-3 rounded-2xl border-2 border-ink/10 bg-white px-5 text-sm font-black transition hover:border-violet/40 hover:bg-canvas disabled:opacity-60">
+                {socialBusy === provider.id ? <LoaderCircle className="animate-spin" size={18} /> : <ProviderIcon id={provider.id} />}
+                使用 {providerLabel(provider)} 继续
+              </button>)}
+            </div>
+            <div className="my-6 flex items-center gap-3"><span className="h-px flex-1 bg-ink/10" /><span className="text-xs font-black text-muted">或使用邮箱</span><span className="h-px flex-1 bg-ink/10" /></div>
+          </> : null}
+
+          <form onSubmit={submit} className={`${providers.length ? "" : "mt-7"} space-y-4`}>
             {!isLogin ? <Field label="昵称（选填）" icon={<UserRound size={18} />}><input value={displayName} onChange={(event) => setDisplayName(event.target.value)} maxLength={50} autoComplete="name" placeholder="例如：星空探索者" className={inputClass} /></Field> : null}
             <Field label="邮箱" icon={<Mail size={18} />}><input type="email" required value={email} onChange={(event) => setEmail(event.target.value)} maxLength={254} autoComplete="email" placeholder="student@example.com" className={inputClass} /></Field>
             <Field label="密码" icon={<LockKeyhole size={18} />}><input type="password" required minLength={isLogin ? undefined : 8} maxLength={128} value={password} onChange={(event) => setPassword(event.target.value)} autoComplete={isLogin ? "current-password" : "new-password"} placeholder={isLogin ? "输入密码" : "至少 8 位字符"} className={inputClass} /></Field>
@@ -89,7 +137,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
           </form>
 
           <p className="mt-6 text-center text-sm font-semibold text-muted">{isLogin ? "还没有账号？" : "已经有账号？"} <Link href={alternateHref} className="font-black text-violet hover:underline">{isLogin ? "免费注册" : "直接登录"}</Link></p>
-          <p className="mt-4 text-center text-xs font-semibold text-muted"><Link href={next} className="hover:text-ink hover:underline">暂时以匿名访客继续</Link></p>
+          <p className="mt-4 text-center text-xs font-semibold text-muted"><Link href="/practice" className="hover:text-ink hover:underline">暂时以匿名访客练习（不保存记录）</Link></p>
         </section>
       </div>
     </main>
@@ -100,4 +148,24 @@ const inputClass = "min-h-12 w-full rounded-xl border-2 border-ink/10 bg-canvas/
 
 function Field({ label, icon, children }: { label: string; icon: React.ReactNode; children: React.ReactNode }) {
   return <label className="block"><span className="mb-1.5 block text-sm font-black">{label}</span><span className="relative block"><span className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-muted">{icon}</span>{children}</span></label>;
+}
+
+function providerLabel(provider: SocialProvider) {
+  if (provider.id === "microsoft-entra-id") return "Microsoft";
+  return provider.name;
+}
+
+function authErrorMessage(error: string | null | undefined) {
+  if (!error) return "";
+  if (error === "CredentialsSignin") return "邮箱或密码不正确。";
+  if (error === "OAuthAccountNotLinked") return "该邮箱已有账号。请先用原方式登录，再到“数据与隐私”中连接此社交账号。";
+  if (error === "AccessDenied") return "该社交账号没有提供可验证的邮箱，无法登录。";
+  return "登录没有完成，请重试。";
+}
+
+function ProviderIcon({ id }: { id: string }) {
+  if (id === "google") return <span aria-hidden className="font-black text-[#4285f4]">G</span>;
+  if (id === "microsoft-entra-id") return <span aria-hidden className="grid grid-cols-2 gap-px">{["#f25022", "#7fba00", "#00a4ef", "#ffb900"].map((color) => <span key={color} className="size-2" style={{ backgroundColor: color }} />)}</span>;
+  if (id === "facebook") return <span aria-hidden className="grid size-5 place-items-center rounded-full bg-[#1877f2] text-sm font-black text-white">f</span>;
+  return <UserRound aria-hidden size={18} />;
 }

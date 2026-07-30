@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "katex/dist/katex.min.css";
 import "./globals.css";
 import { AppShell } from "@/components/app-shell";
+import { AuthSessionProvider } from "@/components/auth-session-provider";
 
 export const metadata: Metadata = {
   title: { default: "EduLoop · 每一题都有回响", template: "%s · EduLoop" },
@@ -9,5 +10,5 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="zh-CN"><body><a href="#main-content" className="skip-link">跳到主要内容</a><AppShell>{children}</AppShell></body></html>;
+  return <html lang="zh-CN"><body><AuthSessionProvider><a href="#main-content" className="skip-link">跳到主要内容</a><AppShell>{children}</AppShell></AuthSessionProvider></body></html>;
 }

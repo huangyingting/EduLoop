@@ -1,25 +1,33 @@
 import { hashPassword, verifyPassword } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
-export type PasswordChangeResult = "INVALID_PASSWORD" | "NOT_FOUND" | "UNCHANGED" | "UPDATED";
+export type PasswordChangeResult = "INVALID_PASSWORD" | "NOT_FOUND" | "UNCHANGED" | "UPDATED" | "PASSWORD_SET";
 
-export async function changeAccountPassword(userId: string, currentPassword: string, nextPassword: string): Promise<PasswordChangeResult> {
+export async function changeAccountPassword(userId: string, currentPassword: string | undefined, nextPassword: string): Promise<PasswordChangeResult> {
   const user = await prisma.user.findUnique({ where: { id: userId }, select: { passwordHash: true } });
   if (!user) return "NOT_FOUND";
-  if (!await verifyPassword(currentPassword, user.passwordHash)) return "INVALID_PASSWORD";
-  if (await verifyPassword(nextPassword, user.passwordHash)) return "UNCHANGED";
+  if (user.passwordHash && (!currentPassword || !await verifyPassword(currentPassword, user.passwordHash))) return "INVALID_PASSWORD";
+  if (user.passwordHash && await verifyPassword(nextPassword, user.passwordHash)) return "UNCHANGED";
 
   const passwordHash = await hashPassword(nextPassword);
-  await prisma.$transaction([
-    prisma.user.update({ where: { id: userId }, data: { passwordHash } }),
-    prisma.authSession.deleteMany({ where: { userId } }),
-  ]);
-  return "UPDATED";
+  await prisma.user.update({
+    where: { id: userId },
+    data: { passwordHash, sessionVersion: { increment: 1 } },
+  });
+  return user.passwordHash ? "UPDATED" : "PASSWORD_SET";
 }
 
-export async function deleteAccount(userId: string, currentPassword: string) {
-  const user = await prisma.user.findUnique({ where: { id: userId }, select: { passwordHash: true } });
-  if (!user || !await verifyPassword(currentPassword, user.passwordHash)) return false;
+export async function deleteAccount(
+  userId: string,
+  confirmation: string | { currentPassword?: string; emailConfirmation?: string },
+) {
+  const user = await prisma.user.findUnique({ where: { id: userId }, select: { email: true, passwordHash: true } });
+  if (!user) return false;
+  const values = typeof confirmation === "string" ? { currentPassword: confirmation } : confirmation;
+  const confirmed = user.passwordHash
+    ? Boolean(values.currentPassword && await verifyPassword(values.currentPassword, user.passwordHash))
+    : values.emailConfirmation?.trim().toLowerCase() === user.email;
+  if (!confirmed) return false;
 
   const [, deleted] = await prisma.$transaction([
     prisma.learnerProfile.deleteMany({ where: { userId } }),

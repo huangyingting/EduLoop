@@ -2,21 +2,23 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { calendarDay, visibleStreak } from "@/lib/dates";
 import { apiError, apiHandler, enforceRateLimit } from "@/lib/api";
+import { getSessionUser } from "@/lib/auth";
+import { isSameOriginRequest } from "@/lib/auth-validation";
 import { prisma } from "@/lib/prisma";
 import { findLearnerForRequest } from "@/lib/learner-identity";
 
 export const dynamic = "force-dynamic";
 
 const querySchema = z.object({
-  deviceKey: z.string().min(8).max(100),
   timeZone: z.string().max(100).optional(),
 });
 
 async function getLearner(request: NextRequest) {
+  if (!await getSessionUser(request)) return apiError("请先登录。", 401, "UNAUTHORIZED");
   const parsed = querySchema.safeParse(Object.fromEntries(request.nextUrl.searchParams));
   if (!parsed.success) return apiError("Invalid learner query", 400, "INVALID_REQUEST");
-  const learner = await findLearnerForRequest(request, parsed.data.deviceKey);
-  if (!learner) return NextResponse.json({ xp: 0, level: 1, currentStreak: 0, bestStreak: 0, streakFreezes: 1, todayAttempts: 0 });
+  const learner = await findLearnerForRequest(request);
+  if (!learner) return apiError("请先登录。", 401, "UNAUTHORIZED");
   const today = calendarDay(new Date(), parsed.data.timeZone);
   const activity = await prisma.dailyActivity.findUnique({
     where: { learnerId_activityDate: { learnerId: learner.id, activityDate: today } },
@@ -31,11 +33,14 @@ async function getLearner(request: NextRequest) {
 }
 
 async function deleteLearner(request: NextRequest) {
+  if (!isSameOriginRequest(request)) return apiError("Invalid request origin.", 403, "FORBIDDEN");
+  const user = await getSessionUser(request);
+  if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
   const parsed = querySchema.safeParse(Object.fromEntries(request.nextUrl.searchParams));
   if (!parsed.success) return apiError("Invalid learner query", 400, "INVALID_REQUEST");
-  const limited = enforceRateLimit(request, "delete-learner", parsed.data.deviceKey, 3, 60 * 60_000);
+  const limited = enforceRateLimit(request, "delete-learner", user.id, 3, 60 * 60_000);
   if (limited) return limited;
-  const learner = await findLearnerForRequest(request, parsed.data.deviceKey);
+  const learner = await findLearnerForRequest(request);
   const removed = learner
     ? await prisma.learnerProfile.deleteMany({ where: { id: learner.id } })
     : { count: 0 };

@@ -67,7 +67,7 @@ Avoid competitive rank, punishment language, XP loss, and deceptive urgency. A w
 - Preserve keyboard focus and native select/textarea behavior.
 - Formula failures display source text in KaTeX’s configured error color rather than hiding content.
 - No public profiles or social comparison for minors by default.
-- Guest device IDs contain no direct personal information. Add consent, retention policy, and guardian/teacher controls before collecting identifiable student data.
+- Guest practice creates no device ID or durable learning record. Add consent, retention policy, and guardian/teacher controls before collecting identifiable student data for accounts.
 
 ## Product success measures
 

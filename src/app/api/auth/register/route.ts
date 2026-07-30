@@ -1,9 +1,9 @@
 import { Prisma } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { apiError, apiHandler, enforceRateLimit } from "@/lib/api";
-import { createSession, hashPassword } from "@/lib/auth";
+import { hashPassword } from "@/lib/auth";
 import { isSameOriginRequest, normalizeEmail, registerInputSchema } from "@/lib/auth-validation";
-import { attachLearnerToNewUser } from "@/lib/learner-identity";
+import { createLearnerForUser } from "@/lib/learner-identity";
 import { prisma } from "@/lib/prisma";
 
 export const runtime = "nodejs";
@@ -22,15 +22,13 @@ async function postRegistration(request: Request) {
   if (limited) return limited;
   const passwordHash = await hashPassword(input.password);
 
-  let user: { id: string; email: string; displayName: string | null; role: string };
   try {
-    user = await prisma.$transaction(async (transaction) => {
+    await prisma.$transaction(async (transaction) => {
       const created = await transaction.user.create({
-        data: { email, passwordHash, displayName: input.displayName ?? null },
-        select: { id: true, email: true, displayName: true, role: true },
+        data: { email, passwordHash, name: input.displayName ?? null },
+        select: { id: true, name: true },
       });
-      await attachLearnerToNewUser(transaction, created.id, input.deviceKey, created.displayName);
-      return created;
+      await createLearnerForUser(transaction, created.id, created.name);
     });
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
@@ -39,8 +37,7 @@ async function postRegistration(request: Request) {
     throw error;
   }
 
-  await createSession(user.id);
-  return NextResponse.json({ user }, { status: 201, headers: { "Cache-Control": "no-store" } });
+  return NextResponse.json({ created: true }, { status: 201, headers: { "Cache-Control": "no-store" } });
 }
 
 export const POST = apiHandler("POST /api/auth/register", postRegistration);

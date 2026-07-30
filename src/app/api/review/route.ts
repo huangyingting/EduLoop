@@ -1,15 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { apiError, apiHandler, enforceRateLimit } from "@/lib/api";
+import { getSessionUser } from "@/lib/auth";
+import { isSameOriginRequest } from "@/lib/auth-validation";
 import { prisma } from "@/lib/prisma";
-import { findLearnerForRequest, getOrCreateLearnerForRequest } from "@/lib/learner-identity";
+import { findLearnerForRequest } from "@/lib/learner-identity";
 
 export const dynamic = "force-dynamic";
 
-const querySchema = z.object({ deviceKey: z.string().min(8).max(100) });
+const querySchema = z.object({});
 const saveSchema = z.object({
-  deviceKey: z.string().min(8).max(100),
-  questionId: z.string().min(8),
+  questionId: z.string().min(8).max(100),
   saved: z.boolean(),
 });
 
@@ -44,10 +45,11 @@ function questionCard(question: {
 }
 
 async function getReview(request: NextRequest) {
+  if (!await getSessionUser(request)) return apiError("请先登录。", 401, "UNAUTHORIZED");
   const parsed = querySchema.safeParse(Object.fromEntries(request.nextUrl.searchParams));
   if (!parsed.success) return apiError("Invalid review query", 400, "INVALID_REQUEST");
-  const learner = await findLearnerForRequest(request, parsed.data.deviceKey);
-  if (!learner) return NextResponse.json({ dueCount: 0, activeCount: 0, savedCount: 0, reviews: [], saved: [] });
+  const learner = await findLearnerForRequest(request);
+  if (!learner) return apiError("请先登录。", 401, "UNAUTHORIZED");
 
   const now = new Date();
   const [reviews, saved, dueCount, activeCount, savedCount] = await Promise.all([
@@ -85,15 +87,19 @@ async function getReview(request: NextRequest) {
 }
 
 async function postSavedQuestion(request: Request) {
+  if (!isSameOriginRequest(request)) return apiError("Invalid request origin.", 403, "FORBIDDEN");
+  const user = await getSessionUser(request);
+  if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
   const body = await request.json().catch(() => null);
   const parsed = saveSchema.safeParse(body);
   if (!parsed.success) return apiError("Invalid saved question", 400, "INVALID_REQUEST");
   const input = parsed.data;
-  const limited = enforceRateLimit(request, "saved-questions", input.deviceKey, 30);
+  const limited = enforceRateLimit(request, "saved-questions", user.id, 30);
   if (limited) return limited;
   const question = await prisma.question.findFirst({ where: { id: input.questionId, status: "PUBLISHED" }, select: { id: true } });
   if (!question) return apiError("Question not found", 404, "NOT_FOUND");
-  const learner = await getOrCreateLearnerForRequest(request, input.deviceKey);
+  const learner = await findLearnerForRequest(request);
+  if (!learner) return apiError("请先登录。", 401, "UNAUTHORIZED");
 
   if (input.saved) {
     await prisma.savedQuestion.upsert({

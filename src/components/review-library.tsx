@@ -3,7 +3,6 @@
 import { ArrowRight, Bookmark, Brain, CalendarClock, Check, LoaderCircle, RotateCcw, Sparkles, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { getDeviceKey } from "@/lib/learner";
 import { MathText } from "./math-text";
 
 type QuestionCard = { id: string; stem: string; type: string; difficulty: string; subject: { slug: string; name: string; color: string }; grade: string; tags: Array<{ slug: string; label: string }> };
@@ -24,7 +23,7 @@ export function ReviewLibrary() {
   async function load() {
     setError("");
     try {
-      const response = await fetch(`/api/review?deviceKey=${encodeURIComponent(getDeviceKey())}`, { cache: "no-store" });
+      const response = await fetch("/api/review", { cache: "no-store" });
       if (!response.ok) throw new Error("复习清单加载失败，请稍后再试。");
       setData(await response.json() as ReviewData);
     } catch (cause) { setError(cause instanceof Error ? cause.message : "加载失败"); }
@@ -36,8 +35,14 @@ export function ReviewLibrary() {
   }, []);
 
   async function removeSaved(questionId: string) {
-    const response = await fetch("/api/review", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ deviceKey: getDeviceKey(), questionId, saved: false }) });
-    if (response.ok) setData((current) => current ? { ...current, savedCount: Math.max(0, current.savedCount - 1), saved: current.saved.filter((item) => item.id !== questionId) } : current);
+    setError("");
+    try {
+      const response = await fetch("/api/review", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ questionId, saved: false }) });
+      if (!response.ok) throw new Error("取消收藏失败，请稍后再试。");
+      setData((current) => current ? { ...current, savedCount: Math.max(0, current.savedCount - 1), saved: current.saved.filter((item) => item.id !== questionId) } : current);
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : "取消收藏失败，请稍后再试。");
+    }
   }
 
   function navigateTabs(event: React.KeyboardEvent) {

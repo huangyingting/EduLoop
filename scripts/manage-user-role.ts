@@ -9,7 +9,7 @@ async function main() {
     const operators = await prisma.user.findMany({
       where: { role: { in: ["CONTENT_EDITOR", "ADMIN"] } },
       orderBy: { email: "asc" },
-      select: { email: true, displayName: true, role: true, updatedAt: true },
+      select: { email: true, name: true, role: true, updatedAt: true },
     });
     console.table(operators);
     return;
@@ -25,7 +25,7 @@ async function main() {
   const updated = await prisma.user.update({
     where: { id: user.id },
     data: { role },
-    select: { email: true, displayName: true, role: true },
+    select: { email: true, name: true, role: true },
   });
   console.log(`${updated.email} now has role ${updated.role}.`);
   if (isContentOperator({ role })) {

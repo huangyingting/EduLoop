@@ -1,4 +1,9 @@
 const PROVIDERS = new Set(["sqlite", "postgresql"]);
+const AUTH_PROVIDER_PAIRS = [
+  ["AUTH_GOOGLE_ID", "AUTH_GOOGLE_SECRET", "Google"],
+  ["AUTH_MICROSOFT_ENTRA_ID_ID", "AUTH_MICROSOFT_ENTRA_ID_SECRET", "Microsoft"],
+  ["AUTH_FACEBOOK_ID", "AUTH_FACEBOOK_SECRET", "Facebook"],
+];
 
 function databaseProvider(databaseUrl) {
   if (databaseUrl.startsWith("file:")) return "sqlite";
@@ -28,6 +33,39 @@ export function validateEnvironment(environment) {
       errors.push("Production deployments must use EDULOOP_DATABASE_PROVIDER=postgresql.");
     }
     if (!environment.APP_VERSION?.trim()) warnings.push("APP_VERSION is not set; health and startup logs cannot identify the release.");
+    if ((environment.AUTH_SECRET?.trim().length ?? 0) < 32) {
+      errors.push("AUTH_SECRET must be at least 32 characters in production.");
+    }
+    const authUrl = environment.AUTH_URL?.trim();
+    if (!authUrl) {
+      errors.push("AUTH_URL is required in production.");
+    } else {
+      try {
+        const parsed = new URL(authUrl);
+        if (parsed.protocol !== "https:" || parsed.origin !== authUrl.replace(/\/$/, "")) {
+          errors.push("AUTH_URL must be a public HTTPS origin without a path, query, or fragment.");
+        }
+      } catch {
+        errors.push("AUTH_URL must be a public HTTPS origin without a path, query, or fragment.");
+      }
+    }
+  }
+
+  for (const [idName, secretName, label] of AUTH_PROVIDER_PAIRS) {
+    const hasId = Boolean(environment[idName]?.trim());
+    const hasSecret = Boolean(environment[secretName]?.trim());
+    if (hasId !== hasSecret) errors.push(`${label} social login requires both ${idName} and ${secretName}.`);
+  }
+
+  if (environment.AUTH_MICROSOFT_ENTRA_ID_ISSUER) {
+    try {
+      if (new URL(environment.AUTH_MICROSOFT_ENTRA_ID_ISSUER).protocol !== "https:") throw new Error("invalid");
+    } catch {
+      errors.push("AUTH_MICROSOFT_ENTRA_ID_ISSUER must be an HTTPS URL.");
+    }
+  }
+  if (environment.FACEBOOK_GRAPH_API_VERSION && !/^v\d+\.\d+$/.test(environment.FACEBOOK_GRAPH_API_VERSION)) {
+    errors.push("FACEBOOK_GRAPH_API_VERSION must look like v23.0.");
   }
 
   if (environment.PORT !== undefined && !/^[0-9]+$/.test(environment.PORT)) {

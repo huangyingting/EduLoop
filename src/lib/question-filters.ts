@@ -9,14 +9,14 @@ const difficultySchema = z.enum(DIFFICULTIES.map(({ key }) => key) as [string, .
 const questionTypeSchema = z.enum(Object.keys(QUESTION_TYPE_LABELS) as [string, ...string[]]);
 const querySchema = z.object({
   mode: z.enum(["standard", "review", "adaptive"]).default("standard"),
-  deviceKey: z.string().min(8).max(100).optional(),
   questionId: identifierSchema.optional(),
   subject: slugSchema.optional(),
   gradeBand: slugSchema.optional(),
   grade: slugSchema.optional(),
   difficulty: difficultySchema.optional(),
   type: questionTypeSchema.optional(),
-  autoGradable: z.enum(["true", "false"]).optional().transform((value) => value === "true"),
+  autoGradable: z.enum(["true", "false"]).optional()
+    .transform((value) => value === undefined ? undefined : value === "true"),
 });
 
 export type QuestionFilters = z.infer<typeof querySchema> & {
@@ -31,7 +31,6 @@ function commaSeparated(value: string | null) {
 export function parseQuestionFilters(params: URLSearchParams) {
   const scalar = querySchema.safeParse({
     mode: params.get("mode") || undefined,
-    deviceKey: params.get("deviceKey") || undefined,
     questionId: params.get("questionId") || undefined,
     subject: params.get("subject") || undefined,
     gradeBand: params.get("gradeBand") || undefined,
@@ -68,7 +67,7 @@ export function questionWhere(filters: QuestionFilters): Prisma.QuestionWhereInp
     ...(filters.grade ? { grade: { slug: filters.grade } } : {}),
     ...(filters.difficulty ? { difficulty: filters.difficulty } : {}),
     ...(filters.type ? { type: filters.type } : {}),
-    ...(filters.autoGradable ? { isAutoGradable: true } : {}),
+    ...(filters.autoGradable !== undefined ? { isAutoGradable: filters.autoGradable } : {}),
     ...(tagsByDimension.size ? {
       AND: [...tagsByDimension].map(([dimension, slugs]) => ({
         tags: { some: { tag: { slug: { in: slugs }, dimension: { key: dimension, isFilterable: true } } } },

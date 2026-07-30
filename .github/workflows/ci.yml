@@ -57,6 +57,8 @@ jobs:
       DATABASE_URL: postgresql://eduloop:eduloop@localhost:5432/eduloop_test?schema=public
       EDULOOP_DATABASE_PROVIDER: postgresql
       APP_VERSION: ci
+      AUTH_SECRET: ci-only-auth-secret-with-at-least-32-characters
+      AUTH_URL: https://eduloop-ci.example
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6

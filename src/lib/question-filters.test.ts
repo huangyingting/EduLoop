@@ -5,7 +5,6 @@ describe("question filters", () => {
   it("parses bounded legacy and dimension-qualified tag filters", () => {
     const filters = parseQuestionFilters(new URLSearchParams({
       mode: "adaptive",
-      deviceKey: "guest_device_123",
       questionId: "question_a",
       subject: "math",
       gradeBand: "middle",
@@ -51,5 +50,12 @@ describe("question filters", () => {
     expect(parseQuestionFilters(new URLSearchParams({
       exclude: Array.from({ length: 21 }, (_, index) => `question_${index}`).join(","),
     }))).toBeNull();
+  });
+
+  it("distinguishes self-assessed questions from an omitted grading filter", () => {
+    const selfAssessed = parseQuestionFilters(new URLSearchParams({ autoGradable: "false" }));
+    const unrestricted = parseQuestionFilters(new URLSearchParams());
+    expect(questionWhere(selfAssessed!)).toMatchObject({ isAutoGradable: false });
+    expect(questionWhere(unrestricted!)).not.toHaveProperty("isAutoGradable");
   });
 });

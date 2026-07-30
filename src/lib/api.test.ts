@@ -22,6 +22,15 @@ describe("API contract", () => {
     }));
     expect(response.headers.get("x-request-id")).toBe("edge-request-42");
     expect(response.headers.get("server-timing")).toMatch(/^app;dur=\d+\.\d$/);
+    expect(response.headers.get("cache-control")).toBe("no-store");
+  });
+
+  it("preserves an explicit cache policy", async () => {
+    const handler = apiHandler("GET /api/test", async () => Response.json({ ok: true }, {
+      headers: { "Cache-Control": "public, max-age=60" },
+    }));
+    const response = await handler(new Request("http://localhost/api/test"));
+    expect(response.headers.get("cache-control")).toBe("public, max-age=60");
   });
 
   it("contains unexpected errors and logs their correlation ID", async () => {

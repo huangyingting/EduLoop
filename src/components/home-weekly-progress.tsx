@@ -2,7 +2,7 @@
 
 import { Flame } from "lucide-react";
 import { useEffect, useState } from "react";
-import { getDeviceKey, getTimeZone } from "@/lib/learner";
+import { getTimeZone } from "@/lib/learner";
 
 type Day = { date: string; attempts: number };
 
@@ -11,7 +11,7 @@ export function HomeWeeklyProgress() {
 
   useEffect(() => {
     const timer = window.setTimeout(async () => {
-      const params = new URLSearchParams({ deviceKey: getDeviceKey(), timeZone: getTimeZone() });
+      const params = new URLSearchParams({ timeZone: getTimeZone() });
       try {
         const response = await fetch(`/api/learner/progress?${params}`, { cache: "no-store" });
         if (response.ok) {

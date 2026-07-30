@@ -2,7 +2,7 @@
 
 ## Launch Scope
 
-EduLoop's production baseline is a guest-first student practice service with optional email/password accounts for cross-device continuity. It includes filtered and adaptive practice, ten-question sessions, self-assessed written work, XP and streaks, saved questions, spaced mistake review, progress views, and question reporting. It deliberately excludes public profiles and social ranking.
+EduLoop's production baseline provides stateless guest practice plus Auth.js password or social accounts for every persistent and cross-device function. Signed-in learners receive filtered and adaptive practice, durable ten-question sessions, self-assessed written work, XP and streaks, saved questions, spaced mistake review, progress views, and question reporting. It deliberately excludes public profiles and social ranking.
 
 School-managed accounts are a separate launch mode. Before using accounts with school rosters, add an approved identity provider or verified-email recovery, teacher/guardian roles, consent records, and jurisdiction-specific retention rules.
 
@@ -16,7 +16,9 @@ School-managed accounts are a separate launch mode. Before using accounts with s
 | Learning-loop health is measurable | idempotent explanation views and aggregate `/api/studio/metrics` session, return, and repeat-practice signals |
 | Progress survives navigation | persisted profiles, sessions, attempts, activity, saved questions |
 | Learners control learning data | `/privacy`, export, and `DELETE /api/learner` cascade deletion |
-| Account sessions are revocable | hashed `AuthSession` rows and an HttpOnly logout flow |
+| Account sessions are revocable | encrypted Auth.js cookies plus database-checked `sessionVersion` and an HttpOnly logout flow |
+| Sensitive account actions require fresh proof | persistent `authenticatedAt` claim with a 10-minute reauthentication window |
+| Concurrent session restarts stay coherent | nullable unique `PracticeSession.activeKey` plus integration coverage on SQLite and PostgreSQL |
 | Content problems can be surfaced | `QuestionReport` and in-practice feedback form |
 | Content reports can be triaged safely | role-protected `/studio`, immediate quarantine, immutable `ContentReviewAction` history |
 | Both databases stay portable | paired schemas and migration stages enforced by `npm run schema:check` |

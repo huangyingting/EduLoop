@@ -4,7 +4,8 @@ import { Bookmark, BookmarkCheck, Check, ChevronDown, ChevronRight, CircleAlert,
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { getDeviceKey, getPracticePreferences, getTimeZone, savePracticePreferences } from "@/lib/learner";
+import { getPracticePreferences, getTimeZone, savePracticePreferences } from "@/lib/learner";
+import { useAuth } from "@/lib/use-auth";
 import { ignoresPracticeShortcuts, optionIndexForShortcut } from "@/lib/practice-shortcuts";
 import { CustomSelect } from "./custom-select";
 import { useLearner } from "./learner-provider";
@@ -18,7 +19,7 @@ type Question = {
   tags: Array<{ dimension: string; slug: string; label: string }>;
   isSaved: boolean; recommendationReason: string | null;
 };
-type Result = { attemptId: string; isCorrect: boolean | null; correctLabels: string[]; answer: string; explanation: string | null; earnedXp: number; totalXp: number; level: number; currentStreak: number; streakFreezes: number; streakFreezeUsed: boolean; todayAttempts: number; newBadges: Array<{ name: string; icon: string }>; session: { status: string; completedCount: number; questionGoal: number; correctCount: number; earnedXp: number } | null; replayed: boolean };
+type Result = { attemptId: string | null; isCorrect: boolean | null; correctLabels: string[]; answer: string; explanation: string | null; earnedXp: number; totalXp: number; level: number; currentStreak: number; streakFreezes: number; streakFreezeUsed: boolean; todayAttempts: number; newBadges: Array<{ name: string; icon: string }>; session: { status: string; completedCount: number; questionGoal: number; correctCount: number; earnedXp: number } | null; replayed: boolean; persisted: boolean };
 type PracticeFilters = { subject: string; gradeBand: string; grade: string; difficulty: string; type: string; tags: string };
 type PracticeCatalog = {
   subjects: Array<{ slug: string; name: string }>;
@@ -71,7 +72,10 @@ function replaceTagFilter(value: string, dimension: string, slug: string) {
 
 export function PracticePlayer() {
   const search = useSearchParams();
-  const practiceMode = search.get("mode") === "review" ? "review" : search.get("mode") === "adaptive" ? "adaptive" : "standard";
+  const auth = useAuth();
+  const requestedPracticeMode = search.get("mode") === "review" ? "review" : search.get("mode") === "adaptive" ? "adaptive" : "standard";
+  const practiceMode = auth.status === "authenticated" ? requestedPracticeMode : "standard";
+  const isAuthenticated = auth.status === "authenticated";
   const { stats, applyAttempt } = useLearner();
   const [filters, setFilters] = useState<PracticeFilters>(() => {
     const subject = search.get("subject") ?? "";
@@ -111,6 +115,7 @@ export function PracticePlayer() {
   const [hintError, setHintError] = useState("");
   const startedAt = useRef(0);
   const sessionId = useRef<string | null>(null);
+  const sessionRequest = useRef<Promise<SessionSnapshot | null>>(Promise.resolve(null));
   const targetedQuestionId = useRef(search.get("questionId") ?? "");
   const questionRequest = useRef<AbortController | null>(null);
   const hintRequest = useRef<AbortController | null>(null);
@@ -120,9 +125,10 @@ export function PracticePlayer() {
   const resultPanel = useRef<HTMLDivElement>(null);
   const explanationDetails = useRef<HTMLDetailsElement>(null);
   const viewedExplanations = useRef(new Set<string>());
+  const initialized = useRef(false);
 
   const resolveInitialFilters = useCallback((): PracticeFilters => {
-    const next = { ...getPracticePreferences() };
+    const next = isAuthenticated ? { ...getPracticePreferences() } : { subject: "", gradeBand: "", grade: "", difficulty: "", type: "", tags: "" };
     const keys: Array<keyof PracticeFilters> = ["subject", "gradeBand", "grade", "difficulty", "type", "tags"];
     for (const key of keys) {
       if (search.has(key)) next[key] = search.get(key) ?? "";
@@ -131,25 +137,34 @@ export function PracticePlayer() {
     if (search.has("subject") && !search.has("tags")) next.tags = "";
     if (!next.gradeBand) next.grade = "";
     return next;
-  }, [search]);
+  }, [isAuthenticated, search]);
 
-  const startSession = useCallback(async (nextFilters: typeof filters, restart = false) => {
-    try {
-      const response = await fetch("/api/sessions", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ deviceKey: getDeviceKey(), questionGoal: 10, filters: { ...nextFilters, mode: practiceMode }, restart }),
-      });
-      if (response.ok) {
-        const session = await response.json() as SessionSnapshot;
-        sessionId.current = session.id;
-        return session;
-      }
-    } catch {
+  const startSession = useCallback((nextFilters: typeof filters, restart = false) => {
+    if (!isAuthenticated) {
       sessionId.current = null;
+      return Promise.resolve(null);
     }
-    return null;
-  }, [practiceMode]);
+    const pending = sessionRequest.current.catch(() => null).then(async () => {
+      try {
+        const response = await fetch("/api/sessions", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ questionGoal: 10, filters: { ...nextFilters, mode: practiceMode }, restart }),
+        });
+        if (response.ok) {
+          const session = await response.json() as SessionSnapshot;
+          sessionId.current = session.id;
+          return session;
+        }
+      } catch {
+        // A later queued request can still recover the active session.
+      }
+      sessionId.current = null;
+      return null;
+    });
+    sessionRequest.current = pending;
+    return pending;
+  }, [isAuthenticated, practiceMode]);
 
   const loadQuestion = useCallback(async (nextFilters = filters, excluded = recent, requestedQuestionId = targetedQuestionId.current) => {
     const generation = ++requestGeneration.current;
@@ -160,7 +175,6 @@ export function PracticePlayer() {
     setLoading(true); setQuestion(null); setError(""); setResult(null); setSelected([]); setWritten(""); setReportOpen(false); setReported(false); setReportDetail(""); setHint(null); setHintLoading(false); setHintError("");
     const params = new URLSearchParams();
     Object.entries(nextFilters).forEach(([key, value]) => value && params.set(key, value));
-    params.set("deviceKey", getDeviceKey());
     if (requestedQuestionId) params.set("questionId", requestedQuestionId);
     if (practiceMode !== "standard") params.set("mode", practiceMode);
     if (excluded.length) params.set("exclude", excluded.join(","));
@@ -180,10 +194,12 @@ export function PracticePlayer() {
   }, [filters, practiceMode, recent]);
 
   useEffect(() => {
+    if (auth.status === "loading" || initialized.current) return;
+    initialized.current = true;
     const timer = window.setTimeout(() => void (async () => {
       const initialFilters = resolveInitialFilters();
       setFilters(initialFilters);
-      savePracticePreferences(initialFilters);
+      if (isAuthenticated) savePracticePreferences(initialFilters);
       const session = await startSession(initialFilters);
       const exclusions = session?.recentQuestionIds.slice(0, 20) ?? [];
       if (session?.resumed) {
@@ -194,9 +210,9 @@ export function PracticePlayer() {
       await loadQuestion(initialFilters, exclusions);
     })(), 0);
     return () => { window.clearTimeout(timer); questionRequest.current?.abort(); hintRequest.current?.abort(); };
-    // The initial URL-derived filters are intentionally loaded once.
+    // Initialization waits for Auth.js once, then the player owns its in-memory state.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [auth.status]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -239,14 +255,14 @@ export function PracticePlayer() {
       setCatalogLoading(true);
       setCatalogError("");
     }
-    setFilters(next); savePracticePreferences(next); setRecent([]); setCompleted(0); setCorrect(0); setCombo(0);
+    setFilters(next); if (isAuthenticated) savePracticePreferences(next); setRecent([]); setCompleted(0); setCorrect(0); setCombo(0);
     void (async () => { const session = await startSession(next); await loadQuestion(next, session?.recentQuestionIds ?? []); })();
   }
 
   function resetFilters() {
     const next: PracticeFilters = { subject: "", gradeBand: "", grade: "", difficulty: "", type: "", tags: "" };
     setFilters(next);
-    savePracticePreferences(next);
+    if (isAuthenticated) savePracticePreferences(next);
     setRecent([]);
     setCompleted(0);
     setCorrect(0);
@@ -263,7 +279,7 @@ export function PracticePlayer() {
     const controller = new AbortController();
     hintRequest.current = controller;
     setHintLoading(true); setHintError("");
-    const params = new URLSearchParams({ questionId: question.id, deviceKey: getDeviceKey() });
+    const params = new URLSearchParams({ questionId: question.id });
     try {
       const response = await fetch(`/api/questions/hint?${params}`, { signal: controller.signal });
       if (!response.ok) throw new Error("提示加载失败，请稍后再试。");
@@ -288,10 +304,12 @@ export function PracticePlayer() {
     setLoading(true);
     try {
       const response = await fetch("/api/attempts", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({
-        questionId: question.id, deviceKey: getDeviceKey(), timeZone: getTimeZone(), sessionId: sessionId.current ?? undefined, clientAttemptId: clientAttemptId.current, response: question.options.length ? selected : written.trim(), secondsSpent: Math.round((Date.now() - startedAt.current) / 1000),
+        questionId: question.id,
+        response: question.options.length ? selected : written.trim(),
+        ...(isAuthenticated ? { timeZone: getTimeZone(), sessionId: sessionId.current ?? undefined, clientAttemptId: clientAttemptId.current, secondsSpent: Math.round((Date.now() - startedAt.current) / 1000) } : {}),
       }) });
       if (!response.ok) throw new Error("答案提交失败，请再试一次。");
-      const payload = await response.json() as Result; setResult(payload); setCompleted((value) => value + 1); applyAttempt(payload);
+      const payload = await response.json() as Result; setResult(payload); setCompleted((value) => value + 1); if (isAuthenticated) applyAttempt(payload);
       if (payload.isCorrect) { setCorrect((value) => value + 1); setCombo((value) => value + 1); } else if (payload.isCorrect === false) setCombo(0);
     } catch (cause) { setError(cause instanceof Error ? cause.message : "提交失败"); }
     finally { setLoading(false); }
@@ -300,11 +318,17 @@ export function PracticePlayer() {
   async function selfAssess(isCorrect: boolean) {
     if (!result || result.isCorrect !== null || assessing) return;
     setAssessing(true); setError("");
+    if (!isAuthenticated || !result.attemptId) {
+      setResult((current) => current ? { ...current, isCorrect } : current);
+      if (isCorrect) { setCorrect((value) => value + 1); setCombo((value) => value + 1); } else setCombo(0);
+      setAssessing(false);
+      return;
+    }
     try {
       const response = await fetch("/api/attempts", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ attemptId: result.attemptId, deviceKey: getDeviceKey(), timeZone: getTimeZone(), isCorrect }),
+        body: JSON.stringify({ attemptId: result.attemptId, timeZone: getTimeZone(), isCorrect }),
       });
       if (!response.ok) throw new Error("自评保存失败，请再试一次。");
       setResult((current) => current ? { ...current, isCorrect } : current);
@@ -315,13 +339,13 @@ export function PracticePlayer() {
   }
 
   async function recordExplanationView(attempt = result) {
-    if (!attempt || attempt.isCorrect !== false || !attempt.explanation || viewedExplanations.current.has(attempt.attemptId)) return;
+    if (!isAuthenticated || !attempt?.attemptId || attempt.isCorrect !== false || !attempt.explanation || viewedExplanations.current.has(attempt.attemptId)) return;
     viewedExplanations.current.add(attempt.attemptId);
     try {
       const response = await fetch("/api/attempts", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ event: "EXPLANATION_VIEWED", attemptId: attempt.attemptId, deviceKey: getDeviceKey() }),
+        body: JSON.stringify({ event: "EXPLANATION_VIEWED", attemptId: attempt.attemptId }),
       });
       if (!response.ok) viewedExplanations.current.delete(attempt.attemptId);
     } catch {
@@ -337,7 +361,7 @@ export function PracticePlayer() {
       const response = await fetch("/api/review", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ deviceKey: getDeviceKey(), questionId: question.id, saved: nextSaved }),
+        body: JSON.stringify({ questionId: question.id, saved: nextSaved }),
       });
       if (!response.ok) throw new Error("收藏状态保存失败，请再试一次。");
       setQuestion((current) => current ? { ...current, isSaved: nextSaved } : current);
@@ -352,7 +376,7 @@ export function PracticePlayer() {
       const response = await fetch("/api/reports", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ deviceKey: getDeviceKey(), questionId: question.id, category: reportCategory, detail: reportDetail.trim() || undefined }),
+        body: JSON.stringify({ questionId: question.id, category: reportCategory, detail: reportDetail.trim() || undefined }),
       });
       if (!response.ok) throw new Error("问题反馈提交失败，请稍后再试。");
       setReported(true); setReportOpen(false);
@@ -372,7 +396,7 @@ export function PracticePlayer() {
   }
 
   async function restartChallenge() {
-    if (loading || (completed > 0 && !window.confirm("重新开始本轮挑战吗？已完成的答题记录会保留。"))) return;
+    if (loading || (completed > 0 && !window.confirm(isAuthenticated ? "重新开始本轮挑战吗？已完成的答题记录会保留。" : "重新开始本轮挑战吗？访客练习本来就不会保存记录。"))) return;
     setCompleted(0); setCorrect(0); setCombo(0); setRecent([]);
     const session = await startSession(filters, true);
     await loadQuestion(filters, session?.recentQuestionIds ?? []);
@@ -392,7 +416,7 @@ export function PracticePlayer() {
       } else if (event.key.toLowerCase() === "h" && !result && question.hasHint) {
         event.preventDefault();
         void revealHint();
-      } else if (event.key.toLowerCase() === "s") {
+      } else if (event.key.toLowerCase() === "s" && isAuthenticated) {
         event.preventDefault();
         void toggleSaved();
       }
@@ -414,10 +438,10 @@ export function PracticePlayer() {
     <div className="mx-auto max-w-[1180px] px-4 pb-16 pt-6 sm:px-8 lg:px-10">
       <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div><p className="text-xs font-black uppercase tracking-[.2em] text-violet">{practiceMode === "review" ? "Review mode" : practiceMode === "adaptive" ? "Adaptive mode" : "Focus mode"}</p><h1 className="mt-1 font-display text-3xl font-black tracking-[-.04em]">{practiceMode === "review" ? "错题复习" : practiceMode === "adaptive" ? "智能练习" : "专注练习"}</h1></div>
-        <div className="flex gap-2">
+        {isAuthenticated ? <div className="flex gap-2">
           <div className="rounded-2xl border-2 border-ink/10 bg-white px-4 py-2 text-sm font-black shadow-[0_4px_0_#e3dfd4]"><Flame className="mr-1.5 inline text-coral" size={17} />{combo} 连胜</div>
           <div className="rounded-2xl bg-ink px-4 py-2 text-sm font-black text-white"><Sparkles className="mr-1.5 inline text-lime" size={17} />{stats.xp} XP</div>
-        </div>
+        </div> : <div className="rounded-2xl border-2 border-violet/15 bg-[#f0edff] px-4 py-2 text-xs font-bold text-violet">访客模式 · 本轮仅保存在内存中</div>}
       </header>
 
       <section aria-labelledby="practice-filter-heading" className="mt-6 rounded-2xl border-2 border-ink/10 bg-white/70 p-3 shadow-[0_3px_0_rgba(36,33,54,.06)] sm:p-4">
@@ -503,7 +527,7 @@ export function PracticePlayer() {
 
       <div className="mt-4 flex items-center gap-3"><div role="progressbar" aria-label="十题挑战进度" aria-valuemin={0} aria-valuemax={10} aria-valuenow={Math.min(completed, 10)} className="h-3 flex-1 overflow-hidden rounded-full border border-ink/10 bg-white"><div className="h-full rounded-full bg-violet transition-all" style={{ width: `${Math.min(completed * 10, 100)}%` }} /></div><span className="text-xs font-black text-muted">{completed} / 10</span><button onClick={() => void restartChallenge()} disabled={loading} className="flex min-h-11 items-center gap-1.5 rounded-xl px-3 text-xs font-black text-muted hover:bg-white hover:text-violet disabled:opacity-40" title="保留答题记录并重新开始本轮"><RotateCcw size={14} /> 重开</button></div>
 
-      {question?.recommendationReason ? <div className="mt-5 flex items-center gap-2 rounded-2xl border-2 border-violet/15 bg-[#f0edff] px-4 py-3 text-sm font-bold text-violet"><WandSparkles size={17} className="shrink-0" />{question.recommendationReason}</div> : null}
+      {isAuthenticated && question?.recommendationReason ? <div className="mt-5 flex items-center gap-2 rounded-2xl border-2 border-violet/15 bg-[#f0edff] px-4 py-3 text-sm font-bold text-violet"><WandSparkles size={17} className="shrink-0" />{question.recommendationReason}</div> : null}
 
       {loading && !question ? <div role="status" aria-live="polite" className="mt-8 grid min-h-[460px] place-items-center rounded-[30px] border-2 border-ink/10 bg-white"><div className="text-center"><LoaderCircle className="mx-auto animate-spin text-violet" size={34} /><p className="mt-3 text-sm font-bold text-muted">正在挑一道刚刚好的题…</p></div></div> : null}
       {error && !question ? <div role="alert" className="mt-8 grid min-h-[420px] place-items-center rounded-[30px] border-2 border-ink/10 bg-white p-8 text-center"><div><CircleAlert className="mx-auto text-coral" size={42} /><h2 className="mt-4 text-xl font-black">暂时没找到题目</h2><p className="mt-2 text-sm font-semibold text-muted">{error}</p><button onClick={() => loadQuestion()} className="mt-5 inline-flex items-center gap-2 rounded-xl bg-ink px-5 py-3 text-sm font-black text-white"><RotateCcw size={16} /> 重试</button></div></div> : null}
@@ -512,7 +536,7 @@ export function PracticePlayer() {
         <article aria-labelledby="practice-question-heading" className="mt-7 overflow-hidden rounded-[30px] border-2 border-ink/10 bg-white shadow-[0_8px_0_#e3dfd4]">
           <div className="flex flex-wrap items-center justify-between gap-3 border-b border-dashed border-ink/15 px-6 py-4 sm:px-9">
             <div className="flex flex-wrap items-center gap-2"><span className="rounded-full px-3 py-1.5 text-xs font-black text-white" style={{ background: question.subject.color }}>{question.subject.name}</span><span className="rounded-full bg-canvas px-3 py-1.5 text-xs font-bold text-muted">{question.grade}</span>{topicTags.map((tag) => <span key={tag.slug} className="rounded-full bg-[#efecff] px-3 py-1.5 text-xs font-bold text-violet">{tag.label}</span>)}</div>
-            <div className="flex items-center gap-2"><span className="text-xs font-black text-muted">{typeNames[question.type] ?? question.typeLabel} · {question.difficulty === "EASY" ? "热身" : question.difficulty === "HARD" ? "挑战" : "进阶"}</span><button onClick={() => void toggleSaved()} disabled={saving} aria-label={question.isSaved ? "取消收藏" : "收藏题目"} aria-keyshortcuts="S" className={`grid size-11 place-items-center rounded-xl transition ${question.isSaved ? "bg-lime text-ink" : "bg-canvas text-muted hover:text-violet"}`}>{question.isSaved ? <BookmarkCheck size={19} /> : <Bookmark size={19} />}</button></div>
+            <div className="flex items-center gap-2"><span className="text-xs font-black text-muted">{typeNames[question.type] ?? question.typeLabel} · {question.difficulty === "EASY" ? "热身" : question.difficulty === "HARD" ? "挑战" : "进阶"}</span>{isAuthenticated ? <button onClick={() => void toggleSaved()} disabled={saving} aria-label={question.isSaved ? "取消收藏" : "收藏题目"} aria-keyshortcuts="S" className={`grid size-11 place-items-center rounded-xl transition ${question.isSaved ? "bg-lime text-ink" : "bg-canvas text-muted hover:text-violet"}`}>{question.isSaved ? <BookmarkCheck size={19} /> : <Bookmark size={19} />}</button> : null}</div>
           </div>
 
           <div className="px-6 py-7 sm:px-9 sm:py-9">
@@ -534,20 +558,20 @@ export function PracticePlayer() {
             })}</div> : <><label htmlFor="written-answer" className="sr-only">写下你的思路或答案</label><textarea id="written-answer" value={written} disabled={Boolean(result) || loading} onChange={(event) => setWritten(event.target.value)} placeholder="写下你的思路或答案…" className="mt-7 min-h-32 w-full resize-y rounded-2xl border-2 border-ink/10 bg-[#fbfaf7] p-4 text-[15px] font-medium leading-6 outline-none transition focus:border-violet focus:bg-white" /></>}
 
             {result ? <div ref={resultPanel} role="status" aria-live="polite" tabIndex={-1} className={`reward-pop mt-7 rounded-[22px] border-2 p-5 outline-none ${result.isCorrect ? "border-[#2c9b73]/30 bg-[#e6f8ef]" : result.isCorrect === false ? "border-coral/30 bg-[#fff0ed]" : "border-violet/25 bg-[#f0edff]"}`}>
-              <div className="flex items-start gap-3"><span className={`grid size-10 shrink-0 place-items-center rounded-xl text-white ${result.isCorrect ? "bg-[#2c9b73]" : result.isCorrect === false ? "bg-coral" : "bg-violet"}`}>{result.isCorrect ? <Check /> : result.isCorrect === false ? <X /> : <Sparkles />}</span><div className="min-w-0"><div className="flex flex-wrap items-center gap-2"><h3 className="font-display text-lg font-black">{result.isCorrect ? `答对了，连胜 ${combo}！` : result.isCorrect === false ? "差一点，找到新线索了" : "对照答案，检查你的思路"}</h3><span className="rounded-full bg-ink px-2.5 py-1 text-xs font-black text-lime">+{result.earnedXp} XP</span></div>{result.answer && <div className="mt-3 text-sm font-semibold leading-6"><span className="font-black">参考答案：</span><MathText>{result.answer}</MathText></div>}{result.explanation && <details ref={explanationDetails} onToggle={(event) => { if (event.currentTarget.open) void recordExplanationView(); }} className="mt-3 text-sm"><summary className="font-black text-violet">展开解析</summary><div className="mt-2 whitespace-pre-line font-medium leading-6 text-ink/75"><MathText>{result.explanation}</MathText></div></details>}</div></div>
-              {result.newBadges.map((badge) => <div key={badge.name} className="mt-4 flex items-center gap-2 rounded-xl bg-white/80 p-3 text-sm font-black"><Trophy size={18} className="text-coral" /> 新徽章：{badge.icon} {badge.name}</div>)}
-              {result.streakFreezeUsed ? <div className="mt-4 flex items-center gap-2 rounded-xl bg-[#eaf8ff] p-3 text-sm font-black text-ink">🛡️ 连续练习保护已生效，昨天的空档没有中断记录。还剩 {result.streakFreezes} 枚保护盾。</div> : null}
+              <div className="flex items-start gap-3"><span className={`grid size-10 shrink-0 place-items-center rounded-xl text-white ${result.isCorrect ? "bg-[#2c9b73]" : result.isCorrect === false ? "bg-coral" : "bg-violet"}`}>{result.isCorrect ? <Check /> : result.isCorrect === false ? <X /> : <Sparkles />}</span><div className="min-w-0"><div className="flex flex-wrap items-center gap-2"><h3 className="font-display text-lg font-black">{result.isCorrect ? `答对了，连胜 ${combo}！` : result.isCorrect === false ? "差一点，找到新线索了" : "对照答案，检查你的思路"}</h3>{isAuthenticated ? <span className="rounded-full bg-ink px-2.5 py-1 text-xs font-black text-lime">+{result.earnedXp} XP</span> : null}</div>{result.answer && <div className="mt-3 text-sm font-semibold leading-6"><span className="font-black">参考答案：</span><MathText>{result.answer}</MathText></div>}{result.explanation && <details ref={explanationDetails} onToggle={(event) => { if (event.currentTarget.open) void recordExplanationView(); }} className="mt-3 text-sm"><summary className="font-black text-violet">展开解析</summary><div className="mt-2 whitespace-pre-line font-medium leading-6 text-ink/75"><MathText>{result.explanation}</MathText></div></details>}</div></div>
+              {isAuthenticated ? result.newBadges.map((badge) => <div key={badge.name} className="mt-4 flex items-center gap-2 rounded-xl bg-white/80 p-3 text-sm font-black"><Trophy size={18} className="text-coral" /> 新徽章：{badge.icon} {badge.name}</div>) : null}
+              {isAuthenticated && result.streakFreezeUsed ? <div className="mt-4 flex items-center gap-2 rounded-xl bg-[#eaf8ff] p-3 text-sm font-black text-ink">🛡️ 连续练习保护已生效，昨天的空档没有中断记录。还剩 {result.streakFreezes} 枚保护盾。</div> : null}
               {result.isCorrect === null ? <div className="mt-5 border-t border-violet/15 pt-4"><p className="text-sm font-black">对照参考答案后，你的思路正确吗？</p><div className="mt-3 flex flex-wrap gap-2"><button onClick={() => void selfAssess(true)} disabled={assessing} className="flex min-h-11 items-center gap-2 rounded-xl bg-[#2c9b73] px-4 text-sm font-black text-white"><Check size={17} /> 思路正确</button><button onClick={() => void selfAssess(false)} disabled={assessing} className="flex min-h-11 items-center gap-2 rounded-xl bg-coral px-4 text-sm font-black text-white"><RotateCcw size={16} /> 还需练习</button></div></div> : null}
             </div> : null}
             {error && question ? <p role="alert" className="mt-4 text-sm font-bold text-coral">{error}</p> : null}
-            <div className="mt-6 border-t border-dashed border-ink/10 pt-4">
+            {isAuthenticated ? <div className="mt-6 border-t border-dashed border-ink/10 pt-4">
               {reported ? <p role="status" className="flex items-center gap-2 text-xs font-bold text-[#2c9b73]"><Check size={15} /> 已收到反馈，谢谢你帮助改进题目。</p> : <button onClick={() => setReportOpen((open) => !open)} aria-expanded={reportOpen} className="flex min-h-11 items-center gap-2 rounded-xl px-3 text-xs font-bold text-muted hover:bg-canvas hover:text-coral"><Flag size={15} /> 这道题有问题</button>}
               {reportOpen && !reported ? <div className="mt-3 rounded-2xl border-2 border-ink/10 bg-canvas p-4"><p className="text-sm font-black">告诉我们哪里需要改进</p><div className="mt-3 grid gap-3 sm:grid-cols-[220px_1fr]"><CustomSelect label="问题类型" value={reportCategory} options={reportCategoryOptions} onValueChange={setReportCategory} className="w-full" /><input value={reportDetail} onChange={(event) => setReportDetail(event.target.value)} maxLength={1000} placeholder="可选：补充具体情况" className="min-h-11 rounded-xl border-2 border-ink/10 bg-white px-3 text-sm font-medium outline-none focus:border-violet" /></div><div className="mt-3 flex justify-end"><button onClick={() => void reportQuestion()} disabled={reporting} className="flex min-h-11 items-center gap-2 rounded-xl bg-ink px-4 text-sm font-black text-white disabled:opacity-50">{reporting ? <LoaderCircle className="animate-spin" size={16} /> : <Send size={16} />} 提交反馈</button></div></div> : null}
-            </div>
+            </div> : null}
           </div>
 
           <footer className="flex items-center justify-between gap-4 border-t border-ink/10 bg-[#fbfaf7] px-6 py-4 sm:px-9">
-            <div className="hidden text-xs font-bold text-muted sm:block"><p>{question.type === "MULTIPLE_CHOICE" ? "可选择多个答案" : question.isAutoGradable ? "选择你认为正确的答案" : "先独立思考，再对照解析"}</p><p className="mt-1 flex items-center gap-1.5 text-[11px] text-muted/80"><Keyboard size={13} /> 数字键选择 · Enter 提交/下一题 · H 提示 · S 收藏</p></div>
+            <div className="hidden text-xs font-bold text-muted sm:block"><p>{question.type === "MULTIPLE_CHOICE" ? "可选择多个答案" : question.isAutoGradable ? "选择你认为正确的答案" : "先独立思考，再对照解析"}</p><p className="mt-1 flex items-center gap-1.5 text-[11px] text-muted/80"><Keyboard size={13} /> 数字键选择 · Enter 提交/下一题 · H 提示{isAuthenticated ? " · S 收藏" : ""}</p></div>
             {result ? <button onClick={() => void nextQuestion()} disabled={result.isCorrect === null || assessing} aria-keyshortcuts="Enter" className="ml-auto flex items-center gap-2 rounded-xl bg-ink px-6 py-3 text-sm font-black text-white shadow-[0_4px_0_#6c5ce7] disabled:cursor-not-allowed disabled:opacity-40">{completed >= 10 ? "开始新一轮" : "下一题"} <ChevronRight size={17} /></button> : <button onClick={submit} disabled={!answerable || loading} aria-keyshortcuts="Enter" className="ml-auto flex items-center gap-2 rounded-xl bg-violet px-6 py-3 text-sm font-black text-white shadow-[0_4px_0_#242136] transition enabled:hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-40">{loading ? <LoaderCircle className="animate-spin" size={17} /> : <Check size={17} />} 提交答案</button>}
           </footer>
         </article>

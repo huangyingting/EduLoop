@@ -7,11 +7,10 @@ export const dynamic = "force-dynamic";
 
 async function getQuestionHint(request: NextRequest) {
   const questionId = request.nextUrl.searchParams.get("questionId");
-  const deviceKey = request.nextUrl.searchParams.get("deviceKey");
-  if (!questionId || questionId.length < 8 || !deviceKey || deviceKey.length < 8) {
+  if (!questionId || questionId.length < 8 || questionId.length > 100) {
     return apiError("Invalid hint request", 400, "INVALID_REQUEST");
   }
-  const limited = enforceRateLimit(request, "question-hints", deviceKey, 30);
+  const limited = enforceRateLimit(request, "question-hints", "public", 30);
   if (limited) return limited;
 
   const question = await prisma.question.findFirst({

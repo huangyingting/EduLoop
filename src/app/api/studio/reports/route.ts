@@ -70,7 +70,7 @@ async function getReports(request: NextRequest) {
             action: true,
             note: true,
             createdAt: true,
-            actor: { select: { displayName: true, email: true } },
+            actor: { select: { name: true, email: true } },
           },
         },
       },
@@ -80,7 +80,13 @@ async function getReports(request: NextRequest) {
     prisma.questionReport.count({ where: { status: "RESOLVED" } }),
   ]);
   return NextResponse.json({
-    reports,
+    reports: reports.map((report) => ({
+      ...report,
+      reviewActions: report.reviewActions.map((action) => ({
+        ...action,
+        actor: action.actor ? { displayName: action.actor.name, email: action.actor.email } : null,
+      })),
+    })),
     counts: { open: openCount, resolved: resolvedCount },
     pagination: { page, limit, total, pages: Math.max(1, Math.ceil(total / limit)) },
   }, { headers: { "Cache-Control": "no-store" } });

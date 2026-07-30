@@ -34,6 +34,12 @@ export function apiHandler<TRequest extends Request>(
     const startedAt = performance.now();
     try {
       const response = await handler(request);
+      // Several public routes become learner-specific when an Auth.js cookie is
+      // present. Default every application API response to no-store so a browser,
+      // reverse proxy, or future route refactor cannot reuse one learner's data.
+      if (!response.headers.has("Cache-Control")) {
+        response.headers.set("Cache-Control", "no-store");
+      }
       response.headers.set("X-Request-Id", id);
       response.headers.set("Server-Timing", `app;dur=${Math.max(0, performance.now() - startedAt).toFixed(1)}`);
       return response;

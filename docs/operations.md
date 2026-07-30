@@ -2,7 +2,7 @@
 
 ## Deploy
 
-Provision PostgreSQL with TLS, automated backups, and a restricted application role. Keep `DATABASE_URL` and platform credentials in the deployment secret store.
+Provision PostgreSQL with TLS, automated backups, and a restricted application role. Keep `DATABASE_URL`, `AUTH_SECRET`, and social-provider credentials in the deployment secret store. Set `AUTH_URL` to the public HTTPS origin.
 
 ```bash
 npm ci
@@ -15,25 +15,27 @@ npm run build
 
 Run migrations as a single pre-deploy job, not from every application replica. The included Dockerfile builds a standalone server; set `DATABASE_URL`, `EDULOOP_DATABASE_PROVIDER=postgresql`, `APP_VERSION`, and `PORT` at runtime. Container startup validates these values before launching Next.js. Terminate HTTPS at the trusted ingress.
 
+The Auth.js/account-only migrations intentionally sign old sessions out and erase historical anonymous learner rows. The active-session migration abandons all but the newest active session per learner before adding the unique active slot. Deploy this release as a drained or maintenance-window cutover: an older replica does not populate `activeKey` and must not keep writing after the migration. Record the pre-migration anonymous-profile and duplicate-active-session counts, take a backup, apply migrations, replace every replica, and then verify no duplicate active sessions remain.
+
 Production responses set HSTS, same-origin opener/resource isolation, and a resource-complete CSP. Next.js hydration currently requires inline scripts and the UI uses inline style values, so `script-src` and `style-src` allow inline content; `unsafe-eval` and WebSocket connections are development-only. Recheck the built application before tightening these remaining framework allowances.
 
 ## Observe
 
-Use `GET /api/health` for readiness and container health. Forward JSON stdout/stderr to the platform log service and alert on readiness failures, HTTP 5xx rate, attempt latency, and PostgreSQL connection saturation. Never log request bodies, answers, device keys, or report details.
+Use `GET /api/health` for readiness and container health. Forward JSON stdout/stderr to the platform log service and alert on readiness failures, HTTP 5xx rate, attempt latency, and PostgreSQL connection saturation. Never log request bodies, answers, account identifiers, or report details.
 
 Authorized content operators can view 28-day aggregate learning-loop health in `/studio`. The endpoint returns no learner identifiers or responses. Session totals use database-side aggregates. “Seven-day return” compares distinct learners in adjacent seven-day windows and caps each cohort at 50,000; repeat-topic change is capped at the latest 20,000 graded observations. Both declare when sampling is active. Move long-term or high-volume analytics to a privacy-reviewed warehouse rather than removing these bounds.
 
 Application limits are a single-process safety net. Configure the trusted ingress or shared limiter for at least:
 
-- attempts: 45 per device/IP per minute;
-- question selection: 120 per device/IP per minute;
-- reports: 6 per device/IP per 10 minutes.
+- attempts: 45 per account/IP or guest IP per minute;
+- question selection: 120 per IP per minute;
+- reports: 6 per account/IP per 10 minutes.
 - login: 10 attempts per email/IP per 15 minutes;
 - registration: 5 attempts per email/IP per 15 minutes.
 - studio review: 180 reads and 60 transitions per operator/IP per 10 minutes.
 - studio metrics: 60 aggregate reads per operator/IP per 10 minutes.
 
-Periodically delete expired `AuthSession` rows if login traffic is too low for opportunistic pruning. A suspected session compromise should revoke the affected rows; a database credential compromise requires revoking all sessions and rotating database credentials.
+Auth.js session cookies are encrypted JWTs checked against `User.sessionVersion`. Sensitive social-account actions require an `authenticatedAt` claim no older than 10 minutes; routine JWT refresh does not extend that window. A suspected account-session compromise should increment that user's version; a broad compromise requires incrementing all versions and rotating `AUTH_SECRET`. Secret rotation signs every browser out. Rotate OAuth client secrets in each provider console and the deployment secret store together.
 
 ## Back Up and Restore
 
@@ -60,10 +62,10 @@ npm run reports:review -- quarantine REPORT_ID
 npm run reports:review -- resolve REPORT_ID --note="verified against source"
 ```
 
-`quarantine` removes the reported question from practice but deliberately leaves the report open. Correct the source normalization or curated replacement, run the content checks, re-import, verify the question, and only then resolve the report. The CLI never prints learner device keys.
+`quarantine` removes the reported question from practice but deliberately leaves the report open. Correct the source normalization or curated replacement, run the content checks, re-import, verify the question, and only then resolve the report. The CLI never prints learner or account identifiers.
 
 Generated diagrams require subject review and `reviewStatus = APPROVED`; never bulk-approve them. Preserve stable question IDs so attempts and review history remain attached.
 
 ## Rollback
 
-Application releases should be immutable and reversible. Roll back the application image first. Database migrations in this repository are additive; do not reverse them while an older release can safely ignore the new tables. For a destructive future migration, ship expand/migrate/contract as separate releases and document a tested recovery step before approval.
+Application releases should be immutable and reversible. Roll back the application image first only when that image is compatible with the deployed schema. The Auth.js and account-only privacy migrations are destructive boundaries: they remove legacy sessions and anonymous learning data, and the pre-`activeKey` application must not be rolled back after the active-session migration. Restore the pre-deploy backup for a full rollback, or roll forward with this release. Future destructive changes should use expand/migrate/contract releases and a tested recovery step.

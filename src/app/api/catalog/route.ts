@@ -1,15 +1,24 @@
 import type { Prisma } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
-import { apiHandler } from "@/lib/api";
+import { z } from "zod";
+import { apiError, apiHandler } from "@/lib/api";
 import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 
+const slugSchema = z.string().min(1).max(80).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/);
+const querySchema = z.object({
+  subject: slugSchema.optional(),
+  gradeBand: slugSchema.optional(),
+  grade: slugSchema.optional(),
+});
+
 async function getCatalog(request: NextRequest) {
-  const params = request.nextUrl.searchParams;
-  const subjectSlug = params.get("subject") || null;
-  const gradeBandSlug = params.get("gradeBand") || null;
-  const gradeSlug = params.get("grade") || null;
+  const parsed = querySchema.safeParse(Object.fromEntries(request.nextUrl.searchParams));
+  if (!parsed.success) return apiError("Invalid catalog filters", 400, "INVALID_REQUEST");
+  const subjectSlug = parsed.data.subject ?? null;
+  const gradeBandSlug = parsed.data.gradeBand ?? null;
+  const gradeSlug = parsed.data.grade ?? null;
   const selectedGradeScope: Prisma.QuestionWhereInput = {
     status: "PUBLISHED",
     ...(subjectSlug ? { subject: { slug: subjectSlug } } : {}),

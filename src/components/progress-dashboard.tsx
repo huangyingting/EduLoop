@@ -3,7 +3,7 @@
 import { ArrowRight, Award, BarChart3, CalendarDays, CheckCircle2, Flame, LoaderCircle, RotateCcw, Sparkles, Target, Trophy } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { getDeviceKey, getTimeZone } from "@/lib/learner";
+import { getTimeZone } from "@/lib/learner";
 import { MathText } from "./math-text";
 
 type ProgressData = {
@@ -34,7 +34,7 @@ export function ProgressDashboard() {
 
   async function load() {
     setError("");
-    const params = new URLSearchParams({ deviceKey: getDeviceKey(), timeZone: getTimeZone() });
+    const params = new URLSearchParams({ timeZone: getTimeZone() });
     try {
       const response = await fetch(`/api/learner/progress?${params}`, { cache: "no-store" });
       if (!response.ok) throw new Error("成长记录加载失败，请稍后再试。");

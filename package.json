@@ -29,12 +29,14 @@
     "test:integration:postgres": "vitest run --config vitest.integration.config.ts"
   },
   "dependencies": {
+    "@auth/prisma-adapter": "2.11.3",
     "@prisma/client": "6.19.3",
     "@radix-ui/react-select": "2.3.7",
     "bcryptjs": "^3.0.3",
     "katex": "0.16.22",
     "lucide-react": "0.468.0",
     "next": "16.2.12",
+    "next-auth": "5.0.0-beta.32",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-katex": "3.1.0",

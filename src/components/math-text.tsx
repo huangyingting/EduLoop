@@ -3,6 +3,7 @@
 import { Fragment } from "react";
 import Image from "next/image";
 import { InlineMath } from "react-katex";
+import { normalizeMathExpression } from "@/lib/math-expression";
 
 const CONTENT_TOKEN = /(\$\$[\s\S]*?\$\$|(?<!\\)\$(?!\$)(?:\\.|[^$\n])+?(?<!\\)\$|\[Figure:\s*(?:https?:\/\/[^\]\s]+|\/question-assets\/source\/amc\/[a-z0-9._/-]+)\])/gi;
 const TRUSTED_FIGURE_HOSTS = new Set([
@@ -31,10 +32,10 @@ export function MathText({ children, className = "" }: { children: string; class
     <span className={className}>
       {parts.map((part, index) => {
         if (part.startsWith("$$") && part.endsWith("$$")) {
-          return <InlineMath key={index} math={part.slice(2, -2)} errorColor="#e85d75" />;
+          return <InlineMath key={index} math={normalizeMathExpression(part.slice(2, -2))} errorColor="#e85d75" />;
         }
         if (part.startsWith("$") && part.endsWith("$")) {
-          return <InlineMath key={index} math={part.slice(1, -1)} errorColor="#e85d75" />;
+          return <InlineMath key={index} math={normalizeMathExpression(part.slice(1, -1))} errorColor="#e85d75" />;
         }
         const src = figureUrl(part);
         if (src) return (

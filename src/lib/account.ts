@@ -1,7 +1,7 @@
 import { hashPassword, verifyPassword } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
-export type PasswordChangeResult = "INVALID_PASSWORD" | "NOT_FOUND" | "UNCHANGED" | "CONFLICT" | "UPDATED" | "PASSWORD_SET";
+export type PasswordChangeResult = "INVALID_PASSWORD" | "NOT_FOUND" | "UNCHANGED" | "CONFLICT" | "UPDATED" | "PASSWORD_SET" | "PASSWORD_SET_VERIFICATION_REQUIRED";
 export type AccountDeletionResult = "NOT_FOUND" | "INVALID_CONFIRMATION" | "CONFLICT" | "DELETED";
 export type AccountSessionRevocationResult = "CONFLICT" | "REVOKED";
 
@@ -21,7 +21,10 @@ export async function revokeAccountSessions(
 }
 
 export async function changeAccountPassword(userId: string, currentPassword: string | undefined, nextPassword: string): Promise<PasswordChangeResult> {
-  const user = await prisma.user.findUnique({ where: { id: userId }, select: { passwordHash: true } });
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { emailVerified: true, passwordHash: true },
+  });
   if (!user) return "NOT_FOUND";
   if (user.passwordHash && (!currentPassword || !await verifyPassword(currentPassword, user.passwordHash))) return "INVALID_PASSWORD";
   if (user.passwordHash && await verifyPassword(nextPassword, user.passwordHash)) return "UNCHANGED";
@@ -32,7 +35,6 @@ export async function changeAccountPassword(userId: string, currentPassword: str
       where: { id: userId, passwordHash: user.passwordHash },
       data: {
         passwordHash,
-        emailVerified: user.passwordHash ? undefined : new Date(),
         sessionVersion: { increment: 1 },
       },
     });
@@ -42,7 +44,8 @@ export async function changeAccountPassword(userId: string, currentPassword: str
     await transaction.emailVerificationToken.deleteMany({ where: { userId } });
     await transaction.emailChangeToken.deleteMany({ where: { userId } });
     await transaction.passwordResetToken.deleteMany({ where: { userId } });
-    return user.passwordHash ? "UPDATED" : "PASSWORD_SET";
+    if (user.passwordHash) return "UPDATED";
+    return user.emailVerified ? "PASSWORD_SET" : "PASSWORD_SET_VERIFICATION_REQUIRED";
   });
 }
 

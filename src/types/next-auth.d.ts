@@ -8,6 +8,7 @@ declare module "next-auth" {
       authenticatedAt: number;
       displayName: string | null;
       role: string;
+      isEmailVerified: boolean;
       hasPassword: boolean;
       hasCurrentConsent: boolean;
       oauthProviders: string[];
@@ -20,6 +21,7 @@ declare module "next-auth/jwt" {
     authenticatedAt?: number;
     sessionVersion?: number;
     role?: string;
+    emailVerified?: boolean;
     hasPassword?: boolean;
     hasCurrentConsent?: boolean;
     oauthProviders?: string[];

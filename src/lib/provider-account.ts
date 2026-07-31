@@ -30,6 +30,7 @@ export async function disconnectProviderAccount(
           where: { id: userId },
           select: {
             email: true,
+            emailVerified: true,
             passwordHash: true,
             sessionVersion: true,
             accounts: {
@@ -42,7 +43,7 @@ export async function disconnectProviderAccount(
 
         const connectedProviders = new Set(user.accounts.map((account) => account.provider));
         if (!connectedProviders.has(provider)) return { status: "NOT_CONNECTED" } as const;
-        if (!user.passwordHash && connectedProviders.size <= 1) {
+        if (!(user.passwordHash && user.emailVerified) && connectedProviders.size <= 1) {
           return { status: "LAST_LOGIN_METHOD" } as const;
         }
 

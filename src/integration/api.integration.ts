@@ -59,6 +59,7 @@ const mathSkillId = "integration-math-skill";
 const headers = { "content-type": "application/json", "x-forwarded-for": "198.51.100.42" };
 const authUserId = "integration-auth-user";
 const lifecycleUserId = "integration-lifecycle-user";
+const socialPasswordUserId = "integration-social-password-user";
 const sessionRevocationUserId = "integration-session-revocation-user";
 const expiredRetentionUserId = "integration-expired-retention-user";
 const activeRetentionUserId = "integration-active-retention-user";
@@ -150,7 +151,7 @@ afterAll(async () => {
   });
   await prisma.user.deleteMany({ where: { email: authJsEmail } });
   await prisma.user.deleteMany({ where: { id: { in: [
-    authUserId, lifecycleUserId, sessionRevocationUserId, expiredRetentionUserId, activeRetentionUserId, deletionRaceUserId, sensitiveUserId, providerUserId, providerMinimizationUserId, providerSocialUserId, providerRaceUserId, passwordResetUserId, emailChangeUserId, emailChangeConflictUserId, consentUserId, shieldUserId, concurrentUserId, journeyUserId, profileUserId,
+    authUserId, lifecycleUserId, socialPasswordUserId, sessionRevocationUserId, expiredRetentionUserId, activeRetentionUserId, deletionRaceUserId, sensitiveUserId, providerUserId, providerMinimizationUserId, providerSocialUserId, providerRaceUserId, passwordResetUserId, emailChangeUserId, emailChangeConflictUserId, consentUserId, shieldUserId, concurrentUserId, journeyUserId, profileUserId,
     studioOperatorId, studioLearnerId, studioReporterId,
   ] } } });
   await prisma.question.deleteMany({ where: { id: { in: [choiceId, writtenId, scienceQuestionId] } } });
@@ -818,6 +819,126 @@ describe("learner API journey", () => {
     }
     expect(await prisma.user.findUnique({ where: { id: lifecycleUserId } })).toBeNull();
     expect(await prisma.learnerProfile.findUnique({ where: { userId: lifecycleUserId } })).toBeNull();
+  });
+
+  it("requires mailbox verification when an untrusted social account sets a password", async () => {
+    const email = "social-password@example.com";
+    const password = "social-password-123";
+    const expiresAt = new Date(Date.now() + 60 * 60_000);
+    await prisma.user.create({ data: {
+      id: socialPasswordUserId,
+      ...consentData,
+      email,
+      accounts: { create: {
+        type: "oidc",
+        provider: "microsoft-entra-id",
+        providerAccountId: "integration-social-password-microsoft",
+      } },
+      learner: { create: {} },
+      sessions: { create: {
+        sessionToken: "integration-social-password-session",
+        expires: expiresAt,
+      } },
+    } });
+
+    const previousEnvironment = {
+      AUTH_URL: process.env.AUTH_URL,
+      RESEND_API_KEY: process.env.RESEND_API_KEY,
+      AUTH_EMAIL_FROM: process.env.AUTH_EMAIL_FROM,
+    };
+    process.env.AUTH_URL = "https://learn.example";
+    process.env.RESEND_API_KEY = "re_integration_key";
+    process.env.AUTH_EMAIL_FROM = "EduLoop <accounts@learn.example>";
+    const emailFetch = vi.fn(async (input: string | URL | Request, init?: RequestInit) => {
+      void input; void init;
+      return new Response(null, { status: 202 });
+    });
+    vi.stubGlobal("fetch", emailFetch);
+
+    async function credentialsCallback() {
+      const csrfResponse = await authGet(new NextRequest("http://localhost/api/auth/csrf"));
+      const csrf = await csrfResponse.json() as { csrfToken: string };
+      const csrfCookie = responseCookie(csrfResponse, "authjs.csrf-token");
+      expect(csrfCookie).toBeTruthy();
+      return authPost(new NextRequest("http://localhost/api/auth/callback/credentials", {
+        method: "POST",
+        headers: {
+          "content-type": "application/x-www-form-urlencoded",
+          cookie: csrfCookie!,
+          "x-auth-return-redirect": "1",
+        },
+        body: new URLSearchParams({
+          csrfToken: csrf.csrfToken,
+          email,
+          password,
+          callbackUrl: "http://localhost/privacy",
+        }).toString(),
+      }));
+    }
+
+    try {
+      const oldCookie = await authCookie(socialPasswordUserId);
+      const response = await updateCurrentAccount(request(
+        "http://localhost/api/auth/account",
+        "PATCH",
+        { newPassword: password },
+        oldCookie,
+      ));
+      expect(response.status).toBe(200);
+      expect(await response.json()).toEqual({
+        changed: true,
+        verificationRequired: true,
+        verificationScheduled: true,
+      });
+      expect(emailFetch).toHaveBeenCalledOnce();
+
+      const delivery = JSON.parse(String(emailFetch.mock.calls[0]?.[1]?.body)) as {
+        subject: string;
+        text: string;
+        to: string[];
+      };
+      expect(delivery).toMatchObject({
+        subject: "验证你的 EduLoop 邮箱",
+        to: [email],
+      });
+      const token = delivery.text.match(/#token=([A-Za-z0-9_-]+)/)?.[1];
+      expect(token).toBeTruthy();
+
+      const stored = await prisma.user.findUniqueOrThrow({ where: { id: socialPasswordUserId } });
+      expect(await verifyPassword(password, stored.passwordHash!)).toBe(true);
+      expect(stored).toMatchObject({ emailVerified: null, sessionVersion: 1 });
+      expect(await prisma.session.count({ where: { userId: socialPasswordUserId } })).toBe(0);
+      expect(await getSessionUser(new Request("http://localhost/api/learner", {
+        headers: { cookie: oldCookie },
+      }))).toBeNull();
+      expect(await disconnectProviderAccount(socialPasswordUserId, "microsoft-entra-id")).toEqual({
+        status: "LAST_LOGIN_METHOD",
+      });
+
+      const blocked = await credentialsCallback();
+      expect(responseCookie(blocked, AUTH_SESSION_COOKIE)).toBeNull();
+      expect(await blocked.json()).toMatchObject({
+        url: expect.stringContaining("code=email_not_verified"),
+      });
+
+      const verified = await completeEmailVerification(request(
+        "http://localhost/api/auth/email-verification",
+        "PATCH",
+        { token },
+      ));
+      expect(verified.status).toBe(200);
+      expect((await prisma.user.findUniqueOrThrow({ where: { id: socialPasswordUserId } })).emailVerified).toBeInstanceOf(Date);
+
+      const signedIn = await credentialsCallback();
+      expect(signedIn.status).toBe(200);
+      expect(responseCookie(signedIn, AUTH_SESSION_COOKIE)).toBeTruthy();
+    } finally {
+      for (const [key, value] of Object.entries(previousEnvironment)) {
+        if (value === undefined) delete process.env[key];
+        else process.env[key] = value;
+      }
+      vi.unstubAllGlobals();
+    }
   });
 
   it("revokes every account session once after recent authentication", async () => {

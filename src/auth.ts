@@ -16,6 +16,7 @@ import {
 } from "@/lib/auth";
 import { credentialMinimizingAdapter } from "@/lib/auth-adapter";
 import { hasRecentAuthentication, loginInputSchema, normalizeEmail } from "@/lib/auth-validation";
+import { googleProfileHasVerifiedEmail, providerProfileVerifiesEmail } from "@/lib/email-assurance";
 import { ensureLearnerForUser } from "@/lib/learner-identity";
 import { hasCurrentLegalConsent } from "@/lib/legal";
 import { prisma } from "@/lib/prisma";
@@ -161,7 +162,7 @@ export const { handlers, auth } = NextAuth((request) => ({
   ],
   callbacks: {
     async signIn({ account, profile, user }) {
-      if (account?.provider === "google" && profile?.email_verified !== true) return false;
+      if (account?.provider === "google" && !googleProfileHasVerifiedEmail(profile)) return false;
       if (account?.type === "oauth" || account?.type === "oidc") {
         // Auth.js can link a new provider to the user identified by an existing
         // JWT. Validate EduLoop's database session version before allowing that
@@ -186,6 +187,7 @@ export const { handlers, auth } = NextAuth((request) => ({
           name: true,
           image: true,
           role: true,
+          emailVerified: true,
           passwordHash: true,
           sessionVersion: true,
           termsAcceptedAt: true,
@@ -205,6 +207,7 @@ export const { handlers, auth } = NextAuth((request) => ({
       token.name = stored.name;
       token.picture = stored.image;
       token.role = stored.role;
+      token.emailVerified = Boolean(stored.emailVerified);
       token.hasPassword = Boolean(stored.passwordHash);
       token.hasCurrentConsent = hasCurrentLegalConsent(stored);
       token.oauthProviders = stored.accounts.map(({ provider }) => provider);
@@ -218,6 +221,7 @@ export const { handlers, auth } = NextAuth((request) => ({
       session.user.displayName = typeof token.name === "string" ? token.name : null;
       session.user.image = typeof token.picture === "string" ? token.picture : null;
       session.user.role = typeof token.role === "string" ? token.role : "LEARNER";
+      session.user.isEmailVerified = token.emailVerified === true;
       session.user.hasPassword = token.hasPassword === true;
       session.user.hasCurrentConsent = token.hasCurrentConsent === true;
       session.user.oauthProviders = Array.isArray(token.oauthProviders)
@@ -227,9 +231,12 @@ export const { handlers, auth } = NextAuth((request) => ({
     },
   },
   events: {
-    async signIn({ account, user }) {
+    async signIn({ account, profile, user }) {
       if (!user.id) return;
-      if (account?.type === "oauth" || account?.type === "oidc") {
+      if (
+        (account?.type === "oauth" || account?.type === "oidc")
+        && providerProfileVerifiesEmail(account.provider, profile, user.email)
+      ) {
         await prisma.$transaction([
           prisma.user.updateMany({
             where: { id: user.id, emailVerified: null },

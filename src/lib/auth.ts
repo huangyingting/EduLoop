@@ -20,6 +20,7 @@ export type SessionUser = {
   displayName: string | null;
   image: string | null;
   role: string;
+  emailVerified: boolean;
   hasPassword: boolean;
   hasCurrentConsent: boolean;
   oauthProviders: string[];
@@ -60,6 +61,7 @@ export async function getSessionUser(
       name: true,
       image: true,
       role: true,
+      emailVerified: true,
       passwordHash: true,
       sessionVersion: true,
       termsAcceptedAt: true,
@@ -81,6 +83,7 @@ export async function getSessionUser(
     displayName: user.name,
     image: user.image,
     role: user.role,
+    emailVerified: Boolean(user.emailVerified),
     hasPassword: Boolean(user.passwordHash),
     hasCurrentConsent,
     oauthProviders: user.accounts.map(({ provider }) => provider),

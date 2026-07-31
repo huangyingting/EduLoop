@@ -5,8 +5,14 @@ import { changeAccountPassword, deleteAccount } from "@/lib/account";
 import { getSessionUser } from "@/lib/auth";
 import { accountDeletionSchema, hasRecentAuthentication, isSameOriginRequest, passwordChangeSchema } from "@/lib/auth-validation";
 import { emailConfiguration, sendAccountDeletedNotice, sendPasswordChangedNotice } from "@/lib/email";
+import { deliverEmailVerification } from "@/lib/email-verification";
 
 export const runtime = "nodejs";
+
+function accountOrigin(request: Request) {
+  const configured = process.env.AUTH_URL?.trim();
+  return configured ? new URL(configured).origin : new URL(request.url).origin;
+}
 
 async function notifyPasswordChange(email: string) {
   try {
@@ -51,6 +57,16 @@ async function patchAccount(request: Request) {
   if (outcome === "NOT_FOUND") return apiError("账号不存在。", 404, "NOT_FOUND");
   if (outcome === "UNCHANGED") return apiError("新密码不能与当前密码相同。", 400, "INVALID_REQUEST");
   if (outcome === "CONFLICT") return apiError("账号安全设置刚刚发生变化，请重新登录后再试。", 409, "CONFLICT");
+  if (outcome === "PASSWORD_SET_VERIFICATION_REQUIRED") {
+    const verificationScheduled = Boolean(emailConfiguration());
+    if (verificationScheduled) {
+      const origin = accountOrigin(request);
+      await runAfterResponse(() => deliverEmailVerification(user.email, origin));
+    }
+    return NextResponse.json({ changed: true, verificationRequired: true, verificationScheduled }, {
+      headers: { "Cache-Control": "no-store" },
+    });
+  }
   if (emailConfiguration()) {
     await runAfterResponse(() => notifyPasswordChange(user.email));
   }

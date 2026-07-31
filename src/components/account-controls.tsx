@@ -45,6 +45,7 @@ export function AccountControls() {
     && !auth.user?.hasPassword
     && !hasRecentLogin;
   const needsRecentLogin = auth.status === "authenticated" && !hasRecentLogin;
+  const hasVerifiedPassword = Boolean(auth.user?.hasPassword && auth.user.isEmailVerified);
   const connectedProviders = Array.from(new Set(
     (auth.user?.oauthProviders ?? []).filter(isSocialProviderId),
   ));
@@ -114,9 +115,24 @@ export function AccountControls() {
       const response = await fetch("/api/auth/account", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ currentPassword, newPassword }),
+        body: JSON.stringify({ currentPassword: currentPassword || undefined, newPassword }),
       });
-      if (!response.ok) throw new Error(await errorMessage(response, "密码修改失败，请稍后再试。"));
+      const body = await response.json().catch(() => null) as {
+        error?: string;
+        verificationRequired?: boolean;
+        verificationScheduled?: boolean;
+      } | null;
+      if (!response.ok) throw new Error(body?.error ?? "密码修改失败，请稍后再试。");
+      if (body?.verificationRequired) {
+        setCurrentPassword(""); setNewPassword("");
+        try {
+          await auth.logout();
+        } finally {
+          const delivery = body.verificationScheduled ? "&delivery=scheduled" : "";
+          window.location.assign(`/verify-email?passwordSet=1${delivery}`);
+        }
+        return;
+      }
       const signedIn = await signIn("credentials", {
         email: auth.user?.email,
         password: newPassword,
@@ -224,7 +240,8 @@ export function AccountControls() {
 
   return <section className="mt-7 rounded-[28px] border-2 border-ink/10 bg-white p-6 sm:p-8">
     <h2 className="font-display text-2xl font-black">账号安全</h2>
-    <p className="mt-2 text-sm font-semibold leading-6 text-muted">当前账号：{auth.user?.email}</p>
+    <p className="mt-2 text-sm font-semibold leading-6 text-muted">当前账号：{auth.user?.email}（{auth.user?.isEmailVerified ? "邮箱已验证" : "邮箱未验证"}）</p>
+    {!auth.user?.isEmailVerified ? <p className="mt-2 text-sm font-semibold leading-6 text-muted">社交登录仍可使用；完成邮箱验证后，才能使用密码登录。<Link href="/verify-email" className="ml-1 font-black text-violet hover:underline">验证邮箱</Link></p> : null}
     {message ? <p role="status" className="mt-4 flex items-center gap-2 rounded-xl bg-[#e6f8ef] px-4 py-3 text-sm font-bold text-[#247a59]"><Check size={17} /> {message}</p> : null}
     {error ? <p role="alert" className="mt-4 rounded-xl bg-[#fff0ed] px-4 py-3 text-sm font-bold text-coral">{error}</p> : null}
     {needsRecentLogin ? <div className="mt-4 rounded-xl border-2 border-violet/20 bg-[#f0edff] px-4 py-3 text-sm font-semibold text-muted"><p>{needsRecentSensitiveLogin ? "更改邮箱、连接或移除登录方式、设置密码、退出所有设备或删除账号前，请重新验证你的社交账号。" : "连接或移除登录方式或退出所有设备前，请重新登录验证当前账号。"}</p><button type="button" onClick={() => void reauthenticate()} className="mt-3 inline-flex min-h-10 items-center gap-2 rounded-xl bg-violet px-4 text-xs font-black text-white"><LogIn size={15} /> 重新登录验证</button></div> : null}
@@ -233,7 +250,7 @@ export function AccountControls() {
       <p className="mt-2 text-sm font-semibold leading-6 text-muted">连接会重新验证提供商身份，只保存后续登录所需的账号关联，不保存访问或刷新令牌。移除连接会删除该关联并退出所有设备；系统不会允许删除最后一种登录方式。</p>
       <div className="mt-4 space-y-2">{displayedProviders.map((provider) => {
         const connected = connectedProviders.includes(provider.id);
-        const canDisconnect = Boolean(auth.user?.hasPassword) || connectedProviders.length > 1;
+        const canDisconnect = hasVerifiedPassword || connectedProviders.length > 1;
         const busy = linking === provider.id || disconnecting === provider.id;
         const label = socialProviderLabel(provider.id);
         return <div key={provider.id} className="flex min-h-12 items-center justify-between gap-3 rounded-xl border-2 border-ink/10 bg-white px-4 py-2">
@@ -250,7 +267,7 @@ export function AccountControls() {
           </button>
         </div>;
       })}</div>
-      {!auth.user?.hasPassword && connectedProviders.length === 1 ? <p className="mt-3 text-xs font-semibold leading-5 text-muted">这是当前唯一登录方式。请先设置密码或连接另一个社交账号，再移除它。</p> : null}
+      {!hasVerifiedPassword && connectedProviders.length === 1 ? <p className="mt-3 text-xs font-semibold leading-5 text-muted">这是当前唯一可用的登录方式。请先设置密码并验证邮箱，或连接另一个社交账号，再移除它。</p> : null}
     </div> : null}
     <div className="mt-6 grid gap-6 lg:grid-cols-2">
       <form onSubmit={changeEmail} className="rounded-2xl border-2 border-sky/25 bg-[#eaf8ff] p-5">
@@ -262,7 +279,7 @@ export function AccountControls() {
       </form>
       <form onSubmit={changePassword} className="rounded-2xl border-2 border-violet/15 bg-[#f0edff] p-5">
         <h3 className="flex items-center gap-2 font-black"><KeyRound size={18} /> {auth.user?.hasPassword ? "更改密码" : "设置邮箱密码"}</h3>
-        {auth.user?.hasPassword ? <label className="mt-4 block text-sm font-bold">当前密码<input type="password" required autoComplete="current-password" value={currentPassword} onChange={(event) => setCurrentPassword(event.target.value)} className="mt-1.5 min-h-11 w-full rounded-xl border-2 border-ink/10 bg-white px-3 outline-none focus:border-violet" /></label> : <p className="mt-3 text-sm font-semibold leading-6 text-muted">设置后可继续使用社交登录，也可直接使用邮箱和密码登录。</p>}
+        {auth.user?.hasPassword ? <label className="mt-4 block text-sm font-bold">当前密码<input type="password" required autoComplete="current-password" value={currentPassword} onChange={(event) => setCurrentPassword(event.target.value)} className="mt-1.5 min-h-11 w-full rounded-xl border-2 border-ink/10 bg-white px-3 outline-none focus:border-violet" /></label> : <p className="mt-3 text-sm font-semibold leading-6 text-muted">{auth.user?.isEmailVerified ? "设置后可继续使用社交登录，也可直接使用邮箱和密码登录。" : "设置后会退出所有设备并发送邮箱验证链接；验证完成前仍需使用社交登录。"}</p>}
         <label className="mt-3 block text-sm font-bold">新密码<input type="password" required minLength={8} maxLength={128} autoComplete="new-password" value={newPassword} onChange={(event) => setNewPassword(event.target.value)} className="mt-1.5 min-h-11 w-full rounded-xl border-2 border-ink/10 bg-white px-3 outline-none focus:border-violet" /></label>
         <button disabled={changing || needsRecentSensitiveLogin} className="mt-4 inline-flex min-h-11 items-center gap-2 rounded-xl bg-violet px-5 text-sm font-black text-white disabled:opacity-50">{changing ? <LoaderCircle className="animate-spin" size={17} /> : <KeyRound size={17} />} {auth.user?.hasPassword ? "更新密码" : "设置密码"}</button>
       </form>

@@ -554,8 +554,8 @@ export function PracticePlayer() {
           </div>
 
           <div className="px-6 py-7 sm:px-9 sm:py-9">
-            <h2 ref={questionHeading} id="practice-question-heading" tabIndex={-1} className="question-copy text-[17px] font-bold leading-8 text-ink outline-none sm:text-[19px]"><MathText>{question.stem}</MathText></h2>
-            {question.stemAsset ? <Image src={question.stemAsset.path} alt={question.stemAsset.altText} width={720} height={360} className="mx-auto mt-6 h-auto max-h-80 w-full max-w-2xl rounded-2xl border border-ink/10 bg-[#fffdf8] object-contain" /> : null}
+            <h2 ref={questionHeading} id="practice-question-heading" tabIndex={-1} className="question-copy text-[17px] font-bold leading-8 text-ink outline-none sm:text-[19px]"><MathText eagerFigures>{question.stem}</MathText></h2>
+            {question.stemAsset ? <Image src={question.stemAsset.path} alt={question.stemAsset.altText} width={720} height={360} loading="eager" className="mx-auto mt-6 h-auto max-h-80 w-full max-w-2xl rounded-2xl border border-ink/10 bg-[#fffdf8] object-contain" /> : null}
             {!result && question.hasHint ? <div className="mt-6">
               {hint ? <div aria-live="polite" className="border-l-4 border-lime bg-[#f7fadf] px-4 py-3 text-sm"><p className="flex items-center gap-2 font-black"><Lightbulb size={17} /> 解题提示</p><div className="mt-2 whitespace-pre-line font-medium leading-6 text-ink/75"><MathText>{hint}</MathText></div></div> : <button onClick={() => void revealHint()} disabled={hintLoading} aria-keyshortcuts="H" className="flex min-h-11 items-center gap-2 rounded-xl border-2 border-ink/10 bg-canvas px-4 text-sm font-black text-muted transition hover:border-lime hover:text-ink disabled:opacity-50">{hintLoading ? <LoaderCircle className="animate-spin" size={17} /> : <Lightbulb size={17} />} 查看提示</button>}
               {hintError ? <p role="alert" className="mt-2 text-sm font-bold text-coral">{hintError}</p> : null}

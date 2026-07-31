@@ -41,7 +41,15 @@ function RenderedMath({ math, displayMode }: { math: string; displayMode: boolea
   );
 }
 
-export function MathText({ children, className = "" }: { children: string; className?: string }) {
+export function MathText({
+  children,
+  className = "",
+  eagerFigures = false,
+}: {
+  children: string;
+  className?: string;
+  eagerFigures?: boolean;
+}) {
   const tokens = tokenizeMathContent(children);
   return (
     <span className={className}>
@@ -57,7 +65,7 @@ export function MathText({ children, className = "" }: { children: string; class
           if (!src) return <Fragment key={index}>{token.value}</Fragment>;
           return (
             <span key={index} className="my-4 flex justify-center">
-              <Image src={src} alt="Question figure" width={900} height={600} className="h-auto max-h-96 w-auto max-w-full rounded-xl object-contain" />
+              <Image src={src} alt="Question figure" width={900} height={600} loading={eagerFigures ? "eager" : "lazy"} className="h-auto max-h-96 w-auto max-w-full rounded-xl object-contain" />
             </span>
           );
         }

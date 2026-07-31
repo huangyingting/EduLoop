@@ -20,12 +20,14 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
   const [password, setPassword] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [knowledgeBand, setKnowledgeBand] = useState("");
-  const [error, setError] = useState(() => authErrorMessage(searchParams.get("error")));
+  const [error, setError] = useState(() => authErrorMessage(searchParams.get("error"), searchParams.get("code")));
   const [busy, setBusy] = useState(false);
   const [socialBusy, setSocialBusy] = useState<string | null>(null);
   const [providers, setProviders] = useState<SocialProvider[]>([]);
   const [gradeBands, setGradeBands] = useState<GradeBandOption[]>([]);
   const isLogin = mode === "login";
+  const emailUnverified = isLogin && searchParams.get("code") === "email_not_verified";
+  const emailVerified = isLogin && searchParams.get("verified") === "1";
   const next = safeReturnPath(searchParams.get("next"));
 
   useEffect(() => {
@@ -67,8 +69,12 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
             knowledgeBand: knowledgeBand || undefined,
           }),
         });
-        const body = await response.json() as { error?: string };
+        const body = await response.json() as { error?: string; verificationRequired?: boolean };
         if (!response.ok) throw new Error(body.error ?? "暂时无法创建账号，请稍后重试。");
+        if (body.verificationRequired) {
+          router.replace("/verify-email?registered=1");
+          return;
+        }
       }
       await signIn("credentials", {
         email,
@@ -144,7 +150,8 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
             <Field label="密码" icon={<LockKeyhole size={18} />}><input type="password" required minLength={isLogin ? undefined : 8} maxLength={128} value={password} onChange={(event) => setPassword(event.target.value)} autoComplete={isLogin ? "current-password" : "new-password"} placeholder={isLogin ? "输入密码" : "至少 8 位字符"} className={inputClass} /></Field>
             {isLogin ? <p className="-mt-1 text-right text-xs font-semibold"><Link href="/forgot-password" className="font-black text-violet hover:underline">忘记密码？</Link></p> : null}
 
-            {error ? <p role="alert" className="rounded-xl border-2 border-coral/30 bg-[#fff0ed] px-4 py-3 text-sm font-bold text-coral">{error}</p> : null}
+            {emailVerified ? <p role="status" className="rounded-xl border-2 border-lime bg-[#f7fadf] px-4 py-3 text-sm font-bold text-[#557000]">邮箱已验证，请登录继续学习。</p> : null}
+            {error ? <div role="alert" className="rounded-xl border-2 border-coral/30 bg-[#fff0ed] px-4 py-3 text-sm font-bold text-coral"><p>{error}</p>{emailUnverified ? <Link href="/verify-email" className="mt-2 inline-block text-violet hover:underline">重新发送验证邮件</Link> : null}</div> : null}
             <button type="submit" disabled={busy} className="flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-ink px-5 font-black text-white shadow-[0_4px_0_#6c5ce7] transition hover:-translate-y-0.5 disabled:translate-y-0 disabled:opacity-60">
               {busy ? <LoaderCircle className="animate-spin" size={18} /> : <>{isLogin ? "登录并继续" : "创建账号"}<ArrowRight size={18} /></>}
             </button>
@@ -169,8 +176,9 @@ function providerLabel(provider: SocialProvider) {
   return provider.name;
 }
 
-function authErrorMessage(error: string | null | undefined) {
+function authErrorMessage(error: string | null | undefined, code?: string | null) {
   if (!error) return "";
+  if (error === "CredentialsSignin" && code === "email_not_verified") return "邮箱尚未验证，请先打开验证邮件中的链接。";
   if (error === "CredentialsSignin") return "邮箱或密码不正确。";
   if (error === "OAuthAccountNotLinked") return "该邮箱已有账号。请先用原方式登录，再到“数据与隐私”中连接此社交账号。";
   if (error === "AccessDenied") return "该社交账号没有提供可验证的邮箱，无法登录。";

@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { emailConfiguration, sendPasswordResetEmail } from "./email";
+import { emailConfiguration, sendEmailVerificationEmail, sendPasswordResetEmail } from "./email";
 
 describe("password recovery email", () => {
   it("requires a complete provider configuration", () => {
@@ -36,5 +36,21 @@ describe("password recovery email", () => {
       environment: { RESEND_API_KEY: "secret-key", AUTH_EMAIL_FROM: "accounts@example.com" },
       fetcher: async () => new Response("provider detail", { status: 503 }),
     })).rejects.toThrow("Password recovery email provider returned 503.");
+  });
+
+  it("sends a verification link without exposing an unescaped fragment", async () => {
+    const fetcher = vi.fn(async (input: string | URL | Request, init?: RequestInit) => {
+      void input; void init;
+      return new Response(null, { status: 202 });
+    });
+    await sendEmailVerificationEmail("learner@example.com", "https://learn.example/verify-email#token=a&b", {
+      environment: { RESEND_API_KEY: "secret-key", AUTH_EMAIL_FROM: "accounts@example.com" },
+      fetcher,
+    });
+
+    const body = JSON.parse(String(fetcher.mock.calls[0]?.[1]?.body)) as { subject: string; text: string; html: string };
+    expect(body.subject).toBe("验证你的 EduLoop 邮箱");
+    expect(body.text).toContain("#token=a&b");
+    expect(body.html).toContain("#token=a&amp;b");
   });
 });

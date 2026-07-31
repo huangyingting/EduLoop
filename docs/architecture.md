@@ -79,7 +79,7 @@ The importer rebuilds `IMPORT`/`RULE` option and tag links but preserves links w
 
 ## Production boundaries
 
-- Public mode supports stateless anonymous practice and optional Auth.js email/password, Google, Microsoft, and Facebook accounts. Password accounts have email-delivered, single-use recovery with session revocation. Every non-practice product surface requires login. Content roles are assigned only through the trusted operator CLI and gate `/studio` plus its API. Institutional identity, verified guardian consent, teacher/guardian roles, verified-email enrollment, and school lifecycle management remain separate launch requirements.
+- Public mode supports stateless anonymous practice and optional Auth.js verified email/password, Google, Microsoft, and Facebook accounts. New production password accounts must consume an email-delivered verification link before login and have single-use recovery with session revocation. Existing password accounts were grandfathered when verification enforcement was introduced. Every non-practice product surface requires login. Content roles are assigned only through the trusted operator CLI and gate `/studio` plus its API. Institutional identity, verified guardian consent, teacher/guardian roles, and school lifecycle management remain separate launch requirements.
 - Mutation endpoints have per-process protection. Multi-replica deployments must also enforce limits at the trusted ingress or a shared rate-limit service.
 - Errors are emitted as structured JSON through Next.js instrumentation; production must forward stdout/stderr to a monitored log or error service.
 - `/api/health` verifies database readiness. CI checks types, lint, unit tests, content audit, schema parity, and the production build.

@@ -45,3 +45,30 @@ export async function sendPasswordResetEmail(
   });
   if (!response.ok) throw new Error(`Password recovery email provider returned ${response.status}.`);
 }
+
+export async function sendEmailVerificationEmail(
+  to: string,
+  verificationUrl: string,
+  options: { environment?: EmailEnvironment; fetcher?: Fetcher } = {},
+) {
+  const configuration = emailConfiguration(options.environment);
+  if (!configuration) throw new Error("Email verification is not configured.");
+  const fetcher = options.fetcher ?? fetch;
+  const text = `欢迎加入 EduLoop。请在 24 小时内验证你的邮箱：\n\n${verificationUrl}\n\n如果不是你创建的账号，可以忽略这封邮件。`;
+  const response = await fetcher(RESEND_ENDPOINT, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${configuration.apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      from: configuration.from,
+      to: [to],
+      subject: "验证你的 EduLoop 邮箱",
+      text,
+      html: `<p>欢迎加入 EduLoop。</p><p><a href="${escapeHtml(verificationUrl)}">在 24 小时内验证邮箱</a></p><p>如果不是你创建的账号，可以忽略这封邮件。</p>`,
+    }),
+    signal: AbortSignal.timeout(10_000),
+  });
+  if (!response.ok) throw new Error(`Email verification provider returned ${response.status}.`);
+}

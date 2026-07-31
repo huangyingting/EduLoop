@@ -56,14 +56,14 @@ export function validateEnvironment(environment) {
       }
     }
     if (!environment.RESEND_API_KEY?.trim() || !environment.AUTH_EMAIL_FROM?.trim()) {
-      errors.push("Production password recovery requires RESEND_API_KEY and AUTH_EMAIL_FROM.");
+      errors.push("Production account email requires RESEND_API_KEY and AUTH_EMAIL_FROM.");
     }
   }
 
   const hasResendKey = Boolean(environment.RESEND_API_KEY?.trim());
   const hasEmailFrom = Boolean(environment.AUTH_EMAIL_FROM?.trim());
   if (environment.NODE_ENV !== "production" && hasResendKey !== hasEmailFrom) {
-    errors.push("Password recovery email requires both RESEND_API_KEY and AUTH_EMAIL_FROM.");
+    errors.push("Account email requires both RESEND_API_KEY and AUTH_EMAIL_FROM.");
   }
   if (hasEmailFrom && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailAddress(environment.AUTH_EMAIL_FROM))) {
     errors.push("AUTH_EMAIL_FROM must contain a valid email address.");

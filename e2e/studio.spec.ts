@@ -29,6 +29,7 @@ test.describe("local content review workflow", () => {
       data: {
         id: learnerUserId,
         email: learnerEmail,
+        emailVerified: new Date(),
         name: "浏览器报告学习者",
         passwordHash,
         learner: { create: { displayName: "浏览器报告学习者" } },
@@ -38,6 +39,7 @@ test.describe("local content review workflow", () => {
       data: {
         id: editorUserId,
         email: editorEmail,
+        emailVerified: new Date(),
         name: "浏览器内容编辑",
         passwordHash,
         role: "CONTENT_EDITOR",

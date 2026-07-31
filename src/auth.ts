@@ -1,6 +1,6 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import type { Provider } from "next-auth/providers";
-import NextAuth from "next-auth";
+import NextAuth, { CredentialsSignin } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import Facebook from "next-auth/providers/facebook";
 import Google from "next-auth/providers/google";
@@ -18,6 +18,10 @@ import { hasRecentAuthentication, loginInputSchema, normalizeEmail } from "@/lib
 import { ensureLearnerForUser } from "@/lib/learner-identity";
 import { prisma } from "@/lib/prisma";
 import { checkRateLimit, clientAddress } from "@/lib/rate-limit";
+
+class EmailNotVerified extends CredentialsSignin {
+  code = "email_not_verified";
+}
 
 function configuredPair(id: string | undefined, secret: string | undefined) {
   return Boolean(id?.trim() && secret?.trim());
@@ -122,12 +126,13 @@ export const { handlers, auth } = NextAuth((request) => ({
 
         const user = await prisma.user.findUnique({
           where: { email },
-          select: { id: true, email: true, name: true, image: true, passwordHash: true },
+          select: { id: true, email: true, emailVerified: true, name: true, image: true, passwordHash: true },
         });
         const valid = user?.passwordHash
           ? await verifyPassword(parsed.data.password, user.passwordHash)
           : (await hashPassword(parsed.data.password), false);
         if (!user?.passwordHash || !valid) return null;
+        if (!user.emailVerified) throw new EmailNotVerified();
         if (passwordHashNeedsUpgrade(user.passwordHash)) {
           await prisma.user.update({
             where: { id: user.id },
@@ -201,8 +206,18 @@ export const { handlers, auth } = NextAuth((request) => ({
     },
   },
   events: {
-    async signIn({ user }) {
-      if (user.id) await ensureLearnerForUser(user.id, user.name ?? null);
+    async signIn({ account, user }) {
+      if (!user.id) return;
+      if (account?.type === "oauth" || account?.type === "oidc") {
+        await prisma.$transaction([
+          prisma.user.updateMany({
+            where: { id: user.id, emailVerified: null },
+            data: { emailVerified: new Date() },
+          }),
+          prisma.emailVerificationToken.deleteMany({ where: { userId: user.id } }),
+        ]);
+      }
+      await ensureLearnerForUser(user.id, user.name ?? null);
     },
   },
   logger: {

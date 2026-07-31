@@ -12,7 +12,11 @@ export async function changeAccountPassword(userId: string, currentPassword: str
   const passwordHash = await hashPassword(nextPassword);
   await prisma.user.update({
     where: { id: userId },
-    data: { passwordHash, sessionVersion: { increment: 1 } },
+    data: {
+      passwordHash,
+      emailVerified: user.passwordHash ? undefined : new Date(),
+      sessionVersion: { increment: 1 },
+    },
   });
   return user.passwordHash ? "UPDATED" : "PASSWORD_SET";
 }

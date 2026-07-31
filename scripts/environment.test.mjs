@@ -35,7 +35,7 @@ test("rejects provider drift and unsafe production SQLite", () => {
     "EDULOOP_DATABASE_PROVIDER=postgresql does not match the DATABASE_URL provider sqlite.",
     "AUTH_SECRET must be at least 32 characters in production.",
     "AUTH_URL is required in production.",
-    "Production password recovery requires RESEND_API_KEY and AUTH_EMAIL_FROM.",
+    "Production account email requires RESEND_API_KEY and AUTH_EMAIL_FROM.",
     "PORT must be an integer from 1 through 65535.",
   ]);
   assert.equal(result.warnings.length, 1);
@@ -62,7 +62,7 @@ test("rejects partial social provider configuration", () => {
     FACEBOOK_GRAPH_API_VERSION: "23",
   });
   assert.deepEqual(result.errors, [
-    "Password recovery email requires both RESEND_API_KEY and AUTH_EMAIL_FROM.",
+    "Account email requires both RESEND_API_KEY and AUTH_EMAIL_FROM.",
     "Google social login requires both AUTH_GOOGLE_ID and AUTH_GOOGLE_SECRET.",
     "FACEBOOK_GRAPH_API_VERSION must look like v23.0.",
   ]);

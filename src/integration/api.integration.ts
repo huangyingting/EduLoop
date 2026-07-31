@@ -3,6 +3,7 @@ import { encode } from "next-auth/jwt";
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import { GET as authGet, POST as authPost } from "@/app/api/auth/[...nextauth]/route";
 import { DELETE as deleteCurrentAccount, PATCH as updateCurrentAccount } from "@/app/api/auth/account/route";
+import { PATCH as completeEmailVerification, POST as requestEmailVerification } from "@/app/api/auth/email-verification/route";
 import { POST as registerAccount } from "@/app/api/auth/register/route";
 import { PATCH as completePasswordReset, POST as requestPasswordReset } from "@/app/api/auth/password-reset/route";
 import { GET as getCatalog } from "@/app/api/catalog/route";
@@ -23,6 +24,7 @@ import { prisma } from "@/lib/prisma";
 import { changeAccountPassword, deleteAccount } from "@/lib/account";
 import { calendarDay, calendarDaysBefore } from "@/lib/dates";
 import { AUTH_SECRET_VALUE, AUTH_SESSION_COOKIE, getSessionUser, hashPassword, verifyPassword } from "@/lib/auth";
+import { hashEmailVerificationToken } from "@/lib/email-verification";
 import { hashPasswordResetToken } from "@/lib/password-reset";
 const subjectId = "integration-subject";
 const bandId = "integration-band";
@@ -122,45 +124,117 @@ afterAll(async () => {
 });
 
 describe("learner API journey", () => {
-  it("registers a password user and signs in through the Auth.js credentials callback", async () => {
+  it("verifies a registered email before signing in through the credentials callback", async () => {
     const password = "authjs-password-123";
-    const registration = await registerAccount(new Request("http://localhost/api/auth/register", {
-      method: "POST",
-      headers: { ...headers, origin: "http://localhost" },
-      body: JSON.stringify({ email: authJsEmail, password, displayName: "Auth.js 学习者", knowledgeBand: "integration-middle" }),
-    }));
-    expect(registration.status).toBe(201);
+    const previousEnvironment = {
+      AUTH_URL: process.env.AUTH_URL,
+      RESEND_API_KEY: process.env.RESEND_API_KEY,
+      AUTH_EMAIL_FROM: process.env.AUTH_EMAIL_FROM,
+    };
+    process.env.AUTH_URL = "https://learn.example";
+    process.env.RESEND_API_KEY = "re_integration_key";
+    process.env.AUTH_EMAIL_FROM = "EduLoop <accounts@learn.example>";
+    const emailFetch = vi.fn(async (input: string | URL | Request, init?: RequestInit) => {
+      void input; void init;
+      return new Response(null, { status: 202 });
+    });
+    vi.stubGlobal("fetch", emailFetch);
 
-    const csrfResponse = await authGet(new NextRequest("http://localhost/api/auth/csrf"));
-    const csrf = await csrfResponse.json() as { csrfToken: string };
-    const csrfCookie = responseCookie(csrfResponse, "authjs.csrf-token");
-    expect(csrfCookie).toBeTruthy();
+    async function credentialsCallback() {
+      const csrfResponse = await authGet(new NextRequest("http://localhost/api/auth/csrf"));
+      const csrf = await csrfResponse.json() as { csrfToken: string };
+      const csrfCookie = responseCookie(csrfResponse, "authjs.csrf-token");
+      expect(csrfCookie).toBeTruthy();
+      return authPost(new NextRequest("http://localhost/api/auth/callback/credentials", {
+        method: "POST",
+        headers: {
+          "content-type": "application/x-www-form-urlencoded",
+          cookie: csrfCookie!,
+          "x-auth-return-redirect": "1",
+        },
+        body: new URLSearchParams({
+          csrfToken: csrf.csrfToken,
+          email: authJsEmail,
+          password,
+          callbackUrl: "http://localhost/progress",
+        }).toString(),
+      }));
+    }
 
-    const callback = await authPost(new NextRequest("http://localhost/api/auth/callback/credentials", {
-      method: "POST",
-      headers: {
-        "content-type": "application/x-www-form-urlencoded",
-        cookie: csrfCookie!,
-        "x-auth-return-redirect": "1",
-      },
-      body: new URLSearchParams({
-        csrfToken: csrf.csrfToken,
-        email: authJsEmail,
-        password,
-        callbackUrl: "http://localhost/progress",
-      }).toString(),
-    }));
-    expect(callback.status).toBe(200);
-    const sessionCookie = responseCookie(callback, AUTH_SESSION_COOKIE);
-    expect(sessionCookie).toBeTruthy();
-    const sessionUser = await getSessionUser(new Request("http://localhost/api/learner", {
-      headers: { cookie: sessionCookie! },
-    }));
-    expect(sessionUser).toMatchObject({ email: authJsEmail, displayName: "Auth.js 学习者", hasPassword: true });
-    expect(await prisma.learnerProfile.findUnique({
-      where: { userId: sessionUser!.id },
-      include: { knowledgeBand: true },
-    })).toMatchObject({ knowledgeBand: { slug: "integration-middle" } });
+    try {
+      const registration = await registerAccount(new Request("http://localhost/api/auth/register", {
+        method: "POST",
+        headers: { ...headers, origin: "http://localhost" },
+        body: JSON.stringify({ email: authJsEmail, password, displayName: "Auth.js 学习者", knowledgeBand: "integration-middle" }),
+      }));
+      expect(registration.status).toBe(201);
+      expect(await registration.json()).toMatchObject({ created: true, verificationRequired: true });
+      expect((await prisma.user.findUniqueOrThrow({ where: { email: authJsEmail } })).emailVerified).toBeNull();
+
+      const blocked = await credentialsCallback();
+      expect(responseCookie(blocked, AUTH_SESSION_COOKIE)).toBeNull();
+      expect(await blocked.json()).toMatchObject({
+        url: expect.stringContaining("code=email_not_verified"),
+      });
+
+      const unknown = await requestEmailVerification(request(
+        "http://localhost/api/auth/email-verification",
+        "POST",
+        { email: "missing-verification@example.com" },
+      ));
+      const resent = await requestEmailVerification(request(
+        "http://localhost/api/auth/email-verification",
+        "POST",
+        { email: authJsEmail.toUpperCase() },
+      ));
+      expect(unknown.status).toBe(202);
+      expect(resent.status).toBe(202);
+      expect(await unknown.json()).toEqual(await resent.clone().json());
+      expect(emailFetch).toHaveBeenCalledTimes(2);
+
+      const delivery = emailFetch.mock.calls[1]?.[1] as RequestInit | undefined;
+      const emailBody = JSON.parse(String(delivery?.body)) as { text: string };
+      const token = emailBody.text.match(/#token=([A-Za-z0-9_-]+)/)?.[1];
+      expect(token).toBeTruthy();
+      expect(await prisma.emailVerificationToken.findUnique({
+        where: { tokenHash: hashEmailVerificationToken(token!) },
+      })).toMatchObject({ userId: expect.any(String) });
+
+      const verified = await completeEmailVerification(request(
+        "http://localhost/api/auth/email-verification",
+        "PATCH",
+        { token },
+      ));
+      expect(verified.status).toBe(200);
+      expect((await prisma.user.findUniqueOrThrow({ where: { email: authJsEmail } })).emailVerified).toBeInstanceOf(Date);
+      expect(await prisma.emailVerificationToken.count({ where: { tokenHash: hashEmailVerificationToken(token!) } })).toBe(0);
+
+      const replay = await completeEmailVerification(request(
+        "http://localhost/api/auth/email-verification",
+        "PATCH",
+        { token },
+      ));
+      expect(replay.status).toBe(400);
+
+      const callback = await credentialsCallback();
+      expect(callback.status).toBe(200);
+      const sessionCookie = responseCookie(callback, AUTH_SESSION_COOKIE);
+      expect(sessionCookie).toBeTruthy();
+      const sessionUser = await getSessionUser(new Request("http://localhost/api/learner", {
+        headers: { cookie: sessionCookie! },
+      }));
+      expect(sessionUser).toMatchObject({ email: authJsEmail, displayName: "Auth.js 学习者", hasPassword: true });
+      expect(await prisma.learnerProfile.findUnique({
+        where: { userId: sessionUser!.id },
+        include: { knowledgeBand: true },
+      })).toMatchObject({ knowledgeBand: { slug: "integration-middle" } });
+    } finally {
+      for (const [key, value] of Object.entries(previousEnvironment)) {
+        if (value === undefined) delete process.env[key];
+        else process.env[key] = value;
+      }
+      vi.unstubAllGlobals();
+    }
   });
 
   it("updates a catalog-backed learner profile and rejects mismatched knowledge", async () => {

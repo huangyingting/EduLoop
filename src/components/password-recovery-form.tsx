@@ -1,7 +1,8 @@
 "use client";
 
-import { ArrowRight, CheckCircle2, LoaderCircle, LockKeyhole, Mail, RotateCcw } from "lucide-react";
+import { ArrowRight, BadgeCheck, CheckCircle2, LoaderCircle, LockKeyhole, Mail, RotateCcw } from "lucide-react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const inputClass = "min-h-11 w-full rounded-xl border-2 border-ink/10 bg-canvas/60 pl-10 pr-4 text-sm font-semibold outline-none transition focus:border-violet focus:bg-white";
@@ -102,4 +103,72 @@ export function ResetPasswordForm() {
 
   if (token === null) return <RecoveryShell><p role="status" className="mt-8 font-bold text-muted">正在验证重置链接…</p></RecoveryShell>;
   return <RecoveryShell><p className="mt-7 text-xs font-black uppercase tracking-[.2em] text-coral">Choose a new password</p><h1 className="mt-1.5 font-display text-3xl font-black tracking-tight">设置新密码</h1>{changed ? <div role="status" className="mt-6 rounded-2xl border-2 border-lime bg-[#f7fadf] p-5"><CheckCircle2 className="text-[#557000]" /><p className="mt-3 font-black">密码已更新</p><p className="mt-1 text-sm font-semibold leading-6 text-muted">所有旧登录会话都已退出。请使用新密码重新登录。</p><Link href="/login" className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-xl bg-ink px-5 text-sm font-black text-white">前往登录 <ArrowRight size={16} /></Link></div> : !token ? <div role="alert" className="mt-6 rounded-2xl border-2 border-coral/30 bg-[#fff0ed] p-5"><p className="font-black text-coral">重置链接无效</p><p className="mt-1 text-sm font-semibold leading-6 text-muted">链接可能不完整、已经使用或已经过期。</p><Link href="/forgot-password" className="mt-4 inline-flex min-h-11 items-center gap-2 font-black text-violet">重新申请链接 <ArrowRight size={16} /></Link></div> : <><p className="mt-2 text-sm font-semibold leading-6 text-muted">新密码至少 8 位。更新后，其他设备上的旧会话会立即失效。</p><form onSubmit={submit} className="mt-6 space-y-4"><Field label="新密码" icon={<LockKeyhole size={18} />}><input type="password" required minLength={8} maxLength={128} value={password} onChange={(event) => setPassword(event.target.value)} autoComplete="new-password" className={inputClass} /></Field><Field label="再次输入新密码" icon={<LockKeyhole size={18} />}><input type="password" required minLength={8} maxLength={128} value={confirmation} onChange={(event) => setConfirmation(event.target.value)} autoComplete="new-password" className={inputClass} /></Field>{error ? <p role="alert" className="rounded-xl border-2 border-coral/30 bg-[#fff0ed] px-4 py-3 text-sm font-bold text-coral">{error}</p> : null}<button type="submit" disabled={busy} className="flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-ink px-5 font-black text-white shadow-[0_4px_0_#6c5ce7] disabled:opacity-60">{busy ? <LoaderCircle className="animate-spin" size={18} /> : <>更新密码 <ArrowRight size={18} /></>}</button></form></>}<p className="mt-6 text-center text-sm font-semibold text-muted"><Link href="/login" className="font-black text-violet hover:underline">返回登录</Link></p></RecoveryShell>;
+}
+
+export function EmailVerificationForm() {
+  const searchParams = useSearchParams();
+  const [state, setState] = useState<"idle" | "checking" | "verified" | "invalid">("idle");
+  const [email, setEmail] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [sent, setSent] = useState(false);
+  const [error, setError] = useState("");
+  const registered = searchParams.get("registered") === "1";
+
+  useEffect(() => {
+    let active = true;
+    let timer: number | undefined;
+    let requestVersion = 0;
+    function consumeFragment() {
+      const token = new URLSearchParams(window.location.hash.slice(1)).get("token") || "";
+      window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}`);
+      if (!token) return;
+      const version = ++requestVersion;
+      window.clearTimeout(timer);
+      timer = window.setTimeout(() => {
+        setState("checking");
+        void fetch("/api/auth/email-verification", {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ token }),
+        }).then((response) => {
+          if (!active || version !== requestVersion) return;
+          setState(response.ok ? "verified" : "invalid");
+        }).catch(() => {
+          if (active && version === requestVersion) setState("invalid");
+        });
+      }, 0);
+    }
+    consumeFragment();
+    window.addEventListener("hashchange", consumeFragment);
+    return () => {
+      active = false;
+      window.clearTimeout(timer);
+      window.removeEventListener("hashchange", consumeFragment);
+    };
+  }, []);
+
+  async function resend(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (busy) return;
+    setBusy(true); setError("");
+    try {
+      const response = await fetch("/api/auth/email-verification", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      const body = await response.json() as { error?: string };
+      if (!response.ok) throw new Error(body.error ?? "暂时无法发送验证邮件，请稍后再试。");
+      setSent(true);
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : "暂时无法发送验证邮件，请稍后再试。");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  if (state === "checking") return <RecoveryShell><p role="status" className="mt-8 flex items-center gap-2 font-bold text-muted"><LoaderCircle className="animate-spin" size={18} /> 正在验证邮箱…</p></RecoveryShell>;
+  if (state === "verified") return <RecoveryShell><div role="status" className="mt-7 rounded-2xl border-2 border-lime bg-[#f7fadf] p-5"><BadgeCheck className="text-[#557000]" /><h1 className="mt-3 font-display text-3xl font-black">邮箱已验证</h1><p className="mt-2 text-sm font-semibold leading-6 text-muted">现在可以使用邮箱和密码登录，学习进度会安全同步。</p><Link href="/login?verified=1" className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-xl bg-ink px-5 text-sm font-black text-white">前往登录 <ArrowRight size={16} /></Link></div></RecoveryShell>;
+
+  return <RecoveryShell><p className="mt-7 text-xs font-black uppercase tracking-[.2em] text-coral">Verify your email</p><h1 className="mt-1.5 font-display text-3xl font-black tracking-tight">验证你的邮箱</h1>{state === "invalid" ? <div role="alert" className="mt-5 rounded-xl border-2 border-coral/30 bg-[#fff0ed] px-4 py-3 text-sm font-bold text-coral">验证链接无效或已过期，请重新发送。</div> : registered ? <div role="status" className="mt-5 rounded-xl border-2 border-lime bg-[#f7fadf] px-4 py-3 text-sm font-bold text-[#557000]">账号已创建。请打开验证邮件中的链接后再登录。</div> : <p className="mt-2 text-sm font-semibold leading-6 text-muted">没有收到邮件，或原链接已过期？输入注册邮箱重新发送。</p>}{sent ? <div role="status" className="mt-5 rounded-2xl border-2 border-lime bg-[#f7fadf] p-5"><CheckCircle2 className="text-[#557000]" /><p className="mt-3 font-black">请检查邮箱</p><p className="mt-1 text-sm font-semibold leading-6 text-muted">如果该邮箱需要验证，你会收到一封新邮件。链接将在 24 小时后失效。</p><button type="button" onClick={() => { setSent(false); setEmail(""); }} className="mt-4 inline-flex min-h-11 items-center gap-2 text-sm font-black text-violet"><RotateCcw size={16} /> 重新输入邮箱</button></div> : <form onSubmit={resend} className="mt-6 space-y-4"><Field label="注册邮箱" icon={<Mail size={18} />}><input type="email" required value={email} onChange={(event) => setEmail(event.target.value)} maxLength={254} autoComplete="email" placeholder="student@example.com" className={inputClass} /></Field>{error ? <p role="alert" className="rounded-xl border-2 border-coral/30 bg-[#fff0ed] px-4 py-3 text-sm font-bold text-coral">{error}</p> : null}<button type="submit" disabled={busy} className="flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-ink px-5 font-black text-white shadow-[0_4px_0_#6c5ce7] disabled:opacity-60">{busy ? <LoaderCircle className="animate-spin" size={18} /> : <>重新发送验证邮件 <ArrowRight size={18} /></>}</button></form>}<p className="mt-6 text-center text-sm font-semibold text-muted"><Link href="/login" className="font-black text-violet hover:underline">返回登录</Link></p></RecoveryShell>;
 }

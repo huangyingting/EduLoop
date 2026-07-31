@@ -58,6 +58,7 @@ export async function resetPasswordWithToken(
       },
     });
     await transaction.session.deleteMany({ where: { userId: record.userId } });
+    await transaction.emailVerificationToken.deleteMany({ where: { userId: record.userId } });
     await transaction.passwordResetToken.deleteMany({ where: { userId: record.userId } });
     return "UPDATED";
   });

@@ -1,5 +1,6 @@
-import { after, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { apiError, apiHandler, enforceRateLimit } from "@/lib/api";
+import { runAfterResponse } from "@/lib/after-response";
 import { normalizeEmail, isSameOriginRequest, passwordResetCompletionSchema, passwordResetRequestSchema } from "@/lib/auth-validation";
 import { emailConfiguration, sendPasswordResetEmail } from "@/lib/email";
 import { hashPasswordResetToken, issuePasswordResetToken, resetPasswordWithToken, revokePasswordResetToken } from "@/lib/password-reset";
@@ -29,14 +30,6 @@ async function deliverPasswordReset(email: string, origin: string) {
   }
 }
 
-async function deliverAfterResponse(task: () => Promise<void>) {
-  if (process.env.NODE_ENV === "test") {
-    await task();
-    return;
-  }
-  after(task);
-}
-
 async function requestPasswordReset(request: Request) {
   if (!isSameOriginRequest(request)) return apiError("Invalid request origin.", 403, "FORBIDDEN");
   const parsed = passwordResetRequestSchema.safeParse(await request.json().catch(() => null));
@@ -47,7 +40,7 @@ async function requestPasswordReset(request: Request) {
 
   if (emailConfiguration()) {
     const origin = resetOrigin(request);
-    await deliverAfterResponse(() => deliverPasswordReset(email, origin));
+    await runAfterResponse(() => deliverPasswordReset(email, origin));
   }
 
   return NextResponse.json({ accepted: true, message: acceptedMessage }, {

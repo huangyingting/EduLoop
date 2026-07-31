@@ -6,7 +6,8 @@ EduLoop uses Auth.js (`next-auth` v5) for email/password, Google, Microsoft Entr
 
 - `src/auth.ts` is the single Auth.js configuration. It owns providers, the Prisma adapter, credential verification, callbacks, session projection, and OAuth sign-in events.
 - `GET|POST /api/auth/[...nextauth]` exposes Auth.js' CSRF, provider, callback, session, sign-in, and sign-out endpoints.
-- `POST /api/auth/register` remains an EduLoop endpoint because Auth.js Credentials authenticates existing users but deliberately does not create password users. After registration, the client signs in through the Auth.js Credentials callback.
+- `POST /api/auth/register` remains an EduLoop endpoint because Auth.js Credentials authenticates existing users but deliberately does not create password users. In production it creates an unverified account and schedules email delivery after returning; Credentials refuses the correct password until verification succeeds. Development without a configured email provider auto-verifies new accounts so the local setup remains self-contained.
+- `POST|PATCH /api/auth/email-verification` resends and consumes 24-hour, single-use email verification links. Resend responses are generic, account lookup and delivery happen after the response, URL fragments keep tokens out of requests and referrers, and only SHA-256 token digests are stored.
 - Google, Microsoft, and Facebook use Auth.js providers. Buttons appear only when that provider has a complete client-ID/client-secret pair.
 - OAuth navigation goes directly through Auth.js. A successful account sign-in ensures that the user owns one learner profile; guests have no profile or progress to merge.
 - `PATCH|DELETE /api/auth/account` provides password setup/rotation and full account erasure. Social-only users can set an email password; deletion is confirmed with the account email when no password exists.
@@ -42,6 +43,6 @@ Use these callback URLs in provider consoles:
 - `{AUTH_URL}/api/auth/callback/microsoft-entra-id`
 - `{AUTH_URL}/api/auth/callback/facebook`
 
-Production requires `AUTH_SECRET`, a public HTTPS `AUTH_URL`, `RESEND_API_KEY`, and a verified `AUTH_EMAIL_FROM` sender. Provider variables are documented in `.env.example`; incomplete email or social-provider configuration fails `npm run env:check`. Login, registration, and password recovery retain per-process rate limits, and production ingress must enforce shared limits across replicas.
+Production requires `AUTH_SECRET`, a public HTTPS `AUTH_URL`, `RESEND_API_KEY`, and a verified `AUTH_EMAIL_FROM` sender. Provider variables are documented in `.env.example`; incomplete email or social-provider configuration fails `npm run env:check`. Login, registration, email verification, and password recovery retain per-process rate limits, and production ingress must enforce shared limits across replicas.
 
-MFA, guardian consent, verified-email enrollment, and institutional account lifecycle remain separate requirements for school-managed deployment.
+MFA, guardian consent, approved institutional identity, and institutional account lifecycle remain separate requirements for school-managed deployment.

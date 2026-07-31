@@ -12,6 +12,7 @@ EduLoop uses Auth.js (`next-auth` v5) for email/password, Google, Microsoft Entr
 - OAuth navigation goes directly through Auth.js. A successful account sign-in ensures that the user owns one learner profile; guests have no profile or progress to merge.
 - `PATCH|DELETE /api/auth/account` provides password setup/rotation and full account erasure. Social-only users can set an email password; deletion is confirmed with the account email when no password exists.
 - `POST|PATCH /api/auth/password-reset` issues and consumes 30-minute, single-use password reset links. Requests return a generic response before account lookup and email delivery run as a post-response task, only a SHA-256 digest is stored, successful reset verifies email ownership, and every existing session is revoked.
+- `POST /api/auth/consent` records the current terms/privacy versions plus an `ADULT` or `GUARDIAN` basis in both the user snapshot and append-only `ConsentRecord`. Password registration records consent atomically. Existing and new OAuth accounts without current consent receive a provisional session, but persistent APIs reject it and no learner profile is created until acceptance. `/privacy` and export/deletion endpoints remain available so legal rights do not depend on accepting new terms.
 
 One `User` owns exactly one `LearnerProfile` once the account is used. Authenticated learner APIs resolve the user from the Auth.js token and never accept a client-supplied learner identity. Attempts, practice sessions, reports, badges, daily activity, saved questions, and review items are available only to signed-in users.
 
@@ -43,6 +44,6 @@ Use these callback URLs in provider consoles:
 - `{AUTH_URL}/api/auth/callback/microsoft-entra-id`
 - `{AUTH_URL}/api/auth/callback/facebook`
 
-Production requires `AUTH_SECRET`, a public HTTPS `AUTH_URL`, `RESEND_API_KEY`, and a verified `AUTH_EMAIL_FROM` sender. Provider variables are documented in `.env.example`; incomplete email or social-provider configuration fails `npm run env:check`. Login, registration, email verification, and password recovery retain per-process rate limits, and production ingress must enforce shared limits across replicas.
+Production requires `AUTH_SECRET`, a public HTTPS `AUTH_URL`, `RESEND_API_KEY`, a verified `AUTH_EMAIL_FROM` sender, and the legal entity/contact/jurisdiction values rendered by `/terms` and `/privacy-policy`. Provider variables are documented in `.env.example`; incomplete email, legal, or social-provider configuration fails `npm run env:check`. Login, registration, consent, email verification, and password recovery retain per-process rate limits, and production ingress must enforce shared limits across replicas.
 
 MFA, guardian consent, approved institutional identity, and institutional account lifecycle remain separate requirements for school-managed deployment.

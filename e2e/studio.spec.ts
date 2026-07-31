@@ -5,6 +5,10 @@ import { captureBrowserErrors, login, waitForQuestion } from "./browser-helpers"
 
 const externalBaseUrl = process.env.E2E_BASE_URL;
 if (!externalBaseUrl && !process.env.DATABASE_URL) process.loadEnvFile(".env");
+const consentData = {
+  termsAcceptedAt: new Date(), termsVersion: "2026-07-31",
+  privacyAcceptedAt: new Date(), privacyVersion: "2026-07-31", consentBasis: "ADULT",
+};
 
 test.describe("local content review workflow", () => {
   test.skip(Boolean(externalBaseUrl), "Content review mutations only run against the local test database.");
@@ -28,6 +32,7 @@ test.describe("local content review workflow", () => {
     await prisma.user.create({
       data: {
         id: learnerUserId,
+        ...consentData,
         email: learnerEmail,
         emailVerified: new Date(),
         name: "浏览器报告学习者",
@@ -38,6 +43,7 @@ test.describe("local content review workflow", () => {
     await prisma.user.create({
       data: {
         id: editorUserId,
+        ...consentData,
         email: editorEmail,
         emailVerified: new Date(),
         name: "浏览器内容编辑",

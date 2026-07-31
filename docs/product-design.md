@@ -67,7 +67,7 @@ Avoid competitive rank, punishment language, XP loss, and deceptive urgency. A w
 - Preserve keyboard focus and native select/textarea behavior.
 - Formula failures display source text in KaTeX’s configured error color rather than hiding content.
 - No public profiles or social comparison for minors by default.
-- Guest practice creates no device ID or durable learning record. Add consent, retention policy, and guardian/teacher controls before collecting identifiable student data for accounts.
+- Guest practice creates no device ID or durable learning record. Public persistent accounts are limited to adult learners or parents/legal guardians and require versioned terms/privacy acceptance. School roster deployments still need verified guardian or institutional consent, teacher controls, and jurisdiction-specific retention before collecting student data.
 
 ## Product success measures
 

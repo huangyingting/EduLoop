@@ -9,6 +9,7 @@ declare module "next-auth" {
       displayName: string | null;
       role: string;
       hasPassword: boolean;
+      hasCurrentConsent: boolean;
       oauthProviders: string[];
     } & DefaultSession["user"];
   }
@@ -20,6 +21,7 @@ declare module "next-auth/jwt" {
     sessionVersion?: number;
     role?: string;
     hasPassword?: boolean;
+    hasCurrentConsent?: boolean;
     oauthProviders?: string[];
   }
 }

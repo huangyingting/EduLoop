@@ -77,14 +77,14 @@ function streamExport(
 }
 
 async function getLearnerExport(request: NextRequest) {
-  const user = await getSessionUser(request);
+  const user = await getSessionUser(request, { allowMissingConsent: true });
   if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
   const parsed = querySchema.safeParse(Object.fromEntries(request.nextUrl.searchParams));
   if (!parsed.success) return apiError("Invalid export request", 400, "INVALID_REQUEST");
   const limited = enforceRateLimit(request, "export-learner", user.id, 3, 60 * 60_000);
   if (limited) return limited;
 
-  const identity = await findLearnerForRequest(request);
+  const identity = await findLearnerForRequest(request, { allowMissingConsent: true });
   const learner = identity ? await prisma.learnerProfile.findUnique({
     where: { id: identity.id },
     select: {

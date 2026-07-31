@@ -19,6 +19,7 @@ describe("authentication helpers", () => {
     expect(safeReturnPath("/forgot-password")).toBe("/");
     expect(safeReturnPath("/reset-password")).toBe("/");
     expect(safeReturnPath("/verify-email")).toBe("/");
+    expect(safeReturnPath("/consent?next=%2Fprogress")).toBe("/");
     expect(safeReturnPath("/api/auth/session")).toBe("/");
   });
 
@@ -66,6 +67,18 @@ describe("authentication helpers", () => {
   });
 
   it("rejects passwords beyond bcrypt's 72-byte input limit", () => {
+    expect(registerInputSchema.safeParse({
+      email: "student@example.com",
+      password: "valid-password",
+      acceptedTerms: true,
+      consentBasis: "GUARDIAN",
+    }).success).toBe(true);
+    expect(registerInputSchema.safeParse({
+      email: "student@example.com",
+      password: "valid-password",
+      acceptedTerms: false,
+      consentBasis: "GUARDIAN",
+    }).success).toBe(false);
     expect(registerInputSchema.safeParse({
       email: "student@example.com",
       password: "学".repeat(25),

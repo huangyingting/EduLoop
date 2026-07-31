@@ -25,8 +25,8 @@ export async function ensureLearnerForUser(userId: string, displayName: string |
   });
 }
 
-export async function findLearnerForRequest(request: Request) {
-  const user = await getSessionUser(request);
+export async function findLearnerForRequest(request: Request, options: { allowMissingConsent?: boolean } = {}) {
+  const user = await getSessionUser(request, options);
   if (!user) return null;
   const learner = await prisma.learnerProfile.findUnique({ where: { userId: user.id } });
   return learner ?? ensureLearnerForUser(user.id, user.displayName);

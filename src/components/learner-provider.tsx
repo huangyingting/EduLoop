@@ -25,9 +25,10 @@ export function LearnerProvider({ children }: { children: React.ReactNode }) {
   const { status: authStatus, user } = useAuth();
   const refreshGeneration = useRef(0);
   const userId = user?.id;
+  const hasCurrentConsent = user?.hasCurrentConsent === true;
   const refresh = useCallback(async () => {
     const generation = ++refreshGeneration.current;
-    if (authStatus !== "authenticated" || !userId) {
+    if (authStatus !== "authenticated" || !userId || !hasCurrentConsent) {
       setStats(initialSnapshot);
       return;
     }
@@ -42,7 +43,7 @@ export function LearnerProvider({ children }: { children: React.ReactNode }) {
     } catch {
       // The authenticated UI remains usable with neutral stats while offline.
     }
-  }, [authStatus, userId]);
+  }, [authStatus, hasCurrentConsent, userId]);
 
   useEffect(() => {
     if (authStatus === "guest") clearGuestLearningStorage();

@@ -20,6 +20,9 @@ test("accepts injected PostgreSQL production configuration", () => {
     AUTH_URL: "https://learn.example",
     RESEND_API_KEY: "re_test_key",
     AUTH_EMAIL_FROM: "EduLoop <accounts@learn.example>",
+    LEGAL_ENTITY_NAME: "EduLoop Learning Ltd.",
+    LEGAL_CONTACT_EMAIL: "privacy@learn.example",
+    LEGAL_JURISDICTION: "Example jurisdiction",
     PORT: "8080",
   }), { errors: [], warnings: [], provider: "postgresql" });
 });
@@ -36,6 +39,7 @@ test("rejects provider drift and unsafe production SQLite", () => {
     "AUTH_SECRET must be at least 32 characters in production.",
     "AUTH_URL is required in production.",
     "Production account email requires RESEND_API_KEY and AUTH_EMAIL_FROM.",
+    "Production legal pages require LEGAL_ENTITY_NAME, LEGAL_CONTACT_EMAIL, and LEGAL_JURISDICTION.",
     "PORT must be an integer from 1 through 65535.",
   ]);
   assert.equal(result.warnings.length, 1);
@@ -50,6 +54,9 @@ test("requires explicit production provider intent", () => {
     AUTH_URL: "https://learn.example",
     RESEND_API_KEY: "re_test_key",
     AUTH_EMAIL_FROM: "accounts@learn.example",
+    LEGAL_ENTITY_NAME: "EduLoop Learning Ltd.",
+    LEGAL_CONTACT_EMAIL: "privacy@learn.example",
+    LEGAL_JURISDICTION: "Example jurisdiction",
   });
   assert.deepEqual(result.errors, ["EDULOOP_DATABASE_PROVIDER is required in production."]);
 });
@@ -59,10 +66,12 @@ test("rejects partial social provider configuration", () => {
     DATABASE_URL: "file:./dev.db",
     AUTH_GOOGLE_ID: "client-id",
     RESEND_API_KEY: "re_test_key",
+    LEGAL_CONTACT_EMAIL: "not-an-email",
     FACEBOOK_GRAPH_API_VERSION: "23",
   });
   assert.deepEqual(result.errors, [
     "Account email requires both RESEND_API_KEY and AUTH_EMAIL_FROM.",
+    "LEGAL_CONTACT_EMAIL must be a valid email address.",
     "Google social login requires both AUTH_GOOGLE_ID and AUTH_GOOGLE_SECRET.",
     "FACEBOOK_GRAPH_API_VERSION must look like v23.0.",
   ]);

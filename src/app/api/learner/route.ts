@@ -34,13 +34,13 @@ async function getLearner(request: NextRequest) {
 
 async function deleteLearner(request: NextRequest) {
   if (!isSameOriginRequest(request)) return apiError("Invalid request origin.", 403, "FORBIDDEN");
-  const user = await getSessionUser(request);
+  const user = await getSessionUser(request, { allowMissingConsent: true });
   if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
   const parsed = querySchema.safeParse(Object.fromEntries(request.nextUrl.searchParams));
   if (!parsed.success) return apiError("Invalid learner query", 400, "INVALID_REQUEST");
   const limited = enforceRateLimit(request, "delete-learner", user.id, 3, 60 * 60_000);
   if (limited) return limited;
-  const learner = await findLearnerForRequest(request);
+  const learner = await findLearnerForRequest(request, { allowMissingConsent: true });
   const removed = learner
     ? await prisma.learnerProfile.deleteMany({ where: { id: learner.id } })
     : { count: 0 };

@@ -16,6 +16,7 @@ import {
 } from "@/lib/auth";
 import { hasRecentAuthentication, loginInputSchema, normalizeEmail } from "@/lib/auth-validation";
 import { ensureLearnerForUser } from "@/lib/learner-identity";
+import { hasCurrentLegalConsent } from "@/lib/legal";
 import { prisma } from "@/lib/prisma";
 import { checkRateLimit, clientAddress } from "@/lib/rate-limit";
 
@@ -126,7 +127,19 @@ export const { handlers, auth } = NextAuth((request) => ({
 
         const user = await prisma.user.findUnique({
           where: { email },
-          select: { id: true, email: true, emailVerified: true, name: true, image: true, passwordHash: true },
+          select: {
+            id: true,
+            email: true,
+            emailVerified: true,
+            name: true,
+            image: true,
+            passwordHash: true,
+            termsAcceptedAt: true,
+            termsVersion: true,
+            privacyAcceptedAt: true,
+            privacyVersion: true,
+            consentBasis: true,
+          },
         });
         const valid = user?.passwordHash
           ? await verifyPassword(parsed.data.password, user.passwordHash)
@@ -139,7 +152,7 @@ export const { handlers, auth } = NextAuth((request) => ({
             data: { passwordHash: await hashPassword(parsed.data.password) },
           });
         }
-        await ensureLearnerForUser(user.id, user.name);
+        if (hasCurrentLegalConsent(user)) await ensureLearnerForUser(user.id, user.name);
         return { id: user.id, email: user.email, name: user.name, image: user.image };
       },
     }),
@@ -174,6 +187,11 @@ export const { handlers, auth } = NextAuth((request) => ({
           role: true,
           passwordHash: true,
           sessionVersion: true,
+          termsAcceptedAt: true,
+          termsVersion: true,
+          privacyAcceptedAt: true,
+          privacyVersion: true,
+          consentBasis: true,
           accounts: { select: { provider: true }, orderBy: { provider: "asc" } },
         },
       });
@@ -187,6 +205,7 @@ export const { handlers, auth } = NextAuth((request) => ({
       token.picture = stored.image;
       token.role = stored.role;
       token.hasPassword = Boolean(stored.passwordHash);
+      token.hasCurrentConsent = hasCurrentLegalConsent(stored);
       token.oauthProviders = stored.accounts.map(({ provider }) => provider);
       return token;
     },
@@ -199,6 +218,7 @@ export const { handlers, auth } = NextAuth((request) => ({
       session.user.image = typeof token.picture === "string" ? token.picture : null;
       session.user.role = typeof token.role === "string" ? token.role : "LEARNER";
       session.user.hasPassword = token.hasPassword === true;
+      session.user.hasCurrentConsent = token.hasCurrentConsent === true;
       session.user.oauthProviders = Array.isArray(token.oauthProviders)
         ? token.oauthProviders.filter((provider): provider is string => typeof provider === "string")
         : [];
@@ -217,7 +237,19 @@ export const { handlers, auth } = NextAuth((request) => ({
           prisma.emailVerificationToken.deleteMany({ where: { userId: user.id } }),
         ]);
       }
-      await ensureLearnerForUser(user.id, user.name ?? null);
+      const consent = await prisma.user.findUnique({
+        where: { id: user.id },
+        select: {
+          termsAcceptedAt: true,
+          termsVersion: true,
+          privacyAcceptedAt: true,
+          privacyVersion: true,
+          consentBasis: true,
+        },
+      });
+      if (consent && hasCurrentLegalConsent(consent)) {
+        await ensureLearnerForUser(user.id, user.name ?? null);
+      }
     },
   },
   logger: {

@@ -6,6 +6,7 @@ import { getProviders, signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { safeReturnPath } from "@/lib/auth-validation";
+import type { ConsentBasis } from "@/lib/legal";
 import { useAuth } from "@/lib/use-auth";
 import { CustomSelect } from "./custom-select";
 
@@ -20,6 +21,8 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
   const [password, setPassword] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [knowledgeBand, setKnowledgeBand] = useState("");
+  const [consentBasis, setConsentBasis] = useState<ConsentBasis | "">("");
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [error, setError] = useState(() => authErrorMessage(searchParams.get("error"), searchParams.get("code")));
   const [busy, setBusy] = useState(false);
   const [socialBusy, setSocialBusy] = useState<string | null>(null);
@@ -49,8 +52,8 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
 
   useEffect(() => {
     if (auth.status !== "authenticated") return;
-    router.replace(next);
-  }, [auth.status, next, router]);
+    router.replace(auth.user?.hasCurrentConsent ? next : `/consent?next=${encodeURIComponent(next)}`);
+  }, [auth.status, auth.user?.hasCurrentConsent, next, router]);
 
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -67,6 +70,8 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
             password,
             displayName: displayName.trim() || undefined,
             knowledgeBand: knowledgeBand || undefined,
+            consentBasis,
+            acceptedTerms,
           }),
         });
         const body = await response.json() as { error?: string; verificationRequired?: boolean };
@@ -149,6 +154,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
             <Field label="邮箱" icon={<Mail size={18} />}><input type="email" required value={email} onChange={(event) => setEmail(event.target.value)} maxLength={254} autoComplete="email" placeholder="student@example.com" className={inputClass} /></Field>
             <Field label="密码" icon={<LockKeyhole size={18} />}><input type="password" required minLength={isLogin ? undefined : 8} maxLength={128} value={password} onChange={(event) => setPassword(event.target.value)} autoComplete={isLogin ? "current-password" : "new-password"} placeholder={isLogin ? "输入密码" : "至少 8 位字符"} className={inputClass} /></Field>
             {isLogin ? <p className="-mt-1 text-right text-xs font-semibold"><Link href="/forgot-password" className="font-black text-violet hover:underline">忘记密码？</Link></p> : null}
+            {!isLogin ? <><fieldset><legend className="text-xs font-black">账号使用人</legend><div className="mt-2 grid gap-2 sm:grid-cols-2">{([{ value: "ADULT", label: "年满 18 岁的学习者" }, { value: "GUARDIAN", label: "父母或法定监护人" }] as const).map((option) => <label key={option.value} className={`flex min-h-11 cursor-pointer items-center gap-2 rounded-xl border-2 px-3 text-xs font-bold ${consentBasis === option.value ? "border-violet bg-[#f0edff]" : "border-ink/10"}`}><input type="radio" name="consentBasis" required value={option.value} checked={consentBasis === option.value} onChange={() => setConsentBasis(option.value)} className="accent-violet" />{option.label}</label>)}</div></fieldset><label className="flex items-start gap-2 text-xs font-semibold leading-5 text-muted"><input type="checkbox" required checked={acceptedTerms} onChange={(event) => setAcceptedTerms(event.target.checked)} className="mt-1 shrink-0 accent-violet" /><span>我接受 <Link href="/terms" target="_blank" className="font-black text-violet underline">服务条款</Link> 和 <Link href="/privacy-policy" target="_blank" className="font-black text-violet underline">隐私说明</Link>，并确认账号由上述成年人操作。未成年人可使用不保存数据的访客模式。</span></label></> : null}
 
             {emailVerified ? <p role="status" className="rounded-xl border-2 border-lime bg-[#f7fadf] px-4 py-3 text-sm font-bold text-[#557000]">邮箱已验证，请登录继续学习。</p> : null}
             {error ? <div role="alert" className="rounded-xl border-2 border-coral/30 bg-[#fff0ed] px-4 py-3 text-sm font-bold text-coral"><p>{error}</p>{emailUnverified ? <Link href="/verify-email" className="mt-2 inline-block text-violet hover:underline">重新发送验证邮件</Link> : null}</div> : null}
@@ -159,6 +165,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
 
           <p className="mt-4 text-center text-sm font-semibold text-muted">{isLogin ? "还没有账号？" : "已经有账号？"} <Link href={alternateHref} className="font-black text-violet hover:underline">{isLogin ? "免费注册" : "直接登录"}</Link></p>
           <p className="mt-2.5 text-center text-xs font-semibold text-muted"><Link href="/practice" className="hover:text-ink hover:underline">暂时以匿名访客练习（不保存记录）</Link></p>
+          <p className="mt-2 text-center text-[11px] font-semibold text-muted"><Link href="/terms" className="hover:text-ink hover:underline">服务条款</Link> · <Link href="/privacy-policy" className="hover:text-ink hover:underline">隐私说明</Link></p>
         </section>
       </div>
     </main>

@@ -4,7 +4,7 @@
 
 EduLoop's production baseline provides stateless guest practice plus Auth.js password or social accounts for every persistent and cross-device function. New password accounts require email verification and include email-delivered, single-use recovery that revokes old sessions. Signed-in learners receive filtered and adaptive practice, durable ten-question sessions, self-assessed written work, XP and streaks, saved questions, spaced mistake review, progress views, and question reporting. It deliberately excludes public profiles and social ranking.
 
-School-managed accounts are a separate launch mode. Before using accounts with school rosters, add an approved institutional identity provider, teacher/guardian roles, consent records, and jurisdiction-specific retention rules.
+School-managed accounts are a separate launch mode. The public account path records an adult learner or parent/legal-guardian attestation but does not independently verify guardianship. Before using school rosters or allowing minors to operate accounts, add an approved institutional identity provider, verified guardian/institutional consent, teacher/guardian roles, and jurisdiction-specific retention rules.
 
 ## Acceptance Evidence
 
@@ -16,6 +16,7 @@ School-managed accounts are a separate launch mode. Before using accounts with s
 | Learning-loop health is measurable | idempotent explanation views and aggregate `/api/studio/metrics` session, return, and repeat-practice signals |
 | Progress survives navigation | persisted profiles, sessions, attempts, activity, saved questions |
 | Learners control learning data | `/privacy`, export, and `DELETE /api/learner` cascade deletion |
+| Public account consent is explicit | public versioned `/terms` and `/privacy-policy`, adult/guardian attestation, append-only `ConsentRecord`, and re-consent gating |
 | Account sessions are revocable | encrypted Auth.js cookies plus database-checked `sessionVersion` and an HttpOnly logout flow |
 | Password email ownership is proven | generic resend responses, hashed 24-hour tokens, fragment-based links, and verified-login enforcement |
 | Password accounts are recoverable | generic reset requests, hashed expiring tokens, Resend delivery, and all-session revocation |

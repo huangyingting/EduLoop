@@ -58,6 +58,9 @@ export function validateEnvironment(environment) {
     if (!environment.RESEND_API_KEY?.trim() || !environment.AUTH_EMAIL_FROM?.trim()) {
       errors.push("Production account email requires RESEND_API_KEY and AUTH_EMAIL_FROM.");
     }
+    if (!environment.LEGAL_ENTITY_NAME?.trim() || !environment.LEGAL_CONTACT_EMAIL?.trim() || !environment.LEGAL_JURISDICTION?.trim()) {
+      errors.push("Production legal pages require LEGAL_ENTITY_NAME, LEGAL_CONTACT_EMAIL, and LEGAL_JURISDICTION.");
+    }
   }
 
   const hasResendKey = Boolean(environment.RESEND_API_KEY?.trim());
@@ -67,6 +70,9 @@ export function validateEnvironment(environment) {
   }
   if (hasEmailFrom && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailAddress(environment.AUTH_EMAIL_FROM))) {
     errors.push("AUTH_EMAIL_FROM must contain a valid email address.");
+  }
+  if (environment.LEGAL_CONTACT_EMAIL?.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(environment.LEGAL_CONTACT_EMAIL.trim())) {
+    errors.push("LEGAL_CONTACT_EMAIL must be a valid email address.");
   }
 
   for (const [idName, secretName, label] of AUTH_PROVIDER_PAIRS) {

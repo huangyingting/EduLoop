@@ -65,6 +65,9 @@ jobs:
       AUTH_URL: https://eduloop-ci.example
       RESEND_API_KEY: re_ci_placeholder
       AUTH_EMAIL_FROM: EduLoop <accounts@eduloop-ci.example>
+      LEGAL_ENTITY_NAME: EduLoop CI
+      LEGAL_CONTACT_EMAIL: privacy@eduloop-ci.example
+      LEGAL_JURISDICTION: CI test jurisdiction
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6

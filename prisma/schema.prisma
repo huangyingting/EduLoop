@@ -157,11 +157,17 @@ model User {
   passwordHash            String?
   role                    String                   @default("LEARNER")
   sessionVersion          Int                      @default(0)
+  termsAcceptedAt         DateTime?
+  termsVersion            String?
+  privacyAcceptedAt       DateTime?
+  privacyVersion          String?
+  consentBasis            String?
   learner                 LearnerProfile?
   accounts                Account[]
   sessions                Session[]
   emailVerificationTokens EmailVerificationToken[]
   passwordResetTokens     PasswordResetToken[]
+  consentRecords          ConsentRecord[]
   reviewActions           ContentReviewAction[]
   createdAt               DateTime                 @default(now())
   updatedAt               DateTime                 @updatedAt
@@ -224,6 +230,19 @@ model PasswordResetToken {
   createdAt DateTime @default(now())
 
   @@index([userId, expiresAt])
+}
+
+model ConsentRecord {
+  id             String   @id @default(cuid())
+  userId         String
+  termsVersion   String
+  privacyVersion String
+  basis          String
+  method         String
+  acceptedAt     DateTime @default(now())
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, acceptedAt])
 }
 
 model LearnerProfile {

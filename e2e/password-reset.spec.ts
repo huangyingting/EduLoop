@@ -11,6 +11,11 @@ function hashToken(token: string) {
   return createHash("sha256").update(token).digest("hex");
 }
 
+const consentData = {
+  termsAcceptedAt: new Date(), termsVersion: "2026-07-31",
+  privacyAcceptedAt: new Date(), privacyVersion: "2026-07-31", consentBasis: "ADULT",
+};
+
 test.describe("local password recovery workflow", () => {
   test.skip(Boolean(externalBaseUrl), "Password recovery fixtures only run against the local test database.");
 
@@ -25,6 +30,7 @@ test.describe("local password recovery workflow", () => {
     await prisma.user.create({
       data: {
         id: userId,
+        ...consentData,
         email,
         passwordHash: await bcrypt.hash(oldPassword, 12),
         learner: { create: { displayName: "密码恢复测试学习者" } },

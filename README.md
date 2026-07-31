@@ -11,7 +11,7 @@ EduLoop is a Chinese-language practice app for primary, middle, and high school 
 - Extensible, learner-filterable topic, skill, and format dimensions with provenance and confidence
 - KaTeX rendering for the 4,595 questions detected with LaTeX-like notation, including inline AMC notation
 - Server-side answer checking, account-owned learner profiles, XP, daily streaks, activity, and badges
-- Auth.js verified email/password plus optional Google, Microsoft, and Facebook login, single-use email password recovery, encrypted revocable sessions, full account erasure, cross-device progress, and stateless guest practice
+- Auth.js verified email/password plus optional Google, Microsoft, and Facebook login, versioned adult/guardian consent, single-use email password recovery, encrypted revocable sessions, full account erasure, cross-device progress, and stateless guest practice
 - Ten-question sessions, written-answer self-assessment, saved questions, and spaced mistake review
 - Adaptive practice that prioritizes due reviews and recently weak subjects
 - Growth dashboard with a 28-day activity map, subject signals, topic radar, and badge shelf
@@ -86,6 +86,6 @@ For curated taxonomy, add or update `Tag` and `QuestionTag` rows through Prisma.
 - Only answer keys that can be parsed with high confidence are auto-graded. Written and ambiguous answers reveal the reference answer for student self-assessment.
 - Unrecognized nested, missing-stem, malformed-choice, and figure-dependent imports are marked `NEEDS_REVIEW` by default. All current bundled records have reviewed corrections or replacements and are published; curation lives in `src/lib/content-curation.ts`.
 - The four original subject files contain no linked image assets. Shared AMC figures are downloaded into `public/question-assets/source/amc/`, deduplicated by SHA-256, and traced to their original URLs in `manifest.json`; five remote hosts remain allowlisted only as a pre-localization fallback. Twelve reviewed Chinese replacement diagrams live under `public/question-assets/generated/zh-CN/`. Topic tags are useful discovery hints, not authoritative curriculum classification.
-- Guests have no persistent identity: their answers, filters, and counters remain only in the open practice page and disappear on refresh or close. Auth.js password or social accounts own one `LearnerProfile` for cross-device progress. School-managed deployments still need guardian-consent, email-verification/recovery, and staff-role policies appropriate to their jurisdiction.
+- Guests have no persistent identity: their answers, filters, and counters remain only in the open practice page and disappear on refresh or close. Public persistent accounts are restricted to adult learners or parents/legal guardians and record the accepted terms/privacy versions before creating learner data. School-managed deployments still need a verified guardian or institutional-consent workflow, approved identity, and staff/retention policies appropriate to their jurisdiction.
 
 See [authentication](./docs/authentication.md), [data audit](./docs/data-audit.md), [product design](./docs/product-design.md), and [architecture](./docs/architecture.md) for the decisions behind the scaffold.

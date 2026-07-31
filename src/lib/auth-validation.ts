@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { catalogSlugSchema } from "@/lib/learner-profile";
+import { CONSENT_BASES } from "@/lib/legal";
 
 export const SENSITIVE_ACTION_MAX_AGE_SECONDS = 10 * 60;
 
@@ -14,12 +15,17 @@ export const loginInputSchema = z.object({
   password: bcryptPassword(1),
 });
 
+export const legalConsentSchema = z.object({
+  acceptedTerms: z.literal(true),
+  consentBasis: z.enum(CONSENT_BASES),
+});
+
 export const registerInputSchema = z.object({
   email: emailSchema,
   password: bcryptPassword(8),
   displayName: z.string().trim().min(1).max(50).optional(),
   knowledgeBand: catalogSlugSchema.optional(),
-});
+}).and(legalConsentSchema);
 
 export const passwordChangeSchema = z.object({
   currentPassword: bcryptPassword(1).optional(),
@@ -69,7 +75,7 @@ export function safeReturnPath(value: string | null | undefined) {
     const base = new URL("https://eduloop.invalid");
     const target = new URL(value, base);
     if (target.origin !== base.origin) return "/";
-    if (/^\/(?:login|register|forgot-password|reset-password|verify-email|api)(?:\/|$)/.test(target.pathname)) return "/";
+    if (/^\/(?:login|register|forgot-password|reset-password|verify-email|consent|api)(?:\/|$)/.test(target.pathname)) return "/";
     return value;
   } catch {
     return "/";

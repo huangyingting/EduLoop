@@ -3,6 +3,7 @@ import { encode } from "next-auth/jwt";
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import { GET as authGet, POST as authPost } from "@/app/api/auth/[...nextauth]/route";
 import { DELETE as deleteCurrentAccount, PATCH as updateCurrentAccount } from "@/app/api/auth/account/route";
+import { POST as acceptLegalConsent } from "@/app/api/auth/consent/route";
 import { PATCH as completeEmailVerification, POST as requestEmailVerification } from "@/app/api/auth/email-verification/route";
 import { POST as registerAccount } from "@/app/api/auth/register/route";
 import { PATCH as completePasswordReset, POST as requestPasswordReset } from "@/app/api/auth/password-reset/route";
@@ -25,6 +26,7 @@ import { changeAccountPassword, deleteAccount } from "@/lib/account";
 import { calendarDay, calendarDaysBefore } from "@/lib/dates";
 import { AUTH_SECRET_VALUE, AUTH_SESSION_COOKIE, getSessionUser, hashPassword, verifyPassword } from "@/lib/auth";
 import { hashEmailVerificationToken } from "@/lib/email-verification";
+import { PRIVACY_VERSION, TERMS_VERSION } from "@/lib/legal";
 import { hashPasswordResetToken } from "@/lib/password-reset";
 const subjectId = "integration-subject";
 const bandId = "integration-band";
@@ -43,6 +45,7 @@ const authUserId = "integration-auth-user";
 const lifecycleUserId = "integration-lifecycle-user";
 const sensitiveUserId = "integration-sensitive-user";
 const passwordResetUserId = "integration-password-reset-user";
+const consentUserId = "integration-consent-user";
 const authJsEmail = "authjs-flow@example.com";
 const shieldUserId = "integration-shield-user";
 const concurrentUserId = "integration-concurrent-user";
@@ -52,6 +55,13 @@ const studioOperatorId = "integration-studio-operator";
 const studioLearnerId = "integration-studio-learner";
 const studioReporterId = "integration-studio-reporter";
 const studioReportId = "integration-studio-report";
+const consentData = {
+  termsAcceptedAt: new Date("2026-07-31T00:00:00.000Z"),
+  termsVersion: TERMS_VERSION,
+  privacyAcceptedAt: new Date("2026-07-31T00:00:00.000Z"),
+  privacyVersion: PRIVACY_VERSION,
+  consentBasis: "ADULT",
+} as const;
 
 function request(url: string, method: string, body: unknown, cookie?: string) {
   return new Request(url, { method, headers: { ...headers, ...(cookie ? { cookie } : {}) }, body: JSON.stringify(body) });
@@ -110,7 +120,7 @@ beforeAll(async () => {
 afterAll(async () => {
   await prisma.user.deleteMany({ where: { email: authJsEmail } });
   await prisma.user.deleteMany({ where: { id: { in: [
-    authUserId, lifecycleUserId, sensitiveUserId, passwordResetUserId, shieldUserId, concurrentUserId, journeyUserId, profileUserId,
+    authUserId, lifecycleUserId, sensitiveUserId, passwordResetUserId, consentUserId, shieldUserId, concurrentUserId, journeyUserId, profileUserId,
     studioOperatorId, studioLearnerId, studioReporterId,
   ] } } });
   await prisma.question.deleteMany({ where: { id: { in: [choiceId, writtenId, scienceQuestionId] } } });
@@ -165,7 +175,7 @@ describe("learner API journey", () => {
       const registration = await registerAccount(new Request("http://localhost/api/auth/register", {
         method: "POST",
         headers: { ...headers, origin: "http://localhost" },
-        body: JSON.stringify({ email: authJsEmail, password, displayName: "Auth.js 学习者", knowledgeBand: "integration-middle" }),
+        body: JSON.stringify({ email: authJsEmail, password, displayName: "Auth.js 学习者", knowledgeBand: "integration-middle", consentBasis: "ADULT", acceptedTerms: true }),
       }));
       expect(registration.status).toBe(201);
       expect(await registration.json()).toMatchObject({ created: true, verificationRequired: true });
@@ -223,7 +233,13 @@ describe("learner API journey", () => {
       const sessionUser = await getSessionUser(new Request("http://localhost/api/learner", {
         headers: { cookie: sessionCookie! },
       }));
-      expect(sessionUser).toMatchObject({ email: authJsEmail, displayName: "Auth.js 学习者", hasPassword: true });
+      expect(sessionUser).toMatchObject({ email: authJsEmail, displayName: "Auth.js 学习者", hasPassword: true, hasCurrentConsent: true });
+      expect(await prisma.consentRecord.findFirst({ where: { userId: sessionUser!.id } })).toMatchObject({
+        basis: "ADULT",
+        method: "PASSWORD_REGISTRATION",
+        termsVersion: TERMS_VERSION,
+        privacyVersion: PRIVACY_VERSION,
+      });
       expect(await prisma.learnerProfile.findUnique({
         where: { userId: sessionUser!.id },
         include: { knowledgeBand: true },
@@ -240,6 +256,7 @@ describe("learner API journey", () => {
   it("updates a catalog-backed learner profile and rejects mismatched knowledge", async () => {
     await prisma.user.create({ data: {
       id: profileUserId,
+      ...consentData,
       email: "profile@example.com",
       name: "旧昵称",
       learner: { create: { displayName: "旧昵称" } },
@@ -283,9 +300,45 @@ describe("learner API journey", () => {
     expect(invalid.status).toBe(400);
   });
 
+  it("gates persistent APIs until an adult or guardian accepts current legal versions", async () => {
+    await prisma.user.create({ data: {
+      id: consentUserId,
+      email: "consent@example.com",
+      emailVerified: new Date(),
+    } });
+    const cookie = await authCookie(consentUserId);
+    expect(await getSessionUser(new Request("http://localhost/api/learner", { headers: { cookie } }))).toBeNull();
+    expect(await getSessionUser(
+      new Request("http://localhost/api/learner", { headers: { cookie } }),
+      { allowMissingConsent: true },
+    )).toMatchObject({ id: consentUserId, hasCurrentConsent: false });
+    expect((await getLearner(new NextRequest("http://localhost/api/learner", { headers: { cookie } }))).status).toBe(401);
+    expect((await exportLearner(new NextRequest("http://localhost/api/learner/export", { headers: { cookie } }))).status).toBe(200);
+
+    const accepted = await acceptLegalConsent(request(
+      "http://localhost/api/auth/consent",
+      "POST",
+      { acceptedTerms: true, consentBasis: "GUARDIAN" },
+      cookie,
+    ));
+    expect(accepted.status).toBe(200);
+    expect(await getSessionUser(new Request("http://localhost/api/learner", { headers: { cookie } }))).toMatchObject({
+      id: consentUserId,
+      hasCurrentConsent: true,
+    });
+    expect(await prisma.consentRecord.findFirst({ where: { userId: consentUserId } })).toMatchObject({
+      termsVersion: TERMS_VERSION,
+      privacyVersion: PRIVACY_VERSION,
+      basis: "GUARDIAN",
+      method: "AUTHENTICATED_CONSENT",
+    });
+    expect(await prisma.learnerProfile.findUnique({ where: { userId: consentUserId } })).toBeTruthy();
+  });
+
   it("resolves learning data only from a valid Auth.js session", async () => {
     await prisma.user.create({ data: {
       id: authUserId,
+      ...consentData,
       email: "integration@example.com",
       passwordHash: "not-used-by-this-test",
       name: "测试探索者",
@@ -324,6 +377,7 @@ describe("learner API journey", () => {
     const today = calendarDay(new Date(), "Asia/Shanghai");
     await prisma.user.create({ data: {
       id: shieldUserId,
+      ...consentData,
       email: "shield@example.com",
       learner: { create: {
         currentStreak: 5,
@@ -369,6 +423,7 @@ describe("learner API journey", () => {
     const newPassword = "new-password-456";
     await prisma.user.create({ data: {
       id: lifecycleUserId,
+      ...consentData,
       email: "lifecycle@example.com",
       passwordHash: await hashPassword(oldPassword),
       learner: { create: { xp: 17 } },
@@ -392,6 +447,7 @@ describe("learner API journey", () => {
     const newPassword = "new-reset-password-456";
     await prisma.user.create({ data: {
       id: passwordResetUserId,
+      ...consentData,
       email,
       passwordHash: await hashPassword(oldPassword),
       learner: { create: {} },
@@ -477,6 +533,7 @@ describe("learner API journey", () => {
     const email = "sensitive-social@example.com";
     await prisma.user.create({ data: {
       id: sensitiveUserId,
+      ...consentData,
       email,
       learner: { create: {} },
     } });
@@ -642,6 +699,7 @@ describe("learner API journey", () => {
   it("records concurrent authenticated attempts without losing progress or duplicating badges", async () => {
     await prisma.user.create({ data: {
       id: concurrentUserId,
+      ...consentData,
       email: "concurrent@example.com",
       learner: { create: { xp: 100, level: 1 } },
     } });
@@ -674,6 +732,7 @@ describe("learner API journey", () => {
   it("creates a session, grades a miss, schedules review, saves, reports, and exposes progress", async () => {
     await prisma.user.create({ data: {
       id: journeyUserId,
+      ...consentData,
       email: "journey@example.com",
       learner: { create: {} },
     } });
@@ -804,6 +863,7 @@ describe("learner API journey", () => {
   it("protects the content report queue and records operator review actions", async () => {
     const reporterUser = await prisma.user.create({ data: {
       id: studioReporterId,
+      ...consentData,
       email: "studio-reporter@example.com",
       learner: { create: {} },
     } });
@@ -840,8 +900,8 @@ describe("learner API journey", () => {
       timeZone: "Asia/Shanghai",
     }, reporterCookie));
     await prisma.user.createMany({ data: [
-      { id: studioOperatorId, email: "studio-operator@example.com", passwordHash: "unused", role: "CONTENT_EDITOR" },
-      { id: studioLearnerId, email: "studio-learner@example.com", passwordHash: "unused", role: "LEARNER" },
+      { ...consentData, id: studioOperatorId, email: "studio-operator@example.com", passwordHash: "unused", role: "CONTENT_EDITOR" },
+      { ...consentData, id: studioLearnerId, email: "studio-learner@example.com", passwordHash: "unused", role: "LEARNER" },
     ] });
     const operatorCookie = await authCookie(studioOperatorId);
     const learnerCookie = await authCookie(studioLearnerId);

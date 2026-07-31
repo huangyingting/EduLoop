@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Database, EyeOff, ShieldCheck, Trash2 } from "lucide-react";
+import Link from "next/link";
 import { AccountControls } from "@/components/account-controls";
 import { PrivacyControls } from "@/components/privacy-controls";
 
@@ -28,6 +29,7 @@ export default function PrivacyPage() {
           <p>访客答题只在当前练习页面的内存中处理；不会创建学习档案，也不会把答案、筛选或进度写入浏览器存储或数据库。关闭或刷新页面后，本轮状态即消失。</p>
           <p>账号保存规范化邮箱、可选昵称、社交账号关联，以及设置密码时的单向哈希。Auth.js 登录状态保存在加密的 HttpOnly Cookie 中，并通过数据库会话版本即时撤销。系统仅记录答错后是否打开解析，不记录阅读内容之外的页面行为。</p>
           <p>学校或机构部署时，仍应补充当地适用的监护人同意、账号恢复、访问控制和数据保留流程。题目反馈中请勿填写姓名、联系方式等个人信息。</p>
+          <p>当前公共账号仅限成年学习者或父母、法定监护人操作。完整说明见 <Link href="/privacy-policy" className="font-black text-violet underline">隐私说明</Link> 和 <Link href="/terms" className="font-black text-violet underline">服务条款</Link>。</p>
         </div>
       </section>
       <PrivacyControls />

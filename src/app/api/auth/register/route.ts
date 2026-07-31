@@ -7,6 +7,7 @@ import { isSameOriginRequest, normalizeEmail, registerInputSchema } from "@/lib/
 import { deliverEmailVerification } from "@/lib/email-verification";
 import { emailConfiguration } from "@/lib/email";
 import { createLearnerForUser } from "@/lib/learner-identity";
+import { PRIVACY_VERSION, TERMS_VERSION } from "@/lib/legal";
 import { prisma } from "@/lib/prisma";
 
 export const runtime = "nodejs";
@@ -39,6 +40,7 @@ async function postRegistration(request: Request) {
   }
 
   try {
+    const acceptedAt = new Date();
     await prisma.$transaction(async (transaction) => {
       const created = await transaction.user.create({
         data: {
@@ -46,6 +48,20 @@ async function postRegistration(request: Request) {
           passwordHash,
           name: input.displayName ?? null,
           emailVerified: verificationRequired ? null : new Date(),
+          termsAcceptedAt: acceptedAt,
+          termsVersion: TERMS_VERSION,
+          privacyAcceptedAt: acceptedAt,
+          privacyVersion: PRIVACY_VERSION,
+          consentBasis: input.consentBasis,
+          consentRecords: {
+            create: {
+              termsVersion: TERMS_VERSION,
+              privacyVersion: PRIVACY_VERSION,
+              basis: input.consentBasis,
+              method: "PASSWORD_REGISTRATION",
+              acceptedAt,
+            },
+          },
         },
         select: { id: true, name: true },
       });

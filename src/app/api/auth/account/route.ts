@@ -27,7 +27,7 @@ async function patchAccount(request: Request) {
 
 async function deleteCurrentAccount(request: Request) {
   if (!isSameOriginRequest(request)) return apiError("Invalid request origin.", 403, "FORBIDDEN");
-  const user = await getSessionUser(request);
+  const user = await getSessionUser(request, { allowMissingConsent: true });
   if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
   if (!user.hasPassword && !hasRecentAuthentication(user.authenticatedAt)) {
     return apiError("删除账号前请重新登录，以确认这是你的账号。", 401, "UNAUTHORIZED");

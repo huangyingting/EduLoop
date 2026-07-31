@@ -24,6 +24,9 @@ test("guest route guards and public authentication entry points work", async ({ 
   await expect(page.getByRole("heading", { name: "创建你的学习账号" })).toBeVisible();
   await expect(page.getByRole("link", { name: /匿名访客练习/ })).toHaveAttribute("href", "/practice");
 
+  await page.goto("/consent?next=%2Fprogress");
+  await expect(page).toHaveURL(/\/login\?next=%2Fprogress$/);
+
   expect(browserErrors).toEqual([]);
 });
 
@@ -110,6 +113,8 @@ test("account journey persists learning data and enforces studio authorization",
     await page.getByLabel("昵称（选填）").fill("浏览器测试探索者");
     await page.getByLabel("邮箱").fill(email);
     await page.getByLabel("密码").fill(password);
+    await page.getByLabel("年满 18 岁的学习者").check();
+    await page.getByLabel(/我接受 服务条款/).check();
     await page.getByRole("button", { name: "创建账号" }).click();
     await expect(page).toHaveURL(/\/profile$/, { timeout: 30_000 });
     await expect(page.getByRole("heading", { name: "学习档案" })).toBeVisible();

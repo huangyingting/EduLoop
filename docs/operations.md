@@ -2,7 +2,7 @@
 
 ## Deploy
 
-Provision PostgreSQL with TLS, automated backups, and a restricted application role. Keep `DATABASE_URL`, `AUTH_SECRET`, `RESEND_API_KEY`, and social-provider credentials in the deployment secret store. Set `AUTH_URL` to the public HTTPS origin and `AUTH_EMAIL_FROM` to a verified Resend sender.
+Provision PostgreSQL with TLS, automated backups, and a restricted application role. Keep `DATABASE_URL`, `AUTH_SECRET`, `RESEND_API_KEY`, and social-provider credentials in the deployment secret store. Set `AUTH_URL` to the public HTTPS origin and `AUTH_EMAIL_FROM` to a verified Resend sender. Configure `LEGAL_ENTITY_NAME`, `LEGAL_CONTACT_EMAIL`, and `LEGAL_JURISDICTION` with counsel-approved production values; placeholders fail the organizational launch review even if syntactically valid.
 
 ```bash
 npm ci
@@ -32,12 +32,15 @@ Application limits are a single-process safety net. Configure the trusted ingres
 - reports: 6 per account/IP per 10 minutes.
 - login: 10 attempts per email/IP per 15 minutes;
 - registration: 5 attempts per email/IP per 15 minutes.
+- consent acceptance: 5 attempts per account/IP per 15 minutes.
 - email verification requests: 3 per email/IP per hour; verification attempts: 8 per token/IP per 15 minutes.
 - password reset requests: 3 per email/IP per hour; reset attempts: 8 per token/IP per 15 minutes.
 - studio review: 180 reads and 60 transitions per operator/IP per 10 minutes.
 - studio metrics: 60 aggregate reads per operator/IP per 10 minutes.
 
 Auth.js session cookies are encrypted JWTs checked against `User.sessionVersion`. Sensitive social-account actions require an `authenticatedAt` claim no older than 10 minutes; routine JWT refresh does not extend that window. A suspected account-session compromise should increment that user's version; a broad compromise requires incrementing all versions and rotating `AUTH_SECRET`. Secret rotation signs every browser out. Rotate OAuth client secrets in each provider console and the deployment secret store together.
+
+`src/lib/legal.ts` pins the active terms and privacy versions. A version change deliberately sends every account through `/consent` again while preserving data export and deletion access. Publish and legally review the matching public pages before changing either constant; never rewrite an old `ConsentRecord`.
 
 ## Back Up and Restore
 

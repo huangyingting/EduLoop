@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import { getToken } from "next-auth/jwt";
 import { prisma } from "@/lib/prisma";
+import { hasCurrentLegalConsent } from "@/lib/legal";
 export { isContentOperator } from "@/lib/user-roles";
 
 export const SESSION_DURATION_DAYS = 30;
@@ -19,6 +20,7 @@ export type SessionUser = {
   image: string | null;
   role: string;
   hasPassword: boolean;
+  hasCurrentConsent: boolean;
   oauthProviders: string[];
 };
 
@@ -35,7 +37,10 @@ export function passwordHashNeedsUpgrade(passwordHash: string) {
   return !match || Number(match[1]) < PASSWORD_HASH_COST;
 }
 
-export async function getSessionUser(request: Request): Promise<SessionUser | null> {
+export async function getSessionUser(
+  request: Request,
+  options: { allowMissingConsent?: boolean } = {},
+): Promise<SessionUser | null> {
   if (!AUTH_SECRET_VALUE) throw new Error("AUTH_SECRET is required in production.");
   const token = await getToken({
     req: request,
@@ -56,10 +61,17 @@ export async function getSessionUser(request: Request): Promise<SessionUser | nu
       role: true,
       passwordHash: true,
       sessionVersion: true,
+      termsAcceptedAt: true,
+      termsVersion: true,
+      privacyAcceptedAt: true,
+      privacyVersion: true,
+      consentBasis: true,
       accounts: { select: { provider: true }, orderBy: { provider: "asc" } },
     },
   });
   if (!user || user.sessionVersion !== token.sessionVersion) return null;
+  const hasCurrentConsent = hasCurrentLegalConsent(user);
+  if (!hasCurrentConsent && !options.allowMissingConsent) return null;
   return {
     id: user.id,
     email: user.email,
@@ -68,6 +80,7 @@ export async function getSessionUser(request: Request): Promise<SessionUser | nu
     image: user.image,
     role: user.role,
     hasPassword: Boolean(user.passwordHash),
+    hasCurrentConsent,
     oauthProviders: user.accounts.map(({ provider }) => provider),
   };
 }

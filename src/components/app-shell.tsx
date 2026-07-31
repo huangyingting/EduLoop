@@ -16,8 +16,13 @@ const links = [
   { href: "/progress", label: "我的成长", icon: BarChart3 },
   { href: "/review", label: "错题与收藏", icon: BookmarkCheck },
 ];
+const standaloneRoutes = new Set([
+  "/login", "/register", "/forgot-password", "/reset-password", "/verify-email", "/consent", "/privacy-policy", "/terms",
+]);
 
 export function AppShell({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  if (standaloneRoutes.has(pathname)) return children;
   return <LearnerProvider><AppShellContent>{children}</AppShellContent></LearnerProvider>;
 }
 
@@ -67,8 +72,6 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
       window.removeEventListener("keydown", keepFocusInside);
     };
   }, [desktopNavigation, open]);
-  if (["/login", "/register", "/forgot-password", "/reset-password", "/verify-email"].includes(pathname)) return children;
-
   async function signOut() {
     try {
       await auth.logout();
@@ -115,6 +118,7 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
           <Link href="/login?next=%2Fpractice" onClick={() => setOpen(false)} className="mt-3 flex min-h-11 items-center justify-center gap-2 rounded-xl bg-violet text-xs font-black text-white shadow-[0_4px_0_#242136]"><LogIn size={15} /> 登录保存进度</Link>
         )}
         {auth.status === "authenticated" ? <Link href="/privacy" onClick={() => setOpen(false)} className="mt-2 flex min-h-11 items-center justify-center gap-2 rounded-xl text-xs font-bold text-muted hover:bg-white hover:text-ink"><ShieldCheck size={15} /> 数据与隐私</Link> : null}
+        <div className="mt-1 flex items-center justify-center gap-3 text-[11px] font-bold text-muted"><Link href="/terms" onClick={() => setOpen(false)} className="hover:text-ink hover:underline">服务条款</Link><Link href="/privacy-policy" onClick={() => setOpen(false)} className="hover:text-ink hover:underline">隐私说明</Link></div>
       </aside>
 
       {open && <button className="fixed inset-0 z-40 bg-ink/30 lg:hidden" onClick={() => setOpen(false)} aria-label="关闭导航" />}

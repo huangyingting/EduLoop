@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { checkRateLimit, clientAddress } from "./rate-limit";
 
 const REQUEST_ID_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$/;
+export const MAX_JSON_BODY_BYTES = 32 * 1024;
 
 export type ApiErrorCode =
   | "CONFLICT"
@@ -10,6 +11,7 @@ export type ApiErrorCode =
   | "INTERNAL_ERROR"
   | "INVALID_REQUEST"
   | "NOT_FOUND"
+  | "PAYLOAD_TOO_LARGE"
   | "RATE_LIMITED"
   | "UNAUTHORIZED";
 
@@ -18,6 +20,60 @@ export function apiError(error: string, status: number, code: ApiErrorCode, deta
     status,
     headers: { "Cache-Control": "no-store" },
   });
+}
+
+export async function readJsonBody(
+  request: Request,
+  maxBytes = MAX_JSON_BODY_BYTES,
+): Promise<{ ok: true; value: unknown } | { ok: false; response: Response }> {
+  if (!Number.isInteger(maxBytes) || maxBytes < 1) {
+    throw new RangeError("JSON body limit must be a positive integer.");
+  }
+
+  const contentLength = request.headers.get("content-length")?.trim();
+  if (contentLength && /^\d+$/.test(contentLength)) {
+    const declaredBytes = Number(contentLength);
+    if (!Number.isSafeInteger(declaredBytes) || declaredBytes > maxBytes) {
+      await request.body?.cancel().catch(() => undefined);
+      return {
+        ok: false,
+        response: apiError("Request body too large", 413, "PAYLOAD_TOO_LARGE", { maxBytes }),
+      };
+    }
+  }
+
+  if (!request.body) return { ok: true, value: null };
+  const reader = request.body.getReader();
+  const chunks: Uint8Array[] = [];
+  let receivedBytes = 0;
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      receivedBytes += value.byteLength;
+      if (receivedBytes > maxBytes) {
+        await reader.cancel().catch(() => undefined);
+        return {
+          ok: false,
+          response: apiError("Request body too large", 413, "PAYLOAD_TOO_LARGE", { maxBytes }),
+        };
+      }
+      chunks.push(value);
+    }
+
+    const bytes = new Uint8Array(receivedBytes);
+    let offset = 0;
+    for (const chunk of chunks) {
+      bytes.set(chunk, offset);
+      offset += chunk.byteLength;
+    }
+    const text = new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+    return { ok: true, value: JSON.parse(text) };
+  } catch {
+    return { ok: true, value: null };
+  } finally {
+    reader.releaseLock();
+  }
 }
 
 function requestId(request: Request) {

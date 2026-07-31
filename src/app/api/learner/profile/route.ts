@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { apiError, apiHandler, enforceRateLimit } from "@/lib/api";
+import { apiError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api";
 import { getSessionUser } from "@/lib/auth";
 import { isSameOriginRequest } from "@/lib/auth-validation";
 import { ensureLearnerForUser } from "@/lib/learner-identity";
@@ -64,7 +64,9 @@ async function patchProfile(request: Request) {
   if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
   const limited = await enforceRateLimit(request, "learner-profile", user.id, 20, 15 * 60_000);
   if (limited) return limited;
-  const parsed = learnerProfileInputSchema.safeParse(await request.json().catch(() => null));
+  const body = await readJsonBody(request);
+  if (!body.ok) return body.response;
+  const parsed = learnerProfileInputSchema.safeParse(body.value);
   if (!parsed.success) return apiError("学习档案格式不正确。", 400, "INVALID_REQUEST");
 
   const catalog = await availableKnowledgeCatalog();

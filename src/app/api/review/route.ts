@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { apiError, apiHandler, enforceRateLimit } from "@/lib/api";
+import { apiError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api";
 import { getSessionUser } from "@/lib/auth";
 import { isSameOriginRequest } from "@/lib/auth-validation";
 import { prisma } from "@/lib/prisma";
@@ -112,8 +112,9 @@ async function postSavedQuestion(request: Request) {
   if (!isSameOriginRequest(request)) return apiError("Invalid request origin.", 403, "FORBIDDEN");
   const user = await getSessionUser(request);
   if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
-  const body = await request.json().catch(() => null);
-  const parsed = saveSchema.safeParse(body);
+  const body = await readJsonBody(request);
+  if (!body.ok) return body.response;
+  const parsed = saveSchema.safeParse(body.value);
   if (!parsed.success) return apiError("Invalid saved question", 400, "INVALID_REQUEST");
   const input = parsed.data;
   const limited = await enforceRateLimit(request, "saved-questions", user.id, 30);
@@ -139,7 +140,9 @@ async function patchReviewItem(request: Request) {
   if (!isSameOriginRequest(request)) return apiError("Invalid request origin.", 403, "FORBIDDEN");
   const user = await getSessionUser(request);
   if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
-  const parsed = reviewMutationSchema.safeParse(await request.json().catch(() => null));
+  const body = await readJsonBody(request);
+  if (!body.ok) return body.response;
+  const parsed = reviewMutationSchema.safeParse(body.value);
   if (!parsed.success) return apiError("Invalid review action", 400, "INVALID_REQUEST");
   const limited = await enforceRateLimit(request, "review-items", user.id, 30);
   if (limited) return limited;

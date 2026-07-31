@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { apiError, apiHandler, enforceRateLimit } from "@/lib/api";
+import { apiError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api";
 import { isSameOriginRequest } from "@/lib/auth-validation";
 import { contentOperatorForRequest } from "@/lib/content-operator";
 import { prisma } from "@/lib/prisma";
@@ -98,7 +98,9 @@ async function patchReport(request: NextRequest) {
   if (operator.error) return operator.error;
   const limited = await enforceRateLimit(request, "studio-reports", operator.user.id, 60, 10 * 60_000);
   if (limited) return limited;
-  const parsed = updateSchema.safeParse(await request.json().catch(() => null));
+  const body = await readJsonBody(request);
+  if (!body.ok) return body.response;
+  const parsed = updateSchema.safeParse(body.value);
   if (!parsed.success) return apiError("Invalid review action", 400, "INVALID_REQUEST");
   const { reportId, action, note } = parsed.data;
   const report = await prisma.questionReport.findUnique({

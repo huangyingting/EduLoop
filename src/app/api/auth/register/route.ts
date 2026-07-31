@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { NextResponse } from "next/server";
-import { apiError, apiHandler, enforceRateLimit } from "@/lib/api";
+import { apiError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api";
 import { runAfterResponse } from "@/lib/after-response";
 import { hashPassword } from "@/lib/auth";
 import { isSameOriginRequest, normalizeEmail, registerInputSchema } from "@/lib/auth-validation";
@@ -21,7 +21,9 @@ async function postRegistration(request: Request) {
   if (!isSameOriginRequest(request)) {
     return apiError("Invalid request origin.", 403, "FORBIDDEN");
   }
-  const parsed = registerInputSchema.safeParse(await request.json().catch(() => null));
+  const body = await readJsonBody(request);
+  if (!body.ok) return body.response;
+  const parsed = registerInputSchema.safeParse(body.value);
   if (!parsed.success) {
     return apiError("请填写有效的邮箱、昵称和至少 8 位密码。", 400, "INVALID_REQUEST");
   }

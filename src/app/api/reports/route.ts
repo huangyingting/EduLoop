@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { apiError, apiHandler, enforceRateLimit } from "@/lib/api";
+import { apiError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api";
 import { getSessionUser } from "@/lib/auth";
 import { isSameOriginRequest } from "@/lib/auth-validation";
 import { prisma } from "@/lib/prisma";
@@ -16,8 +16,9 @@ async function postReport(request: Request) {
   if (!isSameOriginRequest(request)) return apiError("Invalid request origin.", 403, "FORBIDDEN");
   const user = await getSessionUser(request);
   if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
-  const body = await request.json().catch(() => null);
-  const parsed = reportSchema.safeParse(body);
+  const body = await readJsonBody(request);
+  if (!body.ok) return body.response;
+  const parsed = reportSchema.safeParse(body.value);
   if (!parsed.success) return apiError("Invalid question report", 400, "INVALID_REQUEST");
   const input = parsed.data;
   const limited = await enforceRateLimit(request, "reports", user.id, 6, 10 * 60_000);

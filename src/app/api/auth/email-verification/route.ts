@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { apiError, apiHandler, enforceRateLimit } from "@/lib/api";
+import { apiError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api";
 import { runAfterResponse } from "@/lib/after-response";
 import {
   emailVerificationCompletionSchema,
@@ -25,7 +25,9 @@ function verificationOrigin(request: Request) {
 
 async function requestEmailVerification(request: Request) {
   if (!isSameOriginRequest(request)) return apiError("Invalid request origin.", 403, "FORBIDDEN");
-  const parsed = emailVerificationRequestSchema.safeParse(await request.json().catch(() => null));
+  const body = await readJsonBody(request);
+  if (!body.ok) return body.response;
+  const parsed = emailVerificationRequestSchema.safeParse(body.value);
   if (!parsed.success) return apiError("请输入有效的邮箱地址。", 400, "INVALID_REQUEST");
   const email = normalizeEmail(parsed.data.email);
   const limited = await enforceRateLimit(request, "auth-email-verification-request", email, 3, 60 * 60_000);
@@ -44,7 +46,9 @@ async function requestEmailVerification(request: Request) {
 
 async function completeEmailVerification(request: Request) {
   if (!isSameOriginRequest(request)) return apiError("Invalid request origin.", 403, "FORBIDDEN");
-  const parsed = emailVerificationCompletionSchema.safeParse(await request.json().catch(() => null));
+  const body = await readJsonBody(request);
+  if (!body.ok) return body.response;
+  const parsed = emailVerificationCompletionSchema.safeParse(body.value);
   if (!parsed.success) return apiError("验证链接无效。", 400, "INVALID_REQUEST");
   const limited = await enforceRateLimit(
     request,

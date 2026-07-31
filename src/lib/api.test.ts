@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { apiError, apiHandler } from "./api";
+import { apiError, apiHandler, MAX_JSON_BODY_BYTES, readJsonBody } from "./api";
 
 afterEach(() => vi.restoreAllMocks());
 
@@ -48,5 +48,41 @@ describe("API contract", () => {
       code: "INTERNAL_ERROR",
     });
     expect(log).toHaveBeenCalledWith(expect.stringContaining('"requestId":"incident-7"'));
+  });
+
+  it("parses bounded JSON and preserves invalid-body validation behavior", async () => {
+    await expect(readJsonBody(new Request("http://localhost/api/test", {
+      method: "POST",
+      body: JSON.stringify({ answer: 42 }),
+    }))).resolves.toEqual({ ok: true, value: { answer: 42 } });
+    await expect(readJsonBody(new Request("http://localhost/api/test", {
+      method: "POST",
+      body: "{not-json",
+    }))).resolves.toEqual({ ok: true, value: null });
+  });
+
+  it("rejects declared and streamed JSON bodies beyond the byte limit", async () => {
+    const declared = await readJsonBody(new Request("http://localhost/api/test", {
+      method: "POST",
+      headers: { "content-length": String(MAX_JSON_BODY_BYTES + 1) },
+      body: "{}",
+    }));
+    expect(declared.ok).toBe(false);
+    if (!declared.ok) {
+      expect(declared.response.status).toBe(413);
+      expect(await declared.response.json()).toEqual({
+        error: "Request body too large",
+        code: "PAYLOAD_TOO_LARGE",
+        details: { maxBytes: MAX_JSON_BODY_BYTES },
+      });
+    }
+
+    const streamed = await readJsonBody(new Request("http://localhost/api/test", {
+      method: "POST",
+      headers: { "content-length": "2" },
+      body: "x".repeat(MAX_JSON_BODY_BYTES + 1),
+    }));
+    expect(streamed.ok).toBe(false);
+    if (!streamed.ok) expect(streamed.response.status).toBe(413);
   });
 });

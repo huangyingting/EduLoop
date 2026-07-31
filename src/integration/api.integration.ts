@@ -22,6 +22,7 @@ import { POST as createSession } from "@/app/api/sessions/route";
 import { GET as getStudioReports, PATCH as updateStudioReport } from "@/app/api/studio/reports/route";
 import { GET as getStudioMetrics } from "@/app/api/studio/metrics/route";
 import { prisma } from "@/lib/prisma";
+import { MAX_JSON_BODY_BYTES } from "@/lib/api";
 import { changeAccountPassword, deleteAccount } from "@/lib/account";
 import { calendarDay, calendarDaysBefore } from "@/lib/dates";
 import { AUTH_SECRET_VALUE, AUTH_SESSION_COOKIE, getSessionUser, hashPassword, verifyPassword } from "@/lib/auth";
@@ -141,6 +142,24 @@ afterAll(async () => {
 });
 
 describe("learner API journey", () => {
+  it("rejects oversized custom JSON before route validation or mutation", async () => {
+    const response = await registerAccount(new Request("http://localhost/api/auth/register", {
+      method: "POST",
+      headers: {
+        ...headers,
+        "content-length": "2",
+      },
+      body: "x".repeat(MAX_JSON_BODY_BYTES + 1),
+    }));
+
+    expect(response.status).toBe(413);
+    expect(await response.json()).toEqual({
+      error: "Request body too large",
+      code: "PAYLOAD_TOO_LARGE",
+      details: { maxBytes: MAX_JSON_BODY_BYTES },
+    });
+  });
+
   it("atomically enforces shared fixed-window limits without storing raw identities", async () => {
     const key = "integration-shared-limit:198.51.100.90:private@example.com";
     const windowMs = 60_000;

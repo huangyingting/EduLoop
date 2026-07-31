@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { apiError, apiHandler, enforceRateLimit } from "@/lib/api";
+import { apiError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api";
 import { getSessionUser } from "@/lib/auth";
 import { isSameOriginRequest } from "@/lib/auth-validation";
 import { calendarDay, calendarDaysBefore, previousCalendarDay } from "@/lib/dates";
@@ -83,8 +83,9 @@ async function replayAttempt(
 
 async function postAttempt(request: Request) {
   if (!isSameOriginRequest(request)) return apiError("Invalid request origin.", 403, "FORBIDDEN");
-  const body = await request.json().catch(() => null);
-  const parsed = attemptSchema.safeParse(body);
+  const body = await readJsonBody(request);
+  if (!body.ok) return body.response;
+  const parsed = attemptSchema.safeParse(body.value);
   if (!parsed.success) return apiError("Invalid attempt", 400, "INVALID_REQUEST", parsed.error.flatten());
   const input = parsed.data;
   const user = await getSessionUser(request);
@@ -342,10 +343,11 @@ async function patchAttempt(request: Request) {
   if (!isSameOriginRequest(request)) return apiError("Invalid request origin.", 403, "FORBIDDEN");
   const user = await getSessionUser(request);
   if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
-  const body = await request.json().catch(() => null);
-  const explanationView = explanationViewSchema.safeParse(body);
+  const body = await readJsonBody(request);
+  if (!body.ok) return body.response;
+  const explanationView = explanationViewSchema.safeParse(body.value);
   if (explanationView.success) return recordExplanationView(request, explanationView.data);
-  const parsed = selfAssessmentSchema.safeParse(body);
+  const parsed = selfAssessmentSchema.safeParse(body.value);
   if (!parsed.success) return apiError("Invalid self-assessment", 400, "INVALID_REQUEST");
   const input = parsed.data;
   const limited = await enforceRateLimit(request, "assessments", user.id, 45);

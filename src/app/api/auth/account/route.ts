@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { apiError, apiHandler, enforceRateLimit } from "@/lib/api";
+import { apiError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api";
 import { changeAccountPassword, deleteAccount } from "@/lib/account";
 import { getSessionUser } from "@/lib/auth";
 import { accountDeletionSchema, hasRecentAuthentication, isSameOriginRequest, passwordChangeSchema } from "@/lib/auth-validation";
@@ -15,7 +15,9 @@ async function patchAccount(request: Request) {
   }
   const limited = await enforceRateLimit(request, "account-password", user.id, 5, 15 * 60_000);
   if (limited) return limited;
-  const parsed = passwordChangeSchema.safeParse(await request.json().catch(() => null));
+  const body = await readJsonBody(request);
+  if (!body.ok) return body.response;
+  const parsed = passwordChangeSchema.safeParse(body.value);
   if (!parsed.success) return apiError("新密码必须至少 8 位且不超过 72 个 UTF-8 字节。", 400, "INVALID_REQUEST");
 
   const outcome = await changeAccountPassword(user.id, parsed.data.currentPassword, parsed.data.newPassword);
@@ -34,7 +36,9 @@ async function deleteCurrentAccount(request: Request) {
   }
   const limited = await enforceRateLimit(request, "account-delete", user.id, 3, 60 * 60_000);
   if (limited) return limited;
-  const parsed = accountDeletionSchema.safeParse(await request.json().catch(() => null));
+  const body = await readJsonBody(request);
+  if (!body.ok) return body.response;
+  const parsed = accountDeletionSchema.safeParse(body.value);
   if (!parsed.success) return apiError("请输入当前密码。", 400, "INVALID_REQUEST");
 
   if (!await deleteAccount(user.id, parsed.data)) {

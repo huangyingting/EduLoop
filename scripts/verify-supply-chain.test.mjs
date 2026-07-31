@@ -28,16 +28,23 @@ async function createFixture(t, overrides = {}) {
       `  postgres:\n    image: postgres:17-alpine@${imageDigest}`,
     ].join("\n"),
     ".node-version": "24.18.1\n",
+    ".npmrc": "strict-allow-scripts=true\n",
     Dockerfile: [
       `FROM node:24.18.1-alpine@${imageDigest} AS builder`,
+      "COPY package.json package-lock.json .npmrc ./",
+      "RUN npm ci",
       `FROM node:24.18.1-alpine@${imageDigest} AS runner`,
     ].join("\n"),
     "package.json": JSON.stringify({
       packageManager: "npm@11.16.0",
       engines: { node: ">=24 <25" },
+      allowScripts: { "example-installer@1.2.3": true },
     }),
     "package-lock.json": JSON.stringify({
-      packages: { "": { engines: { node: ">=24 <25" } } },
+      packages: {
+        "": { engines: { node: ">=24 <25" } },
+        "node_modules/example-installer": { version: "1.2.3", hasInstallScript: true },
+      },
     }),
     ...overrides,
   };
@@ -93,6 +100,8 @@ test("rejects any Node Docker stage that drifts from .node-version", async (t) =
   const root = await createFixture(t, {
     Dockerfile: [
       `FROM node:24.18.1-alpine@${imageDigest} AS builder`,
+      "COPY package.json package-lock.json .npmrc ./",
+      "RUN npm ci",
       `FROM node:24.17.0-alpine@${imageDigest} AS runner`,
     ].join("\n"),
   });
@@ -100,15 +109,50 @@ test("rejects any Node Docker stage that drifts from .node-version", async (t) =
   await assert.rejects(assertSupplyChain(root), /does not match \.node-version 24\.18\.1/);
 });
 
+test("requires the Docker install layer to receive strict npm policy", async (t) => {
+  const root = await createFixture(t, {
+    Dockerfile: [
+      `FROM node:24.18.1-alpine@${imageDigest} AS builder`,
+      "RUN npm ci",
+      "COPY package.json package-lock.json .npmrc ./",
+      `FROM node:24.18.1-alpine@${imageDigest} AS runner`,
+    ].join("\n"),
+  });
+
+  await assert.rejects(assertSupplyChain(root), /Dockerfile must copy \.npmrc/);
+});
+
 test("rejects package metadata that drifts from the pinned Node major", async (t) => {
   const root = await createFixture(t, {
     "package.json": JSON.stringify({
       packageManager: "npm@11.16.0",
       engines: { node: ">=24" },
+      allowScripts: { "example-installer@1.2.3": true },
     }),
   });
 
   await assert.rejects(assertSupplyChain(root), /package\.json engines\.node must be >=24 <25/);
+});
+
+test("rejects broad or missing install-script review entries", async (t) => {
+  const root = await createFixture(t, {
+    "package.json": JSON.stringify({
+      packageManager: "npm@11.16.0",
+      engines: { node: ">=24 <25" },
+      allowScripts: { "example-installer": true },
+    }),
+  });
+
+  await assert.rejects(
+    assertSupplyChain(root),
+    /allowScripts must review install scripts for exact package example-installer@1\.2\.3/,
+  );
+});
+
+test("requires strict npm enforcement for unreviewed scripts", async (t) => {
+  const root = await createFixture(t, { ".npmrc": "audit=true\n" });
+
+  await assert.rejects(assertSupplyChain(root), /\.npmrc must set strict-allow-scripts=true/);
 });
 
 test("does not count commented Dependabot ecosystems", async (t) => {

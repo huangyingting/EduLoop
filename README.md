@@ -43,6 +43,7 @@ npm run seed:verify      # import into a fresh database and verify catalog count
 npm run reports:review -- list # inspect the trusted content-report queue
 npm run users:role -- editor@example.com CONTENT_EDITOR # grant review workspace access
 npm run schema:check   # ensure SQLite/PostgreSQL models still match
+npm run supply:check   # verify immutable build inputs and dependency-script policy
 npm run db:studio      # inspect the local database
 npm run test           # normalization unit tests
 npm run test:integration

@@ -43,6 +43,11 @@ export async function verifySupplyChain(root = process.cwd()) {
       failures.push(`Dockerfile base image is not digest-pinned: ${image}`);
     }
   }
+  const dependencyPolicyCopy = dockerfile.search(/^COPY\s+package\.json\s+package-lock\.json\s+\.npmrc\s+\.\/$/m);
+  const dependencyInstall = dockerfile.search(/^RUN\s+npm ci$/m);
+  if (dependencyPolicyCopy < 0 || dependencyInstall < 0 || dependencyPolicyCopy > dependencyInstall) {
+    failures.push("Dockerfile must copy .npmrc into the dependency stage before npm ci.");
+  }
 
   const nodeVersion = (await readFile(path.join(root, ".node-version"), "utf8")).trim();
   const exactNodeVersion = /^\d+\.\d+\.\d+$/.test(nodeVersion);
@@ -70,6 +75,36 @@ export async function verifySupplyChain(root = process.cwd()) {
     failures.push(`package-lock.json root engines.node must be ${expectedNodeEngine}.`);
   }
 
+  const installScriptPackages = new Set();
+  for (const [location, metadata] of Object.entries(packageLock.packages ?? {})) {
+    if (!metadata.hasInstallScript || !metadata.version || !location.includes("node_modules/")) continue;
+    const name = location.split("node_modules/").at(-1);
+    installScriptPackages.add(`${name}@${metadata.version}`);
+  }
+  const reviewedInstallScripts = packageJson.allowScripts && typeof packageJson.allowScripts === "object"
+    ? packageJson.allowScripts
+    : {};
+  for (const packageId of installScriptPackages) {
+    if (typeof reviewedInstallScripts[packageId] !== "boolean") {
+      failures.push(`allowScripts must review install scripts for exact package ${packageId}.`);
+    }
+  }
+  for (const [packageId, decision] of Object.entries(reviewedInstallScripts)) {
+    if (typeof decision !== "boolean") {
+      failures.push(`allowScripts decision for ${packageId} must be true or false.`);
+    }
+    if (!installScriptPackages.has(packageId)) {
+      failures.push(`allowScripts entry does not match an install-script package in package-lock.json: ${packageId}`);
+    }
+  }
+
+  const npmConfig = await readFile(path.join(root, ".npmrc"), "utf8");
+  const strictAllowScripts = npmConfig.split("\n")
+    .map((line) => line.trim())
+    .filter((line) => line && !line.startsWith("#"))
+    .some((line) => /^strict-allow-scripts\s*=\s*true$/i.test(line));
+  if (!strictAllowScripts) failures.push(".npmrc must set strict-allow-scripts=true.");
+
   const dependabot = await readFile(path.join(root, ".github", "dependabot.yml"), "utf8");
   const ecosystems = new Set([...dependabot.matchAll(/^\s*-\s+package-ecosystem:\s*['"]?([\w-]+)['"]?\s*(?:#.*)?$/gm)]
     .map((match) => match[1]));
@@ -86,6 +121,7 @@ export async function verifySupplyChain(root = process.cwd()) {
       pinnedBaseImages: baseImages.length,
       nodeVersion,
       packageManager: packageJson.packageManager,
+      reviewedInstallScripts: installScriptPackages.size,
       dependabotEcosystems: [...ecosystems].sort(),
     },
   };

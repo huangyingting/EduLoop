@@ -26,12 +26,12 @@ describe("authentication helpers", () => {
   it("rejects cross-origin auth mutations", () => {
     const same = new Request("https://learn.example/api/auth/login", { headers: { origin: "https://learn.example" } });
     const cross = new Request("https://learn.example/api/auth/login", { headers: { origin: "https://evil.example" } });
-    expect(isSameOriginRequest(same)).toBe(true);
-    expect(isSameOriginRequest(cross)).toBe(false);
+    expect(isSameOriginRequest(same, {})).toBe(true);
+    expect(isSameOriginRequest(cross, {})).toBe(false);
     expect(isSameOriginRequest(new Request("https://learn.example/api/auth/login", {
       headers: { "sec-fetch-site": "cross-site" },
-    }))).toBe(false);
-    expect(isSameOriginRequest(new Request("https://learn.example/api/auth/login"))).toBe(true);
+    }), {})).toBe(false);
+    expect(isSameOriginRequest(new Request("https://learn.example/api/auth/login"), {})).toBe(true);
   });
 
   it("uses the public request host instead of a standalone bind address", () => {
@@ -49,9 +49,33 @@ describe("authentication helpers", () => {
     const cross = new Request("http://0.0.0.0:3000/api/auth/login", {
       headers: { host: "learn.example:3000", origin: "http://evil.example:3000" },
     });
-    expect(isSameOriginRequest(direct)).toBe(true);
-    expect(isSameOriginRequest(proxied)).toBe(true);
-    expect(isSameOriginRequest(cross)).toBe(false);
+    expect(isSameOriginRequest(direct, {})).toBe(true);
+    expect(isSameOriginRequest(proxied, {})).toBe(true);
+    expect(isSameOriginRequest(cross, {})).toBe(false);
+  });
+
+  it("uses AUTH_URL instead of trusting spoofable forwarded origin headers", () => {
+    const environment = { AUTH_URL: "https://learn.example" };
+    const legitimate = new Request("http://127.0.0.1:3000/api/auth/account", {
+      headers: {
+        host: "internal:3000",
+        origin: "https://learn.example",
+        "x-forwarded-host": "evil.example",
+        "x-forwarded-proto": "https",
+      },
+    });
+    const spoofed = new Request("http://127.0.0.1:3000/api/auth/account", {
+      headers: {
+        host: "internal:3000",
+        origin: "https://evil.example",
+        "x-forwarded-host": "evil.example",
+        "x-forwarded-proto": "https",
+      },
+    });
+
+    expect(isSameOriginRequest(legitimate, environment)).toBe(true);
+    expect(isSameOriginRequest(spoofed, environment)).toBe(false);
+    expect(isSameOriginRequest(legitimate, { AUTH_URL: "://invalid" })).toBe(false);
   });
 
   it("uses Auth.js' host-only session cookie", () => {

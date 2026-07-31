@@ -46,4 +46,6 @@ Use these callback URLs in provider consoles:
 
 Production requires `AUTH_SECRET`, a public HTTPS `AUTH_URL`, `RESEND_API_KEY`, a verified `AUTH_EMAIL_FROM` sender, and the legal entity/contact/jurisdiction values rendered by `/terms` and `/privacy-policy`. Provider variables are documented in `.env.example`; incomplete email, legal, or social-provider configuration fails `npm run env:check`. Login, registration, consent, email verification, and password recovery use hashed database-backed rate-limit buckets shared by every application replica; the trusted ingress may enforce additional network-level limits.
 
+Custom state-changing endpoints compare the browser `Origin` with `AUTH_URL` in production. Forwarded host headers are only a local-development fallback and cannot redefine the accepted public origin. The container assumes one trusted reverse proxy when selecting a client from `X-Forwarded-For`; set `TRUSTED_PROXY_HOPS` to the exact trusted chain depth when a CDN or another proxy is added.
+
 MFA, guardian consent, approved institutional identity, and institutional account lifecycle remain separate requirements for school-managed deployment.

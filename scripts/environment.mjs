@@ -99,5 +99,12 @@ export function validateEnvironment(environment) {
     if (port < 1 || port > 65_535) errors.push("PORT must be an integer from 1 through 65535.");
   }
 
+  if (environment.TRUSTED_PROXY_HOPS !== undefined) {
+    const hops = Number(environment.TRUSTED_PROXY_HOPS);
+    if (!/^\d+$/.test(environment.TRUSTED_PROXY_HOPS) || !Number.isInteger(hops) || hops < 1 || hops > 10) {
+      errors.push("TRUSTED_PROXY_HOPS must be an integer from 1 through 10.");
+    }
+  }
+
   return { errors, warnings, provider: configuredProvider || detectedProvider };
 }

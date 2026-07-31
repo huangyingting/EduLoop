@@ -294,7 +294,7 @@ describe("learner API journey", () => {
     try {
       const registration = await registerAccount(new Request("http://localhost/api/auth/register", {
         method: "POST",
-        headers: { ...headers, origin: "http://localhost" },
+        headers: { ...headers, origin: "https://learn.example" },
         body: JSON.stringify({ email: authJsEmail, password, displayName: "Auth.js 学习者", knowledgeBand: "integration-middle", consentBasis: "ADULT", acceptedTerms: true }),
       }));
       expect(registration.status).toBe(201);

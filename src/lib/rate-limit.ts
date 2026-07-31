@@ -4,10 +4,37 @@ import { prisma } from "./prisma";
 const CLEANUP_INTERVAL = 250;
 let operations = 0;
 
-export function clientAddress(request: Request) {
-  return request.headers.get("x-forwarded-for")?.split(",")[0]?.trim()
-    || request.headers.get("x-real-ip")
-    || "local";
+type ProxyEnvironment = {
+  NODE_ENV?: string;
+  TRUSTED_PROXY_HOPS?: string;
+};
+
+function trustedProxyHops(environment: ProxyEnvironment) {
+  const configured = environment.TRUSTED_PROXY_HOPS?.trim();
+  if (!configured) return environment.NODE_ENV === "production" ? 1 : null;
+  const hops = Number(configured);
+  return Number.isInteger(hops) && hops >= 1 && hops <= 10
+    ? hops
+    : environment.NODE_ENV === "production" ? 1 : null;
+}
+
+export function clientAddress(
+  request: Request,
+  environment: ProxyEnvironment = {
+    NODE_ENV: process.env.NODE_ENV,
+    TRUSTED_PROXY_HOPS: process.env.TRUSTED_PROXY_HOPS,
+  },
+) {
+  const forwarded = request.headers.get("x-forwarded-for")
+    ?.split(",")
+    .map((address) => address.trim())
+    .filter(Boolean) ?? [];
+  if (forwarded.length) {
+    const proxyHops = trustedProxyHops(environment);
+    if (proxyHops) return forwarded[Math.max(0, forwarded.length - proxyHops)];
+    return forwarded[0];
+  }
+  return request.headers.get("x-real-ip")?.trim() || "local";
 }
 
 export function rateLimitBucketId(key: string, windowMs: number, now: number) {

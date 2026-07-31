@@ -12,6 +12,21 @@ describe("rate-limit helpers", () => {
     expect(clientAddress(new Request("https://example.com"))).toBe("local");
   });
 
+  it("discards untrusted forwarded prefixes at the production proxy boundary", () => {
+    const spoofedPrefix = new Request("https://example.com", {
+      headers: { "x-forwarded-for": "192.0.2.99, 198.51.100.4" },
+    });
+    const twoProxyChain = new Request("https://example.com", {
+      headers: { "x-forwarded-for": "198.51.100.4, 203.0.113.8" },
+    });
+
+    expect(clientAddress(spoofedPrefix, { NODE_ENV: "production" })).toBe("198.51.100.4");
+    expect(clientAddress(twoProxyChain, {
+      NODE_ENV: "production",
+      TRUSTED_PROXY_HOPS: "2",
+    })).toBe("198.51.100.4");
+  });
+
   it("hashes identities into stable, window-specific bucket IDs", () => {
     const key = "auth-register:198.51.100.4:learner@example.com";
     const first = rateLimitBucketId(key, 1_000, 10_000);

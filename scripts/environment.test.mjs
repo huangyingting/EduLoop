@@ -24,6 +24,7 @@ test("accepts injected PostgreSQL production configuration", () => {
     LEGAL_CONTACT_EMAIL: "privacy@learn.example",
     LEGAL_JURISDICTION: "Example jurisdiction",
     PORT: "8080",
+    TRUSTED_PROXY_HOPS: "2",
   }), { errors: [], warnings: [], provider: "postgresql" });
 });
 
@@ -74,5 +75,15 @@ test("rejects partial social provider configuration", () => {
     "LEGAL_CONTACT_EMAIL must be a valid email address.",
     "Google social login requires both AUTH_GOOGLE_ID and AUTH_GOOGLE_SECRET.",
     "FACEBOOK_GRAPH_API_VERSION must look like v23.0.",
+  ]);
+});
+
+test("rejects an invalid trusted proxy depth", () => {
+  const result = validateEnvironment({
+    DATABASE_URL: "file:./dev.db",
+    TRUSTED_PROXY_HOPS: "0",
+  });
+  assert.deepEqual(result.errors, [
+    "TRUSTED_PROXY_HOPS must be an integer from 1 through 10.",
   ]);
 });

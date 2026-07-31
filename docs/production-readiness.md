@@ -27,6 +27,7 @@ School-managed accounts are a separate launch mode. The public account path reco
 | Both databases stay portable | paired schemas and migration stages enforced by `npm run schema:check` |
 | Failures are diagnosable | schema-aware `/api/health`, structured request errors, error boundaries |
 | Browser resource loading is constrained | tested CSP, HSTS, framing, MIME, referrer, permission, and cross-origin response headers |
+| Proxy-derived security decisions are bounded | `AUTH_URL`-anchored mutation origins plus trusted-hop client address selection and validation |
 | Supply and build are repeatable | lockfile, CI workflow, standalone Dockerfile |
 
 ## Release Gates

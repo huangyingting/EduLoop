@@ -5,7 +5,7 @@ import { apiError, apiHandler, enforceRateLimit } from "@/lib/api";
 import { getSessionUser } from "@/lib/auth";
 import { isSameOriginRequest } from "@/lib/auth-validation";
 import { prisma } from "@/lib/prisma";
-import { findLearnerForRequest } from "@/lib/learner-identity";
+import { findLearnerForRequest, findLearnerForUser } from "@/lib/learner-identity";
 
 export const dynamic = "force-dynamic";
 
@@ -14,11 +14,13 @@ const querySchema = z.object({
 });
 
 async function getLearner(request: NextRequest) {
-  if (!await getSessionUser(request)) return apiError("请先登录。", 401, "UNAUTHORIZED");
+  const user = await getSessionUser(request);
+  if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
   const parsed = querySchema.safeParse(Object.fromEntries(request.nextUrl.searchParams));
   if (!parsed.success) return apiError("Invalid learner query", 400, "INVALID_REQUEST");
-  const learner = await findLearnerForRequest(request);
-  if (!learner) return apiError("请先登录。", 401, "UNAUTHORIZED");
+  const limited = await enforceRateLimit(request, "learner-summary", user.id, 120);
+  if (limited) return limited;
+  const learner = await findLearnerForUser(user);
   const today = calendarDay(new Date(), parsed.data.timeZone);
   const activity = await prisma.dailyActivity.findUnique({
     where: { learnerId_activityDate: { learnerId: learner.id, activityDate: today } },

@@ -53,6 +53,8 @@ async function profileResponse(user: { id: string; displayName: string | null })
 async function getProfile(request: Request) {
   const user = await getSessionUser(request);
   if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
+  const limited = await enforceRateLimit(request, "learner-profile-read", user.id, 60);
+  if (limited) return limited;
   return NextResponse.json(await profileResponse(user), { headers: { "Cache-Control": "no-store" } });
 }
 

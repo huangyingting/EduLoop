@@ -4,7 +4,7 @@ import { apiError, apiHandler, enforceRateLimit } from "@/lib/api";
 import { getSessionUser } from "@/lib/auth";
 import { isSameOriginRequest } from "@/lib/auth-validation";
 import { prisma } from "@/lib/prisma";
-import { findLearnerForRequest } from "@/lib/learner-identity";
+import { findLearnerForRequest, findLearnerForUser } from "@/lib/learner-identity";
 
 export const dynamic = "force-dynamic";
 
@@ -49,11 +49,13 @@ function questionCard(question: {
 }
 
 async function getReview(request: NextRequest) {
-  if (!await getSessionUser(request)) return apiError("请先登录。", 401, "UNAUTHORIZED");
+  const user = await getSessionUser(request);
+  if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
   const parsed = querySchema.safeParse(Object.fromEntries(request.nextUrl.searchParams));
   if (!parsed.success) return apiError("Invalid review query", 400, "INVALID_REQUEST");
-  const learner = await findLearnerForRequest(request);
-  if (!learner) return apiError("请先登录。", 401, "UNAUTHORIZED");
+  const limited = await enforceRateLimit(request, "review-list", user.id, 60);
+  if (limited) return limited;
+  const learner = await findLearnerForUser(user);
 
   const now = new Date();
   const [reviews, saved, dueCount, activeCount, savedCount] = await Promise.all([

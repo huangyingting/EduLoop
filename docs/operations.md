@@ -28,7 +28,9 @@ Authorized content operators can view 28-day aggregate learning-loop health in `
 Application limits use hashed fixed-window buckets in PostgreSQL and are shared by every replica. The trusted ingress can additionally enforce network-wide limits as defense in depth. Current application policies include:
 
 - attempts: 45 per account/IP or guest IP per minute;
+- public catalog: 180 per IP per minute, with one-minute browser and five-minute shared-cache freshness;
 - question selection: 120 per IP per minute;
+- learner summary: 120 per account/IP per minute; profile and review reads: 60 per account/IP per minute; progress aggregation: 30 per account/IP per minute;
 - reports: 6 per account/IP per 10 minutes.
 - login: 10 attempts per email/IP per 15 minutes;
 - registration: 5 attempts per email/IP per 15 minutes.

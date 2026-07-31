@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { apiError, apiHandler } from "@/lib/api";
+import { apiError, apiHandler, enforceRateLimit } from "@/lib/api";
 import { getSessionUser } from "@/lib/auth";
 import { calendarDay, previousCalendarDay, visibleStreak } from "@/lib/dates";
 import { prisma } from "@/lib/prisma";
-import { findLearnerForRequest } from "@/lib/learner-identity";
+import { findLearnerForUser } from "@/lib/learner-identity";
 
 export const dynamic = "force-dynamic";
 
@@ -16,11 +16,13 @@ type Aggregate = { label: string; color?: string; attempts: number; correct: num
 type TopicAggregate = Aggregate & { slug: string; subject: string };
 
 async function getLearnerProgress(request: NextRequest) {
-  if (!await getSessionUser(request)) return apiError("请先登录。", 401, "UNAUTHORIZED");
+  const user = await getSessionUser(request);
+  if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
   const parsed = querySchema.safeParse(Object.fromEntries(request.nextUrl.searchParams));
   if (!parsed.success) return apiError("Invalid progress query", 400, "INVALID_REQUEST");
-  const learner = await findLearnerForRequest(request);
-  if (!learner) return apiError("请先登录。", 401, "UNAUTHORIZED");
+  const limited = await enforceRateLimit(request, "learner-progress", user.id, 30);
+  if (limited) return limited;
+  const learner = await findLearnerForUser(user);
 
   const [attempts, activities, ownedBadges, badges, reviewItems, sessions, totalAttempts] = await Promise.all([
     prisma.practiceAttempt.findMany({

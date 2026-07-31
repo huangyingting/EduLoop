@@ -211,6 +211,49 @@ describe("learner API journey", () => {
     });
   });
 
+  it("caches strict public catalog responses and rejects a saturated shared bucket", async () => {
+    const catalogHeaders = { "x-forwarded-for": "203.0.113.76" };
+    const catalog = await getCatalog(new NextRequest("http://localhost/api/catalog", {
+      headers: catalogHeaders,
+    }));
+    expect(catalog.status).toBe(200);
+    expect(catalog.headers.get("cache-control")).toBe(
+      "public, max-age=60, s-maxage=300, stale-while-revalidate=600",
+    );
+    expect(await catalog.json()).toMatchObject({
+      subjects: expect.any(Array),
+      gradeBands: expect.any(Array),
+      tagDimensions: expect.any(Array),
+    });
+
+    const invalid = await getCatalog(new NextRequest("http://localhost/api/catalog?cacheBust=1", {
+      headers: catalogHeaders,
+    }));
+    expect(invalid.status).toBe(400);
+
+    vi.useFakeTimers({ toFake: ["Date"] });
+    vi.setSystemTime(new Date("2026-07-31T12:00:30.000Z"));
+    try {
+      const key = "catalog:203.0.113.77:public";
+      const windowMs = 60_000;
+      const now = Date.now();
+      const windowStart = Math.floor(now / windowMs) * windowMs;
+      await prisma.rateLimitBucket.create({ data: {
+        id: rateLimitBucketId(key, windowMs, now),
+        windowStart: new Date(windowStart),
+        expiresAt: new Date(windowStart + windowMs),
+        count: 180,
+      } });
+      const limited = await getCatalog(new NextRequest("http://localhost/api/catalog", {
+        headers: { "x-forwarded-for": "203.0.113.77" },
+      }));
+      expect(limited.status).toBe(429);
+      expect(limited.headers.get("retry-after")).toBe("30");
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
   it("verifies a registered email before signing in through the credentials callback", async () => {
     const password = "authjs-password-123";
     const previousEnvironment = {

@@ -27,7 +27,7 @@ public/question-assets/generated/zh-CN/<question-id>/*
   -> reviewed locale-specific replacement diagrams
 ```
 
-The catalog API discovers every filterable tag dimension from the database, so new curriculum dimensions do not require a new practice UI control. Question filters encode tags as `DIMENSION:slug` while retaining unqualified topic slugs for older links. A bounded `questionId` filter lets saved and scheduled-review cards reuse the same player for targeted practice. The question API returns only the stem, options, display metadata, and tags. Correct labels, reference answers, and explanations remain server-side until an attempt is posted.
+The catalog API discovers every filterable tag dimension from the database, so new curriculum dimensions do not require a new practice UI control. Its strict, public-only query surface is shared-cacheable and rate limited before relational lookup. Question filters encode tags as `DIMENSION:slug` while retaining unqualified topic slugs for older links. A bounded `questionId` filter lets saved and scheduled-review cards reuse the same player for targeted practice. The question API returns only the stem, options, display metadata, and tags. Correct labels, reference answers, and explanations remain server-side until an attempt is posted.
 
 ## Data-model decisions
 

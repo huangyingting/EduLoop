@@ -1,7 +1,7 @@
 import type { Prisma } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { apiError, apiHandler } from "@/lib/api";
+import { apiError, apiHandler, enforceRateLimit } from "@/lib/api";
 import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
@@ -11,11 +11,13 @@ const querySchema = z.object({
   subject: slugSchema.optional(),
   gradeBand: slugSchema.optional(),
   grade: slugSchema.optional(),
-});
+}).strict();
 
 async function getCatalog(request: NextRequest) {
   const parsed = querySchema.safeParse(Object.fromEntries(request.nextUrl.searchParams));
   if (!parsed.success) return apiError("Invalid catalog filters", 400, "INVALID_REQUEST");
+  const limited = await enforceRateLimit(request, "catalog", "public", 180);
+  if (limited) return limited;
   const subjectSlug = parsed.data.subject ?? null;
   const gradeBandSlug = parsed.data.gradeBand ?? null;
   const gradeSlug = parsed.data.grade ?? null;
@@ -71,7 +73,9 @@ async function getCatalog(request: NextRequest) {
   ]);
 
   const topics = subjectSlug ? tagDimensions.find(({ key }) => key === "TOPIC")?.tags ?? [] : [];
-  return NextResponse.json({ subjects, gradeBands, grades, tagDimensions, topics });
+  return NextResponse.json({ subjects, gradeBands, grades, tagDimensions, topics }, {
+    headers: { "Cache-Control": "public, max-age=60, s-maxage=300, stale-while-revalidate=600" },
+  });
 }
 
 export const GET = apiHandler("GET /api/catalog", getCatalog);

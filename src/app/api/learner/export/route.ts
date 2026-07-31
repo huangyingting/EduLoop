@@ -3,6 +3,7 @@ import { z } from "zod";
 import { apiError, apiHandler, enforceRateLimit } from "@/lib/api";
 import { getSessionUser } from "@/lib/auth";
 import { hasRecentAuthentication } from "@/lib/auth-validation";
+import { errorLogMetadata } from "@/lib/logging";
 import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
@@ -78,7 +79,7 @@ function streamExport(
         console.error(JSON.stringify({
           level: "error",
           event: "learner_export_stream_failed",
-          message: error instanceof Error ? error.message : "Unknown error",
+          ...errorLogMetadata(error),
         }));
         controller.error(error);
       }

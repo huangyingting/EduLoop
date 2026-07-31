@@ -76,8 +76,8 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
     try {
       await auth.logout();
       window.location.assign("/practice");
-    } catch (error) {
-      window.alert(error instanceof Error ? error.message : "退出登录失败，请重试。");
+    } catch {
+      window.alert("退出登录失败，请重试。");
     }
   }
   return (

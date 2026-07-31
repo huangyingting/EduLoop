@@ -19,6 +19,7 @@ import { hasRecentAuthentication, loginInputSchema, normalizeEmail } from "@/lib
 import { googleProfileHasVerifiedEmail, providerProfileVerifiesEmail } from "@/lib/email-assurance";
 import { ensureLearnerForUser } from "@/lib/learner-identity";
 import { hasCurrentLegalConsent } from "@/lib/legal";
+import { errorLogMetadata, safeLogToken } from "@/lib/logging";
 import { prisma } from "@/lib/prisma";
 import { linkProviderAccountSafely } from "@/lib/provider-account";
 import {
@@ -287,8 +288,8 @@ export const { handlers, auth } = NextAuth((request) => ({
       console.error(JSON.stringify({
         level: "error",
         event: "authjs_error",
-        type: "type" in error ? String(error.type) : error.name,
-        message: error.message,
+        ...errorLogMetadata(error),
+        authErrorType: safeLogToken("type" in error ? error.type : undefined),
       }));
     },
   },

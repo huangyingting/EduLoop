@@ -7,6 +7,7 @@ import { hasRecentAuthentication, isSameOriginRequest } from "@/lib/auth-validat
 import { calendarDay, visibleStreak } from "@/lib/dates";
 import { emailConfiguration, sendLearningDataDeletedNotice } from "@/lib/email";
 import { findLearnerForUser } from "@/lib/learner-identity";
+import { errorLogMetadata } from "@/lib/logging";
 import { prisma } from "@/lib/prisma";
 
 export const runtime = "nodejs";
@@ -23,7 +24,7 @@ async function notifyLearningDataDeletion(email: string) {
     console.error(JSON.stringify({
       level: "error",
       event: "learning_data_deletion_notification_failed",
-      message: error instanceof Error ? error.message : "Unknown email delivery error",
+      ...errorLogMetadata(error),
     }));
   }
 }

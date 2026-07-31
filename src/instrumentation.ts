@@ -1,3 +1,5 @@
+import { errorLogMetadata, safeLogToken } from "@/lib/logging";
+
 export async function register() {
   console.info(JSON.stringify({
     level: "info",
@@ -15,10 +17,9 @@ export async function onRequestError(
   console.error(JSON.stringify({
     level: "error",
     event: "request_error",
-    message: error.message,
-    digest: error.digest,
+    ...errorLogMetadata(error),
+    digest: safeLogToken(error.digest),
     method: request.method,
-    path: request.path,
     routeType: context.routeType,
     routePath: context.routePath,
     renderSource: context.renderSource,

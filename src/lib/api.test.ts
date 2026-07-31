@@ -76,6 +76,8 @@ describe("API contract", () => {
       code: "INTERNAL_ERROR",
     });
     expect(log).toHaveBeenCalledWith(expect.stringContaining('"requestId":"incident-7"'));
+    expect(log).toHaveBeenCalledWith(expect.stringContaining('"errorType":"Error"'));
+    expect(log).not.toHaveBeenCalledWith(expect.stringContaining("database password leaked here"));
   });
 
   it("parses bounded JSON and preserves invalid-body validation behavior", async () => {

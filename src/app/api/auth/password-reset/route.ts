@@ -3,6 +3,7 @@ import { apiError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api"
 import { runAfterResponse } from "@/lib/after-response";
 import { normalizeEmail, isSameOriginRequest, passwordResetCompletionSchema, passwordResetRequestSchema } from "@/lib/auth-validation";
 import { emailConfiguration, sendPasswordChangedNotice, sendPasswordResetEmail } from "@/lib/email";
+import { errorLogMetadata } from "@/lib/logging";
 import { hashPasswordResetToken, issuePasswordResetToken, resetPasswordWithToken, revokePasswordResetToken } from "@/lib/password-reset";
 
 export const runtime = "nodejs";
@@ -25,7 +26,7 @@ async function deliverPasswordReset(email: string, origin: string) {
     console.error(JSON.stringify({
       level: "error",
       event: "password_reset_email_failed",
-      message: error instanceof Error ? error.message : "Unknown email delivery error",
+      ...errorLogMetadata(error),
     }));
   }
 }
@@ -37,7 +38,7 @@ async function notifyPasswordChange(email: string) {
     console.error(JSON.stringify({
       level: "error",
       event: "password_reset_notification_failed",
-      message: error instanceof Error ? error.message : "Unknown email delivery error",
+      ...errorLogMetadata(error),
     }));
   }
 }

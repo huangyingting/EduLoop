@@ -2,6 +2,7 @@ import { createHash, randomBytes } from "node:crypto";
 import { Prisma } from "@prisma/client";
 import { verifyPassword } from "@/lib/auth";
 import { sendEmailVerificationEmail } from "@/lib/email";
+import { errorLogMetadata } from "@/lib/logging";
 import { prisma } from "@/lib/prisma";
 import { deleteExpiredUnusedRegistration, proofExpiration } from "@/lib/retention";
 
@@ -92,7 +93,7 @@ export async function deliverEmailVerification(email: string, origin: string) {
     console.error(JSON.stringify({
       level: "error",
       event: "email_verification_delivery_failed",
-      message: error instanceof Error ? error.message : "Unknown email delivery error",
+      ...errorLogMetadata(error),
     }));
   }
 }

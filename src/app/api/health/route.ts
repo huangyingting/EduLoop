@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { apiHandler } from "@/lib/api";
 import { inspectDatabaseReadiness } from "@/lib/database-readiness";
+import { errorLogMetadata } from "@/lib/logging";
 
 export const dynamic = "force-dynamic";
 
@@ -27,7 +28,11 @@ async function getHealth() {
       ...metadata,
     }, { headers: { "Cache-Control": "no-store" } });
   } catch (error) {
-    console.error(JSON.stringify({ level: "error", event: "health_check_failed", message: error instanceof Error ? error.message : "Unknown database error" }));
+    console.error(JSON.stringify({
+      level: "error",
+      event: "health_check_failed",
+      ...errorLogMetadata(error),
+    }));
     return NextResponse.json({
       status: "unavailable",
       database: "unavailable",

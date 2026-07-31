@@ -5,6 +5,7 @@ import { runAfterResponse } from "@/lib/after-response";
 import { getSessionUser } from "@/lib/auth";
 import { hasRecentAuthentication, isSameOriginRequest } from "@/lib/auth-validation";
 import { emailConfiguration, sendSessionsRevokedNotice } from "@/lib/email";
+import { errorLogMetadata } from "@/lib/logging";
 
 export const runtime = "nodejs";
 
@@ -15,7 +16,7 @@ async function notifySessionRevocation(email: string) {
     console.error(JSON.stringify({
       level: "error",
       event: "session_revocation_notification_failed",
-      message: error instanceof Error ? error.message : "Unknown email delivery error",
+      ...errorLogMetadata(error),
     }));
   }
 }

@@ -16,6 +16,7 @@ import {
   issueEmailChangeToken,
 } from "@/lib/email-change";
 import { emailConfiguration, sendEmailChangedNotice } from "@/lib/email";
+import { errorLogMetadata } from "@/lib/logging";
 import { prisma } from "@/lib/prisma";
 
 export const runtime = "nodejs";
@@ -77,7 +78,7 @@ async function notifyPreviousEmail(oldEmail: string, newEmail: string) {
     console.error(JSON.stringify({
       level: "error",
       event: "email_change_notification_failed",
-      message: error instanceof Error ? error.message : "Unknown email delivery error",
+      ...errorLogMetadata(error),
     }));
   }
 }

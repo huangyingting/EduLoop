@@ -1,6 +1,7 @@
 import { createHash, randomBytes } from "node:crypto";
 import { Prisma } from "@prisma/client";
 import { sendEmailChangeVerificationEmail } from "@/lib/email";
+import { errorLogMetadata } from "@/lib/logging";
 import { prisma } from "@/lib/prisma";
 
 export const EMAIL_CHANGE_TTL_MS = 60 * 60_000;
@@ -66,7 +67,7 @@ export async function deliverEmailChangeVerification(
     console.error(JSON.stringify({
       level: "error",
       event: "email_change_delivery_failed",
-      message: error instanceof Error ? error.message : "Unknown email delivery error",
+      ...errorLogMetadata(error),
     }));
   }
 }

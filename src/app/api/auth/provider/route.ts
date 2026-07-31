@@ -4,6 +4,7 @@ import { runAfterResponse } from "@/lib/after-response";
 import { getSessionUser } from "@/lib/auth";
 import { hasRecentAuthentication, isSameOriginRequest, providerDisconnectSchema } from "@/lib/auth-validation";
 import { emailConfiguration, sendProviderDisconnectedNotice } from "@/lib/email";
+import { errorLogMetadata } from "@/lib/logging";
 import { disconnectProviderAccount } from "@/lib/provider-account";
 import { socialProviderLabel } from "@/lib/social-providers";
 
@@ -16,7 +17,7 @@ async function notifyProviderDisconnect(email: string, provider: string) {
     console.error(JSON.stringify({
       level: "error",
       event: "provider_disconnect_notification_failed",
-      message: error instanceof Error ? error.message : "Unknown email delivery error",
+      ...errorLogMetadata(error),
     }));
   }
 }

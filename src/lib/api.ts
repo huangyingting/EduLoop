@@ -1,5 +1,6 @@
 import { randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
+import { errorLogMetadata } from "./logging";
 import {
   addressRateLimitKey,
   checkRateLimit,
@@ -104,7 +105,7 @@ export function apiHandler<TRequest extends Request>(
         route,
         requestId: id,
         method: request.method,
-        message: error instanceof Error ? error.message : "Unknown error",
+        ...errorLogMetadata(error),
       }));
       response = apiError("Internal server error", 500, "INTERNAL_ERROR");
     }

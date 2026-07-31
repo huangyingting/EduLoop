@@ -6,6 +6,7 @@ import { getSessionUser } from "@/lib/auth";
 import { accountDeletionSchema, hasRecentAuthentication, isSameOriginRequest, passwordChangeSchema } from "@/lib/auth-validation";
 import { emailConfiguration, sendAccountDeletedNotice, sendPasswordChangedNotice } from "@/lib/email";
 import { deliverEmailVerification } from "@/lib/email-verification";
+import { errorLogMetadata } from "@/lib/logging";
 
 export const runtime = "nodejs";
 
@@ -21,7 +22,7 @@ async function notifyPasswordChange(email: string) {
     console.error(JSON.stringify({
       level: "error",
       event: "password_change_notification_failed",
-      message: error instanceof Error ? error.message : "Unknown email delivery error",
+      ...errorLogMetadata(error),
     }));
   }
 }
@@ -33,7 +34,7 @@ async function notifyAccountDeletion(email: string) {
     console.error(JSON.stringify({
       level: "error",
       event: "account_deletion_notification_failed",
-      message: error instanceof Error ? error.message : "Unknown email delivery error",
+      ...errorLogMetadata(error),
     }));
   }
 }

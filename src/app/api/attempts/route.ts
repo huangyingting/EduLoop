@@ -88,7 +88,7 @@ async function postAttempt(request: Request) {
   if (!parsed.success) return apiError("Invalid attempt", 400, "INVALID_REQUEST", parsed.error.flatten());
   const input = parsed.data;
   const user = await getSessionUser(request);
-  const limited = enforceRateLimit(request, "attempts", user?.id ?? "guest", 45);
+  const limited = await enforceRateLimit(request, "attempts", user?.id ?? "guest", 45);
   if (limited) return limited;
   const question = await prisma.question.findUnique({
     where: { id: input.questionId },
@@ -310,7 +310,7 @@ async function postAttempt(request: Request) {
 async function recordExplanationView(request: Request, input: z.infer<typeof explanationViewSchema>) {
   const user = await getSessionUser(request);
   if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
-  const limited = enforceRateLimit(request, "explanation-views", user.id, 90);
+  const limited = await enforceRateLimit(request, "explanation-views", user.id, 90);
   if (limited) return limited;
   const learner = await findLearnerForRequest(request);
   if (!learner) return apiError("Attempt not found", 404, "NOT_FOUND");
@@ -348,7 +348,7 @@ async function patchAttempt(request: Request) {
   const parsed = selfAssessmentSchema.safeParse(body);
   if (!parsed.success) return apiError("Invalid self-assessment", 400, "INVALID_REQUEST");
   const input = parsed.data;
-  const limited = enforceRateLimit(request, "assessments", user.id, 45);
+  const limited = await enforceRateLimit(request, "assessments", user.id, 45);
   if (limited) return limited;
   const now = new Date();
   const learner = await findLearnerForRequest(request);

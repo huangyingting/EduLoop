@@ -1,17 +1,24 @@
 import { describe, expect, it } from "vitest";
-import { checkRateLimit } from "./rate-limit";
+import { clientAddress, rateLimitBucketId } from "./rate-limit";
 
-describe("checkRateLimit", () => {
-  it("allows requests within the window and rejects excess requests", () => {
-    const key = `test-${Math.random()}`;
-    expect(checkRateLimit(key, 2, 1_000, 10_000).allowed).toBe(true);
-    expect(checkRateLimit(key, 2, 1_000, 10_100).allowed).toBe(true);
-    expect(checkRateLimit(key, 2, 1_000, 10_200)).toMatchObject({ allowed: false, remaining: 0 });
+describe("rate-limit helpers", () => {
+  it("uses the first proxy address and safe fallbacks", () => {
+    expect(clientAddress(new Request("https://example.com", {
+      headers: { "x-forwarded-for": "198.51.100.4, 10.0.0.2" },
+    }))).toBe("198.51.100.4");
+    expect(clientAddress(new Request("https://example.com", {
+      headers: { "x-real-ip": "203.0.113.8" },
+    }))).toBe("203.0.113.8");
+    expect(clientAddress(new Request("https://example.com"))).toBe("local");
   });
 
-  it("opens a fresh bucket after the window", () => {
-    const key = `test-${Math.random()}`;
-    checkRateLimit(key, 1, 1_000, 20_000);
-    expect(checkRateLimit(key, 1, 1_000, 21_001)).toMatchObject({ allowed: true, remaining: 0 });
+  it("hashes identities into stable, window-specific bucket IDs", () => {
+    const key = "auth-register:198.51.100.4:learner@example.com";
+    const first = rateLimitBucketId(key, 1_000, 10_000);
+    expect(first).toMatch(/^[a-f0-9]{64}$/);
+    expect(first).not.toContain(key);
+    expect(rateLimitBucketId(key, 1_000, 10_999)).toBe(first);
+    expect(rateLimitBucketId(key, 1_000, 11_000)).not.toBe(first);
+    expect(rateLimitBucketId(key, 2_000, 10_000)).not.toBe(first);
   });
 });

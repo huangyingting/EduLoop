@@ -12,7 +12,7 @@ async function acceptConsent(request: Request) {
   if (!isSameOriginRequest(request)) return apiError("Invalid request origin.", 403, "FORBIDDEN");
   const user = await getSessionUser(request, { allowMissingConsent: true });
   if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
-  const limited = enforceRateLimit(request, "auth-consent", user.id, 5, 15 * 60_000);
+  const limited = await enforceRateLimit(request, "auth-consent", user.id, 5, 15 * 60_000);
   if (limited) return limited;
   const parsed = legalConsentSchema.safeParse(await request.json().catch(() => null));
   if (!parsed.success) {

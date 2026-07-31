@@ -28,6 +28,11 @@ import { AUTH_SECRET_VALUE, AUTH_SESSION_COOKIE, getSessionUser, hashPassword, v
 import { hashEmailVerificationToken } from "@/lib/email-verification";
 import { PRIVACY_VERSION, TERMS_VERSION } from "@/lib/legal";
 import { hashPasswordResetToken } from "@/lib/password-reset";
+import {
+  checkRateLimit,
+  cleanupExpiredRateLimitBuckets,
+  rateLimitBucketId,
+} from "@/lib/rate-limit";
 const subjectId = "integration-subject";
 const bandId = "integration-band";
 const gradeId = "integration-grade";
@@ -118,6 +123,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
+  await prisma.rateLimitBucket.deleteMany();
   await prisma.user.deleteMany({ where: { email: authJsEmail } });
   await prisma.user.deleteMany({ where: { id: { in: [
     authUserId, lifecycleUserId, sensitiveUserId, passwordResetUserId, consentUserId, shieldUserId, concurrentUserId, journeyUserId, profileUserId,
@@ -134,6 +140,76 @@ afterAll(async () => {
 });
 
 describe("learner API journey", () => {
+  it("atomically enforces shared fixed-window limits without storing raw identities", async () => {
+    const key = "integration-shared-limit:198.51.100.90:private@example.com";
+    const windowMs = 60_000;
+    const now = Math.floor(Date.now() / windowMs) * windowMs + 1_000;
+    const id = rateLimitBucketId(key, windowMs, now);
+
+    const responses = await Promise.all(
+      Array.from({ length: 12 }, () => checkRateLimit(key, 4, windowMs, now)),
+    );
+    expect(responses.filter(({ allowed }) => allowed)).toHaveLength(4);
+    expect(responses.filter(({ allowed }) => !allowed)).toHaveLength(8);
+    expect(responses.every(({ retryAfter }) => retryAfter === 59)).toBe(true);
+
+    const persisted = await prisma.rateLimitBucket.findUniqueOrThrow({ where: { id } });
+    expect(persisted).toMatchObject({ count: 12, windowStart: new Date(now - 1_000) });
+    expect(persisted.id).toMatch(/^[a-f0-9]{64}$/);
+    expect(persisted.id).not.toContain("private@example.com");
+
+    await expect(checkRateLimit(key, 4, windowMs, now + windowMs)).resolves.toMatchObject({
+      allowed: true,
+      remaining: 3,
+    });
+  });
+
+  it("cleans up expired shared buckets while preserving active windows", async () => {
+    const now = Date.now();
+    await prisma.rateLimitBucket.createMany({ data: [
+      {
+        id: "integration-expired-rate-limit",
+        windowStart: new Date(now - 120_000),
+        expiresAt: new Date(now - 60_000),
+        count: 3,
+      },
+      {
+        id: "integration-active-rate-limit",
+        windowStart: new Date(now),
+        expiresAt: new Date(now + 60_000),
+        count: 1,
+      },
+    ] });
+
+    await cleanupExpiredRateLimitBuckets(now);
+    expect(await prisma.rateLimitBucket.findUnique({
+      where: { id: "integration-expired-rate-limit" },
+    })).toBeNull();
+    expect(await prisma.rateLimitBucket.findUnique({
+      where: { id: "integration-active-rate-limit" },
+    })).toBeTruthy();
+  });
+
+  it("returns a route-level 429 response with a retry deadline", async () => {
+    const resetRequest = () => request(
+      "http://localhost/api/auth/password-reset",
+      "POST",
+      { email: "rate-limited-missing@example.com" },
+    );
+    const responses = [];
+    for (let index = 0; index < 4; index += 1) {
+      responses.push(await requestPasswordReset(resetRequest()));
+    }
+
+    expect(responses.slice(0, 3).map(({ status }) => status)).toEqual([202, 202, 202]);
+    expect(responses[3].status).toBe(429);
+    expect(responses[3].headers.get("retry-after")).toMatch(/^\d+$/);
+    expect(await responses[3].json()).toEqual({
+      error: "Too many requests",
+      code: "RATE_LIMITED",
+    });
+  });
+
   it("verifies a registered email before signing in through the credentials callback", async () => {
     const password = "authjs-password-123";
     const previousEnvironment = {

@@ -114,7 +114,7 @@ async function postSavedQuestion(request: Request) {
   const parsed = saveSchema.safeParse(body);
   if (!parsed.success) return apiError("Invalid saved question", 400, "INVALID_REQUEST");
   const input = parsed.data;
-  const limited = enforceRateLimit(request, "saved-questions", user.id, 30);
+  const limited = await enforceRateLimit(request, "saved-questions", user.id, 30);
   if (limited) return limited;
   const question = await prisma.question.findFirst({ where: { id: input.questionId, status: "PUBLISHED" }, select: { id: true } });
   if (!question) return apiError("Question not found", 404, "NOT_FOUND");
@@ -139,7 +139,7 @@ async function patchReviewItem(request: Request) {
   if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
   const parsed = reviewMutationSchema.safeParse(await request.json().catch(() => null));
   if (!parsed.success) return apiError("Invalid review action", 400, "INVALID_REQUEST");
-  const limited = enforceRateLimit(request, "review-items", user.id, 30);
+  const limited = await enforceRateLimit(request, "review-items", user.id, 30);
   if (limited) return limited;
   const learner = await findLearnerForRequest(request);
   if (!learner) return apiError("请先登录。", 401, "UNAUTHORIZED");

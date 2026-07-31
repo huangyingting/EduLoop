@@ -59,8 +59,8 @@ export function apiHandler<TRequest extends Request>(
   };
 }
 
-export function enforceRateLimit(request: Request, scope: string, identity: string, limit: number, windowMs = 60_000) {
-  const result = checkRateLimit(`${scope}:${clientAddress(request)}:${identity}`, limit, windowMs);
+export async function enforceRateLimit(request: Request, scope: string, identity: string, limit: number, windowMs = 60_000) {
+  const result = await checkRateLimit(`${scope}:${clientAddress(request)}:${identity}`, limit, windowMs);
   if (result.allowed) return null;
   const response = apiError("Too many requests", 429, "RATE_LIMITED");
   response.headers.set("Retry-After", String(result.retryAfter));

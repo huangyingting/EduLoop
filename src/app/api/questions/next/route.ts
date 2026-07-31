@@ -12,7 +12,7 @@ async function getNextQuestion(request: NextRequest) {
   const filters = parseQuestionFilters(request.nextUrl.searchParams);
   if (!filters) return apiError("Invalid question filters", 400, "INVALID_REQUEST");
   const { excluded, mode, tagFilters } = filters;
-  const limited = enforceRateLimit(request, "questions", "public", 120);
+  const limited = await enforceRateLimit(request, "questions", "public", 120);
   if (limited) return limited;
   const baseWhere = questionWhere(filters);
   const learner = await findLearnerForRequest(request);

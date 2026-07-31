@@ -38,7 +38,7 @@ async function deleteLearner(request: NextRequest) {
   if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
   const parsed = querySchema.safeParse(Object.fromEntries(request.nextUrl.searchParams));
   if (!parsed.success) return apiError("Invalid learner query", 400, "INVALID_REQUEST");
-  const limited = enforceRateLimit(request, "delete-learner", user.id, 3, 60 * 60_000);
+  const limited = await enforceRateLimit(request, "delete-learner", user.id, 3, 60 * 60_000);
   if (limited) return limited;
   const learner = await findLearnerForRequest(request, { allowMissingConsent: true });
   const removed = learner

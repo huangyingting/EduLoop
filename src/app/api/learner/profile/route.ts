@@ -60,7 +60,7 @@ async function patchProfile(request: Request) {
   if (!isSameOriginRequest(request)) return apiError("Invalid request origin.", 403, "FORBIDDEN");
   const user = await getSessionUser(request);
   if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
-  const limited = enforceRateLimit(request, "learner-profile", user.id, 20, 15 * 60_000);
+  const limited = await enforceRateLimit(request, "learner-profile", user.id, 20, 15 * 60_000);
   if (limited) return limited;
   const parsed = learnerProfileInputSchema.safeParse(await request.json().catch(() => null));
   if (!parsed.success) return apiError("学习档案格式不正确。", 400, "INVALID_REQUEST");

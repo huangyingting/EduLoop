@@ -16,7 +16,7 @@ const WEEKLY_COHORT_LIMIT = 50_000;
 async function getLearningHealth(request: Request) {
   const operator = await contentOperatorForRequest(request);
   if (operator.error) return operator.error;
-  const limited = enforceRateLimit(request, "studio-metrics", operator.user.id, 60, 10 * 60_000);
+  const limited = await enforceRateLimit(request, "studio-metrics", operator.user.id, 60, 10 * 60_000);
   if (limited) return limited;
 
   const now = new Date();

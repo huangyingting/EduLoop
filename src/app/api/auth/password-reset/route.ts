@@ -35,7 +35,7 @@ async function requestPasswordReset(request: Request) {
   const parsed = passwordResetRequestSchema.safeParse(await request.json().catch(() => null));
   if (!parsed.success) return apiError("请输入有效的邮箱地址。", 400, "INVALID_REQUEST");
   const email = normalizeEmail(parsed.data.email);
-  const limited = enforceRateLimit(request, "auth-password-reset-request", email, 3, 60 * 60_000);
+  const limited = await enforceRateLimit(request, "auth-password-reset-request", email, 3, 60 * 60_000);
   if (limited) return limited;
 
   if (emailConfiguration()) {
@@ -53,7 +53,7 @@ async function completePasswordReset(request: Request) {
   if (!isSameOriginRequest(request)) return apiError("Invalid request origin.", 403, "FORBIDDEN");
   const parsed = passwordResetCompletionSchema.safeParse(await request.json().catch(() => null));
   if (!parsed.success) return apiError("重置链接无效，或新密码不符合要求。", 400, "INVALID_REQUEST");
-  const limited = enforceRateLimit(
+  const limited = await enforceRateLimit(
     request,
     "auth-password-reset-complete",
     hashPasswordResetToken(parsed.data.token),

@@ -245,6 +245,15 @@ model ConsentRecord {
   @@index([userId, acceptedAt])
 }
 
+model RateLimitBucket {
+  id          String   @id
+  windowStart DateTime
+  expiresAt   DateTime
+  count       Int      @default(0)
+
+  @@index([expiresAt])
+}
+
 model LearnerProfile {
   id               String            @id @default(cuid())
   userId           String            @unique

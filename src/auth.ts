@@ -118,7 +118,7 @@ export const { handlers, auth } = NextAuth((request) => ({
         const parsed = loginInputSchema.safeParse(credentials);
         if (!parsed.success) return null;
         const email = normalizeEmail(parsed.data.email);
-        const rate = checkRateLimit(
+        const rate = await checkRateLimit(
           `auth-login:${clientAddress(authRequest)}:${email}`,
           10,
           15 * 60_000,

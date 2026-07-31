@@ -81,7 +81,7 @@ async function getLearnerExport(request: NextRequest) {
   if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
   const parsed = querySchema.safeParse(Object.fromEntries(request.nextUrl.searchParams));
   if (!parsed.success) return apiError("Invalid export request", 400, "INVALID_REQUEST");
-  const limited = enforceRateLimit(request, "export-learner", user.id, 3, 60 * 60_000);
+  const limited = await enforceRateLimit(request, "export-learner", user.id, 3, 60 * 60_000);
   if (limited) return limited;
 
   const identity = await findLearnerForRequest(request, { allowMissingConsent: true });

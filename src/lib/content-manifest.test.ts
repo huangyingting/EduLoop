@@ -5,7 +5,7 @@ describe("content manifest", () => {
   it("declares a complete default runtime catalog", () => {
     expect(DEFAULT_CONTENT_LOCALE).toBe("zh-CN");
     expect(CONTENT_MANIFEST.locales[DEFAULT_CONTENT_LOCALE].purpose).toBe("runtime");
-    expect(contentFilesForLocale(DEFAULT_CONTENT_LOCALE)).toHaveLength(8);
+    expect(contentFilesForLocale(DEFAULT_CONTENT_LOCALE)).toHaveLength(9);
   });
 
   it("keeps collection files aligned across source and translated locales", () => {

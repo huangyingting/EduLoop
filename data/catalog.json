@@ -11,6 +11,7 @@
         "biology.json",
         "chemistry.json",
         "chinese.json",
+        "chinese-high-school.json",
         "mathematics.json",
         "physics.json"
       ]

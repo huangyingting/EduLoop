@@ -1,12 +1,12 @@
 # EduLoop
 
-EduLoop is a Chinese-language practice app for primary, middle, and high school students. The scaffold turns the eight Simplified Chinese files in `data/zh-CN/`—five subject collections plus AMC 8, AMC 10, and AMC 12 archives—into a searchable question bank, supports automatically graded choice questions and self-assessed written work, and wraps the practice loop in lightweight XP, streak, and badge rewards. Matching English AMC source archives live in `data/en/`.
+EduLoop is a Chinese-language practice app for primary, middle, and high school students. The scaffold turns the nine Simplified Chinese files in `data/zh-CN/`—six subject archives plus AMC 8, AMC 10, and AMC 12 archives—into a searchable question bank, supports automatically graded choice questions and self-assessed written work, and wraps the practice loop in lightweight XP, streak, and badge rewards. Matching English AMC source archives live in `data/en/`.
 
 ## What is included
 
 - Next.js App Router, React, TypeScript, and Tailwind CSS 4
 - Prisma with SQLite for local development and a parallel PostgreSQL production schema
-- Idempotent import for all 16,310 unique questions, including 2,499 licensed CJEval junior-high Chinese questions and 3,462 AMC questions representing 3,575 contest slots, with BOM-safe JSON parsing
+- Idempotent import for all 16,537 unique questions, including 2,499 licensed CJEval junior-high Chinese questions, 227 MIT-licensed AGIEval high-school Chinese questions, and 3,462 AMC questions representing 3,575 contest slots, with BOM-safe JSON parsing
 - Normalized subject, school stage, grade, difficulty, and question-family filters
 - Extensible, learner-filterable topic, skill, and format dimensions with provenance and confidence
 - KaTeX rendering for the 4,595 questions detected with LaTeX-like notation, including inline AMC notation

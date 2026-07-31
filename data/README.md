@@ -11,6 +11,7 @@ data/
     biology.json
     chemistry.json
     chinese.json
+    chinese-high-school.json
     mathematics.json
     physics.json
     amc8.json
@@ -20,6 +21,7 @@ data/
     amc8.json
     amc10.json
     amc12.json
+  licenses/                 # Required third-party dataset notices
 
 public/question-assets/
   source/amc/               # Shared SHA-256-addressed upstream figures and manifest
@@ -30,6 +32,8 @@ Add runtime content to `data/zh-CN/`. Acquisition and deduplication scripts oper
 
 The licensed CJEval junior-high Chinese import is pinned to an upstream commit and source-file hashes. Rebuild `chinese.json` with `npm run data:import:cjeval`. CJEval does not identify an individual grade, so its records use `初中综合`; do not infer seventh, eighth, or ninth grade from question wording alone. Source `<dotted>` and related presentation tags are converted into visible plain-text emphasis, nested answers are formatted for self-assessment, and source knowledge concepts become imported topic tags.
 
+The AGIEval high-school Chinese import is pinned to upstream commit `84ab72d94318290aad2e4ec820d535a95a1f7552` and the source JSONL SHA-256. Rebuild `chinese-high-school.json` with `npm run data:import:agieval`. The importer validates all 246 upstream rows, merges 19 repeated rows with consistent answer keys and combined paper provenance, and emits 227 unique `高三` single-choice questions. AGIEval provides answers but no explanations, so each record says that explicitly instead of presenting generated reasoning as source material. Retain `data/licenses/agieval-gaokao-mit.txt` when redistributing the derived archive.
+
 Run specialist maintenance tools directly:
 
 ```bash
@@ -39,6 +43,7 @@ node scripts/localize-amc-assets.mjs
 node scripts/translate-amc-to-chinese.mjs
 node scripts/set-amc-grade-levels.mjs
 node scripts/set-amc-grade-levels.mjs --check
+npm run data:import:agieval
 ```
 
 Validate all source and translated content with `npm run data:verify`.

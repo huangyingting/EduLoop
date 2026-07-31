@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { contentDamageIssues } from "./amc-audit-rules.mjs";
 import { localeFileUrl } from "./content-manifest.mjs";
 
-const FILES = ["biology.json", "chemistry.json", "chinese.json", "mathematics.json", "physics.json"];
+const FILES = ["biology.json", "chemistry.json", "chinese.json", "chinese-high-school.json", "mathematics.json", "physics.json"];
 const OPTION_KEYS = ["option_a", "option_b", "option_c", "option_d", "option_e"];
 const PLACEHOLDER = /^(?:略|无|暂无|暂无解析|答案略|解析略|【答案】)[。.]?$/u;
 

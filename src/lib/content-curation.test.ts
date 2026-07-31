@@ -77,8 +77,8 @@ describe("catalog content curation", () => {
 
   it("publishes all repaired content without outstanding source audit findings", () => {
     const questions = [...recordsById.values()].map(({ question, filename }) => normalizeSourceQuestion(question, filename));
-    expect(questions).toHaveLength(16_310);
-    expect(questions.filter((question) => question.status === "PUBLISHED")).toHaveLength(16_310);
+    expect(questions).toHaveLength(16_537);
+    expect(questions.filter((question) => question.status === "PUBLISHED")).toHaveLength(16_537);
     expect(questions.filter((question) => question.status === "NEEDS_REVIEW")).toHaveLength(0);
   });
 });

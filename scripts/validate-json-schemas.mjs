@@ -203,6 +203,7 @@ async function validateQuestionArchives(catalog) {
     "mathematics.json": "数学",
     "physics.json": "物理",
     "chinese.json": "语文",
+    "chinese-high-school.json": "语文",
   };
 
   for (const [locale, entry] of Object.entries(catalog.locales)) {

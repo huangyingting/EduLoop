@@ -239,7 +239,7 @@ export async function sendSessionsRevokedNotice(
   const configuration = emailConfiguration(options.environment);
   if (!configuration) throw new Error("Session revocation notification is not configured.");
   const fetcher = options.fetcher ?? fetch;
-  const text = "你的 EduLoop 登录会话已全部退出。密码、登录邮箱和社交登录连接没有改变。\n\n如果不是你操作，请立即重置密码并联系平台支持。";
+  const text = "你的 EduLoop 登录会话已全部退出，未使用的账号安全链接也已失效。密码、登录邮箱和社交登录连接没有改变。\n\n如果不是你操作，请立即重置密码并联系平台支持。";
   const response = await fetcher(RESEND_ENDPOINT, {
     method: "POST",
     headers: {
@@ -251,7 +251,7 @@ export async function sendSessionsRevokedNotice(
       to: [to],
       subject: "你的 EduLoop 登录会话已全部退出",
       text,
-      html: "<p>你的 EduLoop 登录会话已全部退出。密码、登录邮箱和社交登录连接没有改变。</p><p>如果不是你操作，请立即重置密码并联系平台支持。</p>",
+      html: "<p>你的 EduLoop 登录会话已全部退出，未使用的账号安全链接也已失效。密码、登录邮箱和社交登录连接没有改变。</p><p>如果不是你操作，请立即重置密码并联系平台支持。</p>",
     }),
     signal: AbortSignal.timeout(10_000),
   });

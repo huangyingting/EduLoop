@@ -58,9 +58,12 @@ async function requestEmailChange(request: Request) {
   }
 
   const newEmail = normalizeEmail(parsed.data.newEmail);
-  const issued = await issueEmailChangeToken(user.id, newEmail);
+  const issued = await issueEmailChangeToken(user.id, newEmail, user.sessionVersion);
   if (issued.status === "NOT_FOUND") return apiError("账号不存在。", 404, "NOT_FOUND");
   if (issued.status === "UNCHANGED") return apiError("新邮箱不能与当前邮箱相同。", 400, "INVALID_REQUEST");
+  if (issued.status === "SECURITY_CONFLICT") {
+    return apiError("账号安全设置刚刚发生变化，请重新登录后再试。", 409, "CONFLICT");
+  }
   if (issued.status === "CONFLICT") return apiError("该邮箱已被其他账号使用。", 409, "CONFLICT");
 
   const origin = emailChangeOrigin(request);

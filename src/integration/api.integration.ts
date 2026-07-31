@@ -27,13 +27,13 @@ import { GET as getStudioReports, PATCH as updateStudioReport } from "@/app/api/
 import { GET as getStudioMetrics } from "@/app/api/studio/metrics/route";
 import { prisma } from "@/lib/prisma";
 import { MAX_JSON_BODY_BYTES } from "@/lib/api";
-import { changeAccountPassword, deleteAccount } from "@/lib/account";
+import { changeAccountPassword, deleteAccount, revokeAccountSessions } from "@/lib/account";
 import { AUTH_SECRET_VALUE, AUTH_SESSION_COOKIE, getSessionUser, hashPassword, verifyPassword } from "@/lib/auth";
 import { credentialMinimizingAdapter } from "@/lib/auth-adapter";
 import { SENSITIVE_ACTION_MAX_AGE_SECONDS } from "@/lib/auth-validation";
 import { calendarDay, calendarDaysBefore } from "@/lib/dates";
 import { REQUIRED_DATABASE_MIGRATION } from "@/lib/database-readiness";
-import { hashEmailChangeToken } from "@/lib/email-change";
+import { hashEmailChangeToken, issueEmailChangeToken } from "@/lib/email-change";
 import { hashEmailVerificationToken } from "@/lib/email-verification";
 import { PRIVACY_VERSION, TERMS_VERSION } from "@/lib/legal";
 import { hashPasswordResetToken } from "@/lib/password-reset";
@@ -90,6 +90,7 @@ const proofLockRaceUserId = "integration-proof-lock-race-user";
 const providerLinkRaceUserId = "integration-provider-link-race-user";
 const emailChangeUserId = "integration-email-change-user";
 const emailChangeConflictUserId = "integration-email-change-conflict-user";
+const emailChangeIssuanceRaceUserId = "integration-email-change-issuance-race-user";
 const consentUserId = "integration-consent-user";
 const authJsEmail = "authjs-flow@example.com";
 const expiredRegistrationEmail = "expired-registration-retry@example.com";
@@ -171,7 +172,7 @@ afterAll(async () => {
   await prisma.user.deleteMany({ where: { email: authJsEmail } });
   await prisma.user.deleteMany({ where: { email: expiredRegistrationEmail } });
   await prisma.user.deleteMany({ where: { id: { in: [
-    authUserId, lifecycleUserId, socialPasswordUserId, sessionRevocationUserId, expiredRetentionUserId, activeRetentionUserId, deletionRaceUserId, sensitiveUserId, providerUserId, providerMinimizationUserId, providerSocialUserId, providerRaceUserId, passwordResetUserId, socialRecoveryUserId, verifiedRecoveryUserId, ownershipRaceUserId, proofLockRaceUserId, providerLinkRaceUserId, emailChangeUserId, emailChangeConflictUserId, consentUserId, shieldUserId, concurrentUserId, journeyUserId, profileUserId,
+    authUserId, lifecycleUserId, socialPasswordUserId, sessionRevocationUserId, expiredRetentionUserId, activeRetentionUserId, deletionRaceUserId, sensitiveUserId, providerUserId, providerMinimizationUserId, providerSocialUserId, providerRaceUserId, passwordResetUserId, socialRecoveryUserId, verifiedRecoveryUserId, ownershipRaceUserId, proofLockRaceUserId, providerLinkRaceUserId, emailChangeUserId, emailChangeConflictUserId, emailChangeIssuanceRaceUserId, consentUserId, shieldUserId, concurrentUserId, journeyUserId, profileUserId,
     studioOperatorId, studioLearnerId, studioReporterId, ...staleRegistrationUserIds,
   ] } } });
   await prisma.question.deleteMany({ where: { id: { in: [choiceId, writtenId, scienceQuestionId] } } });
@@ -1231,6 +1232,19 @@ describe("learner API journey", () => {
         { sessionToken: "integration-session-revocation-a", expires },
         { sessionToken: "integration-session-revocation-b", expires },
       ] },
+      emailVerificationTokens: { create: {
+        tokenHash: "session-revocation-verification".padEnd(64, "v"),
+        expiresAt: expires,
+      } },
+      emailChangeTokens: { create: {
+        newEmail: "session-revocation-pending@example.com",
+        tokenHash: "session-revocation-email-change".padEnd(64, "c"),
+        expiresAt: expires,
+      } },
+      passwordResetTokens: { create: {
+        tokenHash: "session-revocation-password-reset".padEnd(64, "r"),
+        expiresAt: expires,
+      } },
     } });
 
     const staleCookie = await authCookie(
@@ -1253,6 +1267,9 @@ describe("learner API journey", () => {
       select: { sessionVersion: true },
     })).toEqual({ sessionVersion: 0 });
     expect(await prisma.session.count({ where: { userId: sessionRevocationUserId } })).toBe(2);
+    expect(await prisma.emailVerificationToken.count({ where: { userId: sessionRevocationUserId } })).toBe(1);
+    expect(await prisma.emailChangeToken.count({ where: { userId: sessionRevocationUserId } })).toBe(1);
+    expect(await prisma.passwordResetToken.count({ where: { userId: sessionRevocationUserId } })).toBe(1);
     expect(await prisma.rateLimitBucket.count()).toBe(bucketsBeforeStaleRequest);
 
     const previousEnvironment = {
@@ -1299,6 +1316,9 @@ describe("learner API journey", () => {
         select: { sessionVersion: true },
       })).toEqual({ sessionVersion: 1 });
       expect(await prisma.session.count({ where: { userId: sessionRevocationUserId } })).toBe(0);
+      expect(await prisma.emailVerificationToken.count({ where: { userId: sessionRevocationUserId } })).toBe(0);
+      expect(await prisma.emailChangeToken.count({ where: { userId: sessionRevocationUserId } })).toBe(0);
+      expect(await prisma.passwordResetToken.count({ where: { userId: sessionRevocationUserId } })).toBe(0);
       for (const cookie of oldCookies) {
         await expect(getSessionUser(new Request("http://localhost/api/learner", {
           headers: { cookie },
@@ -1321,6 +1341,36 @@ describe("learner API journey", () => {
       }
       vi.unstubAllGlobals();
     }
+  });
+
+  it("cannot leave an email-change proof after account-wide session revocation", async () => {
+    const newEmail = "email-change-issuance-race-new@example.com";
+    await prisma.user.create({ data: {
+      id: emailChangeIssuanceRaceUserId,
+      ...consentData,
+      email: "email-change-issuance-race-old@example.com",
+      emailVerified: new Date(),
+    } });
+
+    const issued = await issueEmailChangeToken(emailChangeIssuanceRaceUserId, newEmail, 0);
+    expect(issued.status).toBe("ISSUED");
+    expect(await prisma.emailChangeToken.count({
+      where: { userId: emailChangeIssuanceRaceUserId },
+    })).toBe(1);
+
+    await expect(revokeAccountSessions(emailChangeIssuanceRaceUserId, 0)).resolves.toBe("REVOKED");
+    expect(await prisma.emailChangeToken.count({
+      where: { userId: emailChangeIssuanceRaceUserId },
+    })).toBe(0);
+
+    await expect(issueEmailChangeToken(
+      emailChangeIssuanceRaceUserId,
+      newEmail,
+      0,
+    )).resolves.toEqual({ status: "SECURITY_CONFLICT" });
+    expect(await prisma.emailChangeToken.count({
+      where: { userId: emailChangeIssuanceRaceUserId },
+    })).toBe(0);
   });
 
   it("serializes account erasure against a concurrent password rotation", async () => {

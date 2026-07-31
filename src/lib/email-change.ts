@@ -12,6 +12,7 @@ export function hashEmailChangeToken(token: string) {
 
 export type EmailChangeIssueResult =
   | { status: "CONFLICT" }
+  | { status: "SECURITY_CONFLICT" }
   | { status: "NOT_FOUND" }
   | { status: "UNCHANGED" }
   | {
@@ -27,28 +28,46 @@ export type EmailChangeIssueResult =
 export async function issueEmailChangeToken(
   userId: string,
   newEmail: string,
+  expectedSessionVersion: number,
   now = new Date(),
 ): Promise<EmailChangeIssueResult> {
-  const user = await prisma.user.findUnique({
-    where: { id: userId },
-    select: { id: true, email: true },
-  });
-  if (!user) return { status: "NOT_FOUND" };
-  if (user.email === newEmail) return { status: "UNCHANGED" };
-  if (await prisma.user.findUnique({ where: { email: newEmail }, select: { id: true } })) {
-    return { status: "CONFLICT" };
-  }
-
   const token = randomBytes(32).toString("base64url");
   const tokenHash = hashEmailChangeToken(token);
   const expiresAt = new Date(now.getTime() + EMAIL_CHANGE_TTL_MS);
-  const record = await prisma.emailChangeToken.upsert({
-    where: { userId },
-    create: { userId, newEmail, tokenHash, expiresAt },
-    update: { newEmail, tokenHash, expiresAt, createdAt: now },
-    select: { id: true },
+  return prisma.$transaction(async (transaction) => {
+    const user = await transaction.user.findUnique({
+      where: { id: userId },
+      select: { email: true, sessionVersion: true },
+    });
+    if (!user) return { status: "NOT_FOUND" };
+    if (user.sessionVersion !== expectedSessionVersion) return { status: "SECURITY_CONFLICT" };
+
+    // Lock the exact security snapshot authorized by the request before a
+    // token can be persisted. If password recovery, session revocation, email
+    // verification, or another security mutation wins first, this stale
+    // request must not recreate a proof after that mutation cleared old ones.
+    const claimed = await transaction.user.updateMany({
+      where: {
+        id: userId,
+        email: user.email,
+        sessionVersion: expectedSessionVersion,
+      },
+      data: { sessionVersion: { increment: 0 } },
+    });
+    if (!claimed.count) return { status: "SECURITY_CONFLICT" };
+    if (user.email === newEmail) return { status: "UNCHANGED" };
+    if (await transaction.user.findUnique({ where: { email: newEmail }, select: { id: true } })) {
+      return { status: "CONFLICT" };
+    }
+
+    const record = await transaction.emailChangeToken.upsert({
+      where: { userId },
+      create: { userId, newEmail, tokenHash, expiresAt },
+      update: { newEmail, tokenHash, expiresAt, createdAt: now },
+      select: { id: true },
+    });
+    return { status: "ISSUED", ...record, userId, newEmail, token, tokenHash, expiresAt };
   });
-  return { status: "ISSUED", ...record, userId, newEmail, token, tokenHash, expiresAt };
 }
 
 export async function revokeEmailChangeToken(id: string, tokenHash: string) {

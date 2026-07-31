@@ -173,6 +173,7 @@ describe("account email delivery", () => {
       to: ["learner@example.com"],
       subject: "你的 EduLoop 登录会话已全部退出",
     });
+    expect(body.text).toContain("未使用的账号安全链接也已失效");
     expect(body.text).toContain("密码、登录邮箱和社交登录连接没有改变");
   });
 });

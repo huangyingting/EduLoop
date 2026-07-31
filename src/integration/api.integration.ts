@@ -25,6 +25,7 @@ import { prisma } from "@/lib/prisma";
 import { changeAccountPassword, deleteAccount } from "@/lib/account";
 import { calendarDay, calendarDaysBefore } from "@/lib/dates";
 import { AUTH_SECRET_VALUE, AUTH_SESSION_COOKIE, getSessionUser, hashPassword, verifyPassword } from "@/lib/auth";
+import { REQUIRED_DATABASE_MIGRATION } from "@/lib/database-readiness";
 import { hashEmailVerificationToken } from "@/lib/email-verification";
 import { PRIVACY_VERSION, TERMS_VERSION } from "@/lib/legal";
 import { hashPasswordResetToken } from "@/lib/password-reset";
@@ -934,6 +935,12 @@ describe("learner API journey", () => {
     const health = await getHealth(new Request("http://localhost/api/health", { headers }));
     expect(health.status).toBe(200);
     expect(health.headers.get("x-request-id")).toBeTruthy();
+    expect(await health.json()).toMatchObject({
+      status: "ok",
+      database: "ready",
+      schema: { status: "ready", requiredMigration: REQUIRED_DATABASE_MIGRATION },
+      catalog: { subjects: expect.any(Number), questions: expect.any(Number) },
+    });
   });
 
   it("protects the content report queue and records operator review actions", async () => {

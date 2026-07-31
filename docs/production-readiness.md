@@ -25,7 +25,7 @@ School-managed accounts are a separate launch mode. The public account path reco
 | Content problems can be surfaced | `QuestionReport` and in-practice feedback form |
 | Content reports can be triaged safely | role-protected `/studio`, immediate quarantine, immutable `ContentReviewAction` history |
 | Both databases stay portable | paired schemas and migration stages enforced by `npm run schema:check` |
-| Failures are diagnosable | `/api/health`, structured request errors, error boundaries |
+| Failures are diagnosable | schema-aware `/api/health`, structured request errors, error boundaries |
 | Browser resource loading is constrained | tested CSP, HSTS, framing, MIME, referrer, permission, and cross-origin response headers |
 | Supply and build are repeatable | lockfile, CI workflow, standalone Dockerfile |
 
@@ -49,7 +49,7 @@ npm run seed:verify
 npm run build
 ```
 
-Before production traffic, also verify the PostgreSQL migration on a disposable database, run the API smoke journey, inspect desktop/mobile screenshots, confirm security headers and `/api/health`, restore the latest backup into a disposable database, and confirm the ingress-level rate limit.
+Before production traffic, also verify the PostgreSQL migration on a disposable database, run the API smoke journey, inspect desktop/mobile screenshots, confirm security headers and schema-aware `/api/health`, restore the latest backup into a disposable database, and confirm any ingress-level defense-in-depth limit.
 
 ## Content Launch Boundary
 

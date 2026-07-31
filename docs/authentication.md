@@ -44,6 +44,6 @@ Use these callback URLs in provider consoles:
 - `{AUTH_URL}/api/auth/callback/microsoft-entra-id`
 - `{AUTH_URL}/api/auth/callback/facebook`
 
-Production requires `AUTH_SECRET`, a public HTTPS `AUTH_URL`, `RESEND_API_KEY`, a verified `AUTH_EMAIL_FROM` sender, and the legal entity/contact/jurisdiction values rendered by `/terms` and `/privacy-policy`. Provider variables are documented in `.env.example`; incomplete email, legal, or social-provider configuration fails `npm run env:check`. Login, registration, consent, email verification, and password recovery retain per-process rate limits, and production ingress must enforce shared limits across replicas.
+Production requires `AUTH_SECRET`, a public HTTPS `AUTH_URL`, `RESEND_API_KEY`, a verified `AUTH_EMAIL_FROM` sender, and the legal entity/contact/jurisdiction values rendered by `/terms` and `/privacy-policy`. Provider variables are documented in `.env.example`; incomplete email, legal, or social-provider configuration fails `npm run env:check`. Login, registration, consent, email verification, and password recovery use hashed database-backed rate-limit buckets shared by every application replica; the trusted ingress may enforce additional network-level limits.
 
 MFA, guardian consent, approved institutional identity, and institutional account lifecycle remain separate requirements for school-managed deployment.

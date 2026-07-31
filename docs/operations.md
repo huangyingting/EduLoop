@@ -21,11 +21,11 @@ Production responses set HSTS, same-origin opener/resource isolation, and a reso
 
 ## Observe
 
-Use `GET /api/health` for readiness and container health. Forward JSON stdout/stderr to the platform log service and alert on readiness failures, HTTP 5xx rate, attempt latency, and PostgreSQL connection saturation. Never log request bodies, answers, account identifiers, or report details.
+Use `GET /api/health` for readiness and container health. A ready response proves database connectivity, the migration required by this application release, and a populated catalog; `outdated`, `initializing`, and `unavailable` responses return HTTP 503. If migrations run under a separate database owner, grant the restricted application role `SELECT` on `_prisma_migrations` so it can perform this check without migration privileges. Forward JSON stdout/stderr to the platform log service and alert on readiness failures, HTTP 5xx rate, attempt latency, and PostgreSQL connection saturation. Never log request bodies, answers, account identifiers, or report details.
 
 Authorized content operators can view 28-day aggregate learning-loop health in `/studio`. The endpoint returns no learner identifiers or responses. Session totals use database-side aggregates. “Seven-day return” compares distinct learners in adjacent seven-day windows and caps each cohort at 50,000; repeat-topic change is capped at the latest 20,000 graded observations. Both declare when sampling is active. Move long-term or high-volume analytics to a privacy-reviewed warehouse rather than removing these bounds.
 
-Application limits are a single-process safety net. Configure the trusted ingress or shared limiter for at least:
+Application limits use hashed fixed-window buckets in PostgreSQL and are shared by every replica. The trusted ingress can additionally enforce network-wide limits as defense in depth. Current application policies include:
 
 - attempts: 45 per account/IP or guest IP per minute;
 - question selection: 120 per IP per minute;

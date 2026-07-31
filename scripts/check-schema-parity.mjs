@@ -16,11 +16,12 @@ async function migrationNames(directory) {
   return entries.filter((entry) => entry.isDirectory()).map((entry) => entry.name).sort();
 }
 
-const [sqliteMigrations, postgresMigrations, sqliteLock, postgresLock] = await Promise.all([
+const [sqliteMigrations, postgresMigrations, sqliteLock, postgresLock, readinessSource] = await Promise.all([
   migrationNames("prisma/migrations"),
   migrationNames("prisma/postgresql/migrations"),
   readFile("prisma/migrations/migration_lock.toml", "utf8"),
   readFile("prisma/postgresql/migrations/migration_lock.toml", "utf8"),
+  readFile("src/lib/database-readiness.ts", "utf8"),
 ]);
 
 const errors = [];
@@ -30,6 +31,11 @@ if (JSON.stringify(sqliteMigrations) !== JSON.stringify(postgresMigrations)) {
 }
 if (!/provider\s*=\s*"sqlite"/.test(sqliteLock)) errors.push("SQLite migration lock has the wrong provider.");
 if (!/provider\s*=\s*"postgresql"/.test(postgresLock)) errors.push("PostgreSQL migration lock has the wrong provider.");
+const requiredMigration = readinessSource.match(/REQUIRED_DATABASE_MIGRATION\s*=\s*"([^"]+)"/)?.[1];
+const latestMigration = sqliteMigrations.at(-1);
+if (!requiredMigration || requiredMigration !== latestMigration) {
+  errors.push(`Readiness requires ${requiredMigration || "no migration"}, but the latest migration is ${latestMigration || "missing"}.`);
+}
 
 if (errors.length) {
   for (const error of errors) console.error(error);

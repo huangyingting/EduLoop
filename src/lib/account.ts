@@ -61,7 +61,7 @@ export async function deleteAccount(
     : values.emailConfirmation?.trim().toLowerCase() === user.email;
   if (!confirmed) return "INVALID_CONFIRMATION";
 
-  // Deleting User is one atomic database statement; provider credentials,
+  // Deleting User is one atomic database statement; provider identities,
   // sessions, proof tokens, consent, and the complete learner graph cascade.
   // The snapshot guard prevents an older confirmation from racing a password,
   // email, provider, or other session-version-changing security operation.

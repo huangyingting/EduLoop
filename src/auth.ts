@@ -14,6 +14,7 @@ import {
   passwordHashNeedsUpgrade,
   verifyPassword,
 } from "@/lib/auth";
+import { credentialMinimizingAdapter } from "@/lib/auth-adapter";
 import { hasRecentAuthentication, loginInputSchema, normalizeEmail } from "@/lib/auth-validation";
 import { ensureLearnerForUser } from "@/lib/learner-identity";
 import { hasCurrentLegalConsent } from "@/lib/legal";
@@ -98,7 +99,7 @@ function socialProviders(): Provider[] {
 }
 
 export const { handlers, auth } = NextAuth((request) => ({
-  adapter: PrismaAdapter(prisma),
+  adapter: credentialMinimizingAdapter(PrismaAdapter(prisma)),
   secret: AUTH_SECRET_VALUE,
   trustHost: process.env.NODE_ENV !== "production" || Boolean(process.env.AUTH_URL || process.env.AUTH_TRUST_HOST),
   useSecureCookies: process.env.NODE_ENV === "production",

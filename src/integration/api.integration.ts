@@ -1,4 +1,5 @@
 import { NextRequest } from "next/server";
+import { PrismaAdapter } from "@auth/prisma-adapter";
 import { encode } from "next-auth/jwt";
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import { GET as authGet, POST as authPost } from "@/app/api/auth/[...nextauth]/route";
@@ -28,6 +29,7 @@ import { prisma } from "@/lib/prisma";
 import { MAX_JSON_BODY_BYTES } from "@/lib/api";
 import { changeAccountPassword, deleteAccount } from "@/lib/account";
 import { AUTH_SECRET_VALUE, AUTH_SESSION_COOKIE, getSessionUser, hashPassword, verifyPassword } from "@/lib/auth";
+import { credentialMinimizingAdapter } from "@/lib/auth-adapter";
 import { SENSITIVE_ACTION_MAX_AGE_SECONDS } from "@/lib/auth-validation";
 import { calendarDay, calendarDaysBefore } from "@/lib/dates";
 import { REQUIRED_DATABASE_MIGRATION } from "@/lib/database-readiness";
@@ -63,6 +65,7 @@ const activeRetentionUserId = "integration-active-retention-user";
 const deletionRaceUserId = "integration-deletion-race-user";
 const sensitiveUserId = "integration-sensitive-user";
 const providerUserId = "integration-provider-user";
+const providerMinimizationUserId = "integration-provider-minimization-user";
 const providerSocialUserId = "integration-provider-social-user";
 const providerRaceUserId = "integration-provider-race-user";
 const passwordResetUserId = "integration-password-reset-user";
@@ -147,7 +150,7 @@ afterAll(async () => {
   });
   await prisma.user.deleteMany({ where: { email: authJsEmail } });
   await prisma.user.deleteMany({ where: { id: { in: [
-    authUserId, lifecycleUserId, sessionRevocationUserId, expiredRetentionUserId, activeRetentionUserId, deletionRaceUserId, sensitiveUserId, providerUserId, providerSocialUserId, providerRaceUserId, passwordResetUserId, emailChangeUserId, emailChangeConflictUserId, consentUserId, shieldUserId, concurrentUserId, journeyUserId, profileUserId,
+    authUserId, lifecycleUserId, sessionRevocationUserId, expiredRetentionUserId, activeRetentionUserId, deletionRaceUserId, sensitiveUserId, providerUserId, providerMinimizationUserId, providerSocialUserId, providerRaceUserId, passwordResetUserId, emailChangeUserId, emailChangeConflictUserId, consentUserId, shieldUserId, concurrentUserId, journeyUserId, profileUserId,
     studioOperatorId, studioLearnerId, studioReporterId,
   ] } } });
   await prisma.question.deleteMany({ where: { id: { in: [choiceId, writtenId, scienceQuestionId] } } });
@@ -1072,6 +1075,49 @@ describe("learner API journey", () => {
       }
       vi.unstubAllGlobals();
     }
+  });
+
+  it("persists provider identity without OAuth or OIDC bearer credentials", async () => {
+    await prisma.user.create({ data: {
+      id: providerMinimizationUserId,
+      ...consentData,
+      email: "provider-minimization@example.com",
+      emailVerified: new Date(),
+    } });
+    const adapter = credentialMinimizingAdapter(PrismaAdapter(prisma));
+
+    await adapter.linkAccount?.({
+      userId: providerMinimizationUserId,
+      type: "oidc",
+      provider: "integration-oidc",
+      providerAccountId: "integration-provider-identity",
+      access_token: "integration-access-secret",
+      refresh_token: "integration-refresh-secret",
+      id_token: "integration-identity-secret",
+      session_state: "integration-provider-session-secret",
+      expires_at: 1_800_000_000,
+      token_type: "bearer",
+      scope: "openid email profile",
+    });
+
+    expect(await prisma.account.findUniqueOrThrow({
+      where: { provider_providerAccountId: {
+        provider: "integration-oidc",
+        providerAccountId: "integration-provider-identity",
+      } },
+    })).toEqual({
+      userId: providerMinimizationUserId,
+      type: "oidc",
+      provider: "integration-oidc",
+      providerAccountId: "integration-provider-identity",
+      access_token: null,
+      refresh_token: null,
+      id_token: null,
+      session_state: null,
+      expires_at: null,
+      token_type: null,
+      scope: null,
+    });
   });
 
   it("never removes the final login method, including under concurrent disconnects", async () => {

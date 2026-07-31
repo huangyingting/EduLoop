@@ -230,7 +230,7 @@ export function AccountControls() {
     {needsRecentLogin ? <div className="mt-4 rounded-xl border-2 border-violet/20 bg-[#f0edff] px-4 py-3 text-sm font-semibold text-muted"><p>{needsRecentSensitiveLogin ? "更改邮箱、连接或移除登录方式、设置密码、退出所有设备或删除账号前，请重新验证你的社交账号。" : "连接或移除登录方式或退出所有设备前，请重新登录验证当前账号。"}</p><button type="button" onClick={() => void reauthenticate()} className="mt-3 inline-flex min-h-10 items-center gap-2 rounded-xl bg-violet px-4 text-xs font-black text-white"><LogIn size={15} /> 重新登录验证</button></div> : null}
     {displayedProviders.length ? <div className="mt-6 rounded-2xl border-2 border-sky/20 bg-[#eaf8ff] p-5">
       <h3 className="flex items-center gap-2 font-black"><Link2 size={18} /> 社交登录</h3>
-      <p className="mt-2 text-sm font-semibold leading-6 text-muted">连接会重新验证提供商身份。移除连接会删除保存的提供商凭据并退出所有设备；系统不会允许删除最后一种登录方式。</p>
+      <p className="mt-2 text-sm font-semibold leading-6 text-muted">连接会重新验证提供商身份，只保存后续登录所需的账号关联，不保存访问或刷新令牌。移除连接会删除该关联并退出所有设备；系统不会允许删除最后一种登录方式。</p>
       <div className="mt-4 space-y-2">{displayedProviders.map((provider) => {
         const connected = connectedProviders.includes(provider.id);
         const canDisconnect = Boolean(auth.user?.hasPassword) || connectedProviders.length > 1;

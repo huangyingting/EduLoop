@@ -100,7 +100,7 @@ export function PrivacyControls() {
     <div className="mt-5 grid gap-5 sm:grid-cols-2">
       <section className="rounded-[28px] border-2 border-violet/25 bg-[#f0edff] p-6 sm:p-8">
         <h2 className="font-display text-2xl font-black">导出账号与学习数据</h2>
-        <p className="mt-2 text-sm font-semibold leading-6 text-muted">下载登录邮箱、同意记录、社交登录标识、会话到期时间、适用的内容审核操作，以及练习、活动、收藏、复习计划和徽章。文件不包含密码哈希、会话令牌、提供商访问密钥或验证令牌摘要。为保护完整资料，下载前须在最近 10 分钟内完成登录验证。</p>
+        <p className="mt-2 text-sm font-semibold leading-6 text-muted">下载登录邮箱、同意记录、社交登录标识、会话到期时间、适用的内容审核操作，以及练习、活动、收藏、复习计划和徽章。文件不包含密码哈希、会话令牌或验证令牌摘要；系统不会持久保存提供商访问、刷新或身份令牌。为保护完整资料，下载前须在最近 10 分钟内完成登录验证。</p>
         {exportError ? <p role="alert" className="mt-3 text-sm font-bold text-coral">{exportError}</p> : null}
         <button type="button" onClick={() => void exportData()} disabled={exporting || !hasRecentLogin} aria-busy={exporting} className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-xl bg-violet px-5 text-sm font-black text-white disabled:opacity-50">{exporting ? <LoaderCircle className="animate-spin" size={17} /> : <Download size={17} />} 下载 JSON</button>
       </section>

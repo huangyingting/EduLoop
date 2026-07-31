@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { apiError, apiHandler, enforceRateLimit } from "@/lib/api";
 import { getSessionUser } from "@/lib/auth";
+import { hasRecentAuthentication } from "@/lib/auth-validation";
 import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
@@ -91,6 +92,13 @@ function streamExport(
 async function getAccountExport(request: NextRequest) {
   const user = await getSessionUser(request, { allowMissingConsent: true });
   if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
+  if (!hasRecentAuthentication(user.authenticatedAt)) {
+    return apiError(
+      "导出账号数据前请重新登录，以确认这是你的账号。",
+      401,
+      "UNAUTHORIZED",
+    );
+  }
   const parsed = querySchema.safeParse(Object.fromEntries(request.nextUrl.searchParams));
   if (!parsed.success) return apiError("Invalid export request", 400, "INVALID_REQUEST");
   const limited = await enforceRateLimit(request, "export-account", user.id, 3, 60 * 60_000);

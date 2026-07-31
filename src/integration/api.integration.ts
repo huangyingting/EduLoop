@@ -26,8 +26,9 @@ import { GET as getStudioMetrics } from "@/app/api/studio/metrics/route";
 import { prisma } from "@/lib/prisma";
 import { MAX_JSON_BODY_BYTES } from "@/lib/api";
 import { changeAccountPassword, deleteAccount } from "@/lib/account";
-import { calendarDay, calendarDaysBefore } from "@/lib/dates";
 import { AUTH_SECRET_VALUE, AUTH_SESSION_COOKIE, getSessionUser, hashPassword, verifyPassword } from "@/lib/auth";
+import { SENSITIVE_ACTION_MAX_AGE_SECONDS } from "@/lib/auth-validation";
+import { calendarDay, calendarDaysBefore } from "@/lib/dates";
 import { REQUIRED_DATABASE_MIGRATION } from "@/lib/database-readiness";
 import { hashEmailChangeToken } from "@/lib/email-change";
 import { hashEmailVerificationToken } from "@/lib/email-verification";
@@ -1613,13 +1614,44 @@ describe("learner API journey", () => {
     }
   });
 
-  it("requires explicit self-assessment for written work and supports data deletion", async () => {
+  it("requires explicit self-assessment, protects account export, and supports data deletion", async () => {
     const cookie = await authCookie(journeyUserId);
     const attemptResponse = await createAttempt(request("http://localhost/api/attempts", "POST", { questionId: writtenId, response: "测试思路", timeZone: "Asia/Shanghai" }, cookie));
     const attempt = await attemptResponse.json() as { attemptId: string; isCorrect: boolean | null };
     expect(attempt.isCorrect).toBeNull();
 
     const learner = await prisma.learnerProfile.findUniqueOrThrow({ where: { userId: journeyUserId } });
+    const staleCookie = await authCookie(
+      journeyUserId,
+      0,
+      Math.floor(Date.now() / 1000) - SENSITIVE_ACTION_MAX_AGE_SECONDS - 1,
+    );
+    const storedBeforeStaleExport = await prisma.user.findUniqueOrThrow({
+      where: { id: journeyUserId },
+      select: {
+        updatedAt: true,
+        learner: { select: { id: true, updatedAt: true } },
+      },
+    });
+    const rateLimitBucketsBeforeStaleExport = await prisma.rateLimitBucket.count();
+    const staleExportResponse = await exportLearner(new NextRequest(
+      "http://localhost/api/learner/export",
+      { headers: { ...headers, cookie: staleCookie } },
+    ));
+    expect(staleExportResponse.status).toBe(401);
+    expect(await staleExportResponse.json()).toEqual({
+      error: "导出账号数据前请重新登录，以确认这是你的账号。",
+      code: "UNAUTHORIZED",
+    });
+    expect(await prisma.user.findUniqueOrThrow({
+      where: { id: journeyUserId },
+      select: {
+        updatedAt: true,
+        learner: { select: { id: true, updatedAt: true } },
+      },
+    })).toEqual(storedBeforeStaleExport);
+    expect(await prisma.rateLimitBucket.count()).toBe(rateLimitBucketsBeforeStaleExport);
+
     const activityDate = calendarDay(new Date(), "Asia/Shanghai");
     const before = await prisma.dailyActivity.findUniqueOrThrow({
       where: { learnerId_activityDate: { learnerId: learner.id, activityDate } },

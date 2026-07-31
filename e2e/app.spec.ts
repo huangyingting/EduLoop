@@ -102,6 +102,40 @@ test("mobile navigation traps focus and advanced filters remain usable", async (
   expect(browserErrors).toEqual([]);
 });
 
+test("complete account export requires a login from the last 10 minutes", async ({ page }) => {
+  const browserErrors = captureBrowserErrors(page);
+  const email = `e2e-export-auth-${Date.now()}-${test.info().workerIndex}@example.test`;
+  const password = "e2e-export-auth-password-123";
+
+  try {
+    await page.goto("/register?next=%2Fprivacy");
+    await page.getByLabel("邮箱").fill(email);
+    await page.getByLabel("密码").fill(password);
+    await page.getByLabel("年满 18 岁的学习者").check();
+    await page.getByLabel(/我接受 服务条款/).check();
+    await page.getByRole("button", { name: "创建账号" }).click();
+    await expect(page).toHaveURL(/\/privacy$/, { timeout: 30_000 });
+
+    const downloadButton = page.getByRole("button", { name: "下载 JSON" });
+    await expect(downloadButton).toBeEnabled();
+
+    await page.addInitScript(() => {
+      const systemNow = Date.now.bind(Date);
+      Date.now = () => systemNow() + 601_000;
+    });
+    await page.reload();
+
+    await expect(page.getByText("当前登录验证已超过 10 分钟。", { exact: false })).toBeVisible();
+    await expect(page.getByRole("button", { name: "重新登录验证" }).first()).toBeVisible();
+    await expect(downloadButton).toBeDisabled();
+    expect(browserErrors).toEqual([]);
+  } finally {
+    await page.request.delete("/api/auth/account", {
+      data: { currentPassword: password },
+    }).catch(() => null);
+  }
+});
+
 test("account journey persists learning data and enforces studio authorization", async ({ page }) => {
   test.setTimeout(90_000);
   const browserErrors = captureBrowserErrors(page);

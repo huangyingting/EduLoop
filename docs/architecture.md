@@ -47,7 +47,7 @@ The catalog API discovers every filterable tag dimension from the database, so n
 - `src/proxy.ts` redirects signed-out page requests except `/practice`, `/login`, and `/register`. API authorization remains inside each route: only question discovery, hints, catalog data, health, Auth.js, registration, and stateless attempt grading are public.
 - Registering creates an account-owned profile. Logging into an established account resumes only that account's attempts, sessions, daily activity, badges, saved questions, reviews, and reports; guest practice is never merged because it is never persisted.
 - Application API responses default to `Cache-Control: no-store`; public question selection can become learner-specific when a valid Auth.js cookie enables recommendations or saved state.
-- The account export returns a small versioned identity/consent/session-metadata envelope and streams paginated learner and content-review-action sections in stable order. Prisma projections intentionally exclude password hashes, session tokens, provider tokens, and verification-token digests rather than loading secrets and filtering them after serialization.
+- After recent reauthentication, the account export returns a small versioned identity/consent/session-metadata envelope and streams paginated learner and content-review-action sections in stable order. The identity check does not depend on accepting the current legal versions. Prisma projections intentionally exclude password hashes, session tokens, provider tokens, and verification-token digests rather than loading secrets and filtering them after serialization.
 
 ## Selection and scaling
 

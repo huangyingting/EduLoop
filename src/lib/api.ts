@@ -88,17 +88,9 @@ export function apiHandler<TRequest extends Request>(
   return async (request: TRequest) => {
     const id = requestId(request);
     const startedAt = performance.now();
+    let response: Response;
     try {
-      const response = await handler(request);
-      // Several public routes become learner-specific when an Auth.js cookie is
-      // present. Default every application API response to no-store so a browser,
-      // reverse proxy, or future route refactor cannot reuse one learner's data.
-      if (!response.headers.has("Cache-Control")) {
-        response.headers.set("Cache-Control", "no-store");
-      }
-      response.headers.set("X-Request-Id", id);
-      response.headers.set("Server-Timing", `app;dur=${Math.max(0, performance.now() - startedAt).toFixed(1)}`);
-      return response;
+      response = await handler(request);
     } catch (error) {
       console.error(JSON.stringify({
         level: "error",
@@ -108,10 +100,33 @@ export function apiHandler<TRequest extends Request>(
         method: request.method,
         message: error instanceof Error ? error.message : "Unknown error",
       }));
-      const response = apiError("Internal server error", 500, "INTERNAL_ERROR");
-      response.headers.set("X-Request-Id", id);
-      return response;
+      response = apiError("Internal server error", 500, "INTERNAL_ERROR");
     }
+
+    const durationMs = Math.max(0, performance.now() - startedAt);
+    // Several public routes become learner-specific when an Auth.js cookie is
+    // present. Default every application API response to no-store so a browser,
+    // reverse proxy, or future route refactor cannot reuse one learner's data.
+    if (!response.headers.has("Cache-Control")) {
+      response.headers.set("Cache-Control", "no-store");
+    }
+    response.headers.set("X-Request-Id", id);
+    response.headers.set("Server-Timing", `app;dur=${durationMs.toFixed(1)}`);
+
+    if (process.env.NODE_ENV === "production") {
+      const entry = JSON.stringify({
+        level: response.status >= 500 ? "error" : "info",
+        event: "api_request_completed",
+        route,
+        requestId: id,
+        method: request.method,
+        status: response.status,
+        durationMs: Number(durationMs.toFixed(1)),
+      });
+      if (response.status >= 500) console.error(entry);
+      else console.info(entry);
+    }
+    return response;
   };
 }
 

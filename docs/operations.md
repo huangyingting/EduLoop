@@ -15,6 +15,14 @@ npm run build
 
 Run migrations as a single pre-deploy job, not from every application replica. The included Dockerfile builds a standalone server; set `DATABASE_URL`, `EDULOOP_DATABASE_PROVIDER=postgresql`, `APP_VERSION`, and `PORT` at runtime. Container startup validates these values before launching Next.js. Terminate HTTPS at the trusted ingress.
 
+After the new replicas become ready but before opening production traffic, run the cookie-free deployment smoke journey from outside the ingress:
+
+```bash
+npm run smoke:deployment -- https://learn.example
+```
+
+It fails unless the public practice page's security headers, database migration and catalog readiness, public catalog, answer isolation, and stateless guest-grading contract all hold. HTTP is accepted only for loopback testing. The smoke request writes no learner or attempt data; the shared limiter still creates its normal short-lived hashed buckets.
+
 Keep the application port private to the ingress. Configure the ingress to replace the public host/protocol headers and append the connecting address to `X-Forwarded-For`. The container defaults `TRUSTED_PROXY_HOPS` to `1`; set it to the exact number of trusted hops between the browser and application (for example, `2` for a CDN plus ingress). EduLoop selects the address immediately before those trusted hops, so an untrusted prefix supplied by a client cannot create fresh rate-limit identities. `AUTH_URL`, not forwarded headers, is the authority for custom mutation-route origin checks.
 
 Custom application JSON mutations reject bodies larger than 32 KiB while streaming and return HTTP 413 even when a client omits or falsifies `Content-Length`. Configure a compatible ingress request-body ceiling as earlier defense in depth, while preserving Auth.js provider callbacks and normal form posts.
@@ -27,7 +35,7 @@ Production responses set HSTS, same-origin opener/resource isolation, and a reso
 
 ## Observe
 
-Use `GET /api/health` for readiness and container health. A ready response proves database connectivity, the migration required by this application release, and a populated catalog; `outdated`, `initializing`, and `unavailable` responses return HTTP 503. If migrations run under a separate database owner, grant the restricted application role `SELECT` on `_prisma_migrations` so it can perform this check without migration privileges. Forward JSON stdout/stderr to the platform log service and alert on readiness failures, HTTP 5xx rate, attempt latency, and PostgreSQL connection saturation. Never log request bodies, answers, account identifiers, or report details.
+Use `GET /api/health` for readiness and container health. A ready response proves database connectivity, the migration required by this application release, and a populated catalog; `outdated`, `initializing`, and `unavailable` responses return HTTP 503. If migrations run under a separate database owner, grant the restricted application role `SELECT` on `_prisma_migrations` so it can perform this check without migration privileges. Forward JSON stdout/stderr to the platform log service. Production custom API responses emit one `api_request_completed` record containing only route template, method, status, duration, and request ID; thrown failures also emit `api_request_failed`. Alert on readiness failures, 5xx completion records, `POST /api/attempts` duration, and PostgreSQL connection saturation. Never log request bodies, answers, account identifiers, or report details.
 
 Authorized content operators can view 28-day aggregate learning-loop health in `/studio`. The endpoint returns no learner identifiers or responses. Session totals use database-side aggregates. “Seven-day return” compares distinct learners in adjacent seven-day windows and caps each cohort at 50,000; repeat-topic change is capped at the latest 20,000 graded observations. Both declare when sampling is active. Move long-term or high-volume analytics to a privacy-reviewed warehouse rather than removing these bounds.
 

@@ -1,7 +1,10 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { apiError, apiHandler, MAX_JSON_BODY_BYTES, readJsonBody } from "./api";
 
-afterEach(() => vi.restoreAllMocks());
+afterEach(() => {
+  vi.unstubAllEnvs();
+  vi.restoreAllMocks();
+});
 
 describe("API contract", () => {
   it("returns stable machine-readable errors", async () => {
@@ -31,6 +34,31 @@ describe("API contract", () => {
     }));
     const response = await handler(new Request("http://localhost/api/test"));
     expect(response.headers.get("cache-control")).toBe("public, max-age=60");
+  });
+
+  it("emits privacy-safe production completion telemetry", async () => {
+    vi.stubEnv("NODE_ENV", "production");
+    const log = vi.spyOn(console, "info").mockImplementation(() => undefined);
+    const handler = apiHandler("POST /api/attempts", async () => Response.json({
+      response: "sensitive learner answer",
+    }, { status: 202 }));
+    await handler(new Request("https://learn.example/api/attempts", {
+      method: "POST",
+      headers: { "x-request-id": "telemetry-9" },
+    }));
+
+    expect(log).toHaveBeenCalledOnce();
+    const entry = JSON.parse(log.mock.calls[0][0] as string) as Record<string, unknown>;
+    expect(entry).toMatchObject({
+      level: "info",
+      event: "api_request_completed",
+      route: "POST /api/attempts",
+      requestId: "telemetry-9",
+      method: "POST",
+      status: 202,
+    });
+    expect(entry.durationMs).toEqual(expect.any(Number));
+    expect(JSON.stringify(entry)).not.toContain("sensitive learner answer");
   });
 
   it("contains unexpected errors and logs their correlation ID", async () => {

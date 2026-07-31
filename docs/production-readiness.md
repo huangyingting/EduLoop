@@ -25,7 +25,8 @@ School-managed accounts are a separate launch mode. The public account path reco
 | Content problems can be surfaced | `QuestionReport` and in-practice feedback form |
 | Content reports can be triaged safely | role-protected `/studio`, immediate quarantine, immutable `ContentReviewAction` history |
 | Both databases stay portable | paired schemas and migration stages enforced by `npm run schema:check` |
-| Failures are diagnosable | schema-aware `/api/health`, structured request errors, error boundaries |
+| Failures are diagnosable | schema-aware `/api/health`, privacy-safe request completion/error telemetry, error boundaries |
+| A live release is externally verifiable | cookie-free `npm run smoke:deployment` checks security headers, readiness, answer isolation, and stateless guest grading |
 | Browser resource loading is constrained | tested CSP, HSTS, framing, MIME, referrer, permission, and cross-origin response headers |
 | Proxy-derived security decisions are bounded | `AUTH_URL`-anchored mutation origins plus trusted-hop client address selection and validation |
 | Untrusted mutation payloads are bounded | shared streaming 32 KiB JSON cap with declared-length and chunked-body coverage |
@@ -52,7 +53,7 @@ npm run seed:verify
 npm run build
 ```
 
-Before production traffic, also verify the PostgreSQL migration on a disposable database, run the API smoke journey, inspect desktop/mobile screenshots, confirm security headers and schema-aware `/api/health`, restore the latest backup into a disposable database, and confirm any ingress-level defense-in-depth limit.
+Before production traffic, also verify the PostgreSQL migration on a disposable database, run `npm run smoke:deployment -- https://your-production-origin.example`, inspect desktop/mobile screenshots, restore the latest backup into a disposable database, and confirm any ingress-level defense-in-depth limit. The deployment smoke command uses no cookies, creates no learner or attempt, and checks public-practice security headers, schema-aware readiness, public catalog shape, pre-answer isolation, and guest grading. It does create the short-lived hashed rate-limit buckets used by those public requests.
 
 ## Content Launch Boundary
 

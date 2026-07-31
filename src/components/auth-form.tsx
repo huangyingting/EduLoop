@@ -31,6 +31,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
   const isLogin = mode === "login";
   const emailUnverified = isLogin && searchParams.get("code") === "email_not_verified";
   const emailVerified = isLogin && searchParams.get("verified") === "1";
+  const providerDisconnected = isLogin && searchParams.get("notice") === "provider_disconnected";
   const next = safeReturnPath(searchParams.get("next"));
 
   useEffect(() => {
@@ -157,6 +158,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
             {!isLogin ? <><fieldset><legend className="text-xs font-black">账号使用人</legend><div className="mt-2 grid gap-2 sm:grid-cols-2">{([{ value: "ADULT", label: "年满 18 岁的学习者" }, { value: "GUARDIAN", label: "父母或法定监护人" }] as const).map((option) => <label key={option.value} className={`flex min-h-11 cursor-pointer items-center gap-2 rounded-xl border-2 px-3 text-xs font-bold ${consentBasis === option.value ? "border-violet bg-[#f0edff]" : "border-ink/10"}`}><input type="radio" name="consentBasis" required value={option.value} checked={consentBasis === option.value} onChange={() => setConsentBasis(option.value)} className="accent-violet" />{option.label}</label>)}</div></fieldset><label className="flex items-start gap-2 text-xs font-semibold leading-5 text-muted"><input type="checkbox" required checked={acceptedTerms} onChange={(event) => setAcceptedTerms(event.target.checked)} className="mt-1 shrink-0 accent-violet" /><span>我接受 <Link href="/terms" target="_blank" className="font-black text-violet underline">服务条款</Link> 和 <Link href="/privacy-policy" target="_blank" className="font-black text-violet underline">隐私说明</Link>，并确认账号由上述成年人操作。未成年人可使用不保存数据的访客模式。</span></label></> : null}
 
             {emailVerified ? <p role="status" className="rounded-xl border-2 border-lime bg-[#f7fadf] px-4 py-3 text-sm font-bold text-[#557000]">邮箱已验证，请登录继续学习。</p> : null}
+            {providerDisconnected ? <p role="status" className="rounded-xl border-2 border-lime bg-[#f7fadf] px-4 py-3 text-sm font-bold text-[#557000]">社交登录连接已移除，所有旧会话已退出。请使用剩余方式重新登录。</p> : null}
             {error ? <div role="alert" className="rounded-xl border-2 border-coral/30 bg-[#fff0ed] px-4 py-3 text-sm font-bold text-coral"><p>{error}</p>{emailUnverified ? <Link href="/verify-email" className="mt-2 inline-block text-violet hover:underline">重新发送验证邮件</Link> : null}</div> : null}
             <button type="submit" disabled={busy} className="flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-ink px-5 font-black text-white shadow-[0_4px_0_#6c5ce7] transition hover:-translate-y-0.5 disabled:translate-y-0 disabled:opacity-60">
               {busy ? <LoaderCircle className="animate-spin" size={18} /> : <>{isLogin ? "登录并继续" : "创建账号"}<ArrowRight size={18} /></>}

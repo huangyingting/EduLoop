@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { catalogSlugSchema } from "@/lib/learner-profile";
 import { CONSENT_BASES } from "@/lib/legal";
+import { SOCIAL_PROVIDER_IDS } from "@/lib/social-providers";
 
 export const SENSITIVE_ACTION_MAX_AGE_SECONDS = 10 * 60;
 
@@ -51,6 +52,10 @@ export const emailChangeRequestSchema = z.object({
 
 export const emailChangeCompletionSchema = z.object({
   token: z.string().min(32).max(256).regex(/^[A-Za-z0-9_-]+$/),
+});
+
+export const providerDisconnectSchema = z.object({
+  provider: z.enum(SOCIAL_PROVIDER_IDS),
 });
 
 export const passwordResetCompletionSchema = z.object({

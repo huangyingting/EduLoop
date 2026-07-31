@@ -51,11 +51,12 @@ Application limits use hashed fixed-window buckets in PostgreSQL and are shared 
 - consent acceptance: 5 attempts per account/IP per 15 minutes.
 - email verification requests: 3 per email/IP per hour; verification attempts: 8 per token/IP per 15 minutes.
 - login-email change requests: 3 per account/IP per hour; confirmation attempts: 8 per token/IP per 15 minutes.
+- social-provider disconnections: 5 per account/IP per hour.
 - password reset requests: 3 per email/IP per hour; reset attempts: 8 per token/IP per 15 minutes.
 - studio review: 180 reads and 60 transitions per operator/IP per 10 minutes.
 - studio metrics: 60 aggregate reads per operator/IP per 10 minutes.
 
-Auth.js session cookies are encrypted JWTs checked against `User.sessionVersion`. Sensitive social-account actions require an `authenticatedAt` claim no older than 10 minutes; routine JWT refresh does not extend that window. A verified login-email change increments the version, signs every browser out, and notifies the previous address. A suspected account-session compromise should increment that user's version; a broad compromise requires incrementing all versions and rotating `AUTH_SECRET`. Secret rotation signs every browser out. Rotate OAuth client secrets in each provider console and the deployment secret store together.
+Auth.js session cookies are encrypted JWTs checked against `User.sessionVersion`. Sensitive social-account actions require an `authenticatedAt` claim no older than 10 minutes; routine JWT refresh does not extend that window. A verified login-email change or provider disconnection increments the version and signs every browser out; both send a security notice when email delivery is available. Provider disconnection deletes the stored adapter row and its access/refresh tokens, but operators should still direct users to the provider's own security console when provider-side grant revocation is required. A suspected account-session compromise should increment that user's version; a broad compromise requires incrementing all versions and rotating `AUTH_SECRET`. Secret rotation signs every browser out. Rotate OAuth client secrets in each provider console and the deployment secret store together.
 
 `src/lib/legal.ts` pins the active terms and privacy versions. A version change deliberately sends every account through `/consent` again while preserving data export and deletion access. Publish and legally review the matching public pages before changing either constant; never rewrite an old `ConsentRecord`.
 

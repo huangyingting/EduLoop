@@ -18,6 +18,7 @@ School-managed accounts are a separate launch mode. The public account path reco
 | Learners control learning data | `/privacy`, export, and `DELETE /api/learner` cascade deletion |
 | Public account consent is explicit | public versioned `/terms` and `/privacy-policy`, adult/guardian attestation, append-only `ConsentRecord`, and re-consent gating |
 | Account sessions are revocable | encrypted Auth.js cookies plus database-checked `sessionVersion` and an HttpOnly logout flow |
+| Linked login methods are removable safely | recent-auth provider disconnection, final-method protection, stored-token deletion, concurrency-safe version claim, all-session revocation, and browser/integration coverage |
 | Login email changes prove ownership | current-password or recent-social proof, hashed single-use new-address verification, atomic uniqueness enforcement, old-address notice, and all-session revocation |
 | Password email ownership is proven | generic resend responses, hashed 24-hour tokens, fragment-based links, and verified-login enforcement |
 | Password accounts are recoverable | generic reset requests, hashed expiring tokens, Resend delivery, and all-session revocation |

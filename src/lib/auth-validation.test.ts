@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { accountDeletionSchema, emailChangeCompletionSchema, emailChangeRequestSchema, emailVerificationCompletionSchema, hasRecentAuthentication, isSameOriginRequest, normalizeEmail, passwordChangeSchema, passwordResetCompletionSchema, registerInputSchema, safeReturnPath, SENSITIVE_ACTION_MAX_AGE_SECONDS } from "./auth-validation";
+import { accountDeletionSchema, emailChangeCompletionSchema, emailChangeRequestSchema, emailVerificationCompletionSchema, hasRecentAuthentication, isSameOriginRequest, normalizeEmail, passwordChangeSchema, passwordResetCompletionSchema, providerDisconnectSchema, registerInputSchema, safeReturnPath, SENSITIVE_ACTION_MAX_AGE_SECONDS } from "./auth-validation";
 import { AUTH_SESSION_COOKIE, PASSWORD_HASH_COST, passwordHashNeedsUpgrade } from "./auth";
 
 describe("authentication helpers", () => {
@@ -114,6 +114,8 @@ describe("authentication helpers", () => {
     expect(emailChangeCompletionSchema.safeParse({ token: "short" }).success).toBe(false);
     expect(emailChangeRequestSchema.safeParse({ newEmail: "next@example.com", currentPassword: "current-password" }).success).toBe(true);
     expect(emailChangeRequestSchema.safeParse({ newEmail: "invalid" }).success).toBe(false);
+    expect(providerDisconnectSchema.safeParse({ provider: "google" }).success).toBe(true);
+    expect(providerDisconnectSchema.safeParse({ provider: "credentials" }).success).toBe(false);
     expect(passwordResetCompletionSchema.safeParse({ token: "a".repeat(43), newPassword: "学".repeat(25) }).success).toBe(false);
     expect(accountDeletionSchema.safeParse({ currentPassword: "" }).success).toBe(false);
   });

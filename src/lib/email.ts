@@ -126,3 +126,30 @@ export async function sendEmailChangedNotice(
   });
   if (!response.ok) throw new Error(`Email change notification provider returned ${response.status}.`);
 }
+
+export async function sendProviderDisconnectedNotice(
+  to: string,
+  provider: string,
+  options: { environment?: EmailEnvironment; fetcher?: Fetcher } = {},
+) {
+  const configuration = emailConfiguration(options.environment);
+  if (!configuration) throw new Error("Provider disconnect notification is not configured.");
+  const fetcher = options.fetcher ?? fetch;
+  const text = `你的 EduLoop 账号已移除 ${provider} 登录连接，所有旧登录会话都已退出。\n\n如果不是你操作，请立即重置密码并联系平台支持。`;
+  const response = await fetcher(RESEND_ENDPOINT, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${configuration.apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      from: configuration.from,
+      to: [to],
+      subject: `你的 EduLoop ${provider} 登录连接已移除`,
+      text,
+      html: `<p>你的 EduLoop 账号已移除 <strong>${escapeHtml(provider)}</strong> 登录连接，所有旧登录会话都已退出。</p><p>如果不是你操作，请立即重置密码并联系平台支持。</p>`,
+    }),
+    signal: AbortSignal.timeout(10_000),
+  });
+  if (!response.ok) throw new Error(`Provider disconnect notification returned ${response.status}.`);
+}

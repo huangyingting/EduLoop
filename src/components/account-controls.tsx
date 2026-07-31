@@ -1,13 +1,14 @@
 "use client";
 
-import { Check, KeyRound, Link2, LoaderCircle, LogIn, Mail, UserX } from "lucide-react";
+import { Check, KeyRound, Link2, LoaderCircle, LogIn, Mail, Unlink, UserX } from "lucide-react";
 import Link from "next/link";
 import { getProviders, signIn } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { hasRecentAuthentication } from "@/lib/auth-validation";
+import { isSocialProviderId, socialProviderLabel, type SocialProviderId } from "@/lib/social-providers";
 import { useAuth } from "@/lib/use-auth";
 
-type SocialProvider = { id: string; name: string };
+type SocialProvider = { id: SocialProviderId; name: string };
 
 async function errorMessage(response: Response, fallback: string) {
   const body = await response.json().catch(() => null) as { error?: string } | null;
@@ -26,6 +27,7 @@ export function AccountControls() {
   const [changingEmail, setChangingEmail] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [linking, setLinking] = useState<string | null>(null);
+  const [disconnecting, setDisconnecting] = useState<string | null>(null);
   const [providers, setProviders] = useState<SocialProvider[]>([]);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
@@ -35,12 +37,22 @@ export function AccountControls() {
     && !auth.user?.hasPassword
     && !hasRecentLogin;
   const needsRecentProviderLogin = auth.status === "authenticated" && !hasRecentLogin;
+  const connectedProviders = Array.from(new Set(
+    (auth.user?.oauthProviders ?? []).filter(isSocialProviderId),
+  ));
+  const displayedProviders = [...providers];
+  for (const provider of connectedProviders) {
+    if (!displayedProviders.some(({ id }) => id === provider)) {
+      displayedProviders.push({ id: provider, name: socialProviderLabel(provider) });
+    }
+  }
 
   useEffect(() => {
     void getProviders().then((available) => {
       setProviders(Object.values(available ?? {})
-        .filter((provider) => provider.type !== "credentials")
-        .map(({ id, name }) => ({ id, name })));
+        .flatMap((provider) => provider.type !== "credentials" && isSocialProviderId(provider.id)
+          ? [{ id: provider.id, name: provider.name }]
+          : []));
     }).catch(() => setProviders([]));
   }, []);
 
@@ -119,13 +131,36 @@ export function AccountControls() {
   }
 
   async function linkProvider(provider: SocialProvider) {
-    if (linking || needsRecentProviderLogin) return;
+    if (linking || disconnecting || needsRecentProviderLogin) return;
     setLinking(provider.id); setError(""); setMessage("");
     try {
       await signIn(provider.id, { redirectTo: "/privacy" });
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "暂时无法连接社交账号，请稍后重试。");
       setLinking(null);
+    }
+  }
+
+  async function disconnectProvider(provider: SocialProvider) {
+    if (linking || disconnecting || needsRecentProviderLogin) return;
+    const label = socialProviderLabel(provider.id);
+    if (!window.confirm(`确定移除 ${label} 登录连接吗？所有设备都会退出登录，你需要使用剩余方式重新登录。`)) return;
+    setDisconnecting(provider.id); setError(""); setMessage("");
+    try {
+      const response = await fetch("/api/auth/provider", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ provider: provider.id }),
+      });
+      if (!response.ok) throw new Error(await errorMessage(response, "暂时无法移除登录方式，请稍后重试。"));
+      try {
+        await auth.logout();
+      } finally {
+        window.location.assign("/login?next=%2Fprivacy&notice=provider_disconnected");
+      }
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : "暂时无法移除登录方式");
+      setDisconnecting(null);
     }
   }
 
@@ -142,17 +177,30 @@ export function AccountControls() {
     <p className="mt-2 text-sm font-semibold leading-6 text-muted">当前账号：{auth.user?.email}</p>
     {message ? <p role="status" className="mt-4 flex items-center gap-2 rounded-xl bg-[#e6f8ef] px-4 py-3 text-sm font-bold text-[#247a59]"><Check size={17} /> {message}</p> : null}
     {error ? <p role="alert" className="mt-4 rounded-xl bg-[#fff0ed] px-4 py-3 text-sm font-bold text-coral">{error}</p> : null}
-    {needsRecentProviderLogin ? <div className="mt-4 rounded-xl border-2 border-violet/20 bg-[#f0edff] px-4 py-3 text-sm font-semibold text-muted"><p>{needsRecentSensitiveLogin ? "更改邮箱、连接登录方式、设置密码或删除账号前，请重新验证你的社交账号。" : "连接新的登录方式前，请重新登录验证当前账号。"}</p><button type="button" onClick={() => void reauthenticate()} className="mt-3 inline-flex min-h-10 items-center gap-2 rounded-xl bg-violet px-4 text-xs font-black text-white"><LogIn size={15} /> 重新登录验证</button></div> : null}
-    {providers.length ? <div className="mt-6 rounded-2xl border-2 border-sky/20 bg-[#eaf8ff] p-5">
+    {needsRecentProviderLogin ? <div className="mt-4 rounded-xl border-2 border-violet/20 bg-[#f0edff] px-4 py-3 text-sm font-semibold text-muted"><p>{needsRecentSensitiveLogin ? "更改邮箱、连接或移除登录方式、设置密码或删除账号前，请重新验证你的社交账号。" : "连接或移除登录方式前，请重新登录验证当前账号。"}</p><button type="button" onClick={() => void reauthenticate()} className="mt-3 inline-flex min-h-10 items-center gap-2 rounded-xl bg-violet px-4 text-xs font-black text-white"><LogIn size={15} /> 重新登录验证</button></div> : null}
+    {displayedProviders.length ? <div className="mt-6 rounded-2xl border-2 border-sky/20 bg-[#eaf8ff] p-5">
       <h3 className="flex items-center gap-2 font-black"><Link2 size={18} /> 社交登录</h3>
-      <p className="mt-2 text-sm font-semibold leading-6 text-muted">连接后可使用对应账号登录；连接操作会通过 Auth.js 重新验证提供商身份。</p>
-      <div className="mt-4 flex flex-wrap gap-2">{providers.map((provider) => {
-        const connected = auth.user?.oauthProviders.includes(provider.id);
-        return <button key={provider.id} type="button" disabled={connected || Boolean(linking) || needsRecentProviderLogin} onClick={() => void linkProvider(provider)} className="inline-flex min-h-10 items-center gap-2 rounded-xl border-2 border-ink/10 bg-white px-4 text-sm font-black disabled:opacity-60">
-          {linking === provider.id ? <LoaderCircle className="animate-spin" size={16} /> : connected ? <Check size={16} /> : <Link2 size={16} />}
-          {provider.id === "microsoft-entra-id" ? "Microsoft" : provider.name}{connected ? "（已连接）" : ""}
-        </button>;
+      <p className="mt-2 text-sm font-semibold leading-6 text-muted">连接会重新验证提供商身份。移除连接会删除保存的提供商凭据并退出所有设备；系统不会允许删除最后一种登录方式。</p>
+      <div className="mt-4 space-y-2">{displayedProviders.map((provider) => {
+        const connected = connectedProviders.includes(provider.id);
+        const canDisconnect = Boolean(auth.user?.hasPassword) || connectedProviders.length > 1;
+        const busy = linking === provider.id || disconnecting === provider.id;
+        const label = socialProviderLabel(provider.id);
+        return <div key={provider.id} className="flex min-h-12 items-center justify-between gap-3 rounded-xl border-2 border-ink/10 bg-white px-4 py-2">
+          <span className="flex items-center gap-2 text-sm font-black">{connected ? <Check size={16} className="text-[#247a59]" /> : <Link2 size={16} />} {label}{connected ? "（已连接）" : ""}</span>
+          <button
+            type="button"
+            disabled={Boolean(linking) || Boolean(disconnecting) || needsRecentProviderLogin || (connected && !canDisconnect)}
+            onClick={() => void (connected ? disconnectProvider(provider) : linkProvider(provider))}
+            title={connected && !canDisconnect ? "请先设置密码或连接其他登录方式" : undefined}
+            className={`inline-flex min-h-9 items-center gap-2 rounded-lg px-3 text-xs font-black disabled:opacity-50 ${connected ? "border-2 border-coral/30 text-coral" : "bg-violet text-white"}`}
+          >
+            {busy ? <LoaderCircle className="animate-spin" size={15} /> : connected ? <Unlink size={15} /> : <Link2 size={15} />}
+            {connected ? `断开 ${label}` : `连接 ${label}`}
+          </button>
+        </div>;
       })}</div>
+      {!auth.user?.hasPassword && connectedProviders.length === 1 ? <p className="mt-3 text-xs font-semibold leading-5 text-muted">这是当前唯一登录方式。请先设置密码或连接另一个社交账号，再移除它。</p> : null}
     </div> : null}
     <div className="mt-6 grid gap-6 lg:grid-cols-2">
       <form onSubmit={changeEmail} className="rounded-2xl border-2 border-sky/25 bg-[#eaf8ff] p-5">

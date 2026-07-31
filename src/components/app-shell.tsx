@@ -17,7 +17,7 @@ const links = [
   { href: "/review", label: "错题与收藏", icon: BookmarkCheck },
 ];
 const standaloneRoutes = new Set([
-  "/login", "/register", "/forgot-password", "/reset-password", "/verify-email", "/consent", "/privacy-policy", "/terms",
+  "/login", "/register", "/forgot-password", "/reset-password", "/verify-email", "/change-email", "/consent", "/privacy-policy", "/terms",
 ]);
 
 export function AppShell({ children }: { children: React.ReactNode }) {

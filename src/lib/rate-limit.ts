@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
 import { prisma } from "./prisma";
+import { cleanupExpiredSecurityArtifacts } from "./retention";
 
 const CLEANUP_INTERVAL = 250;
 let operations = 0;
@@ -71,7 +72,9 @@ export async function checkRateLimit(key: string, limit: number, windowMs: numbe
   });
 
   operations += 1;
-  if (operations % CLEANUP_INTERVAL === 0) await cleanupExpiredRateLimitBuckets(now);
+  if (operations % CLEANUP_INTERVAL === 0) {
+    await cleanupExpiredSecurityArtifacts(new Date(now));
+  }
 
   return {
     allowed: bucket.count <= limit,

@@ -36,6 +36,7 @@ import { hashEmailVerificationToken } from "@/lib/email-verification";
 import { PRIVACY_VERSION, TERMS_VERSION } from "@/lib/legal";
 import { hashPasswordResetToken } from "@/lib/password-reset";
 import { disconnectProviderAccount } from "@/lib/provider-account";
+import { cleanupExpiredSecurityArtifacts } from "@/lib/retention";
 import {
   checkRateLimit,
   cleanupExpiredRateLimitBuckets,
@@ -57,6 +58,8 @@ const headers = { "content-type": "application/json", "x-forwarded-for": "198.51
 const authUserId = "integration-auth-user";
 const lifecycleUserId = "integration-lifecycle-user";
 const sessionRevocationUserId = "integration-session-revocation-user";
+const expiredRetentionUserId = "integration-expired-retention-user";
+const activeRetentionUserId = "integration-active-retention-user";
 const deletionRaceUserId = "integration-deletion-race-user";
 const sensitiveUserId = "integration-sensitive-user";
 const providerUserId = "integration-provider-user";
@@ -139,9 +142,12 @@ beforeAll(async () => {
 
 afterAll(async () => {
   await prisma.rateLimitBucket.deleteMany();
+  await prisma.verificationToken.deleteMany({
+    where: { identifier: { startsWith: "integration-retention-" } },
+  });
   await prisma.user.deleteMany({ where: { email: authJsEmail } });
   await prisma.user.deleteMany({ where: { id: { in: [
-    authUserId, lifecycleUserId, sessionRevocationUserId, deletionRaceUserId, sensitiveUserId, providerUserId, providerSocialUserId, providerRaceUserId, passwordResetUserId, emailChangeUserId, emailChangeConflictUserId, consentUserId, shieldUserId, concurrentUserId, journeyUserId, profileUserId,
+    authUserId, lifecycleUserId, sessionRevocationUserId, expiredRetentionUserId, activeRetentionUserId, deletionRaceUserId, sensitiveUserId, providerUserId, providerSocialUserId, providerRaceUserId, passwordResetUserId, emailChangeUserId, emailChangeConflictUserId, consentUserId, shieldUserId, concurrentUserId, journeyUserId, profileUserId,
     studioOperatorId, studioLearnerId, studioReporterId,
   ] } } });
   await prisma.question.deleteMany({ where: { id: { in: [choiceId, writtenId, scienceQuestionId] } } });
@@ -221,6 +227,118 @@ describe("learner API journey", () => {
     expect(await prisma.rateLimitBucket.findUnique({
       where: { id: "integration-active-rate-limit" },
     })).toBeTruthy();
+  });
+
+  it("removes expired security artifacts while preserving active proofs", async () => {
+    const now = new Date();
+    const expiredAt = new Date(now.getTime() - 1);
+    const activeUntil = new Date(now.getTime() + 60 * 60_000);
+    await expect(cleanupExpiredSecurityArtifacts(new Date(Number.NaN))).rejects.toThrow(
+      "Cleanup time must be valid.",
+    );
+
+    await prisma.user.create({ data: {
+      id: expiredRetentionUserId,
+      email: "expired-retention@example.com",
+      sessions: { create: {
+        sessionToken: "integration-retention-expired-session",
+        expires: expiredAt,
+      } },
+      emailVerificationTokens: { create: {
+        tokenHash: "1".repeat(64),
+        expiresAt: expiredAt,
+      } },
+      emailChangeTokens: { create: {
+        newEmail: "expired-retention-new@example.com",
+        tokenHash: "2".repeat(64),
+        expiresAt: expiredAt,
+      } },
+      passwordResetTokens: { create: {
+        tokenHash: "3".repeat(64),
+        expiresAt: expiredAt,
+      } },
+    } });
+    await prisma.user.create({ data: {
+      id: activeRetentionUserId,
+      email: "active-retention@example.com",
+      sessions: { create: {
+        sessionToken: "integration-retention-active-session",
+        expires: activeUntil,
+      } },
+      emailVerificationTokens: { create: {
+        tokenHash: "4".repeat(64),
+        expiresAt: activeUntil,
+      } },
+      emailChangeTokens: { create: {
+        newEmail: "active-retention-new@example.com",
+        tokenHash: "5".repeat(64),
+        expiresAt: activeUntil,
+      } },
+      passwordResetTokens: { create: {
+        tokenHash: "6".repeat(64),
+        expiresAt: activeUntil,
+      } },
+    } });
+    await prisma.verificationToken.createMany({ data: [
+      {
+        identifier: "integration-retention-expired",
+        token: "expired-auth-token",
+        expires: expiredAt,
+      },
+      {
+        identifier: "integration-retention-active",
+        token: "active-auth-token",
+        expires: activeUntil,
+      },
+    ] });
+    await prisma.rateLimitBucket.createMany({ data: [
+      {
+        id: "integration-retention-expired-bucket",
+        windowStart: expiredAt,
+        expiresAt: expiredAt,
+        count: 2,
+      },
+      {
+        id: "integration-retention-active-bucket",
+        windowStart: now,
+        expiresAt: activeUntil,
+        count: 1,
+      },
+    ] });
+
+    await expect(cleanupExpiredSecurityArtifacts(now)).resolves.toEqual({
+      adapterSessions: 1,
+      authVerificationTokens: 1,
+      emailVerificationTokens: 1,
+      emailChangeTokens: 1,
+      passwordResetTokens: 1,
+      rateLimitBuckets: 1,
+    });
+
+    expect(await prisma.session.findMany({
+      where: { userId: { in: [expiredRetentionUserId, activeRetentionUserId] } },
+      select: { sessionToken: true },
+    })).toEqual([{ sessionToken: "integration-retention-active-session" }]);
+    expect(await prisma.verificationToken.findMany({
+      where: { identifier: { startsWith: "integration-retention-" } },
+      select: { identifier: true },
+    })).toEqual([{ identifier: "integration-retention-active" }]);
+    expect(await prisma.emailVerificationToken.findMany({
+      where: { userId: { in: [expiredRetentionUserId, activeRetentionUserId] } },
+      select: { userId: true },
+    })).toEqual([{ userId: activeRetentionUserId }]);
+    expect(await prisma.emailChangeToken.findMany({
+      where: { userId: { in: [expiredRetentionUserId, activeRetentionUserId] } },
+      select: { userId: true },
+    })).toEqual([{ userId: activeRetentionUserId }]);
+    expect(await prisma.passwordResetToken.findMany({
+      where: { userId: { in: [expiredRetentionUserId, activeRetentionUserId] } },
+      select: { userId: true },
+    })).toEqual([{ userId: activeRetentionUserId }]);
+    expect(await prisma.rateLimitBucket.findMany({
+      where: { id: { startsWith: "integration-retention-" } },
+      select: { id: true },
+    })).toEqual([{ id: "integration-retention-active-bucket" }]);
   });
 
   it("returns a route-level 429 response with a retry deadline", async () => {

@@ -22,6 +22,7 @@ School-managed accounts are a separate launch mode. The public account path reco
 | Login email changes prove ownership | current-password or recent-social proof, hashed single-use new-address verification, atomic uniqueness enforcement, old-address notice, and all-session revocation |
 | Password email ownership is proven | generic resend responses, hashed 24-hour tokens, fragment-based links, and verified-login enforcement |
 | Password credentials rotate safely | generic reset requests, hashed expiring tokens, optimistic authenticated changes, stale-proof cleanup, security notices, and all-session revocation |
+| Expired security data is minimized | indexed transactional cleanup for adapter sessions, verification and recovery proofs, and hashed limiter buckets through both live-traffic cadence and an operator command, with SQLite/PostgreSQL coverage |
 | Sensitive account actions require fresh proof | persistent `authenticatedAt` claim with a 10-minute reauthentication window for complete export, learning-data erasure, all-device sign-out, and sensitive account changes |
 | Concurrent session restarts stay coherent | nullable unique `PracticeSession.activeKey` plus integration coverage on SQLite and PostgreSQL |
 | Content problems can be surfaced | `QuestionReport` and in-practice feedback form |

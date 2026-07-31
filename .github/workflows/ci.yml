@@ -17,15 +17,16 @@ jobs:
       EDULOOP_DATABASE_PROVIDER: sqlite
       NEXT_TELEMETRY_DISABLED: "1"
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-node@v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          node-version: 24
+          node-version-file: .node-version
           cache: npm
       - run: npm ci
       - run: npm audit --omit=dev --audit-level=high
       - run: npm run db:generate
       - run: npm run env:check
+      - run: npm run supply:check
       - run: npx prisma migrate deploy --schema prisma/schema.prisma
       - run: npm run db:seed
       - run: npx playwright install --with-deps chromium
@@ -45,7 +46,7 @@ jobs:
     timeout-minutes: 15
     services:
       postgres:
-        image: postgres:17-alpine
+        image: postgres:17.10-alpine@sha256:742f40ea20b9ff2ff31db5458d127452988a2164df9e17441e191f3b72252193
         env:
           POSTGRES_USER: eduloop
           POSTGRES_PASSWORD: eduloop
@@ -69,10 +70,10 @@ jobs:
       LEGAL_CONTACT_EMAIL: privacy@eduloop-ci.example
       LEGAL_JURISDICTION: CI test jurisdiction
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-node@v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          node-version: 24
+          node-version-file: .node-version
           cache: npm
       - run: npm ci
       - run: npm run db:generate:postgres

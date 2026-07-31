@@ -3,7 +3,6 @@ import { z } from "zod";
 import { apiError, apiHandler, enforceRateLimit } from "@/lib/api";
 import { getSessionUser } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { findLearnerForRequest } from "@/lib/learner-identity";
 
 export const dynamic = "force-dynamic";
 
@@ -18,8 +17,10 @@ type ExportSection = {
 
 function streamExport(
   exportedAt: Date,
+  account: Record<string, unknown>,
+  accountSections: ExportSection[],
   learner: Record<string, unknown> | null,
-  sections: ExportSection[],
+  learnerSections: ExportSection[],
 ) {
   const encoder = new TextEncoder();
   let cancelled = false;
@@ -28,38 +29,49 @@ function streamExport(
       const write = (value: string) => controller.enqueue(encoder.encode(value));
       try {
         const header = JSON.stringify({
-          format: "EduLoop learner export",
-          version: 1,
+          format: "EduLoop account export",
+          version: 2,
           exportedAt: exportedAt.toISOString(),
         });
-        write(`${header.slice(0, -1)},"learner":`);
+        const writeSectionedObject = async (
+          metadata: Record<string, unknown>,
+          sections: ExportSection[],
+        ) => {
+          const serialized = JSON.stringify(metadata);
+          write(serialized.slice(0, -1));
+          for (const section of sections) {
+            if (cancelled) return;
+            write(`,${JSON.stringify(section.name)}:[`);
+            let first = true;
+            let cursor: string | null = null;
+            while (!cancelled) {
+              const page = await section.load(cursor);
+              for (const entry of page) {
+                write(`${first ? "" : ","}${JSON.stringify(entry.value) ?? "null"}`);
+                first = false;
+              }
+              if (page.length < EXPORT_PAGE_SIZE) break;
+              cursor = page.at(-1)?.cursor ?? null;
+              if (!cursor) break;
+            }
+            if (cancelled) return;
+            write("]");
+          }
+          write("}");
+        };
+
+        write(`${header.slice(0, -1)},"account":`);
+        await writeSectionedObject(account, accountSections);
+        if (cancelled) return;
+        write(",\"learner\":");
         if (!learner) {
           write("null}");
           controller.close();
           return;
         }
-
-        const metadata = JSON.stringify(learner);
-        write(`${metadata.slice(0, -1)}`);
-        for (const section of sections) {
-          if (cancelled) return;
-          write(`,"${section.name}":[`);
-          let first = true;
-          let cursor: string | null = null;
-          while (!cancelled) {
-            const page = await section.load(cursor);
-            for (const entry of page) {
-              write(`${first ? "" : ","}${JSON.stringify(entry.value) ?? "null"}`);
-              first = false;
-            }
-            if (page.length < EXPORT_PAGE_SIZE) break;
-            cursor = page.at(-1)?.cursor ?? null;
-            if (!cursor) break;
-          }
-          if (cancelled) return;
-          write("]");
-        }
-        write("}}");
+        await writeSectionedObject(learner, learnerSections);
+        if (cancelled) return;
+        write("}");
         controller.close();
       } catch (error) {
         console.error(JSON.stringify({
@@ -76,15 +88,119 @@ function streamExport(
   });
 }
 
-async function getLearnerExport(request: NextRequest) {
+async function getAccountExport(request: NextRequest) {
   const user = await getSessionUser(request, { allowMissingConsent: true });
   if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
   const parsed = querySchema.safeParse(Object.fromEntries(request.nextUrl.searchParams));
   if (!parsed.success) return apiError("Invalid export request", 400, "INVALID_REQUEST");
-  const limited = await enforceRateLimit(request, "export-learner", user.id, 3, 60 * 60_000);
+  const limited = await enforceRateLimit(request, "export-account", user.id, 3, 60 * 60_000);
   if (limited) return limited;
 
-  const identity = await findLearnerForRequest(request, { allowMissingConsent: true });
+  const storedAccount = await prisma.user.findUnique({
+    where: { id: user.id },
+    select: {
+      email: true,
+      emailVerified: true,
+      name: true,
+      image: true,
+      role: true,
+      termsAcceptedAt: true,
+      termsVersion: true,
+      privacyAcceptedAt: true,
+      privacyVersion: true,
+      consentBasis: true,
+      accounts: {
+        where: { type: { in: ["oauth", "oidc"] } },
+        orderBy: [{ provider: "asc" }, { providerAccountId: "asc" }],
+        select: { type: true, provider: true, providerAccountId: true },
+      },
+      consentRecords: {
+        orderBy: [{ acceptedAt: "asc" }, { id: "asc" }],
+        select: {
+          termsVersion: true,
+          privacyVersion: true,
+          basis: true,
+          method: true,
+          acceptedAt: true,
+        },
+      },
+      emailVerificationTokens: {
+        orderBy: [{ createdAt: "asc" }, { id: "asc" }],
+        select: { expiresAt: true, createdAt: true },
+      },
+      emailChangeTokens: {
+        orderBy: [{ createdAt: "asc" }, { id: "asc" }],
+        select: { newEmail: true, expiresAt: true, createdAt: true },
+      },
+      passwordResetTokens: {
+        orderBy: [{ createdAt: "asc" }, { id: "asc" }],
+        select: { expiresAt: true, createdAt: true },
+      },
+      sessions: {
+        orderBy: { expires: "asc" },
+        select: { expires: true },
+      },
+      createdAt: true,
+      updatedAt: true,
+    },
+  });
+  if (!storedAccount) return apiError("请先登录。", 401, "UNAUTHORIZED");
+
+  const account = {
+    email: storedAccount.email,
+    emailVerifiedAt: storedAccount.emailVerified,
+    displayName: storedAccount.name,
+    image: storedAccount.image,
+    role: storedAccount.role,
+    hasPassword: user.hasPassword,
+    currentConsent: {
+      termsAcceptedAt: storedAccount.termsAcceptedAt,
+      termsVersion: storedAccount.termsVersion,
+      privacyAcceptedAt: storedAccount.privacyAcceptedAt,
+      privacyVersion: storedAccount.privacyVersion,
+      basis: storedAccount.consentBasis,
+    },
+    linkedProviders: storedAccount.accounts,
+    consentHistory: storedAccount.consentRecords,
+    pendingAccountActions: {
+      emailVerifications: storedAccount.emailVerificationTokens,
+      emailChanges: storedAccount.emailChangeTokens,
+      passwordResets: storedAccount.passwordResetTokens,
+    },
+    sessionRecords: storedAccount.sessions,
+    createdAt: storedAccount.createdAt,
+    updatedAt: storedAccount.updatedAt,
+  };
+
+  const accountSections: ExportSection[] = [{
+    name: "contentReviewActions",
+    load: async (cursor) => (await prisma.contentReviewAction.findMany({
+      where: { actorId: user.id }, orderBy: { id: "asc" }, take: EXPORT_PAGE_SIZE,
+      ...(cursor ? { cursor: { id: cursor }, skip: 1 } : {}),
+      select: {
+        id: true,
+        action: true,
+        note: true,
+        createdAt: true,
+        report: {
+          select: {
+            category: true,
+            status: true,
+            createdAt: true,
+            resolvedAt: true,
+            question: { select: { sourceId: true } },
+          },
+        },
+      },
+    })).map(({ id, ...value }) => ({ cursor: id, value })),
+  }];
+
+  // Export is a data-rights read and must never create a learner profile for
+  // an account that has not accepted current terms or deleted learning data.
+  const identity = await prisma.learnerProfile.findUnique({
+    where: { userId: user.id },
+    select: { id: true },
+  });
   const learner = identity ? await prisma.learnerProfile.findUnique({
     where: { id: identity.id },
     select: {
@@ -175,8 +291,8 @@ async function getLearnerExport(request: NextRequest) {
       })).map(({ id, ...value }) => ({ cursor: id, value })),
     },
   ] : [];
-  const filename = `eduloop-learning-data-${exportedAt.toISOString().slice(0, 10)}.json`;
-  return new NextResponse(streamExport(exportedAt, learner, sections), {
+  const filename = `eduloop-account-data-${exportedAt.toISOString().slice(0, 10)}.json`;
+  return new NextResponse(streamExport(exportedAt, account, accountSections, learner, sections), {
     headers: {
       "Content-Type": "application/json; charset=utf-8",
       "Content-Disposition": `attachment; filename="${filename}"`,
@@ -185,4 +301,4 @@ async function getLearnerExport(request: NextRequest) {
   });
 }
 
-export const GET = apiHandler("GET /api/learner/export", getLearnerExport);
+export const GET = apiHandler("GET /api/learner/export", getAccountExport);

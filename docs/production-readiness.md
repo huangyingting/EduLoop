@@ -15,7 +15,7 @@ School-managed accounts are a separate launch mode. The public account path reco
 | Learning continues after a mistake | `ReviewItem` scheduling, `/review`, adaptive due selection |
 | Learning-loop health is measurable | idempotent explanation views and aggregate `/api/studio/metrics` session, return, and repeat-practice signals |
 | Progress survives navigation | persisted profiles, sessions, attempts, activity, saved questions |
-| Learners control learning data | `/privacy`, export, and `DELETE /api/learner` cascade deletion |
+| Learners control account and learning data | `/privacy`, versioned secret-minimized account export, learning-only cascade deletion, and full account erasure |
 | Public account consent is explicit | public versioned `/terms` and `/privacy-policy`, adult/guardian attestation, append-only `ConsentRecord`, and re-consent gating |
 | Account sessions are revocable | encrypted Auth.js cookies plus database-checked `sessionVersion` and an HttpOnly logout flow |
 | Linked login methods are removable safely | recent-auth provider disconnection, final-method protection, stored-token deletion, concurrency-safe version claim, all-session revocation, and browser/integration coverage |

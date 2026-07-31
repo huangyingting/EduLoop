@@ -461,7 +461,18 @@ describe("learner API journey", () => {
       { allowMissingConsent: true },
     )).toMatchObject({ id: consentUserId, hasCurrentConsent: false });
     expect((await getLearner(new NextRequest("http://localhost/api/learner", { headers: { cookie } }))).status).toBe(401);
-    expect((await exportLearner(new NextRequest("http://localhost/api/learner/export", { headers: { cookie } }))).status).toBe(200);
+    const provisionalExport = await exportLearner(new NextRequest("http://localhost/api/learner/export", {
+      headers: { cookie },
+    }));
+    expect(provisionalExport.status).toBe(200);
+    expect(await provisionalExport.json()).toMatchObject({
+      account: {
+        email: "consent@example.com",
+        currentConsent: { termsAcceptedAt: null, privacyAcceptedAt: null, basis: null },
+        consentHistory: [],
+      },
+      learner: null,
+    });
 
     const accepted = await acceptLegalConsent(request(
       "http://localhost/api/auth/consent",
@@ -1173,11 +1184,46 @@ describe("learner API journey", () => {
   });
 
   it("creates a session, grades a miss, schedules review, saves, reports, and exposes progress", async () => {
+    const accountActionExpiry = new Date(Date.now() + 60 * 60_000);
     await prisma.user.create({ data: {
       id: journeyUserId,
       ...consentData,
       email: "journey@example.com",
+      emailVerified: new Date(),
+      passwordHash: "export-secret-password-hash",
       learner: { create: {} },
+      accounts: { create: {
+        type: "oauth",
+        provider: "google",
+        providerAccountId: "journey-google-account",
+        access_token: "export-secret-access-token",
+        refresh_token: "export-secret-refresh-token",
+        id_token: "export-secret-id-token",
+      } },
+      consentRecords: { create: {
+        termsVersion: TERMS_VERSION,
+        privacyVersion: PRIVACY_VERSION,
+        basis: "ADULT",
+        method: "PASSWORD_REGISTRATION",
+        acceptedAt: consentData.termsAcceptedAt,
+      } },
+      emailVerificationTokens: { create: {
+        tokenHash: "1a".repeat(32),
+        expiresAt: accountActionExpiry,
+      } },
+      emailChangeTokens: { create: {
+        newEmail: "journey-pending@example.com",
+        tokenHash: "2b".repeat(32),
+        expiresAt: accountActionExpiry,
+      } },
+      passwordResetTokens: { create: {
+        tokenHash: "3c".repeat(32),
+        expiresAt: accountActionExpiry,
+      } },
+      sessions: { create: {
+        sessionToken: "export-secret-session-token",
+        expires: accountActionExpiry,
+      } },
     } });
     const cookie = await authCookie(journeyUserId);
     expect((await createSession(request("http://localhost/api/sessions", "POST", { questionGoal: 10, filters: {} }))).status).toBe(401);
@@ -1409,6 +1455,28 @@ describe("learner API journey", () => {
         method: "PATCH", headers: operatorHeaders, body: JSON.stringify({ reportId: studioReportId, action: "REOPEN", note: "需要补充复核" }),
       }))).status).toBe(200);
       expect(await prisma.questionReport.findUniqueOrThrow({ where: { id: studioReportId } })).toMatchObject({ status: "OPEN", resolvedAt: null });
+
+      const operatorExportResponse = await exportLearner(new NextRequest("http://localhost/api/learner/export", {
+        headers: operatorHeaders,
+      }));
+      expect(operatorExportResponse.status).toBe(200);
+      const operatorExport = await operatorExportResponse.json() as {
+        account: {
+          email: string;
+          contentReviewActions: Array<{ action: string; note: string; report: { question: { sourceId: string } } }>;
+        };
+        learner: null;
+      };
+      expect(operatorExport.account.email).toBe("studio-operator@example.com");
+      expect(operatorExport.account.contentReviewActions).toHaveLength(3);
+      expect(operatorExport.account.contentReviewActions).toEqual(expect.arrayContaining([
+        expect.objectContaining({ action: "QUARANTINE", note: "等待核对原始答案" }),
+        expect.objectContaining({ action: "RESOLVE", note: "已依据源文件核对并登记修复" }),
+        expect.objectContaining({ action: "REOPEN", note: "需要补充复核" }),
+      ]));
+      expect(operatorExport.account.contentReviewActions[0]?.report.question.sourceId).toBe(choiceId);
+      expect(operatorExport.learner).toBeNull();
+      expect(JSON.stringify(operatorExport)).not.toContain(studioReporterId);
     } finally {
       await prisma.question.update({ where: { id: choiceId }, data: { status: "PUBLISHED" } });
     }
@@ -1452,10 +1520,52 @@ describe("learner API journey", () => {
 
     const exportResponse = await exportLearner(new NextRequest("http://localhost/api/learner/export", { headers: { ...headers, cookie } }));
     expect(exportResponse.status).toBe(200);
-    expect(exportResponse.headers.get("content-disposition")).toContain("eduloop-learning-data-");
-    const exported = await exportResponse.json() as { learner: { attempts: unknown[]; id?: string } };
+    expect(exportResponse.headers.get("content-disposition")).toContain("eduloop-account-data-");
+    const exported = await exportResponse.json() as {
+      format: string;
+      version: number;
+      account: {
+        email: string;
+        hasPassword: boolean;
+        linkedProviders: Array<{ provider: string; providerAccountId: string }>;
+        consentHistory: Array<{ basis: string; method: string }>;
+        pendingAccountActions: {
+          emailVerifications: unknown[];
+          emailChanges: Array<{ newEmail: string }>;
+          passwordResets: unknown[];
+        };
+        sessionRecords: Array<{ expires: string }>;
+        contentReviewActions: unknown[];
+      };
+      learner: { attempts: unknown[]; id?: string };
+    };
+    expect(exported).toMatchObject({
+      format: "EduLoop account export",
+      version: 2,
+      account: {
+        email: "journey@example.com",
+        hasPassword: true,
+        linkedProviders: [{ provider: "google", providerAccountId: "journey-google-account" }],
+        consentHistory: [{ basis: "ADULT", method: "PASSWORD_REGISTRATION" }],
+        pendingAccountActions: {
+          emailVerifications: [expect.any(Object)],
+          emailChanges: [{ newEmail: "journey-pending@example.com" }],
+          passwordResets: [expect.any(Object)],
+        },
+        sessionRecords: [{ expires: expect.any(String) }],
+        contentReviewActions: [],
+      },
+    });
     expect(exported.learner.attempts.length).toBeGreaterThanOrEqual(252);
     expect(exported.learner).not.toHaveProperty("id");
+    const serializedExport = JSON.stringify(exported);
+    expect(serializedExport).not.toContain("export-secret-password-hash");
+    expect(serializedExport).not.toContain("export-secret-access-token");
+    expect(serializedExport).not.toContain("export-secret-refresh-token");
+    expect(serializedExport).not.toContain("export-secret-id-token");
+    expect(serializedExport).not.toContain("export-secret-session-token");
+    expect(serializedExport).not.toContain("tokenHash");
+    expect(serializedExport).not.toContain("sessionVersion");
 
     const deleteResponse = await deleteLearner(new NextRequest("http://localhost/api/learner", { method: "DELETE", headers: { ...headers, cookie } }));
     expect(await deleteResponse.json()).toEqual({ deleted: true });

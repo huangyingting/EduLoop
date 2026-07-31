@@ -73,7 +73,7 @@ Avoid competitive rank, punishment language, XP loss, and deceptive urgency. A w
 
 Start with learning-loop health rather than time-on-site: practice starts, questions completed per started session, explanation-open rate after incorrect attempts, seven-day return rate, and topic-level improvement on repeat exposure. Audit answer disputes and question reports as a first-class quality metric.
 
-The protected studio shows these as 28-day aggregates. Seven-day return means a learner active 8–14 days ago also practiced in the latest seven-day window. Repeat-topic change compares the first and latest graded result for each learner/topic pair; it is a directional product signal, not a mastery claim. Explanation viewing records one timestamp only after an incorrect attempt and is included in learner export/deletion.
+The protected studio shows these as 28-day aggregates. Seven-day return means a learner active 8–14 days ago also practiced in the latest seven-day window. Repeat-topic change compares the first and latest graded result for each learner/topic pair; it is a directional product signal, not a mastery claim. Explanation viewing records one timestamp only after an incorrect attempt and is included in account export and learning-data deletion.
 
 ## Current adaptive behavior
 

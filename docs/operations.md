@@ -46,6 +46,7 @@ Application limits use hashed fixed-window buckets in PostgreSQL and are shared 
 - question selection: 120 per IP per minute;
 - learner summary: 120 per account/IP per minute; profile and review reads: 60 per account/IP per minute; progress aggregation: 30 per account/IP per minute;
 - reports: 6 per account/IP per 10 minutes.
+- account-data exports: 3 per account/IP per hour.
 - login: 10 attempts per email/IP per 15 minutes;
 - registration: 5 attempts per email/IP per 15 minutes.
 - consent acceptance: 5 attempts per account/IP per 15 minutes.

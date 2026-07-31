@@ -1,3 +1,4 @@
+import { readFile } from "node:fs/promises";
 import { expect, test } from "@playwright/test";
 import { captureBrowserErrors, waitForQuestion } from "./browser-helpers";
 
@@ -167,7 +168,19 @@ test("account journey persists learning data and enforces studio authorization",
     const downloadPromise = page.waitForEvent("download");
     await page.getByRole("button", { name: "下载 JSON" }).click();
     const download = await downloadPromise;
-    expect(download.suggestedFilename()).toMatch(/^eduloop-learning-data-\d{4}-\d{2}-\d{2}\.json$/);
+    expect(download.suggestedFilename()).toMatch(/^eduloop-account-data-\d{4}-\d{2}-\d{2}\.json$/);
+    const downloadedPath = await download.path();
+    expect(downloadedPath).toBeTruthy();
+    const exported = JSON.parse(await readFile(downloadedPath!, "utf8")) as {
+      format: string;
+      version: number;
+      account: { email: string };
+    };
+    expect(exported).toMatchObject({
+      format: "EduLoop account export",
+      version: 2,
+      account: { email },
+    });
 
     page.once("dialog", (dialog) => dialog.accept());
     await page.getByRole("button", { name: "删除我的学习记录" }).click();

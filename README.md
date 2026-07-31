@@ -46,6 +46,7 @@ npm run schema:check   # ensure SQLite/PostgreSQL models still match
 npm run db:studio      # inspect the local database
 npm run test           # normalization unit tests
 npm run test:integration
+npm run test:e2e       # seeded browser journeys; first run: npx playwright install chromium
 npm run typecheck
 npm run lint
 npm run build

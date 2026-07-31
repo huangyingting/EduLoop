@@ -27,6 +27,7 @@
     "users:role": "node --env-file-if-exists=.env --import tsx scripts/manage-user-role.ts",
     "env:check": "node --env-file-if-exists=.env scripts/validate-environment.mjs",
     "test": "vitest run && node --test scripts/*.test.mjs",
+    "test:e2e": "playwright test",
     "test:integration": "node scripts/run-integration-tests.mjs",
     "test:integration:postgres": "vitest run --config vitest.integration.config.ts"
   },
@@ -45,6 +46,7 @@
     "zod": "3.25.76"
   },
   "devDependencies": {
+    "@playwright/test": "1.62.1",
     "@tailwindcss/postcss": "4.3.3",
     "@types/node": "24.10.1",
     "@types/react": "19.2.14",

@@ -37,6 +37,7 @@ npm run db:generate
 npm run env:check
 npm test
 npm run test:integration
+npm run test:e2e
 npm run typecheck
 npm run lint
 npm run schema:check

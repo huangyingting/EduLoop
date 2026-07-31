@@ -48,7 +48,6 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
   useEffect(() => {
     if (auth.status !== "authenticated") return;
     router.replace(next);
-    router.refresh();
   }, [auth.status, next, router]);
 
   async function submit(event: React.FormEvent<HTMLFormElement>) {
@@ -78,8 +77,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
         redirectTo: next,
       });
       if (!result.ok) throw new Error(authErrorMessage(result.error) || "邮箱或密码不正确。");
-      router.push(next);
-      router.refresh();
+      router.replace(next);
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "暂时无法登录，请稍后重试。");
       setBusy(false);

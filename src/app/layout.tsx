@@ -10,5 +10,5 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="zh-CN"><body><AuthSessionProvider><a href="#main-content" className="skip-link">跳到主要内容</a><AppShell>{children}</AppShell></AuthSessionProvider></body></html>;
+  return <html lang="zh-CN" data-scroll-behavior="smooth"><body><AuthSessionProvider><a href="#main-content" className="skip-link">跳到主要内容</a><AppShell>{children}</AppShell></AuthSessionProvider></body></html>;
 }

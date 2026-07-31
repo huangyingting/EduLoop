@@ -43,23 +43,23 @@ Authorized content operators can view 28-day aggregate learning-loop health in `
 
 Application limits use hashed fixed-window buckets in PostgreSQL and are shared by every replica. The trusted ingress can additionally enforce network-wide limits as defense in depth. Current application policies include:
 
-- attempts: 45 per account/IP or guest IP per minute;
+- attempts: 45 per account or guest address per minute;
 - public catalog: 180 per IP per minute, with one-minute browser and five-minute shared-cache freshness;
 - question selection: 120 per IP per minute;
-- learner summary: 120 per account/IP per minute; profile and review reads: 60 per account/IP per minute; progress aggregation: 30 per account/IP per minute;
-- reports: 6 per account/IP per 10 minutes.
-- account-data exports: 3 per account/IP per hour.
-- learning-data and full-account deletions: 3 per account/IP per hour.
-- login: 10 attempts per email/IP per 15 minutes;
-- registration: 5 attempts per email/IP per 15 minutes.
-- consent acceptance: 5 attempts per account/IP per 15 minutes.
-- email verification requests: 3 per email/IP per hour; verification attempts: 8 per token/IP per 15 minutes.
-- login-email change requests: 3 per account/IP per hour; confirmation attempts: 8 per token/IP per 15 minutes.
-- social-provider disconnections: 5 per account/IP per hour.
-- all-device session revocations: 5 per account/IP per hour.
-- password reset requests: 3 per email/IP per hour; reset attempts: 8 per token/IP per 15 minutes.
-- studio review: 180 reads and 60 transitions per operator/IP per 10 minutes.
-- studio metrics: 60 aggregate reads per operator/IP per 10 minutes.
+- learner summary: 120 per account per minute; profile and review reads: 60 per account per minute; progress aggregation: 30 per account per minute;
+- reports: 6 per account per 10 minutes.
+- account-data exports: 3 per account per hour.
+- learning-data and full-account deletions: 3 per account per hour.
+- login: 10 attempts per email and 50 per address per 15 minutes;
+- registration: 5 attempts per email and 20 per address per 15 minutes.
+- consent acceptance: 5 attempts per account per 15 minutes.
+- email verification requests: 3 per email and 20 per address per hour; verification attempts: 8 per token and 40 per address per 15 minutes.
+- login-email change requests: 3 per account per hour; confirmation attempts: 8 per token and 40 per address per 15 minutes.
+- social-provider disconnections: 5 per account per hour.
+- all-device session revocations: 5 per account per hour.
+- password reset requests: 3 per email and 20 per address per hour; reset attempts: 8 per token and 40 per address per 15 minutes.
+- studio review: 180 reads and 60 transitions per operator per 10 minutes.
+- studio metrics: 60 aggregate reads per operator per 10 minutes.
 
 Run expired security-artifact cleanup from a trusted scheduler at least hourly, using the same production `DATABASE_URL` and generated PostgreSQL Prisma client:
 

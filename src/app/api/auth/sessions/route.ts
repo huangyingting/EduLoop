@@ -27,7 +27,12 @@ async function deleteAccountSessions(request: Request) {
   if (!hasRecentAuthentication(user.authenticatedAt)) {
     return apiError("退出所有设备前请重新登录，以确认这是你的账号。", 401, "UNAUTHORIZED");
   }
-  const limited = await enforceRateLimit(request, "account-sessions-revoke", user.id, 5, 60 * 60_000);
+  const limited = await enforceRateLimit(
+    request,
+    "account-sessions-revoke",
+    { identity: user.id, identityLimit: 5 },
+    60 * 60_000,
+  );
   if (limited) return limited;
 
   const outcome = await revokeAccountSessions(user.id, user.sessionVersion);

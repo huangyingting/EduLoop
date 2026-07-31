@@ -27,7 +27,12 @@ const updateSchema = z.object({
 async function getReports(request: NextRequest) {
   const operator = await contentOperatorForRequest(request);
   if (operator.error) return operator.error;
-  const limited = await enforceRateLimit(request, "studio-reports-list", operator.user.id, 180, 10 * 60_000);
+  const limited = await enforceRateLimit(
+    request,
+    "studio-reports-list",
+    { identity: operator.user.id, identityLimit: 180 },
+    10 * 60_000,
+  );
   if (limited) return limited;
   const parsed = listSchema.safeParse(Object.fromEntries(request.nextUrl.searchParams));
   if (!parsed.success) return apiError("Invalid report filters", 400, "INVALID_REQUEST");
@@ -96,7 +101,12 @@ async function patchReport(request: NextRequest) {
   if (!isSameOriginRequest(request)) return apiError("Invalid request origin.", 403, "FORBIDDEN");
   const operator = await contentOperatorForRequest(request);
   if (operator.error) return operator.error;
-  const limited = await enforceRateLimit(request, "studio-reports", operator.user.id, 60, 10 * 60_000);
+  const limited = await enforceRateLimit(
+    request,
+    "studio-reports",
+    { identity: operator.user.id, identityLimit: 60 },
+    10 * 60_000,
+  );
   if (limited) return limited;
   const body = await readJsonBody(request);
   if (!body.ok) return body.response;

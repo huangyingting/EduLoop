@@ -28,7 +28,12 @@ async function disconnectCurrentProvider(request: Request) {
   if (!hasRecentAuthentication(user.authenticatedAt)) {
     return apiError("移除登录方式前请重新登录，以确认这是你的账号。", 401, "UNAUTHORIZED");
   }
-  const limited = await enforceRateLimit(request, "account-provider-disconnect", user.id, 5, 60 * 60_000);
+  const limited = await enforceRateLimit(
+    request,
+    "account-provider-disconnect",
+    { identity: user.id, identityLimit: 5 },
+    60 * 60_000,
+  );
   if (limited) return limited;
   const body = await readJsonBody(request);
   if (!body.ok) return body.response;

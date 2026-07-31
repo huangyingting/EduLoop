@@ -34,7 +34,11 @@ async function postRegistration(request: Request) {
   const input = parsed.data;
   const email = normalizeEmail(input.email);
   const verificationRequired = process.env.NODE_ENV === "production" || Boolean(emailConfiguration());
-  const limited = await enforceRateLimit(request, "auth-register", email, 5, 15 * 60_000);
+  const limited = await enforceRateLimit(request, "auth-register", {
+    addressLimit: 20,
+    identity: email,
+    identityLimit: 5,
+  }, 15 * 60_000);
   if (limited) return limited;
   const passwordHash = await hashPassword(input.password);
   const knowledgeBand = input.knowledgeBand ? await prisma.gradeBand.findFirst({

@@ -21,7 +21,12 @@ async function postReport(request: Request) {
   const parsed = reportSchema.safeParse(body.value);
   if (!parsed.success) return apiError("Invalid question report", 400, "INVALID_REQUEST");
   const input = parsed.data;
-  const limited = await enforceRateLimit(request, "reports", user.id, 6, 10 * 60_000);
+  const limited = await enforceRateLimit(
+    request,
+    "reports",
+    { identity: user.id, identityLimit: 6 },
+    10 * 60_000,
+  );
   if (limited) return limited;
 
   const question = await prisma.question.findFirst({ where: { id: input.questionId, status: "PUBLISHED" }, select: { id: true } });

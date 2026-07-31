@@ -16,7 +16,7 @@ const querySchema = z.object({
 async function getCatalog(request: NextRequest) {
   const parsed = querySchema.safeParse(Object.fromEntries(request.nextUrl.searchParams));
   if (!parsed.success) return apiError("Invalid catalog filters", 400, "INVALID_REQUEST");
-  const limited = await enforceRateLimit(request, "catalog", "public", 180);
+  const limited = await enforceRateLimit(request, "catalog", { addressLimit: 180 });
   if (limited) return limited;
   const subjectSlug = parsed.data.subject ?? null;
   const gradeBandSlug = parsed.data.gradeBand ?? null;

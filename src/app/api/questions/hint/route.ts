@@ -10,7 +10,7 @@ async function getQuestionHint(request: NextRequest) {
   if (!questionId || questionId.length < 8 || questionId.length > 100) {
     return apiError("Invalid hint request", 400, "INVALID_REQUEST");
   }
-  const limited = await enforceRateLimit(request, "question-hints", "public", 30);
+  const limited = await enforceRateLimit(request, "question-hints", { addressLimit: 30 });
   if (limited) return limited;
 
   const question = await prisma.question.findFirst({

@@ -43,7 +43,11 @@ async function postSession(request: Request) {
   if (!body.ok) return body.response;
   const parsed = sessionSchema.safeParse(body.value);
   if (!parsed.success) return apiError("Invalid session", 400, "INVALID_REQUEST");
-  const limited = await enforceRateLimit(request, "sessions", user.id, 20);
+  const limited = await enforceRateLimit(
+    request,
+    "sessions",
+    { identity: user.id, identityLimit: 20 },
+  );
   if (limited) return limited;
 
   const learner = await findLearnerForRequest(request);

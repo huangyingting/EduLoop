@@ -30,7 +30,11 @@ async function requestEmailVerification(request: Request) {
   const parsed = emailVerificationRequestSchema.safeParse(body.value);
   if (!parsed.success) return apiError("请输入有效的邮箱地址。", 400, "INVALID_REQUEST");
   const email = normalizeEmail(parsed.data.email);
-  const limited = await enforceRateLimit(request, "auth-email-verification-request", email, 3, 60 * 60_000);
+  const limited = await enforceRateLimit(request, "auth-email-verification-request", {
+    addressLimit: 20,
+    identity: email,
+    identityLimit: 3,
+  }, 60 * 60_000);
   if (limited) return limited;
 
   if (emailConfiguration()) {
@@ -53,8 +57,11 @@ async function completeEmailVerification(request: Request) {
   const limited = await enforceRateLimit(
     request,
     "auth-email-verification-complete",
-    hashEmailVerificationToken(parsed.data.token),
-    8,
+    {
+      addressLimit: 40,
+      identity: hashEmailVerificationToken(parsed.data.token),
+      identityLimit: 8,
+    },
     15 * 60_000,
   );
   if (limited) return limited;

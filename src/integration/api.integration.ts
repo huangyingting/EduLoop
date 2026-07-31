@@ -40,6 +40,7 @@ import { hashPasswordResetToken } from "@/lib/password-reset";
 import { disconnectProviderAccount, linkProviderAccountSafely } from "@/lib/provider-account";
 import { cleanupExpiredSecurityArtifacts } from "@/lib/retention";
 import {
+  addressRateLimitKey,
   checkRateLimit,
   cleanupExpiredRateLimitBuckets,
   rateLimitBucketId,
@@ -492,15 +493,21 @@ describe("learner API journey", () => {
     );
   });
 
-  it("returns a route-level 429 response with a retry deadline", async () => {
-    const resetRequest = () => request(
+  it("enforces identity limits across addresses and address limits across identities", async () => {
+    const resetRequest = (email: string, address: string) => new Request(
       "http://localhost/api/auth/password-reset",
-      "POST",
-      { email: "rate-limited-missing@example.com" },
+      {
+        method: "POST",
+        headers: { ...headers, "x-forwarded-for": address },
+        body: JSON.stringify({ email }),
+      },
     );
     const responses = [];
     for (let index = 0; index < 4; index += 1) {
-      responses.push(await requestPasswordReset(resetRequest()));
+      responses.push(await requestPasswordReset(resetRequest(
+        "rate-limited-missing@example.com",
+        `198.51.100.${100 + index}`,
+      )));
     }
 
     expect(responses.slice(0, 3).map(({ status }) => status)).toEqual([202, 202, 202]);
@@ -510,6 +517,17 @@ describe("learner API journey", () => {
       error: "Too many requests",
       code: "RATE_LIMITED",
     });
+
+    const addressResponses = [];
+    for (let index = 0; index < 21; index += 1) {
+      addressResponses.push(await requestPasswordReset(resetRequest(
+        `rate-limited-address-${index}@example.com`,
+        "198.51.100.200",
+      )));
+    }
+    expect(addressResponses.slice(0, 20).every(({ status }) => status === 202)).toBe(true);
+    expect(addressResponses[20].status).toBe(429);
+    expect(addressResponses[20].headers.get("retry-after")).toMatch(/^\d+$/);
   });
 
   it("caches strict public catalog responses and rejects a saturated shared bucket", async () => {
@@ -535,7 +553,7 @@ describe("learner API journey", () => {
     vi.useFakeTimers({ toFake: ["Date"] });
     vi.setSystemTime(new Date("2026-07-31T12:00:30.000Z"));
     try {
-      const key = "catalog:203.0.113.77:public";
+      const key = addressRateLimitKey("catalog", "203.0.113.77");
       const windowMs = 60_000;
       const now = Date.now();
       const windowStart = Math.floor(now / windowMs) * windowMs;

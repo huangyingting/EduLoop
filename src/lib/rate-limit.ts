@@ -45,6 +45,14 @@ export function rateLimitBucketId(key: string, windowMs: number, now: number) {
     .digest("hex");
 }
 
+export function addressRateLimitKey(scope: string, address: string) {
+  return `${scope}:address:${address}`;
+}
+
+export function identityRateLimitKey(scope: string, identity: string) {
+  return `${scope}:identity:${identity}`;
+}
+
 export async function cleanupExpiredRateLimitBuckets(now = Date.now()) {
   return prisma.rateLimitBucket.deleteMany({
     where: { expiresAt: { lte: new Date(now) } },

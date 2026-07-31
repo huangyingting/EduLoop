@@ -101,7 +101,12 @@ async function getAccountExport(request: NextRequest) {
   }
   const parsed = querySchema.safeParse(Object.fromEntries(request.nextUrl.searchParams));
   if (!parsed.success) return apiError("Invalid export request", 400, "INVALID_REQUEST");
-  const limited = await enforceRateLimit(request, "export-account", user.id, 3, 60 * 60_000);
+  const limited = await enforceRateLimit(
+    request,
+    "export-account",
+    { identity: user.id, identityLimit: 3 },
+    60 * 60_000,
+  );
   if (limited) return limited;
 
   const storedAccount = await prisma.user.findUnique({

@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { clientAddress, rateLimitBucketId } from "./rate-limit";
+import {
+  addressRateLimitKey,
+  clientAddress,
+  identityRateLimitKey,
+  rateLimitBucketId,
+} from "./rate-limit";
 
 describe("rate-limit helpers", () => {
   it("uses the first proxy address and safe fallbacks", () => {
@@ -28,12 +33,24 @@ describe("rate-limit helpers", () => {
   });
 
   it("hashes identities into stable, window-specific bucket IDs", () => {
-    const key = "auth-register:198.51.100.4:learner@example.com";
+    const key = identityRateLimitKey("auth-register", "learner@example.com");
     const first = rateLimitBucketId(key, 1_000, 10_000);
     expect(first).toMatch(/^[a-f0-9]{64}$/);
     expect(first).not.toContain(key);
     expect(rateLimitBucketId(key, 1_000, 10_999)).toBe(first);
     expect(rateLimitBucketId(key, 1_000, 11_000)).not.toBe(first);
     expect(rateLimitBucketId(key, 2_000, 10_000)).not.toBe(first);
+  });
+
+  it("separates address and identity dimensions before hashing", () => {
+    expect(addressRateLimitKey("auth-login", "198.51.100.4")).toBe(
+      "auth-login:address:198.51.100.4",
+    );
+    expect(identityRateLimitKey("auth-login", "learner@example.com")).toBe(
+      "auth-login:identity:learner@example.com",
+    );
+    expect(addressRateLimitKey("auth-login", "same-value")).not.toBe(
+      identityRateLimitKey("auth-login", "same-value"),
+    );
   });
 });

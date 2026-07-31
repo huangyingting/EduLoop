@@ -1,6 +1,11 @@
 import { randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
-import { checkRateLimit, clientAddress } from "./rate-limit";
+import {
+  addressRateLimitKey,
+  checkRateLimit,
+  clientAddress,
+  identityRateLimitKey,
+} from "./rate-limit";
 
 const REQUEST_ID_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$/;
 export const MAX_JSON_BODY_BYTES = 32 * 1024;
@@ -131,10 +136,38 @@ export function apiHandler<TRequest extends Request>(
   };
 }
 
-export async function enforceRateLimit(request: Request, scope: string, identity: string, limit: number, windowMs = 60_000) {
-  const result = await checkRateLimit(`${scope}:${clientAddress(request)}:${identity}`, limit, windowMs);
-  if (result.allowed) return null;
+export type RateLimitPolicy =
+  | { addressLimit: number; identity?: never; identityLimit?: never }
+  | { addressLimit?: number; identity: string; identityLimit: number };
+
+export async function enforceRateLimit(
+  request: Request,
+  scope: string,
+  policy: RateLimitPolicy,
+  windowMs = 60_000,
+) {
+  if (policy.addressLimit !== undefined) {
+    const addressResult = await checkRateLimit(
+      addressRateLimitKey(scope, clientAddress(request)),
+      policy.addressLimit,
+      windowMs,
+    );
+    if (!addressResult.allowed) {
+      const response = apiError("Too many requests", 429, "RATE_LIMITED");
+      response.headers.set("Retry-After", String(addressResult.retryAfter));
+      return response;
+    }
+  }
+
+  if (!("identity" in policy)) return null;
+  if (!policy.identity) throw new RangeError("Rate-limit identity must not be empty.");
+  const identityResult = await checkRateLimit(
+    identityRateLimitKey(scope, policy.identity),
+    policy.identityLimit,
+    windowMs,
+  );
+  if (identityResult.allowed) return null;
   const response = apiError("Too many requests", 429, "RATE_LIMITED");
-  response.headers.set("Retry-After", String(result.retryAfter));
+  response.headers.set("Retry-After", String(identityResult.retryAfter));
   return response;
 }

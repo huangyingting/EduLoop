@@ -29,7 +29,12 @@ async function requestEmailChange(request: Request) {
   if (!isSameOriginRequest(request)) return apiError("Invalid request origin.", 403, "FORBIDDEN");
   const user = await getSessionUser(request, { allowMissingConsent: true });
   if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
-  const limited = await enforceRateLimit(request, "account-email-change", user.id, 3, 60 * 60_000);
+  const limited = await enforceRateLimit(
+    request,
+    "account-email-change",
+    { identity: user.id, identityLimit: 3 },
+    60 * 60_000,
+  );
   if (limited) return limited;
   const body = await readJsonBody(request);
   if (!body.ok) return body.response;
@@ -86,8 +91,11 @@ async function confirmEmailChange(request: Request) {
   const limited = await enforceRateLimit(
     request,
     "account-email-change-complete",
-    hashEmailChangeToken(parsed.data.token),
-    8,
+    {
+      addressLimit: 40,
+      identity: hashEmailChangeToken(parsed.data.token),
+      identityLimit: 8,
+    },
     15 * 60_000,
   );
   if (limited) return limited;

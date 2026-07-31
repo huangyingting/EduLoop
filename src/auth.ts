@@ -21,7 +21,12 @@ import { ensureLearnerForUser } from "@/lib/learner-identity";
 import { hasCurrentLegalConsent } from "@/lib/legal";
 import { prisma } from "@/lib/prisma";
 import { linkProviderAccountSafely } from "@/lib/provider-account";
-import { checkRateLimit, clientAddress } from "@/lib/rate-limit";
+import {
+  addressRateLimitKey,
+  checkRateLimit,
+  clientAddress,
+  identityRateLimitKey,
+} from "@/lib/rate-limit";
 
 class EmailNotVerified extends CredentialsSignin {
   code = "email_not_verified";
@@ -130,12 +135,18 @@ export const { handlers, auth } = NextAuth((request) => ({
         const parsed = loginInputSchema.safeParse(credentials);
         if (!parsed.success) return null;
         const email = normalizeEmail(parsed.data.email);
-        const rate = await checkRateLimit(
-          `auth-login:${clientAddress(authRequest)}:${email}`,
+        const addressRate = await checkRateLimit(
+          addressRateLimitKey("auth-login", clientAddress(authRequest)),
+          50,
+          15 * 60_000,
+        );
+        if (!addressRate.allowed) return null;
+        const identityRate = await checkRateLimit(
+          identityRateLimitKey("auth-login", email),
           10,
           15 * 60_000,
         );
-        if (!rate.allowed) return null;
+        if (!identityRate.allowed) return null;
 
         const user = await prisma.user.findUnique({
           where: { email },

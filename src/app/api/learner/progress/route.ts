@@ -20,7 +20,11 @@ async function getLearnerProgress(request: NextRequest) {
   if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
   const parsed = querySchema.safeParse(Object.fromEntries(request.nextUrl.searchParams));
   if (!parsed.success) return apiError("Invalid progress query", 400, "INVALID_REQUEST");
-  const limited = await enforceRateLimit(request, "learner-progress", user.id, 30);
+  const limited = await enforceRateLimit(
+    request,
+    "learner-progress",
+    { identity: user.id, identityLimit: 30 },
+  );
   if (limited) return limited;
   const learner = await findLearnerForUser(user);
 

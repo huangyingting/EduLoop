@@ -53,7 +53,11 @@ async function getReview(request: NextRequest) {
   if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
   const parsed = querySchema.safeParse(Object.fromEntries(request.nextUrl.searchParams));
   if (!parsed.success) return apiError("Invalid review query", 400, "INVALID_REQUEST");
-  const limited = await enforceRateLimit(request, "review-list", user.id, 60);
+  const limited = await enforceRateLimit(
+    request,
+    "review-list",
+    { identity: user.id, identityLimit: 60 },
+  );
   if (limited) return limited;
   const learner = await findLearnerForUser(user);
 
@@ -117,7 +121,11 @@ async function postSavedQuestion(request: Request) {
   const parsed = saveSchema.safeParse(body.value);
   if (!parsed.success) return apiError("Invalid saved question", 400, "INVALID_REQUEST");
   const input = parsed.data;
-  const limited = await enforceRateLimit(request, "saved-questions", user.id, 30);
+  const limited = await enforceRateLimit(
+    request,
+    "saved-questions",
+    { identity: user.id, identityLimit: 30 },
+  );
   if (limited) return limited;
   const question = await prisma.question.findFirst({ where: { id: input.questionId, status: "PUBLISHED" }, select: { id: true } });
   if (!question) return apiError("Question not found", 404, "NOT_FOUND");
@@ -144,7 +152,11 @@ async function patchReviewItem(request: Request) {
   if (!body.ok) return body.response;
   const parsed = reviewMutationSchema.safeParse(body.value);
   if (!parsed.success) return apiError("Invalid review action", 400, "INVALID_REQUEST");
-  const limited = await enforceRateLimit(request, "review-items", user.id, 30);
+  const limited = await enforceRateLimit(
+    request,
+    "review-items",
+    { identity: user.id, identityLimit: 30 },
+  );
   if (limited) return limited;
   const learner = await findLearnerForRequest(request);
   if (!learner) return apiError("请先登录。", 401, "UNAUTHORIZED");

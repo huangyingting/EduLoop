@@ -33,7 +33,11 @@ async function getLearner(request: NextRequest) {
   if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
   const parsed = querySchema.safeParse(Object.fromEntries(request.nextUrl.searchParams));
   if (!parsed.success) return apiError("Invalid learner query", 400, "INVALID_REQUEST");
-  const limited = await enforceRateLimit(request, "learner-summary", user.id, 120);
+  const limited = await enforceRateLimit(
+    request,
+    "learner-summary",
+    { identity: user.id, identityLimit: 120 },
+  );
   if (limited) return limited;
   const learner = await findLearnerForUser(user);
   const today = calendarDay(new Date(), parsed.data.timeZone);
@@ -58,7 +62,12 @@ async function deleteLearner(request: NextRequest) {
   }
   const parsed = querySchema.safeParse(Object.fromEntries(request.nextUrl.searchParams));
   if (!parsed.success) return apiError("Invalid learner query", 400, "INVALID_REQUEST");
-  const limited = await enforceRateLimit(request, "delete-learner", user.id, 3, 60 * 60_000);
+  const limited = await enforceRateLimit(
+    request,
+    "delete-learner",
+    { identity: user.id, identityLimit: 3 },
+    60 * 60_000,
+  );
   if (limited) return limited;
   // Delete directly by account ownership so an account with no learner data is
   // never given an empty profile merely for the purpose of deleting it again.

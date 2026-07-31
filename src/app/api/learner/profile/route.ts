@@ -53,7 +53,11 @@ async function profileResponse(user: { id: string; displayName: string | null })
 async function getProfile(request: Request) {
   const user = await getSessionUser(request);
   if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
-  const limited = await enforceRateLimit(request, "learner-profile-read", user.id, 60);
+  const limited = await enforceRateLimit(
+    request,
+    "learner-profile-read",
+    { identity: user.id, identityLimit: 60 },
+  );
   if (limited) return limited;
   return NextResponse.json(await profileResponse(user), { headers: { "Cache-Control": "no-store" } });
 }
@@ -62,7 +66,12 @@ async function patchProfile(request: Request) {
   if (!isSameOriginRequest(request)) return apiError("Invalid request origin.", 403, "FORBIDDEN");
   const user = await getSessionUser(request);
   if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
-  const limited = await enforceRateLimit(request, "learner-profile", user.id, 20, 15 * 60_000);
+  const limited = await enforceRateLimit(
+    request,
+    "learner-profile",
+    { identity: user.id, identityLimit: 20 },
+    15 * 60_000,
+  );
   if (limited) return limited;
   const body = await readJsonBody(request);
   if (!body.ok) return body.response;

@@ -45,7 +45,12 @@ async function patchAccount(request: Request) {
   if (!user.hasPassword && !hasRecentAuthentication(user.authenticatedAt)) {
     return apiError("设置密码前请重新登录，以确认这是你的账号。", 401, "UNAUTHORIZED");
   }
-  const limited = await enforceRateLimit(request, "account-password", user.id, 5, 15 * 60_000);
+  const limited = await enforceRateLimit(
+    request,
+    "account-password",
+    { identity: user.id, identityLimit: 5 },
+    15 * 60_000,
+  );
   if (limited) return limited;
   const body = await readJsonBody(request);
   if (!body.ok) return body.response;
@@ -80,7 +85,12 @@ async function deleteCurrentAccount(request: Request) {
   if (!user.hasPassword && !hasRecentAuthentication(user.authenticatedAt)) {
     return apiError("删除账号前请重新登录，以确认这是你的账号。", 401, "UNAUTHORIZED");
   }
-  const limited = await enforceRateLimit(request, "account-delete", user.id, 3, 60 * 60_000);
+  const limited = await enforceRateLimit(
+    request,
+    "account-delete",
+    { identity: user.id, identityLimit: 3 },
+    60 * 60_000,
+  );
   if (limited) return limited;
   const body = await readJsonBody(request);
   if (!body.ok) return body.response;

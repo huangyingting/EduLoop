@@ -19,7 +19,7 @@
     "db:generate:postgres": "prisma generate --schema prisma/postgresql/schema.prisma",
     "db:deploy:postgres": "prisma migrate deploy --schema prisma/postgresql/schema.prisma",
     "schema:check": "node scripts/check-schema-parity.mjs",
-    "data:verify": "node scripts/validate-json-schemas.mjs && node --test scripts/amc-audit-rules.test.mjs && node scripts/analyze-data.mjs && node scripts/audit-subject-data.mjs && node scripts/audit-agieval-data.mjs && node scripts/audit-amc-data.mjs && node scripts/audit-amc-translations.mjs",
+    "data:verify": "node scripts/validate-json-schemas.mjs && node --test scripts/amc-audit-rules.test.mjs && node scripts/analyze-data.mjs && node scripts/audit-subject-data.mjs && node scripts/audit-agieval-data.mjs && node scripts/audit-amc-data.mjs && node scripts/audit-amc-translations.mjs && node --import tsx scripts/audit-math-rendering.ts",
     "data:import:cjeval": "node scripts/import-cjeval-chinese.mjs",
     "data:import:agieval": "node scripts/import-agieval-high-school-chinese.mjs",
     "seed:verify": "node scripts/verify-seed.mjs",
@@ -42,7 +42,6 @@
     "next-auth": "5.0.0-beta.32",
     "react": "19.2.3",
     "react-dom": "19.2.3",
-    "react-katex": "3.1.0",
     "zod": "3.25.76"
   },
   "devDependencies": {
@@ -51,7 +50,6 @@
     "@types/node": "24.10.1",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
-    "@types/react-katex": "3.0.4",
     "cheerio": "^1.1.2",
     "eslint": "9.39.2",
     "eslint-config-next": "16.2.12",

@@ -1,11 +1,11 @@
 "use client";
 
-import { Fragment } from "react";
+import { Fragment, useMemo } from "react";
 import Image from "next/image";
-import { InlineMath } from "react-katex";
-import { normalizeMathExpression } from "@/lib/math-expression";
+import katex from "katex";
+import { tokenizeMathContent } from "@/lib/math-content";
+import { normalizeMathExpression, requiresDisplayMath } from "@/lib/math-expression";
 
-const CONTENT_TOKEN = /(\$\$[\s\S]*?\$\$|(?<!\\)\$(?!\$)(?:\\.|[^$\n])+?(?<!\\)\$|\[Figure:\s*(?:https?:\/\/[^\]\s]+|\/question-assets\/source\/amc\/[a-z0-9._/-]+)\])/gi;
 const TRUSTED_FIGURE_HOSTS = new Set([
   "artofproblemsolving.com",
   "latex.artofproblemsolving.com",
@@ -26,24 +26,42 @@ function figureUrl(part: string) {
   }
 }
 
+function RenderedMath({ math, displayMode }: { math: string; displayMode: boolean }) {
+  const html = useMemo(() => katex.renderToString(math, {
+    displayMode,
+    errorColor: "#e85d75",
+    strict: "ignore",
+    throwOnError: false,
+  }), [displayMode, math]);
+  return (
+    <span
+      className={displayMode ? "my-4 block max-w-full overflow-x-auto" : undefined}
+      dangerouslySetInnerHTML={{ __html: html }}
+    />
+  );
+}
+
 export function MathText({ children, className = "" }: { children: string; className?: string }) {
-  const parts = children.split(CONTENT_TOKEN);
+  const tokens = tokenizeMathContent(children);
   return (
     <span className={className}>
-      {parts.map((part, index) => {
-        if (part.startsWith("$$") && part.endsWith("$$")) {
-          return <InlineMath key={index} math={normalizeMathExpression(part.slice(2, -2))} errorColor="#e85d75" />;
+      {tokens.map((token, index) => {
+        if (token.kind === "inline-math" || token.kind === "display-math") {
+          const math = normalizeMathExpression(token.value);
+          if (!math.trim()) return null;
+          const displayMode = token.kind === "display-math" || requiresDisplayMath(math);
+          return <RenderedMath key={index} math={math} displayMode={displayMode} />;
         }
-        if (part.startsWith("$") && part.endsWith("$")) {
-          return <InlineMath key={index} math={normalizeMathExpression(part.slice(1, -1))} errorColor="#e85d75" />;
+        if (token.kind === "figure") {
+          const src = figureUrl(token.value);
+          if (!src) return <Fragment key={index}>{token.value}</Fragment>;
+          return (
+            <span key={index} className="my-4 flex justify-center">
+              <Image src={src} alt="Question figure" width={900} height={600} className="h-auto max-h-96 w-auto max-w-full rounded-xl object-contain" />
+            </span>
+          );
         }
-        const src = figureUrl(part);
-        if (src) return (
-          <span key={index} className="my-4 flex justify-center">
-            <Image src={src} alt="Question figure" width={900} height={600} className="h-auto max-h-96 w-auto max-w-full rounded-xl object-contain" />
-          </span>
-        );
-        return <Fragment key={index}>{part.replaceAll("\\$", "$")}</Fragment>;
+        return <Fragment key={index}>{token.value.replaceAll("\\$", "$")}</Fragment>;
       })}
     </span>
   );

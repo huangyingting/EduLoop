@@ -1,6 +1,6 @@
 import katex from "katex";
 import { describe, expect, it } from "vitest";
-import { normalizeMathExpression } from "./math-expression";
+import { normalizeMathExpression, requiresDisplayMath } from "./math-expression";
 
 describe("normalizeMathExpression", () => {
   it("converts unsupported geometry notation to canonical LaTeX", () => {
@@ -18,6 +18,9 @@ describe("normalizeMathExpression", () => {
     );
     expect(normalizeMathExpression("19′40″")).toBe(
       "19'40''",
+    );
+    expect(normalizeMathExpression("\\rm{①}+5¢")).toBe(
+      "\\rm{\\text{\\textcircled{1}}}+5\\,\\mathrm{cent}",
     );
   });
 
@@ -45,6 +48,48 @@ describe("normalizeMathExpression", () => {
     const expression = normalizeMathExpression("v′^{2}");
     expect(expression).toBe("v'^{2}");
     expect(() => katex.renderToString(expression, { throwOnError: true })).not.toThrow();
+  });
+
+  it("repairs legacy currency, subscript, and overlay commands", () => {
+    expect(normalizeMathExpression(
+      "\\textdollar50+a\\textsubscript{1}+4\\cent+SO\\rlap{_{4}}{^{2-}}",
+    )).toBe(
+      "\\$50+a_{1}+4\\,\\mathrm{cent}+SO_{4}^{2-}",
+    );
+  });
+
+  it("converts legacy table syntax and row spacing", () => {
+    expect(normalizeMathExpression(
+      "\\begin{tabular}[t]{c}x\\\\ [-2.5ex]y\\end{tabular}",
+    )).toBe(
+      "\\begin{array}{c}x\\\\[-2.5ex]y\\end{array}",
+    );
+  });
+
+  it("repairs deterministic source and command artifacts", () => {
+    expect(normalizeMathExpression(
+      "\u000crac12+\\wideparen{AB}+m\\inN+S\\subseteqN+b_{n}_{+1}+left(x)+###",
+    )).toBe(
+      "\\frac12+\\overgroup{AB}+m\\in N+S\\subseteq N+b_{n+1}+\\left(x)+\\#\\#\\#",
+    );
+    expect(normalizeMathExpression("\\mathrm{\\text{·}}+A═B―→C\ue004\ue007\uef01")).toBe(
+      "\\cdot+A=B\\longrightarrow{}C",
+    );
+  });
+
+  it("removes nested math delimiters from an extracted expression", () => {
+    expect(normalizeMathExpression(
+      "\\boxed{{\\textbf{(E)~$\\dfrac{1}{97}$}}}",
+    )).toBe(
+      "\\boxed{{\\mathbf{(E)~\\dfrac{1}{97}}}}",
+    );
+  });
+
+  it("promotes display-only LaTeX constructs", () => {
+    expect(requiresDisplayMath("x+y")).toBe(false);
+    expect(requiresDisplayMath("a+b=3x \\tag{1}")).toBe(true);
+    expect(requiresDisplayMath("\\begin{split}x&=1\\\\y&=2\\end{split}")).toBe(true);
+    expect(requiresDisplayMath("\\begin{align*}x&=1\\end{align*}")).toBe(true);
   });
 
   it("produces strict-compatible KaTeX for normalized notation", () => {

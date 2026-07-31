@@ -13,6 +13,7 @@ export type ApiErrorCode =
   | "NOT_FOUND"
   | "PAYLOAD_TOO_LARGE"
   | "RATE_LIMITED"
+  | "SERVICE_UNAVAILABLE"
   | "UNAUTHORIZED";
 
 export function apiError(error: string, status: number, code: ApiErrorCode, details?: unknown) {

@@ -72,3 +72,57 @@ export async function sendEmailVerificationEmail(
   });
   if (!response.ok) throw new Error(`Email verification provider returned ${response.status}.`);
 }
+
+export async function sendEmailChangeVerificationEmail(
+  to: string,
+  verificationUrl: string,
+  options: { environment?: EmailEnvironment; fetcher?: Fetcher } = {},
+) {
+  const configuration = emailConfiguration(options.environment);
+  if (!configuration) throw new Error("Email change delivery is not configured.");
+  const fetcher = options.fetcher ?? fetch;
+  const text = `有人请求将这个地址设为 EduLoop 登录邮箱。请在 60 分钟内确认：\n\n${verificationUrl}\n\n如果不是你发起的请求，可以忽略这封邮件，原登录邮箱不会改变。`;
+  const response = await fetcher(RESEND_ENDPOINT, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${configuration.apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      from: configuration.from,
+      to: [to],
+      subject: "确认更改 EduLoop 登录邮箱",
+      text,
+      html: `<p>有人请求将这个地址设为 EduLoop 登录邮箱。</p><p><a href="${escapeHtml(verificationUrl)}">在 60 分钟内确认新邮箱</a></p><p>如果不是你发起的请求，可以忽略这封邮件，原登录邮箱不会改变。</p>`,
+    }),
+    signal: AbortSignal.timeout(10_000),
+  });
+  if (!response.ok) throw new Error(`Email change provider returned ${response.status}.`);
+}
+
+export async function sendEmailChangedNotice(
+  to: string,
+  newEmail: string,
+  options: { environment?: EmailEnvironment; fetcher?: Fetcher } = {},
+) {
+  const configuration = emailConfiguration(options.environment);
+  if (!configuration) throw new Error("Email change notification is not configured.");
+  const fetcher = options.fetcher ?? fetch;
+  const text = `你的 EduLoop 登录邮箱已更改为 ${newEmail}，所有旧登录会话都已退出。\n\n如果不是你操作，请立即联系平台支持。`;
+  const response = await fetcher(RESEND_ENDPOINT, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${configuration.apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      from: configuration.from,
+      to: [to],
+      subject: "你的 EduLoop 登录邮箱已更改",
+      text,
+      html: `<p>你的 EduLoop 登录邮箱已更改为 <strong>${escapeHtml(newEmail)}</strong>，所有旧登录会话都已退出。</p><p>如果不是你操作，请立即联系平台支持。</p>`,
+    }),
+    signal: AbortSignal.timeout(10_000),
+  });
+  if (!response.ok) throw new Error(`Email change notification provider returned ${response.status}.`);
+}

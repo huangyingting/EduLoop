@@ -166,6 +166,7 @@ model User {
   accounts                Account[]
   sessions                Session[]
   emailVerificationTokens EmailVerificationToken[]
+  emailChangeTokens       EmailChangeToken[]
   passwordResetTokens     PasswordResetToken[]
   consentRecords          ConsentRecord[]
   reviewActions           ContentReviewAction[]
@@ -219,6 +220,18 @@ model EmailVerificationToken {
   createdAt DateTime @default(now())
 
   @@index([userId, expiresAt])
+}
+
+model EmailChangeToken {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  newEmail  String
+  tokenHash String   @unique
+  expiresAt DateTime
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@index([expiresAt])
 }
 
 model PasswordResetToken {

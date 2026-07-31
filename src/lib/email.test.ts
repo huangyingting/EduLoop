@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { emailConfiguration, sendEmailVerificationEmail, sendPasswordResetEmail } from "./email";
+import { emailConfiguration, sendEmailChangedNotice, sendEmailChangeVerificationEmail, sendEmailVerificationEmail, sendPasswordResetEmail } from "./email";
 
 describe("password recovery email", () => {
   it("requires a complete provider configuration", () => {
@@ -52,5 +52,35 @@ describe("password recovery email", () => {
     expect(body.subject).toBe("验证你的 EduLoop 邮箱");
     expect(body.text).toContain("#token=a&b");
     expect(body.html).toContain("#token=a&amp;b");
+  });
+
+  it("sends an escaped email-change link and notifies the previous address", async () => {
+    const fetcher = vi.fn(async (input: string | URL | Request, init?: RequestInit) => {
+      void input; void init;
+      return new Response(null, { status: 202 });
+    });
+    const options = {
+      environment: { RESEND_API_KEY: "secret-key", AUTH_EMAIL_FROM: "accounts@example.com" },
+      fetcher,
+    };
+    await sendEmailChangeVerificationEmail(
+      "new@example.com",
+      "https://learn.example/change-email#token=a&b",
+      options,
+    );
+    await sendEmailChangedNotice("old@example.com", "new+tag@example.com", options);
+
+    const verification = JSON.parse(String(fetcher.mock.calls[0]?.[1]?.body)) as { to: string[]; subject: string; html: string };
+    expect(verification).toMatchObject({
+      to: ["new@example.com"],
+      subject: "确认更改 EduLoop 登录邮箱",
+    });
+    expect(verification.html).toContain("#token=a&amp;b");
+    const notice = JSON.parse(String(fetcher.mock.calls[1]?.[1]?.body)) as { to: string[]; subject: string; html: string };
+    expect(notice).toMatchObject({
+      to: ["old@example.com"],
+      subject: "你的 EduLoop 登录邮箱已更改",
+    });
+    expect(notice.html).toContain("new+tag@example.com");
   });
 });

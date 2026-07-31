@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 
 const inputClass = "min-h-11 w-full rounded-xl border-2 border-ink/10 bg-canvas/60 pl-10 pr-4 text-sm font-semibold outline-none transition focus:border-violet focus:bg-white";
 
-function RecoveryShell({ children }: { children: React.ReactNode }) {
+export function RecoveryShell({ children }: { children: React.ReactNode }) {
   return <main id="main-content" className="relative grid min-h-screen place-items-center overflow-hidden bg-canvas px-4 py-8 sm:px-6"><div className="dot-grid absolute inset-0 opacity-45" /><div className="absolute -left-28 -top-28 size-72 rounded-full bg-sky/70 blur-2xl" /><div className="absolute -bottom-32 -right-24 size-80 rounded-full bg-[#d9d3f5]/80 blur-2xl" /><section className="relative w-full max-w-lg rounded-[30px] border-2 border-ink bg-white p-6 shadow-[8px_9px_0_#242136] sm:p-9"><Link href="/practice" className="inline-flex items-center gap-2 font-display text-xl font-black"><span className="grid size-9 place-items-center rounded-xl bg-lime">∞</span>EduLoop</Link>{children}</section></main>;
 }
 

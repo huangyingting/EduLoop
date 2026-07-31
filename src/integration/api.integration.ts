@@ -4,6 +4,7 @@ import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import { GET as authGet, POST as authPost } from "@/app/api/auth/[...nextauth]/route";
 import { DELETE as deleteCurrentAccount, PATCH as updateCurrentAccount } from "@/app/api/auth/account/route";
 import { POST as acceptLegalConsent } from "@/app/api/auth/consent/route";
+import { PATCH as completeEmailChange, POST as requestEmailChange } from "@/app/api/auth/email-change/route";
 import { PATCH as completeEmailVerification, POST as requestEmailVerification } from "@/app/api/auth/email-verification/route";
 import { POST as registerAccount } from "@/app/api/auth/register/route";
 import { PATCH as completePasswordReset, POST as requestPasswordReset } from "@/app/api/auth/password-reset/route";
@@ -27,6 +28,7 @@ import { changeAccountPassword, deleteAccount } from "@/lib/account";
 import { calendarDay, calendarDaysBefore } from "@/lib/dates";
 import { AUTH_SECRET_VALUE, AUTH_SESSION_COOKIE, getSessionUser, hashPassword, verifyPassword } from "@/lib/auth";
 import { REQUIRED_DATABASE_MIGRATION } from "@/lib/database-readiness";
+import { hashEmailChangeToken } from "@/lib/email-change";
 import { hashEmailVerificationToken } from "@/lib/email-verification";
 import { PRIVACY_VERSION, TERMS_VERSION } from "@/lib/legal";
 import { hashPasswordResetToken } from "@/lib/password-reset";
@@ -52,6 +54,8 @@ const authUserId = "integration-auth-user";
 const lifecycleUserId = "integration-lifecycle-user";
 const sensitiveUserId = "integration-sensitive-user";
 const passwordResetUserId = "integration-password-reset-user";
+const emailChangeUserId = "integration-email-change-user";
+const emailChangeConflictUserId = "integration-email-change-conflict-user";
 const consentUserId = "integration-consent-user";
 const authJsEmail = "authjs-flow@example.com";
 const shieldUserId = "integration-shield-user";
@@ -128,7 +132,7 @@ afterAll(async () => {
   await prisma.rateLimitBucket.deleteMany();
   await prisma.user.deleteMany({ where: { email: authJsEmail } });
   await prisma.user.deleteMany({ where: { id: { in: [
-    authUserId, lifecycleUserId, sensitiveUserId, passwordResetUserId, consentUserId, shieldUserId, concurrentUserId, journeyUserId, profileUserId,
+    authUserId, lifecycleUserId, sensitiveUserId, passwordResetUserId, emailChangeUserId, emailChangeConflictUserId, consentUserId, shieldUserId, concurrentUserId, journeyUserId, profileUserId,
     studioOperatorId, studioLearnerId, studioReporterId,
   ] } } });
   await prisma.question.deleteMany({ where: { id: { in: [choiceId, writtenId, scienceQuestionId] } } });
@@ -566,6 +570,11 @@ describe("learner API journey", () => {
       email: "lifecycle@example.com",
       passwordHash: await hashPassword(oldPassword),
       learner: { create: { xp: 17 } },
+      emailChangeTokens: { create: {
+        newEmail: "lifecycle-pending@example.com",
+        tokenHash: "a".repeat(64),
+        expiresAt: new Date(Date.now() + 60 * 60_000),
+      } },
     } });
 
     expect(await changeAccountPassword(lifecycleUserId, "wrong-password", newPassword)).toBe("INVALID_PASSWORD");
@@ -574,6 +583,7 @@ describe("learner API journey", () => {
     const updated = await prisma.user.findUniqueOrThrow({ where: { id: lifecycleUserId } });
     expect(await verifyPassword(newPassword, updated.passwordHash!)).toBe(true);
     expect(updated.sessionVersion).toBe(1);
+    expect(await prisma.emailChangeToken.count({ where: { userId: lifecycleUserId } })).toBe(0);
     expect(await deleteAccount(lifecycleUserId, "wrong-password")).toBe(false);
     expect(await deleteAccount(lifecycleUserId, newPassword)).toBe(true);
     expect(await prisma.user.findUnique({ where: { id: lifecycleUserId } })).toBeNull();
@@ -629,6 +639,12 @@ describe("learner API journey", () => {
       expect(await prisma.passwordResetToken.findUnique({
         where: { tokenHash: hashPasswordResetToken(token!) },
       })).toMatchObject({ userId: passwordResetUserId });
+      await prisma.emailChangeToken.create({ data: {
+        userId: passwordResetUserId,
+        newEmail: "password-reset-pending@example.com",
+        tokenHash: "b".repeat(64),
+        expiresAt: new Date(Date.now() + 60 * 60_000),
+      } });
 
       const unchanged = await completePasswordReset(request(
         "http://localhost/api/auth/password-reset",
@@ -649,6 +665,7 @@ describe("learner API journey", () => {
       expect(updated.sessionVersion).toBe(1);
       expect(updated.emailVerified).toBeInstanceOf(Date);
       expect(await prisma.passwordResetToken.count({ where: { userId: passwordResetUserId } })).toBe(0);
+      expect(await prisma.emailChangeToken.count({ where: { userId: passwordResetUserId } })).toBe(0);
       expect(await getSessionUser(new Request("http://localhost/api/learner", {
         headers: { cookie: oldCookie },
       }))).toBeNull();
@@ -657,6 +674,116 @@ describe("learner API journey", () => {
         "http://localhost/api/auth/password-reset",
         "PATCH",
         { token, newPassword: "another-password-789" },
+      ));
+      expect(replay.status).toBe(400);
+    } finally {
+      for (const [key, value] of Object.entries(previousEnvironment)) {
+        if (value === undefined) delete process.env[key];
+        else process.env[key] = value;
+      }
+      vi.unstubAllGlobals();
+    }
+  });
+
+  it("verifies a new login email, handles address races, and revokes old sessions", async () => {
+    const oldEmail = "email-change-old@example.com";
+    const newEmail = "email-change-new@example.com";
+    const password = "email-change-password-123";
+    await prisma.user.create({ data: {
+      id: emailChangeUserId,
+      ...consentData,
+      email: oldEmail,
+      emailVerified: new Date(),
+      passwordHash: await hashPassword(password),
+      learner: { create: {} },
+    } });
+    const oldCookie = await authCookie(emailChangeUserId);
+    const previousEnvironment = {
+      AUTH_URL: process.env.AUTH_URL,
+      RESEND_API_KEY: process.env.RESEND_API_KEY,
+      AUTH_EMAIL_FROM: process.env.AUTH_EMAIL_FROM,
+    };
+    process.env.AUTH_URL = "https://learn.example";
+    process.env.RESEND_API_KEY = "re_integration_key";
+    process.env.AUTH_EMAIL_FROM = "EduLoop <accounts@learn.example>";
+    const emailFetch = vi.fn(async (input: string | URL | Request, init?: RequestInit) => {
+      void input; void init;
+      return new Response(null, { status: 202 });
+    });
+    vi.stubGlobal("fetch", emailFetch);
+
+    try {
+      const wrongPassword = await requestEmailChange(request(
+        "http://localhost/api/auth/email-change",
+        "POST",
+        { newEmail, currentPassword: "wrong-password" },
+        oldCookie,
+      ));
+      expect(wrongPassword.status).toBe(401);
+      expect(await prisma.emailChangeToken.count({ where: { userId: emailChangeUserId } })).toBe(0);
+
+      const requested = await requestEmailChange(request(
+        "http://localhost/api/auth/email-change",
+        "POST",
+        { newEmail: `  ${newEmail.toUpperCase()}  `, currentPassword: password },
+        oldCookie,
+      ));
+      expect(requested.status).toBe(202);
+      expect((await prisma.user.findUniqueOrThrow({ where: { id: emailChangeUserId } })).email).toBe(oldEmail);
+      const firstDelivery = JSON.parse(String(emailFetch.mock.calls[0]?.[1]?.body)) as { to: string[]; text: string };
+      expect(firstDelivery.to).toEqual([newEmail]);
+      const firstToken = firstDelivery.text.match(/#token=([A-Za-z0-9_-]+)/)?.[1];
+      expect(firstToken).toBeTruthy();
+      expect(await prisma.emailChangeToken.findUnique({
+        where: { tokenHash: hashEmailChangeToken(firstToken!) },
+      })).toMatchObject({ userId: emailChangeUserId, newEmail });
+
+      await prisma.user.create({ data: {
+        id: emailChangeConflictUserId,
+        email: newEmail,
+        emailVerified: new Date(),
+      } });
+      const conflicted = await completeEmailChange(request(
+        "http://localhost/api/auth/email-change",
+        "PATCH",
+        { token: firstToken },
+      ));
+      expect(conflicted.status).toBe(409);
+      expect(await prisma.emailChangeToken.count({ where: { userId: emailChangeUserId } })).toBe(0);
+      await prisma.user.delete({ where: { id: emailChangeConflictUserId } });
+
+      const retried = await requestEmailChange(request(
+        "http://localhost/api/auth/email-change",
+        "POST",
+        { newEmail, currentPassword: password },
+        oldCookie,
+      ));
+      expect(retried.status).toBe(202);
+      const retryDelivery = JSON.parse(String(emailFetch.mock.calls[1]?.[1]?.body)) as { text: string };
+      const token = retryDelivery.text.match(/#token=([A-Za-z0-9_-]+)/)?.[1];
+      expect(token).toBeTruthy();
+
+      const completed = await completeEmailChange(request(
+        "http://localhost/api/auth/email-change",
+        "PATCH",
+        { token },
+      ));
+      expect(completed.status).toBe(200);
+      const updated = await prisma.user.findUniqueOrThrow({ where: { id: emailChangeUserId } });
+      expect(updated).toMatchObject({ email: newEmail, sessionVersion: 1 });
+      expect(updated.emailVerified).toBeInstanceOf(Date);
+      expect(await prisma.emailChangeToken.count({ where: { userId: emailChangeUserId } })).toBe(0);
+      expect(await getSessionUser(new Request("http://localhost/api/learner", {
+        headers: { cookie: oldCookie },
+      }))).toBeNull();
+      const notice = JSON.parse(String(emailFetch.mock.calls[2]?.[1]?.body)) as { to: string[]; text: string };
+      expect(notice.to).toEqual([oldEmail]);
+      expect(notice.text).toContain(newEmail);
+
+      const replay = await completeEmailChange(request(
+        "http://localhost/api/auth/email-change",
+        "PATCH",
+        { token },
       ));
       expect(replay.status).toBe(400);
     } finally {
@@ -685,6 +812,15 @@ describe("learner API journey", () => {
     ));
     expect(stalePasswordChange.status).toBe(401);
     expect(await prisma.user.findUniqueOrThrow({ where: { id: sensitiveUserId } })).toMatchObject({ passwordHash: null });
+
+    const staleEmailChange = await requestEmailChange(request(
+      "http://localhost/api/auth/email-change",
+      "POST",
+      { newEmail: "sensitive-social-new@example.com" },
+      staleCookie,
+    ));
+    expect(staleEmailChange.status).toBe(401);
+    expect(await prisma.emailChangeToken.count({ where: { userId: sensitiveUserId } })).toBe(0);
 
     const staleDeletion = await deleteCurrentAccount(request(
       "http://localhost/api/auth/account",

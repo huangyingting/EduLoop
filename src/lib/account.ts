@@ -10,14 +10,17 @@ export async function changeAccountPassword(userId: string, currentPassword: str
   if (user.passwordHash && await verifyPassword(nextPassword, user.passwordHash)) return "UNCHANGED";
 
   const passwordHash = await hashPassword(nextPassword);
-  await prisma.user.update({
-    where: { id: userId },
-    data: {
-      passwordHash,
-      emailVerified: user.passwordHash ? undefined : new Date(),
-      sessionVersion: { increment: 1 },
-    },
-  });
+  await prisma.$transaction([
+    prisma.user.update({
+      where: { id: userId },
+      data: {
+        passwordHash,
+        emailVerified: user.passwordHash ? undefined : new Date(),
+        sessionVersion: { increment: 1 },
+      },
+    }),
+    prisma.emailChangeToken.deleteMany({ where: { userId } }),
+  ]);
   return user.passwordHash ? "UPDATED" : "PASSWORD_SET";
 }
 

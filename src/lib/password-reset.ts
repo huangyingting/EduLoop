@@ -3,7 +3,10 @@ import { hashPassword, verifyPassword } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
 export const PASSWORD_RESET_TTL_MS = 30 * 60_000;
-export type PasswordResetResult = "INVALID" | "UNCHANGED" | "UPDATED";
+export type PasswordResetResult =
+  | { status: "INVALID" }
+  | { status: "UNCHANGED" }
+  | { status: "UPDATED"; email: string };
 
 export function hashPasswordResetToken(token: string) {
   return createHash("sha256").update(token).digest("hex");
@@ -38,17 +41,19 @@ export async function resetPasswordWithToken(
   const tokenHash = hashPasswordResetToken(token);
   const record = await prisma.passwordResetToken.findUnique({
     where: { tokenHash },
-    select: { id: true, userId: true, expiresAt: true, user: { select: { passwordHash: true } } },
+    select: { id: true, userId: true, expiresAt: true, user: { select: { email: true, passwordHash: true } } },
   });
-  if (!record || record.expiresAt <= now) return "INVALID";
-  if (record.user.passwordHash && await verifyPassword(nextPassword, record.user.passwordHash)) return "UNCHANGED";
+  if (!record || record.expiresAt <= now) return { status: "INVALID" };
+  if (record.user.passwordHash && await verifyPassword(nextPassword, record.user.passwordHash)) {
+    return { status: "UNCHANGED" };
+  }
 
   const passwordHash = await hashPassword(nextPassword);
   return prisma.$transaction(async (transaction) => {
     const claimed = await transaction.passwordResetToken.deleteMany({
       where: { id: record.id, tokenHash, expiresAt: { gt: now } },
     });
-    if (!claimed.count) return "INVALID";
+    if (!claimed.count) return { status: "INVALID" };
     await transaction.user.update({
       where: { id: record.userId },
       data: {
@@ -61,6 +66,6 @@ export async function resetPasswordWithToken(
     await transaction.emailVerificationToken.deleteMany({ where: { userId: record.userId } });
     await transaction.emailChangeToken.deleteMany({ where: { userId: record.userId } });
     await transaction.passwordResetToken.deleteMany({ where: { userId: record.userId } });
-    return "UPDATED";
+    return { status: "UPDATED", email: record.user.email };
   });
 }

@@ -153,3 +153,29 @@ export async function sendProviderDisconnectedNotice(
   });
   if (!response.ok) throw new Error(`Provider disconnect notification returned ${response.status}.`);
 }
+
+export async function sendPasswordChangedNotice(
+  to: string,
+  options: { environment?: EmailEnvironment; fetcher?: Fetcher } = {},
+) {
+  const configuration = emailConfiguration(options.environment);
+  if (!configuration) throw new Error("Password change notification is not configured.");
+  const fetcher = options.fetcher ?? fetch;
+  const text = "你的 EduLoop 密码已更新，所有旧登录会话和未使用的账号验证链接都已失效。\n\n如果不是你操作，请立即联系平台支持并检查邮箱账号安全。";
+  const response = await fetcher(RESEND_ENDPOINT, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${configuration.apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      from: configuration.from,
+      to: [to],
+      subject: "你的 EduLoop 密码已更新",
+      text,
+      html: "<p>你的 EduLoop 密码已更新，所有旧登录会话和未使用的账号验证链接都已失效。</p><p>如果不是你操作，请立即联系平台支持并检查邮箱账号安全。</p>",
+    }),
+    signal: AbortSignal.timeout(10_000),
+  });
+  if (!response.ok) throw new Error(`Password change notification returned ${response.status}.`);
+}

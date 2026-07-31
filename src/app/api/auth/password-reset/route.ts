@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { apiError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api";
 import { runAfterResponse } from "@/lib/after-response";
 import { normalizeEmail, isSameOriginRequest, passwordResetCompletionSchema, passwordResetRequestSchema } from "@/lib/auth-validation";
-import { emailConfiguration, sendPasswordResetEmail } from "@/lib/email";
+import { emailConfiguration, sendPasswordChangedNotice, sendPasswordResetEmail } from "@/lib/email";
 import { hashPasswordResetToken, issuePasswordResetToken, resetPasswordWithToken, revokePasswordResetToken } from "@/lib/password-reset";
 
 export const runtime = "nodejs";
@@ -25,6 +25,18 @@ async function deliverPasswordReset(email: string, origin: string) {
     console.error(JSON.stringify({
       level: "error",
       event: "password_reset_email_failed",
+      message: error instanceof Error ? error.message : "Unknown email delivery error",
+    }));
+  }
+}
+
+async function notifyPasswordChange(email: string) {
+  try {
+    await sendPasswordChangedNotice(email);
+  } catch (error) {
+    console.error(JSON.stringify({
+      level: "error",
+      event: "password_reset_notification_failed",
       message: error instanceof Error ? error.message : "Unknown email delivery error",
     }));
   }
@@ -67,8 +79,11 @@ async function completePasswordReset(request: Request) {
   if (limited) return limited;
 
   const outcome = await resetPasswordWithToken(parsed.data.token, parsed.data.newPassword);
-  if (outcome === "INVALID") return apiError("重置链接无效或已过期，请重新申请。", 400, "INVALID_REQUEST");
-  if (outcome === "UNCHANGED") return apiError("新密码不能与当前密码相同。", 400, "INVALID_REQUEST");
+  if (outcome.status === "INVALID") return apiError("重置链接无效或已过期，请重新申请。", 400, "INVALID_REQUEST");
+  if (outcome.status === "UNCHANGED") return apiError("新密码不能与当前密码相同。", 400, "INVALID_REQUEST");
+  if (emailConfiguration()) {
+    await runAfterResponse(() => notifyPasswordChange(outcome.email));
+  }
   return NextResponse.json({ changed: true }, { headers: { "Cache-Control": "no-store" } });
 }
 

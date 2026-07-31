@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { emailConfiguration, sendEmailChangedNotice, sendEmailChangeVerificationEmail, sendEmailVerificationEmail, sendPasswordResetEmail, sendProviderDisconnectedNotice } from "./email";
+import { emailConfiguration, sendEmailChangedNotice, sendEmailChangeVerificationEmail, sendEmailVerificationEmail, sendPasswordChangedNotice, sendPasswordResetEmail, sendProviderDisconnectedNotice } from "./email";
 
 describe("password recovery email", () => {
   it("requires a complete provider configuration", () => {
@@ -100,5 +100,23 @@ describe("password recovery email", () => {
       subject: "你的 EduLoop Google 登录连接已移除",
     });
     expect(body.text).toContain("所有旧登录会话都已退出");
+  });
+
+  it("sends a password-change security notice", async () => {
+    const fetcher = vi.fn(async (input: string | URL | Request, init?: RequestInit) => {
+      void input; void init;
+      return new Response(null, { status: 202 });
+    });
+    await sendPasswordChangedNotice("learner@example.com", {
+      environment: { RESEND_API_KEY: "secret-key", AUTH_EMAIL_FROM: "accounts@example.com" },
+      fetcher,
+    });
+
+    const body = JSON.parse(String(fetcher.mock.calls[0]?.[1]?.body)) as { to: string[]; subject: string; text: string };
+    expect(body).toMatchObject({
+      to: ["learner@example.com"],
+      subject: "你的 EduLoop 密码已更新",
+    });
+    expect(body.text).toContain("未使用的账号验证链接都已失效");
   });
 });

@@ -580,6 +580,8 @@ describe("learner API journey", () => {
   it("rotates account passwords, revokes sessions, and erases the full account", async () => {
     const oldPassword = "old-password-123";
     const newPassword = "new-password-456";
+    const competingPassword = "competing-password-789";
+    const expiresAt = new Date(Date.now() + 60 * 60_000);
     await prisma.user.create({ data: {
       id: lifecycleUserId,
       ...consentData,
@@ -589,19 +591,75 @@ describe("learner API journey", () => {
       emailChangeTokens: { create: {
         newEmail: "lifecycle-pending@example.com",
         tokenHash: "a".repeat(64),
-        expiresAt: new Date(Date.now() + 60 * 60_000),
+        expiresAt,
       } },
+      emailVerificationTokens: { create: { tokenHash: "f".repeat(64), expiresAt } },
+      passwordResetTokens: { create: { tokenHash: "9".repeat(64), expiresAt } },
+      sessions: { create: { sessionToken: "integration-lifecycle-session", expires: expiresAt } },
     } });
 
     expect(await changeAccountPassword(lifecycleUserId, "wrong-password", newPassword)).toBe("INVALID_PASSWORD");
     expect(await changeAccountPassword(lifecycleUserId, oldPassword, oldPassword)).toBe("UNCHANGED");
-    expect(await changeAccountPassword(lifecycleUserId, oldPassword, newPassword)).toBe("UPDATED");
+    const previousEnvironment = {
+      RESEND_API_KEY: process.env.RESEND_API_KEY,
+      AUTH_EMAIL_FROM: process.env.AUTH_EMAIL_FROM,
+    };
+    process.env.RESEND_API_KEY = "re_integration_key";
+    process.env.AUTH_EMAIL_FROM = "EduLoop <accounts@learn.example>";
+    const emailFetch = vi.fn(async (input: string | URL | Request, init?: RequestInit) => {
+      void input; void init;
+      return new Response(null, { status: 202 });
+    });
+    vi.stubGlobal("fetch", emailFetch);
+    const cookie = await authCookie(lifecycleUserId);
+    let winningPassword = newPassword;
+    try {
+      const passwordResponses = await Promise.all([
+        updateCurrentAccount(request(
+          "http://localhost/api/auth/account",
+          "PATCH",
+          { currentPassword: oldPassword, newPassword },
+          cookie,
+        )),
+        updateCurrentAccount(request(
+          "http://localhost/api/auth/account",
+          "PATCH",
+          { currentPassword: oldPassword, newPassword: competingPassword },
+          cookie,
+        )),
+      ]);
+      expect(passwordResponses.map(({ status }) => status).sort()).toEqual([200, 409]);
+      const successfulIndex = passwordResponses.findIndex(({ status }) => status === 200);
+      winningPassword = successfulIndex === 0 ? newPassword : competingPassword;
+      expect(await passwordResponses[successfulIndex]!.json()).toEqual({ changed: true });
+      expect(await passwordResponses[successfulIndex === 0 ? 1 : 0]!.json()).toMatchObject({
+        code: "CONFLICT",
+      });
+      expect(emailFetch).toHaveBeenCalledOnce();
+      const notice = JSON.parse(String(emailFetch.mock.calls[0]?.[1]?.body)) as { to: string[]; subject: string };
+      expect(notice).toMatchObject({
+        to: ["lifecycle@example.com"],
+        subject: "你的 EduLoop 密码已更新",
+      });
+    } finally {
+      for (const [key, value] of Object.entries(previousEnvironment)) {
+        if (value === undefined) delete process.env[key];
+        else process.env[key] = value;
+      }
+      vi.unstubAllGlobals();
+    }
     const updated = await prisma.user.findUniqueOrThrow({ where: { id: lifecycleUserId } });
-    expect(await verifyPassword(newPassword, updated.passwordHash!)).toBe(true);
+    expect(await verifyPassword(winningPassword, updated.passwordHash!)).toBe(true);
     expect(updated.sessionVersion).toBe(1);
+    expect(await prisma.session.count({ where: { userId: lifecycleUserId } })).toBe(0);
+    expect(await prisma.emailVerificationToken.count({ where: { userId: lifecycleUserId } })).toBe(0);
     expect(await prisma.emailChangeToken.count({ where: { userId: lifecycleUserId } })).toBe(0);
+    expect(await prisma.passwordResetToken.count({ where: { userId: lifecycleUserId } })).toBe(0);
+    expect(await getSessionUser(new Request("http://localhost/api/learner", {
+      headers: { cookie },
+    }))).toBeNull();
     expect(await deleteAccount(lifecycleUserId, "wrong-password")).toBe(false);
-    expect(await deleteAccount(lifecycleUserId, newPassword)).toBe(true);
+    expect(await deleteAccount(lifecycleUserId, winningPassword)).toBe(true);
     expect(await prisma.user.findUnique({ where: { id: lifecycleUserId } })).toBeNull();
     expect(await prisma.learnerProfile.findUnique({ where: { userId: lifecycleUserId } })).toBeNull();
   });
@@ -779,6 +837,14 @@ describe("learner API journey", () => {
       email,
       passwordHash: await hashPassword(oldPassword),
       learner: { create: {} },
+      sessions: { create: {
+        sessionToken: "integration-password-reset-session",
+        expires: new Date(Date.now() + 60 * 60_000),
+      } },
+      emailVerificationTokens: { create: {
+        tokenHash: "8".repeat(64),
+        expiresAt: new Date(Date.now() + 60 * 60_000),
+      } },
     } });
     const oldCookie = await authCookie(passwordResetUserId);
     const previousEnvironment = {
@@ -843,11 +909,19 @@ describe("learner API journey", () => {
       expect(await verifyPassword(newPassword, updated.passwordHash!)).toBe(true);
       expect(updated.sessionVersion).toBe(1);
       expect(updated.emailVerified).toBeInstanceOf(Date);
+      expect(await prisma.session.count({ where: { userId: passwordResetUserId } })).toBe(0);
+      expect(await prisma.emailVerificationToken.count({ where: { userId: passwordResetUserId } })).toBe(0);
       expect(await prisma.passwordResetToken.count({ where: { userId: passwordResetUserId } })).toBe(0);
       expect(await prisma.emailChangeToken.count({ where: { userId: passwordResetUserId } })).toBe(0);
       expect(await getSessionUser(new Request("http://localhost/api/learner", {
         headers: { cookie: oldCookie },
       }))).toBeNull();
+      expect(emailFetch).toHaveBeenCalledTimes(2);
+      const notice = JSON.parse(String(emailFetch.mock.calls[1]?.[1]?.body)) as { to: string[]; subject: string };
+      expect(notice).toMatchObject({
+        to: [email],
+        subject: "你的 EduLoop 密码已更新",
+      });
 
       const replay = await completePasswordReset(request(
         "http://localhost/api/auth/password-reset",

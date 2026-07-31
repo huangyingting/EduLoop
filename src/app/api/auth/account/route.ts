@@ -1,10 +1,24 @@
 import { NextResponse } from "next/server";
 import { apiError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api";
+import { runAfterResponse } from "@/lib/after-response";
 import { changeAccountPassword, deleteAccount } from "@/lib/account";
 import { getSessionUser } from "@/lib/auth";
 import { accountDeletionSchema, hasRecentAuthentication, isSameOriginRequest, passwordChangeSchema } from "@/lib/auth-validation";
+import { emailConfiguration, sendPasswordChangedNotice } from "@/lib/email";
 
 export const runtime = "nodejs";
+
+async function notifyPasswordChange(email: string) {
+  try {
+    await sendPasswordChangedNotice(email);
+  } catch (error) {
+    console.error(JSON.stringify({
+      level: "error",
+      event: "password_change_notification_failed",
+      message: error instanceof Error ? error.message : "Unknown email delivery error",
+    }));
+  }
+}
 
 async function patchAccount(request: Request) {
   if (!isSameOriginRequest(request)) return apiError("Invalid request origin.", 403, "FORBIDDEN");
@@ -24,6 +38,10 @@ async function patchAccount(request: Request) {
   if (outcome === "INVALID_PASSWORD") return apiError("当前密码不正确。", 401, "UNAUTHORIZED");
   if (outcome === "NOT_FOUND") return apiError("账号不存在。", 404, "NOT_FOUND");
   if (outcome === "UNCHANGED") return apiError("新密码不能与当前密码相同。", 400, "INVALID_REQUEST");
+  if (outcome === "CONFLICT") return apiError("账号安全设置刚刚发生变化，请重新登录后再试。", 409, "CONFLICT");
+  if (emailConfiguration()) {
+    await runAfterResponse(() => notifyPasswordChange(user.email));
+  }
   return NextResponse.json({ changed: true }, { headers: { "Cache-Control": "no-store" } });
 }
 

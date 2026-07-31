@@ -21,7 +21,7 @@ School-managed accounts are a separate launch mode. The public account path reco
 | Linked login methods are removable safely | recent-auth provider disconnection, final-method protection, stored-token deletion, concurrency-safe version claim, all-session revocation, and browser/integration coverage |
 | Login email changes prove ownership | current-password or recent-social proof, hashed single-use new-address verification, atomic uniqueness enforcement, old-address notice, and all-session revocation |
 | Password email ownership is proven | generic resend responses, hashed 24-hour tokens, fragment-based links, and verified-login enforcement |
-| Password accounts are recoverable | generic reset requests, hashed expiring tokens, Resend delivery, and all-session revocation |
+| Password credentials rotate safely | generic reset requests, hashed expiring tokens, optimistic authenticated changes, stale-proof cleanup, security notices, and all-session revocation |
 | Sensitive account actions require fresh proof | persistent `authenticatedAt` claim with a 10-minute reauthentication window |
 | Concurrent session restarts stay coherent | nullable unique `PracticeSession.activeKey` plus integration coverage on SQLite and PostgreSQL |
 | Content problems can be surfaced | `QuestionReport` and in-practice feedback form |

@@ -1,7 +1,7 @@
 import { hashPassword, verifyPassword } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
-export type PasswordChangeResult = "INVALID_PASSWORD" | "NOT_FOUND" | "UNCHANGED" | "UPDATED" | "PASSWORD_SET";
+export type PasswordChangeResult = "INVALID_PASSWORD" | "NOT_FOUND" | "UNCHANGED" | "CONFLICT" | "UPDATED" | "PASSWORD_SET";
 
 export async function changeAccountPassword(userId: string, currentPassword: string | undefined, nextPassword: string): Promise<PasswordChangeResult> {
   const user = await prisma.user.findUnique({ where: { id: userId }, select: { passwordHash: true } });
@@ -10,18 +10,23 @@ export async function changeAccountPassword(userId: string, currentPassword: str
   if (user.passwordHash && await verifyPassword(nextPassword, user.passwordHash)) return "UNCHANGED";
 
   const passwordHash = await hashPassword(nextPassword);
-  await prisma.$transaction([
-    prisma.user.update({
-      where: { id: userId },
+  return prisma.$transaction(async (transaction) => {
+    const updated = await transaction.user.updateMany({
+      where: { id: userId, passwordHash: user.passwordHash },
       data: {
         passwordHash,
         emailVerified: user.passwordHash ? undefined : new Date(),
         sessionVersion: { increment: 1 },
       },
-    }),
-    prisma.emailChangeToken.deleteMany({ where: { userId } }),
-  ]);
-  return user.passwordHash ? "UPDATED" : "PASSWORD_SET";
+    });
+    if (!updated.count) return "CONFLICT";
+
+    await transaction.session.deleteMany({ where: { userId } });
+    await transaction.emailVerificationToken.deleteMany({ where: { userId } });
+    await transaction.emailChangeToken.deleteMany({ where: { userId } });
+    await transaction.passwordResetToken.deleteMany({ where: { userId } });
+    return user.passwordHash ? "UPDATED" : "PASSWORD_SET";
+  });
 }
 
 export async function deleteAccount(

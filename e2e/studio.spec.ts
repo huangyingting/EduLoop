@@ -1,10 +1,15 @@
 import bcrypt from "bcryptjs";
+import { encode } from "next-auth/jwt";
 import { PrismaClient } from "@prisma/client";
 import { expect, test } from "@playwright/test";
 import { captureBrowserErrors, login, waitForQuestion } from "./browser-helpers";
+import { SENSITIVE_ACTION_MAX_AGE_SECONDS } from "../src/lib/auth-validation";
 
 const externalBaseUrl = process.env.E2E_BASE_URL;
 if (!externalBaseUrl && !process.env.DATABASE_URL) process.loadEnvFile(".env");
+const authSecret = process.env.AUTH_SECRET
+  || "eduloop-development-secret-change-before-production";
+const authCookieName = "authjs.session-token";
 const consentData = {
   termsAcceptedAt: new Date(), termsVersion: "2026-07-31",
   privacyAcceptedAt: new Date(), privacyVersion: "2026-07-31", consentBasis: "ADULT",
@@ -154,6 +159,33 @@ test.describe("local content review workflow", () => {
     await reportCard.getByPlaceholder("记录核对来源、判断或修复说明（解决时必填）").fill("重新确认后保持已解决状态。");
     await reportCard.getByRole("button", { name: "记录为已解决" }).click();
     await expect(reportCard).toHaveCount(0);
+
+    const staleToken = await encode({
+      token: {
+        sub: editorUserId,
+        sessionVersion: 0,
+        authenticatedAt: Math.floor(Date.now() / 1000) - SENSITIVE_ACTION_MAX_AGE_SECONDS - 1,
+      },
+      secret: authSecret,
+      salt: authCookieName,
+      maxAge: 30 * 24 * 60 * 60,
+    });
+    await page.context().addCookies([{
+      name: authCookieName,
+      value: staleToken,
+      url: new URL(page.url()).origin,
+      httpOnly: true,
+      sameSite: "Lax",
+    }]);
+    await page.reload();
+    await expect(page.getByRole("heading", { name: "重新验证审核账号" })).toBeVisible();
+    await expect(page.getByText("完整答案、学习指标和题目状态变更只在登录验证后的 10 分钟内开放。"))
+      .toBeVisible();
+    await page.getByRole("button", { name: "重新登录验证" }).click();
+    await expect(page).toHaveURL((url) => (
+      url.pathname === "/login" && url.searchParams.get("next") === "/studio"
+    ));
+    await expect(page.getByLabel("邮箱")).toBeVisible();
 
     expect(browserErrors).toEqual([]);
   });

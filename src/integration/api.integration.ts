@@ -2261,12 +2261,44 @@ describe("learner API journey", () => {
       { ...consentData, id: studioLearnerId, email: "studio-learner@example.com", passwordHash: "unused", role: "LEARNER" },
     ] });
     const operatorCookie = await authCookie(studioOperatorId);
+    const staleOperatorCookie = await authCookie(
+      studioOperatorId,
+      0,
+      Math.floor(Date.now() / 1000) - SENSITIVE_ACTION_MAX_AGE_SECONDS - 1,
+    );
     const learnerCookie = await authCookie(studioLearnerId);
 
     expect((await getStudioReports(new NextRequest("http://localhost/api/studio/reports"))).status).toBe(401);
     expect((await getStudioReports(new NextRequest("http://localhost/api/studio/reports", {
       headers: { cookie: learnerCookie },
     }))).status).toBe(403);
+
+    const staleOperatorHeaders = { ...headers, cookie: staleOperatorCookie };
+    const staleQueue = await getStudioReports(new NextRequest(
+      "http://localhost/api/studio/reports?status=OPEN",
+      { headers: staleOperatorHeaders },
+    ));
+    expect(staleQueue.status).toBe(401);
+    expect(await staleQueue.json()).toEqual({
+      error: "查看答案、学习指标或执行审核操作前，请重新登录验证内容审核账号。",
+      code: "UNAUTHORIZED",
+    });
+    expect((await getStudioMetrics(new Request("http://localhost/api/studio/metrics", {
+      headers: staleOperatorHeaders,
+    }))).status).toBe(401);
+    expect((await updateStudioReport(new NextRequest("http://localhost/api/studio/reports", {
+      method: "PATCH",
+      headers: staleOperatorHeaders,
+      body: JSON.stringify({
+        reportId: studioReportId,
+        action: "QUARANTINE",
+        note: "过期会话不得改变题目状态",
+      }),
+    }))).status).toBe(401);
+    expect(await prisma.question.findUniqueOrThrow({ where: { id: choiceId } })).toMatchObject({
+      status: "PUBLISHED",
+    });
+    expect(await prisma.contentReviewAction.count({ where: { reportId: studioReportId } })).toBe(0);
 
     const operatorHeaders = { ...headers, cookie: operatorCookie };
     const queueResponse = await getStudioReports(new NextRequest("http://localhost/api/studio/reports?status=OPEN", { headers: operatorHeaders }));

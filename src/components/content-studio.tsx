@@ -3,6 +3,7 @@
 import { AlertTriangle, CheckCircle2, ChevronLeft, ChevronRight, FileWarning, LoaderCircle, RotateCcw, ShieldAlert } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
+import { hasRecentAuthentication, SENSITIVE_ACTION_MAX_AGE_SECONDS } from "@/lib/auth-validation";
 import { useAuth } from "@/lib/use-auth";
 import { isContentOperator } from "@/lib/user-roles";
 import { MathText } from "./math-text";
@@ -73,9 +74,15 @@ export function ContentStudio() {
   const [loading, setLoading] = useState(false);
   const [acting, setActing] = useState<string | null>(null);
   const [error, setError] = useState("");
+  const [authenticationCheckAt, setAuthenticationCheckAt] = useState(
+    () => Math.floor(Date.now() / 1000),
+  );
+  const authenticatedAt = auth.user?.authenticatedAt ?? 0;
+  const hasRecentLogin = auth.status === "authenticated"
+    && hasRecentAuthentication(authenticatedAt, authenticationCheckAt);
 
   const load = useCallback(async () => {
-    if (!isContentOperator(auth.user)) return;
+    if (!isContentOperator(auth.user) || !hasRecentLogin) return;
     setLoading(true);
     setError("");
     try {
@@ -92,7 +99,26 @@ export function ContentStudio() {
     } finally {
       setLoading(false);
     }
-  }, [auth.user, page, status]);
+  }, [auth.user, hasRecentLogin, page, status]);
+
+  useEffect(() => {
+    const now = Math.floor(Date.now() / 1000);
+    const currentTimeUpdate = window.setTimeout(() => {
+      setAuthenticationCheckAt(Math.floor(Date.now() / 1000));
+    }, 0);
+    if (auth.status !== "authenticated" || !hasRecentAuthentication(authenticatedAt, now)) {
+      return () => window.clearTimeout(currentTimeUpdate);
+    }
+
+    const expiresAt = authenticatedAt + SENSITIVE_ACTION_MAX_AGE_SECONDS + 1;
+    const expirationUpdate = window.setTimeout(() => {
+      setAuthenticationCheckAt(Math.floor(Date.now() / 1000));
+    }, Math.max(0, expiresAt * 1000 - Date.now()));
+    return () => {
+      window.clearTimeout(currentTimeUpdate);
+      window.clearTimeout(expirationUpdate);
+    };
+  }, [auth.status, authenticatedAt]);
 
   useEffect(() => {
     const timer = window.setTimeout(() => void load(), 0);
@@ -100,6 +126,7 @@ export function ContentStudio() {
   }, [load]);
 
   async function applyAction(report: Report, action: "QUARANTINE" | "RESOLVE" | "REOPEN") {
+    if (!hasRecentLogin) return;
     const note = notes[report.id]?.trim() || "";
     if (action === "RESOLVE" && note.length < 3) {
       setError("解决报告前，请填写至少 3 个字符的审核结论。");
@@ -134,6 +161,14 @@ export function ContentStudio() {
     window.requestAnimationFrame(() => document.getElementById(`studio-${nextStatus.toLowerCase()}-tab`)?.focus());
   }
 
+  async function reauthenticate() {
+    try {
+      await auth.logout();
+    } finally {
+      window.location.assign("/login?next=%2Fstudio");
+    }
+  }
+
   if (auth.status === "loading") {
     return <Loading label="正在确认审核权限…" />;
   }
@@ -142,6 +177,9 @@ export function ContentStudio() {
   }
   if (!isContentOperator(auth.user)) {
     return <AccessMessage title="没有审核权限" detail="你的学习账号没有内容编辑角色。如需权限，请联系系统管理员。" />;
+  }
+  if (!hasRecentLogin) {
+    return <AccessMessage title="重新验证审核账号" detail="完整答案、学习指标和题目状态变更只在登录验证后的 10 分钟内开放。"><button type="button" onClick={() => void reauthenticate()} className="mt-5 inline-flex min-h-11 items-center rounded-xl bg-violet px-5 py-3 text-sm font-black text-white">重新登录验证</button></AccessMessage>;
   }
 
   return (

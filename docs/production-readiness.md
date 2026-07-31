@@ -13,7 +13,7 @@ School-managed accounts are a separate launch mode. The public account path reco
 | Content is importable and traceable | Stable source IDs, `sourceFile`, `npm run data:verify`, quarantine status |
 | Answers are not leaked | `/api/questions/next` omits keys; `/api/attempts` grades server-side |
 | Learning continues after a mistake | `ReviewItem` scheduling, `/review`, adaptive due selection |
-| Learning-loop health is measurable | idempotent explanation views and aggregate `/api/studio/metrics` session, return, and repeat-practice signals |
+| Learning-loop health is measurable | idempotent explanation views and fresh-operator-auth aggregate `/api/studio/metrics` session, return, and repeat-practice signals |
 | Progress survives navigation | persisted profiles, sessions, attempts, activity, saved questions |
 | Learners control account and learning data | `/privacy`, recent-auth versioned secret-minimized account export, recent-auth learning-only cascade deletion with a confirmation notice, and concurrency-safe full account erasure with a final notice |
 | Public account consent is explicit | public versioned `/terms` and `/privacy-policy`, adult/guardian attestation, append-only `ConsentRecord`, and re-consent gating |
@@ -23,10 +23,10 @@ School-managed accounts are a separate launch mode. The public account path reco
 | Password email ownership is proven | assurance restricted to exact matching verified Google claims or password-bound mailbox links, unsolicited-link pre-hijack protection, atomic untrusted-provider removal, conservative legacy re-verification, generic resend responses, hashed 24-hour fragment tokens, and verified-login enforcement across SQLite/PostgreSQL/browser coverage |
 | Password credentials rotate safely | generic reset requests, hashed expiring tokens, optimistic authenticated changes, atomic mailbox-ownership transfer for unverified social accounts, trusted-provider preservation for verified accounts, stale-proof cleanup, security notices, and all-session revocation |
 | Expired security data is minimized | indexed transactional cleanup for adapter sessions, verification and recovery proofs, and hashed limiter buckets through both live-traffic cadence and an operator command, with SQLite/PostgreSQL coverage |
-| Sensitive account actions require fresh proof | persistent `authenticatedAt` claim with a 10-minute reauthentication window for complete export, learning-data erasure, all-device sign-out, and sensitive account changes |
+| Sensitive actions require fresh proof | persistent `authenticatedAt` claim with a 10-minute reauthentication window for complete export, learning-data erasure, all-device sign-out, sensitive account changes, privileged answer-key access, learning metrics, and content-review mutations |
 | Concurrent session restarts stay coherent | nullable unique `PracticeSession.activeKey` plus integration coverage on SQLite and PostgreSQL |
 | Content problems can be surfaced | `QuestionReport` and in-practice feedback form |
-| Content reports can be triaged safely | role-protected `/studio`, immediate quarantine, immutable `ContentReviewAction` history |
+| Content reports can be triaged safely | role- and recent-auth-protected `/studio`, immediate quarantine, immutable `ContentReviewAction` history, and SQLite/PostgreSQL/browser coverage |
 | Both databases stay portable | paired schemas and migration stages enforced by `npm run schema:check` |
 | Failures are diagnosable | schema-aware `/api/health`, privacy-safe request completion/error telemetry, error boundaries |
 | A live release is externally verifiable | cookie-free `npm run smoke:deployment` checks security headers, readiness, answer isolation, and stateless guest grading |

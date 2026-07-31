@@ -81,10 +81,16 @@ async function completePasswordReset(request: Request) {
   const outcome = await resetPasswordWithToken(parsed.data.token, parsed.data.newPassword);
   if (outcome.status === "INVALID") return apiError("重置链接无效或已过期，请重新申请。", 400, "INVALID_REQUEST");
   if (outcome.status === "UNCHANGED") return apiError("新密码不能与当前密码相同。", 400, "INVALID_REQUEST");
+  if (outcome.status === "CONFLICT") {
+    return apiError("账号安全设置刚刚发生变化，请重新申请重置链接。", 409, "CONFLICT");
+  }
   if (emailConfiguration()) {
     await runAfterResponse(() => notifyPasswordChange(outcome.email));
   }
-  return NextResponse.json({ changed: true }, { headers: { "Cache-Control": "no-store" } });
+  return NextResponse.json({
+    changed: true,
+    providersDisconnected: outcome.providersDisconnected,
+  }, { headers: { "Cache-Control": "no-store" } });
 }
 
 export const POST = apiHandler("POST /api/auth/password-reset", requestPasswordReset);

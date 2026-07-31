@@ -40,6 +40,24 @@ describe("Auth.js provider credential minimization", () => {
     expect(linkAccount).toHaveBeenCalledOnce();
   });
 
+  it("passes the scrubbed identity through a security-aware link hook", async () => {
+    const baseLinkAccount = vi.fn(async (account: AdapterAccount) => account);
+    const safeLinkAccount = vi.fn(async (account: AdapterAccount) => account);
+    const adapter = credentialMinimizingAdapter(
+      { linkAccount: baseLinkAccount },
+      { linkAccount: safeLinkAccount },
+    );
+
+    await adapter.linkAccount?.(providerAccount);
+    expect(baseLinkAccount).not.toHaveBeenCalled();
+    expect(safeLinkAccount).toHaveBeenCalledWith({
+      userId: "user-1",
+      type: "oidc",
+      provider: "example",
+      providerAccountId: "provider-user-1",
+    });
+  });
+
   it("rejects a base adapter that cannot link accounts", () => {
     expect(() => credentialMinimizingAdapter({})).toThrow(
       "Auth adapter must implement linkAccount.",

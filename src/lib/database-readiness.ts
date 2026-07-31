@@ -2,7 +2,7 @@ import { prisma } from "./prisma";
 
 // Advance this marker with every migration. schema:check keeps it aligned with
 // both provider histories so a newer application cannot accept old-schema traffic.
-export const REQUIRED_DATABASE_MIGRATION = "20260731090000_enforce_email_assurance";
+export const REQUIRED_DATABASE_MIGRATION = "20260731100000_harden_mailbox_ownership";
 
 export type DatabaseReadinessQueries = {
   countQuestions: () => Promise<number>;

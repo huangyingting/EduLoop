@@ -43,6 +43,7 @@ export const emailVerificationRequestSchema = z.object({
 
 export const emailVerificationCompletionSchema = z.object({
   token: z.string().min(32).max(256).regex(/^[A-Za-z0-9_-]+$/),
+  password: bcryptPassword(1),
 });
 
 export const emailChangeRequestSchema = z.object({

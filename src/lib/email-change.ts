@@ -76,6 +76,16 @@ export type EmailChangeCompletionResult =
   | { status: "INVALID" }
   | { status: "UPDATED"; oldEmail: string; newEmail: string };
 
+class ConcurrentEmailChange extends Error {}
+class InvalidEmailChangeToken extends Error {}
+
+function transactionConflict(error: unknown) {
+  return error instanceof ConcurrentEmailChange
+    || (error instanceof Prisma.PrismaClientKnownRequestError && ["P1008", "P2034"].includes(error.code))
+    || (error instanceof Prisma.PrismaClientUnknownRequestError
+      && /(?:40P01|deadlock detected)/i.test(error.message));
+}
+
 export async function completeEmailChange(
   token: string,
   now = new Date(),
@@ -88,7 +98,7 @@ export async function completeEmailChange(
       userId: true,
       newEmail: true,
       expiresAt: true,
-      user: { select: { email: true } },
+      user: { select: { email: true, sessionVersion: true } },
     },
   });
   if (!record || record.expiresAt <= now) {
@@ -98,10 +108,20 @@ export async function completeEmailChange(
 
   try {
     return await prisma.$transaction(async (transaction) => {
+      const locked = await transaction.user.updateMany({
+        where: {
+          id: record.userId,
+          email: record.user.email,
+          sessionVersion: record.user.sessionVersion,
+        },
+        data: { sessionVersion: { increment: 0 } },
+      });
+      if (!locked.count) throw new ConcurrentEmailChange();
+
       const claimed = await transaction.emailChangeToken.deleteMany({
         where: { id: record.id, tokenHash, expiresAt: { gt: now } },
       });
-      if (!claimed.count) return { status: "INVALID" } as const;
+      if (!claimed.count) throw new InvalidEmailChangeToken();
       await transaction.user.update({
         where: { id: record.userId },
         data: {
@@ -117,10 +137,12 @@ export async function completeEmailChange(
       return { status: "UPDATED", oldEmail: record.user.email, newEmail: record.newEmail } as const;
     });
   } catch (error) {
+    if (error instanceof InvalidEmailChangeToken) return { status: "INVALID" };
     if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
       await revokeEmailChangeToken(record.id, tokenHash);
       return { status: "CONFLICT" };
     }
+    if (transactionConflict(error)) return { status: "CONFLICT" };
     throw error;
   }
 }

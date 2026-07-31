@@ -1,11 +1,16 @@
 import { Prisma } from "@prisma/client";
+import type { AdapterAccount } from "next-auth/adapters";
 import { prisma } from "@/lib/prisma";
 import type { SocialProviderId } from "@/lib/social-providers";
 
 const PROVIDER_ACCOUNT_TYPES = ["oauth", "oidc"];
 const MAX_DISCONNECT_ATTEMPTS = 3;
 
-class ConcurrentProviderChange extends Error {}
+class ConcurrentProviderChange extends Error {
+  constructor() {
+    super("Provider security state changed concurrently.");
+  }
+}
 
 export type ProviderDisconnectResult =
   | { status: "CONFLICT" }
@@ -13,6 +18,36 @@ export type ProviderDisconnectResult =
   | { status: "NOT_CONNECTED" }
   | { status: "NOT_FOUND" }
   | { status: "DISCONNECTED"; email: string };
+
+export async function linkProviderAccountSafely(
+  account: AdapterAccount,
+  expectedSessionVersion: number | undefined,
+) {
+  return prisma.$transaction(async (transaction) => {
+    // Auth.js calls signIn before linkAccount. For an authenticated link, bind
+    // persistence to the exact session version that signIn validated. For a
+    // brand-new untrusted social account, permit only the untouched initial
+    // state. Google is the sole no-session auto-link provider, and its callback
+    // has already required a literal verified-email claim.
+    const claimed = await transaction.user.updateMany({
+      where: expectedSessionVersion === undefined
+        ? account.provider === "google"
+          ? { id: account.userId }
+          : {
+            id: account.userId,
+            emailVerified: null,
+            passwordHash: null,
+            sessionVersion: 0,
+          }
+        : { id: account.userId, sessionVersion: expectedSessionVersion },
+      data: { sessionVersion: { increment: 0 } },
+    });
+    if (!claimed.count) throw new ConcurrentProviderChange();
+    return transaction.account.create({
+      data: account,
+    }) as unknown as AdapterAccount;
+  });
+}
 
 function retryableConflict(error: unknown) {
   return error instanceof ConcurrentProviderChange

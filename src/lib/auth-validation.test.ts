@@ -110,7 +110,9 @@ describe("authentication helpers", () => {
     }).success).toBe(false);
     expect(passwordChangeSchema.safeParse({ currentPassword: "current-password", newPassword: "学".repeat(25) }).success).toBe(false);
     expect(passwordResetCompletionSchema.safeParse({ token: "short", newPassword: "new-password" }).success).toBe(false);
-    expect(emailVerificationCompletionSchema.safeParse({ token: "short" }).success).toBe(false);
+    expect(emailVerificationCompletionSchema.safeParse({ token: "short", password: "current-password" }).success).toBe(false);
+    expect(emailVerificationCompletionSchema.safeParse({ token: "a".repeat(43) }).success).toBe(false);
+    expect(emailVerificationCompletionSchema.safeParse({ token: "a".repeat(43), password: "current-password" }).success).toBe(true);
     expect(emailChangeCompletionSchema.safeParse({ token: "short" }).success).toBe(false);
     expect(emailChangeRequestSchema.safeParse({ newEmail: "next@example.com", currentPassword: "current-password" }).success).toBe(true);
     expect(emailChangeRequestSchema.safeParse({ newEmail: "invalid" }).success).toBe(false);

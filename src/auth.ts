@@ -20,6 +20,7 @@ import { googleProfileHasVerifiedEmail, providerProfileVerifiesEmail } from "@/l
 import { ensureLearnerForUser } from "@/lib/learner-identity";
 import { hasCurrentLegalConsent } from "@/lib/legal";
 import { prisma } from "@/lib/prisma";
+import { linkProviderAccountSafely } from "@/lib/provider-account";
 import { checkRateLimit, clientAddress } from "@/lib/rate-limit";
 
 class EmailNotVerified extends CredentialsSignin {
@@ -42,6 +43,8 @@ function normalizedProfileEmail(value: unknown) {
   if (typeof value !== "string" || !value.includes("@")) return null;
   return normalizeEmail(value);
 }
+
+const providerLinkSessionVersions = new WeakMap<Request, number>();
 
 function socialProviders(): Provider[] {
   const providers: Provider[] = [];
@@ -100,7 +103,14 @@ function socialProviders(): Provider[] {
 }
 
 export const { handlers, auth } = NextAuth((request) => ({
-  adapter: credentialMinimizingAdapter(PrismaAdapter(prisma)),
+  adapter: credentialMinimizingAdapter(PrismaAdapter(prisma), {
+    linkAccount(account) {
+      return linkProviderAccountSafely(
+        account,
+        request ? providerLinkSessionVersions.get(request) : undefined,
+      );
+    },
+  }),
   secret: AUTH_SECRET_VALUE,
   trustHost: process.env.NODE_ENV !== "production" || Boolean(process.env.AUTH_URL || process.env.AUTH_TRUST_HOST),
   useSecureCookies: process.env.NODE_ENV === "production",
@@ -171,6 +181,7 @@ export const { handlers, auth } = NextAuth((request) => ({
         if (request && hasAuthSessionCookie(request)) {
           const currentUser = await getSessionUser(request);
           if (!currentUser || !hasRecentAuthentication(currentUser.authenticatedAt)) return false;
+          providerLinkSessionVersions.set(request, currentUser.sessionVersion);
         }
         return Boolean(user.email);
       }

@@ -73,7 +73,8 @@ test.describe("unverified social password setup", () => {
 
     await page.goto("/privacy");
     await expect(page.getByText(`当前账号：${email}（邮箱未验证）`)).toBeVisible();
-    await expect(page.getByText("验证完成前仍需使用社交登录")).toBeVisible();
+    await expect(page.getByText("若要启用邮箱登录，请先设置密码", { exact: false })).toBeVisible();
+    await expect(page.getByText("确认邮箱归属时会移除当前社交登录连接", { exact: false })).toBeVisible();
     await expect(page.getByRole("button", { name: "断开 Microsoft" })).toBeDisabled();
 
     await page.getByLabel("新密码").fill(password);
@@ -98,7 +99,19 @@ test.describe("unverified social password setup", () => {
       },
     });
     await page.goto(`/verify-email#token=${verificationToken}`);
+    await expect(page.getByText("尚未证明邮箱所有权的社交登录连接会被移除")).toBeVisible();
+    await page.getByLabel("账号密码").fill(password);
+    await page.getByRole("button", { name: "确认密码并验证" }).click();
     await expect(page.getByRole("heading", { name: "邮箱已验证" })).toBeVisible({ timeout: 15_000 });
+    await expect(page.getByRole("status")).toContainText("原有社交登录连接也已移除");
+    await expect.poll(async () => {
+      const stored = await prisma.user.findUniqueOrThrow({ where: { id: userId } });
+      return {
+        emailVerified: stored.emailVerified instanceof Date,
+        sessionVersion: stored.sessionVersion,
+        providers: await prisma.account.count({ where: { userId } }),
+      };
+    }).toEqual({ emailVerified: true, sessionVersion: 2, providers: 0 });
 
     await page.goto("/login?next=%2Fprivacy");
     await page.getByLabel("邮箱").fill(email);
@@ -106,7 +119,7 @@ test.describe("unverified social password setup", () => {
     await page.getByRole("button", { name: "登录并继续" }).click();
     await expect(page).toHaveURL(/\/privacy$/, { timeout: 30_000 });
     await expect(page.getByText(`当前账号：${email}（邮箱已验证）`)).toBeVisible();
-    await expect(page.getByRole("button", { name: "断开 Microsoft" })).toBeEnabled();
+    await expect(page.getByRole("button", { name: "断开 Microsoft" })).toHaveCount(0);
     expect(browserErrors).toEqual([]);
   });
 });

@@ -1,12 +1,24 @@
 import { createHash, randomBytes } from "node:crypto";
+import { Prisma } from "@prisma/client";
 import { hashPassword, verifyPassword } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
 export const PASSWORD_RESET_TTL_MS = 30 * 60_000;
 export type PasswordResetResult =
+  | { status: "CONFLICT" }
   | { status: "INVALID" }
   | { status: "UNCHANGED" }
-  | { status: "UPDATED"; email: string };
+  | { status: "UPDATED"; email: string; providersDisconnected: number };
+
+class ConcurrentPasswordReset extends Error {}
+class InvalidPasswordResetToken extends Error {}
+
+function transactionConflict(error: unknown) {
+  return error instanceof ConcurrentPasswordReset
+    || (error instanceof Prisma.PrismaClientKnownRequestError && ["P1008", "P2034"].includes(error.code))
+    || (error instanceof Prisma.PrismaClientUnknownRequestError
+      && /(?:40P01|deadlock detected)/i.test(error.message));
+}
 
 export function hashPasswordResetToken(token: string) {
   return createHash("sha256").update(token).digest("hex");
@@ -41,7 +53,18 @@ export async function resetPasswordWithToken(
   const tokenHash = hashPasswordResetToken(token);
   const record = await prisma.passwordResetToken.findUnique({
     where: { tokenHash },
-    select: { id: true, userId: true, expiresAt: true, user: { select: { email: true, passwordHash: true } } },
+    select: {
+      id: true,
+      userId: true,
+      expiresAt: true,
+      user: {
+        select: {
+          email: true,
+          passwordHash: true,
+          sessionVersion: true,
+        },
+      },
+    },
   });
   if (!record || record.expiresAt <= now) return { status: "INVALID" };
   if (record.user.passwordHash && await verifyPassword(nextPassword, record.user.passwordHash)) {
@@ -49,23 +72,71 @@ export async function resetPasswordWithToken(
   }
 
   const passwordHash = await hashPassword(nextPassword);
-  return prisma.$transaction(async (transaction) => {
-    const claimed = await transaction.passwordResetToken.deleteMany({
-      where: { id: record.id, tokenHash, expiresAt: { gt: now } },
+  try {
+    return await prisma.$transaction(async (transaction) => {
+      // Match email verification's lock order: user security state first,
+      // proof token second. This serializes competing ownership claims without
+      // allowing the two token tables to form a PostgreSQL deadlock cycle.
+      const locked = await transaction.user.updateMany({
+        where: {
+          id: record.userId,
+          passwordHash: record.user.passwordHash,
+          sessionVersion: record.user.sessionVersion,
+        },
+        data: { sessionVersion: { increment: 0 } },
+      });
+      if (!locked.count) throw new ConcurrentPasswordReset();
+
+      const claimed = await transaction.passwordResetToken.deleteMany({
+        where: { id: record.id, tokenHash, expiresAt: { gt: now } },
+      });
+      if (!claimed.count) throw new InvalidPasswordResetToken();
+
+      const ownershipTransition = await transaction.user.updateMany({
+        where: {
+          id: record.userId,
+          emailVerified: null,
+          passwordHash: record.user.passwordHash,
+          sessionVersion: record.user.sessionVersion,
+        },
+        data: {
+          passwordHash,
+          emailVerified: now,
+          sessionVersion: { increment: 1 },
+        },
+      });
+      if (!ownershipTransition.count) {
+        const updated = await transaction.user.updateMany({
+          where: {
+            id: record.userId,
+            emailVerified: { not: null },
+            passwordHash: record.user.passwordHash,
+            sessionVersion: record.user.sessionVersion,
+          },
+          data: {
+            passwordHash,
+            sessionVersion: { increment: 1 },
+          },
+        });
+        if (!updated.count) throw new ConcurrentPasswordReset();
+      }
+
+      const disconnected = ownershipTransition.count
+        ? await transaction.account.deleteMany({ where: { userId: record.userId } })
+        : { count: 0 };
+      await transaction.session.deleteMany({ where: { userId: record.userId } });
+      await transaction.emailVerificationToken.deleteMany({ where: { userId: record.userId } });
+      await transaction.emailChangeToken.deleteMany({ where: { userId: record.userId } });
+      await transaction.passwordResetToken.deleteMany({ where: { userId: record.userId } });
+      return {
+        status: "UPDATED",
+        email: record.user.email,
+        providersDisconnected: disconnected.count,
+      } as const;
     });
-    if (!claimed.count) return { status: "INVALID" };
-    await transaction.user.update({
-      where: { id: record.userId },
-      data: {
-        passwordHash,
-        emailVerified: now,
-        sessionVersion: { increment: 1 },
-      },
-    });
-    await transaction.session.deleteMany({ where: { userId: record.userId } });
-    await transaction.emailVerificationToken.deleteMany({ where: { userId: record.userId } });
-    await transaction.emailChangeToken.deleteMany({ where: { userId: record.userId } });
-    await transaction.passwordResetToken.deleteMany({ where: { userId: record.userId } });
-    return { status: "UPDATED", email: record.user.email };
-  });
+  } catch (error) {
+    if (error instanceof InvalidPasswordResetToken) return { status: "INVALID" };
+    if (transactionConflict(error)) return { status: "CONFLICT" };
+    throw error;
+  }
 }

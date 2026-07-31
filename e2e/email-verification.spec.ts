@@ -53,11 +53,21 @@ test.describe("local email verification workflow", () => {
     const browserErrors = captureBrowserErrors(page);
     await page.goto(`/verify-email#token=${token}`);
     await expect(page).toHaveURL(/\/verify-email$/);
+    await page.getByLabel("账号密码").fill("incorrect-verification-password");
+    await page.getByRole("button", { name: "确认密码并验证" }).click();
+    await expect(page.getByRole("alert").filter({ hasText: "密码不正确" })).toBeVisible();
+    expect((await prisma.user.findUniqueOrThrow({ where: { id: userId } })).emailVerified).toBeNull();
+    expect(await prisma.emailVerificationToken.count({ where: { userId } })).toBe(1);
+
+    await page.getByLabel("账号密码").fill(password);
+    await page.getByRole("button", { name: "确认密码并验证" }).click();
     await expect(page.getByRole("heading", { name: "邮箱已验证" })).toBeVisible({ timeout: 15_000 });
     expect((await prisma.user.findUniqueOrThrow({ where: { id: userId } })).emailVerified).toBeInstanceOf(Date);
     expect(await prisma.emailVerificationToken.count({ where: { userId } })).toBe(0);
 
     await page.goto(`/verify-email#token=${token}`);
+    await page.getByLabel("账号密码").fill(password);
+    await page.getByRole("button", { name: "确认密码并验证" }).click();
     await expect(page.getByRole("alert").filter({ hasText: "验证链接无效或已过期" })).toBeVisible({ timeout: 15_000 });
     await page.goto("/login?next=%2Fprogress");
     await page.getByLabel("邮箱").fill(email);
@@ -67,6 +77,7 @@ test.describe("local email verification workflow", () => {
     await expect(page.getByRole("heading", { name: "我的成长星图" })).toBeVisible();
 
     expect(browserErrors).toEqual([
+      "console: Failed to load resource: the server responded with a status of 401 (Unauthorized)",
       "console: Failed to load resource: the server responded with a status of 400 (Bad Request)",
     ]);
   });

@@ -59,10 +59,20 @@ async function completeEmailVerification(request: Request) {
   );
   if (limited) return limited;
 
-  if (!await verifyEmailWithToken(parsed.data.token)) {
+  const outcome = await verifyEmailWithToken(parsed.data.token, parsed.data.password);
+  if (outcome.status === "INVALID") {
     return apiError("验证链接无效或已过期，请重新申请。", 400, "INVALID_REQUEST");
   }
-  return NextResponse.json({ verified: true }, { headers: { "Cache-Control": "no-store" } });
+  if (outcome.status === "INVALID_PASSWORD") {
+    return apiError("密码不正确，邮箱尚未验证。", 401, "UNAUTHORIZED");
+  }
+  if (outcome.status === "CONFLICT") {
+    return apiError("账号安全设置刚刚发生变化，请重新打开验证链接后再试。", 409, "CONFLICT");
+  }
+  return NextResponse.json({
+    verified: true,
+    providersDisconnected: outcome.providersDisconnected,
+  }, { headers: { "Cache-Control": "no-store" } });
 }
 
 export const POST = apiHandler("POST /api/auth/email-verification", requestEmailVerification);

@@ -37,7 +37,7 @@ import { hashEmailChangeToken } from "@/lib/email-change";
 import { hashEmailVerificationToken } from "@/lib/email-verification";
 import { PRIVACY_VERSION, TERMS_VERSION } from "@/lib/legal";
 import { hashPasswordResetToken } from "@/lib/password-reset";
-import { disconnectProviderAccount } from "@/lib/provider-account";
+import { disconnectProviderAccount, linkProviderAccountSafely } from "@/lib/provider-account";
 import { cleanupExpiredSecurityArtifacts } from "@/lib/retention";
 import {
   checkRateLimit,
@@ -70,6 +70,11 @@ const providerMinimizationUserId = "integration-provider-minimization-user";
 const providerSocialUserId = "integration-provider-social-user";
 const providerRaceUserId = "integration-provider-race-user";
 const passwordResetUserId = "integration-password-reset-user";
+const socialRecoveryUserId = "integration-social-recovery-user";
+const verifiedRecoveryUserId = "integration-verified-recovery-user";
+const ownershipRaceUserId = "integration-ownership-race-user";
+const proofLockRaceUserId = "integration-proof-lock-race-user";
+const providerLinkRaceUserId = "integration-provider-link-race-user";
 const emailChangeUserId = "integration-email-change-user";
 const emailChangeConflictUserId = "integration-email-change-conflict-user";
 const consentUserId = "integration-consent-user";
@@ -151,7 +156,7 @@ afterAll(async () => {
   });
   await prisma.user.deleteMany({ where: { email: authJsEmail } });
   await prisma.user.deleteMany({ where: { id: { in: [
-    authUserId, lifecycleUserId, socialPasswordUserId, sessionRevocationUserId, expiredRetentionUserId, activeRetentionUserId, deletionRaceUserId, sensitiveUserId, providerUserId, providerMinimizationUserId, providerSocialUserId, providerRaceUserId, passwordResetUserId, emailChangeUserId, emailChangeConflictUserId, consentUserId, shieldUserId, concurrentUserId, journeyUserId, profileUserId,
+    authUserId, lifecycleUserId, socialPasswordUserId, sessionRevocationUserId, expiredRetentionUserId, activeRetentionUserId, deletionRaceUserId, sensitiveUserId, providerUserId, providerMinimizationUserId, providerSocialUserId, providerRaceUserId, passwordResetUserId, socialRecoveryUserId, verifiedRecoveryUserId, ownershipRaceUserId, proofLockRaceUserId, providerLinkRaceUserId, emailChangeUserId, emailChangeConflictUserId, consentUserId, shieldUserId, concurrentUserId, journeyUserId, profileUserId,
     studioOperatorId, studioLearnerId, studioReporterId,
   ] } } });
   await prisma.question.deleteMany({ where: { id: { in: [choiceId, writtenId, scienceQuestionId] } } });
@@ -484,19 +489,34 @@ describe("learner API journey", () => {
         where: { tokenHash: hashEmailVerificationToken(token!) },
       })).toMatchObject({ userId: expect.any(String) });
 
+      const wrongPassword = await completeEmailVerification(request(
+        "http://localhost/api/auth/email-verification",
+        "PATCH",
+        { token, password: "not-the-registration-password" },
+      ));
+      expect(wrongPassword.status).toBe(401);
+      expect((await prisma.user.findUniqueOrThrow({ where: { email: authJsEmail } })).emailVerified).toBeNull();
+      expect(await prisma.emailVerificationToken.count({
+        where: { tokenHash: hashEmailVerificationToken(token!) },
+      })).toBe(1);
+
       const verified = await completeEmailVerification(request(
         "http://localhost/api/auth/email-verification",
         "PATCH",
-        { token },
+        { token, password },
       ));
       expect(verified.status).toBe(200);
-      expect((await prisma.user.findUniqueOrThrow({ where: { email: authJsEmail } })).emailVerified).toBeInstanceOf(Date);
+      expect(await verified.json()).toEqual({ verified: true, providersDisconnected: 0 });
+      expect(await prisma.user.findUniqueOrThrow({ where: { email: authJsEmail } })).toMatchObject({
+        emailVerified: expect.any(Date),
+        sessionVersion: 1,
+      });
       expect(await prisma.emailVerificationToken.count({ where: { tokenHash: hashEmailVerificationToken(token!) } })).toBe(0);
 
       const replay = await completeEmailVerification(request(
         "http://localhost/api/auth/email-verification",
         "PATCH",
-        { token },
+        { token, password },
       ));
       expect(replay.status).toBe(400);
 
@@ -903,6 +923,17 @@ describe("learner API journey", () => {
       });
       const token = delivery.text.match(/#token=([A-Za-z0-9_-]+)/)?.[1];
       expect(token).toBeTruthy();
+      await prisma.emailChangeToken.create({ data: {
+        userId: socialPasswordUserId,
+        newEmail: "social-password-pending@example.com",
+        tokenHash: "6".repeat(64),
+        expiresAt,
+      } });
+      await prisma.passwordResetToken.create({ data: {
+        userId: socialPasswordUserId,
+        tokenHash: "7".repeat(64),
+        expiresAt,
+      } });
 
       const stored = await prisma.user.findUniqueOrThrow({ where: { id: socialPasswordUserId } });
       expect(await verifyPassword(password, stored.passwordHash!)).toBe(true);
@@ -921,13 +952,33 @@ describe("learner API journey", () => {
         url: expect.stringContaining("code=email_not_verified"),
       });
 
+      const wrongPassword = await completeEmailVerification(request(
+        "http://localhost/api/auth/email-verification",
+        "PATCH",
+        { token, password: "wrong-social-password" },
+      ));
+      expect(wrongPassword.status).toBe(401);
+      expect(await prisma.account.count({ where: { userId: socialPasswordUserId } })).toBe(1);
+      expect(await prisma.emailVerificationToken.count({ where: { userId: socialPasswordUserId } })).toBe(1);
+
       const verified = await completeEmailVerification(request(
         "http://localhost/api/auth/email-verification",
         "PATCH",
-        { token },
+        { token, password },
       ));
       expect(verified.status).toBe(200);
-      expect((await prisma.user.findUniqueOrThrow({ where: { id: socialPasswordUserId } })).emailVerified).toBeInstanceOf(Date);
+      expect(await verified.json()).toEqual({ verified: true, providersDisconnected: 1 });
+      expect(await prisma.user.findUniqueOrThrow({ where: { id: socialPasswordUserId } })).toMatchObject({
+        emailVerified: expect.any(Date),
+        sessionVersion: 2,
+      });
+      expect(await prisma.account.count({ where: { userId: socialPasswordUserId } })).toBe(0);
+      expect(await prisma.emailVerificationToken.count({ where: { userId: socialPasswordUserId } })).toBe(0);
+      expect(await prisma.emailChangeToken.count({ where: { userId: socialPasswordUserId } })).toBe(0);
+      expect(await prisma.passwordResetToken.count({ where: { userId: socialPasswordUserId } })).toBe(0);
+      expect(await disconnectProviderAccount(socialPasswordUserId, "microsoft-entra-id")).toEqual({
+        status: "NOT_CONNECTED",
+      });
 
       const signedIn = await credentialsCallback();
       expect(signedIn.status).toBe(200);
@@ -1360,6 +1411,7 @@ describe("learner API journey", () => {
         { token, newPassword },
       ));
       expect(completed.status).toBe(200);
+      expect(await completed.json()).toEqual({ changed: true, providersDisconnected: 0 });
       const updated = await prisma.user.findUniqueOrThrow({ where: { id: passwordResetUserId } });
       expect(await verifyPassword(newPassword, updated.passwordHash!)).toBe(true);
       expect(updated.sessionVersion).toBe(1);
@@ -1391,6 +1443,287 @@ describe("learner API journey", () => {
       }
       vi.unstubAllGlobals();
     }
+  });
+
+  it("transfers an unverified social account to the proven mailbox owner", async () => {
+    const email = "social-recovery@example.com";
+    const nextPassword = "social-recovery-password-456";
+    const expiresAt = new Date(Date.now() + 60 * 60_000);
+    await prisma.user.create({ data: {
+      id: socialRecoveryUserId,
+      ...consentData,
+      email,
+      accounts: { create: [
+        {
+          type: "oidc",
+          provider: "microsoft-entra-id",
+          providerAccountId: "integration-social-recovery-microsoft",
+        },
+        {
+          type: "oauth",
+          provider: "facebook",
+          providerAccountId: "integration-social-recovery-facebook",
+        },
+      ] },
+      sessions: { create: {
+        sessionToken: "integration-social-recovery-session",
+        expires: expiresAt,
+      } },
+      emailVerificationTokens: { create: {
+        tokenHash: "9".repeat(64),
+        expiresAt,
+      } },
+    } });
+    const staleCookie = await authCookie(socialRecoveryUserId);
+    const previousEnvironment = {
+      AUTH_URL: process.env.AUTH_URL,
+      RESEND_API_KEY: process.env.RESEND_API_KEY,
+      AUTH_EMAIL_FROM: process.env.AUTH_EMAIL_FROM,
+    };
+    process.env.AUTH_URL = "https://learn.example";
+    process.env.RESEND_API_KEY = "re_integration_key";
+    process.env.AUTH_EMAIL_FROM = "EduLoop <accounts@learn.example>";
+    const emailFetch = vi.fn(async (input: string | URL | Request, init?: RequestInit) => {
+      void input; void init;
+      return new Response(null, { status: 202 });
+    });
+    vi.stubGlobal("fetch", emailFetch);
+
+    try {
+      const genericVerification = await requestEmailVerification(request(
+        "http://localhost/api/auth/email-verification",
+        "POST",
+        { email },
+      ));
+      expect(genericVerification.status).toBe(202);
+      expect(emailFetch).not.toHaveBeenCalled();
+      expect(await prisma.emailVerificationToken.count({ where: { userId: socialRecoveryUserId } })).toBe(1);
+
+      const requested = await requestPasswordReset(request(
+        "http://localhost/api/auth/password-reset",
+        "POST",
+        { email },
+      ));
+      expect(requested.status).toBe(202);
+      expect(emailFetch).toHaveBeenCalledOnce();
+      const delivery = JSON.parse(String(emailFetch.mock.calls[0]?.[1]?.body)) as { text: string };
+      const token = delivery.text.match(/#token=([A-Za-z0-9_-]+)/)?.[1];
+      expect(token).toBeTruthy();
+
+      const completed = await completePasswordReset(request(
+        "http://localhost/api/auth/password-reset",
+        "PATCH",
+        { token, newPassword: nextPassword },
+      ));
+      expect(completed.status).toBe(200);
+      expect(await completed.json()).toEqual({ changed: true, providersDisconnected: 2 });
+      const secured = await prisma.user.findUniqueOrThrow({ where: { id: socialRecoveryUserId } });
+      expect(secured).toMatchObject({ emailVerified: expect.any(Date), sessionVersion: 1 });
+      expect(await verifyPassword(nextPassword, secured.passwordHash!)).toBe(true);
+      expect(await prisma.account.count({ where: { userId: socialRecoveryUserId } })).toBe(0);
+      expect(await prisma.session.count({ where: { userId: socialRecoveryUserId } })).toBe(0);
+      expect(await prisma.emailVerificationToken.count({ where: { userId: socialRecoveryUserId } })).toBe(0);
+      expect(await prisma.passwordResetToken.count({ where: { userId: socialRecoveryUserId } })).toBe(0);
+      expect(await getSessionUser(new Request("http://localhost/api/learner", {
+        headers: { cookie: staleCookie },
+      }))).toBeNull();
+    } finally {
+      for (const [key, value] of Object.entries(previousEnvironment)) {
+        if (value === undefined) delete process.env[key];
+        else process.env[key] = value;
+      }
+      vi.unstubAllGlobals();
+    }
+  });
+
+  it("preserves trusted providers when a verified account resets its password", async () => {
+    const token = "verified-recovery-token-".padEnd(43, "v");
+    const verificationToken = "verified-recovery-verification".padEnd(43, "e");
+    const oldPassword = "verified-recovery-old-password";
+    const newPassword = "verified-recovery-new-password";
+    await prisma.user.create({ data: {
+      id: verifiedRecoveryUserId,
+      ...consentData,
+      email: "verified-recovery@example.com",
+      emailVerified: new Date(),
+      passwordHash: await hashPassword(oldPassword),
+      accounts: { create: {
+        type: "oauth",
+        provider: "google",
+        providerAccountId: "integration-verified-recovery-google",
+      } },
+      passwordResetTokens: { create: {
+        tokenHash: hashPasswordResetToken(token),
+        expiresAt: new Date(Date.now() + 60 * 60_000),
+      } },
+    } });
+
+    const completed = await completePasswordReset(request(
+      "http://localhost/api/auth/password-reset",
+      "PATCH",
+      { token, newPassword },
+    ));
+    expect(completed.status).toBe(200);
+    expect(await completed.json()).toEqual({ changed: true, providersDisconnected: 0 });
+    expect(await prisma.account.count({ where: { userId: verifiedRecoveryUserId } })).toBe(1);
+    const updated = await prisma.user.findUniqueOrThrow({ where: { id: verifiedRecoveryUserId } });
+    expect(updated.sessionVersion).toBe(1);
+    expect(await verifyPassword(newPassword, updated.passwordHash!)).toBe(true);
+
+    await prisma.emailVerificationToken.create({ data: {
+      userId: verifiedRecoveryUserId,
+      tokenHash: hashEmailVerificationToken(verificationToken),
+      expiresAt: new Date(Date.now() + 60 * 60_000),
+    } });
+    const verifiedAgain = await completeEmailVerification(request(
+      "http://localhost/api/auth/email-verification",
+      "PATCH",
+      { token: verificationToken, password: newPassword },
+    ));
+    expect(verifiedAgain.status).toBe(200);
+    expect(await verifiedAgain.json()).toEqual({ verified: true, providersDisconnected: 0 });
+    expect(await prisma.account.count({ where: { userId: verifiedRecoveryUserId } })).toBe(1);
+    expect(await prisma.user.findUniqueOrThrow({ where: { id: verifiedRecoveryUserId } })).toMatchObject({
+      emailVerified: expect.any(Date),
+      sessionVersion: 2,
+    });
+  });
+
+  it("serializes competing mailbox proofs without retaining an untrusted provider", async () => {
+    const verificationToken = "ownership-verification-token".padEnd(43, "e");
+    const resetToken = "ownership-password-reset-token".padEnd(43, "r");
+    const currentPassword = "ownership-race-current-password";
+    const resetPassword = "ownership-race-reset-password";
+    await prisma.user.create({ data: {
+      id: ownershipRaceUserId,
+      ...consentData,
+      email: "ownership-race@example.com",
+      passwordHash: await hashPassword(currentPassword),
+      accounts: { create: {
+        type: "oidc",
+        provider: "microsoft-entra-id",
+        providerAccountId: "integration-ownership-race-microsoft",
+      } },
+      emailVerificationTokens: { create: {
+        tokenHash: hashEmailVerificationToken(verificationToken),
+        expiresAt: new Date(Date.now() + 60 * 60_000),
+      } },
+      passwordResetTokens: { create: {
+        tokenHash: hashPasswordResetToken(resetToken),
+        expiresAt: new Date(Date.now() + 60 * 60_000),
+      } },
+    } });
+
+    const outcomes = await Promise.all([
+      completeEmailVerification(request(
+        "http://localhost/api/auth/email-verification",
+        "PATCH",
+        { token: verificationToken, password: currentPassword },
+      )),
+      completePasswordReset(request(
+        "http://localhost/api/auth/password-reset",
+        "PATCH",
+        { token: resetToken, newPassword: resetPassword },
+      )),
+    ]);
+    expect(outcomes.filter(({ status }) => status === 200)).toHaveLength(1);
+    expect(outcomes.every(({ status }) => [200, 400, 409].includes(status))).toBe(true);
+    expect(await prisma.account.count({ where: { userId: ownershipRaceUserId } })).toBe(0);
+    expect(await prisma.emailVerificationToken.count({ where: { userId: ownershipRaceUserId } })).toBe(0);
+    expect(await prisma.passwordResetToken.count({ where: { userId: ownershipRaceUserId } })).toBe(0);
+    expect(await prisma.user.findUniqueOrThrow({ where: { id: ownershipRaceUserId } })).toMatchObject({
+      emailVerified: expect.any(Date),
+      sessionVersion: 1,
+    });
+  });
+
+  it("uses one lock order for verification and login-email confirmation", async () => {
+    const verificationToken = "proof-lock-verification-token".padEnd(43, "v");
+    const emailChangeToken = "proof-lock-email-change-token".padEnd(43, "c");
+    const password = "proof-lock-current-password";
+    const oldEmail = "proof-lock-old@example.com";
+    const newEmail = "proof-lock-new@example.com";
+    await prisma.user.create({ data: {
+      id: proofLockRaceUserId,
+      ...consentData,
+      email: oldEmail,
+      passwordHash: await hashPassword(password),
+      emailVerificationTokens: { create: {
+        tokenHash: hashEmailVerificationToken(verificationToken),
+        expiresAt: new Date(Date.now() + 60 * 60_000),
+      } },
+      emailChangeTokens: { create: {
+        newEmail,
+        tokenHash: hashEmailChangeToken(emailChangeToken),
+        expiresAt: new Date(Date.now() + 60 * 60_000),
+      } },
+    } });
+
+    const outcomes = await Promise.all([
+      completeEmailVerification(request(
+        "http://localhost/api/auth/email-verification",
+        "PATCH",
+        { token: verificationToken, password },
+      )),
+      completeEmailChange(request(
+        "http://localhost/api/auth/email-change",
+        "PATCH",
+        { token: emailChangeToken },
+      )),
+    ]);
+    expect(outcomes.filter(({ status }) => status === 200)).toHaveLength(1);
+    expect(outcomes.every(({ status }) => [200, 400, 409].includes(status))).toBe(true);
+    expect(await prisma.emailVerificationToken.count({ where: { userId: proofLockRaceUserId } })).toBe(0);
+    expect(await prisma.emailChangeToken.count({ where: { userId: proofLockRaceUserId } })).toBe(0);
+    const secured = await prisma.user.findUniqueOrThrow({ where: { id: proofLockRaceUserId } });
+    expect([oldEmail, newEmail]).toContain(secured.email);
+    expect(secured).toMatchObject({ emailVerified: expect.any(Date), sessionVersion: 1 });
+  });
+
+  it("cannot restore an untrusted provider after mailbox recovery wins", async () => {
+    const resetToken = "provider-link-race-reset-token".padEnd(43, "r");
+    const nextPassword = "provider-link-race-password";
+    await prisma.user.create({ data: {
+      id: providerLinkRaceUserId,
+      ...consentData,
+      email: "provider-link-race@example.com",
+      accounts: { create: {
+        type: "oidc",
+        provider: "microsoft-entra-id",
+        providerAccountId: "integration-provider-link-race-microsoft",
+      } },
+      passwordResetTokens: { create: {
+        tokenHash: hashPasswordResetToken(resetToken),
+        expiresAt: new Date(Date.now() + 60 * 60_000),
+      } },
+    } });
+    const pendingLink = {
+      userId: providerLinkRaceUserId,
+      type: "oauth" as const,
+      provider: "facebook",
+      providerAccountId: "integration-provider-link-race-facebook",
+    };
+
+    const [recovery, link] = await Promise.all([
+      completePasswordReset(request(
+        "http://localhost/api/auth/password-reset",
+        "PATCH",
+        { token: resetToken, newPassword: nextPassword },
+      )),
+      linkProviderAccountSafely(pendingLink, 0).then(
+        () => "LINKED" as const,
+        () => "REJECTED" as const,
+      ),
+    ]);
+    expect(recovery.status).toBe(200);
+    expect(["LINKED", "REJECTED"]).toContain(link);
+    expect(await prisma.account.count({ where: { userId: providerLinkRaceUserId } })).toBe(0);
+    expect(await prisma.user.findUniqueOrThrow({ where: { id: providerLinkRaceUserId } })).toMatchObject({
+      emailVerified: expect.any(Date),
+      sessionVersion: 1,
+    });
+    await expect(linkProviderAccountSafely(pendingLink, 0)).rejects.toThrow();
+    expect(await prisma.account.count({ where: { userId: providerLinkRaceUserId } })).toBe(0);
   });
 
   it("verifies a new login email, handles address races, and revokes old sessions", async () => {

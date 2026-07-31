@@ -63,6 +63,8 @@ jobs:
       APP_VERSION: ci
       AUTH_SECRET: ci-only-auth-secret-with-at-least-32-characters
       AUTH_URL: https://eduloop-ci.example
+      RESEND_API_KEY: re_ci_placeholder
+      AUTH_EMAIL_FROM: EduLoop <accounts@eduloop-ci.example>
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6

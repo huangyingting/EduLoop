@@ -26,6 +26,15 @@ export const passwordChangeSchema = z.object({
   newPassword: bcryptPassword(8),
 });
 
+export const passwordResetRequestSchema = z.object({
+  email: emailSchema,
+});
+
+export const passwordResetCompletionSchema = z.object({
+  token: z.string().min(32).max(256).regex(/^[A-Za-z0-9_-]+$/),
+  newPassword: bcryptPassword(8),
+});
+
 export const accountDeletionSchema = z.object({
   currentPassword: bcryptPassword(1).optional(),
   emailConfirmation: emailSchema.optional(),
@@ -52,7 +61,7 @@ export function safeReturnPath(value: string | null | undefined) {
     const base = new URL("https://eduloop.invalid");
     const target = new URL(value, base);
     if (target.origin !== base.origin) return "/";
-    if (/^\/(?:login|register|api)(?:\/|$)/.test(target.pathname)) return "/";
+    if (/^\/(?:login|register|forgot-password|reset-password|api)(?:\/|$)/.test(target.pathname)) return "/";
     return value;
   } catch {
     return "/";

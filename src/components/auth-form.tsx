@@ -70,14 +70,11 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
         const body = await response.json() as { error?: string };
         if (!response.ok) throw new Error(body.error ?? "暂时无法创建账号，请稍后重试。");
       }
-      const result = await signIn("credentials", {
+      await signIn("credentials", {
         email,
         password,
-        redirect: false,
         redirectTo: next,
       });
-      if (!result.ok) throw new Error(authErrorMessage(result.error) || "邮箱或密码不正确。");
-      router.replace(next);
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "暂时无法登录，请稍后重试。");
       setBusy(false);
@@ -145,6 +142,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
             {!isLogin && gradeBands.length ? <div><span className="mb-1 block text-xs font-black">适合我的知识阶段（选填）</span><CustomSelect label="适合我的知识阶段" value={knowledgeBand} options={[{ value: "", label: "暂不设置，练习全部题目" }, ...gradeBands.map((band) => ({ value: band.slug, label: band.name }))]} onValueChange={setKnowledgeBand} leadingIcon={<GraduationCap size={18} />} className="w-full" /></div> : null}
             <Field label="邮箱" icon={<Mail size={18} />}><input type="email" required value={email} onChange={(event) => setEmail(event.target.value)} maxLength={254} autoComplete="email" placeholder="student@example.com" className={inputClass} /></Field>
             <Field label="密码" icon={<LockKeyhole size={18} />}><input type="password" required minLength={isLogin ? undefined : 8} maxLength={128} value={password} onChange={(event) => setPassword(event.target.value)} autoComplete={isLogin ? "current-password" : "new-password"} placeholder={isLogin ? "输入密码" : "至少 8 位字符"} className={inputClass} /></Field>
+            {isLogin ? <p className="-mt-1 text-right text-xs font-semibold"><Link href="/forgot-password" className="font-black text-violet hover:underline">忘记密码？</Link></p> : null}
 
             {error ? <p role="alert" className="rounded-xl border-2 border-coral/30 bg-[#fff0ed] px-4 py-3 text-sm font-bold text-coral">{error}</p> : null}
             <button type="submit" disabled={busy} className="flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-ink px-5 font-black text-white shadow-[0_4px_0_#6c5ce7] transition hover:-translate-y-0.5 disabled:translate-y-0 disabled:opacity-60">

@@ -2,7 +2,7 @@
 
 ## Deploy
 
-Provision PostgreSQL with TLS, automated backups, and a restricted application role. Keep `DATABASE_URL`, `AUTH_SECRET`, and social-provider credentials in the deployment secret store. Set `AUTH_URL` to the public HTTPS origin.
+Provision PostgreSQL with TLS, automated backups, and a restricted application role. Keep `DATABASE_URL`, `AUTH_SECRET`, `RESEND_API_KEY`, and social-provider credentials in the deployment secret store. Set `AUTH_URL` to the public HTTPS origin and `AUTH_EMAIL_FROM` to a verified Resend sender.
 
 ```bash
 npm ci
@@ -32,6 +32,7 @@ Application limits are a single-process safety net. Configure the trusted ingres
 - reports: 6 per account/IP per 10 minutes.
 - login: 10 attempts per email/IP per 15 minutes;
 - registration: 5 attempts per email/IP per 15 minutes.
+- password reset requests: 3 per email/IP per hour; reset attempts: 8 per token/IP per 15 minutes.
 - studio review: 180 reads and 60 transitions per operator/IP per 10 minutes.
 - studio metrics: 60 aggregate reads per operator/IP per 10 minutes.
 

@@ -11,6 +11,12 @@ function databaseProvider(databaseUrl) {
   return null;
 }
 
+function emailAddress(value) {
+  const trimmed = value.trim();
+  const bracketed = trimmed.match(/<([^<>]+)>$/)?.[1];
+  return bracketed ?? trimmed;
+}
+
 export function validateEnvironment(environment) {
   const errors = [];
   const warnings = [];
@@ -49,6 +55,18 @@ export function validateEnvironment(environment) {
         errors.push("AUTH_URL must be a public HTTPS origin without a path, query, or fragment.");
       }
     }
+    if (!environment.RESEND_API_KEY?.trim() || !environment.AUTH_EMAIL_FROM?.trim()) {
+      errors.push("Production password recovery requires RESEND_API_KEY and AUTH_EMAIL_FROM.");
+    }
+  }
+
+  const hasResendKey = Boolean(environment.RESEND_API_KEY?.trim());
+  const hasEmailFrom = Boolean(environment.AUTH_EMAIL_FROM?.trim());
+  if (environment.NODE_ENV !== "production" && hasResendKey !== hasEmailFrom) {
+    errors.push("Password recovery email requires both RESEND_API_KEY and AUTH_EMAIL_FROM.");
+  }
+  if (hasEmailFrom && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailAddress(environment.AUTH_EMAIL_FROM))) {
+    errors.push("AUTH_EMAIL_FROM must contain a valid email address.");
   }
 
   for (const [idName, secretName, label] of AUTH_PROVIDER_PAIRS) {

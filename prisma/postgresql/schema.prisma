@@ -149,20 +149,21 @@ model QuestionTag {
 }
 
 model User {
-  id             String                @id @default(cuid())
-  email          String                @unique
-  emailVerified  DateTime?
-  name           String?               @map("displayName")
-  image          String?
-  passwordHash   String?
-  role           String                @default("LEARNER")
-  sessionVersion Int                   @default(0)
-  learner        LearnerProfile?
-  accounts       Account[]
-  sessions       Session[]
-  reviewActions  ContentReviewAction[]
-  createdAt      DateTime              @default(now())
-  updatedAt      DateTime              @updatedAt
+  id                  String                @id @default(cuid())
+  email               String                @unique
+  emailVerified       DateTime?
+  name                String?               @map("displayName")
+  image               String?
+  passwordHash        String?
+  role                String                @default("LEARNER")
+  sessionVersion      Int                   @default(0)
+  learner             LearnerProfile?
+  accounts            Account[]
+  sessions            Session[]
+  passwordResetTokens PasswordResetToken[]
+  reviewActions       ContentReviewAction[]
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
 
   @@index([role])
 }
@@ -200,6 +201,17 @@ model VerificationToken {
   expires    DateTime
 
   @@id([identifier, token])
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  userId    String
+  tokenHash String   @unique
+  expiresAt DateTime
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@index([userId, expiresAt])
 }
 
 model LearnerProfile {

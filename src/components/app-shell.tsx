@@ -67,7 +67,7 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
       window.removeEventListener("keydown", keepFocusInside);
     };
   }, [desktopNavigation, open]);
-  if (pathname === "/login" || pathname === "/register") return children;
+  if (["/login", "/register", "/forgot-password", "/reset-password"].includes(pathname)) return children;
 
   async function signOut() {
     try {

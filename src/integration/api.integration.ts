@@ -1,9 +1,10 @@
 import { NextRequest } from "next/server";
 import { encode } from "next-auth/jwt";
-import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import { GET as authGet, POST as authPost } from "@/app/api/auth/[...nextauth]/route";
 import { DELETE as deleteCurrentAccount, PATCH as updateCurrentAccount } from "@/app/api/auth/account/route";
 import { POST as registerAccount } from "@/app/api/auth/register/route";
+import { PATCH as completePasswordReset, POST as requestPasswordReset } from "@/app/api/auth/password-reset/route";
 import { GET as getCatalog } from "@/app/api/catalog/route";
 import { DELETE as deleteLearner, GET as getLearner } from "@/app/api/learner/route";
 import { GET as getHealth } from "@/app/api/health/route";
@@ -22,6 +23,7 @@ import { prisma } from "@/lib/prisma";
 import { changeAccountPassword, deleteAccount } from "@/lib/account";
 import { calendarDay, calendarDaysBefore } from "@/lib/dates";
 import { AUTH_SECRET_VALUE, AUTH_SESSION_COOKIE, getSessionUser, hashPassword, verifyPassword } from "@/lib/auth";
+import { hashPasswordResetToken } from "@/lib/password-reset";
 const subjectId = "integration-subject";
 const bandId = "integration-band";
 const gradeId = "integration-grade";
@@ -38,6 +40,7 @@ const headers = { "content-type": "application/json", "x-forwarded-for": "198.51
 const authUserId = "integration-auth-user";
 const lifecycleUserId = "integration-lifecycle-user";
 const sensitiveUserId = "integration-sensitive-user";
+const passwordResetUserId = "integration-password-reset-user";
 const authJsEmail = "authjs-flow@example.com";
 const shieldUserId = "integration-shield-user";
 const concurrentUserId = "integration-concurrent-user";
@@ -105,7 +108,7 @@ beforeAll(async () => {
 afterAll(async () => {
   await prisma.user.deleteMany({ where: { email: authJsEmail } });
   await prisma.user.deleteMany({ where: { id: { in: [
-    authUserId, lifecycleUserId, sensitiveUserId, shieldUserId, concurrentUserId, journeyUserId, profileUserId,
+    authUserId, lifecycleUserId, sensitiveUserId, passwordResetUserId, shieldUserId, concurrentUserId, journeyUserId, profileUserId,
     studioOperatorId, studioLearnerId, studioReporterId,
   ] } } });
   await prisma.question.deleteMany({ where: { id: { in: [choiceId, writtenId, scienceQuestionId] } } });
@@ -307,6 +310,93 @@ describe("learner API journey", () => {
     expect(await deleteAccount(lifecycleUserId, newPassword)).toBe(true);
     expect(await prisma.user.findUnique({ where: { id: lifecycleUserId } })).toBeNull();
     expect(await prisma.learnerProfile.findUnique({ where: { userId: lifecycleUserId } })).toBeNull();
+  });
+
+  it("recovers a password with a single-use emailed token and revokes old sessions", async () => {
+    const email = "password-reset@example.com";
+    const oldPassword = "old-reset-password-123";
+    const newPassword = "new-reset-password-456";
+    await prisma.user.create({ data: {
+      id: passwordResetUserId,
+      email,
+      passwordHash: await hashPassword(oldPassword),
+      learner: { create: {} },
+    } });
+    const oldCookie = await authCookie(passwordResetUserId);
+    const previousEnvironment = {
+      AUTH_URL: process.env.AUTH_URL,
+      RESEND_API_KEY: process.env.RESEND_API_KEY,
+      AUTH_EMAIL_FROM: process.env.AUTH_EMAIL_FROM,
+    };
+    process.env.AUTH_URL = "https://learn.example";
+    process.env.RESEND_API_KEY = "re_integration_key";
+    process.env.AUTH_EMAIL_FROM = "EduLoop <accounts@learn.example>";
+    const emailFetch = vi.fn(async (input: string | URL | Request, init?: RequestInit) => {
+      void input; void init;
+      return new Response(null, { status: 202 });
+    });
+    vi.stubGlobal("fetch", emailFetch);
+
+    try {
+      const unknown = await requestPasswordReset(request(
+        "http://localhost/api/auth/password-reset",
+        "POST",
+        { email: "missing@example.com" },
+      ));
+      const requested = await requestPasswordReset(request(
+        "http://localhost/api/auth/password-reset",
+        "POST",
+        { email: `  ${email.toUpperCase()}  ` },
+      ));
+      expect(unknown.status).toBe(202);
+      expect(requested.status).toBe(202);
+      expect(await unknown.json()).toEqual(await requested.clone().json());
+      expect(emailFetch).toHaveBeenCalledOnce();
+
+      const delivery = emailFetch.mock.calls[0]?.[1] as RequestInit | undefined;
+      const emailBody = JSON.parse(String(delivery?.body)) as { text: string };
+      const token = emailBody.text.match(/#token=([A-Za-z0-9_-]+)/)?.[1];
+      expect(token).toBeTruthy();
+      expect(await prisma.passwordResetToken.findUnique({
+        where: { tokenHash: hashPasswordResetToken(token!) },
+      })).toMatchObject({ userId: passwordResetUserId });
+
+      const unchanged = await completePasswordReset(request(
+        "http://localhost/api/auth/password-reset",
+        "PATCH",
+        { token, newPassword: oldPassword },
+      ));
+      expect(unchanged.status).toBe(400);
+      expect(await prisma.passwordResetToken.count({ where: { userId: passwordResetUserId } })).toBe(1);
+
+      const completed = await completePasswordReset(request(
+        "http://localhost/api/auth/password-reset",
+        "PATCH",
+        { token, newPassword },
+      ));
+      expect(completed.status).toBe(200);
+      const updated = await prisma.user.findUniqueOrThrow({ where: { id: passwordResetUserId } });
+      expect(await verifyPassword(newPassword, updated.passwordHash!)).toBe(true);
+      expect(updated.sessionVersion).toBe(1);
+      expect(updated.emailVerified).toBeInstanceOf(Date);
+      expect(await prisma.passwordResetToken.count({ where: { userId: passwordResetUserId } })).toBe(0);
+      expect(await getSessionUser(new Request("http://localhost/api/learner", {
+        headers: { cookie: oldCookie },
+      }))).toBeNull();
+
+      const replay = await completePasswordReset(request(
+        "http://localhost/api/auth/password-reset",
+        "PATCH",
+        { token, newPassword: "another-password-789" },
+      ));
+      expect(replay.status).toBe(400);
+    } finally {
+      for (const [key, value] of Object.entries(previousEnvironment)) {
+        if (value === undefined) delete process.env[key];
+        else process.env[key] = value;
+      }
+      vi.unstubAllGlobals();
+    }
   });
 
   it("requires recent reauthentication for sensitive social-only account actions", async () => {

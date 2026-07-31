@@ -10,6 +10,7 @@ EduLoop uses Auth.js (`next-auth` v5) for email/password, Google, Microsoft Entr
 - Google, Microsoft, and Facebook use Auth.js providers. Buttons appear only when that provider has a complete client-ID/client-secret pair.
 - OAuth navigation goes directly through Auth.js. A successful account sign-in ensures that the user owns one learner profile; guests have no profile or progress to merge.
 - `PATCH|DELETE /api/auth/account` provides password setup/rotation and full account erasure. Social-only users can set an email password; deletion is confirmed with the account email when no password exists.
+- `POST|PATCH /api/auth/password-reset` issues and consumes 30-minute, single-use password reset links. Requests return a generic response before account lookup and email delivery run as a post-response task, only a SHA-256 digest is stored, successful reset verifies email ownership, and every existing session is revoked.
 
 One `User` owns exactly one `LearnerProfile` once the account is used. Authenticated learner APIs resolve the user from the Auth.js token and never accept a client-supplied learner identity. Attempts, practice sessions, reports, badges, daily activity, saved questions, and review items are available only to signed-in users.
 
@@ -41,6 +42,6 @@ Use these callback URLs in provider consoles:
 - `{AUTH_URL}/api/auth/callback/microsoft-entra-id`
 - `{AUTH_URL}/api/auth/callback/facebook`
 
-Production requires `AUTH_SECRET` and a public HTTPS `AUTH_URL`. Provider variables are documented in `.env.example`; incomplete ID/secret pairs fail `npm run env:check`. Login and registration retain per-process rate limits, and production ingress must enforce shared limits across replicas.
+Production requires `AUTH_SECRET`, a public HTTPS `AUTH_URL`, `RESEND_API_KEY`, and a verified `AUTH_EMAIL_FROM` sender. Provider variables are documented in `.env.example`; incomplete email or social-provider configuration fails `npm run env:check`. Login, registration, and password recovery retain per-process rate limits, and production ingress must enforce shared limits across replicas.
 
-Password recovery, MFA, guardian consent, and institutional account lifecycle remain separate requirements for school-managed deployment.
+MFA, guardian consent, verified-email enrollment, and institutional account lifecycle remain separate requirements for school-managed deployment.

@@ -11,7 +11,7 @@ EduLoop is a Chinese-language practice app for primary, middle, and high school 
 - Extensible, learner-filterable topic, skill, and format dimensions with provenance and confidence
 - KaTeX rendering for the 4,595 questions detected with LaTeX-like notation, including inline AMC notation
 - Server-side answer checking, account-owned learner profiles, XP, daily streaks, activity, and badges
-- Auth.js email/password plus optional Google, Microsoft, and Facebook login, encrypted revocable sessions, full account erasure, cross-device progress, and stateless guest practice
+- Auth.js email/password plus optional Google, Microsoft, and Facebook login, single-use email password recovery, encrypted revocable sessions, full account erasure, cross-device progress, and stateless guest practice
 - Ten-question sessions, written-answer self-assessment, saved questions, and spaced mistake review
 - Adaptive practice that prioritizes due reviews and recently weak subjects
 - Growth dashboard with a 28-day activity map, subject signals, topic radar, and badge shelf

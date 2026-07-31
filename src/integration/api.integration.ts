@@ -54,6 +54,7 @@ const mathSkillId = "integration-math-skill";
 const headers = { "content-type": "application/json", "x-forwarded-for": "198.51.100.42" };
 const authUserId = "integration-auth-user";
 const lifecycleUserId = "integration-lifecycle-user";
+const deletionRaceUserId = "integration-deletion-race-user";
 const sensitiveUserId = "integration-sensitive-user";
 const providerUserId = "integration-provider-user";
 const providerSocialUserId = "integration-provider-social-user";
@@ -137,7 +138,7 @@ afterAll(async () => {
   await prisma.rateLimitBucket.deleteMany();
   await prisma.user.deleteMany({ where: { email: authJsEmail } });
   await prisma.user.deleteMany({ where: { id: { in: [
-    authUserId, lifecycleUserId, sensitiveUserId, providerUserId, providerSocialUserId, providerRaceUserId, passwordResetUserId, emailChangeUserId, emailChangeConflictUserId, consentUserId, shieldUserId, concurrentUserId, journeyUserId, profileUserId,
+    authUserId, lifecycleUserId, deletionRaceUserId, sensitiveUserId, providerUserId, providerSocialUserId, providerRaceUserId, passwordResetUserId, emailChangeUserId, emailChangeConflictUserId, consentUserId, shieldUserId, concurrentUserId, journeyUserId, profileUserId,
     studioOperatorId, studioLearnerId, studioReporterId,
   ] } } });
   await prisma.question.deleteMany({ where: { id: { in: [choiceId, writtenId, scienceQuestionId] } } });
@@ -641,6 +642,42 @@ describe("learner API journey", () => {
         to: ["lifecycle@example.com"],
         subject: "你的 EduLoop 密码已更新",
       });
+      const updated = await prisma.user.findUniqueOrThrow({ where: { id: lifecycleUserId } });
+      expect(await verifyPassword(winningPassword, updated.passwordHash!)).toBe(true);
+      expect(updated.sessionVersion).toBe(1);
+      expect(await prisma.session.count({ where: { userId: lifecycleUserId } })).toBe(0);
+      expect(await prisma.emailVerificationToken.count({ where: { userId: lifecycleUserId } })).toBe(0);
+      expect(await prisma.emailChangeToken.count({ where: { userId: lifecycleUserId } })).toBe(0);
+      expect(await prisma.passwordResetToken.count({ where: { userId: lifecycleUserId } })).toBe(0);
+      expect(await getSessionUser(new Request("http://localhost/api/learner", {
+        headers: { cookie },
+      }))).toBeNull();
+
+      const currentCookie = await authCookie(lifecycleUserId, 1);
+      const wrongDeletion = await deleteCurrentAccount(request(
+        "http://localhost/api/auth/account",
+        "DELETE",
+        { currentPassword: "wrong-password" },
+        currentCookie,
+      ));
+      expect(wrongDeletion.status).toBe(401);
+      const deleted = await deleteCurrentAccount(request(
+        "http://localhost/api/auth/account",
+        "DELETE",
+        { currentPassword: winningPassword },
+        currentCookie,
+      ));
+      expect(deleted.status).toBe(200);
+      expect(await deleted.json()).toEqual({ deleted: true });
+      expect(emailFetch).toHaveBeenCalledTimes(2);
+      const deletionNotice = JSON.parse(String(emailFetch.mock.calls[1]?.[1]?.body)) as { to: string[]; subject: string };
+      expect(deletionNotice).toMatchObject({
+        to: ["lifecycle@example.com"],
+        subject: "你的 EduLoop 账号已删除",
+      });
+      expect(await getSessionUser(new Request("http://localhost/api/learner", {
+        headers: { cookie: currentCookie },
+      }))).toBeNull();
     } finally {
       for (const [key, value] of Object.entries(previousEnvironment)) {
         if (value === undefined) delete process.env[key];
@@ -648,20 +685,40 @@ describe("learner API journey", () => {
       }
       vi.unstubAllGlobals();
     }
-    const updated = await prisma.user.findUniqueOrThrow({ where: { id: lifecycleUserId } });
-    expect(await verifyPassword(winningPassword, updated.passwordHash!)).toBe(true);
-    expect(updated.sessionVersion).toBe(1);
-    expect(await prisma.session.count({ where: { userId: lifecycleUserId } })).toBe(0);
-    expect(await prisma.emailVerificationToken.count({ where: { userId: lifecycleUserId } })).toBe(0);
-    expect(await prisma.emailChangeToken.count({ where: { userId: lifecycleUserId } })).toBe(0);
-    expect(await prisma.passwordResetToken.count({ where: { userId: lifecycleUserId } })).toBe(0);
-    expect(await getSessionUser(new Request("http://localhost/api/learner", {
-      headers: { cookie },
-    }))).toBeNull();
-    expect(await deleteAccount(lifecycleUserId, "wrong-password")).toBe(false);
-    expect(await deleteAccount(lifecycleUserId, winningPassword)).toBe(true);
     expect(await prisma.user.findUnique({ where: { id: lifecycleUserId } })).toBeNull();
     expect(await prisma.learnerProfile.findUnique({ where: { userId: lifecycleUserId } })).toBeNull();
+  });
+
+  it("serializes account erasure against a concurrent password rotation", async () => {
+    const oldPassword = "deletion-race-old-password";
+    const newPassword = "deletion-race-new-password";
+    await prisma.user.create({ data: {
+      id: deletionRaceUserId,
+      ...consentData,
+      email: "deletion-race@example.com",
+      passwordHash: await hashPassword(oldPassword),
+      learner: { create: { xp: 23 } },
+    } });
+
+    const [passwordOutcome, deletionOutcome] = await Promise.all([
+      changeAccountPassword(deletionRaceUserId, oldPassword, newPassword),
+      deleteAccount(deletionRaceUserId, oldPassword),
+    ]);
+    expect([
+      passwordOutcome === "UPDATED",
+      deletionOutcome === "DELETED",
+    ].filter(Boolean)).toHaveLength(1);
+
+    if (passwordOutcome === "UPDATED") {
+      expect(deletionOutcome).toBe("CONFLICT");
+      expect(await prisma.learnerProfile.findUnique({ where: { userId: deletionRaceUserId } })).toBeTruthy();
+      expect(await deleteAccount(deletionRaceUserId, newPassword)).toBe("DELETED");
+    } else {
+      expect(passwordOutcome).toBe("CONFLICT");
+      expect(deletionOutcome).toBe("DELETED");
+    }
+    expect(await prisma.user.findUnique({ where: { id: deletionRaceUserId } })).toBeNull();
+    expect(await prisma.learnerProfile.findUnique({ where: { userId: deletionRaceUserId } })).toBeNull();
   });
 
   it("disconnects a provider only after recent authentication and revokes stored credentials", async () => {

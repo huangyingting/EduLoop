@@ -179,3 +179,29 @@ export async function sendPasswordChangedNotice(
   });
   if (!response.ok) throw new Error(`Password change notification returned ${response.status}.`);
 }
+
+export async function sendAccountDeletedNotice(
+  to: string,
+  options: { environment?: EmailEnvironment; fetcher?: Fetcher } = {},
+) {
+  const configuration = emailConfiguration(options.environment);
+  if (!configuration) throw new Error("Account deletion notification is not configured.");
+  const fetcher = options.fetcher ?? fetch;
+  const text = "你的 EduLoop 账号、登录方式和在线学习数据已永久删除，所有登录会话都已失效。备份中的删除数据会按隐私说明中的保留周期轮换清除。\n\n如果不是你操作，请立即联系平台支持并检查邮箱账号安全。";
+  const response = await fetcher(RESEND_ENDPOINT, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${configuration.apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      from: configuration.from,
+      to: [to],
+      subject: "你的 EduLoop 账号已删除",
+      text,
+      html: "<p>你的 EduLoop 账号、登录方式和在线学习数据已永久删除，所有登录会话都已失效。备份中的删除数据会按隐私说明中的保留周期轮换清除。</p><p>如果不是你操作，请立即联系平台支持并检查邮箱账号安全。</p>",
+    }),
+    signal: AbortSignal.timeout(10_000),
+  });
+  if (!response.ok) throw new Error(`Account deletion notification returned ${response.status}.`);
+}

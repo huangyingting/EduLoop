@@ -4,7 +4,7 @@ import { runAfterResponse } from "@/lib/after-response";
 import { changeAccountPassword, deleteAccount } from "@/lib/account";
 import { getSessionUser } from "@/lib/auth";
 import { accountDeletionSchema, hasRecentAuthentication, isSameOriginRequest, passwordChangeSchema } from "@/lib/auth-validation";
-import { emailConfiguration, sendPasswordChangedNotice } from "@/lib/email";
+import { emailConfiguration, sendAccountDeletedNotice, sendPasswordChangedNotice } from "@/lib/email";
 
 export const runtime = "nodejs";
 
@@ -15,6 +15,18 @@ async function notifyPasswordChange(email: string) {
     console.error(JSON.stringify({
       level: "error",
       event: "password_change_notification_failed",
+      message: error instanceof Error ? error.message : "Unknown email delivery error",
+    }));
+  }
+}
+
+async function notifyAccountDeletion(email: string) {
+  try {
+    await sendAccountDeletedNotice(email);
+  } catch (error) {
+    console.error(JSON.stringify({
+      level: "error",
+      event: "account_deletion_notification_failed",
       message: error instanceof Error ? error.message : "Unknown email delivery error",
     }));
   }
@@ -59,8 +71,16 @@ async function deleteCurrentAccount(request: Request) {
   const parsed = accountDeletionSchema.safeParse(body.value);
   if (!parsed.success) return apiError("请输入当前密码。", 400, "INVALID_REQUEST");
 
-  if (!await deleteAccount(user.id, parsed.data)) {
+  const outcome = await deleteAccount(user.id, parsed.data);
+  if (outcome === "NOT_FOUND") return apiError("账号不存在。", 404, "NOT_FOUND");
+  if (outcome === "INVALID_CONFIRMATION") {
     return apiError(user.hasPassword ? "当前密码不正确。" : "邮箱确认不正确。", 401, "UNAUTHORIZED");
+  }
+  if (outcome === "CONFLICT") {
+    return apiError("账号安全设置刚刚发生变化，请重新登录后再试。", 409, "CONFLICT");
+  }
+  if (emailConfiguration()) {
+    await runAfterResponse(() => notifyAccountDeletion(user.email));
   }
   return NextResponse.json({ deleted: true }, { headers: { "Cache-Control": "no-store" } });
 }

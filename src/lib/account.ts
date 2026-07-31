@@ -2,6 +2,7 @@ import { hashPassword, verifyPassword } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
 export type PasswordChangeResult = "INVALID_PASSWORD" | "NOT_FOUND" | "UNCHANGED" | "CONFLICT" | "UPDATED" | "PASSWORD_SET";
+export type AccountDeletionResult = "NOT_FOUND" | "INVALID_CONFIRMATION" | "CONFLICT" | "DELETED";
 
 export async function changeAccountPassword(userId: string, currentPassword: string | undefined, nextPassword: string): Promise<PasswordChangeResult> {
   const user = await prisma.user.findUnique({ where: { id: userId }, select: { passwordHash: true } });
@@ -32,18 +33,28 @@ export async function changeAccountPassword(userId: string, currentPassword: str
 export async function deleteAccount(
   userId: string,
   confirmation: string | { currentPassword?: string; emailConfirmation?: string },
-) {
-  const user = await prisma.user.findUnique({ where: { id: userId }, select: { email: true, passwordHash: true } });
-  if (!user) return false;
+): Promise<AccountDeletionResult> {
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { email: true, passwordHash: true, sessionVersion: true },
+  });
+  if (!user) return "NOT_FOUND";
   const values = typeof confirmation === "string" ? { currentPassword: confirmation } : confirmation;
   const confirmed = user.passwordHash
     ? Boolean(values.currentPassword && await verifyPassword(values.currentPassword, user.passwordHash))
     : values.emailConfirmation?.trim().toLowerCase() === user.email;
-  if (!confirmed) return false;
+  if (!confirmed) return "INVALID_CONFIRMATION";
 
-  const [, deleted] = await prisma.$transaction([
-    prisma.learnerProfile.deleteMany({ where: { userId } }),
-    prisma.user.deleteMany({ where: { id: userId } }),
-  ]);
-  return deleted.count > 0;
+  // Deleting User is one atomic database statement; provider credentials,
+  // sessions, proof tokens, consent, and the complete learner graph cascade.
+  // The snapshot guard prevents an older confirmation from racing a password,
+  // email, provider, or other session-version-changing security operation.
+  const deleted = await prisma.user.deleteMany({
+    where: {
+      id: userId,
+      passwordHash: user.passwordHash,
+      sessionVersion: user.sessionVersion,
+    },
+  });
+  return deleted.count ? "DELETED" : "CONFLICT";
 }

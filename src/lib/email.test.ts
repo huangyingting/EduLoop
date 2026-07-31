@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { emailConfiguration, sendAccountDeletedNotice, sendEmailChangedNotice, sendEmailChangeVerificationEmail, sendEmailVerificationEmail, sendLearningDataDeletedNotice, sendPasswordChangedNotice, sendPasswordResetEmail, sendProviderDisconnectedNotice } from "./email";
+import { emailConfiguration, sendAccountDeletedNotice, sendEmailChangedNotice, sendEmailChangeVerificationEmail, sendEmailVerificationEmail, sendLearningDataDeletedNotice, sendPasswordChangedNotice, sendPasswordResetEmail, sendProviderDisconnectedNotice, sendSessionsRevokedNotice } from "./email";
 
 describe("account email delivery", () => {
   it("requires a complete provider configuration", () => {
@@ -156,5 +156,23 @@ describe("account email delivery", () => {
     });
     expect(body.text).toContain("登录账号和登录方式仍然保留");
     expect(body.text).toContain("保留周期轮换清除");
+  });
+
+  it("sends an all-device session revocation notice", async () => {
+    const fetcher = vi.fn(async (input: string | URL | Request, init?: RequestInit) => {
+      void input; void init;
+      return new Response(null, { status: 202 });
+    });
+    await sendSessionsRevokedNotice("learner@example.com", {
+      environment: { RESEND_API_KEY: "secret-key", AUTH_EMAIL_FROM: "accounts@example.com" },
+      fetcher,
+    });
+
+    const body = JSON.parse(String(fetcher.mock.calls[0]?.[1]?.body)) as { to: string[]; subject: string; text: string };
+    expect(body).toMatchObject({
+      to: ["learner@example.com"],
+      subject: "你的 EduLoop 登录会话已全部退出",
+    });
+    expect(body.text).toContain("密码、登录邮箱和社交登录连接没有改变");
   });
 });

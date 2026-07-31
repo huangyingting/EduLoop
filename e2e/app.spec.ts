@@ -118,8 +118,10 @@ test("complete export and learning-data deletion require a recent login", async 
 
     const downloadButton = page.getByRole("button", { name: "下载 JSON" });
     const deleteLearningDataButton = page.getByRole("button", { name: "删除我的学习记录" });
+    const revokeSessionsButton = page.getByRole("button", { name: "退出所有设备" });
     await expect(downloadButton).toBeEnabled();
     await expect(deleteLearningDataButton).toBeEnabled();
+    await expect(revokeSessionsButton).toBeEnabled();
 
     await page.addInitScript(() => {
       const systemNow = Date.now.bind(Date);
@@ -128,9 +130,11 @@ test("complete export and learning-data deletion require a recent login", async 
     await page.reload();
 
     await expect(page.getByText("导出完整资料或删除学习记录前", { exact: false })).toBeVisible();
+    await expect(page.getByText("退出所有设备前", { exact: false })).toBeVisible();
     await expect(page.getByRole("button", { name: "重新登录验证" }).first()).toBeVisible();
     await expect(downloadButton).toBeDisabled();
     await expect(deleteLearningDataButton).toBeDisabled();
+    await expect(revokeSessionsButton).toBeDisabled();
     expect(browserErrors).toEqual([]);
   } finally {
     await page.request.delete("/api/auth/account", {
@@ -236,6 +240,17 @@ test("account journey persists learning data and enforces studio authorization",
     await page.getByRole("button", { name: "更新密码" }).click();
     await expect(page.getByText("密码已更新，其他设备上的登录会话已退出。")).toBeVisible();
     password = updatedPassword;
+
+    page.once("dialog", (dialog) => dialog.accept());
+    await page.getByRole("button", { name: "退出所有设备" }).click();
+    await expect(page).toHaveURL(/\/login\?next=%2Fprivacy&notice=sessions_revoked$/, {
+      timeout: 30_000,
+    });
+    await expect(page.getByRole("status")).toContainText("所有设备上的旧登录会话都已退出");
+    await page.getByLabel("邮箱").fill(email);
+    await page.getByLabel("密码").fill(password);
+    await page.getByRole("button", { name: "登录并继续" }).click();
+    await expect(page).toHaveURL(/\/privacy$/, { timeout: 30_000 });
 
     await page.getByLabel("输入当前密码确认").fill(password);
     page.once("dialog", (dialog) => dialog.accept());

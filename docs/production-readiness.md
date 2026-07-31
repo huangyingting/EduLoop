@@ -17,12 +17,12 @@ School-managed accounts are a separate launch mode. The public account path reco
 | Progress survives navigation | persisted profiles, sessions, attempts, activity, saved questions |
 | Learners control account and learning data | `/privacy`, recent-auth versioned secret-minimized account export, recent-auth learning-only cascade deletion with a confirmation notice, and concurrency-safe full account erasure with a final notice |
 | Public account consent is explicit | public versioned `/terms` and `/privacy-policy`, adult/guardian attestation, append-only `ConsentRecord`, and re-consent gating |
-| Account sessions are revocable | encrypted Auth.js cookies plus database-checked `sessionVersion` and an HttpOnly logout flow |
+| Account sessions are revocable | recent-auth self-service all-device sign-out, an optimistic database-checked `sessionVersion` rotation, adapter-session deletion, a security notice, and SQLite/PostgreSQL/browser coverage |
 | Linked login methods are removable safely | recent-auth provider disconnection, final-method protection, stored-token deletion, concurrency-safe version claim, all-session revocation, and browser/integration coverage |
 | Login email changes prove ownership | current-password or recent-social proof, hashed single-use new-address verification, atomic uniqueness enforcement, old-address notice, and all-session revocation |
 | Password email ownership is proven | generic resend responses, hashed 24-hour tokens, fragment-based links, and verified-login enforcement |
 | Password credentials rotate safely | generic reset requests, hashed expiring tokens, optimistic authenticated changes, stale-proof cleanup, security notices, and all-session revocation |
-| Sensitive account actions require fresh proof | persistent `authenticatedAt` claim with a 10-minute reauthentication window for complete export, learning-data erasure, and sensitive account changes |
+| Sensitive account actions require fresh proof | persistent `authenticatedAt` claim with a 10-minute reauthentication window for complete export, learning-data erasure, all-device sign-out, and sensitive account changes |
 | Concurrent session restarts stay coherent | nullable unique `PracticeSession.activeKey` plus integration coverage on SQLite and PostgreSQL |
 | Content problems can be surfaced | `QuestionReport` and in-practice feedback form |
 | Content reports can be triaged safely | role-protected `/studio`, immediate quarantine, immutable `ContentReviewAction` history |

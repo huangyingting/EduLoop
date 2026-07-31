@@ -8,6 +8,7 @@ import { PATCH as completeEmailChange, POST as requestEmailChange } from "@/app/
 import { PATCH as completeEmailVerification, POST as requestEmailVerification } from "@/app/api/auth/email-verification/route";
 import { DELETE as disconnectCurrentProvider } from "@/app/api/auth/provider/route";
 import { POST as registerAccount } from "@/app/api/auth/register/route";
+import { DELETE as revokeCurrentSessions } from "@/app/api/auth/sessions/route";
 import { PATCH as completePasswordReset, POST as requestPasswordReset } from "@/app/api/auth/password-reset/route";
 import { GET as getCatalog } from "@/app/api/catalog/route";
 import { DELETE as deleteLearner, GET as getLearner } from "@/app/api/learner/route";
@@ -55,6 +56,7 @@ const mathSkillId = "integration-math-skill";
 const headers = { "content-type": "application/json", "x-forwarded-for": "198.51.100.42" };
 const authUserId = "integration-auth-user";
 const lifecycleUserId = "integration-lifecycle-user";
+const sessionRevocationUserId = "integration-session-revocation-user";
 const deletionRaceUserId = "integration-deletion-race-user";
 const sensitiveUserId = "integration-sensitive-user";
 const providerUserId = "integration-provider-user";
@@ -139,7 +141,7 @@ afterAll(async () => {
   await prisma.rateLimitBucket.deleteMany();
   await prisma.user.deleteMany({ where: { email: authJsEmail } });
   await prisma.user.deleteMany({ where: { id: { in: [
-    authUserId, lifecycleUserId, deletionRaceUserId, sensitiveUserId, providerUserId, providerSocialUserId, providerRaceUserId, passwordResetUserId, emailChangeUserId, emailChangeConflictUserId, consentUserId, shieldUserId, concurrentUserId, journeyUserId, profileUserId,
+    authUserId, lifecycleUserId, sessionRevocationUserId, deletionRaceUserId, sensitiveUserId, providerUserId, providerSocialUserId, providerRaceUserId, passwordResetUserId, emailChangeUserId, emailChangeConflictUserId, consentUserId, shieldUserId, concurrentUserId, journeyUserId, profileUserId,
     studioOperatorId, studioLearnerId, studioReporterId,
   ] } } });
   await prisma.question.deleteMany({ where: { id: { in: [choiceId, writtenId, scienceQuestionId] } } });
@@ -695,6 +697,109 @@ describe("learner API journey", () => {
     }
     expect(await prisma.user.findUnique({ where: { id: lifecycleUserId } })).toBeNull();
     expect(await prisma.learnerProfile.findUnique({ where: { userId: lifecycleUserId } })).toBeNull();
+  });
+
+  it("revokes every account session once after recent authentication", async () => {
+    const email = "session-revocation@example.com";
+    const expires = new Date(Date.now() + 60 * 60_000);
+    await prisma.user.create({ data: {
+      id: sessionRevocationUserId,
+      email,
+      emailVerified: new Date(),
+      sessions: { create: [
+        { sessionToken: "integration-session-revocation-a", expires },
+        { sessionToken: "integration-session-revocation-b", expires },
+      ] },
+    } });
+
+    const staleCookie = await authCookie(
+      sessionRevocationUserId,
+      0,
+      Math.floor(Date.now() / 1000) - SENSITIVE_ACTION_MAX_AGE_SECONDS - 1,
+    );
+    const bucketsBeforeStaleRequest = await prisma.rateLimitBucket.count();
+    const stale = await revokeCurrentSessions(new Request("http://localhost/api/auth/sessions", {
+      method: "DELETE",
+      headers: { ...headers, cookie: staleCookie },
+    }));
+    expect(stale.status).toBe(401);
+    expect(await stale.json()).toEqual({
+      error: "退出所有设备前请重新登录，以确认这是你的账号。",
+      code: "UNAUTHORIZED",
+    });
+    expect(await prisma.user.findUniqueOrThrow({
+      where: { id: sessionRevocationUserId },
+      select: { sessionVersion: true },
+    })).toEqual({ sessionVersion: 0 });
+    expect(await prisma.session.count({ where: { userId: sessionRevocationUserId } })).toBe(2);
+    expect(await prisma.rateLimitBucket.count()).toBe(bucketsBeforeStaleRequest);
+
+    const previousEnvironment = {
+      RESEND_API_KEY: process.env.RESEND_API_KEY,
+      AUTH_EMAIL_FROM: process.env.AUTH_EMAIL_FROM,
+    };
+    process.env.RESEND_API_KEY = "re_integration_key";
+    process.env.AUTH_EMAIL_FROM = "EduLoop <accounts@learn.example>";
+    const emailFetch = vi.fn(async (input: string | URL | Request, init?: RequestInit) => {
+      void input; void init;
+      return new Response(null, { status: 202 });
+    });
+    vi.stubGlobal("fetch", emailFetch);
+
+    try {
+      const issuedAt = Math.floor(Date.now() / 1000);
+      const oldCookies = await Promise.all([
+        authCookie(sessionRevocationUserId, 0, issuedAt),
+        authCookie(sessionRevocationUserId, 0, issuedAt - 1),
+      ]);
+      for (const cookie of oldCookies) {
+        await expect(getSessionUser(new Request("http://localhost/api/learner", {
+          headers: { cookie },
+        }), { allowMissingConsent: true })).resolves.toMatchObject({
+          id: sessionRevocationUserId,
+          sessionVersion: 0,
+          hasCurrentConsent: false,
+        });
+      }
+
+      const responses = await Promise.all(oldCookies.map((cookie) => revokeCurrentSessions(
+        new Request("http://localhost/api/auth/sessions", {
+          method: "DELETE",
+          headers: { ...headers, cookie },
+        }),
+      )));
+      expect(responses.filter(({ status }) => status === 200)).toHaveLength(1);
+      expect(responses.filter(({ status }) => status === 401 || status === 409)).toHaveLength(1);
+      const successful = responses.find(({ status }) => status === 200)!;
+      expect(await successful.json()).toEqual({ revoked: true });
+
+      expect(await prisma.user.findUniqueOrThrow({
+        where: { id: sessionRevocationUserId },
+        select: { sessionVersion: true },
+      })).toEqual({ sessionVersion: 1 });
+      expect(await prisma.session.count({ where: { userId: sessionRevocationUserId } })).toBe(0);
+      for (const cookie of oldCookies) {
+        await expect(getSessionUser(new Request("http://localhost/api/learner", {
+          headers: { cookie },
+        }), { allowMissingConsent: true })).resolves.toBeNull();
+      }
+
+      expect(emailFetch).toHaveBeenCalledOnce();
+      const notice = JSON.parse(String(emailFetch.mock.calls[0]?.[1]?.body)) as {
+        to: string[];
+        subject: string;
+      };
+      expect(notice).toMatchObject({
+        to: [email],
+        subject: "你的 EduLoop 登录会话已全部退出",
+      });
+    } finally {
+      for (const [key, value] of Object.entries(previousEnvironment)) {
+        if (value === undefined) delete process.env[key];
+        else process.env[key] = value;
+      }
+      vi.unstubAllGlobals();
+    }
   });
 
   it("serializes account erasure against a concurrent password rotation", async () => {

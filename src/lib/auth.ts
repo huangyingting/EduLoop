@@ -16,6 +16,7 @@ export type SessionUser = {
   id: string;
   email: string;
   authenticatedAt: number;
+  sessionVersion: number;
   displayName: string | null;
   image: string | null;
   role: string;
@@ -76,6 +77,7 @@ export async function getSessionUser(
     id: user.id,
     email: user.email,
     authenticatedAt: typeof token.authenticatedAt === "number" ? token.authenticatedAt : 0,
+    sessionVersion: user.sessionVersion,
     displayName: user.name,
     image: user.image,
     role: user.role,

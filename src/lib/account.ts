@@ -3,6 +3,22 @@ import { prisma } from "@/lib/prisma";
 
 export type PasswordChangeResult = "INVALID_PASSWORD" | "NOT_FOUND" | "UNCHANGED" | "CONFLICT" | "UPDATED" | "PASSWORD_SET";
 export type AccountDeletionResult = "NOT_FOUND" | "INVALID_CONFIRMATION" | "CONFLICT" | "DELETED";
+export type AccountSessionRevocationResult = "CONFLICT" | "REVOKED";
+
+export async function revokeAccountSessions(
+  userId: string,
+  sessionVersion: number,
+): Promise<AccountSessionRevocationResult> {
+  return prisma.$transaction(async (transaction) => {
+    const updated = await transaction.user.updateMany({
+      where: { id: userId, sessionVersion },
+      data: { sessionVersion: { increment: 1 } },
+    });
+    if (!updated.count) return "CONFLICT";
+    await transaction.session.deleteMany({ where: { userId } });
+    return "REVOKED";
+  });
+}
 
 export async function changeAccountPassword(userId: string, currentPassword: string | undefined, nextPassword: string): Promise<PasswordChangeResult> {
   const user = await prisma.user.findUnique({ where: { id: userId }, select: { passwordHash: true } });

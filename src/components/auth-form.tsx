@@ -32,6 +32,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
   const emailUnverified = isLogin && searchParams.get("code") === "email_not_verified";
   const emailVerified = isLogin && searchParams.get("verified") === "1";
   const providerDisconnected = isLogin && searchParams.get("notice") === "provider_disconnected";
+  const sessionsRevoked = isLogin && searchParams.get("notice") === "sessions_revoked";
   const next = safeReturnPath(searchParams.get("next"));
 
   useEffect(() => {
@@ -159,6 +160,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
 
             {emailVerified ? <p role="status" className="rounded-xl border-2 border-lime bg-[#f7fadf] px-4 py-3 text-sm font-bold text-[#557000]">邮箱已验证，请登录继续学习。</p> : null}
             {providerDisconnected ? <p role="status" className="rounded-xl border-2 border-lime bg-[#f7fadf] px-4 py-3 text-sm font-bold text-[#557000]">社交登录连接已移除，所有旧会话已退出。请使用剩余方式重新登录。</p> : null}
+            {sessionsRevoked ? <p role="status" className="rounded-xl border-2 border-lime bg-[#f7fadf] px-4 py-3 text-sm font-bold text-[#557000]">所有设备上的旧登录会话都已退出。请重新登录。</p> : null}
             {error ? <div role="alert" className="rounded-xl border-2 border-coral/30 bg-[#fff0ed] px-4 py-3 text-sm font-bold text-coral"><p>{error}</p>{emailUnverified ? <Link href="/verify-email" className="mt-2 inline-block text-violet hover:underline">重新发送验证邮件</Link> : null}</div> : null}
             <button type="submit" disabled={busy} className="flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-ink px-5 font-black text-white shadow-[0_4px_0_#6c5ce7] transition hover:-translate-y-0.5 disabled:translate-y-0 disabled:opacity-60">
               {busy ? <LoaderCircle className="animate-spin" size={18} /> : <>{isLogin ? "登录并继续" : "创建账号"}<ArrowRight size={18} /></>}

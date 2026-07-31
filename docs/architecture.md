@@ -48,6 +48,7 @@ The catalog API discovers every filterable tag dimension from the database, so n
 - Registering creates an account-owned profile. Logging into an established account resumes only that account's attempts, sessions, daily activity, badges, saved questions, reviews, and reports; guest practice is never merged because it is never persisted.
 - Application API responses default to `Cache-Control: no-store`; public question selection can become learner-specific when a valid Auth.js cookie enables recommendations or saved state.
 - After recent reauthentication, the account export returns a small versioned identity/consent/session-metadata envelope and streams paginated learner and content-review-action sections in stable order. The identity check does not depend on accepting the current legal versions. Prisma projections intentionally exclude password hashes, session tokens, provider tokens, and verification-token digests rather than loading secrets and filtering them after serialization.
+- Learning-data erasure also requires recent reauthentication but not current legal consent. It deletes directly by account ownership, so an account with no learner data is not given an empty profile as a side effect, and sends a non-blocking confirmation notice when email delivery is configured.
 
 ## Selection and scaling
 

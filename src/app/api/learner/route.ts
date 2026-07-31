@@ -1,17 +1,32 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { calendarDay, visibleStreak } from "@/lib/dates";
 import { apiError, apiHandler, enforceRateLimit } from "@/lib/api";
+import { runAfterResponse } from "@/lib/after-response";
 import { getSessionUser } from "@/lib/auth";
-import { isSameOriginRequest } from "@/lib/auth-validation";
+import { hasRecentAuthentication, isSameOriginRequest } from "@/lib/auth-validation";
+import { calendarDay, visibleStreak } from "@/lib/dates";
+import { emailConfiguration, sendLearningDataDeletedNotice } from "@/lib/email";
+import { findLearnerForUser } from "@/lib/learner-identity";
 import { prisma } from "@/lib/prisma";
-import { findLearnerForRequest, findLearnerForUser } from "@/lib/learner-identity";
 
+export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 const querySchema = z.object({
   timeZone: z.string().max(100).optional(),
 });
+
+async function notifyLearningDataDeletion(email: string) {
+  try {
+    await sendLearningDataDeletedNotice(email);
+  } catch (error) {
+    console.error(JSON.stringify({
+      level: "error",
+      event: "learning_data_deletion_notification_failed",
+      message: error instanceof Error ? error.message : "Unknown email delivery error",
+    }));
+  }
+}
 
 async function getLearner(request: NextRequest) {
   const user = await getSessionUser(request);
@@ -38,14 +53,19 @@ async function deleteLearner(request: NextRequest) {
   if (!isSameOriginRequest(request)) return apiError("Invalid request origin.", 403, "FORBIDDEN");
   const user = await getSessionUser(request, { allowMissingConsent: true });
   if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
+  if (!hasRecentAuthentication(user.authenticatedAt)) {
+    return apiError("删除学习数据前请重新登录，以确认这是你的账号。", 401, "UNAUTHORIZED");
+  }
   const parsed = querySchema.safeParse(Object.fromEntries(request.nextUrl.searchParams));
   if (!parsed.success) return apiError("Invalid learner query", 400, "INVALID_REQUEST");
   const limited = await enforceRateLimit(request, "delete-learner", user.id, 3, 60 * 60_000);
   if (limited) return limited;
-  const learner = await findLearnerForRequest(request, { allowMissingConsent: true });
-  const removed = learner
-    ? await prisma.learnerProfile.deleteMany({ where: { id: learner.id } })
-    : { count: 0 };
+  // Delete directly by account ownership so an account with no learner data is
+  // never given an empty profile merely for the purpose of deleting it again.
+  const removed = await prisma.learnerProfile.deleteMany({ where: { userId: user.id } });
+  if (removed.count && emailConfiguration()) {
+    await runAfterResponse(() => notifyLearningDataDeletion(user.email));
+  }
   return NextResponse.json({ deleted: removed.count > 0 });
 }
 

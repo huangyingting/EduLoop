@@ -205,3 +205,29 @@ export async function sendAccountDeletedNotice(
   });
   if (!response.ok) throw new Error(`Account deletion notification returned ${response.status}.`);
 }
+
+export async function sendLearningDataDeletedNotice(
+  to: string,
+  options: { environment?: EmailEnvironment; fetcher?: Fetcher } = {},
+) {
+  const configuration = emailConfiguration(options.environment);
+  if (!configuration) throw new Error("Learning data deletion notification is not configured.");
+  const fetcher = options.fetcher ?? fetch;
+  const text = "你的 EduLoop 在线学习数据已永久删除。登录账号和登录方式仍然保留；备份中的删除数据会按隐私说明中的保留周期轮换清除。\n\n如果不是你操作，请立即重置密码并联系平台支持。";
+  const response = await fetcher(RESEND_ENDPOINT, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${configuration.apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      from: configuration.from,
+      to: [to],
+      subject: "你的 EduLoop 学习数据已删除",
+      text,
+      html: "<p>你的 EduLoop 在线学习数据已永久删除。登录账号和登录方式仍然保留；备份中的删除数据会按隐私说明中的保留周期轮换清除。</p><p>如果不是你操作，请立即重置密码并联系平台支持。</p>",
+    }),
+    signal: AbortSignal.timeout(10_000),
+  });
+  if (!response.ok) throw new Error(`Learning data deletion notification returned ${response.status}.`);
+}

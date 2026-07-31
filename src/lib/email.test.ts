@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
-import { emailConfiguration, sendAccountDeletedNotice, sendEmailChangedNotice, sendEmailChangeVerificationEmail, sendEmailVerificationEmail, sendPasswordChangedNotice, sendPasswordResetEmail, sendProviderDisconnectedNotice } from "./email";
+import { emailConfiguration, sendAccountDeletedNotice, sendEmailChangedNotice, sendEmailChangeVerificationEmail, sendEmailVerificationEmail, sendLearningDataDeletedNotice, sendPasswordChangedNotice, sendPasswordResetEmail, sendProviderDisconnectedNotice } from "./email";
 
-describe("password recovery email", () => {
+describe("account email delivery", () => {
   it("requires a complete provider configuration", () => {
     expect(emailConfiguration({})).toBeNull();
     expect(emailConfiguration({ RESEND_API_KEY: "key" })).toBeNull();
@@ -136,6 +136,25 @@ describe("password recovery email", () => {
       subject: "你的 EduLoop 账号已删除",
     });
     expect(body.text).toContain("在线学习数据已永久删除");
+    expect(body.text).toContain("保留周期轮换清除");
+  });
+
+  it("sends a learning-data deletion confirmation while distinguishing the retained account", async () => {
+    const fetcher = vi.fn(async (input: string | URL | Request, init?: RequestInit) => {
+      void input; void init;
+      return new Response(null, { status: 202 });
+    });
+    await sendLearningDataDeletedNotice("learner@example.com", {
+      environment: { RESEND_API_KEY: "secret-key", AUTH_EMAIL_FROM: "accounts@example.com" },
+      fetcher,
+    });
+
+    const body = JSON.parse(String(fetcher.mock.calls[0]?.[1]?.body)) as { to: string[]; subject: string; text: string };
+    expect(body).toMatchObject({
+      to: ["learner@example.com"],
+      subject: "你的 EduLoop 学习数据已删除",
+    });
+    expect(body.text).toContain("登录账号和登录方式仍然保留");
     expect(body.text).toContain("保留周期轮换清除");
   });
 });

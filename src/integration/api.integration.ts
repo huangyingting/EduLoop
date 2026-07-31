@@ -475,6 +475,13 @@ describe("learner API journey", () => {
       },
       learner: null,
     });
+    const provisionalDelete = await deleteLearner(new NextRequest("http://localhost/api/learner", {
+      method: "DELETE",
+      headers: { ...headers, cookie },
+    }));
+    expect(provisionalDelete.status).toBe(200);
+    expect(await provisionalDelete.json()).toEqual({ deleted: false });
+    expect(await prisma.learnerProfile.findUnique({ where: { userId: consentUserId } })).toBeNull();
 
     const accepted = await acceptLegalConsent(request(
       "http://localhost/api/auth/consent",
@@ -1641,6 +1648,15 @@ describe("learner API journey", () => {
     expect(staleExportResponse.status).toBe(401);
     expect(await staleExportResponse.json()).toEqual({
       error: "导出账号数据前请重新登录，以确认这是你的账号。",
+      code: "UNAUTHORIZED",
+    });
+    const staleDeleteResponse = await deleteLearner(new NextRequest(
+      "http://localhost/api/learner",
+      { method: "DELETE", headers: { ...headers, cookie: staleCookie } },
+    ));
+    expect(staleDeleteResponse.status).toBe(401);
+    expect(await staleDeleteResponse.json()).toEqual({
+      error: "删除学习数据前请重新登录，以确认这是你的账号。",
       code: "UNAUTHORIZED",
     });
     expect(await prisma.user.findUniqueOrThrow({

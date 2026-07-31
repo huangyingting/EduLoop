@@ -48,6 +48,7 @@ export function PrivacyControls() {
   }, [auth.status, authenticatedAt]);
 
   async function removeData() {
+    if (!hasRecentLogin) return;
     if (!window.confirm("确定删除当前身份的全部学习记录吗？账号本身会保留，但此操作无法撤销。")) return;
     setDeleting(true); setDeleteError("");
     try {
@@ -88,5 +89,27 @@ export function PrivacyControls() {
     }
   }
 
-  return <div className="mt-7 grid gap-5 sm:grid-cols-2"><section className="rounded-[28px] border-2 border-violet/25 bg-[#f0edff] p-6 sm:p-8"><h2 className="font-display text-2xl font-black">导出账号与学习数据</h2><p className="mt-2 text-sm font-semibold leading-6 text-muted">下载登录邮箱、同意记录、社交登录标识、会话到期时间、适用的内容审核操作，以及练习、活动、收藏、复习计划和徽章。文件不包含密码哈希、会话令牌、提供商访问密钥或验证令牌摘要。为保护完整资料，下载前须在最近 10 分钟内完成登录验证。</p>{auth.status === "loading" ? <p role="status" className="mt-4 text-sm font-bold text-muted">正在确认登录时间…</p> : auth.status === "guest" ? <div className="mt-4 rounded-xl border-2 border-violet/20 bg-white/70 px-4 py-3 text-sm font-semibold text-muted"><p>请先登录，再下载完整账号资料。</p><Link href="/login?next=%2Fprivacy" className="mt-3 inline-flex min-h-10 items-center gap-2 rounded-xl bg-violet px-4 text-xs font-black text-white"><LogIn size={15} /> 登录后导出</Link></div> : needsRecentLogin ? <div className="mt-4 rounded-xl border-2 border-violet/20 bg-white/70 px-4 py-3 text-sm font-semibold text-muted"><p>当前登录验证已超过 10 分钟。重新登录不会要求你先接受新版条款。</p><button type="button" onClick={() => void reauthenticate()} className="mt-3 inline-flex min-h-10 items-center gap-2 rounded-xl bg-violet px-4 text-xs font-black text-white"><LogIn size={15} /> 重新登录验证</button></div> : null}{exportError ? <p role="alert" className="mt-3 text-sm font-bold text-coral">{exportError}</p> : null}<button type="button" onClick={() => void exportData()} disabled={exporting || !hasRecentLogin} aria-busy={exporting} className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-xl bg-violet px-5 text-sm font-black text-white disabled:opacity-50">{exporting ? <LoaderCircle className="animate-spin" size={17} /> : <Download size={17} />} 下载 JSON</button></section><section className="rounded-[28px] border-2 border-coral/30 bg-[#fff0ed] p-6 sm:p-8"><h2 className="font-display text-2xl font-black">删除学习数据</h2><p className="mt-2 text-sm font-semibold leading-6 text-muted">这会删除答题、会话、复习计划、收藏、徽章和成长统计。登录账号和题库内容不会受影响。</p>{deleteError ? <p role="alert" className="mt-3 text-sm font-bold text-coral">{deleteError}</p> : null}<button type="button" onClick={() => void removeData()} disabled={deleting} aria-busy={deleting} className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-xl bg-coral px-5 text-sm font-black text-white disabled:opacity-50">{deleting ? <LoaderCircle className="animate-spin" size={17} /> : <Trash2 size={17} />} 删除我的学习记录</button></section></div>;
+  return <div className="mt-7">
+    {auth.status === "loading"
+      ? <p role="status" className="rounded-xl border-2 border-violet/20 bg-[#f0edff] px-4 py-3 text-sm font-bold text-muted">正在确认登录时间…</p>
+      : auth.status === "guest"
+        ? <div className="rounded-xl border-2 border-violet/20 bg-[#f0edff] px-4 py-3 text-sm font-semibold text-muted"><p>请先登录，再下载完整账号资料或删除学习记录。</p><Link href="/login?next=%2Fprivacy" className="mt-3 inline-flex min-h-10 items-center gap-2 rounded-xl bg-violet px-4 text-xs font-black text-white"><LogIn size={15} /> 登录管理数据</Link></div>
+        : needsRecentLogin
+          ? <div className="rounded-xl border-2 border-violet/20 bg-[#f0edff] px-4 py-3 text-sm font-semibold text-muted"><p>导出完整资料或删除学习记录前，请重新登录验证当前账号。重新登录不要求接受新版条款。</p><button type="button" onClick={() => void reauthenticate()} className="mt-3 inline-flex min-h-10 items-center gap-2 rounded-xl bg-violet px-4 text-xs font-black text-white"><LogIn size={15} /> 重新登录验证</button></div>
+          : null}
+    <div className="mt-5 grid gap-5 sm:grid-cols-2">
+      <section className="rounded-[28px] border-2 border-violet/25 bg-[#f0edff] p-6 sm:p-8">
+        <h2 className="font-display text-2xl font-black">导出账号与学习数据</h2>
+        <p className="mt-2 text-sm font-semibold leading-6 text-muted">下载登录邮箱、同意记录、社交登录标识、会话到期时间、适用的内容审核操作，以及练习、活动、收藏、复习计划和徽章。文件不包含密码哈希、会话令牌、提供商访问密钥或验证令牌摘要。为保护完整资料，下载前须在最近 10 分钟内完成登录验证。</p>
+        {exportError ? <p role="alert" className="mt-3 text-sm font-bold text-coral">{exportError}</p> : null}
+        <button type="button" onClick={() => void exportData()} disabled={exporting || !hasRecentLogin} aria-busy={exporting} className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-xl bg-violet px-5 text-sm font-black text-white disabled:opacity-50">{exporting ? <LoaderCircle className="animate-spin" size={17} /> : <Download size={17} />} 下载 JSON</button>
+      </section>
+      <section className="rounded-[28px] border-2 border-coral/30 bg-[#fff0ed] p-6 sm:p-8">
+        <h2 className="font-display text-2xl font-black">删除学习数据</h2>
+        <p className="mt-2 text-sm font-semibold leading-6 text-muted">这会永久删除答题、会话、复习计划、收藏、徽章和成长统计。登录账号和题库内容不会受影响。删除前须在最近 10 分钟内完成登录验证，成功后会向登录邮箱发送安全通知。</p>
+        {deleteError ? <p role="alert" className="mt-3 text-sm font-bold text-coral">{deleteError}</p> : null}
+        <button type="button" onClick={() => void removeData()} disabled={deleting || !hasRecentLogin} aria-busy={deleting} className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-xl bg-coral px-5 text-sm font-black text-white disabled:opacity-50">{deleting ? <LoaderCircle className="animate-spin" size={17} /> : <Trash2 size={17} />} 删除我的学习记录</button>
+      </section>
+    </div>
+  </div>;
 }

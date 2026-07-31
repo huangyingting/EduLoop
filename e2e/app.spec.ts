@@ -102,7 +102,7 @@ test("mobile navigation traps focus and advanced filters remain usable", async (
   expect(browserErrors).toEqual([]);
 });
 
-test("complete account export requires a login from the last 10 minutes", async ({ page }) => {
+test("complete export and learning-data deletion require a recent login", async ({ page }) => {
   const browserErrors = captureBrowserErrors(page);
   const email = `e2e-export-auth-${Date.now()}-${test.info().workerIndex}@example.test`;
   const password = "e2e-export-auth-password-123";
@@ -117,7 +117,9 @@ test("complete account export requires a login from the last 10 minutes", async 
     await expect(page).toHaveURL(/\/privacy$/, { timeout: 30_000 });
 
     const downloadButton = page.getByRole("button", { name: "下载 JSON" });
+    const deleteLearningDataButton = page.getByRole("button", { name: "删除我的学习记录" });
     await expect(downloadButton).toBeEnabled();
+    await expect(deleteLearningDataButton).toBeEnabled();
 
     await page.addInitScript(() => {
       const systemNow = Date.now.bind(Date);
@@ -125,9 +127,10 @@ test("complete account export requires a login from the last 10 minutes", async 
     });
     await page.reload();
 
-    await expect(page.getByText("当前登录验证已超过 10 分钟。", { exact: false })).toBeVisible();
+    await expect(page.getByText("导出完整资料或删除学习记录前", { exact: false })).toBeVisible();
     await expect(page.getByRole("button", { name: "重新登录验证" }).first()).toBeVisible();
     await expect(downloadButton).toBeDisabled();
+    await expect(deleteLearningDataButton).toBeDisabled();
     expect(browserErrors).toEqual([]);
   } finally {
     await page.request.delete("/api/auth/account", {

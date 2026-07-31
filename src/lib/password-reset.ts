@@ -2,6 +2,7 @@ import { createHash, randomBytes } from "node:crypto";
 import { Prisma } from "@prisma/client";
 import { hashPassword, verifyPassword } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { deleteExpiredUnusedRegistration, proofExpiration } from "@/lib/retention";
 
 export const PASSWORD_RESET_TTL_MS = 30 * 60_000;
 export type PasswordResetResult =
@@ -25,19 +26,54 @@ export function hashPasswordResetToken(token: string) {
 }
 
 export async function issuePasswordResetToken(email: string, now = new Date()) {
-  const user = await prisma.user.findUnique({ where: { email }, select: { id: true, email: true } });
+  const user = await prisma.user.findUnique({
+    where: { email },
+    select: {
+      id: true,
+      email: true,
+      emailVerified: true,
+      passwordHash: true,
+      registrationExpiresAt: true,
+      sessionVersion: true,
+    },
+  });
   if (!user) return null;
+  if (
+    !user.emailVerified
+    && user.registrationExpiresAt
+    && user.registrationExpiresAt <= now
+    && await deleteExpiredUnusedRegistration(email, now)
+  ) return null;
 
   const token = randomBytes(32).toString("base64url");
   const tokenHash = hashPasswordResetToken(token);
-  const expiresAt = new Date(now.getTime() + PASSWORD_RESET_TTL_MS);
+  const expiresAt = proofExpiration(
+    now,
+    PASSWORD_RESET_TTL_MS,
+    !user.emailVerified
+      && user.registrationExpiresAt
+      && user.registrationExpiresAt > now
+      ? user.registrationExpiresAt
+      : null,
+  );
   const record = await prisma.$transaction(async (transaction) => {
+    const claimed = await transaction.user.updateMany({
+      where: {
+        id: user.id,
+        passwordHash: user.passwordHash,
+        registrationExpiresAt: user.registrationExpiresAt,
+        sessionVersion: user.sessionVersion,
+      },
+      data: { sessionVersion: { increment: 0 } },
+    });
+    if (!claimed.count) return null;
     await transaction.passwordResetToken.deleteMany({ where: { userId: user.id } });
     return transaction.passwordResetToken.create({
       data: { userId: user.id, tokenHash, expiresAt },
       select: { id: true },
     });
   });
+  if (!record) return null;
   return { ...record, email: user.email, token, tokenHash, expiresAt };
 }
 
@@ -102,6 +138,7 @@ export async function resetPasswordWithToken(
         data: {
           passwordHash,
           emailVerified: now,
+          registrationExpiresAt: null,
           sessionVersion: { increment: 1 },
         },
       });
@@ -115,6 +152,7 @@ export async function resetPasswordWithToken(
           },
           data: {
             passwordHash,
+            registrationExpiresAt: null,
             sessionVersion: { increment: 1 },
           },
         });

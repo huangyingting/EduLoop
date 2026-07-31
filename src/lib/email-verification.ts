@@ -3,6 +3,7 @@ import { Prisma } from "@prisma/client";
 import { verifyPassword } from "@/lib/auth";
 import { sendEmailVerificationEmail } from "@/lib/email";
 import { prisma } from "@/lib/prisma";
+import { deleteExpiredUnusedRegistration, proofExpiration } from "@/lib/retention";
 
 export const EMAIL_VERIFICATION_TTL_MS = 24 * 60 * 60_000;
 
@@ -29,20 +30,50 @@ export function hashEmailVerificationToken(token: string) {
 export async function issueEmailVerificationToken(email: string, now = new Date()) {
   const user = await prisma.user.findUnique({
     where: { email },
-    select: { id: true, email: true, emailVerified: true, passwordHash: true },
+    select: {
+      id: true,
+      email: true,
+      emailVerified: true,
+      passwordHash: true,
+      registrationExpiresAt: true,
+      sessionVersion: true,
+    },
   });
   if (!user || user.emailVerified || !user.passwordHash) return null;
+  if (
+    user.registrationExpiresAt
+    && user.registrationExpiresAt <= now
+    && await deleteExpiredUnusedRegistration(email, now)
+  ) return null;
 
   const token = randomBytes(32).toString("base64url");
   const tokenHash = hashEmailVerificationToken(token);
-  const expiresAt = new Date(now.getTime() + EMAIL_VERIFICATION_TTL_MS);
+  const expiresAt = proofExpiration(
+    now,
+    EMAIL_VERIFICATION_TTL_MS,
+    user.registrationExpiresAt && user.registrationExpiresAt > now
+      ? user.registrationExpiresAt
+      : null,
+  );
   const record = await prisma.$transaction(async (transaction) => {
+    const claimed = await transaction.user.updateMany({
+      where: {
+        id: user.id,
+        emailVerified: null,
+        passwordHash: user.passwordHash,
+        registrationExpiresAt: user.registrationExpiresAt,
+        sessionVersion: user.sessionVersion,
+      },
+      data: { sessionVersion: { increment: 0 } },
+    });
+    if (!claimed.count) return null;
     await transaction.emailVerificationToken.deleteMany({ where: { userId: user.id } });
     return transaction.emailVerificationToken.create({
       data: { userId: user.id, tokenHash, expiresAt },
       select: { id: true },
     });
   });
+  if (!record) return null;
   return { ...record, email: user.email, token, tokenHash, expiresAt };
 }
 
@@ -122,6 +153,7 @@ export async function verifyEmailWithToken(
         },
         data: {
           emailVerified: now,
+          registrationExpiresAt: null,
           sessionVersion: { increment: 1 },
         },
       });
@@ -145,7 +177,7 @@ export async function verifyEmailWithToken(
             passwordHash: record.user.passwordHash,
             sessionVersion: record.user.sessionVersion,
           },
-          data: { sessionVersion: { increment: 1 } },
+          data: { registrationExpiresAt: null, sessionVersion: { increment: 1 } },
         });
         if (!rotated.count) throw new ConcurrentEmailVerification();
         await transaction.session.deleteMany({ where: { userId: record.userId } });

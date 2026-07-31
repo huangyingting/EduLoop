@@ -9,6 +9,10 @@ import { emailConfiguration } from "@/lib/email";
 import { createLearnerForUser } from "@/lib/learner-identity";
 import { PRIVACY_VERSION, TERMS_VERSION } from "@/lib/legal";
 import { prisma } from "@/lib/prisma";
+import {
+  deleteExpiredUnusedRegistration,
+  registrationExpiration,
+} from "@/lib/retention";
 
 export const runtime = "nodejs";
 
@@ -41,8 +45,9 @@ async function postRegistration(request: Request) {
     return apiError("请选择题库中可用的知识阶段。", 400, "INVALID_REQUEST");
   }
 
+  const acceptedAt = new Date();
+  await deleteExpiredUnusedRegistration(email, acceptedAt);
   try {
-    const acceptedAt = new Date();
     await prisma.$transaction(async (transaction) => {
       const created = await transaction.user.create({
         data: {
@@ -50,6 +55,7 @@ async function postRegistration(request: Request) {
           passwordHash,
           name: input.displayName ?? null,
           emailVerified: verificationRequired ? null : new Date(),
+          registrationExpiresAt: verificationRequired ? registrationExpiration(acceptedAt) : null,
           termsAcceptedAt: acceptedAt,
           termsVersion: TERMS_VERSION,
           privacyAcceptedAt: acceptedAt,

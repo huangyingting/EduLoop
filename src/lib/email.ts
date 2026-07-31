@@ -54,7 +54,7 @@ export async function sendEmailVerificationEmail(
   const configuration = emailConfiguration(options.environment);
   if (!configuration) throw new Error("Email verification is not configured.");
   const fetcher = options.fetcher ?? fetch;
-  const text = `请在 24 小时内打开链接，并输入你注册账号或刚设置的密码，以完成 EduLoop 邮箱登录设置：\n\n${verificationUrl}\n\n如果你没有注册账号或设置登录密码，不要打开链接，也不要向任何人提供密码。`;
+  const text = `请在 24 小时内打开链接，并输入你注册账号或刚设置的密码，以完成 EduLoop 邮箱登录设置：\n\n${verificationUrl}\n\n未验证且从未使用的密码注册会在 30 天后自动删除；重新发送邮件不会延长该期限。如果你没有注册账号或设置登录密码，不要打开链接，也不要向任何人提供密码。`;
   const response = await fetcher(RESEND_ENDPOINT, {
     method: "POST",
     headers: {
@@ -66,7 +66,7 @@ export async function sendEmailVerificationEmail(
       to: [to],
       subject: "验证你的 EduLoop 邮箱",
       text,
-      html: `<p>请打开链接，并输入你注册账号或刚设置的密码，以完成 EduLoop 邮箱登录设置。</p><p><a href="${escapeHtml(verificationUrl)}">在 24 小时内验证邮箱</a></p><p>如果你没有注册账号或设置登录密码，不要打开链接，也不要向任何人提供密码。</p>`,
+      html: `<p>请打开链接，并输入你注册账号或刚设置的密码，以完成 EduLoop 邮箱登录设置。</p><p><a href="${escapeHtml(verificationUrl)}">在 24 小时内验证邮箱</a></p><p>未验证且从未使用的密码注册会在 30 天后自动删除；重新发送邮件不会延长该期限。</p><p>如果你没有注册账号或设置登录密码，不要打开链接，也不要向任何人提供密码。</p>`,
     }),
     signal: AbortSignal.timeout(10_000),
   });

@@ -157,6 +157,7 @@ model User {
   passwordHash            String?
   role                    String                   @default("LEARNER")
   sessionVersion          Int                      @default(0)
+  registrationExpiresAt   DateTime?
   termsAcceptedAt         DateTime?
   termsVersion            String?
   privacyAcceptedAt       DateTime?
@@ -174,6 +175,7 @@ model User {
   updatedAt               DateTime                 @updatedAt
 
   @@index([role])
+  @@index([emailVerified, role, registrationExpiresAt])
 }
 
 model Account {

@@ -63,6 +63,18 @@ const socialPasswordUserId = "integration-social-password-user";
 const sessionRevocationUserId = "integration-session-revocation-user";
 const expiredRetentionUserId = "integration-expired-retention-user";
 const activeRetentionUserId = "integration-active-retention-user";
+const staleRegistrationUserIds = [
+  "integration-stale-registration-a",
+  "integration-stale-registration-b",
+  "integration-stale-registration-active-verification",
+  "integration-stale-registration-active-recovery",
+  "integration-stale-registration-provider",
+  "integration-stale-registration-session",
+  "integration-stale-registration-learning",
+  "integration-stale-registration-future",
+  "integration-stale-registration-verified",
+  "integration-stale-registration-operator",
+] as const;
 const deletionRaceUserId = "integration-deletion-race-user";
 const sensitiveUserId = "integration-sensitive-user";
 const providerUserId = "integration-provider-user";
@@ -79,6 +91,7 @@ const emailChangeUserId = "integration-email-change-user";
 const emailChangeConflictUserId = "integration-email-change-conflict-user";
 const consentUserId = "integration-consent-user";
 const authJsEmail = "authjs-flow@example.com";
+const expiredRegistrationEmail = "expired-registration-retry@example.com";
 const shieldUserId = "integration-shield-user";
 const concurrentUserId = "integration-concurrent-user";
 const journeyUserId = "integration-journey-user";
@@ -155,9 +168,10 @@ afterAll(async () => {
     where: { identifier: { startsWith: "integration-retention-" } },
   });
   await prisma.user.deleteMany({ where: { email: authJsEmail } });
+  await prisma.user.deleteMany({ where: { email: expiredRegistrationEmail } });
   await prisma.user.deleteMany({ where: { id: { in: [
     authUserId, lifecycleUserId, socialPasswordUserId, sessionRevocationUserId, expiredRetentionUserId, activeRetentionUserId, deletionRaceUserId, sensitiveUserId, providerUserId, providerMinimizationUserId, providerSocialUserId, providerRaceUserId, passwordResetUserId, socialRecoveryUserId, verifiedRecoveryUserId, ownershipRaceUserId, proofLockRaceUserId, providerLinkRaceUserId, emailChangeUserId, emailChangeConflictUserId, consentUserId, shieldUserId, concurrentUserId, journeyUserId, profileUserId,
-    studioOperatorId, studioLearnerId, studioReporterId,
+    studioOperatorId, studioLearnerId, studioReporterId, ...staleRegistrationUserIds,
   ] } } });
   await prisma.question.deleteMany({ where: { id: { in: [choiceId, writtenId, scienceQuestionId] } } });
   await prisma.badge.deleteMany({ where: { id: "integration-badge" } });
@@ -322,6 +336,7 @@ describe("learner API journey", () => {
       emailChangeTokens: 1,
       passwordResetTokens: 1,
       rateLimitBuckets: 1,
+      staleUnverifiedRegistrations: 0,
     });
 
     expect(await prisma.session.findMany({
@@ -348,6 +363,133 @@ describe("learner API journey", () => {
       where: { id: { startsWith: "integration-retention-" } },
       select: { id: true },
     })).toEqual([{ id: "integration-retention-active-bucket" }]);
+  });
+
+  it("removes expired unused registrations in bounded batches without touching protected accounts", async () => {
+    const now = new Date();
+    const expiredEarlier = new Date(now.getTime() - 2 * 60 * 60_000);
+    const expiredLater = new Date(now.getTime() - 60 * 60_000);
+    const activeUntil = new Date(now.getTime() + 60 * 60_000);
+    const baseRegistration = {
+      passwordHash: "unused-registration-password-hash",
+      registrationExpiresAt: expiredLater,
+    } as const;
+
+    await prisma.$transaction([
+      prisma.user.create({ data: {
+        id: staleRegistrationUserIds[0],
+        email: "stale-registration-a@example.com",
+        ...baseRegistration,
+        registrationExpiresAt: expiredEarlier,
+        learner: { create: { knowledgeBandId: bandId } },
+        consentRecords: { create: {
+          termsVersion: TERMS_VERSION,
+          privacyVersion: PRIVACY_VERSION,
+          basis: "ADULT",
+          method: "PASSWORD_REGISTRATION",
+        } },
+      } }),
+      prisma.user.create({ data: {
+        id: staleRegistrationUserIds[1],
+        email: "stale-registration-b@example.com",
+        ...baseRegistration,
+      } }),
+      prisma.user.create({ data: {
+        id: staleRegistrationUserIds[2],
+        email: "stale-registration-verification@example.com",
+        ...baseRegistration,
+        learner: { create: {} },
+        emailVerificationTokens: { create: {
+          tokenHash: "a".repeat(64),
+          expiresAt: activeUntil,
+        } },
+      } }),
+      prisma.user.create({ data: {
+        id: staleRegistrationUserIds[3],
+        email: "stale-registration-recovery@example.com",
+        ...baseRegistration,
+        learner: { create: {} },
+        passwordResetTokens: { create: {
+          tokenHash: "b".repeat(64),
+          expiresAt: activeUntil,
+        } },
+      } }),
+      prisma.user.create({ data: {
+        id: staleRegistrationUserIds[4],
+        email: "stale-registration-provider@example.com",
+        ...baseRegistration,
+        learner: { create: {} },
+        accounts: { create: {
+          type: "oidc",
+          provider: "microsoft-entra-id",
+          providerAccountId: "integration-stale-registration-provider",
+        } },
+      } }),
+      prisma.user.create({ data: {
+        id: staleRegistrationUserIds[5],
+        email: "stale-registration-session@example.com",
+        ...baseRegistration,
+        learner: { create: {} },
+        sessions: { create: {
+          sessionToken: "integration-stale-registration-session",
+          expires: activeUntil,
+        } },
+      } }),
+      prisma.user.create({ data: {
+        id: staleRegistrationUserIds[6],
+        email: "stale-registration-learning@example.com",
+        ...baseRegistration,
+        learner: { create: { xp: 10 } },
+      } }),
+      prisma.user.create({ data: {
+        id: staleRegistrationUserIds[7],
+        email: "stale-registration-future@example.com",
+        ...baseRegistration,
+        registrationExpiresAt: activeUntil,
+        learner: { create: {} },
+      } }),
+      prisma.user.create({ data: {
+        id: staleRegistrationUserIds[8],
+        email: "stale-registration-verified@example.com",
+        ...baseRegistration,
+        emailVerified: now,
+        learner: { create: {} },
+      } }),
+      prisma.user.create({ data: {
+        id: staleRegistrationUserIds[9],
+        email: "stale-registration-operator@example.com",
+        ...baseRegistration,
+        role: "CONTENT_EDITOR",
+        learner: { create: {} },
+      } }),
+    ]);
+
+    await expect(cleanupExpiredSecurityArtifacts(now, 0)).rejects.toThrow(
+      "Stale-registration cleanup batch size must be between 1 and 1000.",
+    );
+    const first = await cleanupExpiredSecurityArtifacts(now, 1);
+    const second = await cleanupExpiredSecurityArtifacts(now, 1);
+    expect(first.staleUnverifiedRegistrations).toBe(1);
+    expect(second.staleUnverifiedRegistrations).toBe(1);
+    expect(await prisma.user.findMany({
+      where: { id: { in: staleRegistrationUserIds.slice(0, 2) } },
+      select: { id: true },
+    })).toEqual([]);
+    expect(await prisma.consentRecord.count({
+      where: { userId: staleRegistrationUserIds[0] },
+    })).toBe(0);
+    expect(await prisma.learnerProfile.count({
+      where: { userId: staleRegistrationUserIds[0] },
+    })).toBe(0);
+
+    const protectedIds = await prisma.user.findMany({
+      where: { id: { in: staleRegistrationUserIds.slice(2) } },
+      orderBy: { id: "asc" },
+      select: { id: true },
+    });
+    expect(protectedIds.map(({ id }) => id)).toEqual(
+      [...staleRegistrationUserIds.slice(2)].sort(),
+    );
   });
 
   it("returns a route-level 429 response with a retry deadline", async () => {
@@ -458,7 +600,10 @@ describe("learner API journey", () => {
       }));
       expect(registration.status).toBe(201);
       expect(await registration.json()).toMatchObject({ created: true, verificationRequired: true });
-      expect((await prisma.user.findUniqueOrThrow({ where: { email: authJsEmail } })).emailVerified).toBeNull();
+      expect(await prisma.user.findUniqueOrThrow({ where: { email: authJsEmail } })).toMatchObject({
+        emailVerified: null,
+        registrationExpiresAt: expect.any(Date),
+      });
 
       const blocked = await credentialsCallback();
       expect(responseCookie(blocked, AUTH_SESSION_COOKIE)).toBeNull();
@@ -509,6 +654,7 @@ describe("learner API journey", () => {
       expect(await verified.json()).toEqual({ verified: true, providersDisconnected: 0 });
       expect(await prisma.user.findUniqueOrThrow({ where: { email: authJsEmail } })).toMatchObject({
         emailVerified: expect.any(Date),
+        registrationExpiresAt: null,
         sessionVersion: 1,
       });
       expect(await prisma.emailVerificationToken.count({ where: { tokenHash: hashEmailVerificationToken(token!) } })).toBe(0);
@@ -538,6 +684,70 @@ describe("learner API journey", () => {
         where: { userId: sessionUser!.id },
         include: { knowledgeBand: true },
       })).toMatchObject({ knowledgeBand: { slug: "integration-middle" } });
+    } finally {
+      for (const [key, value] of Object.entries(previousEnvironment)) {
+        if (value === undefined) delete process.env[key];
+        else process.env[key] = value;
+      }
+      vi.unstubAllGlobals();
+    }
+  });
+
+  it("releases an expired unused email atomically when the mailbox owner registers again", async () => {
+    const now = new Date();
+    const originalUser = await prisma.user.create({ data: {
+      email: expiredRegistrationEmail,
+      passwordHash: await hashPassword("expired-registration-password"),
+      registrationExpiresAt: new Date(now.getTime() - 1),
+      learner: { create: { knowledgeBandId: bandId } },
+      consentRecords: { create: {
+        termsVersion: TERMS_VERSION,
+        privacyVersion: PRIVACY_VERSION,
+        basis: "ADULT",
+        method: "PASSWORD_REGISTRATION",
+      } },
+    } });
+    const previousEnvironment = {
+      AUTH_URL: process.env.AUTH_URL,
+      RESEND_API_KEY: process.env.RESEND_API_KEY,
+      AUTH_EMAIL_FROM: process.env.AUTH_EMAIL_FROM,
+    };
+    process.env.AUTH_URL = "https://learn.example";
+    process.env.RESEND_API_KEY = "re_integration_key";
+    process.env.AUTH_EMAIL_FROM = "EduLoop <accounts@learn.example>";
+    const emailFetch = vi.fn(async () => new Response(null, { status: 202 }));
+    vi.stubGlobal("fetch", emailFetch);
+
+    try {
+      const registration = await registerAccount(new Request("http://localhost/api/auth/register", {
+        method: "POST",
+        headers: { ...headers, origin: "https://learn.example" },
+        body: JSON.stringify({
+          email: expiredRegistrationEmail,
+          password: "replacement-registration-password",
+          displayName: "重新注册学习者",
+          consentBasis: "GUARDIAN",
+          acceptedTerms: true,
+        }),
+      }));
+      expect(registration.status).toBe(201);
+      expect(await registration.json()).toEqual({ created: true, verificationRequired: true });
+      const replacement = await prisma.user.findUniqueOrThrow({
+        where: { email: expiredRegistrationEmail },
+        include: { learner: true, consentRecords: true },
+      });
+      expect(replacement.id).not.toBe(originalUser.id);
+      expect(replacement).toMatchObject({
+        emailVerified: null,
+        registrationExpiresAt: expect.any(Date),
+        learner: { displayName: "重新注册学习者" },
+        consentRecords: [expect.objectContaining({
+          basis: "GUARDIAN",
+          method: "PASSWORD_REGISTRATION",
+        })],
+      });
+      expect(replacement.registrationExpiresAt!.getTime()).toBeGreaterThan(now.getTime());
+      expect(emailFetch).toHaveBeenCalledOnce();
     } finally {
       for (const [key, value] of Object.entries(previousEnvironment)) {
         if (value === undefined) delete process.env[key];
@@ -1337,11 +1547,13 @@ describe("learner API journey", () => {
     const email = "password-reset@example.com";
     const oldPassword = "old-reset-password-123";
     const newPassword = "new-reset-password-456";
+    const registrationExpiresAt = new Date(Date.now() + 5 * 60_000);
     await prisma.user.create({ data: {
       id: passwordResetUserId,
       ...consentData,
       email,
       passwordHash: await hashPassword(oldPassword),
+      registrationExpiresAt,
       learner: { create: {} },
       sessions: { create: {
         sessionToken: "integration-password-reset-session",
@@ -1387,9 +1599,11 @@ describe("learner API journey", () => {
       const emailBody = JSON.parse(String(delivery?.body)) as { text: string };
       const token = emailBody.text.match(/#token=([A-Za-z0-9_-]+)/)?.[1];
       expect(token).toBeTruthy();
-      expect(await prisma.passwordResetToken.findUnique({
+      const issuedReset = await prisma.passwordResetToken.findUnique({
         where: { tokenHash: hashPasswordResetToken(token!) },
-      })).toMatchObject({ userId: passwordResetUserId });
+      });
+      expect(issuedReset).toMatchObject({ userId: passwordResetUserId });
+      expect(issuedReset!.expiresAt.getTime()).toBeLessThanOrEqual(registrationExpiresAt.getTime());
       await prisma.emailChangeToken.create({ data: {
         userId: passwordResetUserId,
         newEmail: "password-reset-pending@example.com",
@@ -1416,6 +1630,7 @@ describe("learner API journey", () => {
       expect(await verifyPassword(newPassword, updated.passwordHash!)).toBe(true);
       expect(updated.sessionVersion).toBe(1);
       expect(updated.emailVerified).toBeInstanceOf(Date);
+      expect(updated.registrationExpiresAt).toBeNull();
       expect(await prisma.session.count({ where: { userId: passwordResetUserId } })).toBe(0);
       expect(await prisma.emailVerificationToken.count({ where: { userId: passwordResetUserId } })).toBe(0);
       expect(await prisma.passwordResetToken.count({ where: { userId: passwordResetUserId } })).toBe(0);

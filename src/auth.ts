@@ -251,7 +251,7 @@ export const { handlers, auth } = NextAuth((request) => ({
         await prisma.$transaction([
           prisma.user.updateMany({
             where: { id: user.id, emailVerified: null },
-            data: { emailVerified: new Date() },
+            data: { emailVerified: new Date(), registrationExpiresAt: null },
           }),
           prisma.emailVerificationToken.deleteMany({ where: { userId: user.id } }),
         ]);

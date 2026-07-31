@@ -127,6 +127,7 @@ export async function completeEmailChange(
         data: {
           email: record.newEmail,
           emailVerified: now,
+          registrationExpiresAt: null,
           sessionVersion: { increment: 1 },
         },
       });

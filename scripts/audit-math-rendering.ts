@@ -4,8 +4,9 @@ import katex from "katex";
 import { tokenizeMathContent } from "../src/lib/math-content";
 import { normalizeMathExpression, requiresDisplayMath } from "../src/lib/math-expression";
 
-// Keep legacy warnings from growing while source archives are repaired incrementally.
-const MAX_STRICT_WARNINGS = 1043;
+// Legacy $$ fragments now use their real inline/display context. A same-archive
+// comparison rebased this count from 1043 to 1054 without new warning families.
+const MAX_STRICT_WARNINGS = 1054;
 const MAX_CONSOLE_WARNINGS = 136;
 const dataDirectory = path.join(process.cwd(), "data", "zh-CN");
 const formulas = new Map<string, { expression: string; display: boolean; filename: string }>();

@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 import { writeFile } from "node:fs/promises";
 import path from "node:path";
-import { CJEVAL_COMMIT, CJEVAL_SPLITS, convertCjevalRecord } from "./cjeval.mjs";
+import { CJEVAL_COMMIT, CJEVAL_SPLITS, convertCjevalRecord, hasCjevalSourceLabel } from "./cjeval.mjs";
 
 const outputPath = path.join(process.cwd(), "data", "zh-CN", "chinese.json");
 
@@ -32,6 +32,9 @@ async function downloadSplit(split) {
 
 const questions = (await Promise.all(CJEVAL_SPLITS.map(downloadSplit))).flat();
 if (new Set(questions.map((question) => question.id)).size !== questions.length) throw new Error("CJEval conversion produced duplicate IDs");
+const leakedSourceLabels = questions.filter((question) => hasCjevalSourceLabel(question.question_info.raw_content.title));
+if (leakedSourceLabels.length) throw new Error(`CJEval conversion leaked source labels into ${leakedSourceLabels.length} generated titles`);
 await writeFile(outputPath, `${JSON.stringify(questions, null, 2)}\n`, "utf8");
 const reviewCount = questions.filter((question) => question.quality.includes("NEEDS_REVIEW")).length;
-console.log(`Wrote ${questions.length} CJEval Chinese questions to ${outputPath} (${reviewCount} conversion issues marked for review).`);
+const structuredCount = questions.filter((question) => question.question_info.raw_content.title.includes("\n")).length;
+console.log(`Wrote ${questions.length} CJEval Chinese questions to ${outputPath} (${structuredCount} structured titles; ${reviewCount} conversion issues marked for review).`);

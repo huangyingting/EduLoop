@@ -22,6 +22,14 @@ function closingDollar(value: string, start: number) {
   return -1;
 }
 
+function isStandaloneDisplayMath(value: string, start: number, end: number) {
+  const lineStart = value.lastIndexOf("\n", start - 1) + 1;
+  const nextLineBreak = value.indexOf("\n", end);
+  const lineEnd = nextLineBreak === -1 ? value.length : nextLineBreak;
+  return value.slice(lineStart, start).trim() === ""
+    && value.slice(end, lineEnd).trim() === "";
+}
+
 export function tokenizeMathContent(value: string): MathContentToken[] {
   const tokens: MathContentToken[] = [];
   let cursor = 0;
@@ -36,10 +44,12 @@ export function tokenizeMathContent(value: string): MathContentToken[] {
     if (isFigure) {
       tokens.push({ kind: "figure", value: match[0] });
     } else {
-      const display = value.startsWith("$$", start);
-      const delimiterLength = display ? 2 : 1;
+      const usesDisplayDelimiters = value.startsWith("$$", start);
+      const delimiterLength = usesDisplayDelimiters ? 2 : 1;
       tokens.push({
-        kind: display ? "display-math" : "inline-math",
+        kind: usesDisplayDelimiters && isStandaloneDisplayMath(value, start, end)
+          ? "display-math"
+          : "inline-math",
         value: value.slice(start + delimiterLength, end - delimiterLength),
       });
     }

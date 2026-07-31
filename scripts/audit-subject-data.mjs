@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { contentDamageIssues } from "./amc-audit-rules.mjs";
+import { hasCjevalSourceLabel } from "./cjeval.mjs";
 import { localeFileUrl } from "./content-manifest.mjs";
 
 const FILES = ["biology.json", "chemistry.json", "chinese.json", "chinese-high-school.json", "mathematics.json", "physics.json"];
@@ -65,6 +66,14 @@ for (const { filename, question } of records) {
   if (!answer || PLACEHOLDER.test(answer)) issues.push("missing or placeholder answer");
   if (!solutions.length || solutions.some((solution) => !solution || PLACEHOLDER.test(solution))) {
     issues.push("missing or placeholder solution");
+  }
+  if (filename === "chinese.json") {
+    if (hasCjevalSourceLabel(stem)) {
+      issues.push("title: CJEval source label residue");
+    }
+    if (/选项[:：][^\n]|选择[:：]\s*[A-EＡ-Ｅ]\s*[.．、:：]/u.test(stem)) {
+      issues.push("title: inline CJEval option heading");
+    }
   }
 
   const normalizedOptions = presentOptions.map(normalize);

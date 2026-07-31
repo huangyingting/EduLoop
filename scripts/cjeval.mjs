@@ -12,6 +12,10 @@ const EMPHASIS_TAGS = ["dotted", "dot", "u", "underline", "underlined"];
 const STRONG_TAGS = ["b", "bold", "strong", "mark"];
 const TRANSPARENT_TAGS = ["span", "a", "i", "small"];
 const FULL_WIDTH_A = "Ａ".codePointAt(0);
+const SOURCE_LABEL = /(?:题目内容|问题内容|试题内容|任务内容|题干内容|小题内容|提问内容|文章内容|新题目内容|考题内容|填句内容|题目说明|问题说明|试题说明|任务说明|题目要求|试题要求|任务要求|阅读要求|题目描述|问题描述|任务描述|问题)\s*[:：]\s*/gu;
+const NUMBERED_PART = /[（(]\s*[1-9]\d*\s*[）)]/gu;
+const SECTION_MARKER = /【(?:材料[一二三四五甲乙丙丁\d]*|资料[一二三四五甲乙丙丁\d]*|文本[一二三四五甲乙丙丁\d]*|选文[一二三四五甲乙丙丁\d]*|注|注释|甲|乙|丙|丁)】|\[(?:注|注释)\]/gu;
+const ARABIC_PART_PROMPT = /(?:请|文章|作者|根据|从|下列|结合|简要|分析|概括|指出|说明|为什么|找出|本题|这)/u;
 
 function normalizeOptionLabel(label) {
   const codePoint = label.toUpperCase().codePointAt(0);
@@ -46,16 +50,119 @@ export function normalizeCjevalText(value) {
   return result.replace(/[ \t]+\n/gu, "\n").replace(/\n{3,}/gu, "\n\n").trim();
 }
 
-export function formatCjevalContent(value) {
+function flattenCjevalContent(value) {
   if (typeof value === "string") return normalizeCjevalText(value);
-  if (Array.isArray(value)) return value.map((item) => formatCjevalContent(item)).filter(Boolean).join("\n");
+  if (Array.isArray(value)) return value.map((item) => flattenCjevalContent(item)).filter(Boolean).join("\n");
   if (value && typeof value === "object") {
-    const title = formatCjevalContent(value["题目内容"] ?? value.question ?? "");
+    const title = flattenCjevalContent(value["题目内容"] ?? value.question ?? "");
     const options = value["选项"] ?? value.options;
-    if (title && Array.isArray(options)) return `${title}\n选项：${formatCjevalContent(options)}`;
-    return Object.entries(value).map(([key, item]) => `${key}：${formatCjevalContent(item)}`).join("\n");
+    if (title && Array.isArray(options)) return `${title}\n选项：\n${flattenCjevalContent(options)}`;
+    return Object.entries(value).map(([key, item]) => `${key}：${flattenCjevalContent(item)}`).join("\n");
   }
   return normalizeCjevalText(value);
+}
+
+function canonicalNumberedPart(marker) {
+  return `（${marker.replace(/\D/gu, "")}）`;
+}
+
+function structuralPrefix(prefix) {
+  if (!prefix) return "";
+  return `${prefix.replace(/\s/gu, "")}\n\n`;
+}
+
+function formatSectionMarkers(value) {
+  return value.replace(new RegExp(`[ \\t\\n]*(${SECTION_MARKER.source})[ \\t\\n]*`, "gu"), (_, marker, offset) => (
+    `${offset === 0 ? "" : "\n\n"}${marker}\n`
+  ));
+}
+
+function formatCircledNumbers(value) {
+  return value.replace(/(^|[\s。！？；】])([①②③④⑤⑥⑦⑧⑨⑩])(?=\s*\S)/gu, (_, prefix, marker) => {
+    if (!prefix) return marker;
+    return `${/\s/u.test(prefix) ? "" : prefix}\n${marker}`;
+  });
+}
+
+function formatChoiceMarkers(value) {
+  return value.replace(/(^|[\s\u3000：:。；;，,）)])([A-EＡ-Ｅ])\s*[.．、:：]\s*/giu, (_, prefix, label) => {
+    const canonicalLabel = normalizeOptionLabel(label);
+    if (!prefix) return `${canonicalLabel}. `;
+    return `${/\s/u.test(prefix) ? "" : prefix}\n${canonicalLabel}. `;
+  });
+}
+
+function poetryBoundary(value) {
+  const boundaries = [
+    value.search(/\n\n(?=【(?:注|注释)】|\[(?:注|注释)\])/u),
+    value.search(/\n\n(?=（1）)/u),
+  ].filter((index) => index >= 0);
+  return boundaries.length ? Math.min(...boundaries) : value.length;
+}
+
+function surroundFirst(value, search) {
+  const index = value.indexOf(search);
+  if (index < 0) return value;
+  const before = value.slice(0, index).trimEnd();
+  const after = value.slice(index + search.length).trimStart();
+  return `${before ? `${before}\n` : ""}${search}${after ? `\n${after}` : ""}`;
+}
+
+function formatPoetry(value, authors) {
+  const boundary = poetryBoundary(value);
+  let passage = value.slice(0, boundary).trim();
+  const remainder = value.slice(boundary);
+  let introduction = "";
+  if (/^(?:阅读|赏读|请阅读|请细读|古诗词阅读|诗歌赏析)/u.test(passage)) {
+    const introductionEnd = passage.search(/[。！？]/u);
+    if (introductionEnd >= 0 && introductionEnd < 80) {
+      introduction = passage.slice(0, introductionEnd + 1).trim();
+      passage = passage.slice(introductionEnd + 1).trim();
+    }
+  }
+  for (const author of authors) passage = surroundFirst(passage, author);
+  passage = passage.replace(/([，。！？；])(?=[^\n])/gu, "$1\n");
+  const formattedPassage = [introduction, passage].filter(Boolean).join("\n\n");
+  return `${formattedPassage}${remainder}`;
+}
+
+function formatCjevalLayout(value, { poetry = false, authors = [] } = {}) {
+  let result = value
+    .replace(new RegExp(`(${NUMBERED_PART.source})\\s*${SOURCE_LABEL.source}`, "gu"), (_, marker) => `\n\n${canonicalNumberedPart(marker)} `)
+    .replace(new RegExp(`^${SOURCE_LABEL.source}`, "u"), "")
+    .replace(new RegExp(`(^|\\n)${SOURCE_LABEL.source}`, "gu"), (_, prefix) => prefix);
+
+  const numberedParts = [...result.matchAll(new RegExp(`(^|[\\s。！？；])(${NUMBERED_PART.source})\\s*(?=\\S)`, "gu"))];
+  if (numberedParts.length > 1) {
+    result = result.replace(new RegExp(`(^|[\\s。！？；]+)(${NUMBERED_PART.source})\\s*(?=\\S)`, "gu"), (_, prefix, marker) => (
+      `${structuralPrefix(prefix)}${canonicalNumberedPart(marker)} `
+    ));
+  }
+
+  const arabicPartPattern = new RegExp(`(^|[\\s。！？；])([1-9]\\d*)[.．、]\\s*(?=${ARABIC_PART_PROMPT.source})`, "gu");
+  if ([...result.matchAll(arabicPartPattern)].length > 1) {
+    result = result.replace(new RegExp(arabicPartPattern.source, "gu"), (_, prefix, number) => (
+      `${structuralPrefix(prefix)}${number}. `
+    ));
+  }
+
+  result = formatSectionMarkers(result)
+    .replace(/[ \t\n]*(?:选项(?:是)?)\s*[:：][ \t\n]*/gu, "\n选项：\n")
+    .replace(/[ \t\n]*选择\s*[:：][ \t\n]*(?=[A-EＡ-Ｅ]\s*[.．、:：])/gu, "\n选项：\n");
+  result = formatChoiceMarkers(result);
+  result = formatCircledNumbers(result);
+  result = result.replace(/[ \t]+\n/gu, "\n").replace(/\n[ \t]+/gu, "\n").replace(/\n{3,}/gu, "\n\n").trim();
+  if (poetry) result = formatPoetry(result, authors);
+  return result.replace(/[ \t]+\n/gu, "\n").replace(/\n[ \t]+/gu, "\n").replace(/\n{3,}/gu, "\n\n").trim();
+}
+
+export function formatCjevalContent(value, options) {
+  return formatCjevalLayout(flattenCjevalContent(value), options);
+}
+
+export function hasCjevalSourceLabel(value) {
+  const structuralLabel = new RegExp(`(?:(?:^|\\n)[ \\t]*|${NUMBERED_PART.source}\\s*)${SOURCE_LABEL.source}`, "u");
+  return structuralLabel.test(String(value));
 }
 
 export function splitChoiceContent(value) {
@@ -234,6 +341,46 @@ const CJEVAL_REPAIRS = new Map([
       },
     },
   ],
+  [
+    "train:1561",
+    {
+      note: "恢复《浣溪沙》的词牌、作者、正文、注释、小题和选项分段",
+      apply(record) {
+        replaceRequired(record.ques_content, "浣溪沙<sup >①</sup> 苏轼", "浣溪沙<sup >①</sup> 苏轼", "train:1561");
+        return {
+          ...record,
+          ques_content: [
+            "阅读下面的古诗词，完成下面小题。",
+            "",
+            "浣溪沙①",
+            "苏轼",
+            "簌簌衣巾落枣花，村南村北响缫车②，牛衣③古柳卖黄瓜。",
+            "酒困路长惟欲睡，日高人渴漫思茶④，敲门试问野人家。",
+            "",
+            "【注释】",
+            "① 公元1078年，徐州春旱，太守苏轼曾率众求雨。得雨后，他又与百姓同赴石潭谢雨。此为词人在赴徐门石潭谢雨路上所作。",
+            "② 缫车：缫丝所用的器具。",
+            "③ 牛衣：蓑衣，这里泛指用粗麻织成的衣服。",
+            "④ 漫思茶：想随便去哪儿找点茶喝。漫，随意。",
+            "",
+            "（1）下列对诗歌的理解不正确的一项是（ ）",
+            "选项：",
+            "A. 全词从农村习见的典型事物入手，意趣盎然地表现了淳厚的乡村风味。",
+            "B. 上片写枣花、缫丝、黄瓜这些富有时令特色的事物，点染出了一幅初夏时节农村风俗画。",
+            "C. 这首词上片写景，重在路途之声；下片记事，重在行人之态。",
+            "D. “村南村北响缫车”通过写嘈杂的“缫车”声，含蓄地表达了词人的烦躁郁闷之情。",
+            "",
+            "（2）这首词清新朴实，明白如话。“敲门试问野人家”中的“试问”二字让词人形象栩栩传神。请结合本句内容，分析词人形象。",
+          ].join("\n"),
+          ques_answer: [
+            "D",
+            "“试问”写词人敲门后试探着询问能否讨茶解渴，表现出他谨慎有礼、平易近人、亲近百姓的形象。",
+          ],
+          ques_analyze: "（1）“村南村北响缫车”写雨后农村缫丝繁忙的景象，表现词人对乡村生活和民生的关注，并非表达烦躁郁闷，因此D项不正确。\n（2）词人虽旅途困倦、口渴，却只在敲门后试探着询问，不贸然打扰农家。“试问”体现了他的谦和有礼、平易近人和亲民。",
+        };
+      },
+    },
+  ],
 ]);
 
 export const CJEVAL_REPAIR_COUNT = CJEVAL_REPAIRS.size;
@@ -248,13 +395,18 @@ export function convertCjevalRecord(record, split, index) {
   const source = repair.record;
   const answer = formatCjevalAnswer(source.ques_answer);
   const explanation = normalizeCjevalText(source.ques_analyze);
+  const authors = source.ques_knowledges.map((item) => normalizeCjevalText(item).match(/^(.+?)[（(]\d{3,4}-\d{3,4}[）)]$/u)?.[1]).filter(Boolean);
+  const formattedContent = formatCjevalContent(source.ques_content, {
+    poetry: source.ques_type === "诗歌鉴赏",
+    authors,
+  });
   const choiceAnswers = source.ques_type === "选择题"
     && Array.isArray(source.ques_answer)
     && source.ques_answer.length > 0
     && source.ques_answer.every((item) => typeof item === "string" && /^[A-E]$/u.test(item))
     ? [...new Set(source.ques_answer)]
     : [];
-  const parsedChoice = choiceAnswers.length ? splitChoiceContent(source.ques_content) : null;
+  const parsedChoice = choiceAnswers.length ? splitChoiceContent(formattedContent) : null;
   const isGradableChoice = choiceAnswers.length > 0 && Boolean(parsedChoice);
   const issues = [];
   if (source.ques_type === "选择题" && !choiceAnswers.length) issues.push("复合选择题需要人工确认作答结构");
@@ -285,7 +437,7 @@ export function convertCjevalRecord(record, split, index) {
     quality,
     question_info: {
       raw_content: {
-        title: parsedChoice?.stem ?? formatCjevalContent(source.ques_content),
+        title: parsedChoice?.stem ?? formattedContent,
         option_a: optionByLabel.get("A") ?? "",
         option_b: optionByLabel.get("B") ?? "",
         option_c: optionByLabel.get("C") ?? "",

@@ -38,7 +38,7 @@ try {
   await prisma.$disconnect();
   const expected = {
     total: 16_537, published: 16_537, review: 0, autoGradable: 10_548, assets: 12, approvedAssets: 12,
-    difficultyAudited: 16_537, difficultyAdjusted: 5_236, difficultyEasy: 9_120, difficultyMedium: 4_743, difficultyHard: 2_674,
+    difficultyAudited: 16_537, difficultyAdjusted: 5_230, difficultyEasy: 9_122, difficultyMedium: 4_748, difficultyHard: 2_667,
   };
   if (JSON.stringify(result) !== JSON.stringify(expected)) {
     throw new Error(`Seed verification mismatch: expected ${JSON.stringify(expected)}, received ${JSON.stringify(result)}`);

@@ -124,48 +124,168 @@ function mapDifficulty(value) {
   return "一般";
 }
 
+function replaceRequired(value, search, replacement, repairKey) {
+  if (!value.includes(search)) throw new Error(`CJEval repair ${repairKey} no longer matches its pinned source`);
+  return value.replace(search, replacement);
+}
+
+const CJEVAL_REPAIRS = new Map([
+  [
+    "train:0",
+    {
+      note: "校正读音题选项及解析，使答案C唯一成立",
+      apply(record) {
+        return {
+          ...record,
+          ques_content: replaceRequired(record.ques_content, "粗<dotted>拙</dotted>（zhuō）", "粗<dotted>拙</dotted>（zhuó）", "train:0"),
+          ques_analyze: "本题考查汉字读音。A项中“侮辱”的“侮”应读wǔ；B项中“忧心忡忡”的“忡”应读chōng；C项读音全部正确；D项中“粗拙”的“拙”应读zhuō。因此选C。",
+        };
+      },
+    },
+  ],
+  [
+    "train:25",
+    {
+      note: "依据来源解析补全缺失选项",
+      apply(record) {
+        return {
+          ...record,
+          ques_content: `${record.ques_content} 选项：A. 污篾、告戒 B. 枷琐、慢不经心 C. 浮燥、厉厉在目 D. 恬静、辐射、纷至沓来、轻歌曼舞`,
+        };
+      },
+    },
+  ],
+  [
+    "train:179",
+    {
+      note: "校正病句和失配选项，并将数字选项规范为字母选项",
+      apply(record) {
+        let content = replaceRequired(record.ques_content, "父母无私的爱的<dotted>养</dotted>", "父母无私的<dotted>养</dotted>", "train:179");
+        content = replaceRequired(content, "选项: 1.", "选项: A.", "train:179");
+        content = replaceRequired(content, " 2. 文中", " B. 文中", "train:179");
+        content = replaceRequired(content, " 3. “漫步”", " C. “漫步”", "train:179");
+        content = replaceRequired(
+          content,
+          " 4. 文中的“馈赠”一词与“赠送”意义相近，且“馈”的发音与“愧”相同。",
+          " D. 文中的“赠予”一词与“赠送”意义相近，且“予”在这里读yǔ。",
+          "train:179",
+        );
+        return {
+          ...record,
+          ques_content: content,
+          ques_answer: ["A"],
+          ques_analyze: "A项表述有误：“养育”和“成长”在文中用作名词，“漫步”用作动词，并非同一词性。B项中“幸福”带有褒义色彩；C项中“漫”共十四画，第五笔是横折；D项中“赠予”与“赠送”意义相近，“予”读yǔ。故选A。",
+        };
+      },
+    },
+  ],
+  [
+    "train:304",
+    {
+      note: "校正重复且与答案冲突的B项",
+      apply(record) {
+        return {
+          ...record,
+          ques_content: replaceRequired(record.ques_content, "B. ①会 ②孺 ③搏", "B. ①汇 ②孺 ③搏", "train:304"),
+        };
+      },
+    },
+  ],
+  [
+    "train:379",
+    {
+      note: "恢复三个错别字干扰项，并将数字选项规范为字母选项",
+      apply(record) {
+        return {
+          ...record,
+          ques_content: "请从以下句子中选择一个没有错别字的选项：（ ）选项：A. 对犯了错误的同事，应该给予热心帮助，而不是幸灾乐祸。 B. 老师的严肃批评，让他不知所错。 C. 翻阅了许多资料后，我才理解了“格物致志”的真实意义。 D. 人生不可能一翻风顺，有时遇到挫折反而能促进我们的成长。",
+          ques_answer: ["A"],
+          ques_analyze: "A项没有错别字。B项“不知所错”应为“不知所措”；C项“格物致志”应为“格物致知”；D项“一翻风顺”应为“一帆风顺”。故选A。",
+        };
+      },
+    },
+  ],
+  [
+    "train:408",
+    {
+      note: "确认为含两小问的复合题，保留参考答案自评",
+      apply(record) {
+        return { ...record, ques_type: "复合题" };
+      },
+    },
+  ],
+  [
+    "train:642",
+    {
+      note: "修复阅读题引用中的损坏标记并同步答案解析",
+      apply(record) {
+        const question = "(3) 题目内容：从修辞角度品析下列句子。就在一个拐角处，一树柿子顶着雪跃入我的眼帘。这是一棵老柿树，它悠然矗立在废弃土房旁。";
+        const content = replaceRequired(
+          record.ques_content,
+          "(3) 题目内容：从修辞角度品析加点词的妙用。就在一个拐角处，一树柿子<点>头<点>雪跃入我的眼帘。这是一棵老柿树，它<悠然>矗立在废弃土房旁。",
+          question,
+          "train:642",
+        );
+        const answer = [...record.ques_answer];
+        answer[2] = "“顶着”“跃入”“悠然”赋予柿子树人的动作和情态，生动写出柿子树覆雪而立、突然映入眼帘的姿态，表达作者的惊喜与喜爱。";
+        const analyze = [...record.ques_analyze];
+        analyze[2] = "(3) 句子运用拟人手法。“顶着”“跃入”“悠然”赋予柿子树人的动作和情态，生动表现老柿树覆雪而立、安静从容又突然映入眼帘的姿态，传达作者的惊喜与喜爱。";
+        return { ...record, ques_content: content, ques_answer: answer, ques_analyze: analyze };
+      },
+    },
+  ],
+]);
+
+export const CJEVAL_REPAIR_COUNT = CJEVAL_REPAIRS.size;
+
+export function repairCjevalRecord(record, split, index) {
+  const repair = CJEVAL_REPAIRS.get(`${split}:${index}`);
+  return repair ? { record: repair.apply(record), note: repair.note } : { record, note: "" };
+}
+
 export function convertCjevalRecord(record, split, index) {
-  const answer = formatCjevalAnswer(record.ques_answer);
-  const explanation = normalizeCjevalText(record.ques_analyze);
-  const choiceAnswers = record.ques_type === "选择题"
-    && Array.isArray(record.ques_answer)
-    && record.ques_answer.length > 0
-    && record.ques_answer.every((item) => typeof item === "string" && /^[A-E]$/u.test(item))
-    ? [...new Set(record.ques_answer)]
+  const repair = repairCjevalRecord(record, split, index);
+  const source = repair.record;
+  const answer = formatCjevalAnswer(source.ques_answer);
+  const explanation = normalizeCjevalText(source.ques_analyze);
+  const choiceAnswers = source.ques_type === "选择题"
+    && Array.isArray(source.ques_answer)
+    && source.ques_answer.length > 0
+    && source.ques_answer.every((item) => typeof item === "string" && /^[A-E]$/u.test(item))
+    ? [...new Set(source.ques_answer)]
     : [];
-  const parsedChoice = choiceAnswers.length ? splitChoiceContent(record.ques_content) : null;
+  const parsedChoice = choiceAnswers.length ? splitChoiceContent(source.ques_content) : null;
   const isGradableChoice = choiceAnswers.length > 0 && Boolean(parsedChoice);
   const issues = [];
-  if (record.ques_type === "选择题" && !choiceAnswers.length) issues.push("复合选择题需要人工确认作答结构");
+  if (source.ques_type === "选择题" && !choiceAnswers.length) issues.push("复合选择题需要人工确认作答结构");
   if (choiceAnswers.length && !parsedChoice) issues.push("选择题选项无法安全拆分");
   if (parsedChoice && choiceAnswers.some((answerLabel) => !parsedChoice.options.some((option) => option.label === answerLabel))) {
     issues.push("答案引用了不存在的选项");
   }
-  if (JSON.stringify(record.ques_content).includes("<点>")) issues.push("来源含无法可靠解释的加点标记");
+  if (JSON.stringify(source.ques_content).includes("<点>")) issues.push("来源含无法可靠解释的加点标记");
   const normalizedOptions = parsedChoice?.options.map((option) => option.content.replace(/\s+/gu, "")) ?? [];
   if (new Set(normalizedOptions).size !== normalizedOptions.length) issues.push("选择题包含重复选项");
-  if (split === "train" && index === 0) issues.push("来源首题的读音答案与解析疑似冲突");
 
   const optionByLabel = new Map(parsedChoice?.options.map((option) => [option.label, option.content]) ?? []);
   const answerKey = isGradableChoice ? choiceAnswers.join("|") : "";
   const quality = issues.length
-    ? `CJEval许可导入；NEEDS_REVIEW：${issues.join("；")}`
-    : "CJEval许可导入";
+    ? `CJEval许可导入；${repair.note ? `EduLoop人工校订：${repair.note}；` : ""}NEEDS_REVIEW：${issues.join("；")}`
+    : `CJEval许可导入${repair.note ? `；EduLoop人工校订：${repair.note}` : ""}`;
 
   return {
     id: stableId(split, index),
-    type: isGradableChoice ? choiceAnswers.length > 1 ? "多选题" : "单选题" : record.ques_type === "选择题" ? "复合题" : record.ques_type,
+    type: isGradableChoice ? choiceAnswers.length > 1 ? "多选题" : "单选题" : source.ques_type === "选择题" ? "复合题" : source.ques_type,
     grade_band: "初中",
-    difficulty: mapDifficulty(record.ques_difficulty),
+    difficulty: mapDifficulty(source.ques_difficulty),
     grade: "初中综合",
     course: "语文",
-    paper: `CJEval ${split} #${index + 1}；原始难度：${record.ques_difficulty}`,
+    paper: `CJEval ${split} #${index + 1}；原始难度：${source.ques_difficulty}`,
     online_test: true,
     option_split: Boolean(parsedChoice),
     quality,
     question_info: {
       raw_content: {
-        title: parsedChoice?.stem ?? formatCjevalContent(record.ques_content),
+        title: parsedChoice?.stem ?? formatCjevalContent(source.ques_content),
         option_a: optionByLabel.get("A") ?? "",
         option_b: optionByLabel.get("B") ?? "",
         option_c: optionByLabel.get("C") ?? "",
@@ -177,6 +297,6 @@ export function convertCjevalRecord(record, split, index) {
     answer_info: { raw_content: answer },
     solution_info: [{ solution_info: explanation }],
     children: [],
-    source_tags: [...new Set(record.ques_knowledges.map((item) => normalizeCjevalText(item)).filter(Boolean))].map(knowledgeTag),
+    source_tags: [...new Set(source.ques_knowledges.map((item) => normalizeCjevalText(item)).filter(Boolean))].map(knowledgeTag),
   };
 }

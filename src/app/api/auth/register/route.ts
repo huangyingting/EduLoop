@@ -21,6 +21,13 @@ async function postRegistration(request: Request) {
   const limited = enforceRateLimit(request, "auth-register", email, 5, 15 * 60_000);
   if (limited) return limited;
   const passwordHash = await hashPassword(input.password);
+  const knowledgeBand = input.knowledgeBand ? await prisma.gradeBand.findFirst({
+    where: { slug: input.knowledgeBand, questions: { some: { status: "PUBLISHED" } } },
+    select: { id: true },
+  }) : null;
+  if (input.knowledgeBand && !knowledgeBand) {
+    return apiError("请选择题库中可用的知识阶段。", 400, "INVALID_REQUEST");
+  }
 
   try {
     await prisma.$transaction(async (transaction) => {
@@ -28,7 +35,7 @@ async function postRegistration(request: Request) {
         data: { email, passwordHash, name: input.displayName ?? null },
         select: { id: true, name: true },
       });
-      await createLearnerForUser(transaction, created.id, created.name);
+      await createLearnerForUser(transaction, created.id, created.name, knowledgeBand?.id);
     });
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {

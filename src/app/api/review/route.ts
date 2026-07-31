@@ -13,6 +13,10 @@ const saveSchema = z.object({
   questionId: z.string().min(8).max(100),
   saved: z.boolean(),
 });
+const reviewMutationSchema = z.object({
+  questionId: z.string().min(8).max(100),
+  action: z.literal("DISMISS"),
+});
 
 const questionInclude = {
   subject: { select: { slug: true, name: true, color: true } },
@@ -57,13 +61,23 @@ async function getReview(request: NextRequest) {
       where: { learnerId: learner.id, status: "ACTIVE", question: { status: "PUBLISHED" } },
       orderBy: [{ dueAt: "asc" }, { updatedAt: "desc" }],
       take: 50,
-      include: { question: { include: questionInclude } },
+      include: { question: { include: {
+        ...questionInclude,
+        savedBy: { where: { learnerId: learner.id }, take: 1, select: { questionId: true } },
+      } } },
     }),
     prisma.savedQuestion.findMany({
       where: { learnerId: learner.id, question: { status: "PUBLISHED" } },
       orderBy: { createdAt: "desc" },
       take: 50,
-      include: { question: { include: questionInclude } },
+      include: { question: { include: {
+        ...questionInclude,
+        reviewItems: {
+          where: { learnerId: learner.id, status: "ACTIVE" },
+          take: 1,
+          select: { dueAt: true },
+        },
+      } } },
     }),
     prisma.reviewItem.count({ where: { learnerId: learner.id, status: "ACTIVE", dueAt: { lte: now }, question: { status: "PUBLISHED" } } }),
     prisma.reviewItem.count({ where: { learnerId: learner.id, status: "ACTIVE", question: { status: "PUBLISHED" } } }),
@@ -81,8 +95,14 @@ async function getReview(request: NextRequest) {
       intervalDays: item.intervalDays,
       repetitions: item.repetitions,
       lastResult: item.lastResult,
+      isSaved: item.question.savedBy.length > 0,
     })),
-    saved: saved.map((item) => ({ ...questionCard(item.question), savedAt: item.createdAt })),
+    saved: saved.map((item) => ({
+      ...questionCard(item.question),
+      savedAt: item.createdAt,
+      isInReview: item.question.reviewItems.length > 0,
+      reviewIsDue: Boolean(item.question.reviewItems[0]?.dueAt && item.question.reviewItems[0].dueAt <= now),
+    })),
   });
 }
 
@@ -113,5 +133,30 @@ async function postSavedQuestion(request: Request) {
   return NextResponse.json({ saved: input.saved });
 }
 
+async function patchReviewItem(request: Request) {
+  if (!isSameOriginRequest(request)) return apiError("Invalid request origin.", 403, "FORBIDDEN");
+  const user = await getSessionUser(request);
+  if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
+  const parsed = reviewMutationSchema.safeParse(await request.json().catch(() => null));
+  if (!parsed.success) return apiError("Invalid review action", 400, "INVALID_REQUEST");
+  const limited = enforceRateLimit(request, "review-items", user.id, 30);
+  if (limited) return limited;
+  const learner = await findLearnerForRequest(request);
+  if (!learner) return apiError("请先登录。", 401, "UNAUTHORIZED");
+
+  const updated = await prisma.reviewItem.updateMany({
+    where: {
+      learnerId: learner.id,
+      questionId: parsed.data.questionId,
+      status: "ACTIVE",
+      question: { status: "PUBLISHED" },
+    },
+    data: { status: "DISMISSED" },
+  });
+  if (!updated.count) return apiError("Review item not found", 404, "NOT_FOUND");
+  return NextResponse.json({ dismissed: true });
+}
+
 export const GET = apiHandler("GET /api/review", getReview);
 export const POST = apiHandler("POST /api/review", postSavedQuestion);
+export const PATCH = apiHandler("PATCH /api/review", patchReviewItem);

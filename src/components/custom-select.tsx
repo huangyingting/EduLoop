@@ -2,6 +2,7 @@
 
 import * as SelectPrimitive from "@radix-ui/react-select";
 import { Check, ChevronDown, ChevronUp } from "lucide-react";
+import type { ReactNode } from "react";
 
 const emptyValue = "__custom-select-empty__";
 
@@ -18,9 +19,10 @@ type CustomSelectProps = {
   onValueChange: (value: string) => void;
   disabled?: boolean;
   className?: string;
+  leadingIcon?: ReactNode;
 };
 
-export function CustomSelect({ label, value, options, onValueChange, disabled = false, className }: CustomSelectProps) {
+export function CustomSelect({ label, value, options, onValueChange, disabled = false, className, leadingIcon }: CustomSelectProps) {
   return (
     <SelectPrimitive.Root
       value={value || emptyValue}
@@ -32,6 +34,7 @@ export function CustomSelect({ label, value, options, onValueChange, disabled = 
         aria-label={label}
         className={`group inline-flex h-11 min-w-0 max-w-full items-center justify-between gap-3 rounded-xl border-2 border-ink/10 bg-white px-3 text-left text-sm font-bold text-ink shadow-[0_2px_0_rgba(36,33,54,.08)] outline-none transition hover:border-violet/40 focus-visible:border-violet data-[state=open]:border-violet data-[state=open]:shadow-[0_3px_0_#d9d3f5] disabled:pointer-events-none disabled:opacity-50 ${className ?? ""}`}
       >
+        {leadingIcon ? <span className="shrink-0 text-muted">{leadingIcon}</span> : null}
         <SelectPrimitive.Value className="min-w-0 flex-1 truncate" />
         <SelectPrimitive.Icon asChild>
           <ChevronDown className="shrink-0 text-muted transition-transform group-data-[state=open]:rotate-180" size={17} strokeWidth={2.5} />

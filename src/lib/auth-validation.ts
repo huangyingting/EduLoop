@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { catalogSlugSchema } from "@/lib/learner-profile";
 
 export const SENSITIVE_ACTION_MAX_AGE_SECONDS = 10 * 60;
 
@@ -17,6 +18,7 @@ export const registerInputSchema = z.object({
   email: emailSchema,
   password: bcryptPassword(8),
   displayName: z.string().trim().min(1).max(50).optional(),
+  knowledgeBand: catalogSlugSchema.optional(),
 });
 
 export const passwordChangeSchema = z.object({

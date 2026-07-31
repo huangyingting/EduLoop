@@ -19,9 +19,9 @@ The source has 30 question-type strings. Normalization reduces them to seven sta
 
 | Product family | Questions | Typical source types |
 | --- | ---: | --- |
-| Single choice | 9,722 | 选择题, 单选题 |
+| Single choice | 9,725 | 选择题, 单选题 |
 | Fill blank | 3,313 | 填空题, 单空题, 多空题 |
-| Written response | 2,381 | 解答题, 简答题, 应用题, 证明题, 现代文阅读, 诗歌鉴赏 |
+| Written response | 2,378 | 解答题, 简答题, 应用题, 证明题, 现代文阅读, 诗歌鉴赏 |
 | Multiple choice | 392 | 多选题, 双选题, 不定项选择题 |
 | Computation | 234 | 计算题 |
 | True/false | 204 | 判断题 |
@@ -30,7 +30,7 @@ The source has 30 question-type strings. Normalization reduces them to seven sta
 ## Content and answer quality
 
 - All records use the same outer and nested key shape. Several files start with a UTF-8 BOM; the importer removes it before parsing.
-- 10,040 questions have options. Of these, 6,367 have four, 185 have three, 3,484 have five, and four have two.
+- 10,043 questions have options. Of these, 6,370 have four, 185 have three, 3,484 have five, and four have two.
 - 4,595 stems match the structural LaTeX audit. The renderer supports both the original `$$...$$` convention and the AMC archives' `$...$` inline notation.
 - Every record has non-empty `answer_info.raw_content` and a distinct solution/explanation. The non-AMC repair pass restored 161 missing or placeholder explanations.
 - 1,692 records lack `question_info.raw_content.answer1`. This is not treated as an error because many written-response questions keep the answer only in `answer_info`.
@@ -39,7 +39,7 @@ The source has 30 question-type strings. Normalization reduces them to seven sta
 - The AMC archives contain 1,675 figure references across 1,068 questions, including 688 question prompts. All are stored locally as 1,656 SHA-256-deduplicated files under `public/question-assets/source/amc/`; `manifest.json` retains each original source URL for provenance. The AMC audit rejects remote markers, malformed local markers, and missing files. The original subject files still use reviewed textual rewrites or approved generated replacements; unrecognized future figure references remain quarantined by default. Inline choices are recovered only when their `A/B/C...` sequence and content are complete.
 - The Simplified Chinese AMC audit preserves ordinary formulas structurally and translates only reviewed prose inside LaTeX text commands. Controlled OCR repairs and complete equivalent solution rewrites are pinned by an aggregate SHA-256 approval over the exact source value, translated value, question ID, and field index. Any source drift, translation edit, added or removed exception, or field movement invalidates the approval and restores the detailed per-field audit errors.
 
-Source normalization plus approved curation yields 10,316 published, high-confidence auto-gradable questions. The rest use reference-answer self-assessment. Of 16,310 bundled records, 16,303 are published and seven CJEval records remain in `NEEDS_REVIEW` with explicit source-audit reasons.
+Source normalization plus approved curation yields 10,321 published, high-confidence auto-gradable questions. The remaining 5,989 use reference-answer self-assessment. All 16,310 bundled records are published; the seven previously quarantined CJEval records now have pinned, provenance-labeled editorial repairs.
 
 The non-AMC audit covers all 12,848 biology, chemistry, Chinese, mathematics, and physics records. It rejects missing stems, answers, or explanations; placeholder solutions; invalid choice keys; answer/solution conclusions that disagree with the stored key; duplicated options; malformed braces, environments, and math delimiters; encoding damage; and raw HTML residue. A structurally valid record carrying an explicit `NEEDS_REVIEW` quality marker remains quarantined and is reported separately instead of failing the complete catalog. The reviewed repair pass corrected 50 original subject records with confirmed key, option, stem, type, or reasoning defects and supplied useful explanations for 161 records that previously had an empty or `略` solution.
 
@@ -57,7 +57,7 @@ After seeding, run `node --env-file-if-exists=.env --import tsx scripts/audit-qu
 
 The three product levels retain their existing meanings: `EASY` is direct recall or one-step application, `MEDIUM` requires connected concepts or several operations, and `HARD` requires sustained multi-step reasoning, proof, synthesis, or experimental design. Difficulty is relative to the assigned grade; advanced vocabulary alone does not make a question hard.
 
-Audit version 1 assessed all 16,310 bundled questions and changed 5,202 high-confidence mismatches. The calibrated catalog contains 9,102 easy, 4,550 medium, and 2,658 hard questions, replacing the source distribution of 7,605 easy, 7,347 medium, and 1,358 hard. AMC difficulty is assigned per contest position (problems 1–10 easy, 11–20 medium, and 21–25 hard) and retained after the structural audit because contest ordering is the stronger source-specific signal. Curated subject review can override an individual result with confidence 1 in `content-curation.ts` without weakening the reproducible default audit.
+Audit version 1 assessed all 16,310 bundled questions and changed 5,204 high-confidence mismatches. The calibrated catalog contains 9,104 easy, 4,548 medium, and 2,658 hard questions, replacing the source distribution of 7,605 easy, 7,347 medium, and 1,358 hard. AMC difficulty is assigned per contest position (problems 1–10 easy, 11–20 medium, and 21–25 hard) and retained after the structural audit because contest ordering is the stronger source-specific signal. Curated subject review can override an individual result with confidence 1 in `content-curation.ts` without weakening the reproducible default audit.
 
 ## CJEval junior-high Chinese
 
@@ -65,7 +65,7 @@ The project owner confirmed a separate permission covering use, modification, le
 
 `npm run data:import:cjeval` downloads the three `初中语文` JSONL splits from pinned commit `590fb8f34239f642324b806b68374c303fe643bf`, verifies each source SHA-256 and record count, and deterministically rebuilds `data/zh-CN/chinese.json`. The import contains 2,499 questions: 576 source choice questions, 664 fill blanks, 597 modern-reading questions, and 662 poetry-appreciation questions. All have non-empty answers, explanations, difficulty labels, and one or more knowledge concepts. The 4,095 source knowledge links across 276 distinct labels are imported as stable topic tags.
 
-CJEval does not identify seventh, eighth, or ninth grade, so all records use the honest `初中综合` grade. The converter renders source emphasis markup as visible plain text, formats nested answers for learner self-assessment, recovers safely delimited and reordered lettered choices, and preserves source split/index provenance. Seven records are quarantined: one known answer/explanation anomaly, one malformed source emphasis/OCR record, one duplicated-choice record, two records without safely recoverable choice structure, and two numeric/composite choice records that cannot be represented as a single lettered choice. The import is suitable for practice only with this review boundary; source permission does not replace editorial fact checking.
+CJEval does not identify seventh, eighth, or ninth grade, so all records use the honest `初中综合` grade. The converter renders source emphasis markup as visible plain text, formats nested answers for learner self-assessment, recovers safely delimited and reordered lettered choices, and preserves source split/index provenance. Seven pinned source defects have explicit EduLoop editorial repairs: the importer corrects a contradictory reading item, reconstructs one option set from its source explanation, restores two malformed lettered-choice records, removes one duplicated option, retains one genuine two-part item for reference-answer self-assessment, and repairs one damaged reading quotation with aligned answer and explanation. Each repair is keyed by source split/index, fails closed if its expected source text drifts, and remains labeled in the generated record's quality provenance. The import currently produces no `NEEDS_REVIEW` records, but source permission and automated checks do not replace ongoing editorial fact checking.
 
 ## Taxonomy strategy
 

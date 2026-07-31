@@ -4,7 +4,8 @@ import { Bookmark, BookmarkCheck, Check, ChevronDown, ChevronRight, CircleAlert,
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { getPracticePreferences, getTimeZone, savePracticePreferences } from "@/lib/learner";
+import { deferInitialization } from "@/lib/deferred-initialization";
+import { getStoredPracticePreferences, getTimeZone, practicePreferencesWithKnowledgeDefault, savePracticePreferences } from "@/lib/learner";
 import { useAuth } from "@/lib/use-auth";
 import { ignoresPracticeShortcuts, optionIndexForShortcut } from "@/lib/practice-shortcuts";
 import { CustomSelect } from "./custom-select";
@@ -127,8 +128,20 @@ export function PracticePlayer() {
   const viewedExplanations = useRef(new Set<string>());
   const initialized = useRef(false);
 
-  const resolveInitialFilters = useCallback((): PracticeFilters => {
-    const next = isAuthenticated ? { ...getPracticePreferences() } : { subject: "", gradeBand: "", grade: "", difficulty: "", type: "", tags: "" };
+  const resolveInitialFilters = useCallback(async (): Promise<PracticeFilters> => {
+    const stored = isAuthenticated ? getStoredPracticePreferences() : null;
+    let next = practicePreferencesWithKnowledgeDefault(stored, null);
+    if (isAuthenticated && !stored && !targetedQuestionId.current) {
+      try {
+        const response = await fetch("/api/learner/profile", { cache: "no-store" });
+        if (response.ok) {
+          const profile = await response.json() as { knowledgeBand: string | null; knowledgeGrade: string | null };
+          next = practicePreferencesWithKnowledgeDefault(null, profile);
+        }
+      } catch {
+        // Profile recommendations are optional; practice remains available.
+      }
+    }
     const keys: Array<keyof PracticeFilters> = ["subject", "gradeBand", "grade", "difficulty", "type", "tags"];
     for (const key of keys) {
       if (search.has(key)) next[key] = search.get(key) ?? "";
@@ -195,12 +208,13 @@ export function PracticePlayer() {
 
   useEffect(() => {
     if (auth.status === "loading" || initialized.current) return;
-    initialized.current = true;
-    const timer = window.setTimeout(() => void (async () => {
-      const initialFilters = resolveInitialFilters();
+    const cancelInitialization = deferInitialization(initialized, (isActive) => void (async () => {
+      const initialFilters = await resolveInitialFilters();
+      if (!isActive()) return;
       setFilters(initialFilters);
       if (isAuthenticated) savePracticePreferences(initialFilters);
       const session = await startSession(initialFilters);
+      if (!isActive()) return;
       const exclusions = session?.recentQuestionIds.slice(0, 20) ?? [];
       if (session?.resumed) {
         setCompleted(session.completedCount);
@@ -208,8 +222,8 @@ export function PracticePlayer() {
         setRecent(exclusions.slice(-8));
       }
       await loadQuestion(initialFilters, exclusions);
-    })(), 0);
-    return () => { window.clearTimeout(timer); questionRequest.current?.abort(); hintRequest.current?.abort(); };
+    })());
+    return () => { cancelInitialization(); questionRequest.current?.abort(); hintRequest.current?.abort(); };
     // Initialization waits for Auth.js once, then the player owns its in-memory state.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auth.status]);

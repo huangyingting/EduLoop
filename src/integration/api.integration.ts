@@ -9,11 +9,12 @@ import { DELETE as deleteLearner, GET as getLearner } from "@/app/api/learner/ro
 import { GET as getHealth } from "@/app/api/health/route";
 import { GET as getProgress } from "@/app/api/learner/progress/route";
 import { GET as exportLearner } from "@/app/api/learner/export/route";
+import { GET as getLearnerProfile, PATCH as updateLearnerProfile } from "@/app/api/learner/profile/route";
 import { PATCH as assessAttempt, POST as createAttempt } from "@/app/api/attempts/route";
 import { GET as getQuestionHint } from "@/app/api/questions/hint/route";
 import { GET as nextQuestion } from "@/app/api/questions/next/route";
 import { POST as createReport } from "@/app/api/reports/route";
-import { GET as getReview, POST as saveQuestion } from "@/app/api/review/route";
+import { GET as getReview, PATCH as dismissReview, POST as saveQuestion } from "@/app/api/review/route";
 import { POST as createSession } from "@/app/api/sessions/route";
 import { GET as getStudioReports, PATCH as updateStudioReport } from "@/app/api/studio/reports/route";
 import { GET as getStudioMetrics } from "@/app/api/studio/metrics/route";
@@ -41,6 +42,7 @@ const authJsEmail = "authjs-flow@example.com";
 const shieldUserId = "integration-shield-user";
 const concurrentUserId = "integration-concurrent-user";
 const journeyUserId = "integration-journey-user";
+const profileUserId = "integration-profile-user";
 const studioOperatorId = "integration-studio-operator";
 const studioLearnerId = "integration-studio-learner";
 const studioReporterId = "integration-studio-reporter";
@@ -103,7 +105,7 @@ beforeAll(async () => {
 afterAll(async () => {
   await prisma.user.deleteMany({ where: { email: authJsEmail } });
   await prisma.user.deleteMany({ where: { id: { in: [
-    authUserId, lifecycleUserId, sensitiveUserId, shieldUserId, concurrentUserId, journeyUserId,
+    authUserId, lifecycleUserId, sensitiveUserId, shieldUserId, concurrentUserId, journeyUserId, profileUserId,
     studioOperatorId, studioLearnerId, studioReporterId,
   ] } } });
   await prisma.question.deleteMany({ where: { id: { in: [choiceId, writtenId, scienceQuestionId] } } });
@@ -122,7 +124,7 @@ describe("learner API journey", () => {
     const registration = await registerAccount(new Request("http://localhost/api/auth/register", {
       method: "POST",
       headers: { ...headers, origin: "http://localhost" },
-      body: JSON.stringify({ email: authJsEmail, password, displayName: "Auth.js 学习者" }),
+      body: JSON.stringify({ email: authJsEmail, password, displayName: "Auth.js 学习者", knowledgeBand: "integration-middle" }),
     }));
     expect(registration.status).toBe(201);
 
@@ -152,7 +154,56 @@ describe("learner API journey", () => {
       headers: { cookie: sessionCookie! },
     }));
     expect(sessionUser).toMatchObject({ email: authJsEmail, displayName: "Auth.js 学习者", hasPassword: true });
-    expect(await prisma.learnerProfile.findUnique({ where: { userId: sessionUser!.id } })).toBeTruthy();
+    expect(await prisma.learnerProfile.findUnique({
+      where: { userId: sessionUser!.id },
+      include: { knowledgeBand: true },
+    })).toMatchObject({ knowledgeBand: { slug: "integration-middle" } });
+  });
+
+  it("updates a catalog-backed learner profile and rejects mismatched knowledge", async () => {
+    await prisma.user.create({ data: {
+      id: profileUserId,
+      email: "profile@example.com",
+      name: "旧昵称",
+      learner: { create: { displayName: "旧昵称" } },
+    } });
+    const cookie = await authCookie(profileUserId);
+
+    const initial = await getLearnerProfile(new Request("http://localhost/api/learner/profile", { headers: { cookie } }));
+    expect(initial.status).toBe(200);
+    expect(await initial.json()).toMatchObject({
+      displayName: "旧昵称",
+      knowledgeBand: null,
+      gradeBands: expect.arrayContaining([expect.objectContaining({ slug: "integration-middle" })]),
+    });
+
+    const updated = await updateLearnerProfile(request("http://localhost/api/learner/profile", "PATCH", {
+      displayName: "新昵称",
+      knowledgeBand: "integration-middle",
+      knowledgeGrade: "integration-grade-7",
+    }, cookie));
+    expect(updated.status).toBe(200);
+    expect(await updated.json()).toMatchObject({
+      displayName: "新昵称",
+      knowledgeBand: "integration-middle",
+      knowledgeGrade: "integration-grade-7",
+    });
+    expect(await prisma.user.findUniqueOrThrow({ where: { id: profileUserId } })).toMatchObject({ name: "新昵称" });
+    expect(await prisma.learnerProfile.findUniqueOrThrow({
+      where: { userId: profileUserId },
+      include: { knowledgeBand: true, knowledgeGrade: true },
+    })).toMatchObject({
+      displayName: "新昵称",
+      knowledgeBand: { slug: "integration-middle" },
+      knowledgeGrade: { slug: "integration-grade-7" },
+    });
+
+    const invalid = await updateLearnerProfile(request("http://localhost/api/learner/profile", "PATCH", {
+      displayName: "新昵称",
+      knowledgeBand: null,
+      knowledgeGrade: "integration-grade-7",
+    }, cookie));
+    expect(invalid.status).toBe(400);
   });
 
   it("resolves learning data only from a valid Auth.js session", async () => {
@@ -516,8 +567,18 @@ describe("learner API journey", () => {
     expect(await prisma.practiceAttempt.count({ where: { clientAttemptId: attemptInput.clientAttemptId } })).toBe(1);
 
     expect((await saveQuestion(request("http://localhost/api/review", "POST", { questionId: choiceId, saved: true }, cookie))).status).toBe(200);
-    const review = await (await getReview(new NextRequest("http://localhost/api/review", { headers: { cookie } }))).json() as { dueCount: number; savedCount: number };
-    expect(review).toMatchObject({ dueCount: 1, savedCount: 1 });
+    const review = await (await getReview(new NextRequest("http://localhost/api/review", { headers: { cookie } }))).json() as {
+      dueCount: number;
+      savedCount: number;
+      reviews: Array<{ id: string; isSaved: boolean }>;
+      saved: Array<{ id: string; isInReview: boolean; reviewIsDue: boolean }>;
+    };
+    expect(review).toMatchObject({
+      dueCount: 1,
+      savedCount: 1,
+      reviews: [expect.objectContaining({ id: choiceId, isSaved: true })],
+      saved: [expect.objectContaining({ id: choiceId, isInReview: true, reviewIsDue: true })],
+    });
     await prisma.question.update({ where: { id: choiceId }, data: { status: "NEEDS_REVIEW" } });
     try {
       const hidden = await (await getReview(new NextRequest("http://localhost/api/review", { headers: { cookie } }))).json() as {
@@ -552,6 +613,24 @@ describe("learner API journey", () => {
       id: choiceId,
       recommendationReason: "结合最近正确率和答题用时，重点巩固测试运算",
     });
+
+    const dismissed = await dismissReview(request("http://localhost/api/review", "PATCH", {
+      questionId: choiceId,
+      action: "DISMISS",
+    }, cookie));
+    expect(dismissed.status).toBe(200);
+    expect(await prisma.reviewItem.findUniqueOrThrow({
+      where: { learnerId_questionId: { learnerId: learner.id, questionId: choiceId } },
+    })).toMatchObject({ status: "DISMISSED" });
+
+    await createAttempt(request("http://localhost/api/attempts", "POST", {
+      questionId: choiceId,
+      response: ["A"],
+      timeZone: "Asia/Shanghai",
+    }, cookie));
+    expect(await prisma.reviewItem.findUniqueOrThrow({
+      where: { learnerId_questionId: { learnerId: learner.id, questionId: choiceId } },
+    })).toMatchObject({ status: "ACTIVE", lastResult: false });
 
     const health = await getHealth(new Request("http://localhost/api/health", { headers }));
     expect(health.status).toBe(200);

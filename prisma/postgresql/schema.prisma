@@ -19,22 +19,24 @@ model Subject {
 }
 
 model GradeBand {
-  id        String     @id @default(cuid())
-  slug      String     @unique
-  name      String
-  sortOrder Int        @default(0)
-  grades    Grade[]
-  questions Question[]
+  id                       String           @id @default(cuid())
+  slug                     String           @unique
+  name                     String
+  sortOrder                Int              @default(0)
+  grades                   Grade[]
+  questions                Question[]
+  learnerKnowledgeProfiles LearnerProfile[] @relation("LearnerKnowledgeBand")
 }
 
 model Grade {
-  id          String     @id @default(cuid())
-  slug        String     @unique
-  name        String
-  sortOrder   Int
-  gradeBandId String
-  gradeBand   GradeBand  @relation(fields: [gradeBandId], references: [id])
-  questions   Question[]
+  id                       String           @id @default(cuid())
+  slug                     String           @unique
+  name                     String
+  sortOrder                Int
+  gradeBandId              String
+  gradeBand                GradeBand        @relation(fields: [gradeBandId], references: [id])
+  questions                Question[]
+  learnerKnowledgeProfiles LearnerProfile[] @relation("LearnerKnowledgeGrade")
 
   @@index([gradeBandId, sortOrder])
 }
@@ -211,6 +213,8 @@ model LearnerProfile {
   streakFreezes    Int               @default(1)
   lastFreezeUsedOn String?
   lastActiveOn     String?
+  knowledgeBandId  String?
+  knowledgeGradeId String?
   sessions         PracticeSession[]
   attempts         PracticeAttempt[]
   badges           LearnerBadge[]
@@ -218,9 +222,14 @@ model LearnerProfile {
   savedQuestions   SavedQuestion[]
   reviewItems      ReviewItem[]
   reports          QuestionReport[]
+  knowledgeBand    GradeBand?        @relation("LearnerKnowledgeBand", fields: [knowledgeBandId], references: [id], onDelete: SetNull)
+  knowledgeGrade   Grade?            @relation("LearnerKnowledgeGrade", fields: [knowledgeGradeId], references: [id], onDelete: SetNull)
   user             User              @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt        DateTime          @default(now())
   updatedAt        DateTime          @updatedAt
+
+  @@index([knowledgeBandId])
+  @@index([knowledgeGradeId])
 }
 
 model PracticeSession {

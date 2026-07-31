@@ -8,10 +8,11 @@ export async function createLearnerForUser(
   transaction: Transaction,
   userId: string,
   displayName: string | null = null,
+  knowledgeBandId: string | null = null,
 ) {
   return transaction.learnerProfile.upsert({
     where: { userId },
-    create: { userId, displayName },
+    create: { userId, displayName, knowledgeBandId },
     update: displayName ? { displayName } : {},
   });
 }

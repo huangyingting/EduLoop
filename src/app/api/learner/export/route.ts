@@ -89,6 +89,8 @@ async function getLearnerExport(request: NextRequest) {
     where: { id: identity.id },
     select: {
       displayName: true,
+      knowledgeBand: { select: { slug: true, name: true } },
+      knowledgeGrade: { select: { slug: true, name: true } },
       xp: true,
       level: true,
       currentStreak: true,

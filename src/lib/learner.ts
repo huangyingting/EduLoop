@@ -39,12 +39,28 @@ export function normalizePracticePreferences(value: unknown): PracticePreference
   };
 }
 
+export function practicePreferencesWithKnowledgeDefault(
+  stored: PracticePreferences | null,
+  knowledge: { knowledgeBand: string | null; knowledgeGrade: string | null } | null,
+) {
+  if (stored) return stored;
+  return normalizePracticePreferences({
+    gradeBand: knowledge?.knowledgeBand ?? "",
+    grade: knowledge?.knowledgeGrade ?? "",
+  });
+}
+
 export function getPracticePreferences() {
-  if (typeof window === "undefined") return emptyPracticePreferences;
+  return getStoredPracticePreferences() ?? emptyPracticePreferences;
+}
+
+export function getStoredPracticePreferences() {
+  if (typeof window === "undefined") return null;
   try {
-    return normalizePracticePreferences(JSON.parse(window.localStorage.getItem(PRACTICE_PREFERENCES_KEY) ?? "{}"));
+    const stored = window.localStorage.getItem(PRACTICE_PREFERENCES_KEY);
+    return stored === null ? null : normalizePracticePreferences(JSON.parse(stored));
   } catch {
-    return emptyPracticePreferences;
+    return null;
   }
 }
 

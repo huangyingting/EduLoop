@@ -6,7 +6,7 @@ import { PrivacyControls } from "@/components/privacy-controls";
 export const metadata: Metadata = { title: "数据与隐私" };
 
 const privacyCards = [
-  { icon: Database, title: "保存什么", copy: "登录账号的邮箱、可选昵称、答题记录、错后解析是否打开、收藏、XP、连续学习、复习计划和练习偏好。" },
+  { icon: Database, title: "保存什么", copy: "登录账号的邮箱、可选昵称、知识阶段与年级、答题记录、收藏、XP、连续学习、复习计划和练习偏好。" },
   { icon: EyeOff, title: "不会做什么", copy: "不建立公开档案、不做排行榜、不出售数据，也不采集精确位置。" },
   { icon: Trash2, title: "由你控制", copy: "你可以随时导出或删除当前身份的全部学习记录，删除操作无法撤销。" },
 ];

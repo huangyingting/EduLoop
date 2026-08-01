@@ -3670,6 +3670,12 @@ describe("learner API journey", () => {
       })),
     });
 
+    const lastFreezeUsedOn = "2026-07-30";
+    await prisma.learnerProfile.update({
+      where: { id: learner.id },
+      data: { streakFreezes: 2, lastFreezeUsedOn },
+    });
+
     const exportResponse = await exportLearner(new NextRequest("http://localhost/api/learner/export", { headers: { ...headers, cookie } }));
     expect(exportResponse.status).toBe(200);
     expect(exportResponse.headers.get("content-disposition")).toContain("eduloop-account-data-");
@@ -3679,6 +3685,7 @@ describe("learner API journey", () => {
       account: {
         email: string;
         hasPassword: boolean;
+        registrationExpiresAt: string | null;
         linkedProviders: Array<{ provider: string; providerAccountId: string }>;
         consentHistory: Array<{ basis: string; method: string }>;
         pendingAccountActions: {
@@ -3689,14 +3696,22 @@ describe("learner API journey", () => {
         sessionRecords: Array<{ expires: string }>;
         contentReviewActions: unknown[];
       };
-      learner: { attempts: unknown[]; id?: string };
+      learner: {
+        streakFreezes: number;
+        lastFreezeUsedOn: string | null;
+        attempts: unknown[];
+        reviewItems: Array<{ createdAt: string; updatedAt: string }>;
+        reports: Array<{ updatedAt: string; reporterErasedAt: string | null }>;
+        id?: string;
+      };
     };
     expect(exported).toMatchObject({
       format: "EduLoop account export",
-      version: 2,
+      version: 3,
       account: {
         email: "journey@example.com",
         hasPassword: true,
+        registrationExpiresAt: null,
         linkedProviders: [{ provider: "google", providerAccountId: "journey-google-account" }],
         consentHistory: [{ basis: "ADULT", method: "PASSWORD_REGISTRATION" }],
         pendingAccountActions: {
@@ -3717,6 +3732,18 @@ describe("learner API journey", () => {
     expect(exported.account.pendingAccountActions.passwordResets[0]?.deliveredAt).toBe(
       journeyAccountActionDeliveredAt.toISOString(),
     );
+    expect(exported.learner).toMatchObject({
+      streakFreezes: 2,
+      lastFreezeUsedOn,
+      reviewItems: [expect.objectContaining({
+        createdAt: expect.any(String),
+        updatedAt: expect.any(String),
+      })],
+      reports: [expect.objectContaining({
+        updatedAt: expect.any(String),
+        reporterErasedAt: null,
+      })],
+    });
     expect(exported.learner.attempts.length).toBeGreaterThanOrEqual(252);
     expect(exported.learner).not.toHaveProperty("id");
     const serializedExport = JSON.stringify(exported);

@@ -219,7 +219,7 @@ test("account journey persists learning data and enforces studio authorization",
     };
     expect(exported).toMatchObject({
       format: "EduLoop account export",
-      version: 2,
+      version: 3,
       account: { email },
     });
 

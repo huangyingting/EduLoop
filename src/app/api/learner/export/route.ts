@@ -32,7 +32,7 @@ function streamExport(
       try {
         const header = JSON.stringify({
           format: "EduLoop account export",
-          version: 2,
+          version: 3,
           exportedAt: exportedAt.toISOString(),
         });
         const writeSectionedObject = async (
@@ -123,6 +123,7 @@ async function getAccountExport(request: NextRequest) {
       privacyAcceptedAt: true,
       privacyVersion: true,
       consentBasis: true,
+      registrationExpiresAt: true,
       accounts: {
         where: { type: { in: ["oauth", "oidc"] } },
         orderBy: [{ provider: "asc" }, { providerAccountId: "asc" }],
@@ -174,6 +175,7 @@ async function getAccountExport(request: NextRequest) {
       privacyVersion: storedAccount.privacyVersion,
       basis: storedAccount.consentBasis,
     },
+    registrationExpiresAt: storedAccount.registrationExpiresAt,
     linkedProviders: storedAccount.accounts,
     consentHistory: storedAccount.consentRecords,
     pendingAccountActions: {
@@ -225,6 +227,8 @@ async function getAccountExport(request: NextRequest) {
       level: true,
       currentStreak: true,
       bestStreak: true,
+      streakFreezes: true,
+      lastFreezeUsedOn: true,
       lastActiveOn: true,
       createdAt: true,
       updatedAt: true,
@@ -289,6 +293,7 @@ async function getAccountExport(request: NextRequest) {
         select: {
           questionId: true, status: true, dueAt: true, intervalDays: true, repetitions: true,
           consecutiveCorrect: true, lastResult: true, lastAttemptAt: true,
+          createdAt: true, updatedAt: true,
           question: { select: { sourceId: true, stem: true } },
         },
       })).map(({ questionId, ...value }) => ({ cursor: questionId, value })),
@@ -299,7 +304,8 @@ async function getAccountExport(request: NextRequest) {
         where: { learnerId }, orderBy: { id: "asc" }, take: EXPORT_PAGE_SIZE,
         ...(cursor ? { cursor: { id: cursor }, skip: 1 } : {}),
         select: {
-          id: true, category: true, detail: true, status: true, createdAt: true, resolvedAt: true,
+          id: true, category: true, detail: true, status: true, createdAt: true, updatedAt: true,
+          resolvedAt: true, reporterErasedAt: true,
           question: { select: { sourceId: true } },
         },
       })).map(({ id, ...value }) => ({ cursor: id, value })),

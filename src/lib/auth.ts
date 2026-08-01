@@ -1,13 +1,13 @@
 import bcrypt from "bcryptjs";
 import { getToken } from "next-auth/jwt";
+import { applicationAuthSecret } from "@/lib/auth-secret";
 import { prisma } from "@/lib/prisma";
 import { hasCurrentLegalConsent } from "@/lib/legal";
 export { isContentOperator } from "@/lib/user-roles";
 
 export const SESSION_DURATION_DAYS = 30;
 export const PASSWORD_HASH_COST = 12;
-export const AUTH_SECRET_VALUE = process.env.AUTH_SECRET
-  || (process.env.NODE_ENV === "production" ? undefined : "eduloop-development-secret-change-before-production");
+export const AUTH_SECRET_VALUE = applicationAuthSecret() ?? undefined;
 export const AUTH_SESSION_COOKIE = process.env.NODE_ENV === "production"
   ? "__Secure-authjs.session-token"
   : "authjs.session-token";
@@ -107,7 +107,7 @@ export async function getSessionUser(
   request: Request,
   options: { allowMissingConsent?: boolean } = {},
 ): Promise<SessionUser | null> {
-  if (!AUTH_SECRET_VALUE) throw new Error("AUTH_SECRET is required in production.");
+  if (!AUTH_SECRET_VALUE) throw new Error("A valid AUTH_SECRET is required in production.");
   const token = await getToken({
     req: request,
     secret: AUTH_SECRET_VALUE,

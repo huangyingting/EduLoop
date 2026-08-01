@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { apiHandler } from "@/lib/api";
+import { applicationAuthSecret } from "@/lib/auth-secret";
 import { inspectDatabaseReadiness } from "@/lib/database-readiness";
 import { errorLogMetadata } from "@/lib/logging";
 import { applicationRelease } from "@/lib/release";
@@ -9,6 +10,7 @@ export const dynamic = "force-dynamic";
 async function getHealth() {
   const startedAt = Date.now();
   const release = applicationRelease();
+  const configurationReady = Boolean(release && applicationAuthSecret());
   const version = release ?? "unavailable";
   try {
     const readiness = await inspectDatabaseReadiness();
@@ -20,9 +22,9 @@ async function getHealth() {
       latencyMs: Date.now() - startedAt,
       timestamp: new Date().toISOString(),
     };
-    if (!readiness.ready || !release) {
+    if (!readiness.ready || !configurationReady) {
       return NextResponse.json({
-        status: release ? readiness.status : "unavailable",
+        status: configurationReady ? readiness.status : "unavailable",
         ...metadata,
       }, { status: 503, headers: { "Cache-Control": "no-store" } });
     }

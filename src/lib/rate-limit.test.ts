@@ -53,9 +53,16 @@ describe("rate-limit helpers", () => {
   });
 
   it("fails closed without a production pseudonymization secret", () => {
-    expect(() => rateLimitBucketId("key", 1_000, 10_000, {
-      NODE_ENV: "production",
-    })).toThrow("AUTH_SECRET is required");
+    for (const AUTH_SECRET of [
+      undefined,
+      "x".repeat(43),
+      "replace-with-at-least-32-random-characters",
+    ]) {
+      expect(() => rateLimitBucketId("key", 1_000, 10_000, {
+        NODE_ENV: "production",
+        AUTH_SECRET,
+      })).toThrow("AUTH_SECRET is required");
+    }
   });
 
   it("separates address and identity dimensions before hashing", () => {

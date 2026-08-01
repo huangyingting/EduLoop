@@ -2,6 +2,26 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { validateEnvironment } from "./environment.mjs";
 
+const productionAuthSecret = "SSzYj-celXpbS2EtZa-O5peWz2GgexyAlnLELc5J5n8";
+const authSecretError = "AUTH_SECRET must be a generated value of 43 through 512 non-whitespace characters with at least 16 distinct characters; common placeholders are rejected.";
+
+function productionEnvironment(overrides = {}) {
+  return {
+    NODE_ENV: "production",
+    DATABASE_URL: "postgresql://user:password@database:5432/eduloop?sslmode=require&connection_limit=8&pool_timeout=10&connect_timeout=5",
+    EDULOOP_DATABASE_PROVIDER: "postgresql",
+    APP_VERSION: "2026.07.28",
+    AUTH_SECRET: productionAuthSecret,
+    AUTH_URL: "https://learn.example",
+    RESEND_API_KEY: "re_test_key",
+    AUTH_EMAIL_FROM: "EduLoop <accounts@learn.example>",
+    LEGAL_ENTITY_NAME: "EduLoop Learning Ltd.",
+    LEGAL_CONTACT_EMAIL: "privacy@learn.example",
+    LEGAL_JURISDICTION: "Example jurisdiction",
+    ...overrides,
+  };
+}
+
 test("accepts local SQLite configuration", () => {
   assert.deepEqual(validateEnvironment({
     DATABASE_URL: "file:./dev.db",
@@ -11,21 +31,10 @@ test("accepts local SQLite configuration", () => {
 });
 
 test("accepts injected PostgreSQL production configuration", () => {
-  const production = {
-    NODE_ENV: "production",
-    DATABASE_URL: "postgresql://user:password@database:5432/eduloop?sslmode=require&connection_limit=8&pool_timeout=10&connect_timeout=5",
-    EDULOOP_DATABASE_PROVIDER: "postgresql",
-    APP_VERSION: "2026.07.28",
-    AUTH_SECRET: "a-production-secret-with-at-least-32-characters",
-    AUTH_URL: "https://learn.example",
-    RESEND_API_KEY: "re_test_key",
-    AUTH_EMAIL_FROM: "EduLoop <accounts@learn.example>",
-    LEGAL_ENTITY_NAME: "EduLoop Learning Ltd.",
-    LEGAL_CONTACT_EMAIL: "privacy@learn.example",
-    LEGAL_JURISDICTION: "Example jurisdiction",
+  const production = productionEnvironment({
     PORT: "8080",
     TRUSTED_PROXY_HOPS: "2",
-  };
+  });
   assert.deepEqual(validateEnvironment(production), {
     errors: [],
     warnings: [],
@@ -39,6 +48,22 @@ test("accepts injected PostgreSQL production configuration", () => {
   ]);
 });
 
+test("requires a generated production auth secret", () => {
+  for (const AUTH_SECRET of [
+    undefined,
+    productionAuthSecret.slice(1),
+    "x".repeat(43),
+    ` ${productionAuthSecret}`,
+    "replace-with-at-least-32-random-characters",
+    "a-production-secret-with-at-least-32-characters",
+    `${productionAuthSecret}${"x".repeat(470)}`,
+  ]) {
+    assert.deepEqual(validateEnvironment(productionEnvironment({ AUTH_SECRET })).errors, [
+      authSecretError,
+    ]);
+  }
+});
+
 test("rejects provider drift and unsafe production SQLite", () => {
   const result = validateEnvironment({
     NODE_ENV: "production",
@@ -49,7 +74,7 @@ test("rejects provider drift and unsafe production SQLite", () => {
   assert.deepEqual(result.errors, [
     "EDULOOP_DATABASE_PROVIDER=postgresql does not match the DATABASE_URL provider sqlite.",
     "APP_VERSION is required in production.",
-    "AUTH_SECRET must be at least 32 characters in production.",
+    authSecretError,
     "AUTH_URL is required in production.",
     "Production account email requires RESEND_API_KEY and AUTH_EMAIL_FROM.",
     "Production legal pages require LEGAL_ENTITY_NAME, LEGAL_CONTACT_EMAIL, and LEGAL_JURISDICTION.",
@@ -78,7 +103,7 @@ test("requires explicit production provider intent", () => {
     NODE_ENV: "production",
     DATABASE_URL: "postgresql://user:password@database:5432/eduloop?sslmode=require&connection_limit=8&pool_timeout=10&connect_timeout=5",
     APP_VERSION: "release",
-    AUTH_SECRET: "a-production-secret-with-at-least-32-characters",
+    AUTH_SECRET: productionAuthSecret,
     AUTH_URL: "https://learn.example",
     RESEND_API_KEY: "re_test_key",
     AUTH_EMAIL_FROM: "accounts@learn.example",
@@ -121,7 +146,7 @@ test("permits a loopback production database without transport TLS", () => {
     DATABASE_URL: "postgresql://user:password@127.0.0.1:5432/eduloop?connection_limit=8&pool_timeout=10&connect_timeout=5",
     EDULOOP_DATABASE_PROVIDER: "postgresql",
     APP_VERSION: "release",
-    AUTH_SECRET: "a-production-secret-with-at-least-32-characters",
+    AUTH_SECRET: productionAuthSecret,
     AUTH_URL: "https://learn.example",
     RESEND_API_KEY: "re_test_key",
     AUTH_EMAIL_FROM: "accounts@learn.example",
@@ -137,7 +162,7 @@ test("rejects an unencrypted or certificate-unverified remote production databas
     NODE_ENV: "production",
     EDULOOP_DATABASE_PROVIDER: "postgresql",
     APP_VERSION: "release",
-    AUTH_SECRET: "a-production-secret-with-at-least-32-characters",
+    AUTH_SECRET: productionAuthSecret,
     AUTH_URL: "https://learn.example",
     RESEND_API_KEY: "re_test_key",
     AUTH_EMAIL_FROM: "accounts@learn.example",
@@ -171,7 +196,7 @@ test("requires bounded production PostgreSQL pool and connection timeouts", () =
     NODE_ENV: "production",
     EDULOOP_DATABASE_PROVIDER: "postgresql",
     APP_VERSION: "release",
-    AUTH_SECRET: "a-production-secret-with-at-least-32-characters",
+    AUTH_SECRET: productionAuthSecret,
     AUTH_URL: "https://learn.example",
     RESEND_API_KEY: "re_test_key",
     AUTH_EMAIL_FROM: "accounts@learn.example",

@@ -1,4 +1,5 @@
 import { createHmac } from "node:crypto";
+import { applicationAuthSecret } from "./auth-secret";
 import { prisma } from "./prisma";
 import { cleanupExpiredSecurityArtifacts } from "./retention";
 
@@ -15,7 +16,6 @@ type RateLimitHashEnvironment = {
   AUTH_SECRET?: string;
 };
 
-const DEVELOPMENT_RATE_LIMIT_SECRET = "eduloop-development-rate-limit-secret";
 const RATE_LIMIT_HASH_DOMAIN = "eduloop-rate-limit-bucket-v1";
 
 function trustedProxyHops(environment: ProxyEnvironment) {
@@ -47,11 +47,9 @@ export function clientAddress(
 }
 
 function rateLimitHashSecret(environment: RateLimitHashEnvironment) {
-  if (environment.AUTH_SECRET?.trim()) return environment.AUTH_SECRET;
-  if (environment.NODE_ENV === "production") {
-    throw new Error("AUTH_SECRET is required to pseudonymize production rate limits.");
-  }
-  return DEVELOPMENT_RATE_LIMIT_SECRET;
+  const secret = applicationAuthSecret(environment);
+  if (secret) return secret;
+  throw new Error("A valid AUTH_SECRET is required to pseudonymize production rate limits.");
 }
 
 export function rateLimitBucketId(

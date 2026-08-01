@@ -62,7 +62,7 @@ jobs:
       DATABASE_URL: postgresql://eduloop:eduloop@localhost:5432/eduloop_test?schema=public&connection_limit=8&pool_timeout=10&connect_timeout=5
       EDULOOP_DATABASE_PROVIDER: postgresql
       APP_VERSION: ci
-      AUTH_SECRET: ci-only-auth-secret-with-at-least-32-characters
+      AUTH_SECRET: OXM4XCtxzZexQ7-fUO27pC3ceoyz-ZHjSgtpRKH3gMQ
       AUTH_URL: https://eduloop-ci.example
       RESEND_API_KEY: re_ci_placeholder
       AUTH_EMAIL_FROM: EduLoop <accounts@eduloop-ci.example>

@@ -2,6 +2,10 @@ const PROVIDERS = new Set(["sqlite", "postgresql"]);
 const SECURE_POSTGRES_SSL_MODES = new Set(["require", "verify-ca", "verify-full"]);
 const SAFE_APP_VERSION = /^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$/;
 const PRODUCTION_APP_VERSION_PLACEHOLDERS = new Set(["development", "unknown", "unavailable"]);
+const AUTH_SECRET_MIN_LENGTH = 43;
+const AUTH_SECRET_MAX_LENGTH = 512;
+const AUTH_SECRET_MIN_DISTINCT_CHARACTERS = 16;
+const AUTH_SECRET_PLACEHOLDER = /(?:change[-_ ]?me|replace[-_ ]?with|placeholder|secret[-_ ]?with[-_ ]?at[-_ ]?least|ci[-_ ]?only|development[-_ ]?secret)/i;
 const PRODUCTION_POSTGRES_PARAMETERS = [
   ["connection_limit", 1, 100],
   ["pool_timeout", 1, 30],
@@ -42,6 +46,17 @@ function emailAddress(value) {
   const trimmed = value.trim();
   const bracketed = trimmed.match(/<([^<>]+)>$/)?.[1];
   return bracketed ?? trimmed;
+}
+
+function validProductionAuthSecret(value) {
+  if (
+    !value
+    || value.length < AUTH_SECRET_MIN_LENGTH
+    || value.length > AUTH_SECRET_MAX_LENGTH
+    || /\s/.test(value)
+    || AUTH_SECRET_PLACEHOLDER.test(value)
+  ) return false;
+  return new Set(value).size >= AUTH_SECRET_MIN_DISTINCT_CHARACTERS;
 }
 
 export function validateEnvironment(environment) {
@@ -107,8 +122,8 @@ export function validateEnvironment(environment) {
     ) {
       errors.push("APP_VERSION must be a non-placeholder release identifier of 1 through 128 letters, numbers, dots, underscores, or hyphens.");
     }
-    if ((environment.AUTH_SECRET?.trim().length ?? 0) < 32) {
-      errors.push("AUTH_SECRET must be at least 32 characters in production.");
+    if (!validProductionAuthSecret(environment.AUTH_SECRET)) {
+      errors.push("AUTH_SECRET must be a generated value of 43 through 512 non-whitespace characters with at least 16 distinct characters; common placeholders are rejected.");
     }
     const authUrl = environment.AUTH_URL?.trim();
     if (!authUrl) {

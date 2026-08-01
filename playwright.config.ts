@@ -18,7 +18,11 @@ export default defineConfig({
   webServer: externalBaseUrl ? undefined : {
     command: "npm run dev -- --hostname 127.0.0.1 --port 32178",
     url: baseURL,
-    env: { AUTH_URL: baseURL },
+    env: {
+      AUTH_URL: baseURL,
+      AUTH_FACEBOOK_ID: "eduloop-e2e-facebook-client",
+      AUTH_FACEBOOK_SECRET: "eduloop-e2e-facebook-secret",
+    },
     reuseExistingServer: false,
     timeout: 120_000,
   },

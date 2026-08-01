@@ -2,15 +2,20 @@
 
 import { ArrowRight, BookOpenCheck, GraduationCap, LoaderCircle, LockKeyhole, Mail, Sparkles, UserRound } from "lucide-react";
 import Link from "next/link";
-import { getProviders, signIn } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { authErrorMessage } from "@/lib/auth-errors";
 import { safeReturnPath } from "@/lib/auth-validation";
 import type { ConsentBasis } from "@/lib/legal";
+import {
+  loadSocialProviders,
+  requestProviderAuthorization,
+  type SocialProvider,
+} from "@/lib/social-providers";
 import { useAuth } from "@/lib/use-auth";
 import { CustomSelect } from "./custom-select";
 
-type SocialProvider = { id: string; name: string };
 type GradeBandOption = { slug: string; name: string };
 
 export function AuthForm({ mode }: { mode: "login" | "register" }) {
@@ -27,22 +32,35 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
   const [busy, setBusy] = useState(false);
   const [socialBusy, setSocialBusy] = useState<string | null>(null);
   const [providers, setProviders] = useState<SocialProvider[]>([]);
+  const [providerLoadState, setProviderLoadState] = useState<"loading" | "ready" | "failed">("loading");
+  const [providerReload, setProviderReload] = useState(0);
   const [gradeBands, setGradeBands] = useState<GradeBandOption[]>([]);
   const isLogin = mode === "login";
   const emailUnverified = isLogin && searchParams.get("code") === "email_not_verified";
   const emailVerified = isLogin && searchParams.get("verified") === "1";
   const providerDisconnected = isLogin && searchParams.get("notice") === "provider_disconnected";
   const sessionsRevoked = isLogin && searchParams.get("notice") === "sessions_revoked";
+  const queryAuthError = searchParams.get("error");
+  const queryAuthCode = searchParams.get("code");
+  const authenticatedAuthError = auth.status === "authenticated" && queryAuthError
+    ? authErrorMessage(queryAuthError, queryAuthCode, "account-link")
+    : "";
   const next = safeReturnPath(searchParams.get("next"));
 
   useEffect(() => {
-    if (auth.status === "authenticated") return;
-    void getProviders().then((available) => {
-      setProviders(Object.values(available ?? {})
-        .filter((provider) => provider.type !== "credentials")
-        .map(({ id, name }) => ({ id, name })));
-    }).catch(() => setProviders([]));
-  }, [auth.status]);
+    if (auth.status !== "guest") return;
+    let cancelled = false;
+    void loadSocialProviders().then((available) => {
+      if (cancelled) return;
+      setProviders(available);
+      setProviderLoadState("ready");
+    }).catch(() => {
+      if (cancelled) return;
+      setProviders([]);
+      setProviderLoadState("failed");
+    });
+    return () => { cancelled = true; };
+  }, [auth.status, providerReload]);
 
   useEffect(() => {
     if (isLogin || auth.status !== "guest") return;
@@ -53,9 +71,9 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
   }, [auth.status, isLogin]);
 
   useEffect(() => {
-    if (auth.status !== "authenticated") return;
+    if (auth.status !== "authenticated" || authenticatedAuthError) return;
     router.replace(auth.user?.hasCurrentConsent ? next : `/consent?next=${encodeURIComponent(next)}`);
-  }, [auth.status, auth.user?.hasCurrentConsent, next, router]);
+  }, [auth.status, auth.user?.hasCurrentConsent, authenticatedAuthError, next, router]);
 
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -99,15 +117,25 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
     setSocialBusy(provider.id);
     setError("");
     try {
-      await signIn(provider.id, { redirectTo: next });
-    } catch (cause) {
-      setError(cause instanceof Error ? cause.message : "暂时无法开始社交登录，请稍后重试。");
+      const result = await requestProviderAuthorization(provider.id, next);
+      if (!result.ok) {
+        setError(authErrorMessage(result.error, result.code));
+        return;
+      }
+      window.location.assign(result.url);
+    } catch {
+      setError("暂时无法开始社交登录。请稍后重试，或改用邮箱和密码。");
+    } finally {
       setSocialBusy(null);
     }
   }
 
   const alternate = isLogin ? "/register" : "/login";
   const alternateHref = next === "/" ? alternate : `${alternate}?next=${encodeURIComponent(next)}`;
+
+  if (authenticatedAuthError) {
+    return <AuthenticatedProviderError message={authenticatedAuthError} />;
+  }
 
   if (auth.status !== "guest") {
     return <main id="main-content" className="grid min-h-screen place-items-center bg-canvas p-6"><p role="status" className="font-bold text-muted">{auth.status === "authenticated" ? "正在返回学习空间…" : "正在确认登录状态…"}</p></main>;
@@ -139,6 +167,8 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
           <p className="mt-6 text-xs font-black uppercase tracking-[.2em] text-coral lg:mt-0">{isLogin ? "Welcome back" : "Start your learning loop"}</p>
           <h2 className="mt-1.5 font-display text-[28px] font-black tracking-tight">{isLogin ? "欢迎回来，探索者" : "创建你的学习账号"}</h2>
           <p className="mt-1.5 text-sm font-semibold leading-5 text-muted">{isLogin ? "登录后继续你的学习路线。" : "告诉我们适合你的知识阶段，第一题就更合适。"}</p>
+
+          {providerLoadState === "failed" ? <div role="alert" className="mt-5 rounded-xl border-2 border-coral/30 bg-[#fff0ed] px-4 py-3 text-sm font-bold text-coral"><p>社交登录暂时不可用。邮箱和密码登录仍可继续使用。</p><button type="button" onClick={() => { setProviderLoadState("loading"); setProviderReload((value) => value + 1); }} className="mt-2 min-h-9 rounded-lg border-2 border-coral/30 px-3 text-xs font-black">重试社交登录</button></div> : null}
 
           {providers.length ? <>
             <div className="mt-5 space-y-2">
@@ -187,18 +217,13 @@ function providerLabel(provider: SocialProvider) {
   return provider.name;
 }
 
-function authErrorMessage(error: string | null | undefined, code?: string | null) {
-  if (!error) return "";
-  if (error === "CredentialsSignin" && code === "email_not_verified") return "邮箱尚未验证，请先打开验证邮件中的链接。";
-  if (error === "CredentialsSignin") return "邮箱或密码不正确。";
-  if (error === "OAuthAccountNotLinked") return "该邮箱已有账号。请先用原方式登录，再到“数据与隐私”中连接此社交账号。";
-  if (error === "AccessDenied") return "该社交账号没有提供可验证的邮箱，无法登录。";
-  return "登录没有完成，请重试。";
-}
-
 function ProviderIcon({ id }: { id: string }) {
   if (id === "google") return <span aria-hidden className="font-black text-[#4285f4]">G</span>;
   if (id === "microsoft-entra-id") return <span aria-hidden className="grid grid-cols-2 gap-px">{["#f25022", "#7fba00", "#00a4ef", "#ffb900"].map((color) => <span key={color} className="size-2" style={{ backgroundColor: color }} />)}</span>;
   if (id === "facebook") return <span aria-hidden className="grid size-5 place-items-center rounded-full bg-[#1877f2] text-sm font-black text-white">f</span>;
   return <UserRound aria-hidden size={18} />;
+}
+
+function AuthenticatedProviderError({ message }: { message: string }) {
+  return <main id="main-content" className="grid min-h-screen place-items-center bg-canvas p-6"><section className="w-full max-w-lg rounded-[28px] border-2 border-ink bg-white p-7 shadow-[7px_8px_0_#242136]"><p className="text-xs font-black uppercase tracking-[.2em] text-coral">Account connection</p><h1 className="mt-2 font-display text-2xl font-black">社交账号连接未完成</h1><p role="alert" className="mt-4 rounded-xl bg-[#fff0ed] px-4 py-3 text-sm font-bold leading-6 text-coral">{message}</p><div className="mt-5 flex flex-wrap gap-3"><Link href="/privacy" className="inline-flex min-h-11 items-center rounded-xl bg-violet px-5 text-sm font-black text-white">返回数据与隐私</Link><Link href="/practice" className="inline-flex min-h-11 items-center rounded-xl border-2 border-ink/10 px-5 text-sm font-black">继续练习</Link></div></section></main>;
 }

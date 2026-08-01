@@ -2,16 +2,21 @@
 
 import { Check, KeyRound, Link2, LoaderCircle, LogIn, LogOut, Mail, Unlink, UserX } from "lucide-react";
 import Link from "next/link";
-import { getProviders, signIn } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { useEffect, useState } from "react";
 import {
   hasRecentAuthentication,
   SENSITIVE_ACTION_MAX_AGE_SECONDS,
 } from "@/lib/auth-validation";
-import { isSocialProviderId, socialProviderLabel, type SocialProviderId } from "@/lib/social-providers";
+import { authErrorMessage } from "@/lib/auth-errors";
+import {
+  isSocialProviderId,
+  loadSocialProviders,
+  requestProviderAuthorization,
+  socialProviderLabel,
+  type SocialProvider,
+} from "@/lib/social-providers";
 import { useAuth } from "@/lib/use-auth";
-
-type SocialProvider = { id: SocialProviderId; name: string };
 
 async function errorMessage(response: Response, fallback: string) {
   const body = await response.json().catch(() => null) as { error?: string } | null;
@@ -33,6 +38,8 @@ export function AccountControls() {
   const [linking, setLinking] = useState<string | null>(null);
   const [disconnecting, setDisconnecting] = useState<string | null>(null);
   const [providers, setProviders] = useState<SocialProvider[]>([]);
+  const [providerLoadState, setProviderLoadState] = useState<"loading" | "ready" | "failed">("loading");
+  const [providerReload, setProviderReload] = useState(0);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [authenticationCheckAt, setAuthenticationCheckAt] = useState(
@@ -57,13 +64,18 @@ export function AccountControls() {
   }
 
   useEffect(() => {
-    void getProviders().then((available) => {
-      setProviders(Object.values(available ?? {})
-        .flatMap((provider) => provider.type !== "credentials" && isSocialProviderId(provider.id)
-          ? [{ id: provider.id, name: provider.name }]
-          : []));
-    }).catch(() => setProviders([]));
-  }, []);
+    let cancelled = false;
+    void loadSocialProviders().then((available) => {
+      if (cancelled) return;
+      setProviders(available);
+      setProviderLoadState("ready");
+    }).catch(() => {
+      if (cancelled) return;
+      setProviders([]);
+      setProviderLoadState("failed");
+    });
+    return () => { cancelled = true; };
+  }, [providerReload]);
 
   useEffect(() => {
     const now = Math.floor(Date.now() / 1000);
@@ -177,9 +189,15 @@ export function AccountControls() {
     if (linking || disconnecting || needsRecentLogin) return;
     setLinking(provider.id); setError(""); setMessage("");
     try {
-      await signIn(provider.id, { redirectTo: "/privacy" });
-    } catch (cause) {
-      setError(cause instanceof Error ? cause.message : "暂时无法连接社交账号，请稍后重试。");
+      const result = await requestProviderAuthorization(provider.id, "/privacy");
+      if (!result.ok) {
+        setError(authErrorMessage(result.error, result.code, "account-link"));
+        return;
+      }
+      window.location.assign(result.url);
+    } catch {
+      setError("暂时无法连接社交账号，请稍后重试。");
+    } finally {
       setLinking(null);
     }
   }
@@ -244,6 +262,7 @@ export function AccountControls() {
     {!auth.user?.isEmailVerified ? <p className="mt-2 text-sm font-semibold leading-6 text-muted">社交登录仍可使用；{auth.user?.hasPassword ? "打开验证邮件并再次输入密码后，才能使用邮箱登录。为确认邮箱归属，验证时会移除当前社交登录连接，之后可重新连接。" : "若要启用邮箱登录，请先设置密码，再通过发送到该邮箱的链接确认。"}{auth.user?.hasPassword ? <Link href="/verify-email" className="ml-1 font-black text-violet hover:underline">重新发送验证邮件</Link> : null}</p> : null}
     {message ? <p role="status" className="mt-4 flex items-center gap-2 rounded-xl bg-[#e6f8ef] px-4 py-3 text-sm font-bold text-[#247a59]"><Check size={17} /> {message}</p> : null}
     {error ? <p role="alert" className="mt-4 rounded-xl bg-[#fff0ed] px-4 py-3 text-sm font-bold text-coral">{error}</p> : null}
+    {providerLoadState === "failed" ? <div role="alert" className="mt-4 rounded-xl border-2 border-coral/25 bg-[#fff0ed] px-4 py-3 text-sm font-bold text-coral"><p>暂时无法加载可连接的社交登录方式。已连接的方式和其他账号安全功能仍可使用。</p><button type="button" onClick={() => { setProviderLoadState("loading"); setProviderReload((value) => value + 1); }} className="mt-2 min-h-9 rounded-lg border-2 border-coral/30 px-3 text-xs font-black">重新加载登录方式</button></div> : null}
     {needsRecentLogin ? <div className="mt-4 rounded-xl border-2 border-violet/20 bg-[#f0edff] px-4 py-3 text-sm font-semibold text-muted"><p>{needsRecentSensitiveLogin ? "更改邮箱、连接或移除登录方式、设置密码、退出所有设备或删除账号前，请重新验证你的社交账号。" : "连接或移除登录方式或退出所有设备前，请重新登录验证当前账号。"}</p><button type="button" onClick={() => void reauthenticate()} className="mt-3 inline-flex min-h-10 items-center gap-2 rounded-xl bg-violet px-4 text-xs font-black text-white"><LogIn size={15} /> 重新登录验证</button></div> : null}
     {displayedProviders.length ? <div className="mt-6 rounded-2xl border-2 border-sky/20 bg-[#eaf8ff] p-5">
       <h3 className="flex items-center gap-2 font-black"><Link2 size={18} /> 社交登录</h3>

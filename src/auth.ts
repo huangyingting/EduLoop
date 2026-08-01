@@ -13,11 +13,11 @@ import {
   getSessionUser,
 } from "@/lib/auth";
 import { credentialMinimizingAdapter } from "@/lib/auth-adapter";
+import { authErrorLogMetadata } from "@/lib/auth-errors";
 import { hasRecentAuthentication, loginInputSchema, normalizeEmail } from "@/lib/auth-validation";
 import { googleProfileHasVerifiedEmail, providerProfileVerifiesEmail } from "@/lib/email-assurance";
 import { ensureLearnerForUser } from "@/lib/learner-identity";
 import { hasCurrentLegalConsent } from "@/lib/legal";
-import { errorLogMetadata, safeLogToken } from "@/lib/logging";
 import { prisma } from "@/lib/prisma";
 import {
   linkProviderAccountSafely,
@@ -324,8 +324,7 @@ export const { handlers, auth } = NextAuth((request) => ({
       console.error(JSON.stringify({
         level: "error",
         event: "authjs_error",
-        ...errorLogMetadata(error),
-        authErrorType: safeLogToken("type" in error ? error.type : undefined),
+        ...authErrorLogMetadata(error),
       }));
     },
   },

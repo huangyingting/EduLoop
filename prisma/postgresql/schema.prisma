@@ -58,7 +58,9 @@ model Question {
   correctAnswer          String?
   explanation            String?
   quality                String?
+  importStatus           String            @default("PUBLISHED")
   status                 String            @default("PUBLISHED")
+  quarantinedAt          DateTime?
   isAutoGradable         Boolean           @default(false)
   onlineTest             Boolean           @default(false)
   optionSplit            Boolean           @default(false)

@@ -87,6 +87,8 @@ Take encrypted daily PostgreSQL backups with 30-day retention and point-in-time 
 
 Learner reports enter `QuestionReport` as `OPEN`. Content operators use the role-protected `/studio` workspace to inspect the complete question context, quarantine unsafe content, and record a resolution. The API additionally requires a login no older than 10 minutes for every studio read and mutation, so an unattended 30-day operator session cannot expose answer keys or alter the catalog; the workspace prompts for reauthentication when that window closes. Each web or trusted-CLI transition conditionally claims the required report state before changing the question and writes an immutable `ContentReviewAction` in that transaction. Concurrent transitions are therefore serialized, and a quarantine that orders after another operator's resolution receives an explicit conflict. The API never returns learner identity. Validate the original source and update normalization or curated records before resolving a genuine defect.
 
+`Question.importStatus` is the latest source-audit decision; `Question.status` is the effective serving state. Quarantine records `quarantinedAt` and forces the effective state to `NEEDS_REVIEW`. Routine `npm run db:seed` executions continue importing repaired content and refreshing `importStatus`, but they never clear that marker or republish the question. Resolution locks the question and counts its other open reports; only the final resolution clears quarantine and copies the current `importStatus` into the effective state. Concurrent final resolutions therefore cannot leave a repaired question stranded, and resolving an import that still says `NEEDS_REVIEW` cannot publish it.
+
 Public registration always creates `LEARNER` accounts. Grant or revoke studio access only from a trusted operator terminal connected to the intended database:
 
 ```bash
@@ -104,7 +106,7 @@ npm run reports:review -- quarantine REPORT_ID
 npm run reports:review -- resolve REPORT_ID --note="verified against source"
 ```
 
-`quarantine` removes the reported question from practice but deliberately leaves the report open. Correct the source normalization or curated replacement, run the content checks, re-import, verify the question, and only then resolve the report. The CLI never prints learner or account identifiers.
+`quarantine` removes the reported question from practice but deliberately leaves the report open. Correct the source normalization or curated replacement, run the content checks, re-import, verify the updated content and `importStatus` in the studio, and only then resolve every open report for that question. Imports preserve quarantine; the last resolution restores the audited import state. The CLI never prints learner or account identifiers.
 
 Generated diagrams require subject review and `reviewStatus = APPROVED`; never bulk-approve them. Preserve stable question IDs so attempts and review history remain attached.
 

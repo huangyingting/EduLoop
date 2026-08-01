@@ -51,6 +51,7 @@ const bandId = "integration-band";
 const gradeId = "integration-grade";
 const choiceId = "integration-choice-question";
 const writtenId = "integration-written-question";
+const studioQuestionId = "integration-studio-question";
 const scienceSubjectId = "integration-science-subject";
 const scienceQuestionId = "integration-science-question";
 const topicDimensionId = "integration-topic-dimension";
@@ -108,6 +109,9 @@ const studioOperatorId = "integration-studio-operator";
 const studioLearnerId = "integration-studio-learner";
 const studioReporterId = "integration-studio-reporter";
 const studioReportId = "integration-studio-report";
+const studioRaceOperatorId = "integration-studio-race-operator";
+const studioRaceReporterId = "integration-studio-race-reporter";
+const studioRaceReportIds = ["integration-studio-race-report-a", "integration-studio-race-report-b"] as const;
 const consentData = {
   termsAcceptedAt: new Date("2026-07-31T00:00:00.000Z"),
   termsVersion: TERMS_VERSION,
@@ -203,9 +207,10 @@ afterAll(async () => {
   await prisma.user.deleteMany({ where: { email: expiredRegistrationEmail } });
   await prisma.user.deleteMany({ where: { id: { in: [
     authUserId, lifecycleUserId, socialPasswordUserId, sessionRevocationUserId, expiredRetentionUserId, activeRetentionUserId, deletionRaceUserId, sensitiveUserId, sensitiveMutationRaceUserId, providerUserId, providerMinimizationUserId, providerSocialUserId, providerRaceUserId, passwordResetUserId, socialRecoveryUserId, verifiedRecoveryUserId, ownershipRaceUserId, proofLockRaceUserId, providerLinkRaceUserId, providerLoginSnapshotUserId, emailChangeUserId, emailChangeConflictUserId, emailChangeIssuanceRaceUserId, passwordUpgradeRaceUserId, staleCredentialsLoginUserId, consentUserId, shieldUserId, concurrentUserId, journeyUserId, profileUserId,
-    studioOperatorId, studioLearnerId, studioReporterId, ...staleRegistrationUserIds,
+    studioOperatorId, studioLearnerId, studioReporterId, studioRaceOperatorId, studioRaceReporterId,
+    ...staleRegistrationUserIds,
   ] } } });
-  await prisma.question.deleteMany({ where: { id: { in: [choiceId, writtenId, scienceQuestionId] } } });
+  await prisma.question.deleteMany({ where: { id: { in: [choiceId, writtenId, studioQuestionId, scienceQuestionId] } } });
   await prisma.badge.deleteMany({ where: { id: "integration-badge" } });
   await prisma.tag.deleteMany({ where: { id: { in: [mathTopicId, scienceTopicId, mathSkillId] } } });
   await prisma.tagDimension.deleteMany({ where: { id: { in: [topicDimensionId, skillDimensionId] } } });
@@ -2806,6 +2811,29 @@ describe("learner API journey", () => {
   });
 
   it("protects the content report queue and records operator review actions", async () => {
+    await prisma.question.create({ data: {
+      id: studioQuestionId,
+      sourceId: studioQuestionId,
+      sourceFile: "integration.json",
+      sourceType: "单选题",
+      type: "SINGLE_CHOICE",
+      difficulty: "EASY",
+      stem: "内容审核测试：1 + 1 等于？",
+      answer: "B",
+      correctAnswer: JSON.stringify(["B"]),
+      explanation: "1 + 1 = 2。",
+      status: "PUBLISHED",
+      isAutoGradable: true,
+      optionSplit: true,
+      subjectId,
+      gradeBandId: bandId,
+      gradeId,
+      options: { create: [
+        { label: "A", content: "1", sortOrder: 0 },
+        { label: "B", content: "2", sortOrder: 1 },
+      ] },
+      tags: { create: [{ tagId: mathTopicId }, { tagId: mathSkillId }] },
+    } });
     const reporterUser = await prisma.user.create({ data: {
       id: studioReporterId,
       ...consentData,
@@ -2817,12 +2845,12 @@ describe("learner API journey", () => {
     await prisma.questionReport.create({ data: {
       id: studioReportId,
       learnerId: reporter.id,
-      questionId: choiceId,
+      questionId: studioQuestionId,
       category: "WRONG_ANSWER",
       detail: "测试报告详情",
     } });
     const missedAttemptResponse = await createAttempt(request("http://localhost/api/attempts", "POST", {
-      questionId: choiceId,
+      questionId: studioQuestionId,
       response: ["A"],
       timeZone: "Asia/Shanghai",
     }, reporterCookie));
@@ -2840,7 +2868,7 @@ describe("learner API journey", () => {
     }, reporterCookie));
     expect(await replayedView.json()).toMatchObject({ recorded: false });
     await createAttempt(request("http://localhost/api/attempts", "POST", {
-      questionId: choiceId,
+      questionId: studioQuestionId,
       response: ["B"],
       timeZone: "Asia/Shanghai",
     }, reporterCookie));
@@ -2883,7 +2911,7 @@ describe("learner API journey", () => {
         note: "过期会话不得改变题目状态",
       }),
     }))).status).toBe(401);
-    expect(await prisma.question.findUniqueOrThrow({ where: { id: choiceId } })).toMatchObject({
+    expect(await prisma.question.findUniqueOrThrow({ where: { id: studioQuestionId } })).toMatchObject({
       status: "PUBLISHED",
     });
     expect(await prisma.contentReviewAction.count({ where: { reportId: studioReportId } })).toBe(0);
@@ -2918,7 +2946,7 @@ describe("learner API journey", () => {
         where: { id: studioReportId },
         select: { updatedAt: true },
       });
-      await prisma.question.update({ where: { id: choiceId }, data: { status: "NEEDS_REVIEW" } });
+      await prisma.question.update({ where: { id: studioQuestionId }, data: { status: "NEEDS_REVIEW" } });
       const unavailableQuestion = await updateStudioReport(new NextRequest("http://localhost/api/studio/reports", {
         method: "PATCH", headers: operatorHeaders, body: JSON.stringify({
           reportId: studioReportId,
@@ -2932,22 +2960,56 @@ describe("learner API journey", () => {
         select: { updatedAt: true },
       })).toEqual(reportBeforeUnavailableQuestion);
       expect(await prisma.contentReviewAction.count({ where: { reportId: studioReportId } })).toBe(0);
-      await prisma.question.update({ where: { id: choiceId }, data: { status: "PUBLISHED" } });
+      await prisma.question.update({ where: { id: studioQuestionId }, data: { status: "PUBLISHED" } });
 
       const quarantine = await updateStudioReport(new NextRequest("http://localhost/api/studio/reports", {
         method: "PATCH", headers: operatorHeaders, body: JSON.stringify({ reportId: studioReportId, action: "QUARANTINE", note: "等待核对原始答案" }),
       }));
       expect(quarantine.status).toBe(200);
-      expect(await prisma.question.findUniqueOrThrow({ where: { id: choiceId } })).toMatchObject({ status: "NEEDS_REVIEW" });
-      expect((await nextQuestion(new NextRequest(`http://localhost/api/questions/next?questionId=${choiceId}`))).status).toBe(404);
+      expect(await prisma.question.findUniqueOrThrow({ where: { id: studioQuestionId } })).toMatchObject({
+        importStatus: "PUBLISHED",
+        status: "NEEDS_REVIEW",
+        quarantinedAt: expect.any(Date),
+      });
+      expect((await nextQuestion(new NextRequest(`http://localhost/api/questions/next?questionId=${studioQuestionId}`))).status).toBe(404);
+
+      // Reproduce the status portion of a normal source import. Audited source
+      // eligibility may advance, but an active operator quarantine remains the
+      // effective serving boundary across routine seed/deploy runs.
+      await prisma.$transaction([
+        prisma.question.update({
+          where: { sourceId: studioQuestionId },
+          data: { importStatus: "PUBLISHED" },
+        }),
+        prisma.question.updateMany({
+          where: { sourceId: studioQuestionId, quarantinedAt: null },
+          data: { status: "PUBLISHED" },
+        }),
+      ]);
+      expect(await prisma.question.findUniqueOrThrow({ where: { id: studioQuestionId } })).toMatchObject({
+        importStatus: "PUBLISHED",
+        status: "NEEDS_REVIEW",
+        quarantinedAt: expect.any(Date),
+      });
+      expect((await nextQuestion(new NextRequest(`http://localhost/api/questions/next?questionId=${studioQuestionId}`))).status).toBe(404);
 
       const resolved = await updateStudioReport(new NextRequest("http://localhost/api/studio/reports", {
         method: "PATCH", headers: operatorHeaders, body: JSON.stringify({ reportId: studioReportId, action: "RESOLVE", note: "已依据源文件核对并登记修复" }),
       }));
       expect(resolved.status).toBe(200);
-      expect(await resolved.json()).toMatchObject({ report: { id: studioReportId, status: "RESOLVED" } });
+      expect(await resolved.json()).toMatchObject({
+        report: {
+          id: studioReportId,
+          status: "RESOLVED",
+          question: { status: "PUBLISHED" },
+        },
+      });
+      expect(await prisma.question.findUniqueOrThrow({ where: { id: studioQuestionId } })).toMatchObject({
+        importStatus: "PUBLISHED",
+        status: "PUBLISHED",
+        quarantinedAt: null,
+      });
 
-      await prisma.question.update({ where: { id: choiceId }, data: { status: "PUBLISHED" } });
       const staleQuarantine = await updateStudioReport(new NextRequest("http://localhost/api/studio/reports", {
         method: "PATCH", headers: operatorHeaders, body: JSON.stringify({
           reportId: studioReportId,
@@ -2956,7 +3018,7 @@ describe("learner API journey", () => {
         }),
       }));
       expect(staleQuarantine.status).toBe(409);
-      expect(await prisma.question.findUniqueOrThrow({ where: { id: choiceId } })).toMatchObject({
+      expect(await prisma.question.findUniqueOrThrow({ where: { id: studioQuestionId } })).toMatchObject({
         status: "PUBLISHED",
       });
       expect(await prisma.contentReviewAction.count({ where: { reportId: studioReportId } })).toBe(2);
@@ -2990,11 +3052,95 @@ describe("learner API journey", () => {
         expect.objectContaining({ action: "RESOLVE", note: "已依据源文件核对并登记修复" }),
         expect.objectContaining({ action: "REOPEN", note: "需要补充复核" }),
       ]));
-      expect(operatorExport.account.contentReviewActions[0]?.report.question.sourceId).toBe(choiceId);
+      expect(operatorExport.account.contentReviewActions[0]?.report.question.sourceId).toBe(studioQuestionId);
       expect(operatorExport.learner).toBeNull();
       expect(JSON.stringify(operatorExport)).not.toContain(studioReporterId);
     } finally {
-      await prisma.question.update({ where: { id: choiceId }, data: { status: "PUBLISHED" } });
+      await prisma.question.update({
+        where: { id: studioQuestionId },
+        data: { importStatus: "PUBLISHED", status: "PUBLISHED", quarantinedAt: null },
+      });
+    }
+  });
+
+  it("restores a quarantined question after concurrent final report resolutions", async () => {
+    await prisma.user.createMany({ data: [
+      {
+        ...consentData,
+        id: studioRaceOperatorId,
+        email: "studio-race-operator@example.com",
+        passwordHash: "unused",
+        role: "CONTENT_EDITOR",
+      },
+      {
+        ...consentData,
+        id: studioRaceReporterId,
+        email: "studio-race-reporter@example.com",
+      },
+    ] });
+    const reporter = await prisma.learnerProfile.create({ data: { userId: studioRaceReporterId } });
+    await prisma.questionReport.createMany({
+      data: studioRaceReportIds.map((id) => ({
+        id,
+        learnerId: reporter.id,
+        questionId: scienceQuestionId,
+        category: "UNCLEAR",
+      })),
+    });
+    const operatorHeaders = { ...headers, cookie: await authCookie(studioRaceOperatorId) };
+
+    try {
+      const quarantine = await updateStudioReport(new NextRequest("http://localhost/api/studio/reports", {
+        method: "PATCH",
+        headers: operatorHeaders,
+        body: JSON.stringify({
+          reportId: studioRaceReportIds[0],
+          action: "QUARANTINE",
+          note: "并发复核前隔离",
+        }),
+      }));
+      expect(quarantine.status).toBe(200);
+
+      await prisma.$transaction([
+        prisma.question.update({
+          where: { sourceId: scienceQuestionId },
+          data: { importStatus: "PUBLISHED" },
+        }),
+        prisma.question.updateMany({
+          where: { sourceId: scienceQuestionId, quarantinedAt: null },
+          data: { status: "PUBLISHED" },
+        }),
+      ]);
+      expect(await prisma.question.findUniqueOrThrow({ where: { id: scienceQuestionId } })).toMatchObject({
+        status: "NEEDS_REVIEW",
+        quarantinedAt: expect.any(Date),
+      });
+
+      const resolutions = await Promise.all(studioRaceReportIds.map((reportId) => (
+        updateStudioReport(new NextRequest("http://localhost/api/studio/reports", {
+          method: "PATCH",
+          headers: operatorHeaders,
+          body: JSON.stringify({
+            reportId,
+            action: "RESOLVE",
+            note: "源数据复核完成",
+          }),
+        }))
+      )));
+      expect(resolutions.map(({ status }) => status)).toEqual([200, 200]);
+      expect(await prisma.questionReport.count({
+        where: { id: { in: [...studioRaceReportIds] }, status: "OPEN" },
+      })).toBe(0);
+      expect(await prisma.question.findUniqueOrThrow({ where: { id: scienceQuestionId } })).toMatchObject({
+        importStatus: "PUBLISHED",
+        status: "PUBLISHED",
+        quarantinedAt: null,
+      });
+    } finally {
+      await prisma.question.update({
+        where: { id: scienceQuestionId },
+        data: { importStatus: "PUBLISHED", status: "PUBLISHED", quarantinedAt: null },
+      });
     }
   });
 

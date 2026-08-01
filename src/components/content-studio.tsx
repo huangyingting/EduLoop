@@ -29,7 +29,9 @@ type Report = {
     stem: string;
     answer: string;
     explanation: string | null;
+    importStatus: string;
     status: string;
+    quarantinedAt: string | null;
     sourceFile: string;
     sourceId: string;
     sourceType: string;
@@ -221,7 +223,7 @@ export function ContentStudio() {
                   {report.question.status === "PUBLISHED" ? <button onClick={() => void applyAction(report, "QUARANTINE")} disabled={Boolean(acting)} className="flex min-h-11 items-center justify-center gap-2 rounded-xl border-2 border-coral/30 bg-white px-4 text-sm font-black text-coral disabled:opacity-50">{acting === `${report.id}:QUARANTINE` ? <LoaderCircle className="animate-spin" size={16} /> : <ShieldAlert size={16} />} 立即隔离题目</button> : null}
                 </> : <button onClick={() => void applyAction(report, "REOPEN")} disabled={Boolean(acting)} className="flex min-h-11 items-center justify-center gap-2 rounded-xl bg-ink px-4 text-sm font-black text-white disabled:opacity-50">{acting === `${report.id}:REOPEN` ? <LoaderCircle className="animate-spin" size={16} /> : <RotateCcw size={16} />} 重新打开</button>}
               </div>
-              <dl className="mt-5 space-y-2 border-t border-ink/10 pt-4 text-xs"><div><dt className="font-black text-muted">来源</dt><dd className="mt-0.5 break-all font-semibold">{report.question.sourceFile} / {report.question.sourceId}</dd></div><div><dt className="font-black text-muted">原始类型</dt><dd className="mt-0.5 font-semibold">{report.question.sourceType}</dd></div></dl>
+              <dl className="mt-5 space-y-2 border-t border-ink/10 pt-4 text-xs"><div><dt className="font-black text-muted">来源</dt><dd className="mt-0.5 break-all font-semibold">{report.question.sourceFile} / {report.question.sourceId}</dd></div><div><dt className="font-black text-muted">原始类型</dt><dd className="mt-0.5 font-semibold">{report.question.sourceType}</dd></div>{report.question.quarantinedAt ? <div><dt className="font-black text-muted">导入审核状态</dt><dd className={`mt-0.5 font-black ${report.question.importStatus === "PUBLISHED" ? "text-[#247a59]" : "text-coral"}`}>{report.question.importStatus === "PUBLISHED" ? "源数据已通过；解决最后一条报告后恢复" : "源数据仍需修复；解决报告也不会公开"}</dd></div> : null}</dl>
               {report.reviewActions.length ? <div className="mt-5 border-t border-ink/10 pt-4"><h3 className="text-xs font-black text-muted">操作记录</h3><ol className="mt-2 space-y-3">{report.reviewActions.map((action) => <li key={action.id} className="text-xs font-semibold leading-5"><p className="font-black">{actionLabels[action.action] ?? action.action} · {action.actor?.displayName || action.actor?.email || "已删除的账号"}</p>{action.note ? <p className="text-muted">{action.note}</p> : null}<time className="text-muted">{displayDate(action.createdAt)}</time></li>)}</ol></div> : null}
             </aside>
           </div>

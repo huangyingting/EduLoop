@@ -136,13 +136,19 @@ test.describe("local content review workflow", () => {
     page.once("dialog", (dialog) => dialog.accept());
     await reportCard.getByRole("button", { name: "立即隔离题目" }).click();
     await expect(reportCard.getByText("已隔离", { exact: true })).toBeVisible();
+    await expect(reportCard.getByText("源数据已通过；解决最后一条报告后恢复")).toBeVisible();
     await expect.poll(async () => (await prisma.question.findUniqueOrThrow({ where: { id: questionId } })).status).toBe("NEEDS_REVIEW");
+    await expect.poll(async () => (await prisma.question.findUniqueOrThrow({ where: { id: questionId } })).quarantinedAt).not.toBeNull();
     expect((await page.request.get(`/api/questions/next?questionId=${encodeURIComponent(questionId)}`)).status()).toBe(404);
 
     reportCard = page.locator("article").filter({ hasText: questionStem });
     await reportCard.getByPlaceholder("记录核对来源、判断或修复说明（解决时必填）").fill("已核对合成测试题，记录审核结论。");
     await reportCard.getByRole("button", { name: "记录为已解决" }).click();
     await expect(reportCard).toHaveCount(0);
+    await expect.poll(() => prisma.question.findUniqueOrThrow({ where: { id: questionId } })).toMatchObject({
+      status: "PUBLISHED",
+      quarantinedAt: null,
+    });
 
     await page.getByRole("tab", { name: /已解决/ }).click();
     reportCard = page.locator("article").filter({ hasText: questionStem });

@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, type Prisma } from "@prisma/client";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import {
@@ -73,8 +73,22 @@ async function main() {
 
   const batchSize = 75;
   for (let offset = 0; offset < normalized.length; offset += batchSize) {
-    const batch = normalized.slice(offset, offset + batchSize).map((question) => {
-      const { subjectName, gradeBandName, gradeName, options, assets, tags, ...data } = question;
+    const batchQuestions = normalized.slice(offset, offset + batchSize);
+    const importedStatuses = new Map<string, string[]>();
+    const batch: Prisma.PrismaPromise<unknown>[] = batchQuestions.map((question) => {
+      const {
+        subjectName,
+        gradeBandName,
+        gradeName,
+        options,
+        assets,
+        tags,
+        status: importStatus,
+        ...data
+      } = question;
+      const sourceIds = importedStatuses.get(importStatus) ?? [];
+      sourceIds.push(question.sourceId);
+      importedStatuses.set(importStatus, sourceIds);
       const relational = {
         subjectId: subjectIds.get(subjectName)!, gradeBandId: bandIds.get(gradeBandName)!, gradeId: gradeIds.get(gradeName)!,
       };
@@ -85,10 +99,34 @@ async function main() {
       const assetCreates = assets.filter((asset) => !curatedAssets.has(`${question.id}:${asset.role}`));
       return prisma.question.upsert({
         where: { sourceId: question.sourceId },
-        create: { ...data, ...relational, options: { create: optionCreates }, assets: { create: assetCreates }, tags: { create: tagCreates } },
-        update: { ...data, ...relational, options: { deleteMany: {}, create: optionCreates }, assets: { deleteMany: { source: { not: "CURATED" } }, create: assetCreates }, tags: { deleteMany: { source: { not: "CURATED" } }, create: tagCreates } },
+        create: {
+          ...data,
+          ...relational,
+          importStatus,
+          status: importStatus,
+          options: { create: optionCreates },
+          assets: { create: assetCreates },
+          tags: { create: tagCreates },
+        },
+        // Runtime quarantine is deliberately absent from this update. Import
+        // content and its audited eligibility first, then synchronize the
+        // effective serving status only when no operator quarantine is active.
+        update: {
+          ...data,
+          ...relational,
+          importStatus,
+          options: { deleteMany: {}, create: optionCreates },
+          assets: { deleteMany: { source: { not: "CURATED" } }, create: assetCreates },
+          tags: { deleteMany: { source: { not: "CURATED" } }, create: tagCreates },
+        },
       });
     });
+    for (const [importStatus, sourceIds] of importedStatuses) {
+      batch.push(prisma.question.updateMany({
+        where: { sourceId: { in: sourceIds }, quarantinedAt: null },
+        data: { status: importStatus },
+      }));
+    }
     await prisma.$transaction(batch);
     console.log(`Imported ${Math.min(offset + batchSize, normalized.length)} / ${normalized.length}`);
   }

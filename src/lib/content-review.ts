@@ -76,13 +76,47 @@ export async function transitionContentReportInTransaction(
 
   if (input.action === "QUARANTINE") {
     const quarantined = await transaction.question.updateMany({
-      where: { id: report.questionId, status: "PUBLISHED" },
-      data: { status: "NEEDS_REVIEW" },
+      where: {
+        id: report.questionId,
+        status: "PUBLISHED",
+        quarantinedAt: null,
+      },
+      data: { status: "NEEDS_REVIEW", quarantinedAt: transitionedAt },
     });
     // The report row has already been touched to claim its OPEN state. Throw
     // instead of returning so Prisma rolls that write back when the question
     // changed concurrently and no audit action can be recorded.
     if (!quarantined.count) throw new ContentReviewStateConflict();
+  } else if (input.action === "RESOLVE") {
+    // A catalog import updates importStatus but must leave the effective
+    // status hidden while quarantined. Lock the question before counting the
+    // remaining reports so simultaneous resolutions serialize per question;
+    // the final resolver alone restores the latest audited import state.
+    const lockedQuestion = await transaction.question.updateMany({
+      where: { id: report.questionId, quarantinedAt: { not: null } },
+      data: { status: "NEEDS_REVIEW" },
+    });
+    if (lockedQuestion.count) {
+      const remainingOpenReports = await transaction.questionReport.count({
+        where: { questionId: report.questionId, status: "OPEN" },
+      });
+      if (!remainingOpenReports) {
+        const question = await transaction.question.findUnique({
+          where: { id: report.questionId },
+          select: { importStatus: true },
+        });
+        if (!question) throw new ContentReviewStateConflict();
+        const restored = await transaction.question.updateMany({
+          where: {
+            id: report.questionId,
+            status: "NEEDS_REVIEW",
+            quarantinedAt: { not: null },
+          },
+          data: { status: question.importStatus, quarantinedAt: null },
+        });
+        if (!restored.count) throw new ContentReviewStateConflict();
+      }
+    }
   }
 
   await transaction.contentReviewAction.create({

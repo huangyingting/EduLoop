@@ -39,6 +39,7 @@
     "users:role": "node --env-file-if-exists=.env --import tsx scripts/manage-user-role.ts",
     "env:check": "node --env-file-if-exists=.env scripts/validate-environment.mjs",
     "supply:check": "node scripts/verify-supply-chain.mjs",
+    "probe:capacity": "node --env-file-if-exists=.env --import tsx scripts/probe-deployment-capacity.ts",
     "smoke:deployment": "node scripts/smoke-deployment.mjs",
     "smoke:email": "node --env-file-if-exists=.env --import tsx scripts/probe-email-delivery.ts",
     "smoke:oauth": "node --env-file-if-exists=.env --import tsx scripts/smoke-oauth.ts",

@@ -4,6 +4,7 @@ export type OperatorCommandName =
   | "catalog_seed"
   | "content_report_command"
   | "database_restore_verification"
+  | "deployment_capacity_probe"
   | "email_delivery_probe"
   | "expired_security_artifact_cleanup"
   | "oauth_deployment_smoke"

@@ -28,12 +28,13 @@ import { GET as getStudioReports, PATCH as updateStudioReport } from "@/app/api/
 import { GET as getStudioMetrics } from "@/app/api/studio/metrics/route";
 import { prisma } from "@/lib/prisma";
 import { MAX_JSON_BODY_BYTES } from "@/lib/api";
-import { changeAccountPassword, deleteAccount, revokeAccountSessions } from "@/lib/account";
+import { changeAccountPassword, deleteAccount, deleteLearningData, revokeAccountSessions } from "@/lib/account";
 import { AUTH_SECRET_VALUE, AUTH_SESSION_COOKIE, PASSWORD_HASH_COST, authenticatePasswordCredentials, getSessionUser, hashPassword, verifyPassword } from "@/lib/auth";
 import { credentialMinimizingAdapter } from "@/lib/auth-adapter";
 import { SENSITIVE_ACTION_MAX_AGE_SECONDS } from "@/lib/auth-validation";
 import { calendarDay, calendarDaysBefore } from "@/lib/dates";
 import { REQUIRED_DATABASE_MIGRATION } from "@/lib/database-readiness";
+import { transitionContentReport } from "@/lib/content-review";
 import { hashEmailChangeToken, issueEmailChangeToken } from "@/lib/email-change";
 import { hashEmailVerificationToken } from "@/lib/email-verification";
 import { PRIVACY_VERSION, TERMS_VERSION } from "@/lib/legal";
@@ -79,6 +80,18 @@ const staleRegistrationUserIds = [
   "integration-stale-registration-operator",
 ] as const;
 const deletionRaceUserId = "integration-deletion-race-user";
+const reportErasureUserIds = [
+  "integration-report-erasure-learning-user",
+  "integration-report-erasure-account-user",
+] as const;
+const reportErasureQuestionIds = [
+  "integration-report-erasure-learning-question",
+  "integration-report-erasure-account-question",
+] as const;
+const reportErasureReportIds = [
+  "integration-report-erasure-learning-report",
+  "integration-report-erasure-account-report",
+] as const;
 const sensitiveUserId = "integration-sensitive-user";
 const providerUserId = "integration-provider-user";
 const providerMinimizationUserId = "integration-provider-minimization-user";
@@ -206,11 +219,11 @@ afterAll(async () => {
   await prisma.user.deleteMany({ where: { email: authJsEmail } });
   await prisma.user.deleteMany({ where: { email: expiredRegistrationEmail } });
   await prisma.user.deleteMany({ where: { id: { in: [
-    authUserId, lifecycleUserId, socialPasswordUserId, sessionRevocationUserId, expiredRetentionUserId, activeRetentionUserId, deletionRaceUserId, sensitiveUserId, sensitiveMutationRaceUserId, providerUserId, providerMinimizationUserId, providerSocialUserId, providerRaceUserId, passwordResetUserId, socialRecoveryUserId, verifiedRecoveryUserId, ownershipRaceUserId, proofLockRaceUserId, providerLinkRaceUserId, providerLoginSnapshotUserId, emailChangeUserId, emailChangeConflictUserId, emailChangeIssuanceRaceUserId, passwordUpgradeRaceUserId, staleCredentialsLoginUserId, consentUserId, shieldUserId, concurrentUserId, journeyUserId, profileUserId,
+    authUserId, lifecycleUserId, socialPasswordUserId, sessionRevocationUserId, expiredRetentionUserId, activeRetentionUserId, deletionRaceUserId, ...reportErasureUserIds, sensitiveUserId, sensitiveMutationRaceUserId, providerUserId, providerMinimizationUserId, providerSocialUserId, providerRaceUserId, passwordResetUserId, socialRecoveryUserId, verifiedRecoveryUserId, ownershipRaceUserId, proofLockRaceUserId, providerLinkRaceUserId, providerLoginSnapshotUserId, emailChangeUserId, emailChangeConflictUserId, emailChangeIssuanceRaceUserId, passwordUpgradeRaceUserId, staleCredentialsLoginUserId, consentUserId, shieldUserId, concurrentUserId, journeyUserId, profileUserId,
     studioOperatorId, studioLearnerId, studioReporterId, studioRaceOperatorId, studioRaceReporterId,
     ...staleRegistrationUserIds,
   ] } } });
-  await prisma.question.deleteMany({ where: { id: { in: [choiceId, writtenId, studioQuestionId, scienceQuestionId] } } });
+  await prisma.question.deleteMany({ where: { id: { in: [choiceId, writtenId, studioQuestionId, scienceQuestionId, ...reportErasureQuestionIds] } } });
   await prisma.badge.deleteMany({ where: { id: "integration-badge" } });
   await prisma.tag.deleteMany({ where: { id: { in: [mathTopicId, scienceTopicId, mathSkillId] } } });
   await prisma.tagDimension.deleteMany({ where: { id: { in: [topicDimensionId, skillDimensionId] } } });
@@ -1671,6 +1684,88 @@ describe("learner API journey", () => {
     }
     expect(await prisma.user.findUnique({ where: { id: deletionRaceUserId } })).toBeNull();
     expect(await prisma.learnerProfile.findUnique({ where: { userId: deletionRaceUserId } })).toBeNull();
+  });
+
+  it("anonymizes reporter data without orphaning moderation work during erasure", async () => {
+    const accountPassword = "report-erasure-account-password";
+    await prisma.question.createMany({ data: reportErasureQuestionIds.map((id) => ({
+      id,
+      sourceId: id,
+      sourceFile: "integration.json",
+      sourceType: "解答题",
+      type: "WRITTEN_RESPONSE",
+      difficulty: "MEDIUM",
+      stem: `待审核题目 ${id}`,
+      answer: "待核对",
+      explanation: "待核对",
+      importStatus: "PUBLISHED",
+      status: "NEEDS_REVIEW",
+      quarantinedAt: new Date("2026-08-01T01:00:00.000Z"),
+      isAutoGradable: false,
+      subjectId,
+      gradeBandId: bandId,
+      gradeId,
+    })) });
+    await prisma.user.create({ data: {
+      id: reportErasureUserIds[0],
+      ...consentData,
+      email: "report-erasure-learning@example.com",
+      learner: { create: {} },
+    } });
+    await prisma.user.create({ data: {
+      id: reportErasureUserIds[1],
+      ...consentData,
+      email: "report-erasure-account@example.com",
+      passwordHash: await hashPassword(accountPassword),
+      learner: { create: {} },
+    } });
+    const reporters = await prisma.learnerProfile.findMany({
+      where: { userId: { in: [...reportErasureUserIds] } },
+      orderBy: { userId: "asc" },
+      select: { id: true, userId: true },
+    });
+    const learnerIdByUser = new Map(reporters.map((reporter) => [reporter.userId, reporter.id]));
+    await prisma.questionReport.createMany({ data: reportErasureReportIds.map((id, index) => ({
+      id,
+      learnerId: learnerIdByUser.get(reportErasureUserIds[index])!,
+      questionId: reportErasureQuestionIds[index],
+      category: "UNCLEAR",
+      detail: `reporter free text ${index}`,
+    })) });
+    await prisma.contentReviewAction.createMany({ data: reportErasureReportIds.map((reportId, index) => ({
+      id: `integration-report-erasure-action-${index}`,
+      reportId,
+      action: "QUARANTINE",
+      note: "Preserve this operator decision after reporter erasure.",
+      createdAt: new Date("2026-08-01T01:00:00.000Z"),
+    })) });
+
+    expect(await deleteLearningData(reportErasureUserIds[0], 0)).toBe("DELETED");
+    expect(await deleteAccount(reportErasureUserIds[1], 0, accountPassword)).toBe("DELETED");
+
+    for (let index = 0; index < reportErasureReportIds.length; index += 1) {
+      const reportId = reportErasureReportIds[index];
+      expect(await prisma.questionReport.findUniqueOrThrow({ where: { id: reportId } })).toMatchObject({
+        learnerId: null,
+        questionId: reportErasureQuestionIds[index],
+        detail: null,
+        status: "OPEN",
+        reporterErasedAt: expect.any(Date),
+      });
+      expect(await prisma.contentReviewAction.count({ where: { reportId } })).toBe(1);
+      await expect(transitionContentReport({
+        reportId,
+        action: "RESOLVE",
+        note: "The retained anonymous report remains actionable.",
+      })).resolves.toEqual({ status: "UPDATED", questionId: reportErasureQuestionIds[index] });
+      expect(await prisma.question.findUniqueOrThrow({
+        where: { id: reportErasureQuestionIds[index] },
+      })).toMatchObject({ status: "PUBLISHED", quarantinedAt: null });
+      expect(await prisma.contentReviewAction.count({ where: { reportId } })).toBe(2);
+    }
+
+    expect(await prisma.user.findUnique({ where: { id: reportErasureUserIds[0] } })).toBeTruthy();
+    expect(await prisma.user.findUnique({ where: { id: reportErasureUserIds[1] } })).toBeNull();
   });
 
   it("disconnects a provider only after recent authentication and revokes stored credentials", async () => {

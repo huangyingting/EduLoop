@@ -82,9 +82,11 @@ export async function deleteAccount(
   if (!confirmed) return "INVALID_CONFIRMATION";
 
   // Deleting User is one atomic database statement; provider identities,
-  // sessions, proof tokens, consent, and the complete learner graph cascade.
-  // The snapshot guard prevents an older confirmation from racing a password,
-  // email, provider, or other session-version-changing security operation.
+  // sessions, proof tokens, consent, and the personal learner graph cascade.
+  // A database trigger anonymizes learner reports before that cascade so open
+  // moderation work and its audit actions survive without reporter identity or
+  // free text. The snapshot guard prevents an older confirmation from racing a
+  // password, email, provider, or other security-state-changing operation.
   const deleted = await prisma.user.deleteMany({
     where: {
       id: userId,

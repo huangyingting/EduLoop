@@ -56,7 +56,7 @@ test.describe("local legal consent workflow", () => {
 
     expect(await prisma.user.findUniqueOrThrow({ where: { id: userId } })).toMatchObject({
       termsVersion: "2026-07-31",
-      privacyVersion: "2026-07-31",
+      privacyVersion: "2026-08-01",
       consentBasis: "GUARDIAN",
     });
     expect(await prisma.consentRecord.findFirst({ where: { userId } })).toMatchObject({

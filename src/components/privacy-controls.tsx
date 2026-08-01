@@ -106,7 +106,7 @@ export function PrivacyControls() {
       </section>
       <section className="rounded-[28px] border-2 border-coral/30 bg-[#fff0ed] p-6 sm:p-8">
         <h2 className="font-display text-2xl font-black">删除学习数据</h2>
-        <p className="mt-2 text-sm font-semibold leading-6 text-muted">这会永久删除答题、会话、复习计划、收藏、徽章和成长统计。登录账号和题库内容不会受影响。删除前须在最近 10 分钟内完成登录验证，成功后会向登录邮箱发送安全通知。</p>
+        <p className="mt-2 text-sm font-semibold leading-6 text-muted">这会永久删除答题、会话、复习计划、收藏、徽章、成长统计，以及题目反馈中的身份关联和自由文本。为使已隔离题目仍可完成安全审核，不含报告人身份的分类、状态和操作记录会随题库保留。登录账号和题库内容不会受影响。删除前须在最近 10 分钟内完成登录验证，成功后会向登录邮箱发送安全通知。</p>
         {deleteError ? <p role="alert" className="mt-3 text-sm font-bold text-coral">{deleteError}</p> : null}
         <button type="button" onClick={() => void removeData()} disabled={deleting || !hasRecentLogin} aria-busy={deleting} className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-xl bg-coral px-5 text-sm font-black text-white disabled:opacity-50">{deleting ? <LoaderCircle className="animate-spin" size={17} /> : <Trash2 size={17} />} 删除我的学习记录</button>
       </section>

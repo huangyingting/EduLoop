@@ -25,6 +25,7 @@ type Report = {
   status: "OPEN" | "RESOLVED";
   createdAt: string;
   resolvedAt: string | null;
+  reporterErasedAt: string | null;
   question: {
     stem: string;
     answer: string;
@@ -208,7 +209,7 @@ export function ContentStudio() {
           <div className="flex flex-wrap items-center gap-2 border-b-2 border-ink/10 bg-canvas px-5 py-4 text-xs font-black text-muted sm:px-7"><span className="rounded-full bg-coral/10 px-3 py-1 text-coral">{categoryLabels[report.category] ?? report.category}</span><span>{report.question.subject.name} · {report.question.grade.name}</span><span>·</span><span>{displayDate(report.createdAt)}</span><span className={`ml-auto rounded-full px-3 py-1 ${report.question.status === "PUBLISHED" ? "bg-[#e6f8ef] text-[#247a59]" : "bg-[#fff0ed] text-coral"}`}>{report.question.status === "PUBLISHED" ? "学生可见" : "已隔离"}</span></div>
           <div className="grid gap-6 p-5 sm:p-7 lg:grid-cols-[minmax(0,1fr)_290px]">
             <div className="min-w-0">
-              {report.detail ? <div className="mb-5 rounded-2xl border-2 border-coral/20 bg-[#fff7f4] p-4"><p className="text-xs font-black text-coral">学生补充</p><p className="mt-1 whitespace-pre-wrap text-sm font-semibold leading-6">{report.detail}</p></div> : null}
+              {report.detail ? <div className="mb-5 rounded-2xl border-2 border-coral/20 bg-[#fff7f4] p-4"><p className="text-xs font-black text-coral">学生补充</p><p className="mt-1 whitespace-pre-wrap text-sm font-semibold leading-6">{report.detail}</p></div> : report.reporterErasedAt ? <div className="mb-5 rounded-2xl border-2 border-ink/10 bg-canvas p-4 text-sm font-semibold leading-6 text-muted">报告人已删除学习数据；身份关联和自由文本已清除，分类与审核记录继续保留。</div> : null}
               <p className="whitespace-pre-wrap text-base font-bold leading-8"><MathText>{report.question.stem}</MathText></p>
               {report.question.options.length ? <ol className="mt-4 grid gap-2 sm:grid-cols-2">{report.question.options.map((option) => <li key={option.label} className="rounded-xl border border-ink/10 bg-canvas px-3 py-2 text-sm font-semibold"><span className="mr-2 font-black text-violet">{option.label}</span><MathText>{option.content}</MathText></li>)}</ol> : null}
               <details className="mt-5 rounded-2xl border-2 border-ink/10 p-4"><summary className="cursor-pointer text-sm font-black">查看答案与解析</summary><div className="mt-3 space-y-3 text-sm font-semibold leading-6"><p><span className="font-black">答案：</span><MathText>{report.question.answer}</MathText></p><p><span className="font-black">解析：</span><MathText>{report.question.explanation || "暂无解析"}</MathText></p></div></details>

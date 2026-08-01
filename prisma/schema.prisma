@@ -410,18 +410,19 @@ model ReviewItem {
 }
 
 model QuestionReport {
-  id            String                @id @default(cuid())
-  learnerId     String
-  questionId    String
-  category      String
-  detail        String?
-  status        String                @default("OPEN")
-  learner       LearnerProfile        @relation(fields: [learnerId], references: [id], onDelete: Cascade)
-  question      Question              @relation(fields: [questionId], references: [id], onDelete: Cascade)
-  reviewActions ContentReviewAction[]
-  createdAt     DateTime              @default(now())
-  updatedAt     DateTime              @updatedAt
-  resolvedAt    DateTime?
+  id               String                @id @default(cuid())
+  learnerId        String?
+  questionId       String
+  category         String
+  detail           String?
+  status           String                @default("OPEN")
+  learner          LearnerProfile?       @relation(fields: [learnerId], references: [id], onDelete: SetNull)
+  question         Question              @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  reviewActions    ContentReviewAction[]
+  createdAt        DateTime              @default(now())
+  updatedAt        DateTime              @updatedAt
+  resolvedAt       DateTime?
+  reporterErasedAt DateTime?
 
   @@index([questionId, status, createdAt])
   @@index([learnerId, createdAt])

@@ -187,7 +187,7 @@ export async function sendAccountDeletedNotice(
   const configuration = emailConfiguration(options.environment);
   if (!configuration) throw new Error("Account deletion notification is not configured.");
   const fetcher = options.fetcher ?? fetch;
-  const text = "你的 EduLoop 账号、登录方式和在线学习数据已永久删除，所有登录会话都已失效。备份中的删除数据会按隐私说明中的保留周期轮换清除。\n\n如果不是你操作，请立即联系平台支持并检查邮箱账号安全。";
+  const text = "你的 EduLoop 账号、登录方式和在线学习数据已永久删除，所有登录会话都已失效。题目反馈中的身份关联和自由文本已清除；不含报告人身份的安全审核状态与操作记录会随题库保留。备份中的删除数据会按隐私说明中的保留周期轮换清除。\n\n如果不是你操作，请立即联系平台支持并检查邮箱账号安全。";
   const response = await fetcher(RESEND_ENDPOINT, {
     method: "POST",
     headers: {
@@ -199,7 +199,7 @@ export async function sendAccountDeletedNotice(
       to: [to],
       subject: "你的 EduLoop 账号已删除",
       text,
-      html: "<p>你的 EduLoop 账号、登录方式和在线学习数据已永久删除，所有登录会话都已失效。备份中的删除数据会按隐私说明中的保留周期轮换清除。</p><p>如果不是你操作，请立即联系平台支持并检查邮箱账号安全。</p>",
+      html: "<p>你的 EduLoop 账号、登录方式和在线学习数据已永久删除，所有登录会话都已失效。题目反馈中的身份关联和自由文本已清除；不含报告人身份的安全审核状态与操作记录会随题库保留。备份中的删除数据会按隐私说明中的保留周期轮换清除。</p><p>如果不是你操作，请立即联系平台支持并检查邮箱账号安全。</p>",
     }),
     signal: AbortSignal.timeout(10_000),
   });
@@ -213,7 +213,7 @@ export async function sendLearningDataDeletedNotice(
   const configuration = emailConfiguration(options.environment);
   if (!configuration) throw new Error("Learning data deletion notification is not configured.");
   const fetcher = options.fetcher ?? fetch;
-  const text = "你的 EduLoop 在线学习数据已永久删除。登录账号和登录方式仍然保留；备份中的删除数据会按隐私说明中的保留周期轮换清除。\n\n如果不是你操作，请立即重置密码并联系平台支持。";
+  const text = "你的 EduLoop 在线学习数据已永久删除。题目反馈中的身份关联和自由文本已清除；不含报告人身份的安全审核状态与操作记录会随题库保留。登录账号和登录方式仍然保留；备份中的删除数据会按隐私说明中的保留周期轮换清除。\n\n如果不是你操作，请立即重置密码并联系平台支持。";
   const response = await fetcher(RESEND_ENDPOINT, {
     method: "POST",
     headers: {
@@ -225,7 +225,7 @@ export async function sendLearningDataDeletedNotice(
       to: [to],
       subject: "你的 EduLoop 学习数据已删除",
       text,
-      html: "<p>你的 EduLoop 在线学习数据已永久删除。登录账号和登录方式仍然保留；备份中的删除数据会按隐私说明中的保留周期轮换清除。</p><p>如果不是你操作，请立即重置密码并联系平台支持。</p>",
+      html: "<p>你的 EduLoop 在线学习数据已永久删除。题目反馈中的身份关联和自由文本已清除；不含报告人身份的安全审核状态与操作记录会随题库保留。登录账号和登录方式仍然保留；备份中的删除数据会按隐私说明中的保留周期轮换清除。</p><p>如果不是你操作，请立即重置密码并联系平台支持。</p>",
     }),
     signal: AbortSignal.timeout(10_000),
   });

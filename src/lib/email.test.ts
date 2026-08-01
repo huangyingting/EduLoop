@@ -136,6 +136,7 @@ describe("account email delivery", () => {
       subject: "你的 EduLoop 账号已删除",
     });
     expect(body.text).toContain("在线学习数据已永久删除");
+    expect(body.text).toContain("身份关联和自由文本已清除");
     expect(body.text).toContain("保留周期轮换清除");
   });
 
@@ -154,6 +155,7 @@ describe("account email delivery", () => {
       to: ["learner@example.com"],
       subject: "你的 EduLoop 学习数据已删除",
     });
+    expect(body.text).toContain("身份关联和自由文本已清除");
     expect(body.text).toContain("登录账号和登录方式仍然保留");
     expect(body.text).toContain("保留周期轮换清除");
   });

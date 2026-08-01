@@ -290,7 +290,7 @@ export function AccountControls() {
       </div>
       <form onSubmit={removeAccount} className="rounded-2xl border-2 border-coral/25 bg-[#fff0ed] p-5">
         <h3 className="flex items-center gap-2 font-black"><UserX size={18} /> 永久删除账号</h3>
-        <p className="mt-2 text-sm font-semibold leading-6 text-muted">删除邮箱账号、全部会话及关联学习数据。此操作不可恢复。</p>
+        <p className="mt-2 text-sm font-semibold leading-6 text-muted">删除邮箱账号、全部会话及关联学习数据。题目反馈中的身份关联和自由文本会清除；不含报告人身份的安全审核状态与操作记录会随题库保留。此操作不可恢复。</p>
         {auth.user?.hasPassword
           ? <label className="mt-4 block text-sm font-bold">输入当前密码确认<input type="password" required autoComplete="current-password" value={deletePassword} onChange={(event) => setDeletePassword(event.target.value)} className="mt-1.5 min-h-11 w-full rounded-xl border-2 border-ink/10 bg-white px-3 outline-none focus:border-coral" /></label>
           : <label className="mt-4 block text-sm font-bold">输入账号邮箱确认<input type="email" required autoComplete="email" value={deleteEmail} onChange={(event) => setDeleteEmail(event.target.value)} className="mt-1.5 min-h-11 w-full rounded-xl border-2 border-ink/10 bg-white px-3 outline-none focus:border-coral" /></label>}

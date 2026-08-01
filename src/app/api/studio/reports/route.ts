@@ -53,6 +53,7 @@ async function getReports(request: NextRequest) {
         status: true,
         createdAt: true,
         resolvedAt: true,
+        reporterErasedAt: true,
         question: {
           select: {
             stem: true,

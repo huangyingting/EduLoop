@@ -12,7 +12,7 @@ const authSecret = process.env.AUTH_SECRET
 const authCookieName = "authjs.session-token";
 const consentData = {
   termsAcceptedAt: new Date(), termsVersion: "2026-07-31",
-  privacyAcceptedAt: new Date(), privacyVersion: "2026-07-31", consentBasis: "ADULT",
+  privacyAcceptedAt: new Date(), privacyVersion: "2026-08-01", consentBasis: "ADULT",
 };
 
 test.describe("local content review workflow", () => {

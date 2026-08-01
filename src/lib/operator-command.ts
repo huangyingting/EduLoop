@@ -6,6 +6,7 @@ export type OperatorCommandName =
   | "database_restore_verification"
   | "email_delivery_probe"
   | "expired_security_artifact_cleanup"
+  | "oauth_deployment_smoke"
   | "user_role_command";
 
 export type OperatorCommandRejectionCode =

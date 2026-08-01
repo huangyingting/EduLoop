@@ -46,6 +46,7 @@ npm run restore:verify # inspect an explicitly isolated PostgreSQL restore
 npm run schema:check   # ensure SQLite/PostgreSQL models still match
 npm run supply:check   # verify immutable build inputs and dependency-script policy
 npm run smoke:email    # send one explicitly confirmed production email probe
+npm run smoke:oauth    # validate confirmed deployed social-provider initiation
 npm run db:studio      # inspect the local database
 npm run test           # normalization unit tests
 npm run test:integration

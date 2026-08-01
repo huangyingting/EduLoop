@@ -2,13 +2,14 @@ import bcrypt from "bcryptjs";
 import { PrismaClient } from "@prisma/client";
 import { expect, test } from "@playwright/test";
 import { captureBrowserErrors } from "./browser-helpers";
+import { PRIVACY_VERSION, TERMS_VERSION } from "../src/lib/legal";
 
 const externalBaseUrl = process.env.E2E_BASE_URL;
 if (!externalBaseUrl && !process.env.DATABASE_URL) process.loadEnvFile(".env");
 
 const consentData = {
-  termsAcceptedAt: new Date(), termsVersion: "2026-07-31",
-  privacyAcceptedAt: new Date(), privacyVersion: "2026-08-01", consentBasis: "ADULT",
+  termsAcceptedAt: new Date(), termsVersion: TERMS_VERSION,
+  privacyAcceptedAt: new Date(), privacyVersion: PRIVACY_VERSION, consentBasis: "ADULT",
 };
 
 test.describe("local provider disconnect workflow", () => {

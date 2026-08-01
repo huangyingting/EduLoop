@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import {
   addressRateLimitKey,
@@ -32,14 +33,29 @@ describe("rate-limit helpers", () => {
     })).toBe("198.51.100.4");
   });
 
-  it("hashes identities into stable, window-specific bucket IDs", () => {
+  it("pseudonymizes identities into keyed, window-specific bucket IDs", () => {
     const key = identityRateLimitKey("auth-register", "learner@example.com");
-    const first = rateLimitBucketId(key, 1_000, 10_000);
+    const firstEnvironment = { AUTH_SECRET: "first-secret" };
+    const first = rateLimitBucketId(key, 1_000, 10_000, firstEnvironment);
     expect(first).toMatch(/^[a-f0-9]{64}$/);
     expect(first).not.toContain(key);
-    expect(rateLimitBucketId(key, 1_000, 10_999)).toBe(first);
-    expect(rateLimitBucketId(key, 1_000, 11_000)).not.toBe(first);
-    expect(rateLimitBucketId(key, 2_000, 10_000)).not.toBe(first);
+    expect(rateLimitBucketId(key, 1_000, 10_999, firstEnvironment)).toBe(first);
+    expect(rateLimitBucketId(key, 1_000, 11_000, firstEnvironment)).not.toBe(first);
+    expect(rateLimitBucketId(key, 2_000, 10_000, firstEnvironment)).not.toBe(first);
+    expect(rateLimitBucketId(key, 1_000, 10_000, {
+      AUTH_SECRET: "rotated-secret",
+    })).not.toBe(first);
+
+    const legacyDictionaryHash = createHash("sha256")
+      .update(`1000\0${10_000}\0${key}`)
+      .digest("hex");
+    expect(first).not.toBe(legacyDictionaryHash);
+  });
+
+  it("fails closed without a production pseudonymization secret", () => {
+    expect(() => rateLimitBucketId("key", 1_000, 10_000, {
+      NODE_ENV: "production",
+    })).toThrow("AUTH_SECRET is required");
   });
 
   it("separates address and identity dimensions before hashing", () => {

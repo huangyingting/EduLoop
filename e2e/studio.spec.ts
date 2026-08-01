@@ -4,6 +4,7 @@ import { PrismaClient } from "@prisma/client";
 import { expect, test } from "@playwright/test";
 import { captureBrowserErrors, login, waitForQuestion } from "./browser-helpers";
 import { SENSITIVE_ACTION_MAX_AGE_SECONDS } from "../src/lib/auth-validation";
+import { PRIVACY_VERSION, TERMS_VERSION } from "../src/lib/legal";
 
 const externalBaseUrl = process.env.E2E_BASE_URL;
 if (!externalBaseUrl && !process.env.DATABASE_URL) process.loadEnvFile(".env");
@@ -11,8 +12,8 @@ const authSecret = process.env.AUTH_SECRET
   || "eduloop-development-secret-change-before-production";
 const authCookieName = "authjs.session-token";
 const consentData = {
-  termsAcceptedAt: new Date(), termsVersion: "2026-07-31",
-  privacyAcceptedAt: new Date(), privacyVersion: "2026-08-01", consentBasis: "ADULT",
+  termsAcceptedAt: new Date(), termsVersion: TERMS_VERSION,
+  privacyAcceptedAt: new Date(), privacyVersion: PRIVACY_VERSION, consentBasis: "ADULT",
 };
 
 test.describe("local content review workflow", () => {

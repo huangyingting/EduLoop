@@ -35,6 +35,7 @@
     "data:cleanup": "node --env-file-if-exists=.env --import tsx scripts/cleanup-expired-data.ts",
     "seed:verify": "node scripts/verify-seed.mjs",
     "reports:review": "node --env-file-if-exists=.env --import tsx scripts/review-reports.ts",
+    "restore:verify": "node --env-file-if-exists=.env --import tsx scripts/verify-database-restore.ts",
     "users:role": "node --env-file-if-exists=.env --import tsx scripts/manage-user-role.ts",
     "env:check": "node --env-file-if-exists=.env scripts/validate-environment.mjs",
     "supply:check": "node scripts/verify-supply-chain.mjs",

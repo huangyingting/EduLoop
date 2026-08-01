@@ -3,6 +3,7 @@ import { errorLogMetadata } from "./logging";
 export type OperatorCommandName =
   | "catalog_seed"
   | "content_report_command"
+  | "database_restore_verification"
   | "expired_security_artifact_cleanup"
   | "user_role_command";
 

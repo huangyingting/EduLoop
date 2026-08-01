@@ -34,6 +34,7 @@ School-managed accounts are a separate launch mode. The public account path reco
 | Database overload is bounded | startup requires an explicit per-replica connection limit plus nonzero pool-acquisition and connection timeouts; pool exhaustion and database-unavailable errors return privacy-safe HTTP 503 responses |
 | Failures are diagnosable | schema-aware `/api/health`, privacy-safe request, Auth.js, and operational-command completion/error telemetry, cleanup dead-man monitoring, typed and guarded post-response task failures, error boundaries |
 | A live release is externally verifiable | cookie-free `npm run smoke:deployment` checks security headers, readiness, answer isolation, and stateless guest grading |
+| A restored database is repeatably inspectable | isolated-target guard plus read-only `npm run restore:verify` checks migration completion, durable-table access, catalog presence, and privacy-safe aggregate counts |
 | Browser resource loading is constrained | tested CSP, HSTS, framing, MIME, referrer, permission, and cross-origin response headers |
 | Proxy-derived security decisions are bounded | `AUTH_URL`-anchored mutation origins plus trusted-hop client address selection and validation |
 | Untrusted mutation payloads are bounded | shared streaming 32 KiB JSON cap with declared-length and chunked-body coverage |
@@ -60,7 +61,7 @@ npm run seed:verify
 npm run build
 ```
 
-Before production traffic, also verify the PostgreSQL migration on a disposable database, run `npm run smoke:deployment -- https://your-production-origin.example`, inspect desktop/mobile screenshots, restore the latest backup into a disposable database, and confirm any ingress-level defense-in-depth limit. The deployment smoke command uses no cookies, creates no learner or attempt, and checks public-practice security headers, schema-aware readiness, public catalog shape, pre-answer isolation, and guest grading. It does create the short-lived keyed rate-limit pseudonym buckets used by those public requests.
+Before production traffic, also verify the PostgreSQL migration on a disposable database, run `npm run smoke:deployment -- https://your-production-origin.example`, inspect desktop/mobile screenshots, restore the latest backup into an isolated database, run `npm run restore:verify`, compare its aggregate counts with evidence for the selected recovery point, exercise the restored release's `/api/health`, and confirm any ingress-level defense-in-depth limit. The restore command standardizes a read-only database inspection but does not substitute for a real provider restore or application health evidence. The deployment smoke command uses no cookies, creates no learner or attempt, and checks public-practice security headers, schema-aware readiness, public catalog shape, pre-answer isolation, and guest grading. It does create the short-lived keyed rate-limit pseudonym buckets used by those public requests.
 
 ## Content Launch Boundary
 

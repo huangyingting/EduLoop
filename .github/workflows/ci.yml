@@ -80,3 +80,9 @@ jobs:
       - run: NODE_ENV=production npm run env:check
       - run: npm run db:deploy:postgres
       - run: npm run test:integration:postgres
+      - run: npm run db:seed
+      - run: npm run restore:verify
+        env:
+          DATABASE_URL: ""
+          RESTORE_DATABASE_URL: postgresql://eduloop:eduloop@localhost:5432/eduloop_test?schema=public&connection_limit=1&pool_timeout=10&connect_timeout=5
+          RESTORE_CONFIRM_ISOLATED: "1"

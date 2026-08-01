@@ -41,7 +41,7 @@ async function disconnectCurrentProvider(request: Request) {
   const parsed = providerDisconnectSchema.safeParse(body.value);
   if (!parsed.success) return apiError("请选择有效的社交登录方式。", 400, "INVALID_REQUEST");
 
-  const outcome = await disconnectProviderAccount(user.id, parsed.data.provider);
+  const outcome = await disconnectProviderAccount(user.id, user.sessionVersion, parsed.data.provider);
   if (outcome.status === "NOT_FOUND") return apiError("账号不存在。", 404, "NOT_FOUND");
   if (outcome.status === "NOT_CONNECTED") return apiError("该登录方式未连接到当前账号。", 404, "NOT_FOUND");
   if (outcome.status === "LAST_LOGIN_METHOD") {

@@ -91,6 +91,8 @@ const providerLinkRaceUserId = "integration-provider-link-race-user";
 const emailChangeUserId = "integration-email-change-user";
 const emailChangeConflictUserId = "integration-email-change-conflict-user";
 const emailChangeIssuanceRaceUserId = "integration-email-change-issuance-race-user";
+const sensitiveMutationRaceUserId = "integration-sensitive-mutation-race-user";
+const sensitiveMutationRaceReportId = "integration-sensitive-mutation-race-report";
 const consentUserId = "integration-consent-user";
 const authJsEmail = "authjs-flow@example.com";
 const expiredRegistrationEmail = "expired-registration-retry@example.com";
@@ -133,6 +135,30 @@ async function authCookie(userId: string, sessionVersion = 0, issuedAt?: number)
   return `${AUTH_SESSION_COOKIE}=${token}`;
 }
 
+async function revokeAfterNextUserLookup<T>(
+  userId: string,
+  sessionVersion: number,
+  action: () => Promise<T>,
+) {
+  const original = prisma.user.findUnique.bind(prisma.user) as unknown as (
+    args: unknown,
+  ) => Promise<unknown>;
+  const lookup = vi.spyOn(prisma.user, "findUnique");
+  const controllable = lookup as unknown as {
+    mockImplementationOnce: (implementation: (args: unknown) => Promise<unknown>) => void;
+  };
+  controllable.mockImplementationOnce(async (args) => {
+    const snapshot = await original(args);
+    expect(await revokeAccountSessions(userId, sessionVersion)).toBe("REVOKED");
+    return snapshot;
+  });
+  try {
+    return await action();
+  } finally {
+    lookup.mockRestore();
+  }
+}
+
 beforeAll(async () => {
   await prisma.subject.create({ data: { id: subjectId, slug: "integration-math", name: "测试数学", icon: "∑", color: "#6c5ce7" } });
   await prisma.subject.create({ data: { id: scienceSubjectId, slug: "integration-science", name: "测试科学", icon: "◇", color: "#2c9b73" } });
@@ -172,7 +198,7 @@ afterAll(async () => {
   await prisma.user.deleteMany({ where: { email: authJsEmail } });
   await prisma.user.deleteMany({ where: { email: expiredRegistrationEmail } });
   await prisma.user.deleteMany({ where: { id: { in: [
-    authUserId, lifecycleUserId, socialPasswordUserId, sessionRevocationUserId, expiredRetentionUserId, activeRetentionUserId, deletionRaceUserId, sensitiveUserId, providerUserId, providerMinimizationUserId, providerSocialUserId, providerRaceUserId, passwordResetUserId, socialRecoveryUserId, verifiedRecoveryUserId, ownershipRaceUserId, proofLockRaceUserId, providerLinkRaceUserId, emailChangeUserId, emailChangeConflictUserId, emailChangeIssuanceRaceUserId, consentUserId, shieldUserId, concurrentUserId, journeyUserId, profileUserId,
+    authUserId, lifecycleUserId, socialPasswordUserId, sessionRevocationUserId, expiredRetentionUserId, activeRetentionUserId, deletionRaceUserId, sensitiveUserId, sensitiveMutationRaceUserId, providerUserId, providerMinimizationUserId, providerSocialUserId, providerRaceUserId, passwordResetUserId, socialRecoveryUserId, verifiedRecoveryUserId, ownershipRaceUserId, proofLockRaceUserId, providerLinkRaceUserId, emailChangeUserId, emailChangeConflictUserId, emailChangeIssuanceRaceUserId, consentUserId, shieldUserId, concurrentUserId, journeyUserId, profileUserId,
     studioOperatorId, studioLearnerId, studioReporterId, ...staleRegistrationUserIds,
   ] } } });
   await prisma.question.deleteMany({ where: { id: { in: [choiceId, writtenId, scienceQuestionId] } } });
@@ -980,8 +1006,8 @@ describe("learner API journey", () => {
       sessions: { create: { sessionToken: "integration-lifecycle-session", expires: expiresAt } },
     } });
 
-    expect(await changeAccountPassword(lifecycleUserId, "wrong-password", newPassword)).toBe("INVALID_PASSWORD");
-    expect(await changeAccountPassword(lifecycleUserId, oldPassword, oldPassword)).toBe("UNCHANGED");
+    expect(await changeAccountPassword(lifecycleUserId, 0, "wrong-password", newPassword)).toBe("INVALID_PASSWORD");
+    expect(await changeAccountPassword(lifecycleUserId, 0, oldPassword, oldPassword)).toBe("UNCHANGED");
     const previousEnvironment = {
       RESEND_API_KEY: process.env.RESEND_API_KEY,
       AUTH_EMAIL_FROM: process.env.AUTH_EMAIL_FROM,
@@ -1171,7 +1197,7 @@ describe("learner API journey", () => {
       expect(await getSessionUser(new Request("http://localhost/api/learner", {
         headers: { cookie: oldCookie },
       }))).toBeNull();
-      expect(await disconnectProviderAccount(socialPasswordUserId, "microsoft-entra-id")).toEqual({
+      expect(await disconnectProviderAccount(socialPasswordUserId, 1, "microsoft-entra-id")).toEqual({
         status: "LAST_LOGIN_METHOD",
       });
 
@@ -1205,7 +1231,7 @@ describe("learner API journey", () => {
       expect(await prisma.emailVerificationToken.count({ where: { userId: socialPasswordUserId } })).toBe(0);
       expect(await prisma.emailChangeToken.count({ where: { userId: socialPasswordUserId } })).toBe(0);
       expect(await prisma.passwordResetToken.count({ where: { userId: socialPasswordUserId } })).toBe(0);
-      expect(await disconnectProviderAccount(socialPasswordUserId, "microsoft-entra-id")).toEqual({
+      expect(await disconnectProviderAccount(socialPasswordUserId, 2, "microsoft-entra-id")).toEqual({
         status: "NOT_CONNECTED",
       });
 
@@ -1373,6 +1399,124 @@ describe("learner API journey", () => {
     })).toBe(0);
   });
 
+  it("rejects sensitive mutations whose authenticated session is revoked in flight", async () => {
+    const password = "sensitive-mutation-race-password";
+    await prisma.user.create({ data: {
+      id: sensitiveMutationRaceUserId,
+      ...consentData,
+      email: "sensitive-mutation-race@example.com",
+      emailVerified: new Date(),
+      passwordHash: await hashPassword(password),
+      role: "CONTENT_EDITOR",
+      learner: { create: {} },
+      accounts: { create: [
+        { type: "oauth", provider: "google", providerAccountId: "sensitive-mutation-race-google" },
+        { type: "oauth", provider: "facebook", providerAccountId: "sensitive-mutation-race-facebook" },
+      ] },
+    } });
+    const learner = await prisma.learnerProfile.findUniqueOrThrow({
+      where: { userId: sensitiveMutationRaceUserId },
+    });
+    await prisma.questionReport.create({ data: {
+      id: sensitiveMutationRaceReportId,
+      learnerId: learner.id,
+      questionId: choiceId,
+      category: "UNCLEAR",
+      detail: "A revoked operator request must not change content.",
+    } });
+
+    const passwordChange = await revokeAfterNextUserLookup(
+      sensitiveMutationRaceUserId,
+      0,
+      async () => updateCurrentAccount(request(
+        "http://localhost/api/auth/account",
+        "PATCH",
+        { currentPassword: password, newPassword: "stale-session-password" },
+        await authCookie(sensitiveMutationRaceUserId, 0),
+      )),
+    );
+    expect(passwordChange.status).toBe(409);
+    expect(await passwordChange.json()).toMatchObject({ code: "CONFLICT" });
+    let secured = await prisma.user.findUniqueOrThrow({ where: { id: sensitiveMutationRaceUserId } });
+    expect(secured.sessionVersion).toBe(1);
+    expect(await verifyPassword(password, secured.passwordHash!)).toBe(true);
+
+    const providerDisconnect = await revokeAfterNextUserLookup(
+      sensitiveMutationRaceUserId,
+      1,
+      async () => disconnectCurrentProvider(request(
+        "http://localhost/api/auth/provider",
+        "DELETE",
+        { provider: "google" },
+        await authCookie(sensitiveMutationRaceUserId, 1),
+      )),
+    );
+    expect(providerDisconnect.status).toBe(409);
+    expect(await prisma.account.count({ where: { userId: sensitiveMutationRaceUserId } })).toBe(2);
+
+    const learningDeletion = await revokeAfterNextUserLookup(
+      sensitiveMutationRaceUserId,
+      2,
+      async () => deleteLearner(new NextRequest("http://localhost/api/learner", {
+        method: "DELETE",
+        headers: {
+          ...headers,
+          cookie: await authCookie(sensitiveMutationRaceUserId, 2),
+        },
+      })),
+    );
+    expect(learningDeletion.status).toBe(409);
+    expect(await prisma.learnerProfile.findUnique({
+      where: { userId: sensitiveMutationRaceUserId },
+    })).toBeTruthy();
+
+    const accountDeletion = await revokeAfterNextUserLookup(
+      sensitiveMutationRaceUserId,
+      3,
+      async () => deleteCurrentAccount(request(
+        "http://localhost/api/auth/account",
+        "DELETE",
+        { currentPassword: password },
+        await authCookie(sensitiveMutationRaceUserId, 3),
+      )),
+    );
+    expect(accountDeletion.status).toBe(409);
+    expect(await prisma.user.findUnique({ where: { id: sensitiveMutationRaceUserId } })).toBeTruthy();
+
+    const studioTransition = await revokeAfterNextUserLookup(
+      sensitiveMutationRaceUserId,
+      4,
+      async () => updateStudioReport(new NextRequest("http://localhost/api/studio/reports", {
+        method: "PATCH",
+        headers: {
+          ...headers,
+          cookie: await authCookie(sensitiveMutationRaceUserId, 4),
+        },
+        body: JSON.stringify({
+          reportId: sensitiveMutationRaceReportId,
+          action: "QUARANTINE",
+          note: "This transition must lose to session revocation.",
+        }),
+      })),
+    );
+    expect(studioTransition.status).toBe(409);
+    expect(await studioTransition.json()).toMatchObject({ code: "CONFLICT" });
+    expect(await prisma.question.findUniqueOrThrow({ where: { id: choiceId } })).toMatchObject({
+      status: "PUBLISHED",
+    });
+    expect(await prisma.questionReport.findUniqueOrThrow({
+      where: { id: sensitiveMutationRaceReportId },
+    })).toMatchObject({ status: "OPEN" });
+    expect(await prisma.contentReviewAction.count({
+      where: { reportId: sensitiveMutationRaceReportId },
+    })).toBe(0);
+
+    secured = await prisma.user.findUniqueOrThrow({ where: { id: sensitiveMutationRaceUserId } });
+    expect(secured.sessionVersion).toBe(5);
+    expect(await verifyPassword(password, secured.passwordHash!)).toBe(true);
+    expect(await prisma.account.count({ where: { userId: sensitiveMutationRaceUserId } })).toBe(2);
+  });
+
   it("serializes account erasure against a concurrent password rotation", async () => {
     const oldPassword = "deletion-race-old-password";
     const newPassword = "deletion-race-new-password";
@@ -1385,8 +1529,8 @@ describe("learner API journey", () => {
     } });
 
     const [passwordOutcome, deletionOutcome] = await Promise.all([
-      changeAccountPassword(deletionRaceUserId, oldPassword, newPassword),
-      deleteAccount(deletionRaceUserId, oldPassword),
+      changeAccountPassword(deletionRaceUserId, 0, oldPassword, newPassword),
+      deleteAccount(deletionRaceUserId, 0, oldPassword),
     ]);
     expect([
       passwordOutcome === "UPDATED",
@@ -1396,7 +1540,7 @@ describe("learner API journey", () => {
     if (passwordOutcome === "UPDATED") {
       expect(deletionOutcome).toBe("CONFLICT");
       expect(await prisma.learnerProfile.findUnique({ where: { userId: deletionRaceUserId } })).toBeTruthy();
-      expect(await deleteAccount(deletionRaceUserId, newPassword)).toBe("DELETED");
+      expect(await deleteAccount(deletionRaceUserId, 1, newPassword)).toBe("DELETED");
     } else {
       expect(passwordOutcome).toBe("CONFLICT");
       expect(deletionOutcome).toBe("DELETED");
@@ -1580,10 +1724,10 @@ describe("learner API journey", () => {
         { type: "oauth", provider: "facebook", providerAccountId: "integration-social-facebook" },
       ] },
     } });
-    expect(await disconnectProviderAccount(providerSocialUserId, "google")).toMatchObject({
+    expect(await disconnectProviderAccount(providerSocialUserId, 0, "google")).toMatchObject({
       status: "DISCONNECTED",
     });
-    expect(await disconnectProviderAccount(providerSocialUserId, "facebook")).toEqual({
+    expect(await disconnectProviderAccount(providerSocialUserId, 1, "facebook")).toEqual({
       status: "LAST_LOGIN_METHOD",
     });
     expect(await prisma.account.findMany({
@@ -1601,10 +1745,10 @@ describe("learner API journey", () => {
       ] },
     } });
     const outcomes = await Promise.all([
-      disconnectProviderAccount(providerRaceUserId, "google"),
-      disconnectProviderAccount(providerRaceUserId, "facebook"),
+      disconnectProviderAccount(providerRaceUserId, 0, "google"),
+      disconnectProviderAccount(providerRaceUserId, 0, "facebook"),
     ]);
-    expect(outcomes.map(({ status }) => status).sort()).toEqual(["DISCONNECTED", "LAST_LOGIN_METHOD"]);
+    expect(outcomes.map(({ status }) => status).sort()).toEqual(["CONFLICT", "DISCONNECTED"]);
     expect(await prisma.account.count({ where: { userId: providerRaceUserId } })).toBe(1);
     expect(await prisma.user.findUniqueOrThrow({ where: { id: providerRaceUserId } })).toMatchObject({
       sessionVersion: 1,

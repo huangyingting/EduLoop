@@ -58,7 +58,12 @@ async function patchAccount(request: Request) {
   const parsed = passwordChangeSchema.safeParse(body.value);
   if (!parsed.success) return apiError("新密码必须至少 8 位且不超过 72 个 UTF-8 字节。", 400, "INVALID_REQUEST");
 
-  const outcome = await changeAccountPassword(user.id, parsed.data.currentPassword, parsed.data.newPassword);
+  const outcome = await changeAccountPassword(
+    user.id,
+    user.sessionVersion,
+    parsed.data.currentPassword,
+    parsed.data.newPassword,
+  );
   if (outcome === "INVALID_PASSWORD") return apiError("当前密码不正确。", 401, "UNAUTHORIZED");
   if (outcome === "NOT_FOUND") return apiError("账号不存在。", 404, "NOT_FOUND");
   if (outcome === "UNCHANGED") return apiError("新密码不能与当前密码相同。", 400, "INVALID_REQUEST");
@@ -98,7 +103,7 @@ async function deleteCurrentAccount(request: Request) {
   const parsed = accountDeletionSchema.safeParse(body.value);
   if (!parsed.success) return apiError("请输入当前密码。", 400, "INVALID_REQUEST");
 
-  const outcome = await deleteAccount(user.id, parsed.data);
+  const outcome = await deleteAccount(user.id, user.sessionVersion, parsed.data);
   if (outcome === "NOT_FOUND") return apiError("账号不存在。", 404, "NOT_FOUND");
   if (outcome === "INVALID_CONFIRMATION") {
     return apiError(user.hasPassword ? "当前密码不正确。" : "邮箱确认不正确。", 401, "UNAUTHORIZED");

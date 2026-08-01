@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
+import { deleteLearningData } from "@/lib/account";
 import { apiError, apiHandler, enforceRateLimit } from "@/lib/api";
 import { runAfterResponse } from "@/lib/after-response";
 import { getSessionUser } from "@/lib/auth";
@@ -72,11 +73,14 @@ async function deleteLearner(request: NextRequest) {
   if (limited) return limited;
   // Delete directly by account ownership so an account with no learner data is
   // never given an empty profile merely for the purpose of deleting it again.
-  const removed = await prisma.learnerProfile.deleteMany({ where: { userId: user.id } });
-  if (removed.count && emailConfiguration()) {
+  const outcome = await deleteLearningData(user.id, user.sessionVersion);
+  if (outcome === "CONFLICT") {
+    return apiError("账号安全设置刚刚发生变化，请重新登录后再试。", 409, "CONFLICT");
+  }
+  if (outcome === "DELETED" && emailConfiguration()) {
     await runAfterResponse(() => notifyLearningDataDeletion(user.email));
   }
-  return NextResponse.json({ deleted: removed.count > 0 });
+  return NextResponse.json({ deleted: outcome === "DELETED" });
 }
 
 export const GET = apiHandler("GET /api/learner", getLearner);

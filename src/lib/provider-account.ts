@@ -56,6 +56,7 @@ function retryableConflict(error: unknown) {
 
 export async function disconnectProviderAccount(
   userId: string,
+  expectedSessionVersion: number,
   provider: SocialProviderId,
 ): Promise<ProviderDisconnectResult> {
   for (let attempt = 0; attempt < MAX_DISCONNECT_ATTEMPTS; attempt += 1) {
@@ -75,6 +76,7 @@ export async function disconnectProviderAccount(
           },
         });
         if (!user) return { status: "NOT_FOUND" } as const;
+        if (user.sessionVersion !== expectedSessionVersion) return { status: "CONFLICT" } as const;
 
         const connectedProviders = new Set(user.accounts.map((account) => account.provider));
         if (!connectedProviders.has(provider)) return { status: "NOT_CONNECTED" } as const;
@@ -82,11 +84,12 @@ export async function disconnectProviderAccount(
           return { status: "LAST_LOGIN_METHOD" } as const;
         }
 
-        // Claim this version before deleting credentials. Two concurrent
-        // disconnects may both observe two providers, but only one can update
-        // the same version; the loser retries against the remaining method.
+        // Claim the version authenticated by this request before deleting
+        // credentials. Two concurrent disconnects may both observe two
+        // providers, but only one can advance that version; the stale loser
+        // must fail instead of adopting the winner's newer security state.
         const claimed = await transaction.user.updateMany({
-          where: { id: userId, sessionVersion: user.sessionVersion },
+          where: { id: userId, sessionVersion: expectedSessionVersion },
           data: { sessionVersion: { increment: 1 } },
         });
         if (claimed.count !== 1) throw new ConcurrentProviderChange();

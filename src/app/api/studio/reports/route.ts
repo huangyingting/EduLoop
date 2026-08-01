@@ -4,6 +4,7 @@ import { apiError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api"
 import { isSameOriginRequest } from "@/lib/auth-validation";
 import { contentOperatorForRequest } from "@/lib/content-operator";
 import { prisma } from "@/lib/prisma";
+import { claimAuthenticatedSecurityState } from "@/lib/security-state";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -119,33 +120,44 @@ async function patchReport(request: NextRequest) {
   });
   if (!report) return apiError("Report not found", 404, "NOT_FOUND");
 
-  const changed = await prisma.$transaction(async (transaction) => {
+  const transition = await prisma.$transaction(async (transaction) => {
+    const claimed = await claimAuthenticatedSecurityState(transaction, {
+      userId: operator.user.id,
+      sessionVersion: operator.user.sessionVersion,
+      role: operator.user.role,
+    });
+    if (!claimed) return "SECURITY_CONFLICT" as const;
     if (action === "QUARANTINE") {
-      if (report.status !== "OPEN") return false;
+      if (report.status !== "OPEN") return "STATE_CONFLICT" as const;
       const updated = await transaction.question.updateMany({
         where: { id: report.questionId, status: "PUBLISHED" },
         data: { status: "NEEDS_REVIEW" },
       });
-      if (!updated.count) return false;
+      if (!updated.count) return "STATE_CONFLICT" as const;
     } else if (action === "RESOLVE") {
       const updated = await transaction.questionReport.updateMany({
         where: { id: reportId, status: "OPEN" },
         data: { status: "RESOLVED", resolvedAt: new Date() },
       });
-      if (!updated.count) return false;
+      if (!updated.count) return "STATE_CONFLICT" as const;
     } else {
       const updated = await transaction.questionReport.updateMany({
         where: { id: reportId, status: "RESOLVED" },
         data: { status: "OPEN", resolvedAt: null },
       });
-      if (!updated.count) return false;
+      if (!updated.count) return "STATE_CONFLICT" as const;
     }
     await transaction.contentReviewAction.create({
       data: { reportId, actorId: operator.user.id, action, note: note || null },
     });
-    return true;
+    return "UPDATED" as const;
   });
-  if (!changed) return apiError("Report state changed; refresh the review queue.", 409, "CONFLICT");
+  if (transition === "SECURITY_CONFLICT") {
+    return apiError("内容审核账号的安全状态刚刚发生变化，请重新登录后再试。", 409, "CONFLICT");
+  }
+  if (transition === "STATE_CONFLICT") {
+    return apiError("Report state changed; refresh the review queue.", 409, "CONFLICT");
+  }
 
   const updated = await prisma.questionReport.findUniqueOrThrow({
     where: { id: reportId },

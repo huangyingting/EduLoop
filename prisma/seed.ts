@@ -6,9 +6,15 @@ import {
   type NormalizedTag, type SourceQuestion,
 } from "../src/lib/content";
 import { DEFAULT_CONTENT_LOCALE, contentFilesForLocale } from "../src/lib/content-manifest";
+import {
+  finishOperatorCommand,
+  operatorCommandFailureEntry,
+  startOperatorCommand,
+} from "../src/lib/operator-command";
 
 const prisma = new PrismaClient();
 const dataDirectory = path.resolve(process.cwd(), "data", DEFAULT_CONTENT_LOCALE);
+const commandTiming = startOperatorCommand();
 
 async function seedCatalog() {
   for (const subject of SUBJECTS) {
@@ -128,7 +134,12 @@ async function main() {
       }));
     }
     await prisma.$transaction(batch);
-    console.log(`Imported ${Math.min(offset + batchSize, normalized.length)} / ${normalized.length}`);
+    console.info(JSON.stringify({
+      level: "info",
+      event: "catalog_seed_progress",
+      imported: Math.min(offset + batchSize, normalized.length),
+      total: normalized.length,
+    }));
   }
 
   const [published, review, autoGradable] = await Promise.all([
@@ -136,7 +147,34 @@ async function main() {
     prisma.question.count({ where: { status: "NEEDS_REVIEW" } }),
     prisma.question.count({ where: { isAutoGradable: true } }),
   ]);
-  console.log(`Seed complete: ${normalized.length} questions (${published} published, ${review} need review, ${autoGradable} auto-gradable).`);
+  return { questions: normalized.length, published, needsReview: review, autoGradable };
 }
 
-main().catch((error) => { console.error(error); process.exitCode = 1; }).finally(() => prisma.$disconnect());
+async function execute() {
+  try {
+    return await main();
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
+void execute()
+  .then((result) => {
+    const completed = finishOperatorCommand(commandTiming);
+    console.info(JSON.stringify({
+      level: "info",
+      event: "catalog_seed_completed",
+      startedAt: completed.startedAt,
+      completedAt: completed.finishedAt,
+      durationMs: completed.durationMs,
+      ...result,
+    }));
+  })
+  .catch((error) => {
+    console.error(JSON.stringify(operatorCommandFailureEntry(
+      "catalog_seed",
+      error,
+      commandTiming,
+    )));
+    process.exitCode = 1;
+  });

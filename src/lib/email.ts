@@ -3,6 +3,16 @@ const RESEND_ENDPOINT = "https://api.resend.com/emails";
 type EmailEnvironment = Record<string, string | undefined>;
 type Fetcher = (input: string | URL | Request, init?: RequestInit) => Promise<Response>;
 
+class EmailProviderResponseError extends Error {
+  readonly status: number;
+
+  constructor(status: number) {
+    super("The email provider rejected the delivery probe.");
+    this.name = "EmailProviderResponseError";
+    this.status = status;
+  }
+}
+
 export function emailConfiguration(environment: EmailEnvironment = process.env) {
   const apiKey = environment.RESEND_API_KEY?.trim();
   const from = environment.AUTH_EMAIL_FROM?.trim();
@@ -17,6 +27,35 @@ function escapeHtml(value: string) {
     "\"": "&quot;",
     "'": "&#39;",
   })[character]!);
+}
+
+export async function sendEmailDeliveryProbe(
+  to: string,
+  probeId: string,
+  options: { environment?: EmailEnvironment; fetcher?: Fetcher } = {},
+) {
+  if (!/^[a-f0-9]{16}$/.test(probeId)) throw new Error("Email delivery probe ID is invalid.");
+  const configuration = emailConfiguration(options.environment);
+  if (!configuration) throw new Error("Email delivery probe is not configured.");
+  const fetcher = options.fetcher ?? fetch;
+  const subject = `EduLoop email delivery probe ${probeId}`;
+  const text = `This is an EduLoop production email delivery probe. No account action is required.\n\nProbe ID: ${probeId}\n\nConfirm receipt and the matching delivered event in the email provider before approving launch readiness.`;
+  const response = await fetcher(RESEND_ENDPOINT, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${configuration.apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      from: configuration.from,
+      to: [to],
+      subject,
+      text,
+      html: `<p>This is an EduLoop production email delivery probe. No account action is required.</p><p><strong>Probe ID:</strong> ${escapeHtml(probeId)}</p><p>Confirm receipt and the matching delivered event in the email provider before approving launch readiness.</p>`,
+    }),
+    signal: AbortSignal.timeout(10_000),
+  });
+  if (!response.ok) throw new EmailProviderResponseError(response.status);
 }
 
 export async function sendPasswordResetEmail(

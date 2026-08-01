@@ -40,6 +40,7 @@
     "env:check": "node --env-file-if-exists=.env scripts/validate-environment.mjs",
     "supply:check": "node scripts/verify-supply-chain.mjs",
     "smoke:deployment": "node scripts/smoke-deployment.mjs",
+    "smoke:email": "node --env-file-if-exists=.env --import tsx scripts/probe-email-delivery.ts",
     "test": "vitest run && node --test scripts/*.test.mjs",
     "test:e2e": "playwright test",
     "test:integration": "node scripts/run-integration-tests.mjs",

@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
-import { emailConfiguration, sendAccountDeletedNotice, sendEmailChangedNotice, sendEmailChangeVerificationEmail, sendEmailVerificationEmail, sendLearningDataDeletedNotice, sendPasswordChangedNotice, sendPasswordResetEmail, sendProviderDisconnectedNotice, sendSessionsRevokedNotice } from "./email";
+import { emailConfiguration, sendAccountDeletedNotice, sendEmailChangedNotice, sendEmailChangeVerificationEmail, sendEmailDeliveryProbe, sendEmailVerificationEmail, sendLearningDataDeletedNotice, sendPasswordChangedNotice, sendPasswordResetEmail, sendProviderDisconnectedNotice, sendSessionsRevokedNotice } from "./email";
+import { errorLogMetadata } from "./logging";
 
 describe("account email delivery", () => {
   it("requires a complete provider configuration", () => {
@@ -36,6 +37,51 @@ describe("account email delivery", () => {
       environment: { RESEND_API_KEY: "secret-key", AUTH_EMAIL_FROM: "accounts@example.com" },
       fetcher: async () => new Response("provider detail", { status: 503 }),
     })).rejects.toThrow("Password recovery email provider returned 503.");
+  });
+
+  it("sends a link-free delivery probe with a non-identifying correlation ID", async () => {
+    const fetcher = vi.fn(async (input: string | URL | Request, init?: RequestInit) => {
+      void input; void init;
+      return new Response("private provider response", { status: 202 });
+    });
+    await sendEmailDeliveryProbe("operator@example.com", "0123456789abcdef", {
+      environment: { RESEND_API_KEY: "secret-key", AUTH_EMAIL_FROM: "EduLoop <accounts@example.com>" },
+      fetcher,
+    });
+
+    const [endpoint, init] = fetcher.mock.calls[0]!;
+    expect(endpoint).toBe("https://api.resend.com/emails");
+    expect(init?.headers).toMatchObject({ Authorization: "Bearer secret-key" });
+    const body = JSON.parse(String(init?.body)) as {
+      to: string[];
+      subject: string;
+      text: string;
+      html: string;
+    };
+    expect(body).toMatchObject({
+      to: ["operator@example.com"],
+      subject: "EduLoop email delivery probe 0123456789abcdef",
+    });
+    expect(body.text).toContain("No account action is required");
+    expect(body.html).not.toContain("href=");
+  });
+
+  it("maps a rejected delivery probe to bounded provider status metadata", async () => {
+    let error: unknown;
+    try {
+      await sendEmailDeliveryProbe("operator@example.com", "0123456789abcdef", {
+        environment: { RESEND_API_KEY: "secret-key", AUTH_EMAIL_FROM: "accounts@example.com" },
+        fetcher: async () => new Response("private provider detail", { status: 422 }),
+      });
+    } catch (caught) {
+      error = caught;
+    }
+    expect(error).toMatchObject({ name: "EmailProviderResponseError", status: 422 });
+    expect(errorLogMetadata(error)).toEqual({
+      errorType: "EmailProviderResponseError",
+      errorStatus: 422,
+    });
+    expect(String(error)).not.toContain("private provider detail");
   });
 
   it("sends a verification link without exposing an unescaped fragment", async () => {

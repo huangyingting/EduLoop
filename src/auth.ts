@@ -19,7 +19,12 @@ import { ensureLearnerForUser } from "@/lib/learner-identity";
 import { hasCurrentLegalConsent } from "@/lib/legal";
 import { errorLogMetadata, safeLogToken } from "@/lib/logging";
 import { prisma } from "@/lib/prisma";
-import { linkProviderAccountSafely } from "@/lib/provider-account";
+import {
+  linkProviderAccountSafely,
+  providerAuthenticationSnapshot,
+  providerSessionVersionForAuthentication,
+  type ProviderAuthenticationSnapshot,
+} from "@/lib/provider-account";
 import {
   addressRateLimitKey,
   checkRateLimit,
@@ -48,7 +53,7 @@ function normalizedProfileEmail(value: unknown) {
   return normalizeEmail(value);
 }
 
-const providerLinkSessionVersions = new WeakMap<Request, number>();
+const providerAuthenticationSnapshots = new WeakMap<Request, ProviderAuthenticationSnapshot>();
 
 function socialProviders(): Provider[] {
   const providers: Provider[] = [];
@@ -56,7 +61,6 @@ function socialProviders(): Provider[] {
     providers.push(Google({
       clientId: process.env.AUTH_GOOGLE_ID!,
       clientSecret: process.env.AUTH_GOOGLE_SECRET!,
-      allowDangerousEmailAccountLinking: true,
       authorization: { params: { prompt: "select_account" } },
       profile(profile) {
         return {
@@ -111,7 +115,7 @@ export const { handlers, auth } = NextAuth((request) => ({
     linkAccount(account) {
       return linkProviderAccountSafely(
         account,
-        request ? providerLinkSessionVersions.get(request) : undefined,
+        request ? providerAuthenticationSnapshots.get(request)?.sessionVersion : undefined,
       );
     },
   }),
@@ -166,20 +170,48 @@ export const { handlers, auth } = NextAuth((request) => ({
     async signIn({ account, profile, user }) {
       if (account?.provider === "google" && !googleProfileHasVerifiedEmail(profile)) return false;
       if (account?.type === "oauth" || account?.type === "oidc") {
+        if (!user.email || !request) return false;
         // Auth.js can link a new provider to the user identified by an existing
         // JWT. Validate EduLoop's database session version before allowing that
         // high-impact operation; decoding the encrypted token alone is not
         // sufficient after password rotation or explicit revocation.
-        if (request && hasAuthSessionCookie(request)) {
+        if (hasAuthSessionCookie(request)) {
           const currentUser = await getSessionUser(request);
-          if (!currentUser || !hasRecentAuthentication(currentUser.authenticatedAt)) return false;
-          providerLinkSessionVersions.set(request, currentUser.sessionVersion);
+          if (currentUser && hasRecentAuthentication(currentUser.authenticatedAt)) {
+            providerAuthenticationSnapshots.set(request, {
+              userId: currentUser.id,
+              sessionVersion: currentUser.sessionVersion,
+            });
+          } else {
+            // A stale cookie must not prevent a user from signing in again with
+            // an already connected provider. Treat it as a normal provider
+            // login, never as authority to link a new identity.
+            const snapshot = await providerAuthenticationSnapshot(
+              account.provider,
+              account.providerAccountId,
+            );
+            if (!snapshot || snapshot.userId !== user.id) return false;
+            providerAuthenticationSnapshots.set(request, snapshot);
+          }
+        } else {
+          // A normal provider login must stay bound to the exact account
+          // connection observed after the provider proof. If that connection
+          // is removed or its security version changes before cookie issuance,
+          // the JWT callback rejects the stale login.
+          const snapshot = await providerAuthenticationSnapshot(
+            account.provider,
+            account.providerAccountId,
+          );
+          if (snapshot) {
+            if (snapshot.userId !== user.id) return false;
+            providerAuthenticationSnapshots.set(request, snapshot);
+          }
         }
-        return Boolean(user.email);
+        return true;
       }
       return true;
     },
-    async jwt({ token, user, account }) {
+    async jwt({ token, user, account, isNewUser }) {
       const userId = user?.id || token.sub;
       if (!userId) return null;
       const stored = await prisma.user.findUnique({
@@ -198,7 +230,10 @@ export const { handlers, auth } = NextAuth((request) => ({
           privacyAcceptedAt: true,
           privacyVersion: true,
           consentBasis: true,
-          accounts: { select: { provider: true }, orderBy: { provider: "asc" } },
+          accounts: {
+            select: { provider: true, providerAccountId: true },
+            orderBy: { provider: "asc" },
+          },
         },
       });
       if (!stored) return null;
@@ -207,8 +242,22 @@ export const { handlers, auth } = NextAuth((request) => ({
         if (account?.provider === "credentials") {
           if (typeof user.authenticatedSessionVersion !== "number") return null;
           token.sessionVersion = user.authenticatedSessionVersion;
+        } else if (account?.type === "oauth" || account?.type === "oidc") {
+          const connectionStillPresent = stored.accounts.some((connection) => (
+            connection.provider === account.provider
+            && connection.providerAccountId === account.providerAccountId
+          ));
+          if (!connectionStillPresent) return null;
+          const providerVersion = providerSessionVersionForAuthentication(
+            request ? providerAuthenticationSnapshots.get(request) : null,
+            stored.id,
+            isNewUser === true,
+            stored.sessionVersion,
+          );
+          if (providerVersion === null) return null;
+          token.sessionVersion = providerVersion;
         } else {
-          token.sessionVersion = stored.sessionVersion;
+          return null;
         }
       }
       if (token.sessionVersion !== stored.sessionVersion) return null;

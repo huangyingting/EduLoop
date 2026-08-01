@@ -19,26 +19,63 @@ export type ProviderDisconnectResult =
   | { status: "NOT_FOUND" }
   | { status: "DISCONNECTED"; email: string };
 
+export type ProviderAuthenticationSnapshot = {
+  userId: string;
+  sessionVersion: number;
+};
+
+export async function providerAuthenticationSnapshot(
+  provider: string,
+  providerAccountId: string,
+): Promise<ProviderAuthenticationSnapshot | null> {
+  const account = await prisma.account.findUnique({
+    where: { provider_providerAccountId: { provider, providerAccountId } },
+    select: {
+      userId: true,
+      user: { select: { sessionVersion: true } },
+    },
+  });
+  return account
+    ? { userId: account.userId, sessionVersion: account.user.sessionVersion }
+    : null;
+}
+
+export function providerSessionVersionForAuthentication(
+  snapshot: ProviderAuthenticationSnapshot | null | undefined,
+  userId: string,
+  isNewUser: boolean,
+  currentSessionVersion: number,
+) {
+  if (snapshot) {
+    return snapshot.userId === userId && snapshot.sessionVersion === currentSessionVersion
+      ? snapshot.sessionVersion
+      : null;
+  }
+  // A provider identity has no prior security state only during creation of a
+  // genuinely new account. Existing and signed-in accounts must have been
+  // observed explicitly by the sign-in callback.
+  return isNewUser && currentSessionVersion === 0 ? 0 : null;
+}
+
 export async function linkProviderAccountSafely(
   account: AdapterAccount,
   expectedSessionVersion: number | undefined,
 ) {
   return prisma.$transaction(async (transaction) => {
     // Auth.js calls signIn before linkAccount. For an authenticated link, bind
-    // persistence to the exact session version that signIn validated. For a
-    // brand-new untrusted social account, permit only the untouched initial
-    // state. Google is the sole no-session auto-link provider, and its callback
-    // has already required a literal verified-email claim.
+    // persistence to the exact session version that signIn validated. Without
+    // such a snapshot, permit only the untouched state of a genuinely new
+    // social account; existing accounts must link from a recent session.
     const claimed = await transaction.user.updateMany({
       where: expectedSessionVersion === undefined
-        ? account.provider === "google"
-          ? { id: account.userId }
-          : {
-            id: account.userId,
-            emailVerified: null,
-            passwordHash: null,
-            sessionVersion: 0,
-          }
+        ? {
+          id: account.userId,
+          role: "LEARNER",
+          emailVerified: null,
+          passwordHash: null,
+          sessionVersion: 0,
+          accounts: { none: {} },
+        }
         : { id: account.userId, sessionVersion: expectedSessionVersion },
       data: { sessionVersion: { increment: 0 } },
     });

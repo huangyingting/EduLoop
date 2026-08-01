@@ -38,7 +38,7 @@ import { hashEmailChangeToken, issueEmailChangeToken } from "@/lib/email-change"
 import { hashEmailVerificationToken } from "@/lib/email-verification";
 import { PRIVACY_VERSION, TERMS_VERSION } from "@/lib/legal";
 import { hashPasswordResetToken } from "@/lib/password-reset";
-import { disconnectProviderAccount, linkProviderAccountSafely } from "@/lib/provider-account";
+import { disconnectProviderAccount, linkProviderAccountSafely, providerAuthenticationSnapshot, providerSessionVersionForAuthentication } from "@/lib/provider-account";
 import { cleanupExpiredSecurityArtifacts } from "@/lib/retention";
 import {
   addressRateLimitKey,
@@ -89,6 +89,7 @@ const verifiedRecoveryUserId = "integration-verified-recovery-user";
 const ownershipRaceUserId = "integration-ownership-race-user";
 const proofLockRaceUserId = "integration-proof-lock-race-user";
 const providerLinkRaceUserId = "integration-provider-link-race-user";
+const providerLoginSnapshotUserId = "integration-provider-login-snapshot-user";
 const emailChangeUserId = "integration-email-change-user";
 const emailChangeConflictUserId = "integration-email-change-conflict-user";
 const emailChangeIssuanceRaceUserId = "integration-email-change-issuance-race-user";
@@ -201,7 +202,7 @@ afterAll(async () => {
   await prisma.user.deleteMany({ where: { email: authJsEmail } });
   await prisma.user.deleteMany({ where: { email: expiredRegistrationEmail } });
   await prisma.user.deleteMany({ where: { id: { in: [
-    authUserId, lifecycleUserId, socialPasswordUserId, sessionRevocationUserId, expiredRetentionUserId, activeRetentionUserId, deletionRaceUserId, sensitiveUserId, sensitiveMutationRaceUserId, providerUserId, providerMinimizationUserId, providerSocialUserId, providerRaceUserId, passwordResetUserId, socialRecoveryUserId, verifiedRecoveryUserId, ownershipRaceUserId, proofLockRaceUserId, providerLinkRaceUserId, emailChangeUserId, emailChangeConflictUserId, emailChangeIssuanceRaceUserId, passwordUpgradeRaceUserId, staleCredentialsLoginUserId, consentUserId, shieldUserId, concurrentUserId, journeyUserId, profileUserId,
+    authUserId, lifecycleUserId, socialPasswordUserId, sessionRevocationUserId, expiredRetentionUserId, activeRetentionUserId, deletionRaceUserId, sensitiveUserId, sensitiveMutationRaceUserId, providerUserId, providerMinimizationUserId, providerSocialUserId, providerRaceUserId, passwordResetUserId, socialRecoveryUserId, verifiedRecoveryUserId, ownershipRaceUserId, proofLockRaceUserId, providerLinkRaceUserId, providerLoginSnapshotUserId, emailChangeUserId, emailChangeConflictUserId, emailChangeIssuanceRaceUserId, passwordUpgradeRaceUserId, staleCredentialsLoginUserId, consentUserId, shieldUserId, concurrentUserId, journeyUserId, profileUserId,
     studioOperatorId, studioLearnerId, studioReporterId, ...staleRegistrationUserIds,
   ] } } });
   await prisma.question.deleteMany({ where: { id: { in: [choiceId, writtenId, scienceQuestionId] } } });
@@ -2269,6 +2270,48 @@ describe("learner API journey", () => {
     });
     await expect(linkProviderAccountSafely(pendingLink, 0)).rejects.toThrow();
     expect(await prisma.account.count({ where: { userId: providerLinkRaceUserId } })).toBe(0);
+  });
+
+  it("binds provider login to its connected account and rejects implicit relinking", async () => {
+    const providerAccountId = "integration-provider-login-snapshot-google";
+    const snapshot = await providerAuthenticationSnapshot("google", providerAccountId);
+    expect(snapshot).toBeNull();
+
+    const securedAccount = await prisma.user.create({ data: {
+      id: providerLoginSnapshotUserId,
+      email: "provider-login-snapshot@example.com",
+      emailVerified: new Date(),
+      passwordHash: await hashPassword("provider-login-snapshot-password"),
+      accounts: { create: {
+        type: "oauth",
+        provider: "google",
+        providerAccountId,
+      } },
+    } });
+    const connected = await providerAuthenticationSnapshot("google", providerAccountId);
+    expect(connected).toEqual({ userId: securedAccount.id, sessionVersion: 0 });
+    expect(providerSessionVersionForAuthentication(connected, securedAccount.id, false, 0)).toBe(0);
+
+    await expect(disconnectProviderAccount(
+      securedAccount.id,
+      0,
+      "google",
+    )).resolves.toEqual({
+      status: "DISCONNECTED",
+      email: "provider-login-snapshot@example.com",
+    });
+    expect(providerSessionVersionForAuthentication(connected, securedAccount.id, false, 1)).toBeNull();
+    expect(providerSessionVersionForAuthentication(null, securedAccount.id, false, 1)).toBeNull();
+    expect(providerSessionVersionForAuthentication(null, securedAccount.id, true, 0)).toBe(0);
+
+    await expect(linkProviderAccountSafely({
+      userId: securedAccount.id,
+      type: "oauth",
+      provider: "google",
+      providerAccountId,
+    }, undefined)).rejects.toThrow();
+    expect(await prisma.account.count({ where: { userId: securedAccount.id } })).toBe(0);
+    await prisma.user.delete({ where: { id: securedAccount.id } });
   });
 
   it("verifies a new login email, handles address races, and revokes old sessions", async () => {

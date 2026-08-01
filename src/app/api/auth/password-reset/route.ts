@@ -2,9 +2,9 @@ import { NextResponse } from "next/server";
 import { apiError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api";
 import { runAfterResponse } from "@/lib/after-response";
 import { normalizeEmail, isSameOriginRequest, passwordResetCompletionSchema, passwordResetRequestSchema } from "@/lib/auth-validation";
-import { emailConfiguration, sendPasswordChangedNotice, sendPasswordResetEmail } from "@/lib/email";
+import { emailConfiguration, sendPasswordChangedNotice } from "@/lib/email";
 import { errorLogMetadata } from "@/lib/logging";
-import { hashPasswordResetToken, issuePasswordResetToken, resetPasswordWithToken, revokePasswordResetToken } from "@/lib/password-reset";
+import { deliverPasswordReset, hashPasswordResetToken, resetPasswordWithToken } from "@/lib/password-reset";
 
 export const runtime = "nodejs";
 
@@ -13,22 +13,6 @@ const acceptedMessage = "如果该邮箱对应一个账号，我们会发送一�
 function resetOrigin(request: Request) {
   const configured = process.env.AUTH_URL?.trim();
   return configured ? new URL(configured).origin : new URL(request.url).origin;
-}
-
-async function deliverPasswordReset(email: string, origin: string) {
-  const issued = await issuePasswordResetToken(email);
-  if (!issued) return;
-  const resetUrl = `${origin}/reset-password#token=${encodeURIComponent(issued.token)}`;
-  try {
-    await sendPasswordResetEmail(issued.email, resetUrl);
-  } catch (error) {
-    await revokePasswordResetToken(issued.id);
-    console.error(JSON.stringify({
-      level: "error",
-      event: "password_reset_email_failed",
-      ...errorLogMetadata(error),
-    }));
-  }
 }
 
 async function notifyPasswordChange(email: string) {

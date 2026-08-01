@@ -1,6 +1,9 @@
 import { createHash, randomBytes } from "node:crypto";
 import { Prisma } from "@prisma/client";
 import { hashPassword, verifyPassword } from "@/lib/auth";
+import { sendPasswordResetEmail } from "@/lib/email";
+import { finalizeEmailProofDelivery, nextEmailProofCreatedAt } from "@/lib/email-proof";
+import { errorLogMetadata } from "@/lib/logging";
 import { prisma } from "@/lib/prisma";
 import { deleteExpiredUnusedRegistration, proofExpiration } from "@/lib/retention";
 
@@ -67,18 +70,92 @@ export async function issuePasswordResetToken(email: string, now = new Date()) {
       data: { sessionVersion: { increment: 0 } },
     });
     if (!claimed.count) return null;
-    await transaction.passwordResetToken.deleteMany({ where: { userId: user.id } });
+    const latest = await transaction.passwordResetToken.findFirst({
+      where: { userId: user.id },
+      orderBy: [{ createdAt: "desc" }, { id: "desc" }],
+      select: { createdAt: true },
+    });
     return transaction.passwordResetToken.create({
-      data: { userId: user.id, tokenHash, expiresAt },
+      data: {
+        userId: user.id,
+        tokenHash,
+        expiresAt,
+        createdAt: nextEmailProofCreatedAt(now, latest?.createdAt),
+      },
       select: { id: true },
     });
   });
   if (!record) return null;
-  return { ...record, email: user.email, token, tokenHash, expiresAt };
+  return { ...record, userId: user.id, email: user.email, token, tokenHash, expiresAt };
 }
 
 export async function revokePasswordResetToken(id: string) {
   await prisma.passwordResetToken.deleteMany({ where: { id } });
+}
+
+export async function finalizePasswordResetDelivery(
+  issued: { id: string; userId: string; tokenHash: string },
+  deliveredAt = new Date(),
+) {
+  return finalizeEmailProofDelivery(issued.userId, issued.id, {
+    markDelivered: (transaction) => transaction.passwordResetToken.updateMany({
+      where: {
+        id: issued.id,
+        userId: issued.userId,
+        tokenHash: issued.tokenHash,
+        deliveredAt: null,
+      },
+      data: { deliveredAt },
+    }),
+    findLatestDelivered: (transaction) => transaction.passwordResetToken.findFirst({
+      where: { userId: issued.userId, deliveredAt: { not: null } },
+      orderBy: [{ createdAt: "desc" }, { id: "desc" }],
+      select: { id: true },
+    }),
+    removeSuperseded: (transaction, retainedId) => transaction.passwordResetToken.deleteMany({
+      where: {
+        userId: issued.userId,
+        id: { not: retainedId },
+        deliveredAt: { not: null },
+      },
+    }),
+  });
+}
+
+export async function deliverPasswordReset(email: string, origin: string) {
+  const issued = await issuePasswordResetToken(email);
+  if (!issued) return;
+  const resetUrl = `${origin}/reset-password#token=${encodeURIComponent(issued.token)}`;
+  try {
+    await sendPasswordResetEmail(issued.email, resetUrl);
+  } catch (error) {
+    console.error(JSON.stringify({
+      level: "error",
+      event: "password_reset_email_failed",
+      ...errorLogMetadata(error),
+    }));
+    try {
+      await revokePasswordResetToken(issued.id);
+    } catch (cleanupError) {
+      console.error(JSON.stringify({
+        level: "error",
+        event: "password_reset_delivery_cleanup_failed",
+        ...errorLogMetadata(cleanupError),
+      }));
+    }
+    return;
+  }
+  try {
+    await finalizePasswordResetDelivery(issued);
+  } catch (error) {
+    // The provider accepted this email. Keep its proof usable if delivery
+    // bookkeeping is temporarily unavailable, and alert operators to investigate.
+    console.error(JSON.stringify({
+      level: "error",
+      event: "password_reset_delivery_finalize_failed",
+      ...errorLogMetadata(error),
+    }));
+  }
 }
 
 export async function resetPasswordWithToken(

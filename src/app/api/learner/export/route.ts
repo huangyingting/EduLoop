@@ -140,15 +140,15 @@ async function getAccountExport(request: NextRequest) {
       },
       emailVerificationTokens: {
         orderBy: [{ createdAt: "asc" }, { id: "asc" }],
-        select: { expiresAt: true, createdAt: true },
+        select: { expiresAt: true, deliveredAt: true, createdAt: true },
       },
       emailChangeTokens: {
         orderBy: [{ createdAt: "asc" }, { id: "asc" }],
-        select: { newEmail: true, expiresAt: true, createdAt: true },
+        select: { newEmail: true, expiresAt: true, deliveredAt: true, createdAt: true },
       },
       passwordResetTokens: {
         orderBy: [{ createdAt: "asc" }, { id: "asc" }],
-        select: { expiresAt: true, createdAt: true },
+        select: { expiresAt: true, deliveredAt: true, createdAt: true },
       },
       sessions: {
         orderBy: { expires: "asc" },

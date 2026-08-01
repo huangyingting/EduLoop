@@ -2,6 +2,7 @@ import { createHash, randomBytes } from "node:crypto";
 import { Prisma } from "@prisma/client";
 import { verifyPassword } from "@/lib/auth";
 import { sendEmailVerificationEmail } from "@/lib/email";
+import { finalizeEmailProofDelivery, nextEmailProofCreatedAt } from "@/lib/email-proof";
 import { errorLogMetadata } from "@/lib/logging";
 import { prisma } from "@/lib/prisma";
 import { deleteExpiredUnusedRegistration, proofExpiration } from "@/lib/retention";
@@ -68,18 +69,56 @@ export async function issueEmailVerificationToken(email: string, now = new Date(
       data: { sessionVersion: { increment: 0 } },
     });
     if (!claimed.count) return null;
-    await transaction.emailVerificationToken.deleteMany({ where: { userId: user.id } });
+    const latest = await transaction.emailVerificationToken.findFirst({
+      where: { userId: user.id },
+      orderBy: [{ createdAt: "desc" }, { id: "desc" }],
+      select: { createdAt: true },
+    });
     return transaction.emailVerificationToken.create({
-      data: { userId: user.id, tokenHash, expiresAt },
+      data: {
+        userId: user.id,
+        tokenHash,
+        expiresAt,
+        createdAt: nextEmailProofCreatedAt(now, latest?.createdAt),
+      },
       select: { id: true },
     });
   });
   if (!record) return null;
-  return { ...record, email: user.email, token, tokenHash, expiresAt };
+  return { ...record, userId: user.id, email: user.email, token, tokenHash, expiresAt };
 }
 
 export async function revokeEmailVerificationToken(id: string) {
   await prisma.emailVerificationToken.deleteMany({ where: { id } });
+}
+
+export async function finalizeEmailVerificationDelivery(
+  issued: { id: string; userId: string; tokenHash: string },
+  deliveredAt = new Date(),
+) {
+  return finalizeEmailProofDelivery(issued.userId, issued.id, {
+    markDelivered: (transaction) => transaction.emailVerificationToken.updateMany({
+      where: {
+        id: issued.id,
+        userId: issued.userId,
+        tokenHash: issued.tokenHash,
+        deliveredAt: null,
+      },
+      data: { deliveredAt },
+    }),
+    findLatestDelivered: (transaction) => transaction.emailVerificationToken.findFirst({
+      where: { userId: issued.userId, deliveredAt: { not: null } },
+      orderBy: [{ createdAt: "desc" }, { id: "desc" }],
+      select: { id: true },
+    }),
+    removeSuperseded: (transaction, retainedId) => transaction.emailVerificationToken.deleteMany({
+      where: {
+        userId: issued.userId,
+        id: { not: retainedId },
+        deliveredAt: { not: null },
+      },
+    }),
+  });
 }
 
 export async function deliverEmailVerification(email: string, origin: string) {
@@ -89,10 +128,30 @@ export async function deliverEmailVerification(email: string, origin: string) {
   try {
     await sendEmailVerificationEmail(issued.email, verificationUrl);
   } catch (error) {
-    await revokeEmailVerificationToken(issued.id);
     console.error(JSON.stringify({
       level: "error",
       event: "email_verification_delivery_failed",
+      ...errorLogMetadata(error),
+    }));
+    try {
+      await revokeEmailVerificationToken(issued.id);
+    } catch (cleanupError) {
+      console.error(JSON.stringify({
+        level: "error",
+        event: "email_verification_delivery_cleanup_failed",
+        ...errorLogMetadata(cleanupError),
+      }));
+    }
+    return;
+  }
+  try {
+    await finalizeEmailVerificationDelivery(issued);
+  } catch (error) {
+    // Resend already accepted the message. Leave this unconfirmed row usable
+    // rather than revoking the link that is now on its way to the learner.
+    console.error(JSON.stringify({
+      level: "error",
+      event: "email_verification_delivery_finalize_failed",
       ...errorLogMetadata(error),
     }));
   }

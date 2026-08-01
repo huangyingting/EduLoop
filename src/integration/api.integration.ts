@@ -35,10 +35,25 @@ import { SENSITIVE_ACTION_MAX_AGE_SECONDS } from "@/lib/auth-validation";
 import { calendarDay, calendarDaysBefore } from "@/lib/dates";
 import { REQUIRED_DATABASE_MIGRATION } from "@/lib/database-readiness";
 import { transitionContentReport } from "@/lib/content-review";
-import { hashEmailChangeToken, issueEmailChangeToken } from "@/lib/email-change";
-import { hashEmailVerificationToken } from "@/lib/email-verification";
+import {
+  deliverEmailChangeVerification,
+  finalizeEmailChangeDelivery,
+  hashEmailChangeToken,
+  issueEmailChangeToken,
+} from "@/lib/email-change";
+import {
+  deliverEmailVerification,
+  finalizeEmailVerificationDelivery,
+  hashEmailVerificationToken,
+  issueEmailVerificationToken,
+} from "@/lib/email-verification";
 import { PRIVACY_VERSION, TERMS_VERSION } from "@/lib/legal";
-import { hashPasswordResetToken } from "@/lib/password-reset";
+import {
+  deliverPasswordReset,
+  finalizePasswordResetDelivery,
+  hashPasswordResetToken,
+  issuePasswordResetToken,
+} from "@/lib/password-reset";
 import { disconnectProviderAccount, linkProviderAccountSafely, providerAuthenticationSnapshot, providerSessionVersionForAuthentication } from "@/lib/provider-account";
 import { cleanupExpiredSecurityArtifacts } from "@/lib/retention";
 import {
@@ -107,6 +122,9 @@ const providerLoginSnapshotUserId = "integration-provider-login-snapshot-user";
 const emailChangeUserId = "integration-email-change-user";
 const emailChangeConflictUserId = "integration-email-change-conflict-user";
 const emailChangeIssuanceRaceUserId = "integration-email-change-issuance-race-user";
+const deliveryVerificationUserId = "integration-delivery-verification-user";
+const deliveryResetUserId = "integration-delivery-reset-user";
+const deliveryChangeUserId = "integration-delivery-change-user";
 const passwordUpgradeRaceUserId = "integration-password-upgrade-race-user";
 const staleCredentialsLoginUserId = "integration-stale-credentials-login-user";
 const sensitiveMutationRaceUserId = "integration-sensitive-mutation-race-user";
@@ -125,6 +143,7 @@ const studioReportId = "integration-studio-report";
 const studioRaceOperatorId = "integration-studio-race-operator";
 const studioRaceReporterId = "integration-studio-race-reporter";
 const studioRaceReportIds = ["integration-studio-race-report-a", "integration-studio-race-report-b"] as const;
+const journeyAccountActionDeliveredAt = new Date("2026-07-31T01:00:00.000Z");
 const consentData = {
   termsAcceptedAt: new Date("2026-07-31T00:00:00.000Z"),
   termsVersion: TERMS_VERSION,
@@ -219,7 +238,7 @@ afterAll(async () => {
   await prisma.user.deleteMany({ where: { email: authJsEmail } });
   await prisma.user.deleteMany({ where: { email: expiredRegistrationEmail } });
   await prisma.user.deleteMany({ where: { id: { in: [
-    authUserId, lifecycleUserId, socialPasswordUserId, sessionRevocationUserId, expiredRetentionUserId, activeRetentionUserId, deletionRaceUserId, ...reportErasureUserIds, sensitiveUserId, sensitiveMutationRaceUserId, providerUserId, providerMinimizationUserId, providerSocialUserId, providerRaceUserId, passwordResetUserId, socialRecoveryUserId, verifiedRecoveryUserId, ownershipRaceUserId, proofLockRaceUserId, providerLinkRaceUserId, providerLoginSnapshotUserId, emailChangeUserId, emailChangeConflictUserId, emailChangeIssuanceRaceUserId, passwordUpgradeRaceUserId, staleCredentialsLoginUserId, consentUserId, shieldUserId, concurrentUserId, journeyUserId, profileUserId,
+    authUserId, lifecycleUserId, socialPasswordUserId, sessionRevocationUserId, expiredRetentionUserId, activeRetentionUserId, deletionRaceUserId, ...reportErasureUserIds, sensitiveUserId, sensitiveMutationRaceUserId, providerUserId, providerMinimizationUserId, providerSocialUserId, providerRaceUserId, passwordResetUserId, socialRecoveryUserId, verifiedRecoveryUserId, ownershipRaceUserId, proofLockRaceUserId, providerLinkRaceUserId, providerLoginSnapshotUserId, emailChangeUserId, emailChangeConflictUserId, emailChangeIssuanceRaceUserId, deliveryVerificationUserId, deliveryResetUserId, deliveryChangeUserId, passwordUpgradeRaceUserId, staleCredentialsLoginUserId, consentUserId, shieldUserId, concurrentUserId, journeyUserId, profileUserId,
     studioOperatorId, studioLearnerId, studioReporterId, studioRaceOperatorId, studioRaceReporterId,
     ...staleRegistrationUserIds,
   ] } } });
@@ -2524,6 +2543,339 @@ describe("learner API journey", () => {
     }
   });
 
+  it("keeps the last delivered verification link until a newer delivery wins", async () => {
+    const email = "delivery-verification@example.com";
+    const password = "delivery-verification-password-123";
+    const baseTime = new Date(Date.now() - 60_000);
+    await prisma.user.create({ data: {
+      id: deliveryVerificationUserId,
+      ...consentData,
+      email,
+      passwordHash: await hashPassword(password),
+      learner: { create: {} },
+    } });
+    const initial = await issueEmailVerificationToken(email, baseTime);
+    if (!initial) throw new Error("Expected an initial verification proof.");
+    expect(await finalizeEmailVerificationDelivery(initial, new Date(baseTime.getTime() + 1_000))).toBe(true);
+
+    const previousEnvironment = {
+      RESEND_API_KEY: process.env.RESEND_API_KEY,
+      AUTH_EMAIL_FROM: process.env.AUTH_EMAIL_FROM,
+    };
+    process.env.RESEND_API_KEY = "re_integration_key";
+    process.env.AUTH_EMAIL_FROM = "EduLoop <accounts@learn.example>";
+    let deliveryAttempt = 0;
+    const emailFetch = vi.fn(async (input: string | URL | Request, init?: RequestInit) => {
+      void input; void init;
+      deliveryAttempt += 1;
+      return new Response(null, { status: deliveryAttempt === 1 ? 503 : 202 });
+    });
+    const errorLog = vi.spyOn(console, "error").mockImplementation(() => undefined);
+    vi.stubGlobal("fetch", emailFetch);
+
+    try {
+      await deliverEmailVerification(email, "https://learn.example");
+      expect(errorLog).toHaveBeenCalledWith(expect.stringContaining("email_verification_delivery_failed"));
+      expect(await prisma.emailVerificationToken.findMany({
+        where: { userId: deliveryVerificationUserId },
+      })).toEqual([expect.objectContaining({
+        id: initial.id,
+        deliveredAt: expect.any(Date),
+      })]);
+
+      await deliverEmailVerification(email, "https://learn.example");
+      expect(emailFetch).toHaveBeenCalledTimes(2);
+      const accepted = await prisma.emailVerificationToken.findMany({
+        where: { userId: deliveryVerificationUserId },
+      });
+      expect(accepted).toEqual([expect.objectContaining({
+        id: expect.not.stringMatching(initial.id),
+        deliveredAt: expect.any(Date),
+      })]);
+
+      const simultaneousTime = new Date(Date.now() + 60_000);
+      const earlier = await issueEmailVerificationToken(email, simultaneousTime);
+      const latest = await issueEmailVerificationToken(email, simultaneousTime);
+      if (!earlier || !latest) throw new Error("Expected verification replacements.");
+      const issueOrder = await prisma.emailVerificationToken.findMany({
+        where: { id: { in: [earlier.id, latest.id] } },
+        orderBy: { createdAt: "asc" },
+        select: { id: true, createdAt: true },
+      });
+      expect(issueOrder.map(({ id }) => id)).toEqual([earlier.id, latest.id]);
+      expect(issueOrder[1]!.createdAt.getTime()).toBeGreaterThan(issueOrder[0]!.createdAt.getTime());
+
+      expect(await finalizeEmailVerificationDelivery(
+        latest,
+        new Date(simultaneousTime.getTime() + 2_000),
+      )).toBe(true);
+      expect(await finalizeEmailVerificationDelivery(
+        earlier,
+        new Date(simultaneousTime.getTime() + 3_000),
+      )).toBe(false);
+      expect(await prisma.emailVerificationToken.findMany({
+        where: { userId: deliveryVerificationUserId },
+      })).toEqual([expect.objectContaining({ id: latest.id, deliveredAt: expect.any(Date) })]);
+
+      await prisma.emailChangeToken.create({ data: {
+        userId: deliveryVerificationUserId,
+        newEmail: "delivery-verification-pending@example.com",
+        tokenHash: "delivery-verification-change".padEnd(64, "c"),
+        expiresAt: new Date(Date.now() + 60 * 60_000),
+      } });
+      await prisma.passwordResetToken.create({ data: {
+        userId: deliveryVerificationUserId,
+        tokenHash: "delivery-verification-reset".padEnd(64, "r"),
+        expiresAt: new Date(Date.now() + 60 * 60_000),
+      } });
+      const completed = await completeEmailVerification(request(
+        "http://localhost/api/auth/email-verification",
+        "PATCH",
+        { token: latest.token, password },
+      ));
+      expect(completed.status).toBe(200);
+      expect(await prisma.emailVerificationToken.count({ where: { userId: deliveryVerificationUserId } })).toBe(0);
+      expect(await prisma.emailChangeToken.count({ where: { userId: deliveryVerificationUserId } })).toBe(0);
+      expect(await prisma.passwordResetToken.count({ where: { userId: deliveryVerificationUserId } })).toBe(0);
+    } finally {
+      for (const [key, value] of Object.entries(previousEnvironment)) {
+        if (value === undefined) delete process.env[key];
+        else process.env[key] = value;
+      }
+      errorLog.mockRestore();
+      vi.unstubAllGlobals();
+    }
+  });
+
+  it("keeps the last delivered reset link until a newer delivery wins", async () => {
+    const email = "delivery-reset@example.com";
+    const oldPassword = "delivery-reset-old-password-123";
+    const newPassword = "delivery-reset-new-password-456";
+    const baseTime = new Date(Date.now() - 60_000);
+    await prisma.user.create({ data: {
+      id: deliveryResetUserId,
+      ...consentData,
+      email,
+      emailVerified: baseTime,
+      passwordHash: await hashPassword(oldPassword),
+      learner: { create: {} },
+    } });
+    const initial = await issuePasswordResetToken(email, baseTime);
+    if (!initial) throw new Error("Expected an initial password-reset proof.");
+    expect(await finalizePasswordResetDelivery(initial, new Date(baseTime.getTime() + 1_000))).toBe(true);
+
+    const previousEnvironment = {
+      RESEND_API_KEY: process.env.RESEND_API_KEY,
+      AUTH_EMAIL_FROM: process.env.AUTH_EMAIL_FROM,
+    };
+    process.env.RESEND_API_KEY = "re_integration_key";
+    process.env.AUTH_EMAIL_FROM = "EduLoop <accounts@learn.example>";
+    let deliveryAttempt = 0;
+    const emailFetch = vi.fn(async (input: string | URL | Request, init?: RequestInit) => {
+      void input; void init;
+      deliveryAttempt += 1;
+      return new Response(null, { status: deliveryAttempt === 1 ? 503 : 202 });
+    });
+    const errorLog = vi.spyOn(console, "error").mockImplementation(() => undefined);
+    vi.stubGlobal("fetch", emailFetch);
+
+    try {
+      await deliverPasswordReset(email, "https://learn.example");
+      expect(errorLog).toHaveBeenCalledWith(expect.stringContaining("password_reset_email_failed"));
+      expect(await prisma.passwordResetToken.findMany({ where: { userId: deliveryResetUserId } })).toEqual([
+        expect.objectContaining({ id: initial.id, deliveredAt: expect.any(Date) }),
+      ]);
+
+      await deliverPasswordReset(email, "https://learn.example");
+      expect(emailFetch).toHaveBeenCalledTimes(2);
+      expect(await prisma.passwordResetToken.findMany({ where: { userId: deliveryResetUserId } })).toEqual([
+        expect.objectContaining({ id: expect.not.stringMatching(initial.id), deliveredAt: expect.any(Date) }),
+      ]);
+
+      const simultaneousTime = new Date(Date.now() + 60_000);
+      const earlier = await issuePasswordResetToken(email, simultaneousTime);
+      const latest = await issuePasswordResetToken(email, simultaneousTime);
+      if (!earlier || !latest) throw new Error("Expected password-reset replacements.");
+      const issueOrder = await prisma.passwordResetToken.findMany({
+        where: { id: { in: [earlier.id, latest.id] } },
+        orderBy: { createdAt: "asc" },
+        select: { id: true, createdAt: true },
+      });
+      expect(issueOrder.map(({ id }) => id)).toEqual([earlier.id, latest.id]);
+      expect(issueOrder[1]!.createdAt.getTime()).toBeGreaterThan(issueOrder[0]!.createdAt.getTime());
+
+      expect(await finalizePasswordResetDelivery(
+        latest,
+        new Date(simultaneousTime.getTime() + 2_000),
+      )).toBe(true);
+      expect(await finalizePasswordResetDelivery(
+        earlier,
+        new Date(simultaneousTime.getTime() + 3_000),
+      )).toBe(false);
+      expect(await prisma.passwordResetToken.findMany({ where: { userId: deliveryResetUserId } })).toEqual([
+        expect.objectContaining({ id: latest.id, deliveredAt: expect.any(Date) }),
+      ]);
+
+      await prisma.emailVerificationToken.create({ data: {
+        userId: deliveryResetUserId,
+        tokenHash: "delivery-reset-verification".padEnd(64, "v"),
+        expiresAt: new Date(Date.now() + 60 * 60_000),
+      } });
+      await prisma.emailChangeToken.create({ data: {
+        userId: deliveryResetUserId,
+        newEmail: "delivery-reset-pending@example.com",
+        tokenHash: "delivery-reset-change".padEnd(64, "c"),
+        expiresAt: new Date(Date.now() + 60 * 60_000),
+      } });
+      const completed = await completePasswordReset(request(
+        "http://localhost/api/auth/password-reset",
+        "PATCH",
+        { token: latest.token, newPassword },
+      ));
+      expect(completed.status).toBe(200);
+      expect(await prisma.emailVerificationToken.count({ where: { userId: deliveryResetUserId } })).toBe(0);
+      expect(await prisma.emailChangeToken.count({ where: { userId: deliveryResetUserId } })).toBe(0);
+      expect(await prisma.passwordResetToken.count({ where: { userId: deliveryResetUserId } })).toBe(0);
+    } finally {
+      for (const [key, value] of Object.entries(previousEnvironment)) {
+        if (value === undefined) delete process.env[key];
+        else process.env[key] = value;
+      }
+      errorLog.mockRestore();
+      vi.unstubAllGlobals();
+    }
+  });
+
+  it("keeps the last delivered email-change link until a newer delivery wins", async () => {
+    const email = "delivery-change@example.com";
+    const password = "delivery-change-password-123";
+    const baseTime = new Date(Date.now() - 60_000);
+    await prisma.user.create({ data: {
+      id: deliveryChangeUserId,
+      ...consentData,
+      email,
+      emailVerified: baseTime,
+      passwordHash: await hashPassword(password),
+      learner: { create: {} },
+    } });
+    const initial = await issueEmailChangeToken(
+      deliveryChangeUserId,
+      "delivery-change-initial@example.com",
+      0,
+      baseTime,
+    );
+    if (initial.status !== "ISSUED") throw new Error("Expected an initial email-change proof.");
+    expect(await finalizeEmailChangeDelivery(initial, new Date(baseTime.getTime() + 1_000))).toBe(true);
+
+    const previousEnvironment = {
+      RESEND_API_KEY: process.env.RESEND_API_KEY,
+      AUTH_EMAIL_FROM: process.env.AUTH_EMAIL_FROM,
+    };
+    process.env.RESEND_API_KEY = "re_integration_key";
+    process.env.AUTH_EMAIL_FROM = "EduLoop <accounts@learn.example>";
+    let deliveryAttempt = 0;
+    const emailFetch = vi.fn(async (input: string | URL | Request, init?: RequestInit) => {
+      void input; void init;
+      deliveryAttempt += 1;
+      return new Response(null, { status: deliveryAttempt === 1 ? 503 : 202 });
+    });
+    const errorLog = vi.spyOn(console, "error").mockImplementation(() => undefined);
+    vi.stubGlobal("fetch", emailFetch);
+
+    try {
+      const failed = await issueEmailChangeToken(
+        deliveryChangeUserId,
+        "delivery-change-failed@example.com",
+        0,
+      );
+      if (failed.status !== "ISSUED") throw new Error("Expected a failed-delivery replacement.");
+      await deliverEmailChangeVerification(failed, "https://learn.example");
+      expect(errorLog).toHaveBeenCalledWith(expect.stringContaining("email_change_delivery_failed"));
+      expect(await prisma.emailChangeToken.findMany({ where: { userId: deliveryChangeUserId } })).toEqual([
+        expect.objectContaining({ id: initial.id, deliveredAt: expect.any(Date) }),
+      ]);
+
+      const accepted = await issueEmailChangeToken(
+        deliveryChangeUserId,
+        "delivery-change-accepted@example.com",
+        0,
+      );
+      if (accepted.status !== "ISSUED") throw new Error("Expected an accepted-delivery replacement.");
+      await deliverEmailChangeVerification(accepted, "https://learn.example");
+      expect(emailFetch).toHaveBeenCalledTimes(2);
+      expect(await prisma.emailChangeToken.findMany({ where: { userId: deliveryChangeUserId } })).toEqual([
+        expect.objectContaining({ id: accepted.id, deliveredAt: expect.any(Date) }),
+      ]);
+
+      const simultaneousTime = new Date(Date.now() + 60_000);
+      const earlier = await issueEmailChangeToken(
+        deliveryChangeUserId,
+        "delivery-change-earlier@example.com",
+        0,
+        simultaneousTime,
+      );
+      const latest = await issueEmailChangeToken(
+        deliveryChangeUserId,
+        "delivery-change-latest@example.com",
+        0,
+        simultaneousTime,
+      );
+      if (earlier.status !== "ISSUED" || latest.status !== "ISSUED") {
+        throw new Error("Expected email-change replacements.");
+      }
+      const issueOrder = await prisma.emailChangeToken.findMany({
+        where: { id: { in: [earlier.id, latest.id] } },
+        orderBy: { createdAt: "asc" },
+        select: { id: true, createdAt: true },
+      });
+      expect(issueOrder.map(({ id }) => id)).toEqual([earlier.id, latest.id]);
+      expect(issueOrder[1]!.createdAt.getTime()).toBeGreaterThan(issueOrder[0]!.createdAt.getTime());
+
+      expect(await finalizeEmailChangeDelivery(
+        latest,
+        new Date(simultaneousTime.getTime() + 2_000),
+      )).toBe(true);
+      expect(await finalizeEmailChangeDelivery(
+        earlier,
+        new Date(simultaneousTime.getTime() + 3_000),
+      )).toBe(false);
+      expect(await prisma.emailChangeToken.findMany({ where: { userId: deliveryChangeUserId } })).toEqual([
+        expect.objectContaining({ id: latest.id, deliveredAt: expect.any(Date) }),
+      ]);
+
+      await prisma.emailVerificationToken.create({ data: {
+        userId: deliveryChangeUserId,
+        tokenHash: "delivery-change-verification".padEnd(64, "v"),
+        expiresAt: new Date(Date.now() + 60 * 60_000),
+      } });
+      await prisma.passwordResetToken.create({ data: {
+        userId: deliveryChangeUserId,
+        tokenHash: "delivery-change-reset".padEnd(64, "r"),
+        expiresAt: new Date(Date.now() + 60 * 60_000),
+      } });
+      const completed = await completeEmailChange(request(
+        "http://localhost/api/auth/email-change",
+        "PATCH",
+        { token: latest.token },
+      ));
+      expect(completed.status).toBe(200);
+      expect(await prisma.user.findUniqueOrThrow({ where: { id: deliveryChangeUserId } })).toMatchObject({
+        email: latest.newEmail,
+        sessionVersion: 1,
+      });
+      expect(await prisma.emailVerificationToken.count({ where: { userId: deliveryChangeUserId } })).toBe(0);
+      expect(await prisma.emailChangeToken.count({ where: { userId: deliveryChangeUserId } })).toBe(0);
+      expect(await prisma.passwordResetToken.count({ where: { userId: deliveryChangeUserId } })).toBe(0);
+    } finally {
+      for (const [key, value] of Object.entries(previousEnvironment)) {
+        if (value === undefined) delete process.env[key];
+        else process.env[key] = value;
+      }
+      errorLog.mockRestore();
+      vi.unstubAllGlobals();
+    }
+  });
+
   it("requires recent reauthentication for sensitive social-only account actions", async () => {
     const email = "sensitive-social@example.com";
     await prisma.user.create({ data: {
@@ -2760,15 +3112,18 @@ describe("learner API journey", () => {
       emailVerificationTokens: { create: {
         tokenHash: "1a".repeat(32),
         expiresAt: accountActionExpiry,
+        deliveredAt: journeyAccountActionDeliveredAt,
       } },
       emailChangeTokens: { create: {
         newEmail: "journey-pending@example.com",
         tokenHash: "2b".repeat(32),
         expiresAt: accountActionExpiry,
+        deliveredAt: journeyAccountActionDeliveredAt,
       } },
       passwordResetTokens: { create: {
         tokenHash: "3c".repeat(32),
         expiresAt: accountActionExpiry,
+        deliveredAt: journeyAccountActionDeliveredAt,
       } },
       sessions: { create: {
         sessionToken: "export-secret-session-token",
@@ -3327,9 +3682,9 @@ describe("learner API journey", () => {
         linkedProviders: Array<{ provider: string; providerAccountId: string }>;
         consentHistory: Array<{ basis: string; method: string }>;
         pendingAccountActions: {
-          emailVerifications: unknown[];
-          emailChanges: Array<{ newEmail: string }>;
-          passwordResets: unknown[];
+          emailVerifications: Array<{ deliveredAt: string | null }>;
+          emailChanges: Array<{ newEmail: string; deliveredAt: string | null }>;
+          passwordResets: Array<{ deliveredAt: string | null }>;
         };
         sessionRecords: Array<{ expires: string }>;
         contentReviewActions: unknown[];
@@ -3353,6 +3708,15 @@ describe("learner API journey", () => {
         contentReviewActions: [],
       },
     });
+    expect(exported.account.pendingAccountActions.emailVerifications[0]?.deliveredAt).toBe(
+      journeyAccountActionDeliveredAt.toISOString(),
+    );
+    expect(exported.account.pendingAccountActions.emailChanges[0]?.deliveredAt).toBe(
+      journeyAccountActionDeliveredAt.toISOString(),
+    );
+    expect(exported.account.pendingAccountActions.passwordResets[0]?.deliveredAt).toBe(
+      journeyAccountActionDeliveredAt.toISOString(),
+    );
     expect(exported.learner.attempts.length).toBeGreaterThanOrEqual(252);
     expect(exported.learner).not.toHaveProperty("id");
     const serializedExport = JSON.stringify(exported);

@@ -1,6 +1,7 @@
 import { createHash, randomBytes } from "node:crypto";
 import { Prisma } from "@prisma/client";
 import { sendEmailChangeVerificationEmail } from "@/lib/email";
+import { finalizeEmailProofDelivery, nextEmailProofCreatedAt } from "@/lib/email-proof";
 import { errorLogMetadata } from "@/lib/logging";
 import { prisma } from "@/lib/prisma";
 
@@ -60,10 +61,19 @@ export async function issueEmailChangeToken(
       return { status: "CONFLICT" };
     }
 
-    const record = await transaction.emailChangeToken.upsert({
+    const latest = await transaction.emailChangeToken.findFirst({
       where: { userId },
-      create: { userId, newEmail, tokenHash, expiresAt },
-      update: { newEmail, tokenHash, expiresAt, createdAt: now },
+      orderBy: [{ createdAt: "desc" }, { id: "desc" }],
+      select: { createdAt: true },
+    });
+    const record = await transaction.emailChangeToken.create({
+      data: {
+        userId,
+        newEmail,
+        tokenHash,
+        expiresAt,
+        createdAt: nextEmailProofCreatedAt(now, latest?.createdAt),
+      },
       select: { id: true },
     });
     return { status: "ISSUED", ...record, userId, newEmail, token, tokenHash, expiresAt };
@@ -74,6 +84,35 @@ export async function revokeEmailChangeToken(id: string, tokenHash: string) {
   await prisma.emailChangeToken.deleteMany({ where: { id, tokenHash } });
 }
 
+export async function finalizeEmailChangeDelivery(
+  issued: Extract<EmailChangeIssueResult, { status: "ISSUED" }>,
+  deliveredAt = new Date(),
+) {
+  return finalizeEmailProofDelivery(issued.userId, issued.id, {
+    markDelivered: (transaction) => transaction.emailChangeToken.updateMany({
+      where: {
+        id: issued.id,
+        userId: issued.userId,
+        tokenHash: issued.tokenHash,
+        deliveredAt: null,
+      },
+      data: { deliveredAt },
+    }),
+    findLatestDelivered: (transaction) => transaction.emailChangeToken.findFirst({
+      where: { userId: issued.userId, deliveredAt: { not: null } },
+      orderBy: [{ createdAt: "desc" }, { id: "desc" }],
+      select: { id: true },
+    }),
+    removeSuperseded: (transaction, retainedId) => transaction.emailChangeToken.deleteMany({
+      where: {
+        userId: issued.userId,
+        id: { not: retainedId },
+        deliveredAt: { not: null },
+      },
+    }),
+  });
+}
+
 export async function deliverEmailChangeVerification(
   issued: Extract<EmailChangeIssueResult, { status: "ISSUED" }>,
   origin: string,
@@ -82,10 +121,30 @@ export async function deliverEmailChangeVerification(
   try {
     await sendEmailChangeVerificationEmail(issued.newEmail, verificationUrl);
   } catch (error) {
-    await revokeEmailChangeToken(issued.id, issued.tokenHash);
     console.error(JSON.stringify({
       level: "error",
       event: "email_change_delivery_failed",
+      ...errorLogMetadata(error),
+    }));
+    try {
+      await revokeEmailChangeToken(issued.id, issued.tokenHash);
+    } catch (cleanupError) {
+      console.error(JSON.stringify({
+        level: "error",
+        event: "email_change_delivery_cleanup_failed",
+        ...errorLogMetadata(cleanupError),
+      }));
+    }
+    return;
+  }
+  try {
+    await finalizeEmailChangeDelivery(issued);
+  } catch (error) {
+    // The provider accepted this email. Keep its proof usable if delivery
+    // bookkeeping is temporarily unavailable, and alert operators to investigate.
+    console.error(JSON.stringify({
+      level: "error",
+      event: "email_change_delivery_finalize_failed",
       ...errorLogMetadata(error),
     }));
   }

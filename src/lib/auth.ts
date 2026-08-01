@@ -26,6 +26,21 @@ export type SessionUser = {
   oauthProviders: string[];
 };
 
+const passwordLoginUserSelect = {
+  id: true,
+  email: true,
+  emailVerified: true,
+  name: true,
+  image: true,
+  passwordHash: true,
+  sessionVersion: true,
+  termsAcceptedAt: true,
+  termsVersion: true,
+  privacyAcceptedAt: true,
+  privacyVersion: true,
+  consentBasis: true,
+} as const;
+
 export async function hashPassword(password: string) {
   return bcrypt.hash(password, PASSWORD_HASH_COST);
 }
@@ -37,6 +52,55 @@ export async function verifyPassword(password: string, passwordHash: string) {
 export function passwordHashNeedsUpgrade(passwordHash: string) {
   const match = passwordHash.match(/^\$2[aby]\$(\d{2})\$/);
   return !match || Number(match[1]) < PASSWORD_HASH_COST;
+}
+
+export async function authenticatePasswordCredentials(email: string, password: string) {
+  let user = await prisma.user.findUnique({
+    where: { email },
+    select: passwordLoginUserSelect,
+  });
+  if (!user?.passwordHash) {
+    // Keep the missing-account path expensive enough that it does not become
+    // an obvious mailbox-enumeration timing oracle.
+    await hashPassword(password);
+    return null;
+  }
+
+  const authenticatedSessionVersion = user.sessionVersion;
+  for (let attempt = 0; attempt < 2; attempt += 1) {
+    if (!user.passwordHash || !await verifyPassword(password, user.passwordHash)) return null;
+    const passwordHash = user.passwordHash;
+    const upgradedHash = passwordHashNeedsUpgrade(passwordHash)
+      ? await hashPassword(password)
+      : null;
+    const claimed = await prisma.user.updateMany({
+      where: {
+        id: user.id,
+        passwordHash,
+        sessionVersion: authenticatedSessionVersion,
+      },
+      data: upgradedHash
+        ? { passwordHash: upgradedHash }
+        : { sessionVersion: { increment: 0 } },
+    });
+    if (claimed.count === 1) {
+      return { ...user, authenticatedSessionVersion };
+    }
+
+    // Two valid logins can race while upgrading the same legacy hash. Permit
+    // one retry only when the exact security version originally authenticated
+    // is still current and the newly stored hash proves the same password.
+    // Password changes and session revocations increment that version, so a
+    // delayed old-password login can never adopt their newer security state.
+    if (attempt === 0) {
+      user = await prisma.user.findUnique({
+        where: { id: user.id },
+        select: passwordLoginUserSelect,
+      });
+      if (!user || user.sessionVersion !== authenticatedSessionVersion) return null;
+    }
+  }
+  return null;
 }
 
 export async function getSessionUser(

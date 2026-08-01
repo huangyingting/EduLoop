@@ -1,5 +1,6 @@
 import { NextRequest } from "next/server";
 import { PrismaAdapter } from "@auth/prisma-adapter";
+import bcrypt from "bcryptjs";
 import { encode } from "next-auth/jwt";
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import { GET as authGet, POST as authPost } from "@/app/api/auth/[...nextauth]/route";
@@ -28,7 +29,7 @@ import { GET as getStudioMetrics } from "@/app/api/studio/metrics/route";
 import { prisma } from "@/lib/prisma";
 import { MAX_JSON_BODY_BYTES } from "@/lib/api";
 import { changeAccountPassword, deleteAccount, revokeAccountSessions } from "@/lib/account";
-import { AUTH_SECRET_VALUE, AUTH_SESSION_COOKIE, getSessionUser, hashPassword, verifyPassword } from "@/lib/auth";
+import { AUTH_SECRET_VALUE, AUTH_SESSION_COOKIE, PASSWORD_HASH_COST, authenticatePasswordCredentials, getSessionUser, hashPassword, verifyPassword } from "@/lib/auth";
 import { credentialMinimizingAdapter } from "@/lib/auth-adapter";
 import { SENSITIVE_ACTION_MAX_AGE_SECONDS } from "@/lib/auth-validation";
 import { calendarDay, calendarDaysBefore } from "@/lib/dates";
@@ -91,6 +92,8 @@ const providerLinkRaceUserId = "integration-provider-link-race-user";
 const emailChangeUserId = "integration-email-change-user";
 const emailChangeConflictUserId = "integration-email-change-conflict-user";
 const emailChangeIssuanceRaceUserId = "integration-email-change-issuance-race-user";
+const passwordUpgradeRaceUserId = "integration-password-upgrade-race-user";
+const staleCredentialsLoginUserId = "integration-stale-credentials-login-user";
 const sensitiveMutationRaceUserId = "integration-sensitive-mutation-race-user";
 const sensitiveMutationRaceReportId = "integration-sensitive-mutation-race-report";
 const consentUserId = "integration-consent-user";
@@ -198,7 +201,7 @@ afterAll(async () => {
   await prisma.user.deleteMany({ where: { email: authJsEmail } });
   await prisma.user.deleteMany({ where: { email: expiredRegistrationEmail } });
   await prisma.user.deleteMany({ where: { id: { in: [
-    authUserId, lifecycleUserId, socialPasswordUserId, sessionRevocationUserId, expiredRetentionUserId, activeRetentionUserId, deletionRaceUserId, sensitiveUserId, sensitiveMutationRaceUserId, providerUserId, providerMinimizationUserId, providerSocialUserId, providerRaceUserId, passwordResetUserId, socialRecoveryUserId, verifiedRecoveryUserId, ownershipRaceUserId, proofLockRaceUserId, providerLinkRaceUserId, emailChangeUserId, emailChangeConflictUserId, emailChangeIssuanceRaceUserId, consentUserId, shieldUserId, concurrentUserId, journeyUserId, profileUserId,
+    authUserId, lifecycleUserId, socialPasswordUserId, sessionRevocationUserId, expiredRetentionUserId, activeRetentionUserId, deletionRaceUserId, sensitiveUserId, sensitiveMutationRaceUserId, providerUserId, providerMinimizationUserId, providerSocialUserId, providerRaceUserId, passwordResetUserId, socialRecoveryUserId, verifiedRecoveryUserId, ownershipRaceUserId, proofLockRaceUserId, providerLinkRaceUserId, emailChangeUserId, emailChangeConflictUserId, emailChangeIssuanceRaceUserId, passwordUpgradeRaceUserId, staleCredentialsLoginUserId, consentUserId, shieldUserId, concurrentUserId, journeyUserId, profileUserId,
     studioOperatorId, studioLearnerId, studioReporterId, ...staleRegistrationUserIds,
   ] } } });
   await prisma.question.deleteMany({ where: { id: { in: [choiceId, writtenId, scienceQuestionId] } } });
@@ -736,6 +739,121 @@ describe("learner API journey", () => {
       }
       vi.unstubAllGlobals();
     }
+  });
+
+  it("does not let a delayed legacy-hash upgrade overwrite a rotated password", async () => {
+    const oldPassword = "legacy-login-password-123";
+    const replacementPassword = "replacement-login-password-456";
+    const replacementHash = await hashPassword(replacementPassword);
+    await prisma.user.create({ data: {
+      id: passwordUpgradeRaceUserId,
+      ...consentData,
+      email: "password-upgrade-race@example.com",
+      emailVerified: new Date(),
+      passwordHash: await bcrypt.hash(oldPassword, PASSWORD_HASH_COST - 1),
+    } });
+
+    const originalUpdateMany = prisma.user.updateMany.bind(prisma.user) as unknown as (
+      args: unknown,
+    ) => Promise<{ count: number }>;
+    const updateMany = vi.spyOn(prisma.user, "updateMany");
+    const controllable = updateMany as unknown as {
+      mockImplementationOnce: (
+        implementation: (args: unknown) => Promise<{ count: number }>,
+      ) => void;
+    };
+    controllable.mockImplementationOnce(async (args) => {
+      await prisma.user.update({
+        where: { id: passwordUpgradeRaceUserId },
+        data: {
+          passwordHash: replacementHash,
+          sessionVersion: { increment: 1 },
+        },
+      });
+      return originalUpdateMany(args);
+    });
+
+    try {
+      await expect(authenticatePasswordCredentials(
+        "password-upgrade-race@example.com",
+        oldPassword,
+      )).resolves.toBeNull();
+    } finally {
+      updateMany.mockRestore();
+    }
+
+    const secured = await prisma.user.findUniqueOrThrow({
+      where: { id: passwordUpgradeRaceUserId },
+      select: { passwordHash: true, sessionVersion: true },
+    });
+    expect(secured.sessionVersion).toBe(1);
+    expect(await verifyPassword(replacementPassword, secured.passwordHash!)).toBe(true);
+    expect(await verifyPassword(oldPassword, secured.passwordHash!)).toBe(false);
+  });
+
+  it("rejects a credentials login revoked after password proof instead of adopting the new version", async () => {
+    const email = "stale-credentials-login@example.com";
+    const password = "stale-credentials-password-123";
+    await prisma.user.create({ data: {
+      id: staleCredentialsLoginUserId,
+      ...consentData,
+      email,
+      emailVerified: new Date(),
+      passwordHash: await hashPassword(password),
+    } });
+
+    const csrfResponse = await authGet(new NextRequest("http://localhost/api/auth/csrf"));
+    const csrf = await csrfResponse.json() as { csrfToken: string };
+    const csrfCookie = responseCookie(csrfResponse, "authjs.csrf-token");
+    expect(csrfCookie).toBeTruthy();
+
+    const originalUpdateMany = prisma.user.updateMany.bind(prisma.user) as unknown as (
+      args: unknown,
+    ) => Promise<{ count: number }>;
+    const updateMany = vi.spyOn(prisma.user, "updateMany");
+    const controllable = updateMany as unknown as {
+      mockImplementationOnce: (
+        implementation: (args: unknown) => Promise<{ count: number }>,
+      ) => void;
+    };
+    controllable.mockImplementationOnce(async (args) => {
+      const claimed = await originalUpdateMany(args);
+      expect(claimed.count).toBe(1);
+      const revoked = await originalUpdateMany({
+        where: { id: staleCredentialsLoginUserId, sessionVersion: 0 },
+        data: { sessionVersion: { increment: 1 } },
+      });
+      expect(revoked.count).toBe(1);
+      return claimed;
+    });
+
+    let callback: Response;
+    try {
+      callback = await authPost(new NextRequest("http://localhost/api/auth/callback/credentials", {
+        method: "POST",
+        headers: {
+          "content-type": "application/x-www-form-urlencoded",
+          cookie: csrfCookie!,
+          "x-auth-return-redirect": "1",
+          "x-forwarded-for": "198.51.100.243",
+        },
+        body: new URLSearchParams({
+          csrfToken: csrf.csrfToken,
+          email,
+          password,
+          callbackUrl: "http://localhost/progress",
+        }).toString(),
+      }));
+    } finally {
+      updateMany.mockRestore();
+    }
+
+    expect(callback.status).toBe(200);
+    expect(responseCookie(callback, AUTH_SESSION_COOKIE)).toBeNull();
+    expect(await prisma.user.findUniqueOrThrow({
+      where: { id: staleCredentialsLoginUserId },
+      select: { sessionVersion: true },
+    })).toEqual({ sessionVersion: 1 });
   });
 
   it("releases an expired unused email atomically when the mailbox owner registers again", async () => {

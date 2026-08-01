@@ -9,10 +9,8 @@ import {
   AUTH_SECRET_VALUE,
   AUTH_SESSION_COOKIE,
   SESSION_DURATION_DAYS,
-  hashPassword,
+  authenticatePasswordCredentials,
   getSessionUser,
-  passwordHashNeedsUpgrade,
-  verifyPassword,
 } from "@/lib/auth";
 import { credentialMinimizingAdapter } from "@/lib/auth-adapter";
 import { hasRecentAuthentication, loginInputSchema, normalizeEmail } from "@/lib/auth-validation";
@@ -149,35 +147,17 @@ export const { handlers, auth } = NextAuth((request) => ({
         );
         if (!identityRate.allowed) return null;
 
-        const user = await prisma.user.findUnique({
-          where: { email },
-          select: {
-            id: true,
-            email: true,
-            emailVerified: true,
-            name: true,
-            image: true,
-            passwordHash: true,
-            termsAcceptedAt: true,
-            termsVersion: true,
-            privacyAcceptedAt: true,
-            privacyVersion: true,
-            consentBasis: true,
-          },
-        });
-        const valid = user?.passwordHash
-          ? await verifyPassword(parsed.data.password, user.passwordHash)
-          : (await hashPassword(parsed.data.password), false);
-        if (!user?.passwordHash || !valid) return null;
+        const user = await authenticatePasswordCredentials(email, parsed.data.password);
+        if (!user) return null;
         if (!user.emailVerified) throw new EmailNotVerified();
-        if (passwordHashNeedsUpgrade(user.passwordHash)) {
-          await prisma.user.update({
-            where: { id: user.id },
-            data: { passwordHash: await hashPassword(parsed.data.password) },
-          });
-        }
         if (hasCurrentLegalConsent(user)) await ensureLearnerForUser(user.id, user.name);
-        return { id: user.id, email: user.email, name: user.name, image: user.image };
+        return {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          image: user.image,
+          authenticatedSessionVersion: user.authenticatedSessionVersion,
+        };
       },
     }),
     ...socialProviders(),
@@ -199,7 +179,7 @@ export const { handlers, auth } = NextAuth((request) => ({
       }
       return true;
     },
-    async jwt({ token, user }) {
+    async jwt({ token, user, account }) {
       const userId = user?.id || token.sub;
       if (!userId) return null;
       const stored = await prisma.user.findUnique({
@@ -223,7 +203,14 @@ export const { handlers, auth } = NextAuth((request) => ({
       });
       if (!stored) return null;
       if (user) token.authenticatedAt = Math.floor(Date.now() / 1000);
-      if (user && token.sessionVersion === undefined) token.sessionVersion = stored.sessionVersion;
+      if (user && token.sessionVersion === undefined) {
+        if (account?.provider === "credentials") {
+          if (typeof user.authenticatedSessionVersion !== "number") return null;
+          token.sessionVersion = user.authenticatedSessionVersion;
+        } else {
+          token.sessionVersion = stored.sessionVersion;
+        }
+      }
       if (token.sessionVersion !== stored.sessionVersion) return null;
       token.sub = stored.id;
       token.email = stored.email;

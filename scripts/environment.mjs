@@ -1,4 +1,5 @@
 const PROVIDERS = new Set(["sqlite", "postgresql"]);
+const SECURE_POSTGRES_SSL_MODES = new Set(["require", "verify-ca", "verify-full"]);
 const AUTH_PROVIDER_PAIRS = [
   ["AUTH_GOOGLE_ID", "AUTH_GOOGLE_SECRET", "Google"],
   ["AUTH_MICROSOFT_ENTRA_ID_ID", "AUTH_MICROSOFT_ENTRA_ID_SECRET", "Microsoft"],
@@ -9,6 +10,25 @@ function databaseProvider(databaseUrl) {
   if (databaseUrl.startsWith("file:")) return "sqlite";
   if (databaseUrl.startsWith("postgresql:") || databaseUrl.startsWith("postgres:")) return "postgresql";
   return null;
+}
+
+function parsePostgresqlUrl(databaseUrl) {
+  try {
+    const parsed = new URL(databaseUrl);
+    if (
+      !["postgresql:", "postgres:"].includes(parsed.protocol)
+      || !parsed.hostname
+      || parsed.pathname.length <= 1
+    ) return null;
+    return parsed;
+  } catch {
+    return null;
+  }
+}
+
+function isLoopbackHostname(hostname) {
+  const normalized = hostname.toLowerCase().replace(/^\[|\]$/g, "");
+  return normalized === "localhost" || normalized === "127.0.0.1" || normalized === "::1";
 }
 
 function emailAddress(value) {
@@ -27,6 +47,13 @@ export function validateEnvironment(environment) {
   if (!databaseUrl) errors.push("DATABASE_URL is required.");
   else if (!detectedProvider) errors.push("DATABASE_URL must use file:, postgresql:, or postgres:.");
 
+  const parsedPostgresqlUrl = detectedProvider === "postgresql"
+    ? parsePostgresqlUrl(databaseUrl)
+    : null;
+  if (detectedProvider === "postgresql" && !parsedPostgresqlUrl) {
+    errors.push("DATABASE_URL must be a valid PostgreSQL URL with a host and database name.");
+  }
+
   if (configuredProvider && !PROVIDERS.has(configuredProvider)) {
     errors.push("EDULOOP_DATABASE_PROVIDER must be sqlite or postgresql.");
   } else if (configuredProvider && detectedProvider && configuredProvider !== detectedProvider) {
@@ -37,6 +64,18 @@ export function validateEnvironment(environment) {
     if (!configuredProvider) errors.push("EDULOOP_DATABASE_PROVIDER is required in production.");
     if (configuredProvider && configuredProvider !== "postgresql") {
       errors.push("Production deployments must use EDULOOP_DATABASE_PROVIDER=postgresql.");
+    }
+    if (parsedPostgresqlUrl && !isLoopbackHostname(parsedPostgresqlUrl.hostname)) {
+      const sslModes = parsedPostgresqlUrl.searchParams.getAll("sslmode")
+        .map((value) => value.toLowerCase());
+      if (sslModes.length !== 1 || !SECURE_POSTGRES_SSL_MODES.has(sslModes[0])) {
+        errors.push("Remote production PostgreSQL requires sslmode=require, verify-ca, or verify-full.");
+      }
+      const sslAcceptModes = parsedPostgresqlUrl.searchParams.getAll("sslaccept")
+        .map((value) => value.toLowerCase());
+      if (sslAcceptModes.length > 1 || (sslAcceptModes[0] && sslAcceptModes[0] !== "strict")) {
+        errors.push("Remote production PostgreSQL must not disable TLS certificate validation.");
+      }
     }
     if (!environment.APP_VERSION?.trim()) warnings.push("APP_VERSION is not set; health and startup logs cannot identify the release.");
     if ((environment.AUTH_SECRET?.trim().length ?? 0) < 32) {

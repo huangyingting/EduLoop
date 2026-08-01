@@ -13,7 +13,7 @@ test("accepts local SQLite configuration", () => {
 test("accepts injected PostgreSQL production configuration", () => {
   assert.deepEqual(validateEnvironment({
     NODE_ENV: "production",
-    DATABASE_URL: "postgresql://user:password@database:5432/eduloop",
+    DATABASE_URL: "postgresql://user:password@database:5432/eduloop?sslmode=require",
     EDULOOP_DATABASE_PROVIDER: "postgresql",
     APP_VERSION: "2026.07.28",
     AUTH_SECRET: "a-production-secret-with-at-least-32-characters",
@@ -49,7 +49,7 @@ test("rejects provider drift and unsafe production SQLite", () => {
 test("requires explicit production provider intent", () => {
   const result = validateEnvironment({
     NODE_ENV: "production",
-    DATABASE_URL: "postgresql://user:password@database:5432/eduloop",
+    DATABASE_URL: "postgresql://user:password@database:5432/eduloop?sslmode=require",
     APP_VERSION: "release",
     AUTH_SECRET: "a-production-secret-with-at-least-32-characters",
     AUTH_URL: "https://learn.example",
@@ -85,5 +85,65 @@ test("rejects an invalid trusted proxy depth", () => {
   });
   assert.deepEqual(result.errors, [
     "TRUSTED_PROXY_HOPS must be an integer from 1 through 10.",
+  ]);
+});
+
+test("permits a loopback production database without transport TLS", () => {
+  const result = validateEnvironment({
+    NODE_ENV: "production",
+    DATABASE_URL: "postgresql://user:password@127.0.0.1:5432/eduloop",
+    EDULOOP_DATABASE_PROVIDER: "postgresql",
+    APP_VERSION: "release",
+    AUTH_SECRET: "a-production-secret-with-at-least-32-characters",
+    AUTH_URL: "https://learn.example",
+    RESEND_API_KEY: "re_test_key",
+    AUTH_EMAIL_FROM: "accounts@learn.example",
+    LEGAL_ENTITY_NAME: "EduLoop Learning Ltd.",
+    LEGAL_CONTACT_EMAIL: "privacy@learn.example",
+    LEGAL_JURISDICTION: "Example jurisdiction",
+  });
+  assert.deepEqual(result, { errors: [], warnings: [], provider: "postgresql" });
+});
+
+test("rejects an unencrypted or certificate-unverified remote production database", () => {
+  const production = {
+    NODE_ENV: "production",
+    EDULOOP_DATABASE_PROVIDER: "postgresql",
+    APP_VERSION: "release",
+    AUTH_SECRET: "a-production-secret-with-at-least-32-characters",
+    AUTH_URL: "https://learn.example",
+    RESEND_API_KEY: "re_test_key",
+    AUTH_EMAIL_FROM: "accounts@learn.example",
+    LEGAL_ENTITY_NAME: "EduLoop Learning Ltd.",
+    LEGAL_CONTACT_EMAIL: "privacy@learn.example",
+    LEGAL_JURISDICTION: "Example jurisdiction",
+  };
+
+  assert.deepEqual(validateEnvironment({
+    ...production,
+    DATABASE_URL: "postgresql://user:password@database:5432/eduloop",
+  }).errors, [
+    "Remote production PostgreSQL requires sslmode=require, verify-ca, or verify-full.",
+  ]);
+  assert.deepEqual(validateEnvironment({
+    ...production,
+    DATABASE_URL: "postgresql://user:password@database:5432/eduloop?sslmode=require&sslaccept=accept_invalid_certs",
+  }).errors, [
+    "Remote production PostgreSQL must not disable TLS certificate validation.",
+  ]);
+  assert.deepEqual(validateEnvironment({
+    ...production,
+    DATABASE_URL: "postgresql://user:password@database:5432/eduloop?sslmode=require&sslmode=disable",
+  }).errors, [
+    "Remote production PostgreSQL requires sslmode=require, verify-ca, or verify-full.",
+  ]);
+});
+
+test("rejects a malformed PostgreSQL database URL before startup", () => {
+  assert.deepEqual(validateEnvironment({
+    DATABASE_URL: "postgresql:not-a-network-database",
+    EDULOOP_DATABASE_PROVIDER: "postgresql",
+  }).errors, [
+    "DATABASE_URL must be a valid PostgreSQL URL with a host and database name.",
   ]);
 });

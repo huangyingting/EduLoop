@@ -2,7 +2,7 @@
 
 ## Deploy
 
-Provision PostgreSQL with TLS, automated backups, and a restricted application role. Keep `DATABASE_URL`, `AUTH_SECRET`, `RESEND_API_KEY`, and social-provider credentials in the deployment secret store. Set `AUTH_URL` to the public HTTPS origin and `AUTH_EMAIL_FROM` to a verified Resend sender. Configure `LEGAL_ENTITY_NAME`, `LEGAL_CONTACT_EMAIL`, and `LEGAL_JURISDICTION` with counsel-approved production values; placeholders fail the organizational launch review even if syntactically valid.
+Provision PostgreSQL with TLS, automated backups, and a restricted application role. A non-loopback production `DATABASE_URL` must set `sslmode=require`, `verify-ca`, or `verify-full`, and must not use a certificate-bypass `sslaccept`; startup validation fails closed otherwise. Loopback is exempt so an application can connect to a same-host database proxy over the local interface. Keep `DATABASE_URL`, `AUTH_SECRET`, `RESEND_API_KEY`, and social-provider credentials in the deployment secret store. Set `AUTH_URL` to the public HTTPS origin and `AUTH_EMAIL_FROM` to a verified Resend sender. Configure `LEGAL_ENTITY_NAME`, `LEGAL_CONTACT_EMAIL`, and `LEGAL_JURISDICTION` with counsel-approved production values; placeholders fail the organizational launch review even if syntactically valid.
 
 ```bash
 npm ci

@@ -33,6 +33,12 @@ function healthyFetcher(overrides = {}) {
     if (url.pathname === "/practice") {
       return new Response("<!doctype html><title>EduLoop</title>", { headers: securityHeaders });
     }
+    if (url.pathname === "/api/live") {
+      return overrides.live ?? json({
+        status: "alive",
+        version: "release-2026.07.31",
+      });
+    }
     if (url.pathname === "/api/health") {
       return overrides.health ?? json({
         status: "ok",
@@ -81,11 +87,12 @@ test("accepts only origin-only HTTPS URLs or loopback HTTP", () => {
   assert.throws(() => deploymentOrigin("https://user:secret@learn.example"), /must not contain credentials/);
 });
 
-test("verifies security, readiness, answer isolation, and stateless guest grading", async () => {
+test("verifies security, liveness, readiness, answer isolation, and stateless guest grading", async () => {
   const { calls, fetcher } = healthyFetcher();
   const result = await runDeploymentSmoke("https://learn.example", { fetcher, timeoutMs: 500 });
   assert.deepEqual(calls.map(({ url }) => url.pathname), [
     "/practice",
+    "/api/live",
     "/api/health",
     "/api/catalog",
     "/api/questions/next",
@@ -96,7 +103,7 @@ test("verifies security, readiness, answer isolation, and stateless guest gradin
     version: "release-2026.07.31",
     catalog: { subjects: 5, questions: 16_537 },
     sampledQuestion: { type: "SINGLE_CHOICE", autoGradable: true },
-    checks: ["public-page-security", "database-readiness", "catalog", "answer-isolation", "guest-grading"],
+    checks: ["public-page-security", "process-liveness", "database-readiness", "catalog", "answer-isolation", "guest-grading"],
   });
 });
 
@@ -138,5 +145,23 @@ test("fails closed on an unavailable deployment or persistent guest attempt", as
   await assert.rejects(
     runDeploymentSmoke("https://learn.example", { fetcher: persistent.fetcher }),
     /guest grading unexpectedly persisted an attempt/,
+  );
+});
+
+test("rejects an unavailable process or mismatched release identity", async () => {
+  const unavailable = healthyFetcher({
+    live: json({ status: "unavailable", version: "release-2026.07.31" }),
+  });
+  await assert.rejects(
+    runDeploymentSmoke("https://learn.example", { fetcher: unavailable.fetcher }),
+    /liveness endpoint does not report a live process/,
+  );
+
+  const mismatched = healthyFetcher({
+    live: json({ status: "alive", version: "release-previous" }),
+  });
+  await assert.rejects(
+    runDeploymentSmoke("https://learn.example", { fetcher: mismatched.fetcher }),
+    /liveness and readiness endpoints report different releases/,
   );
 });

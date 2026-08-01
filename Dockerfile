@@ -25,5 +25,5 @@ COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/scripts/environment.mjs /app/scripts/validate-environment.mjs ./scripts/
 USER nextjs
 EXPOSE 3000
-HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 CMD wget -qO- http://127.0.0.1:3000/api/health || exit 1
+HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 CMD wget -qO- http://127.0.0.1:3000/api/live || exit 1
 CMD ["sh", "-c", "node scripts/validate-environment.mjs && HOSTNAME=0.0.0.0 exec node server.js"]

@@ -103,6 +103,11 @@ export async function runDeploymentSmoke(value, options = {}) {
   }
   await publicPage.body?.cancel();
 
+  const liveResponse = await smokeFetch(fetcher, new URL("/api/live", origin), timeoutMs, "liveness endpoint");
+  const live = await jsonResponse(liveResponse, "liveness endpoint");
+  assertSmoke(live?.status === "alive", "liveness endpoint does not report a live process.");
+  assertSmoke(typeof live.version === "string" && live.version.trim().length > 0, "liveness endpoint is missing a release version.");
+
   const healthResponse = await smokeFetch(fetcher, new URL("/api/health", origin), timeoutMs, "health endpoint");
   const health = await jsonResponse(healthResponse, "health endpoint");
   assertSmoke(health?.status === "ok" && health.database === "ready", "health endpoint is not database-ready.");
@@ -113,6 +118,7 @@ export async function runDeploymentSmoke(value, options = {}) {
   if (originUrl.protocol === "https:") {
     assertSmoke(health.version !== "development", "HTTPS deployment still identifies itself as development.");
   }
+  assertSmoke(live.version === health.version, "liveness and readiness endpoints report different releases.");
 
   const catalogResponse = await smokeFetch(fetcher, new URL("/api/catalog", origin), timeoutMs, "catalog endpoint");
   const catalog = await jsonResponse(catalogResponse, "catalog endpoint");
@@ -160,7 +166,7 @@ export async function runDeploymentSmoke(value, options = {}) {
       type: typeof question.type === "string" ? question.type : "unknown",
       autoGradable: question.isAutoGradable === true,
     },
-    checks: ["public-page-security", "database-readiness", "catalog", "answer-isolation", "guest-grading"],
+    checks: ["public-page-security", "process-liveness", "database-readiness", "catalog", "answer-isolation", "guest-grading"],
   };
 }
 

@@ -2,12 +2,6 @@ import { randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
 import { isDatabaseUnavailableError } from "./database-errors";
 import { errorLogMetadata } from "./logging";
-import {
-  addressRateLimitKey,
-  checkRateLimit,
-  clientAddress,
-  identityRateLimitKey,
-} from "./rate-limit";
 
 const REQUEST_ID_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$/;
 export const MAX_JSON_BODY_BYTES = 32 * 1024;
@@ -151,6 +145,16 @@ export async function enforceRateLimit(
   policy: RateLimitPolicy,
   windowMs = 60_000,
 ) {
+  // Keep the API response/telemetry wrapper free of Prisma initialization so
+  // the process-liveness route cannot become coupled to database availability.
+  // Server module imports are cached after the first rate-limited request.
+  const {
+    addressRateLimitKey,
+    checkRateLimit,
+    clientAddress,
+    identityRateLimitKey,
+  } = await import("./rate-limit");
+
   if (policy.addressLimit !== undefined) {
     const addressResult = await checkRateLimit(
       addressRateLimitKey(scope, clientAddress(request)),

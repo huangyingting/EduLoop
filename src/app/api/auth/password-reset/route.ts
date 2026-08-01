@@ -43,7 +43,7 @@ async function requestPasswordReset(request: Request) {
 
   if (emailConfiguration()) {
     const origin = resetOrigin(request);
-    await runAfterResponse(() => deliverPasswordReset(email, origin));
+    await runAfterResponse("password_reset_delivery", () => deliverPasswordReset(email, origin));
   }
 
   return NextResponse.json({ accepted: true, message: acceptedMessage }, {
@@ -77,7 +77,7 @@ async function completePasswordReset(request: Request) {
     return apiError("账号安全设置刚刚发生变化，请重新申请重置链接。", 409, "CONFLICT");
   }
   if (emailConfiguration()) {
-    await runAfterResponse(() => notifyPasswordChange(outcome.email));
+    await runAfterResponse("password_change_notice", () => notifyPasswordChange(outcome.email));
   }
   return NextResponse.json({
     changed: true,

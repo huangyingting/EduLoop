@@ -53,7 +53,10 @@ async function disconnectCurrentProvider(request: Request) {
 
   const provider = socialProviderLabel(parsed.data.provider);
   if (emailConfiguration()) {
-    await runAfterResponse(() => notifyProviderDisconnect(outcome.email, provider));
+    await runAfterResponse(
+      "provider_disconnect_notice",
+      () => notifyProviderDisconnect(outcome.email, provider),
+    );
   }
   return NextResponse.json({ disconnected: true, provider: parsed.data.provider }, {
     headers: { "Cache-Control": "no-store" },

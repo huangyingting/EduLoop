@@ -30,7 +30,7 @@ School-managed accounts are a separate launch mode. The public account path reco
 | Content problems can be surfaced | `QuestionReport` and in-practice feedback form |
 | Content reports can be triaged safely | role- and recent-auth-protected `/studio`, transactional session-version, operator-role, and report-state claims shared with the trusted CLI, import-resistant quarantine provenance, final-open-report restoration to audited import status, erasure-resistant anonymous `ContentReviewAction` history, and SQLite/PostgreSQL/browser coverage |
 | Both databases stay portable | paired schemas and migration stages enforced by `npm run schema:check` |
-| Failures are diagnosable | schema-aware `/api/health`, privacy-safe request completion/error telemetry, error boundaries |
+| Failures are diagnosable | schema-aware `/api/health`, privacy-safe request completion/error telemetry, typed and guarded post-response task failures, error boundaries |
 | A live release is externally verifiable | cookie-free `npm run smoke:deployment` checks security headers, readiness, answer isolation, and stateless guest grading |
 | Browser resource loading is constrained | tested CSP, HSTS, framing, MIME, referrer, permission, and cross-origin response headers |
 | Proxy-derived security decisions are bounded | `AUTH_URL`-anchored mutation origins plus trusted-hop client address selection and validation |

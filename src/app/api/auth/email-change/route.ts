@@ -67,7 +67,10 @@ async function requestEmailChange(request: Request) {
   if (issued.status === "CONFLICT") return apiError("该邮箱已被其他账号使用。", 409, "CONFLICT");
 
   const origin = emailChangeOrigin(request);
-  await runAfterResponse(() => deliverEmailChangeVerification(issued, origin));
+  await runAfterResponse(
+    "email_change_delivery",
+    () => deliverEmailChangeVerification(issued, origin),
+  );
   return NextResponse.json({ accepted: true }, {
     status: 202,
     headers: { "Cache-Control": "no-store" },
@@ -112,7 +115,10 @@ async function confirmEmailChange(request: Request) {
     return apiError("该邮箱已被其他账号使用，请重新申请。", 409, "CONFLICT");
   }
   if (emailConfiguration()) {
-    await runAfterResponse(() => notifyPreviousEmail(outcome.oldEmail, outcome.newEmail));
+    await runAfterResponse(
+      "email_change_notice",
+      () => notifyPreviousEmail(outcome.oldEmail, outcome.newEmail),
+    );
   }
   return NextResponse.json({ changed: true }, { headers: { "Cache-Control": "no-store" } });
 }

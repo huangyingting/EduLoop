@@ -72,14 +72,17 @@ async function patchAccount(request: Request) {
     const verificationScheduled = Boolean(emailConfiguration());
     if (verificationScheduled) {
       const origin = accountOrigin(request);
-      await runAfterResponse(() => deliverEmailVerification(user.email, origin));
+      await runAfterResponse(
+        "email_verification_delivery",
+        () => deliverEmailVerification(user.email, origin),
+      );
     }
     return NextResponse.json({ changed: true, verificationRequired: true, verificationScheduled }, {
       headers: { "Cache-Control": "no-store" },
     });
   }
   if (emailConfiguration()) {
-    await runAfterResponse(() => notifyPasswordChange(user.email));
+    await runAfterResponse("password_change_notice", () => notifyPasswordChange(user.email));
   }
   return NextResponse.json({ changed: true }, { headers: { "Cache-Control": "no-store" } });
 }
@@ -112,7 +115,7 @@ async function deleteCurrentAccount(request: Request) {
     return apiError("账号安全设置刚刚发生变化，请重新登录后再试。", 409, "CONFLICT");
   }
   if (emailConfiguration()) {
-    await runAfterResponse(() => notifyAccountDeletion(user.email));
+    await runAfterResponse("account_deletion_notice", () => notifyAccountDeletion(user.email));
   }
   return NextResponse.json({ deleted: true }, { headers: { "Cache-Control": "no-store" } });
 }

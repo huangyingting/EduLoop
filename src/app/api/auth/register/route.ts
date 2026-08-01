@@ -88,7 +88,10 @@ async function postRegistration(request: Request) {
 
   if (verificationRequired) {
     const origin = registrationOrigin(request);
-    await runAfterResponse(() => deliverEmailVerification(email, origin));
+    await runAfterResponse(
+      "email_verification_delivery",
+      () => deliverEmailVerification(email, origin),
+    );
   }
 
   return NextResponse.json({ created: true, verificationRequired }, {

@@ -78,7 +78,10 @@ async function deleteLearner(request: NextRequest) {
     return apiError("账号安全设置刚刚发生变化，请重新登录后再试。", 409, "CONFLICT");
   }
   if (outcome === "DELETED" && emailConfiguration()) {
-    await runAfterResponse(() => notifyLearningDataDeletion(user.email));
+    await runAfterResponse(
+      "learning_data_deletion_notice",
+      () => notifyLearningDataDeletion(user.email),
+    );
   }
   return NextResponse.json({ deleted: outcome === "DELETED" });
 }

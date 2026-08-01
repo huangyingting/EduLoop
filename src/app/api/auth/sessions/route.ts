@@ -41,7 +41,7 @@ async function deleteAccountSessions(request: Request) {
     return apiError("账号会话刚刚发生变化，请重新登录后再试。", 409, "CONFLICT");
   }
   if (emailConfiguration()) {
-    await runAfterResponse(() => notifySessionRevocation(user.email));
+    await runAfterResponse("session_revocation_notice", () => notifySessionRevocation(user.email));
   }
   return NextResponse.json({ revoked: true }, { headers: { "Cache-Control": "no-store" } });
 }

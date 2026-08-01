@@ -39,7 +39,10 @@ async function requestEmailVerification(request: Request) {
 
   if (emailConfiguration()) {
     const origin = verificationOrigin(request);
-    await runAfterResponse(() => deliverEmailVerification(email, origin));
+    await runAfterResponse(
+      "email_verification_delivery",
+      () => deliverEmailVerification(email, origin),
+    );
   }
 
   return NextResponse.json({ accepted: true, message: acceptedMessage }, {

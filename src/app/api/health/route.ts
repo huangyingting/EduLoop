@@ -2,24 +2,27 @@ import { NextResponse } from "next/server";
 import { apiHandler } from "@/lib/api";
 import { inspectDatabaseReadiness } from "@/lib/database-readiness";
 import { errorLogMetadata } from "@/lib/logging";
+import { applicationRelease } from "@/lib/release";
 
 export const dynamic = "force-dynamic";
 
 async function getHealth() {
   const startedAt = Date.now();
+  const release = applicationRelease();
+  const version = release ?? "unavailable";
   try {
     const readiness = await inspectDatabaseReadiness();
     const metadata = {
       database: readiness.database,
       schema: readiness.schema,
       catalog: readiness.catalog,
-      version: process.env.APP_VERSION || process.env.npm_package_version || "development",
+      version,
       latencyMs: Date.now() - startedAt,
       timestamp: new Date().toISOString(),
     };
-    if (!readiness.ready) {
+    if (!readiness.ready || !release) {
       return NextResponse.json({
-        status: readiness.status,
+        status: release ? readiness.status : "unavailable",
         ...metadata,
       }, { status: 503, headers: { "Cache-Control": "no-store" } });
     }
@@ -37,6 +40,7 @@ async function getHealth() {
       status: "unavailable",
       database: "unavailable",
       schema: { status: "unknown" },
+      version,
       timestamp: new Date().toISOString(),
     }, {
       status: 503,

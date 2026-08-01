@@ -1,5 +1,7 @@
 const PROVIDERS = new Set(["sqlite", "postgresql"]);
 const SECURE_POSTGRES_SSL_MODES = new Set(["require", "verify-ca", "verify-full"]);
+const SAFE_APP_VERSION = /^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$/;
+const PRODUCTION_APP_VERSION_PLACEHOLDERS = new Set(["development", "unknown", "unavailable"]);
 const PRODUCTION_POSTGRES_PARAMETERS = [
   ["connection_limit", 1, 100],
   ["pool_timeout", 1, 30],
@@ -96,7 +98,15 @@ export function validateEnvironment(environment) {
         errors.push("Remote production PostgreSQL must not disable TLS certificate validation.");
       }
     }
-    if (!environment.APP_VERSION?.trim()) warnings.push("APP_VERSION is not set; health and startup logs cannot identify the release.");
+    const appVersion = environment.APP_VERSION?.trim() ?? "";
+    if (!appVersion) {
+      errors.push("APP_VERSION is required in production.");
+    } else if (
+      !SAFE_APP_VERSION.test(appVersion)
+      || PRODUCTION_APP_VERSION_PLACEHOLDERS.has(appVersion.toLowerCase())
+    ) {
+      errors.push("APP_VERSION must be a non-placeholder release identifier of 1 through 128 letters, numbers, dots, underscores, or hyphens.");
+    }
     if ((environment.AUTH_SECRET?.trim().length ?? 0) < 32) {
       errors.push("AUTH_SECRET must be at least 32 characters in production.");
     }
@@ -119,6 +129,11 @@ export function validateEnvironment(environment) {
     if (!environment.LEGAL_ENTITY_NAME?.trim() || !environment.LEGAL_CONTACT_EMAIL?.trim() || !environment.LEGAL_JURISDICTION?.trim()) {
       errors.push("Production legal pages require LEGAL_ENTITY_NAME, LEGAL_CONTACT_EMAIL, and LEGAL_JURISDICTION.");
     }
+  } else if (
+    environment.APP_VERSION !== undefined
+    && !SAFE_APP_VERSION.test(environment.APP_VERSION.trim())
+  ) {
+    errors.push("APP_VERSION must be a non-placeholder release identifier of 1 through 128 letters, numbers, dots, underscores, or hyphens.");
   }
 
   const hasResendKey = Boolean(environment.RESEND_API_KEY?.trim());

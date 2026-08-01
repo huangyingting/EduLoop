@@ -11,7 +11,7 @@ test("accepts local SQLite configuration", () => {
 });
 
 test("accepts injected PostgreSQL production configuration", () => {
-  assert.deepEqual(validateEnvironment({
+  const production = {
     NODE_ENV: "production",
     DATABASE_URL: "postgresql://user:password@database:5432/eduloop?sslmode=require&connection_limit=8&pool_timeout=10&connect_timeout=5",
     EDULOOP_DATABASE_PROVIDER: "postgresql",
@@ -25,7 +25,18 @@ test("accepts injected PostgreSQL production configuration", () => {
     LEGAL_JURISDICTION: "Example jurisdiction",
     PORT: "8080",
     TRUSTED_PROXY_HOPS: "2",
-  }), { errors: [], warnings: [], provider: "postgresql" });
+  };
+  assert.deepEqual(validateEnvironment(production), {
+    errors: [],
+    warnings: [],
+    provider: "postgresql",
+  });
+  assert.deepEqual(validateEnvironment({
+    ...production,
+    APP_VERSION: "development",
+  }).errors, [
+    "APP_VERSION must be a non-placeholder release identifier of 1 through 128 letters, numbers, dots, underscores, or hyphens.",
+  ]);
 });
 
 test("rejects provider drift and unsafe production SQLite", () => {
@@ -37,13 +48,29 @@ test("rejects provider drift and unsafe production SQLite", () => {
   });
   assert.deepEqual(result.errors, [
     "EDULOOP_DATABASE_PROVIDER=postgresql does not match the DATABASE_URL provider sqlite.",
+    "APP_VERSION is required in production.",
     "AUTH_SECRET must be at least 32 characters in production.",
     "AUTH_URL is required in production.",
     "Production account email requires RESEND_API_KEY and AUTH_EMAIL_FROM.",
     "Production legal pages require LEGAL_ENTITY_NAME, LEGAL_CONTACT_EMAIL, and LEGAL_JURISDICTION.",
     "PORT must be an integer from 1 through 65535.",
   ]);
-  assert.equal(result.warnings.length, 1);
+  assert.equal(result.warnings.length, 0);
+});
+
+test("requires a bounded log-safe release identity", () => {
+  assert.deepEqual(validateEnvironment({
+    DATABASE_URL: "file:./dev.db",
+    APP_VERSION: "release/private value",
+  }).errors, [
+    "APP_VERSION must be a non-placeholder release identifier of 1 through 128 letters, numbers, dots, underscores, or hyphens.",
+  ]);
+  assert.deepEqual(validateEnvironment({
+    DATABASE_URL: "file:./dev.db",
+    APP_VERSION: `r${"x".repeat(128)}`,
+  }).errors, [
+    "APP_VERSION must be a non-placeholder release identifier of 1 through 128 letters, numbers, dots, underscores, or hyphens.",
+  ]);
 });
 
 test("requires explicit production provider intent", () => {

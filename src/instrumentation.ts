@@ -1,11 +1,12 @@
 import { errorLogMetadata, safeLogToken } from "@/lib/logging";
+import { applicationRelease } from "@/lib/release";
 
 export async function register() {
   console.info(JSON.stringify({
     level: "info",
     event: "application_started",
     runtime: process.env.NEXT_RUNTIME || "nodejs",
-    version: process.env.APP_VERSION || process.env.npm_package_version || "development",
+    version: applicationRelease() ?? "unavailable",
   }));
 }
 

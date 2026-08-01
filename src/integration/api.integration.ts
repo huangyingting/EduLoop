@@ -2914,6 +2914,26 @@ describe("learner API journey", () => {
     expect(invalidResolution.status).toBe(400);
 
     try {
+      const reportBeforeUnavailableQuestion = await prisma.questionReport.findUniqueOrThrow({
+        where: { id: studioReportId },
+        select: { updatedAt: true },
+      });
+      await prisma.question.update({ where: { id: choiceId }, data: { status: "NEEDS_REVIEW" } });
+      const unavailableQuestion = await updateStudioReport(new NextRequest("http://localhost/api/studio/reports", {
+        method: "PATCH", headers: operatorHeaders, body: JSON.stringify({
+          reportId: studioReportId,
+          action: "QUARANTINE",
+          note: "题目状态冲突不得留下部分审核写入",
+        }),
+      }));
+      expect(unavailableQuestion.status).toBe(409);
+      expect(await prisma.questionReport.findUniqueOrThrow({
+        where: { id: studioReportId },
+        select: { updatedAt: true },
+      })).toEqual(reportBeforeUnavailableQuestion);
+      expect(await prisma.contentReviewAction.count({ where: { reportId: studioReportId } })).toBe(0);
+      await prisma.question.update({ where: { id: choiceId }, data: { status: "PUBLISHED" } });
+
       const quarantine = await updateStudioReport(new NextRequest("http://localhost/api/studio/reports", {
         method: "PATCH", headers: operatorHeaders, body: JSON.stringify({ reportId: studioReportId, action: "QUARANTINE", note: "等待核对原始答案" }),
       }));
@@ -2926,6 +2946,20 @@ describe("learner API journey", () => {
       }));
       expect(resolved.status).toBe(200);
       expect(await resolved.json()).toMatchObject({ report: { id: studioReportId, status: "RESOLVED" } });
+
+      await prisma.question.update({ where: { id: choiceId }, data: { status: "PUBLISHED" } });
+      const staleQuarantine = await updateStudioReport(new NextRequest("http://localhost/api/studio/reports", {
+        method: "PATCH", headers: operatorHeaders, body: JSON.stringify({
+          reportId: studioReportId,
+          action: "QUARANTINE",
+          note: "已解决报告不得被旧操作再次隔离",
+        }),
+      }));
+      expect(staleQuarantine.status).toBe(409);
+      expect(await prisma.question.findUniqueOrThrow({ where: { id: choiceId } })).toMatchObject({
+        status: "PUBLISHED",
+      });
+      expect(await prisma.contentReviewAction.count({ where: { reportId: studioReportId } })).toBe(2);
 
       const resolvedQueue = await getStudioReports(new NextRequest("http://localhost/api/studio/reports?status=RESOLVED", { headers: operatorHeaders }));
       const resolvedBody = await resolvedQueue.json() as { reports: Array<{ id: string; reviewActions: Array<{ action: string; actor: { email: string } | null }> }> };

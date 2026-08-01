@@ -28,7 +28,7 @@ School-managed accounts are a separate launch mode. The public account path reco
 | Sensitive actions require fresh proof | persistent `authenticatedAt` claim with a 10-minute reauthentication window for complete export, learning-data erasure, all-device sign-out, sensitive account changes, privileged answer-key access, learning metrics, and content-review mutations; every high-impact mutation also claims the exact authenticated session version inside its transaction |
 | Concurrent session restarts stay coherent | nullable unique `PracticeSession.activeKey` plus integration coverage on SQLite and PostgreSQL |
 | Content problems can be surfaced | `QuestionReport` and in-practice feedback form |
-| Content reports can be triaged safely | role- and recent-auth-protected `/studio`, transactional session-version and operator-role claims, immediate quarantine, immutable `ContentReviewAction` history, and SQLite/PostgreSQL/browser coverage |
+| Content reports can be triaged safely | role- and recent-auth-protected `/studio`, transactional session-version, operator-role, and report-state claims shared with the trusted CLI, immediate quarantine, immutable `ContentReviewAction` history, and SQLite/PostgreSQL/browser coverage |
 | Both databases stay portable | paired schemas and migration stages enforced by `npm run schema:check` |
 | Failures are diagnosable | schema-aware `/api/health`, privacy-safe request completion/error telemetry, error boundaries |
 | A live release is externally verifiable | cookie-free `npm run smoke:deployment` checks security headers, readiness, answer isolation, and stateless guest grading |

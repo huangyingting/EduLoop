@@ -1,4 +1,5 @@
 import { prisma } from "../src/lib/prisma";
+import { transitionContentReport } from "../src/lib/content-review";
 
 const [command = "list", identifier] = process.argv.slice(2).filter((argument) => !argument.startsWith("--"));
 const options = new Map(process.argv.slice(2).filter((argument) => argument.startsWith("--")).map((argument) => {
@@ -81,36 +82,24 @@ async function showReport() {
 
 async function resolveReport() {
   const reportId = requireIdentifier();
-  const result = await prisma.$transaction(async (transaction) => {
-    const updated = await transaction.questionReport.updateMany({
-      where: { id: reportId, status: "OPEN" },
-      data: { status: "RESOLVED", resolvedAt: new Date() },
-    });
-    if (!updated.count) return false;
-    await transaction.contentReviewAction.create({
-      data: { reportId, action: "RESOLVE", note: reviewNote("Resolved from the trusted operator CLI") },
-    });
-    return true;
+  const result = await transitionContentReport({
+    reportId,
+    action: "RESOLVE",
+    note: reviewNote("Resolved from the trusted operator CLI"),
   });
-  if (!result) throw new Error("Open report not found.");
+  if (result.status !== "UPDATED") throw new Error("Open report not found or its state changed.");
   console.log(`Resolved report ${identifier}.`);
 }
 
 async function quarantineQuestion() {
   const reportId = requireIdentifier();
-  const report = await prisma.questionReport.findUnique({ where: { id: reportId }, select: { questionId: true, status: true } });
-  if (!report) throw new Error("Report not found.");
-  if (report.status !== "OPEN") throw new Error("Only an open report can quarantine a question.");
-  const changed = await prisma.$transaction(async (transaction) => {
-    const updated = await transaction.question.updateMany({ where: { id: report.questionId, status: "PUBLISHED" }, data: { status: "NEEDS_REVIEW" } });
-    if (!updated.count) return false;
-    await transaction.contentReviewAction.create({
-      data: { reportId, action: "QUARANTINE", note: reviewNote("Quarantined from the trusted operator CLI") },
-    });
-    return true;
+  const result = await transitionContentReport({
+    reportId,
+    action: "QUARANTINE",
+    note: reviewNote("Quarantined from the trusted operator CLI"),
   });
-  if (!changed) throw new Error("Question is already quarantined or unavailable.");
-  console.log(`Question ${report.questionId} is quarantined. The report remains open until the content fix is verified.`);
+  if (result.status !== "UPDATED") throw new Error("Open report or published question not found, or its state changed.");
+  console.log(`Question ${result.questionId} is quarantined. The report remains open until the content fix is verified.`);
 }
 
 const commands: Record<string, () => Promise<void>> = {

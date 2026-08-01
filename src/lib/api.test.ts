@@ -80,6 +80,26 @@ describe("API contract", () => {
     expect(log).not.toHaveBeenCalledWith(expect.stringContaining("database password leaked here"));
   });
 
+  it("returns a retryable service response when the database pool is exhausted", async () => {
+    const log = vi.spyOn(console, "error").mockImplementation(() => undefined);
+    const handler = apiHandler("POST /api/test", async () => {
+      throw Object.assign(new Error("pool details contain a private database host"), { code: "P2024" });
+    });
+
+    const response = await handler(new Request("http://localhost/api/test", {
+      method: "POST",
+      headers: { "x-request-id": "pool-overload-1" },
+    }));
+
+    expect(response.status).toBe(503);
+    expect(await response.json()).toEqual({
+      error: "Service unavailable",
+      code: "SERVICE_UNAVAILABLE",
+    });
+    expect(log).toHaveBeenCalledWith(expect.stringContaining('"errorCode":"P2024"'));
+    expect(log).not.toHaveBeenCalledWith(expect.stringContaining("private database host"));
+  });
+
   it("parses bounded JSON and preserves invalid-body validation behavior", async () => {
     await expect(readJsonBody(new Request("http://localhost/api/test", {
       method: "POST",

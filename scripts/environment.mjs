@@ -1,5 +1,10 @@
 const PROVIDERS = new Set(["sqlite", "postgresql"]);
 const SECURE_POSTGRES_SSL_MODES = new Set(["require", "verify-ca", "verify-full"]);
+const PRODUCTION_POSTGRES_PARAMETERS = [
+  ["connection_limit", 1, 100],
+  ["pool_timeout", 1, 30],
+  ["connect_timeout", 1, 30],
+];
 const AUTH_PROVIDER_PAIRS = [
   ["AUTH_GOOGLE_ID", "AUTH_GOOGLE_SECRET", "Google"],
   ["AUTH_MICROSOFT_ENTRA_ID_ID", "AUTH_MICROSOFT_ENTRA_ID_SECRET", "Microsoft"],
@@ -64,6 +69,20 @@ export function validateEnvironment(environment) {
     if (!configuredProvider) errors.push("EDULOOP_DATABASE_PROVIDER is required in production.");
     if (configuredProvider && configuredProvider !== "postgresql") {
       errors.push("Production deployments must use EDULOOP_DATABASE_PROVIDER=postgresql.");
+    }
+    if (parsedPostgresqlUrl) {
+      for (const [parameter, minimum, maximum] of PRODUCTION_POSTGRES_PARAMETERS) {
+        const values = parsedPostgresqlUrl.searchParams.getAll(parameter);
+        if (values.length !== 1) {
+          errors.push(`Production PostgreSQL DATABASE_URL requires exactly one ${parameter} parameter.`);
+          continue;
+        }
+        const value = values[0];
+        const numericValue = Number(value);
+        if (!/^\d+$/.test(value) || !Number.isSafeInteger(numericValue) || numericValue < minimum || numericValue > maximum) {
+          errors.push(`Production PostgreSQL ${parameter} must be an integer from ${minimum} through ${maximum}.`);
+        }
+      }
     }
     if (parsedPostgresqlUrl && !isLoopbackHostname(parsedPostgresqlUrl.hostname)) {
       const sslModes = parsedPostgresqlUrl.searchParams.getAll("sslmode")

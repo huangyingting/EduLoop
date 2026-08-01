@@ -13,7 +13,7 @@ test("accepts local SQLite configuration", () => {
 test("accepts injected PostgreSQL production configuration", () => {
   assert.deepEqual(validateEnvironment({
     NODE_ENV: "production",
-    DATABASE_URL: "postgresql://user:password@database:5432/eduloop?sslmode=require",
+    DATABASE_URL: "postgresql://user:password@database:5432/eduloop?sslmode=require&connection_limit=8&pool_timeout=10&connect_timeout=5",
     EDULOOP_DATABASE_PROVIDER: "postgresql",
     APP_VERSION: "2026.07.28",
     AUTH_SECRET: "a-production-secret-with-at-least-32-characters",
@@ -49,7 +49,7 @@ test("rejects provider drift and unsafe production SQLite", () => {
 test("requires explicit production provider intent", () => {
   const result = validateEnvironment({
     NODE_ENV: "production",
-    DATABASE_URL: "postgresql://user:password@database:5432/eduloop?sslmode=require",
+    DATABASE_URL: "postgresql://user:password@database:5432/eduloop?sslmode=require&connection_limit=8&pool_timeout=10&connect_timeout=5",
     APP_VERSION: "release",
     AUTH_SECRET: "a-production-secret-with-at-least-32-characters",
     AUTH_URL: "https://learn.example",
@@ -91,7 +91,7 @@ test("rejects an invalid trusted proxy depth", () => {
 test("permits a loopback production database without transport TLS", () => {
   const result = validateEnvironment({
     NODE_ENV: "production",
-    DATABASE_URL: "postgresql://user:password@127.0.0.1:5432/eduloop",
+    DATABASE_URL: "postgresql://user:password@127.0.0.1:5432/eduloop?connection_limit=8&pool_timeout=10&connect_timeout=5",
     EDULOOP_DATABASE_PROVIDER: "postgresql",
     APP_VERSION: "release",
     AUTH_SECRET: "a-production-secret-with-at-least-32-characters",
@@ -121,21 +121,59 @@ test("rejects an unencrypted or certificate-unverified remote production databas
 
   assert.deepEqual(validateEnvironment({
     ...production,
-    DATABASE_URL: "postgresql://user:password@database:5432/eduloop",
+    DATABASE_URL: "postgresql://user:password@database:5432/eduloop?connection_limit=8&pool_timeout=10&connect_timeout=5",
   }).errors, [
     "Remote production PostgreSQL requires sslmode=require, verify-ca, or verify-full.",
   ]);
   assert.deepEqual(validateEnvironment({
     ...production,
-    DATABASE_URL: "postgresql://user:password@database:5432/eduloop?sslmode=require&sslaccept=accept_invalid_certs",
+    DATABASE_URL: "postgresql://user:password@database:5432/eduloop?sslmode=require&sslaccept=accept_invalid_certs&connection_limit=8&pool_timeout=10&connect_timeout=5",
   }).errors, [
     "Remote production PostgreSQL must not disable TLS certificate validation.",
   ]);
   assert.deepEqual(validateEnvironment({
     ...production,
-    DATABASE_URL: "postgresql://user:password@database:5432/eduloop?sslmode=require&sslmode=disable",
+    DATABASE_URL: "postgresql://user:password@database:5432/eduloop?sslmode=require&sslmode=disable&connection_limit=8&pool_timeout=10&connect_timeout=5",
   }).errors, [
     "Remote production PostgreSQL requires sslmode=require, verify-ca, or verify-full.",
+  ]);
+});
+
+test("requires bounded production PostgreSQL pool and connection timeouts", () => {
+  const production = {
+    NODE_ENV: "production",
+    EDULOOP_DATABASE_PROVIDER: "postgresql",
+    APP_VERSION: "release",
+    AUTH_SECRET: "a-production-secret-with-at-least-32-characters",
+    AUTH_URL: "https://learn.example",
+    RESEND_API_KEY: "re_test_key",
+    AUTH_EMAIL_FROM: "accounts@learn.example",
+    LEGAL_ENTITY_NAME: "EduLoop Learning Ltd.",
+    LEGAL_CONTACT_EMAIL: "privacy@learn.example",
+    LEGAL_JURISDICTION: "Example jurisdiction",
+  };
+
+  assert.deepEqual(validateEnvironment({
+    ...production,
+    DATABASE_URL: "postgresql://user:password@database:5432/eduloop?sslmode=require",
+  }).errors, [
+    "Production PostgreSQL DATABASE_URL requires exactly one connection_limit parameter.",
+    "Production PostgreSQL DATABASE_URL requires exactly one pool_timeout parameter.",
+    "Production PostgreSQL DATABASE_URL requires exactly one connect_timeout parameter.",
+  ]);
+  assert.deepEqual(validateEnvironment({
+    ...production,
+    DATABASE_URL: "postgresql://user:password@database:5432/eduloop?sslmode=require&connection_limit=0&pool_timeout=0&connect_timeout=31",
+  }).errors, [
+    "Production PostgreSQL connection_limit must be an integer from 1 through 100.",
+    "Production PostgreSQL pool_timeout must be an integer from 1 through 30.",
+    "Production PostgreSQL connect_timeout must be an integer from 1 through 30.",
+  ]);
+  assert.deepEqual(validateEnvironment({
+    ...production,
+    DATABASE_URL: "postgresql://user:password@database:5432/eduloop?sslmode=require&connection_limit=5&connection_limit=6&pool_timeout=10&connect_timeout=5",
+  }).errors, [
+    "Production PostgreSQL DATABASE_URL requires exactly one connection_limit parameter.",
   ]);
 });
 

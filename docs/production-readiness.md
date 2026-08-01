@@ -31,6 +31,7 @@ School-managed accounts are a separate launch mode. The public account path reco
 | Content reports can be triaged safely | role- and recent-auth-protected `/studio`, transactional session-version, operator-role, and report-state claims shared with the trusted CLI, import-resistant quarantine provenance, final-open-report restoration to audited import status, erasure-resistant anonymous `ContentReviewAction` history, and SQLite/PostgreSQL/browser coverage |
 | Both databases stay portable | paired schemas and migration stages enforced by `npm run schema:check` |
 | Production database transport is protected | startup rejects malformed PostgreSQL URLs, non-loopback connections without a required TLS mode, and certificate-validation bypasses |
+| Database overload is bounded | startup requires an explicit per-replica connection limit plus nonzero pool-acquisition and connection timeouts; pool exhaustion and database-unavailable errors return privacy-safe HTTP 503 responses |
 | Failures are diagnosable | schema-aware `/api/health`, privacy-safe request and operational-command completion/error telemetry, cleanup dead-man monitoring, typed and guarded post-response task failures, error boundaries |
 | A live release is externally verifiable | cookie-free `npm run smoke:deployment` checks security headers, readiness, answer isolation, and stateless guest grading |
 | Browser resource loading is constrained | tested CSP, HSTS, framing, MIME, referrer, permission, and cross-origin response headers |

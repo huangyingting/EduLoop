@@ -1,5 +1,6 @@
 import { randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
+import { isDatabaseUnavailableError } from "./database-errors";
 import { errorLogMetadata } from "./logging";
 import {
   addressRateLimitKey,
@@ -99,6 +100,7 @@ export function apiHandler<TRequest extends Request>(
     try {
       response = await handler(request);
     } catch (error) {
+      const databaseUnavailable = isDatabaseUnavailableError(error);
       console.error(JSON.stringify({
         level: "error",
         event: "api_request_failed",
@@ -107,7 +109,9 @@ export function apiHandler<TRequest extends Request>(
         method: request.method,
         ...errorLogMetadata(error),
       }));
-      response = apiError("Internal server error", 500, "INTERNAL_ERROR");
+      response = databaseUnavailable
+        ? apiError("Service unavailable", 503, "SERVICE_UNAVAILABLE")
+        : apiError("Internal server error", 500, "INTERNAL_ERROR");
     }
 
     const durationMs = Math.max(0, performance.now() - startedAt);

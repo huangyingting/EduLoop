@@ -1,5 +1,6 @@
 import {
   isSocialProviderId,
+  SOCIAL_PROVIDER_IDS,
   type SocialProviderId,
 } from "./social-providers";
 
@@ -25,6 +26,7 @@ export type OAuthDeploymentSmokeErrorCode =
   | "EOAUTH_SMOKE_INITIATION"
   | "EOAUTH_SMOKE_ORIGIN"
   | "EOAUTH_SMOKE_PROVIDER_MISSING"
+  | "EOAUTH_SMOKE_PROVIDER_UNEXPECTED"
   | "EOAUTH_SMOKE_TIMEOUT";
 
 const ERROR_MESSAGES: Record<OAuthDeploymentSmokeErrorCode, string> = {
@@ -37,6 +39,7 @@ const ERROR_MESSAGES: Record<OAuthDeploymentSmokeErrorCode, string> = {
   EOAUTH_SMOKE_INITIATION: "The deployment could not initiate the provider request.",
   EOAUTH_SMOKE_ORIGIN: "The OAuth smoke target must be an HTTPS origin without credentials, path, query, or fragment; HTTP is allowed only for loopback testing.",
   EOAUTH_SMOKE_PROVIDER_MISSING: "An expected social provider is not configured on the deployment.",
+  EOAUTH_SMOKE_PROVIDER_UNEXPECTED: "The deployment exposes an OAuth/OIDC provider that was not included in the expected provider set.",
   EOAUTH_SMOKE_TIMEOUT: "The OAuth smoke timeout must be an integer from 1 through 60000 milliseconds.",
 };
 
@@ -224,14 +227,32 @@ export async function runOAuthDeploymentSmoke({
   }
   const catalog = await jsonObject(catalogResponse);
   if (!catalog) throw new OAuthDeploymentSmokeError("EOAUTH_SMOKE_DISCOVERY", "discovery");
+
+  const configuredProviders = new Set<SocialProviderId>();
+  for (const [catalogId, entry] of Object.entries(catalog)) {
+    if (!entry || typeof entry !== "object" || Array.isArray(entry)) continue;
+    const value = entry as Record<string, unknown>;
+    if (value.type !== "oauth" && value.type !== "oidc") continue;
+    if (typeof value.id !== "string" || value.id !== catalogId) {
+      throw new OAuthDeploymentSmokeError("EOAUTH_SMOKE_DISCOVERY", "discovery");
+    }
+    if (!isSocialProviderId(value.id)) {
+      throw new OAuthDeploymentSmokeError("EOAUTH_SMOKE_PROVIDER_UNEXPECTED", "discovery");
+    }
+    configuredProviders.add(value.id);
+  }
   for (const provider of expectations.keys()) {
-    const entry = catalog[provider];
-    if (!entry || typeof entry !== "object" || Array.isArray(entry)) {
+    if (!configuredProviders.has(provider)) {
       throw new OAuthDeploymentSmokeError("EOAUTH_SMOKE_PROVIDER_MISSING", "discovery", provider);
     }
-    const value = entry as Record<string, unknown>;
-    if (value.id !== provider || (value.type !== "oauth" && value.type !== "oidc")) {
-      throw new OAuthDeploymentSmokeError("EOAUTH_SMOKE_PROVIDER_MISSING", "discovery", provider);
+  }
+  for (const provider of SOCIAL_PROVIDER_IDS) {
+    if (configuredProviders.has(provider) && !expectations.has(provider)) {
+      throw new OAuthDeploymentSmokeError(
+        "EOAUTH_SMOKE_PROVIDER_UNEXPECTED",
+        "discovery",
+        provider,
+      );
     }
   }
 

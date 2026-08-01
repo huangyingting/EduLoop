@@ -13,6 +13,8 @@
 .env.*.local
 prisma/*.db
 prisma/*.db-journal
+/launch-evidence*.json
+/.launch-evidence*.json
 
 # test and tooling output
 /coverage

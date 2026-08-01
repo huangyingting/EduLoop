@@ -7,6 +7,7 @@ export type OperatorCommandName =
   | "deployment_capacity_probe"
   | "email_delivery_probe"
   | "expired_security_artifact_cleanup"
+  | "launch_evidence_verification"
   | "oauth_deployment_smoke"
   | "user_role_command";
 

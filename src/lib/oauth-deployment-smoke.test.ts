@@ -13,6 +13,16 @@ const hosts = {
   facebook: "www.facebook.com",
 };
 
+function providerCatalog(providers: Array<keyof typeof hosts> = ["google"]) {
+  return Object.fromEntries(providers.map((provider) => [
+    provider,
+    {
+      id: provider,
+      type: provider === "facebook" ? "oauth" : "oidc",
+    },
+  ]));
+}
+
 function expectCode(run: () => unknown, code: string) {
   try {
     run();
@@ -39,9 +49,7 @@ function healthyFetcher(overrides: {
     if (url.pathname === "/api/auth/providers") {
       return Response.json(overrides.providers ?? {
         credentials: { id: "credentials", type: "credentials" },
-        google: { id: "google", type: "oidc" },
-        "microsoft-entra-id": { id: "microsoft-entra-id", type: "oidc" },
-        facebook: { id: "facebook", type: "oauth" },
+        ...providerCatalog(),
       });
     }
     if (url.pathname === "/api/auth/csrf") {
@@ -136,7 +144,10 @@ describe("deployed OAuth initiation", () => {
   });
 
   it("verifies discovery, CSRF, authorization requests, and exact callbacks", async () => {
-    const { calls, fetcher } = healthyFetcher();
+    const { calls, fetcher } = healthyFetcher({ providers: {
+      credentials: { id: "credentials", type: "credentials" },
+      ...providerCatalog(["google", "microsoft-entra-id", "facebook"]),
+    } });
     await expect(runOAuthDeploymentSmoke({
       origin,
       expectations,
@@ -181,6 +192,39 @@ describe("deployed OAuth initiation", () => {
       code: "EOAUTH_SMOKE_PROVIDER_MISSING",
       phase: "discovery",
       provider: "facebook",
+    });
+  });
+
+  it("rejects extra supported or unknown OAuth providers", async () => {
+    const extraSupported = healthyFetcher({
+      providers: providerCatalog(["google", "facebook"]),
+    });
+    await expect(runOAuthDeploymentSmoke({
+      origin,
+      expectations: "google=accounts.google.com",
+      confirmation: "1",
+      fetcher: extraSupported.fetcher,
+    })).rejects.toMatchObject({
+      code: "EOAUTH_SMOKE_PROVIDER_UNEXPECTED",
+      phase: "discovery",
+      provider: "facebook",
+    });
+
+    const unknown = healthyFetcher({
+      providers: {
+        google: { id: "google", type: "oidc" },
+        "private-provider": { id: "private-provider", type: "oauth" },
+      },
+    });
+    await expect(runOAuthDeploymentSmoke({
+      origin,
+      expectations: "google=accounts.google.com",
+      confirmation: "1",
+      fetcher: unknown.fetcher,
+    })).rejects.toMatchObject({
+      code: "EOAUTH_SMOKE_PROVIDER_UNEXPECTED",
+      phase: "discovery",
+      provider: undefined,
     });
   });
 

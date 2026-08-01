@@ -38,6 +38,7 @@
     "restore:verify": "node --env-file-if-exists=.env --import tsx scripts/verify-database-restore.ts",
     "users:role": "node --env-file-if-exists=.env --import tsx scripts/manage-user-role.ts",
     "env:check": "node --env-file-if-exists=.env scripts/validate-environment.mjs",
+    "launch:verify": "node --env-file-if-exists=.env --import tsx scripts/verify-launch-evidence.ts",
     "supply:check": "node scripts/verify-supply-chain.mjs",
     "probe:capacity": "node --env-file-if-exists=.env --import tsx scripts/probe-deployment-capacity.ts",
     "smoke:deployment": "node scripts/smoke-deployment.mjs",

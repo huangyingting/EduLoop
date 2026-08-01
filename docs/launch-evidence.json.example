@@ -1,0 +1,127 @@
+{
+  "schemaVersion": 1,
+  "release": "REPLACE_WITH_EXACT_RELEASE_ID",
+  "origin": "https://learn.example",
+  "legal": {
+    "termsVersion": "2026-07-31",
+    "privacyVersion": "2026-08-01.1"
+  },
+  "oauthProviders": [
+    "google"
+  ],
+  "gates": [
+    {
+      "gate": "legal-review",
+      "status": "PENDING",
+      "verifiedAt": "2026-08-01T10:00:00.000Z",
+      "expiresAt": "2027-08-01T10:00:00.000Z",
+      "evidenceRef": "REPLACE_WITH_PRIVATE_EVIDENCE_REFERENCE",
+      "operatorRef": "REPLACE_WITH_ACCOUNTABLE_REVIEWER_REFERENCE"
+    },
+    {
+      "gate": "production-deployment",
+      "status": "PENDING",
+      "verifiedAt": "2026-08-01T10:00:00.000Z",
+      "expiresAt": "2026-08-02T10:00:00.000Z",
+      "evidenceRef": "REPLACE_WITH_PRIVATE_EVIDENCE_REFERENCE",
+      "operatorRef": "REPLACE_WITH_ACCOUNTABLE_REVIEWER_REFERENCE"
+    },
+    {
+      "gate": "postgresql-migration",
+      "status": "PENDING",
+      "verifiedAt": "2026-08-01T10:00:00.000Z",
+      "expiresAt": "2026-08-02T10:00:00.000Z",
+      "evidenceRef": "REPLACE_WITH_PRIVATE_EVIDENCE_REFERENCE",
+      "operatorRef": "REPLACE_WITH_ACCOUNTABLE_REVIEWER_REFERENCE"
+    },
+    {
+      "gate": "live-deployment-smoke",
+      "status": "PENDING",
+      "verifiedAt": "2026-08-01T10:00:00.000Z",
+      "expiresAt": "2026-08-02T10:00:00.000Z",
+      "evidenceRef": "REPLACE_WITH_PRIVATE_EVIDENCE_REFERENCE",
+      "operatorRef": "REPLACE_WITH_ACCOUNTABLE_REVIEWER_REFERENCE"
+    },
+    {
+      "gate": "email-delivery",
+      "status": "PENDING",
+      "verifiedAt": "2026-08-01T10:00:00.000Z",
+      "expiresAt": "2026-08-02T10:00:00.000Z",
+      "evidenceRef": "REPLACE_WITH_PRIVATE_EVIDENCE_REFERENCE",
+      "operatorRef": "REPLACE_WITH_ACCOUNTABLE_REVIEWER_REFERENCE"
+    },
+    {
+      "gate": "email-account-journeys",
+      "status": "PENDING",
+      "verifiedAt": "2026-08-01T10:00:00.000Z",
+      "expiresAt": "2026-08-02T10:00:00.000Z",
+      "evidenceRef": "REPLACE_WITH_PRIVATE_EVIDENCE_REFERENCE",
+      "operatorRef": "REPLACE_WITH_ACCOUNTABLE_REVIEWER_REFERENCE"
+    },
+    {
+      "gate": "oauth-provider-journeys",
+      "provider": "google",
+      "status": "PENDING",
+      "verifiedAt": "2026-08-01T10:00:00.000Z",
+      "expiresAt": "2026-08-02T10:00:00.000Z",
+      "evidenceRef": "REPLACE_WITH_PRIVATE_EVIDENCE_REFERENCE",
+      "operatorRef": "REPLACE_WITH_ACCOUNTABLE_REVIEWER_REFERENCE"
+    },
+    {
+      "gate": "monitoring-alerts",
+      "status": "PENDING",
+      "verifiedAt": "2026-08-01T10:00:00.000Z",
+      "expiresAt": "2026-08-08T10:00:00.000Z",
+      "evidenceRef": "REPLACE_WITH_PRIVATE_EVIDENCE_REFERENCE",
+      "operatorRef": "REPLACE_WITH_ACCOUNTABLE_REVIEWER_REFERENCE"
+    },
+    {
+      "gate": "cleanup-scheduler",
+      "status": "PENDING",
+      "verifiedAt": "2026-08-01T10:00:00.000Z",
+      "expiresAt": "2026-08-01T12:00:00.000Z",
+      "evidenceRef": "REPLACE_WITH_PRIVATE_EVIDENCE_REFERENCE",
+      "operatorRef": "REPLACE_WITH_ACCOUNTABLE_REVIEWER_REFERENCE"
+    },
+    {
+      "gate": "backup-restore",
+      "status": "PENDING",
+      "verifiedAt": "2026-08-01T10:00:00.000Z",
+      "expiresAt": "2026-10-30T10:00:00.000Z",
+      "evidenceRef": "REPLACE_WITH_PRIVATE_EVIDENCE_REFERENCE",
+      "operatorRef": "REPLACE_WITH_ACCOUNTABLE_REVIEWER_REFERENCE"
+    },
+    {
+      "gate": "ingress-controls",
+      "status": "PENDING",
+      "verifiedAt": "2026-08-01T10:00:00.000Z",
+      "expiresAt": "2026-08-08T10:00:00.000Z",
+      "evidenceRef": "REPLACE_WITH_PRIVATE_EVIDENCE_REFERENCE",
+      "operatorRef": "REPLACE_WITH_ACCOUNTABLE_REVIEWER_REFERENCE"
+    },
+    {
+      "gate": "distributed-capacity",
+      "status": "PENDING",
+      "verifiedAt": "2026-08-01T10:00:00.000Z",
+      "expiresAt": "2026-08-08T10:00:00.000Z",
+      "evidenceRef": "REPLACE_WITH_PRIVATE_EVIDENCE_REFERENCE",
+      "operatorRef": "REPLACE_WITH_ACCOUNTABLE_REVIEWER_REFERENCE"
+    },
+    {
+      "gate": "rollback-readiness",
+      "status": "PENDING",
+      "verifiedAt": "2026-08-01T10:00:00.000Z",
+      "expiresAt": "2026-08-08T10:00:00.000Z",
+      "evidenceRef": "REPLACE_WITH_PRIVATE_EVIDENCE_REFERENCE",
+      "operatorRef": "REPLACE_WITH_ACCOUNTABLE_REVIEWER_REFERENCE"
+    },
+    {
+      "gate": "desktop-mobile-review",
+      "status": "PENDING",
+      "verifiedAt": "2026-08-01T10:00:00.000Z",
+      "expiresAt": "2026-08-08T10:00:00.000Z",
+      "evidenceRef": "REPLACE_WITH_PRIVATE_EVIDENCE_REFERENCE",
+      "operatorRef": "REPLACE_WITH_ACCOUNTABLE_REVIEWER_REFERENCE"
+    }
+  ]
+}

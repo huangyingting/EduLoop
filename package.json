@@ -19,6 +19,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "node scripts/start-standalone.mjs",
+    "deploy:azure": "bash scripts/deploy-azure.sh",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "db:generate": "prisma generate --schema prisma/schema.prisma",

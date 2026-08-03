@@ -4268,7 +4268,7 @@
     "quality": "精品",
     "question_info": {
       "raw_content": {
-        "title": "琼斯初中采用下列评分标准。弗里曼老师班中 15 名学生的分数为：\n\n$89,72,54,97,77,92,85,74,75,63,84,78,71,80,90$。\n\n该班有百分之多少的学生获得 C 等级？\n\n$\\begin{array}{|c|c|}\\hline\n\text{等级}&\\text{分数范围}\\\\ \\hline\nA&93\\text{--}100\\\\ \\hline\nB&85\\text{--}92\\\\ \\hline\nC&75\\text{--}84\\\\ \\hline\nD&70\\text{--}74\\\\ \\hline\nF&0\\text{--}69\\\\ \\hline\n\\end{array}$",
+        "title": "琼斯初中采用下列评分标准。弗里曼老师班中 15 名学生的分数为：\n\n$89,72,54,97,77,92,85,74,75,63,84,78,71,80,90$。\n\n该班有百分之多少的学生获得 C 等级？\n\n$\\begin{array}{|c|c|}\\hline\n\\text{等级}&\\text{分数范围}\\\\ \\hline\nA&93\\text{--}100\\\\ \\hline\nB&85\\text{--}92\\\\ \\hline\nC&75\\text{--}84\\\\ \\hline\nD&70\\text{--}74\\\\ \\hline\nF&0\\text{--}69\\\\ \\hline\n\\end{array}$",
         "option_a": "$20 \\%$",
         "option_b": "$25 \\%$",
         "option_c": "$30 \\%$",
@@ -4300,7 +4300,7 @@
     "quality": "精品",
     "question_info": {
       "raw_content": {
-        "title": "在下列月历中，将某个字母下方的日期与 $C$ 下方的日期相加。若其和等于 $A$ 与 $B$ 下方日期之和，则该字母是\n\n$\\begin{array}{|c|c|c|c|c|}\\hline\n\text{星期二}&\\text{星期三}&\\text{星期四}&\\text{星期五}&\\text{星期六}\\\\ \\hline\n&&C&A&\\\\ \\hline\n&&Q&&\\\\ \\hline\nS&B&P&T&R\\\\ \\hline\n\\end{array}$",
+        "title": "在下列月历中，将某个字母下方的日期与 $C$ 下方的日期相加。若其和等于 $A$ 与 $B$ 下方日期之和，则该字母是\n\n$\\begin{array}{|c|c|c|c|c|}\\hline\n\\text{星期二}&\\text{星期三}&\\text{星期四}&\\text{星期五}&\\text{星期六}\\\\ \\hline\n&&C&A&\\\\ \\hline\n&&Q&&\\\\ \\hline\nS&B&P&T&R\\\\ \\hline\n\\end{array}$",
         "option_a": "$P$",
         "option_b": "$Q$",
         "option_c": "$R$",

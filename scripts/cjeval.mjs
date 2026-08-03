@@ -35,6 +35,7 @@ function replacePairedTags(value, tags, replacement) {
 export function normalizeCjevalText(value) {
   let result = String(value ?? "").normalize("NFC");
   result = result
+    .replace(/[\u200b-\u200d\u2060\ufeff]/gu, "")
     .replace(/<br\s*\/?\s*>/giu, "\n")
     .replace(/\((\/?(?:dotted|dot|u|underline|underlined))\)/giu, "<$1>")
     .replace(/&nbsp;/giu, " ")
@@ -199,7 +200,13 @@ function formatAnswerPart(value, depth) {
     }).join("\n");
   }
   if (value && typeof value === "object") {
-    return Object.entries(value).map(([key, item]) => `${key}. ${formatAnswerPart(item, depth + 1)}`).join("\n");
+    const entries = Object.entries(value);
+    const zeroBasedKeys = entries.every(([key], index) => key === String(index));
+    return entries.map(([key, item], index) => {
+      const numberedKey = key.match(/^[（(](\d+)[）)]$/u)?.[1];
+      const prefix = zeroBasedKeys ? `（${index + 1}）` : numberedKey ? `（${numberedKey}）` : `${key}. `;
+      return `${prefix}${formatAnswerPart(item, depth + 1)}`;
+    }).join("\n");
   }
   return String(value ?? "");
 }
@@ -253,11 +260,12 @@ const CJEVAL_REPAIRS = new Map([
   [
     "train:25",
     {
-      note: "依据来源解析补全缺失选项",
+      note: "依据来源解析补全缺失选项并校正重复表述",
       apply(record) {
         return {
           ...record,
           ques_content: `${record.ques_content} 选项：A. 污篾、告戒 B. 枷琐、慢不经心 C. 浮燥、厉厉在目 D. 恬静、辐射、纷至沓来、轻歌曼舞`,
+          ques_analyze: replaceRequired(record.ques_analyze, "此题目的目的是", "此题的目的是", "train:25"),
         };
       },
     },
@@ -294,6 +302,23 @@ const CJEVAL_REPAIRS = new Map([
         return {
           ...record,
           ques_content: replaceRequired(record.ques_content, "B. ①会 ②孺 ③搏", "B. ①汇 ②孺 ③搏", "train:304"),
+        };
+      },
+    },
+  ],
+  [
+    "train:378",
+    {
+      note: "校正解析中的重复词",
+      apply(record) {
+        return {
+          ...record,
+          ques_analyze: replaceRequired(
+            record.ques_analyze,
+            "四个词的加点字音标标注都正确",
+            "四个词的加点字读音标注都正确",
+            "train:378",
+          ),
         };
       },
     },
@@ -342,6 +367,295 @@ const CJEVAL_REPAIRS = new Map([
     },
   ],
   [
+    "train:695",
+    {
+      note: "校正《在那颗星子下》正文中的重复字",
+      apply(record) {
+        return {
+          ...record,
+          ques_content: replaceRequired(record.ques_content, "英语言期中考试", "英语期中考试", "train:695"),
+        };
+      },
+    },
+  ],
+  [
+    "train:873",
+    {
+      note: "校正阅读题设问中的近形字",
+      apply(record) {
+        return {
+          ...record,
+          ques_content: replaceRequired(record.ques_content, "最珍惜的自然资源", "最珍贵的自然资源", "train:873"),
+        };
+      },
+    },
+  ],
+  [
+    "train:1074",
+    {
+      note: "校正家书引文中的重复字",
+      apply(record) {
+        return {
+          ...record,
+          ques_content: replaceRequired(record.ques_content, "把敌人消灭尽尽为止", "把敌人消灭干净为止", "train:1074"),
+        };
+      },
+    },
+  ],
+  [
+    "train:698",
+    {
+      note: "校正阅读材料中的重复词",
+      apply(record) {
+        return {
+          ...record,
+          ques_content: replaceRequired(record.ques_content, "歌舞表演表演距离这么远", "歌舞表演距离这么远", "train:698"),
+        };
+      },
+    },
+  ],
+  [
+    "train:905",
+    {
+      note: "校正阅读材料中的重复否定词",
+      apply(record) {
+        return {
+          ...record,
+          ques_content: replaceRequired(record.ques_content, "有没有没撕净的广告", "有没有撕净的广告", "train:905"),
+        };
+      },
+    },
+  ],
+  [
+    "train:1008",
+    {
+      note: "校正灰塑材料中的标题叠写、残留英文和说明方法名称",
+      apply(record) {
+        let content = replaceRequired(record.ques_content, "广府灰塑广府灰塑是", "广府灰塑\n广府灰塑是", "train:1008");
+        content = replaceRequired(content, "倒塌risks", "倒塌风险", "train:1008");
+        return {
+          ...record,
+          ques_content: content,
+          ques_analyze: replaceRequired(record.ques_analyze, "第一，自定义", "第一，下定义", "train:1008"),
+        };
+      },
+    },
+  ],
+  [
+    "train:1099",
+    {
+      note: "分隔《蒹葭》篇名与首句并补全三小问答案",
+      apply(record) {
+        let content = replaceRequired(record.ques_content, "蒹葭蒹葭苍苍", "蒹葭\n蒹葭苍苍", "train:1099");
+        content = replaceRequired(content, "请解释划线句子的含义", "请解释“蒹葭苍苍，白露为霜”的含义", "train:1099");
+        content = replaceRequired(
+          content,
+          "D. 诗中表达了主人公对心上人坚持不懈的追求以及近在咫尺却无法触及的失落感。",
+          "D. 诗中表现主人公因追求不得而彻底绝望，并放弃了对伊人的追寻。",
+          "train:1099",
+        );
+        return {
+          ...record,
+          ques_content: content,
+          ques_answer: [
+            "“蒹葭苍苍”写芦苇茂盛，“白露为霜”写清晨露水凝结成霜。",
+            "诗句勾勒出深秋清晨芦苇茂盛、露水成霜的萧瑟凄清画面。",
+            "D",
+          ],
+          ques_analyze: [
+            "“苍苍”写芦苇茂盛，“白露为霜”点明深秋清晨的时令和环境。",
+            "每章以蒹葭和白露起兴，描绘芦苇茂盛、露水由凝结到渐干的清冷秋景，烘托主人公追寻伊人而不得的惆怅。",
+            "主人公虽反复追寻而未能到达，却没有放弃追寻，更没有彻底绝望，因此D项不正确。",
+          ],
+        };
+      },
+    },
+  ],
+  [
+    "train:1103",
+    {
+      note: "校正二维码数量的中文数位表示和失配选项",
+      apply(record) {
+        let content = replaceRequired(record.ques_content, "即905亿亿亿亿亿亿亿亿。", "即905亿亿亿亿亿亿亿亿亿。", "train:1103");
+        content = replaceRequired(
+          content,
+          "C. “回”字定位作用指的是二维码在不同方向都能正确扫描反馈。",
+          "C. “回”字形定位方块的作用是增加二维码的信息存储量。",
+          "train:1103",
+        );
+        return {
+          ...record,
+          ques_content: content,
+          ques_analyze: "第（1）题中，C项把定位方块的作用误说成增加存储量；原文说明它用于定位，使二维码从不同角度扫描都能正确反馈。D项把QR码的特点扩大为所有二维码，也不正确，故选C、D。第⑧⑨段先用两个颜色的球放入盒子的例子说明每增加一个可变格，组合数就翻倍，再列出最小QR码有249个可变格、共有2的249次方种组合，并补充其他规格和付款码的数据，通过举例子、列数字和作推算说明二维码数量极其庞大。科技节展板介绍二维码功用时，链接材料一主要讲二维码被滥用的安全风险，不直接介绍其功用，因此不适合选用。",
+        };
+      },
+    },
+  ],
+  [
+    "train:1553",
+    {
+      note: "分隔《十五从军征》篇名与首句",
+      apply(record) {
+        return {
+          ...record,
+          ques_content: replaceRequired(record.ques_content, "十五从军征十五岁从军", "十五从军征\n十五岁从军", "train:1553"),
+        };
+      },
+    },
+  ],
+  [
+    "train:1612",
+    {
+      note: "分隔《关雎》篇名与首句",
+      apply(record) {
+        return {
+          ...record,
+          ques_content: replaceRequired(record.ques_content, "关雎关关雎鸠", "关雎\n关关雎鸠", "train:1612"),
+        };
+      },
+    },
+  ],
+  [
+    "train:1613",
+    {
+      note: "分隔《敷浅原见桃花》篇名与首句",
+      apply(record) {
+        return {
+          ...record,
+          ques_content: replaceRequired(record.ques_content, "敷浅原<sup >①</sup>见桃花桃花雨后", "敷浅原<sup >①</sup>见桃花\n桃花雨后", "train:1613"),
+        };
+      },
+    },
+  ],
+  [
+    "train:1823",
+    {
+      note: "分隔《静女》篇名与首句",
+      apply(record) {
+        return {
+          ...record,
+          ques_content: replaceRequired(record.ques_content, "静女静女其姝", "静女\n静女其姝", "train:1823"),
+        };
+      },
+    },
+  ],
+  [
+    "train:1953",
+    {
+      note: "分隔《渔家傲》词牌题目与首句",
+      apply(record) {
+        return {
+          ...record,
+          ques_content: replaceRequired(
+            record.ques_content,
+            "渔家傲·天接云涛连晓雾天接云涛连晓雾",
+            "渔家傲·天接云涛连晓雾\n天接云涛连晓雾",
+            "train:1953",
+          ),
+        };
+      },
+    },
+  ],
+  [
+    "valid:57",
+    {
+      note: "分隔《关雎》篇名与首句",
+      apply(record) {
+        return {
+          ...record,
+          ques_content: replaceRequired(record.ques_content, "关雎关关雎鸠", "关雎\n关关雎鸠", "valid:57"),
+        };
+      },
+    },
+  ],
+  [
+    "valid:78",
+    {
+      note: "分隔《蒹葭》篇名与首句并校正失配选项",
+      apply(record) {
+        let content = replaceRequired(record.ques_content, "蒹葭蒹葭苍苍", "蒹葭\n蒹葭苍苍", "valid:78");
+        content = replaceRequired(content, "蒹葭茂密浓密的景象", "蒹葭茂密的景象", "valid:78");
+        content = replaceRequired(
+          content,
+          "D. 诗中表现了主人公对意中人执着追求的精神和可望不可及的失落情绪。",
+          "D. 诗中表现主人公因伊人可望不可即而彻底绝望，并放弃了追求。",
+          "valid:78",
+        );
+        return {
+          ...record,
+          ques_content: content,
+          ques_analyze: "（1）B项错误：“白露为霜”写的是深秋清晨，而不是黄昏。\n（2）主人公虽反复追寻伊人而不得，却始终没有放弃，更没有彻底绝望，因此D项不正确。\n（3）《蒹葭》采用重章叠句和含蓄的景物描写，感情委婉深沉，并非直白表达，因此C项不正确。",
+        };
+      },
+    },
+  ],
+  [
+    "valid:81",
+    {
+      note: "分隔《十五从军征》篇名与首句并恢复开放题答案",
+      apply(record) {
+        return {
+          ...record,
+          ques_content: replaceRequired(record.ques_content, "十五从军征十五从军征", "十五从军征\n十五从军征", "valid:81"),
+          ques_answer: [
+            "B",
+            "揭露不合理的兵役制度和长期战争给百姓造成的深重苦难，表达对和平生活的渴望。",
+          ],
+          ques_analyze: [
+            "B项的空间顺序判断错误：四句先写野兔钻进狗洞、野鸡飞上屋梁，再写庭院和井边长满野生谷葵，并非由远及近；其余分析符合诗意。",
+            "全诗通过一位从军六十五年的老兵返乡后亲人尽亡、家园荒芜、独自做饭却无人共食的遭遇，控诉长期战争和繁重兵役给普通百姓造成的灾难，寄托对和平生活的渴望。",
+          ],
+        };
+      },
+    },
+  ],
+  [
+    "valid:86",
+    {
+      note: "分隔《关雎》《蒹葭》篇名与首句",
+      apply(record) {
+        let content = replaceRequired(record.ques_content, "关雎关关雎鸠", "关雎\n关关雎鸠", "valid:86");
+        content = replaceRequired(content, "蒹葭蒹葭苍苍", "蒹葭\n蒹葭苍苍", "valid:86");
+        return { ...record, ques_content: content };
+      },
+    },
+  ],
+  [
+    "test:120",
+    {
+      note: "分隔《十五从军征》篇名与首句",
+      apply(record) {
+        return {
+          ...record,
+          ques_content: replaceRequired(record.ques_content, "（一）十五从军征十五岁时参军", "（一）十五从军征\n十五岁时参军", "test:120"),
+        };
+      },
+    },
+  ],
+  [
+    "test:160",
+    {
+      note: "恢复诗歌比较题四小问的实质答案并校正重复词",
+      apply(record) {
+        return {
+          ...record,
+          ques_answer: [
+            "“土地”象征遭受侵略、苦难深重的祖国；“河流”象征人民长期郁结的悲愤；“风”象征人民对侵略者的愤怒和抗争；“黎明”象征解放和充满希望的未来。",
+            "“沙哑”表明鸟即使声嘶力竭也要歌唱，表现诗人在民族苦难中仍愿为祖国奉献一切的深沉、悲切而执着的爱。",
+            "相同点：都表达对祖国土地的热爱。不同点：《我爱这土地》感情悲愤深沉，突出苦难中的抗争和献身；《中国的土地》感情明朗热烈，赞美祖国的美丽、人民的品格和复兴希望。",
+            "B",
+          ],
+          ques_analyze: [
+            "土地、河流、风和黎明分别承载祖国苦难、人民悲愤、抗争力量和光明未来等抽象含义，构成象征意象群。",
+            "“沙哑”不是削弱赞歌，而是表现长期苦难和竭尽全力的歌唱，使爱国情感更深沉、更有献身意味。",
+            "两诗都爱祖国，但甲诗立足民族危亡，情调悲愤凝重；乙诗铺陈山川物产和人民品格，情调明朗、自豪并充满希望。",
+            "B项错误：甲诗首节写鸟歌唱、抗争直至死亡，包含连续动作，并非侧重静态描写。",
+          ],
+        };
+      },
+    },
+  ],
+  [
     "train:1561",
     {
       note: "恢复《浣溪沙》的词牌、作者、正文、注释、小题和选项分段",
@@ -381,6 +695,36 @@ const CJEVAL_REPAIRS = new Map([
       },
     },
   ],
+  [
+    "train:1618",
+    {
+      note: "校正《伟大的悲剧》词语题中的重复词",
+      apply(record) {
+        return {
+          ...record,
+          ques_content: replaceRequired(
+            record.ques_content,
+            "<dotted>虚</dotted><dotted>幻</dotted><dotted>幻</dotted><dotted>境</dotted>",
+            "<dotted>虚</dotted><dotted>幻</dotted><dotted>梦</dotted><dotted>境</dotted>",
+            "train:1618",
+          ),
+          ques_analyze: replaceRequired(record.ques_analyze, "虚幻幻境", "虚幻梦境", "train:1618"),
+        };
+      },
+    },
+  ],
+  [
+    "test:244",
+    {
+      note: "校正阅读材料中的同义词叠写",
+      apply(record) {
+        return {
+          ...record,
+          ques_content: replaceRequired(record.ques_content, "只能给出大概概要", "只能给出大概", "test:244"),
+        };
+      },
+    },
+  ],
 ]);
 
 export const CJEVAL_REPAIR_COUNT = CJEVAL_REPAIRS.size;
@@ -394,7 +738,7 @@ export function convertCjevalRecord(record, split, index) {
   const repair = repairCjevalRecord(record, split, index);
   const source = repair.record;
   const answer = formatCjevalAnswer(source.ques_answer);
-  const explanation = normalizeCjevalText(source.ques_analyze);
+  const explanation = formatCjevalAnswer(source.ques_analyze);
   const authors = source.ques_knowledges.map((item) => normalizeCjevalText(item).match(/^(.+?)[（(]\d{3,4}-\d{3,4}[）)]$/u)?.[1]).filter(Boolean);
   const formattedContent = formatCjevalContent(source.ques_content, {
     poetry: source.ques_type === "诗歌鉴赏",

@@ -4,10 +4,16 @@ import { readdir, readFile, stat } from "node:fs/promises";
 import { isDeepStrictEqual } from "node:util";
 import path from "node:path";
 import { z } from "zod";
+import {
+  hasBareLatexCommand,
+  hasForbiddenControlCharacter,
+  invalidJsonLatexEscapes,
+} from "./amc-audit-rules.mjs";
 
 const ROOT = process.cwd();
 const errors = [];
 const parsedFiles = new Map();
+const sourceFiles = new Map();
 
 const stringRecordSchema = z.record(z.string(), z.string());
 const filenameSchema = z.string().regex(/^[a-z0-9][a-z0-9-]*\.json$/);
@@ -151,12 +157,35 @@ async function loadTrackedJson() {
   for (const filename of tracked) {
     try {
       const source = (await readFile(path.join(ROOT, filename), "utf8")).replace(/^\uFEFF/, "");
+      sourceFiles.set(filename, source);
       parsedFiles.set(filename, JSON.parse(source));
     } catch (error) {
       errors.push(`${filename}: invalid JSON (${error instanceof Error ? error.message : String(error)})`);
     }
   }
   return tracked;
+}
+
+function validateQuestionText(filepath, id, value, pathParts = []) {
+  if (typeof value === "string") {
+    const location = issuePath(pathParts);
+    if (hasForbiddenControlCharacter(value)) {
+      errors.push(`${filepath}:${id}:${location}: forbidden control or replacement character`);
+    }
+    if (hasBareLatexCommand(value)) {
+      errors.push(`${filepath}:${id}:${location}: LaTeX command is missing its backslash`);
+    }
+    return;
+  }
+  if (Array.isArray(value)) {
+    value.forEach((item, index) => validateQuestionText(filepath, id, item, [...pathParts, index]));
+    return;
+  }
+  if (value && typeof value === "object") {
+    for (const [key, item] of Object.entries(value)) {
+      validateQuestionText(filepath, id, item, [...pathParts, key]);
+    }
+  }
 }
 
 function validateCatalog(catalog) {
@@ -223,6 +252,13 @@ async function validateQuestionArchives(catalog) {
     for (const filename of entry.files) {
       const filepath = `data/${locale}/${filename}`;
       const value = parsedFiles.get(filepath);
+      const source = sourceFiles.get(filepath);
+      if (source) {
+        for (const issue of invalidJsonLatexEscapes(source)) {
+          const line = source.slice(0, issue.offset).split("\n").length;
+          errors.push(`${filepath}:${line}: LaTeX command \\${issue.command} uses an unsafe single-backslash JSON escape`);
+        }
+      }
       if (!Array.isArray(value)) {
         if (value !== undefined) errors.push(`${filepath}: expected a top-level array`);
         continue;
@@ -235,6 +271,7 @@ async function validateQuestionArchives(catalog) {
           : `index-${index}`;
         const question = validate(filepath, questionSchema, rawRecord, `${filepath}:${id}`);
         if (!question) continue;
+        validateQuestionText(filepath, question.id, question);
         questionCount += 1;
         childCount += question.children.length;
         const previous = localeIds.get(question.id);

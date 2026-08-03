@@ -28006,7 +28006,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "由\n\n$(a_n+b_ni)^2=a_n^2-b_n^2+2a_nb_ni$\n\n以及 $(2+i)^{2n}=(3+4i)^n$，可得\n\n$a_nb_n=\\dfrac12\\operatorname{Im}((3+4i)^n)$。\n\n因此所求级数为\n\n$\\dfrac12\\operatorname{Im}\\sum_{n=0}^{\\infty}left(\\dfrac{3+4i}{7}\\right)^n$。\n\n公比的模为 $5/7<1$，故\n\n$\\dfrac12\\operatorname{Im}\\left(\\dfrac1{1-(3+4i)/7}\\right)\n=\\dfrac12\\operatorname{Im}\\left(\\dfrac7{4-4i}\\right)$\n\n$=\\dfrac12\\operatorname{Im}\\left(\\dfrac{7(4+4i)}{32}\\right)\n=\\boxed{(B)\\dfrac7{16}}$。"
+        "solution_info": "由\n\n$(a_n+b_ni)^2=a_n^2-b_n^2+2a_nb_ni$\n\n以及 $(2+i)^{2n}=(3+4i)^n$，可得\n\n$a_nb_n=\\dfrac12\\operatorname{Im}((3+4i)^n)$。\n\n因此所求级数为\n\n$\\dfrac12\\operatorname{Im}\\sum_{n=0}^{\\infty}\\left(\\dfrac{3+4i}{7}\\right)^n$。\n\n公比的模为 $5/7<1$，故\n\n$\\dfrac12\\operatorname{Im}\\left(\\dfrac1{1-(3+4i)/7}\\right)\n=\\dfrac12\\operatorname{Im}\\left(\\dfrac7{4-4i}\\right)$\n\n$=\\dfrac12\\operatorname{Im}\\left(\\dfrac{7(4+4i)}{32}\\right)\n=\\boxed{(B)\\dfrac7{16}}$。"
       }
     ],
     "children": []
@@ -29466,16 +29466,16 @@
         "solution_info": "设半圆与小圆的圆心分别为 $O_1,O_2$，$M$ 为 $QR$ 的中点。由扩展正弦定理，小圆半径为\n$$r=\\frac{QR}{2\\sin60^\\circ}=3.$$\n又因半圆半径为 $7$，所以\n$$O_1M=\\sqrt{7^2-\\left(\\frac{3\\sqrt3}{2}\\right)^2}=\\frac{13}{2},\\qquad O_2M=3\\cos60^\\circ=\\frac32,$$\n从而 $O_1O_2=5$。小圆在 $P$ 处与直径相切，故 $O_1P\\perp O_2P$，于是\n$$O_1P=\\sqrt{5^2-3^2}=4.$$\n如下图所示：\n\n[Figure: /question-assets/source/amc/f5d5ce93da4280b7f6e44b62674c9a10447c01f10a8a1f0811ed44c10351ab59.png]\n\n设 $H$ 为 $P$ 到 $QR$ 的垂足。由相似三角形可得\n$$PH=\\frac{33}{10}.$$\n因此\n$$[PQR]=\\frac12\\cdot3\\sqrt3\\cdot\\frac{33}{10}=\\frac{99\\sqrt3}{20},$$\n所以 $a+b+c=99+3+20=\\boxed{\\textbf{(D)}~122}$。"
       },
       {
-        "solution_info": "[Figure: /question-assets/source/amc/865cffee11cf04fa4e8965766dbce68aeafa01feab361903b436d79e0987cd14.png]\n\n设半圆与小圆的圆心分别为 $O_1,O_2$，$M$ 为 $QR$ 的中点。由扩展正弦定理，小圆半径为 $3$。半圆半径为 $7$，故\n$$O_1M=\\frac{13}{2},\\qquad O_2M=\\frac32,qquad O_1O_2=5.$$\n由于小圆在 $P$ 处与直径相切，$O_1P\\perp O_2P$，所以\n$$O_1P=\\sqrt{5^2-3^2}=4.$$\n设 $H$ 为 $P$ 到 $QR$ 的垂足。由相似三角形可得 $PH=\\frac{33}{10}$，于是\n$$[PQR]=\\frac12(3\\sqrt3)\\left(\\frac{33}{10}\\right)=\\frac{99\\sqrt3}{20}.$$\n因此 $a+b+c=99+3+20=\\boxed{\\textbf{(D)}~122}$。"
+        "solution_info": "[Figure: /question-assets/source/amc/865cffee11cf04fa4e8965766dbce68aeafa01feab361903b436d79e0987cd14.png]\n\n设半圆与小圆的圆心分别为 $O_1,O_2$，$M$ 为 $QR$ 的中点。由扩展正弦定理，小圆半径为 $3$。半圆半径为 $7$，故\n$$O_1M=\\frac{13}{2},\\qquad O_2M=\\frac32,\\qquad O_1O_2=5.$$\n由于小圆在 $P$ 处与直径相切，$O_1P\\perp O_2P$，所以\n$$O_1P=\\sqrt{5^2-3^2}=4.$$\n设 $H$ 为 $P$ 到 $QR$ 的垂足。由相似三角形可得 $PH=\\frac{33}{10}$，于是\n$$[PQR]=\\frac12(3\\sqrt3)\\left(\\frac{33}{10}\\right)=\\frac{99\\sqrt3}{20}.$$\n因此 $a+b+c=99+3+20=\\boxed{\\textbf{(D)}~122}$。"
       },
       {
-        "solution_info": "[Figure: /question-assets/source/amc/e788547aed8d8e75974e594826007d59d692215f832fc5c99fb31db107ea578d.png]\n\n设半圆与小圆的圆心分别为 $O_1,O_2$，$M$ 为 $QR$ 的中点。小圆半径为\n$$\\frac{3\\sqrt3}{2\\sin60^\\circ}=3.$$\n于是\n$$O_1M=\\frac{13}{2},\\qquad O_2M=\\frac32,qquad O_1O_2=5.$$\n小圆在 $P$ 处与直径相切，所以 $O_1P=\\sqrt{5^2-3^2}=4$。设 $H$ 为 $P$ 到 $QR$ 的垂足，由相似三角形得到\n$$PH=\\frac{33}{10}.$$\n故\n$$[PQR]=\\frac12\\cdot3\\sqrt3\\cdot\\frac{33}{10}=\\frac{99\\sqrt3}{20},$$\n从而 $a+b+c=\\boxed{\\textbf{(D)}~122}$。"
+        "solution_info": "[Figure: /question-assets/source/amc/e788547aed8d8e75974e594826007d59d692215f832fc5c99fb31db107ea578d.png]\n\n设半圆与小圆的圆心分别为 $O_1,O_2$，$M$ 为 $QR$ 的中点。小圆半径为\n$$\\frac{3\\sqrt3}{2\\sin60^\\circ}=3.$$\n于是\n$$O_1M=\\frac{13}{2},\\qquad O_2M=\\frac32,\\qquad O_1O_2=5.$$\n小圆在 $P$ 处与直径相切，所以 $O_1P=\\sqrt{5^2-3^2}=4$。设 $H$ 为 $P$ 到 $QR$ 的垂足，由相似三角形得到\n$$PH=\\frac{33}{10}.$$\n故\n$$[PQR]=\\frac12\\cdot3\\sqrt3\\cdot\\frac{33}{10}=\\frac{99\\sqrt3}{20},$$\n从而 $a+b+c=\\boxed{\\textbf{(D)}~122}$。"
       },
       {
         "solution_info": "设半圆与小圆的圆心分别为 $O_1,O_2$，$M$ 为 $QR$ 的中点。小圆半径为 $3$，且\n$$O_1M=\\sqrt{7^2-\\left(\\frac{3\\sqrt3}{2}\\right)^2}=\\frac{13}{2},\\qquad O_2M=3\\cos60^\\circ=\\frac32.$$\n因此 $O_1O_2=5$。由切点处半径垂直于切线，\n$$O_1P=\\sqrt{5^2-3^2}=4.$$\n若 $H$ 是 $P$ 到 $QR$ 的垂足，则相似三角形给出\n$$PH=\\frac{33}{10}.$$\n所以\n$$[PQR]=\\frac12(3\\sqrt3)\\left(\\frac{33}{10}\\right)=\\frac{99\\sqrt3}{20},$$\n答案为 $99+3+20=\\boxed{\\textbf{(D)}~122}$。"
       },
       {
-        "solution_info": "[Figure: /question-assets/source/amc/f0a4a9a9ec393cb97f4c7ce91140e654d80b337b55efe969ea86cd796f67fba9.png]\n\n由扩展正弦定理，小圆半径为 $3$。设两圆圆心为 $O_1,O_2$，$M$ 为 $QR$ 的中点，则\n$$O_1M=\\frac{13}{2},\\qquad O_2M=\\frac32,qquad O_1O_2=5.$$\n因小圆在 $P$ 处与直径相切，$O_1P\\perp O_2P$，故 $O_1P=4$。设 $H$ 为 $P$ 到 $QR$ 的垂足。由相似三角形，\n$$PH=\\frac{33}{10}.$$\n因此\n$$[PQR]=\\frac12\\cdot3\\sqrt3\\cdot\\frac{33}{10}=\\frac{99\\sqrt3}{20},$$\n所以 $a+b+c=\\boxed{\\textbf{(D)}~122}$。"
+        "solution_info": "[Figure: /question-assets/source/amc/f0a4a9a9ec393cb97f4c7ce91140e654d80b337b55efe969ea86cd796f67fba9.png]\n\n由扩展正弦定理，小圆半径为 $3$。设两圆圆心为 $O_1,O_2$，$M$ 为 $QR$ 的中点，则\n$$O_1M=\\frac{13}{2},\\qquad O_2M=\\frac32,\\qquad O_1O_2=5.$$\n因小圆在 $P$ 处与直径相切，$O_1P\\perp O_2P$，故 $O_1P=4$。设 $H$ 为 $P$ 到 $QR$ 的垂足。由相似三角形，\n$$PH=\\frac{33}{10}.$$\n因此\n$$[PQR]=\\frac12\\cdot3\\sqrt3\\cdot\\frac{33}{10}=\\frac{99\\sqrt3}{20},$$\n所以 $a+b+c=\\boxed{\\textbf{(D)}~122}$。"
       },
       {
         "solution_info": "取 $O_1=(0,0)$、$O_2=(4,3)$，则大、小两圆分别满足\n$$x^2+y^2=49,\\qquad (x-4)^2+(y-3)^2=9.$$\n两式相减得公共弦 $QR$ 所在直线\n$$8x+6y-65=0.$$\n切点为 $P=(4,0)$，所以 $P$ 到 $QR$ 的距离为\n$$PH=\\frac{|8\\cdot4+6\\cdot0-65|}{\\sqrt{8^2+6^2}}=\\frac{33}{10}.$$\n于是\n$$[PQR]=\\frac12\\cdot3\\sqrt3\\cdot\\frac{33}{10}=\\frac{99\\sqrt3}{20},$$\n从而 $a+b+c=99+3+20=\\boxed{\\textbf{(D)}~122}$。"
@@ -29519,7 +29519,7 @@
         "solution_info": "写成素因数分解 $n=\\prod p^{e_p}$，有\n$$f(n)^3=\\prod_p\\frac{(e_p+1)^3}{p^{e_p}}.$$\n为了使这个乘积最大，每个指数都必须独立地取对应因子的唯一最大值。计算得到\n$$e_2=3,\\qquad e_3=2,\\qquad e_5=e_7=1,$$\n而对 $p\\ge11$ 有 $e_p=0$。于是唯一的最大值点为\n$$N=2^3\\cdot3^2\\cdot5\\cdot7=2520.$$\n由于 $N$ 的各位数字之和为 $2+5+2+0=9$，答案是\n$$\\boxed{\\textbf{(E)}~9}.$$"
       },
       {
-        "solution_info": "对 $n=\\prod p^{e_p}$，\n$$f(n)^3=\\prod_p\\frac{(e_p+1)^3}{p^{e_p}}.$$\n逐个素数比较这个乘积中的独立因子，最佳指数依次为\n$$e_2=3,quad e_3=2,quad e_5=e_7=1,quad e_p=0\\ (p\\ge11).$$\n因此\n$$N=2^3\\cdot3^2\\cdot5\\cdot7=2520,$$\n其各位数字之和为\n$$2+5+2+0=\\boxed{\\textbf{(E)}~9}.$$"
+        "solution_info": "对 $n=\\prod p^{e_p}$，\n$$f(n)^3=\\prod_p\\frac{(e_p+1)^3}{p^{e_p}}.$$\n逐个素数比较这个乘积中的独立因子，最佳指数依次为\n$$e_2=3,\\quad e_3=2,\\quad e_5=e_7=1,\\quad e_p=0\\ (p\\ge11).$$\n因此\n$$N=2^3\\cdot3^2\\cdot5\\cdot7=2520,$$\n其各位数字之和为\n$$2+5+2+0=\\boxed{\\textbf{(E)}~9}.$$"
       },
       {
         "solution_info": "设 $n=\\prod p^{e_p}$。因\n$$\\frac{d(n)}{\\sqrt[3]n}=\\prod_p\\frac{e_p+1}{p^{e_p/3}},$$\n可分别为每个素数 $p$ 选择最佳指数。比较 $\\frac{(e+1)^3}{p^e}$ 的值可得\n$$p=2: e=3;\\qquad p=3:e=2;\\qquad p=5,7:e=1.$$\n当 $p\\ge11$ 时，任取 $e\\ge1$ 都不如 $e=0$。故\n$$N=2^3\\cdot3^2\\cdot5\\cdot7=2520,$$\n答案为\n$$2+5+2+0=\\boxed{\\textbf{(E)}~9}.$$"
@@ -30652,7 +30652,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "设两条直线与正 $x$ 轴的夹角分别为 $\\alpha,\\beta$，角平分线与正 $x$ 轴的夹角为 $\\theta$。则\n$$\\tan\\alpha=1,\\qquad\\tan\\beta=3,qquad 2\\theta=\\alpha+\\beta.$$\n由正切差角公式，\n$$\\tan(\\beta-\\alpha)=\\frac{3-1}{1+3}=\\frac12.$$\n令 $u=\\tan\\frac{\\beta-\\alpha}{2}$，由二倍角公式得\n$$\\frac{2u}{1-u^2}=\\frac12,$$\n故 $u=\\sqrt5-2$。于是\n$$k=\\tan\\theta=\\tan\\left(\\alpha+\\frac{\\beta-\\alpha}{2}\\right)\n=\\frac{1+u}{1-u}=\\frac{1+\\sqrt5}{2}.$$\n\n[Figure: /question-assets/source/amc/7abce2e057399ee099747e84a4e46ade3fe96d3b2fb1487914616e94ed5f0039.png]\n\n因此 $k=\\boxed{\\textbf{(A)}\\ \\frac{1+\\sqrt5}{2}}$。"
+        "solution_info": "设两条直线与正 $x$ 轴的夹角分别为 $\\alpha,\\beta$，角平分线与正 $x$ 轴的夹角为 $\\theta$。则\n$$\\tan\\alpha=1,\\qquad\\tan\\beta=3,\\qquad 2\\theta=\\alpha+\\beta.$$\n由正切差角公式，\n$$\\tan(\\beta-\\alpha)=\\frac{3-1}{1+3}=\\frac12.$$\n令 $u=\\tan\\frac{\\beta-\\alpha}{2}$，由二倍角公式得\n$$\\frac{2u}{1-u^2}=\\frac12,$$\n故 $u=\\sqrt5-2$。于是\n$$k=\\tan\\theta=\\tan\\left(\\alpha+\\frac{\\beta-\\alpha}{2}\\right)\n=\\frac{1+u}{1-u}=\\frac{1+\\sqrt5}{2}.$$\n\n[Figure: /question-assets/source/amc/7abce2e057399ee099747e84a4e46ade3fe96d3b2fb1487914616e94ed5f0039.png]\n\n因此 $k=\\boxed{\\textbf{(A)}\\ \\frac{1+\\sqrt5}{2}}$。"
       },
       {
         "solution_info": "[Figure: /question-assets/source/amc/d50e3d43a86b2dc2f201b1800c1ec18476ca1f2e76bf386637035abb4f429e7c.png]\n\n设两直线的倾角为 $\\alpha,\\beta$，角平分线倾角为 $\\theta$，则 $\\tan\\alpha=1$、$\\tan\\beta=3$ 且 $2\\theta=\\alpha+\\beta$。令 $u=\\tan\\frac{\\beta-\\alpha}{2}$。由\n$$\\tan(\\beta-\\alpha)=\\frac{3-1}{1+3}=\\frac12=\\frac{2u}{1-u^2}$$\n得 $u=\\sqrt5-2$。所以\n$$k=\\tan\\theta=\\frac{1+u}{1-u}=\\frac{1+\\sqrt5}{2}\n=\\boxed{\\textbf{(A)}\\ \\frac{1+\\sqrt5}{2}}.$$"
@@ -30667,7 +30667,7 @@
         "solution_info": "设两直线倾角分别为 $\\alpha,\\beta$，则 $\\tan\\alpha=1$，$\\tan\\beta=3$。角平分线倾角 $\\theta$ 满足 $\\theta-\\alpha=\\beta-\\theta$。使用正切差角公式：\n$$\\frac{k-1}{1+k}=\\frac{3-k}{1+3k}.$$\n整理得 $k^2-k-1=0$。由于角平分线斜率为正，\n$$k=\\boxed{\\textbf{(A)}\\ \\frac{1+\\sqrt5}{2}}.$$"
       },
       {
-        "solution_info": "设两直线的锐倾角为 $\\alpha_1,\\alpha_2$，角平分线倾角为 $\\alpha_3$。则\n$$\\tan\\alpha_1=1,qquad\\tan\\alpha_2=3,qquad\n\\alpha_3=\\frac{\\alpha_1+\\alpha_2}{2}.$$\n计算\n$$\\tan(\\alpha_2-\\alpha_1)=\\frac{3-1}{1+3}=\\frac12.$$\n由正切半角公式得 $\\tan\\frac{\\alpha_2-\\alpha_1}{2}=\\sqrt5-2$，进而\n$$k=\\tan\\alpha_3=\\frac{1+\\sqrt5-2}{1-(\\sqrt5-2)}\n=\\boxed{\\textbf{(A)}\\ \\frac{1+\\sqrt5}{2}}.$$"
+        "solution_info": "设两直线的锐倾角为 $\\alpha_1,\\alpha_2$，角平分线倾角为 $\\alpha_3$。则\n$$\\tan\\alpha_1=1,\\qquad\\tan\\alpha_2=3,\\qquad\n\\alpha_3=\\frac{\\alpha_1+\\alpha_2}{2}.$$\n计算\n$$\\tan(\\alpha_2-\\alpha_1)=\\frac{3-1}{1+3}=\\frac12.$$\n由正切半角公式得 $\\tan\\frac{\\alpha_2-\\alpha_1}{2}=\\sqrt5-2$，进而\n$$k=\\tan\\alpha_3=\\frac{1+\\sqrt5-2}{1-(\\sqrt5-2)}\n=\\boxed{\\textbf{(A)}\\ \\frac{1+\\sqrt5}{2}}.$$"
       },
       {
         "solution_info": "[Figure: /question-assets/source/amc/896fb61926a4393cddc1b1138fd3b9337bba8f0c02ac0424a426d5f4545f3fb9.png]\n\n沿两直线取向量 $\\mathbf a=(1,1)$、$\\mathbf b=(1,3)$。将 $\\mathbf a$ 乘以 $|\\mathbf b|/|\\mathbf a|=\\sqrt5$ 后，与 $\\mathbf b$ 相加，所得向量沿两者的内角平分线：\n$$\\sqrt5\\,\\mathbf a+\\mathbf b=(1+\\sqrt5,3+\\sqrt5).$$\n故其斜率为\n$$k=\\frac{3+\\sqrt5}{1+\\sqrt5}=\\boxed{\\textbf{(A)}\\ \\frac{1+\\sqrt5}{2}}.$$"
@@ -30772,7 +30772,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "为使使用的电缆数最大，可以先孤立一台电脑，将其余 $29$ 台电脑之间所有允许的电缆都接好，最后再用一条电缆接入孤立电脑。\n\n若孤立一台 A 品牌电脑，最多可用 $19\\cdot10+1=191$ 条电缆；若改为孤立一台 B 品牌电脑，最多可用 $20\\cdot9+1=181$ 条。因此答案为 $\\boxed{\\textbf{(B)}\\ 191}.$\n\n补充证明\n\n设电脑编号为 $A_1, A_2, \\ldots, A_{20}$ 和 $B_1, B_2, \\ldots, B_{10}.$。下面证明上述结论。\n\n恰有 $\\boldsymbol{190}$ 条电缆时，仍可能有电脑无法互相通信。\n\n孤立 $A_{20}$，把 $A_1, A_2, \\ldots, A_{19}$ 与 $B_1, B_2, \\ldots, B_{10}$ 之间的所有电缆接好，共有 $19\\cdot10=190$ 条。然而 $A_{20}$ 不能与这 $29$ 台电脑中的任何一台通信。\n\n恰有 $\\boldsymbol{191}$ 条电缆时，所有电脑必能互相通信。\n\n由抽屉原理，至少有一台 B 品牌电脑连接全部 $20$ 台 A 品牌电脑。不妨设 $B_1$ 连接全部 $20$ 台 A 品牌电脑。另一方面，至少有 $11$ 台 A 品牌电脑连接全部 $10$ 台 B 品牌电脑。不妨设 $A_1, A_2, \\ldots, A_{11}$ 连接全部 $10$ 台 B 品牌电脑。\n\n于是任意两台电脑都能通信：\n\n对 $A_i$ 和 $A_j,$，其中 $i,j\\in\\{1,2,\\ldots,20\\}$ 且 $i\\neq j$，转发路径为 $A_i\\leftrightarrow B_1\\leftrightarrow A_j.$\n\n对 $B_i$ 和 $B_j,$，其中 $i,j\\in\\{1,2,\\ldots,10\\}$ 且 $i\\neq j$，转发路径为 $B_i\\leftrightarrow \\{A_1, A_2, \\ldots, A_{11}\\}\\leftrightarrow B_j.$\n\n对 $A_i$ 和 $B_j,$，其中 $i\\in\\{1,2,\\ldots,20\\}$ 且 $j\\in\\{1,2,\\ldots,10\\}$，转发路径为 $A_i\\leftrightarrow B_1\\leftrightarrow \\{A_1, A_2, \\ldots, A_{11}\\}\\leftrightarrow B_j.$"
+        "solution_info": "为使电缆数最大，可以先孤立一台电脑，将其余 $29$ 台电脑之间所有允许的电缆都接好，最后再用一条电缆接入孤立电脑。\n\n若孤立一台 A 品牌电脑，最多可用 $19\\cdot10+1=191$ 条电缆；若改为孤立一台 B 品牌电脑，最多可用 $20\\cdot9+1=181$ 条。因此答案为 $\\boxed{\\textbf{(B)}\\ 191}.$\n\n补充证明\n\n设电脑编号为 $A_1, A_2, \\ldots, A_{20}$ 和 $B_1, B_2, \\ldots, B_{10}.$。下面证明上述结论。\n\n恰有 $\\boldsymbol{190}$ 条电缆时，仍可能有电脑无法互相通信。\n\n孤立 $A_{20}$，把 $A_1, A_2, \\ldots, A_{19}$ 与 $B_1, B_2, \\ldots, B_{10}$ 之间的所有电缆接好，共有 $19\\cdot10=190$ 条。然而 $A_{20}$ 不能与这 $29$ 台电脑中的任何一台通信。\n\n恰有 $\\boldsymbol{191}$ 条电缆时，所有电脑必能互相通信。\n\n由抽屉原理，至少有一台 B 品牌电脑连接全部 $20$ 台 A 品牌电脑。不妨设 $B_1$ 连接全部 $20$ 台 A 品牌电脑。另一方面，至少有 $11$ 台 A 品牌电脑连接全部 $10$ 台 B 品牌电脑。不妨设 $A_1, A_2, \\ldots, A_{11}$ 连接全部 $10$ 台 B 品牌电脑。\n\n于是任意两台电脑都能通信：\n\n对 $A_i$ 和 $A_j,$，其中 $i,j\\in\\{1,2,\\ldots,20\\}$ 且 $i\\neq j$，转发路径为 $A_i\\leftrightarrow B_1\\leftrightarrow A_j.$\n\n对 $B_i$ 和 $B_j,$，其中 $i,j\\in\\{1,2,\\ldots,10\\}$ 且 $i\\neq j$，转发路径为 $B_i\\leftrightarrow \\{A_1, A_2, \\ldots, A_{11}\\}\\leftrightarrow B_j.$\n\n对 $A_i$ 和 $B_j,$，其中 $i\\in\\{1,2,\\ldots,20\\}$ 且 $j\\in\\{1,2,\\ldots,10\\}$，转发路径为 $A_i\\leftrightarrow B_1\\leftrightarrow \\{A_1, A_2, \\ldots, A_{11}\\}\\leftrightarrow B_j.$"
       }
     ],
     "children": []
@@ -30804,16 +30804,16 @@
     },
     "solution_info": [
       {
-        "solution_info": "二次方程不具有两个不同实根，当且仅当判别式不大于零。因此\n$$b^2\\le4c,qquad c^2\\le4b.$$\n两式合并可知 $b,c\\le4$。逐项检查 $1\\le b,c\\le4$，可行的有序对为\n$$ (1,1),(1,2),(2,1),(2,2),(3,3),(4,4).$$\n故共有\n$$\\boxed{\\textbf{(B)}~6}$$\n个有序对。"
+        "solution_info": "二次方程不具有两个不同实根，当且仅当判别式不大于零。因此\n$$b^2\\le4c,\\qquad c^2\\le4b.$$\n两式合并可知 $b,c\\le4$。逐项检查 $1\\le b,c\\le4$，可行的有序对为\n$$ (1,1),(1,2),(2,1),(2,2),(3,3),(4,4).$$\n故共有\n$$\\boxed{\\textbf{(B)}~6}$$\n个有序对。"
       },
       {
         "solution_info": "判别式条件为\n$$c\\ge\\frac{b^2}{4},\\qquad c\\le2\\sqrt b.$$\n可行点位于两条抛物线之间：\n\n[Figure: /question-assets/source/amc/966cf244adf252500e13d16dc28a4f2ab8fb843fd22aae88775a233bd7e11ce4.png]\n\n其中的正整数格点为\n$$ (1,1),(1,2),(2,1),(2,2),(3,3),(4,4),$$\n共 $\\boxed{\\textbf{(B)}~6}$ 个。"
       },
       {
-        "solution_info": "需满足\n$$b^2\\le4c,qquad c^2\\le4b.$$\n由此 $b,c\\le4$。当 $b=1,2,3,4$ 时，可行的 $c$ 分别为\n$$\\{1,2\\},\\quad\\{1,2\\},\\quad\\{3\\},\\quad\\{4\\}.$$\n当 $b>4$ 时无解。因此有序对总数为\n$$2+2+1+1=\\boxed{\\textbf{(B)}~6}.$$"
+        "solution_info": "需满足\n$$b^2\\le4c,\\qquad c^2\\le4b.$$\n由此 $b,c\\le4$。当 $b=1,2,3,4$ 时，可行的 $c$ 分别为\n$$\\{1,2\\},\\quad\\{1,2\\},\\quad\\{3\\},\\quad\\{4\\}.$$\n当 $b>4$ 时无解。因此有序对总数为\n$$2+2+1+1=\\boxed{\\textbf{(B)}~6}.$$"
       },
       {
-        "solution_info": "两个方程均不具有两个不同实根，等价于\n$$b^2-4c\\le0,qquad c^2-4b\\le0.$$\n这迫使 $b,c\\le4$。检查这些正整数值，恰有\n$$ (1,1),(1,2),(2,1),(2,2),(3,3),(4,4)$$\n满足条件，所以答案是 $\\boxed{\\textbf{(B)}~6}$。"
+        "solution_info": "两个方程均不具有两个不同实根，等价于\n$$b^2-4c\\le0,\\qquad c^2-4b\\le0.$$\n这迫使 $b,c\\le4$。检查这些正整数值，恰有\n$$ (1,1),(1,2),(2,1),(2,2),(3,3),(4,4)$$\n满足条件，所以答案是 $\\boxed{\\textbf{(B)}~6}$。"
       },
       {
         "solution_info": "由判别式有 $b^2\\le4c$ 且 $c^2\\le4b$。不妨先设 $b\\ge c$，则\n$$b^2\\le4c\\le4b,$$\n所以 $b\\le4$，从而也有 $c\\le4$。去掉 $b\\ge c$ 的假设并检查全部情形，得到\n$$ (1,1),(1,2),(2,1),(2,2),(3,3),(4,4),$$\n共 $\\boxed{\\textbf{(B)}~6}$ 个有序对。"
@@ -30822,7 +30822,7 @@
         "solution_info": "若 $b=c$，条件化为 $b^2\\le4b$，给出四组解\n$$ (1,1),(2,2),(3,3),(4,4).$$\n若 $b<c$，由 $c^2\\le4b\\le4(c-1)$ 得 $(c-2)^2\\le0$，故只有 $(b,c)=(1,2)$。由对称性，$b>c$ 时只有 $(2,1)$。总数为\n$$4+1+1=\\boxed{\\textbf{(B)}~6}.$$"
       },
       {
-        "solution_info": "判别式条件为\n$$b^2-4c\\le0,qquad c^2-4b\\le0.$$\n相加得 $b^2+c^2\\le4(b+c)$，故正整数 $b,c$ 不会超过 $4$。检查有限个情形，可行对为\n$$ (1,1),(2,1),(1,2),(2,2),(3,3),(4,4),$$\n因此共有 $\\boxed{\\textbf{(B)}~6}$ 对。"
+        "solution_info": "判别式条件为\n$$b^2-4c\\le0,\\qquad c^2-4b\\le0.$$\n相加得 $b^2+c^2\\le4(b+c)$，故正整数 $b,c$ 不会超过 $4$。检查有限个情形，可行对为\n$$ (1,1),(2,1),(1,2),(2,2),(3,3),(4,4),$$\n因此共有 $\\boxed{\\textbf{(B)}~6}$ 对。"
       }
     ],
     "children": []
@@ -30933,13 +30933,13 @@
     },
     "solution_info": [
       {
-        "solution_info": "记 $F(n)=2d(n)$，其中 $d(n)$ 为正因数个数。注意\n$$F(12)=12,$$\n所以迭代中一旦出现 $12$，以后各项都保持为 $12$。\n\n对 $n\\le50$，有 $F(n)\\le20$。要使最终达到 $12$，只需考察 $F(n)$ 为 $12,18,20$ 的情形，因为\n$$F(12)=12,qquad F(18)=12,qquad F(20)=12.$$\n分别求因数个数：\n\n- $F(n)=12$ 即 $d(n)=6$，给出\n  $$n=12,18,20,28,32,44,45,50;$$\n- $F(n)=18$ 即 $d(n)=9$，在范围内给出 $n=36$；\n- $F(n)=20$ 即 $d(n)=10$，在范围内给出 $n=48$。\n\n因此共有\n$$8+1+1=\\boxed{\\textbf{(D)}~10}$$\n个值。"
+        "solution_info": "记 $F(n)=2d(n)$，其中 $d(n)$ 为正因数个数。注意\n$$F(12)=12,$$\n所以迭代中一旦出现 $12$，以后各项都保持为 $12$。\n\n对 $n\\le50$，有 $F(n)\\le20$。要使最终达到 $12$，只需考察 $F(n)$ 为 $12,18,20$ 的情形，因为\n$$F(12)=12,\\qquad F(18)=12,\\qquad F(20)=12.$$\n分别求因数个数：\n\n- $F(n)=12$ 即 $d(n)=6$，给出\n  $$n=12,18,20,28,32,44,45,50;$$\n- $F(n)=18$ 即 $d(n)=9$，在范围内给出 $n=36$；\n- $F(n)=20$ 即 $d(n)=10$，在范围内给出 $n=48$。\n\n因此共有\n$$8+1+1=\\boxed{\\textbf{(D)}~10}$$\n个值。"
       },
       {
         "solution_info": "令 $F(n)=2d(n)$。对 $n\\le50$，$F(n)\\le20$；而 $F(12)=12$，故只要某次迭代得到 $12$，以后直到第 $50$ 次仍为 $12$。在 $1$ 到 $20$ 中，能在一步内变成 $12$ 的数为 $12,18,20$。\n\n于是只需解\n$$F(n)\\in\\{12,18,20\\}.$$\n当 $F(n)=12$ 时，$d(n)=6$，得到 $n=12,18,20,28,32,44,45,50$；当 $F(n)=18$ 时，$d(n)=9$，得到 $n=36$；当 $F(n)=20$ 时，$d(n)=10$，得到 $n=48$。故总数为\n$$\\boxed{\\textbf{(D)}~10}.$$"
       },
       {
-        "solution_info": "设 $F(n)=2d(n)$。有两个固定点\n$$F(8)=8,qquad F(12)=12.$$\n对 $n\\le50$ 按素因数分解类型分类，可以判断迭代最终落入哪一个固定点。落入 $12$ 的恰为\n$$12,18,20,28,32,36,44,45,48,50.$$\n其中前八个满足 $F(n)=12$，$36$ 满足 $F(n)=18$ 且 $F(18)=12$，$48$ 满足 $F(n)=20$ 且 $F(20)=12$。其余 $n\\le50$ 的迭代最终落入 $8$。因此符合条件的 $n$ 共有\n$$\\boxed{\\textbf{(D)}~10}.$$"
+        "solution_info": "设 $F(n)=2d(n)$。有两个固定点\n$$F(8)=8,\\qquad F(12)=12.$$\n对 $n\\le50$ 按素因数分解类型分类，可以判断迭代最终落入哪一个固定点。落入 $12$ 的恰为\n$$12,18,20,28,32,36,44,45,48,50.$$\n其中前八个满足 $F(n)=12$，$36$ 满足 $F(n)=18$ 且 $F(18)=12$，$48$ 满足 $F(n)=20$ 且 $F(20)=12$。其余 $n\\le50$ 的迭代最终落入 $8$。因此符合条件的 $n$ 共有\n$$\\boxed{\\textbf{(D)}~10}.$$"
       }
     ],
     "children": []
@@ -31041,7 +31041,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "设 $p$ 的两根为 $r<s$。方程 $p(p(x))=0$ 等价于 $p(x)=r$ 或 $p(x)=s$。要使解的并集恰有三个实数，其中一式必须在抛物线顶点处相切。因 $r<s$，相切的应为 $p(x)=r$，故\n$$r=p\\left(\\frac{r+s}{2}\\right)=-\\frac{(s-r)^2}{4}.$$\n于是\n$$s+r=2r+2\\sqrt{-r}.$$\n令 $u=\\sqrt{-r}$，则根之和为 $-2u^2+2u$，其最大值在 $u=\\frac12$ 处取得。因此\n$$r=-\\frac14,qquad s=\\frac34,$$\n且\n$$\\widetilde p(x)=\\left(x+\\frac14\\right)\\left(x-\\frac34\\right).$$\n所以\n$$\\widetilde p(1)=\\boxed{\\textbf{(A)}~\\frac5{16}}.$$"
+        "solution_info": "设 $p$ 的两根为 $r<s$。方程 $p(p(x))=0$ 等价于 $p(x)=r$ 或 $p(x)=s$。要使解的并集恰有三个实数，其中一式必须在抛物线顶点处相切。因 $r<s$，相切的应为 $p(x)=r$，故\n$$r=p\\left(\\frac{r+s}{2}\\right)=-\\frac{(s-r)^2}{4}.$$\n于是\n$$s+r=2r+2\\sqrt{-r}.$$\n令 $u=\\sqrt{-r}$，则根之和为 $-2u^2+2u$，其最大值在 $u=\\frac12$ 处取得。因此\n$$r=-\\frac14,\\qquad s=\\frac34,$$\n且\n$$\\widetilde p(x)=\\left(x+\\frac14\\right)\\left(x-\\frac34\\right).$$\n所以\n$$\\widetilde p(1)=\\boxed{\\textbf{(A)}~\\frac5{16}}.$$"
       },
       {
         "solution_info": "把首一二次多项式写成 $p(x)=(x-h)^2+k$。要使 $p(p(x))=0$ 恰有三个实根，$p(x)=p$ 的两个根值中，较小者必须等于抛物线最小值 $k$。由 $p(k)=0$ 得\n$$k^2-(2h-1)k+h^2=0.$$\n要有实数 $k$，判别式需满足\n$$ (2h-1)^2-4h^2=1-4h\\ge0,$$\n所以 $h\\le\\frac14$。而 $p$ 的两根之和为 $2h$，最大值在 $h=\\frac14$ 时取得。此时 $k=-\\frac14$，故\n$$\\widetilde p(x)=\\left(x-\\frac14\\right)^2-\\frac14,$$\n从而 $\\widetilde p(1)=\\boxed{\\textbf{(A)}~\\frac5{16}}$。"
@@ -31053,19 +31053,19 @@
         "solution_info": "写成顶点式 $p(x)=(x-h)^2+k$。要使四次方程 $p(p(x))=0$ 只有三个不同实根，重复根只能位于对称轴 $x=h$。故\n$$0=p(p(h))=(k-h)^2+k,$$\n即\n$$k^2+(1-2h)k+h^2=0.$$\n判别式 $1-4h\\ge0$，所以 $h\\le\\frac14$。根之和为 $2h$，最大时 $h=\\frac14$，并得 $k=-\\frac14$。因此\n$$p(1)=\\left(1-\\frac14\\right)^2-\\frac14\n=\\boxed{\\textbf{(A)}~\\frac5{16}}.$$"
       },
       {
-        "solution_info": "设 $p(x)=x^2+bx+c$，两根为 $r_1<r_2$。方程 $p(p(x))=0$ 的根来自 $p(x)=r_1$ 与 $p(x)=r_2$。要恰有三个不同实根，前一方程必须有重根：\n$$b^2-4(c-r_1)=0.$$\n结合 $r_1=(-b-\\sqrt{b^2-4c})/2$，令 $t=\\sqrt{b^2-4c}$，可化为\n$$t^2-2t-2b=0.$$\n存在非负实根要求 $b\\ge-\\frac12$。原多项式根之和为 $-b$，故最大时 $b=-\\frac12$。此时 $t=1$、$c=-\\frac3{16}$，所以\n$$p(1)=1-\frac12-\frac3{16}=\\boxed{\\textbf{(A)}~\\frac5{16}}.$$"
+        "solution_info": "设 $p(x)=x^2+bx+c$，两根为 $r_1<r_2$。方程 $p(p(x))=0$ 的根来自 $p(x)=r_1$ 与 $p(x)=r_2$。要恰有三个不同实根，前一方程必须有重根：\n$$b^2-4(c-r_1)=0.$$\n结合 $r_1=(-b-\\sqrt{b^2-4c})/2$，令 $t=\\sqrt{b^2-4c}$，可化为\n$$t^2-2t-2b=0.$$\n存在非负实根要求 $b\\ge-\\frac12$。原多项式根之和为 $-b$，故最大时 $b=-\\frac12$。此时 $t=1$、$c=-\\frac3{16}$，所以\n$$p(1)=1-\\frac12-\\frac3{16}=\\boxed{\\textbf{(A)}~\\frac5{16}}.$$"
       },
       {
         "solution_info": "设两根为 $r,s$。相切条件给出\n$$ (r-s)^2+4r=0.$$\n令 $m=r+s$，则\n$$m=2\\left(r+\\sqrt{-r}\\right).$$\n再令 $q=\\sqrt{-r}$，得到 $m=2(-q^2+q)$。该二次式在 $q=\\frac12$ 时最大，因此 $r=-\\frac14$ 且 $s=\\frac34$。所以\n$$\\widetilde p(1)=\\left(1+\\frac14\\right)\\left(1-\\frac34\\right)\n=\\boxed{\\textbf{(A)}~\\frac5{16}}.$$"
       },
       {
-        "solution_info": "两根 $r,s$ 必须满足\n$$r^2-2rs+s^2+4r=0,$$\n这是一条旋转抛物线。其顶点为 $(-\\frac14,\\frac34)$，正是 $r+s$ 方向上的最远点。因此最大根和由\n$$r=-\\frac14,qquad s=\\frac34$$\n取得。相应多项式为\n$$\\widetilde p(x)=\\left(x+\\frac14\\right)\\left(x-\\frac34\\right),$$\n故\n$$\\widetilde p(1)=\\boxed{\\textbf{(A)}~\\frac5{16}}.$$"
+        "solution_info": "两根 $r,s$ 必须满足\n$$r^2-2rs+s^2+4r=0,$$\n这是一条旋转抛物线。其顶点为 $(-\\frac14,\\frac34)$，正是 $r+s$ 方向上的最远点。因此最大根和由\n$$r=-\\frac14,\\qquad s=\\frac34$$\n取得。相应多项式为\n$$\\widetilde p(x)=\\left(x+\\frac14\\right)\\left(x-\\frac34\\right),$$\n故\n$$\\widetilde p(1)=\\boxed{\\textbf{(A)}~\\frac5{16}}.$$"
       },
       {
         "solution_info": "令 $p(x)=(x-r)(x-s)$。要使 $p(p(x))=0$ 恰有三个实根，$p(x)=r$ 与 $p(x)=s$ 中必须恰有一个方程有重根。不妨前者重根，则其判别式给出\n$$r^2-2rs+s^2+4r=0.$$\n解得\n$$r=s-2+2\\sqrt{1-s}.$$\n令 $u=\\sqrt{1-s}$，则根和为 $2(-u^2+u)$，在 $u=\\frac12$ 时最大。于是 $s=\\frac34,r=-\\frac14$，所以\n$$p(1)=\\boxed{\\textbf{(A)}~\\frac5{16}}.$$"
       },
       {
-        "solution_info": "设 $p(x)=x^2+bx+c$，其根为 $r_1,r_2$。方程 $p(p(x))=0$ 分解为 $p(x)=r_1$ 与 $p(x)=r_2$。实系数保证非实根成共轭对，所以恰有三个实根时必有一个重根。由韦达关系可推出\n$$2b=(k^2-1)^2-1\\ge-1,$$\n故 $b\\ge-\\frac12$。因为 $p$ 的根和为 $-b$，最大值在 $b=-\\frac12$ 时取得。此时 $c=-\\frac3{16}$，于是\n$$p(1)=1-\frac12-\frac3{16}=\\boxed{\\textbf{(A)}~\\frac5{16}}.$$"
+        "solution_info": "设 $p(x)=x^2+bx+c$，其根为 $r_1,r_2$。方程 $p(p(x))=0$ 分解为 $p(x)=r_1$ 与 $p(x)=r_2$。实系数保证非实根成共轭对，所以恰有三个实根时必有一个重根。由韦达关系可推出\n$$2b=(k^2-1)^2-1\\ge-1,$$\n故 $b\\ge-\\frac12$。因为 $p$ 的根和为 $-b$，最大值在 $b=-\\frac12$ 时取得。此时 $c=-\\frac3{16}$，于是\n$$p(1)=1-\\frac12-\\frac3{16}=\\boxed{\\textbf{(A)}~\\frac5{16}}.$$"
       },
       {
         "solution_info": "若 $p$ 的根为 $r_1,r_2$，则\n$$p(p(x))=(p(x)-r_1)(p(x)-r_2).$$\n恰有三个不同实根意味着其中一个二次因子有重根。相切条件可写成\n$$r_1=-\\frac{(r_2-r_1)^2}{4}.$$\n所以\n$$r_1+r_2=2r_1+2\\sqrt{-r_1},$$\n该式在 $r_1=-\\frac14$ 时最大，并给出 $r_2=\\frac34$。故\n$$\\widetilde p(1)=\\left(1+\\frac14\\right)\\left(1-\\frac34\\right)\n=\\boxed{\\textbf{(A)}~\\frac5{16}}.$$"
@@ -31109,13 +31109,13 @@
     },
     "solution_info": [
       {
-        "solution_info": "在 $AB$ 上取点 $E$，使 $BCDE$ 为平行四边形。令\n$$BC=ED=b,quad CD=BE=c,quad DA=d,$$\n则 $AE=18-c$。\n\n[Figure: /question-assets/source/amc/fbae371a99c4ec69c4f2eb48547754b31602e869361a1a7452326435ad8df077.png]\n\n在三角形 $ADE$ 中使用余弦定理：\n$$d^2+(18-c)^2-d(18-c)=b^2,$$\n即\n$$ (18-c)(18-c-d)=(b+d)(b-d).$$\n设边长等差数列的公差为 $k$，则 $b,c,d$ 是 $18-k,18-2k,18-3k$ 的某种排列，且 $0\\le k<6$。逐一代入六种排列：$k=0$ 给出菱形，边长均为 $18$；仅另有两种有效情形\n$$ (b,c,d)=(13,3,8),qquad (14,12,16).$$\n因此所有可能边长之和为\n$$18+(13+3+8)+(14+12+16)=\\boxed{\\textbf{(E)}~84}.$$"
+        "solution_info": "在 $AB$ 上取点 $E$，使 $BCDE$ 为平行四边形。令\n$$BC=ED=b,\\quad CD=BE=c,\\quad DA=d,$$\n则 $AE=18-c$。\n\n[Figure: /question-assets/source/amc/fbae371a99c4ec69c4f2eb48547754b31602e869361a1a7452326435ad8df077.png]\n\n在三角形 $ADE$ 中使用余弦定理：\n$$d^2+(18-c)^2-d(18-c)=b^2,$$\n即\n$$ (18-c)(18-c-d)=(b+d)(b-d).$$\n设边长等差数列的公差为 $k$，则 $b,c,d$ 是 $18-k,18-2k,18-3k$ 的某种排列，且 $0\\le k<6$。逐一代入六种排列：$k=0$ 给出菱形，边长均为 $18$；仅另有两种有效情形\n$$ (b,c,d)=(13,3,8),\\qquad (14,12,16).$$\n因此所有可能边长之和为\n$$18+(13+3+8)+(14+12+16)=\\boxed{\\textbf{(E)}~84}.$$"
       },
       {
-        "solution_info": "令 $b=BC,c=CD,d=AD$。\n\n[Figure: /question-assets/source/amc/221ae10cc6175e1f6ba1df3a4858b72ee29bdef159725f6facf9c98d45e60819.png]\n\n由 $AB\\parallel CD$、$\\angle A=60^\\circ$ 及消去辅助角，可得\n$$ (18-c)(18-c-d)=(b+d)(b-d).$$\n若 $c$ 不是最短边，除去四边均为 $18$ 的菱形情形后无解。若 $c$ 是最短边，等差数列条件结合上式给出两组解\n$$ (c,d,b)=(3,8,13),qquad(c,b,d)=(12,14,16).$$\n连同菱形边长 $18$，所有可能的 $a$ 值之和为\n$$18+(3+8+13)+(12+14+16)=\\boxed{\\textbf{(E)}~84}.$$"
+        "solution_info": "令 $b=BC,c=CD,d=AD$。\n\n[Figure: /question-assets/source/amc/221ae10cc6175e1f6ba1df3a4858b72ee29bdef159725f6facf9c98d45e60819.png]\n\n由 $AB\\parallel CD$、$\\angle A=60^\\circ$ 及消去辅助角，可得\n$$ (18-c)(18-c-d)=(b+d)(b-d).$$\n若 $c$ 不是最短边，除去四边均为 $18$ 的菱形情形后无解。若 $c$ 是最短边，等差数列条件结合上式给出两组解\n$$ (c,d,b)=(3,8,13),\\qquad(c,b,d)=(12,14,16).$$\n连同菱形边长 $18$，所有可能的 $a$ 值之和为\n$$18+(3+8+13)+(12+14+16)=\\boxed{\\textbf{(E)}~84}.$$"
       },
       {
-        "solution_info": "设 $AD=x$，利用 $\\angle A=60^\\circ$ 与 $AB\\parallel CD$ 表示其余边，并按四边长的可能次序分类。四边相等时得到边长 $18$。四边长互异时，逐一检查以 $18$ 为最大项的六种排列，仅两种成立：\n$$CD<AD<BC<AB,quad (CD,AD,BC)=(3,8,13),$$\n以及\n$$CD<BC<AD<AB,quad (CD,BC,AD)=(12,14,16).$$\n其余四种次序均与几何关系矛盾。因此\n$$18+(3+8+13)+(12+14+16)=84,$$\n答案为 $\\boxed{\\textbf{(E)}~84}$。"
+        "solution_info": "设 $AD=x$，利用 $\\angle A=60^\\circ$ 与 $AB\\parallel CD$ 表示其余边，并按四边长的可能次序分类。四边相等时得到边长 $18$。四边长互异时，逐一检查以 $18$ 为最大项的六种排列，仅两种成立：\n$$CD<AD<BC<AB,\\quad (CD,AD,BC)=(3,8,13),$$\n以及\n$$CD<BC<AD<AB,\\quad (CD,BC,AD)=(12,14,16).$$\n其余四种次序均与几何关系矛盾。因此\n$$18+(3+8+13)+(12+14+16)=84,$$\n答案为 $\\boxed{\\textbf{(E)}~84}$。"
       }
     ],
     "children": []
@@ -31600,7 +31600,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "注意 $f(n)$ 等于 $n$ 的所有正因数的倒数之和。因为\n$$768=2^8\\cdot3,qquad384=2^7\\cdot3,$$\n$768$ 比 $384$ 多出的因数只有 $2^8=256$ 与 $2^8\\cdot3=768$。因此\n$$f(768)-f(384)=\\frac1{256}+\\frac1{768}\n=\\boxed{\\textbf{(B)}~\\frac1{192}}.$$"
+        "solution_info": "注意 $f(n)$ 等于 $n$ 的所有正因数的倒数之和。因为\n$$768=2^8\\cdot3,\\qquad384=2^7\\cdot3,$$\n$768$ 比 $384$ 多出的因数只有 $2^8=256$ 与 $2^8\\cdot3=768$。因此\n$$f(768)-f(384)=\\frac1{256}+\\frac1{768}\n=\\boxed{\\textbf{(B)}~\\frac1{192}}.$$"
       },
       {
         "solution_info": "由因数和公式，\n$$\\sigma(2^k\\cdot3)=(1+2+\\cdots+2^k)(1+3).$$\n所以\n$$f(768)=\\frac{(2^9-1)4}{768},\\qquad\nf(384)=\\frac{(2^8-1)4}{384}.$$\n相减得到\n$$f(768)-f(384)=\\boxed{\\textbf{(B)}~\\frac1{192}}.$$"
@@ -31615,7 +31615,7 @@
         "solution_info": "$f(n)$ 是 $n$ 的所有正因数的倒数之和。$384$ 的每个因数也是 $768$ 的因数，而 $768$ 新增的因数恰为 $256$ 和 $768$。故\n$$f(768)-f(384)=\\frac1{256}+\\frac1{768}\n=\\boxed{\\textbf{(B)}~\\frac1{192}}.$$"
       },
       {
-        "solution_info": "由 $768=2^8\\cdot3$、$384=2^7\\cdot3$，\n$$f(768)=\\frac{(2^9-1)4}{768}=\\frac{511}{192},qquad\nf(384)=\\frac{(2^8-1)4}{384}=\\frac{510}{192}.$$\n所以差为 $\\boxed{\\textbf{(B)}~\\frac1{192}}$。"
+        "solution_info": "由 $768=2^8\\cdot3$、$384=2^7\\cdot3$，\n$$f(768)=\\frac{(2^9-1)4}{768}=\\frac{511}{192},\\qquad\nf(384)=\\frac{(2^8-1)4}{384}=\\frac{510}{192}.$$\n所以差为 $\\boxed{\\textbf{(B)}~\\frac1{192}}$。"
       },
       {
         "solution_info": "因为 $f(n)$ 等于 $n$ 的正因数倒数之和，且 $768$ 是 $384$ 的两倍，差中只保留 $768$ 有而 $384$ 没有的因数倒数。这两个因数是 $256$ 与 $768$，所以\n$$f(768)-f(384)=\\frac1{256}+\\frac1{768}\n=\\boxed{\\textbf{(B)}~\\frac1{192}}.$$"
@@ -31802,7 +31802,7 @@
         "solution_info": "有效状态只有两类：虫子在起点 $C$，或在起点周围单位正六边形的某个顶点 $V$。设走 $n$ 步后到达这两类状态的有效路径数分别为 $C_n,V_n$。则\n$$C_n=V_{n-1},\\qquad V_n=6C_{n-1}+2V_{n-1},$$\n且 $C_1=0,V_1=6$。递推得到\n$$ (C_4,V_4)=(60,192).$$\n第 5 步的有效路径数为\n$$6C_4+3V_4=6\\cdot60+3\\cdot192=936.$$\n总路径数为 $6^5$，所以概率为\n$$\\frac{936}{6^5}=\\boxed{\\textbf{(A)}~\\frac{13}{108}}.$$"
       },
       {
-        "solution_info": "设 $p(n)$ 为走 $n$ 步且始终不离起点超过 1 的概率。状态递推给出\n$$p(1)=1,qquad p(2)=\\frac12,qquad\np(n)=\\frac13p(n-1)+\\frac16p(n-2).$$\n依次计算得到\n$$p(5)=\\boxed{\\textbf{(A)}~\\frac{13}{108}}.$$"
+        "solution_info": "设 $p(n)$ 为走 $n$ 步且始终不离起点超过 1 的概率。状态递推给出\n$$p(1)=1,\\qquad p(2)=\\frac12,\\qquad\np(n)=\\frac13p(n-1)+\\frac16p(n-2).$$\n依次计算得到\n$$p(5)=\\boxed{\\textbf{(A)}~\\frac{13}{108}}.$$"
       },
       {
         "solution_info": "用 $C$ 表示起点状态，用 $V$ 表示距离起点 1 的顶点状态。从 $C$ 必到 $V$；从 $V$ 以 $1/6$ 的概率回到 $C$，以 $1/3$ 的概率留在某个 $V$，其余情形失败。向后递推五步，得到成功概率\n$$\\boxed{\\textbf{(A)}~\\frac{13}{108}}.$$"
@@ -31960,7 +31960,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "令 $z=\\cos x+i\\sin x$，则 $|z|=1$，且方程化为\n$$1+z-z^2+z^3=0.$$\n取虚部并利用 $|z|=1$，可得\n$$2\\operatorname{Im}z\\,\\operatorname{Re}z(2\\operatorname{Re}z-1)=0.$$\n所以候选点只有\n$$z=\\pm1,\\quad z=\\pm i,quad z=\\frac12\\pm\\frac{\\sqrt3}{2}i.$$\n逐一代入原方程均不成立。因此没有这样的 $x$，答案为\n$$\\boxed{\\textbf{(A)}~0}.$$"
+        "solution_info": "令 $z=\\cos x+i\\sin x$，则 $|z|=1$，且方程化为\n$$1+z-z^2+z^3=0.$$\n取虚部并利用 $|z|=1$，可得\n$$2\\operatorname{Im}z\\,\\operatorname{Re}z(2\\operatorname{Re}z-1)=0.$$\n所以候选点只有\n$$z=\\pm1,\\quad z=\\pm i,\\quad z=\\frac12\\pm\\frac{\\sqrt3}{2}i.$$\n逐一代入原方程均不成立。因此没有这样的 $x$，答案为\n$$\\boxed{\\textbf{(A)}~0}.$$"
       },
       {
         "solution_info": "虚部为零要求\n$$\\sin2x=\\sin x+\\sin3x=2\\sin2x\\cos x.$$\n因此 $\\sin2x=0$ 或 $\\cos x=1/2$，候选为\n$$x\\in\\left\\{0,\\frac\\pi3,\\frac\\pi2,\\pi,\\frac{3\\pi}2,\\frac{5\\pi}3\\right\\}.$$\n这些值均不能同时使实部为零，所以答案是 $\\boxed{\\textbf{(A)}~0}$。"
@@ -32016,13 +32016,13 @@
         "solution_info": "设 $M$ 为 $AB$ 中点。由相似三角形 $BPM\\sim BAC$，\n$$PM=\\frac{20}{3}.$$\n由 $BOM\\sim ABC$，\n$$OM=\\frac{15}{4}.$$\n所以\n$$OP=PM-OM=\\boxed{\\textbf{(C)}~\\frac{35}{12}}.$$"
       },
       {
-        "solution_info": "[Figure: /question-assets/source/amc/65596d396b1d337f53133e8fc610f3f027f21c0b5025f95669e0f8e4b8ee1afc.png]\n\n取 $C=(0,0),B=(0,6),A=(8,0)$。由切线垂直半径，可设\n$$O=(a,6),\\qquad P=(8,b).$$\n条件 $OA=OB$ 与 $PA=PB$ 分别给出\n$$a=\\frac{25}{4},qquad b=\\frac{25}{3}.$$\n故\n$$OP=\\sqrt{\\left(8-\\frac{25}{4}\\right)^2+\n\\left(\\frac{25}{3}-6\\right)^2}\n=\\boxed{\\textbf{(C)}~\\frac{35}{12}}.$$"
+        "solution_info": "[Figure: /question-assets/source/amc/65596d396b1d337f53133e8fc610f3f027f21c0b5025f95669e0f8e4b8ee1afc.png]\n\n取 $C=(0,0),B=(0,6),A=(8,0)$。由切线垂直半径，可设\n$$O=(a,6),\\qquad P=(8,b).$$\n条件 $OA=OB$ 与 $PA=PB$ 分别给出\n$$a=\\frac{25}{4},\\qquad b=\\frac{25}{3}.$$\n故\n$$OP=\\sqrt{\\left(8-\\frac{25}{4}\\right)^2+\n\\left(\\frac{25}{3}-6\\right)^2}\n=\\boxed{\\textbf{(C)}~\\frac{35}{12}}.$$"
       },
       {
         "solution_info": "圆心 $O,P$ 都到 $A,B$ 等距，所以均在 $AB$ 的垂直平分线上。设 $M$ 为 $AB$ 中点，则 $BM=5$。利用切点处半径垂直于切线及相似三角形，可得\n$$BO=\\frac{25}{4},\\qquad DO=\\frac74,$$\n其中 $D=OB\\cap AP$。再由 $DOP\\sim CBA$，\n$$\\frac{OP}{10}=\\frac{7/4}{6},$$\n所以\n$$OP=\\boxed{\\textbf{(C)}~\\frac{35}{12}}.$$"
       },
       {
-        "solution_info": "取 $C=(0,0),B=(0,6),A=(8,0)$。$AB$ 中点为 $(4,3)$，其垂直平分线斜率为 $4/3$，方程为\n$$y-3=\\frac43(x-4).$$\n切线条件给出 $O$ 的纵坐标为 $6$，$P$ 的横坐标为 $8$。代入直线方程得\n$$O=\\left(\\frac{25}{4},6\\right),qquad\nP=\\left(8,\\frac{25}{3}\\right).$$\n因此\n$$OP=\\sqrt{\\left(\\frac74\\right)^2+\\left(\\frac73\\right)^2}\n=\\boxed{\\textbf{(C)}~\\frac{35}{12}}.$$"
+        "solution_info": "取 $C=(0,0),B=(0,6),A=(8,0)$。$AB$ 中点为 $(4,3)$，其垂直平分线斜率为 $4/3$，方程为\n$$y-3=\\frac43(x-4).$$\n切线条件给出 $O$ 的纵坐标为 $6$，$P$ 的横坐标为 $8$。代入直线方程得\n$$O=\\left(\\frac{25}{4},6\\right),\\qquad\nP=\\left(8,\\frac{25}{3}\\right).$$\n因此\n$$OP=\\sqrt{\\left(\\frac74\\right)^2+\\left(\\frac73\\right)^2}\n=\\boxed{\\textbf{(C)}~\\frac{35}{12}}.$$"
       }
     ],
     "children": []
@@ -32116,7 +32116,7 @@
         "solution_info": "[Figure: /question-assets/source/amc/71abcc292f311e81ba452fa5cd2abfa6b6da8ed0a41bdf9b760bda147dd077a2.png]\n\n由角平分线定理，\n$$BD=\\frac{24\\cdot11}{31}.$$\n对三角形 $ABC$ 使用余弦定理，得到\n$$\\cos B=\\frac9{16},\\qquad \\cos C=\\frac{57}{64}.$$\n结合圆 $BDE$ 中的正弦定理与圆周角关系，可算得 $BF=9$。最后在三角形 $BCF$ 中使用余弦定理，得到\n$$CF=\\boxed{\\textbf{(C)}~30}.$$"
       },
       {
-        "solution_info": "取 $B=(0,0),C=(24,0)$。由海伦公式和底高公式，\n$$A=\\left(\\frac{99}{16},\\frac{55\\sqrt7}{16}\\right).$$\n角平分线与外接圆的第二交点以及角平分线定理给出\n$$D=\\left(\\frac{264}{31},0\\right),qquad\nE=\\left(12,-\\frac{36}{\\sqrt7}\\right).$$\n求圆 $BDE$ 与直线 $AB$ 的第二交点，得到\n$$F=\\left(-\\frac{81}{16},-\\frac{45\\sqrt7}{16}\\right).$$\n因此\n$$CF=\\sqrt{\\left(24+\\frac{81}{16}\\right)^2+\n\\left(\\frac{45\\sqrt7}{16}\\right)^2}=30\n=\\boxed{\\textbf{(C)}~30}.$$"
+        "solution_info": "取 $B=(0,0),C=(24,0)$。由海伦公式和底高公式，\n$$A=\\left(\\frac{99}{16},\\frac{55\\sqrt7}{16}\\right).$$\n角平分线与外接圆的第二交点以及角平分线定理给出\n$$D=\\left(\\frac{264}{31},0\\right),\\qquad\nE=\\left(12,-\\frac{36}{\\sqrt7}\\right).$$\n求圆 $BDE$ 与直线 $AB$ 的第二交点，得到\n$$F=\\left(-\\frac{81}{16},-\\frac{45\\sqrt7}{16}\\right).$$\n因此\n$$CF=\\sqrt{\\left(24+\\frac{81}{16}\\right)^2+\n\\left(\\frac{45\\sqrt7}{16}\\right)^2}=30\n=\\boxed{\\textbf{(C)}~30}.$$"
       }
     ],
     "children": []

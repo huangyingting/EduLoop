@@ -1,35 +1,26 @@
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
-import { contentDamageIssues } from "./amc-audit-rules.mjs";
+import {
+  contentDamageIssues,
+  directChoiceLabels,
+  isChoiceQuestionType,
+  terminalChoiceLabels,
+} from "./amc-audit-rules.mjs";
 import { hasCjevalSourceLabel } from "./cjeval.mjs";
 import { localeFileUrl } from "./content-manifest.mjs";
 
 const FILES = ["biology.json", "chemistry.json", "chinese.json", "chinese-high-school.json", "mathematics.json", "physics.json"];
 const OPTION_KEYS = ["option_a", "option_b", "option_c", "option_d", "option_e"];
-const PLACEHOLDER = /^(?:略|无|暂无|暂无解析|答案略|解析略|【答案】)[。.]?$/u;
+const PLACEHOLDER = /^(?:略|无|暂无|暂无解析|答案略|解析略|见答案|【答案】|【分析】|【解析】|【解答】)[。.]?$/u;
+const LEGACY_SOLUTION_FALLBACK = /^(?:【(?:分析|解析|解答)】\s*)?(?:根据题目条件可得：|依据题干条件逐项判断，符合条件的是)/u;
+const ENUMERATED_PLACEHOLDER = /(?:^|[\s；;。])(?:\d+[.、：:]|[（(]\d+[）)])\s*略(?=$|[\s；;。])/u;
+
+function hasEnumeratedPlaceholders(value) {
+  return ENUMERATED_PLACEHOLDER.test(String(value));
+}
 
 function normalize(value) {
   return String(value ?? "").normalize("NFKC").replace(/\s+/gu, "").replace(/[。．;；]$/u, "");
-}
-
-function directLabels(value) {
-  const cleaned = String(value ?? "")
-    .replace(/\$|\\(?:rm|text|mathrm|mathbf)|[{}（）()\[\]]/gu, " ")
-    .trim()
-    .toUpperCase();
-  const match = cleaned.match(/^(?:【?(?:答案|解答)】?[：:\s]*)?([A-E](?:[\s,，、;；|]*[A-E])*)[.。．]?$/u);
-  return match ? [...new Set(match[1].match(/[A-E]/gu) ?? [])].sort() : [];
-}
-
-function terminalChoice(value) {
-  const cleaned = String(value ?? "")
-    .replace(/\$+/gu, "")
-    .replace(/\\(?:rm|text|mathrm|mathbf)/gu, "")
-    .replace(/[{}]/gu, "")
-    .toUpperCase();
-  const matches = [...cleaned.matchAll(/(?:故[选先]|答案(?:为|是)|正确答案(?:为|是)?|只有(?:选项)?)[：:\s]*([A-E](?:[、,，；;|和及\s]*[A-E])?)(?:项?正确)?(?=[。．.，,；;\s]|$)/gu)];
-  if (!matches.length) return directLabels(value);
-  return [...new Set(matches.at(-1)[1].match(/[A-E]/gu) ?? [])].sort();
 }
 
 function digest(value) {
@@ -37,7 +28,7 @@ function digest(value) {
 }
 
 function isReviewableIssue(issue) {
-  return /^(?:duplicate option|choice question lacks a direct answer key|answer key [A-E]+ references a missing option|answer conclusion [A-E]+ disagrees with key [A-E]+|solution_\d+ conclusion [A-E]+ disagrees with key [A-E]+)$/u.test(issue);
+  return /^(?:missing or placeholder stem|duplicate option|choice question lacks a direct answer key|answer key [A-E]+ references a missing option|answer conclusion [A-E]+ disagrees with key [A-E]+|solution_\d+ conclusion [A-E]+ disagrees with key [A-E]+)$/u.test(issue);
 }
 
 const records = (await Promise.all(FILES.map(async (filename) => {
@@ -57,15 +48,24 @@ for (const { filename, question } of records) {
   const stem = String(raw.title ?? "").trim();
   const answer = String(question.answer_info?.raw_content ?? "").trim();
   const solutions = (question.solution_info ?? []).map(({ solution_info }) => String(solution_info ?? "").trim());
-  const isChoice = /选择/u.test(String(question.type ?? ""));
+  const isChoice = isChoiceQuestionType(question.type);
 
   if (!/^[a-f0-9]{32}$/u.test(String(question.id ?? ""))) issues.push("invalid stable ID");
   if (ids.has(question.id)) issues.push("duplicate ID");
   ids.add(question.id);
-  if (!stem) issues.push("missing stem");
+  if (!stem || PLACEHOLDER.test(stem)) issues.push("missing or placeholder stem");
+  if (/【题文】/u.test(stem)) issues.push("title: source field label residue");
   if (!answer || PLACEHOLDER.test(answer)) issues.push("missing or placeholder answer");
   if (!solutions.length || solutions.some((solution) => !solution || PLACEHOLDER.test(solution))) {
     issues.push("missing or placeholder solution");
+  }
+  for (let index = 0; index < solutions.length; index += 1) {
+    if (LEGACY_SOLUTION_FALLBACK.test(solutions[index])) {
+      issues.push(`solution_${index}: legacy fallback explanation`);
+    }
+    if (hasEnumeratedPlaceholders(solutions[index])) {
+      issues.push(`solution_${index}: enumerated placeholder explanation`);
+    }
   }
   if (filename === "chinese.json") {
     if (hasCjevalSourceLabel(stem)) {
@@ -80,20 +80,58 @@ for (const { filename, question } of records) {
   if (normalizedOptions.length !== new Set(normalizedOptions).size) issues.push("duplicate option");
 
   if (isChoice) {
-    const key = directLabels(raw.answer1);
+    const key = directChoiceLabels(raw.answer1);
     if (!key.length) issues.push("choice question lacks a direct answer key");
+    if (/单选/u.test(String(question.type ?? "")) && key.length !== 1) {
+      issues.push("single-choice answer key must contain exactly one option");
+    }
+    if (/(?:多选|双选)/u.test(String(question.type ?? "")) && key.length < 2) {
+      issues.push("multiple-choice answer key must contain at least two options");
+    }
     if (presentOptions.length && key.some((label) => !options[label.charCodeAt(0) - 65])) {
       issues.push(`answer key ${key.join("")} references a missing option`);
     }
-    const answerChoice = terminalChoice(answer);
+    const answerChoice = terminalChoiceLabels(answer);
     if (key.length && answerChoice.length && key.join("") !== answerChoice.join("")) {
       issues.push(`answer conclusion ${answerChoice.join("")} disagrees with key ${key.join("")}`);
     }
     for (let index = 0; index < solutions.length; index += 1) {
-      const solutionChoice = terminalChoice(solutions[index]);
+      const solutionChoice = terminalChoiceLabels(solutions[index]);
       if (key.length && solutionChoice.length && key.join("") !== solutionChoice.join("")) {
         issues.push(`solution_${index} conclusion ${solutionChoice.join("")} disagrees with key ${key.join("")}`);
       }
+    }
+  }
+
+  const childOrders = new Set();
+  for (let index = 0; index < (question.children ?? []).length; index += 1) {
+    const child = question.children[index];
+    const childStem = String(child.title ?? "").trim();
+    const childOptions = OPTION_KEYS.map((key) => String(child[key] ?? "").trim());
+    const childPresentOptions = childOptions.filter(Boolean);
+    const childKey = directChoiceLabels(child.answer1);
+    if (!childStem || PLACEHOLDER.test(childStem)) issues.push(`child_${index}: missing or placeholder stem`);
+    if (childPresentOptions.length) {
+      if (childPresentOptions.length < 2) issues.push(`child_${index}: fewer than two options`);
+      if (!childKey.length) issues.push(`child_${index}: missing direct answer key`);
+      if (childKey.some((label) => !childOptions[label.charCodeAt(0) - 65])) {
+        issues.push(`child_${index}: answer key ${childKey.join("")} references a missing option`);
+      }
+    } else if (!String(child.answer1 ?? "").trim() || PLACEHOLDER.test(String(child.answer1).trim())) {
+      issues.push(`child_${index}: missing or placeholder answer`);
+    }
+    const normalizedChildOptions = childPresentOptions.map(normalize);
+    if (normalizedChildOptions.length !== new Set(normalizedChildOptions).size) {
+      issues.push(`child_${index}: duplicate option`);
+    }
+    if (childOrders.has(child.order)) issues.push(`child_${index}: duplicate order ${child.order}`);
+    childOrders.add(child.order);
+    for (const [field, value] of [
+      ["title", childStem],
+      ...childOptions.map((value, optionIndex) => [`option_${"abcde"[optionIndex]}`, value]),
+      ["answer", child.answer1],
+    ]) {
+      for (const issue of contentDamageIssues(value)) issues.push(`child_${index}.${field}: ${issue}`);
     }
   }
 

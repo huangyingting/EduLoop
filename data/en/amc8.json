@@ -2650,7 +2650,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "Although one could solve this problem by counting decimal places in the product, it is more more insightful to realize that the answer is approximately $.1(2)=.2$, so $(B)$ is correct.\n\nAnswer: $\\boxed{B}$."
+        "solution_info": "Although one could solve this problem by counting decimal places in the product, it is more insightful to realize that the answer is approximately $.1(2)=.2$, so $(B)$ is correct.\n\nAnswer: $\\boxed{B}$."
       }
     ],
     "children": []
@@ -5452,7 +5452,7 @@
     "quality": "精品",
     "question_info": {
       "raw_content": {
-        "title": "For every $3^{\\circ}$ rise in itemperature, the volume of a certain gas expands by $4$ cubic centimeters. If the volume of the gas is $24$ cubic centimeters when the itemperature is $32^{\\circ}$, what was the volume of the gas in cubic centimeters when the itemperature was $20^{\\circ}?$",
+        "title": "For every $3^{\\circ}$ rise in temperature, the volume of a certain gas expands by $4$ cubic centimeters. If the volume of the gas is $24$ cubic centimeters when the temperature is $32^{\\circ}$, what was the volume of the gas in cubic centimeters when the temperature was $20^{\\circ}?$",
         "option_a": "$8$",
         "option_b": "$12$",
         "option_c": "$15$",
@@ -6764,7 +6764,7 @@
     "quality": "精品",
     "question_info": {
       "raw_content": {
-        "title": "If each of the three operation signs,,,$+- \\times$, is used exactly ONCE in one of the blanks in the expression\n\n$5 \\_4 \\_6 \\_ 3$\nthen the value of the result could equal",
+        "title": "If each of the three operation signs $+$, $-$, and $\\times$ is used exactly once in one of the blanks in the expression\n\n$5 \\_4 \\_6 \\_ 3$\nthen the value of the result could equal",
         "option_a": "$9$",
         "option_b": "$10$",
         "option_c": "$15$",
@@ -6778,7 +6778,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "The six permutations of,+- and $\\times$ yield these results:\n\n$\\begin{aligned} & 5 \\times 4 + 6 - 3 = 20 + 6 - 3 = 23 \\\\ & 5 \\times 4 - 6 + 3 = 20 - 6 + 3 = 17 \\\\ & 5 + 4 \\times 6 - 3 = 5 + 24 - 3 = 26 \\\\ & 5 - 4 \\times 6 + 3 = 5 - 24 + 3 = -16 \\\\ & 5 + 4 - 6 \\times 3 = 5 + 4 - 18 = -9 \\\\ & 5 - 4 + 6 \\times 3 = 5 - 4 + 18 = 19 \\end{aligned}$\nThe only result listed is $19$.\n\nAnswer: $\\boxed{E}$."
+        "solution_info": "The six permutations of $+$, $-$, and $\\times$ yield these results:\n\n$\\begin{aligned} & 5 \\times 4 + 6 - 3 = 20 + 6 - 3 = 23 \\\\ & 5 \\times 4 - 6 + 3 = 20 - 6 + 3 = 17 \\\\ & 5 + 4 \\times 6 - 3 = 5 + 24 - 3 = 26 \\\\ & 5 - 4 \\times 6 + 3 = 5 - 24 + 3 = -16 \\\\ & 5 + 4 - 6 \\times 3 = 5 + 4 - 18 = -9 \\\\ & 5 - 4 + 6 \\times 3 = 5 - 4 + 18 = 19 \\end{aligned}$\nThe only result listed is $19$.\n\nAnswer: $\\boxed{E}$."
       }
     ],
     "children": []
@@ -29376,7 +29376,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "[Figure: /question-assets/source/amc/aa33123a88eb36c5976b99529798b2860015e6cb2ffe29fefd8f6e2ea2f85d35.jpg]\n\nThe width $w$ of the rectangle corresponds to the distancebetween opposite midpoints $(−3, 0)$ and $(5, 4)$. By the Pythagorean Theorem, that distance equals\t$\\sqrt{(5 − (−3))^2 + 4^2}$ = $\\sqrt{8^2 + 4^2} = \\sqrt{80}$. Similarly the height $h$ of the rectangle corresponds to the distance between midpoints $(2,0)$ and $(0, 4)$, which equals $\\sqrt{2^2 + 4^2} = \\sqrt{20}$. The area of the rectangle is therefore $w·h = \\sqrt{80}\\cdot\\sqrt{20} = \\sqrt{1600} = 40$.\n\n$OR$\n\n[Figure: /question-assets/source/amc/9d731f96416dc55bbc4cfdb0745833dd63fd82875fc92b1c7773be9fe1b1a1b9.jpg]\n\nThe four midpoints form a rhombus with area equal to half the area of the rectangle. The rhombus is a parallelogram with base $5$ and height $4$, so its area is $5\\cdot4 = 20$. Thus the area of the rectangle is $2\\cdot20 = 40$.\n\nAnswer: $\\boxed{C}$."
+        "solution_info": "[Figure: /question-assets/source/amc/aa33123a88eb36c5976b99529798b2860015e6cb2ffe29fefd8f6e2ea2f85d35.jpg]\n\nThe width $w$ of the rectangle corresponds to the distance between opposite midpoints $(−3, 0)$ and $(5, 4)$. By the Pythagorean Theorem, that distance equals $\\sqrt{(5 − (−3))^2 + 4^2}$ = $\\sqrt{8^2 + 4^2} = \\sqrt{80}$. Similarly the height $h$ of the rectangle corresponds to the distance between midpoints $(2,0)$ and $(0, 4)$, which equals $\\sqrt{2^2 + 4^2} = \\sqrt{20}$. The area of the rectangle is therefore $w·h = \\sqrt{80}\\cdot\\sqrt{20} = \\sqrt{1600} = 40$.\n\n$OR$\n\n[Figure: /question-assets/source/amc/9d731f96416dc55bbc4cfdb0745833dd63fd82875fc92b1c7773be9fe1b1a1b9.jpg]\n\nThe four midpoints form a rhombus with area equal to half the area of the rectangle. The rhombus is a parallelogram with base $5$ and height $4$, so its area is $5\\cdot4 = 20$. Thus the area of the rectangle is $2\\cdot20 = 40$.\n\nAnswer: $\\boxed{C}$."
       }
     ],
     "children": []
@@ -29920,7 +29920,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "Harold ate $\\dfrac{1}{4}$ of the pie, so he left behind $\\dfrac{3}{4}$ of the pie. The moose ate $\\dfrac{1}{3}$ of the\n\nremainder, so it ate $\\dfrac{1}{3}\\cdot\\dfrac{3}{4} =\\dfrac{1}{4}$\tof the pie, leaving behind $\\dfrac{3}{4}-\\dfrac{1}{4} = \\dfrac{1}{2}$ of the pie. Finally, the porcupine ate $\\dfrac{1}{3}$ of the remainder, so it ate $\\dfrac{1}{3}\\cdot\\dfrac{1}{2} =\\dfrac{1}{6}$ of the pie, leaving behind $\\dfrac{1}{2}-\\dfrac{1}{6} = \\dfrac{1}{3}$ of the original pie.\n\n$OR$\nHarold left behind $\\dfrac{3}{4}$ of the pie, the moose left behind $\\dfrac{2}{3}$ of the remainder, and the porcupine left behind $\\dfrac{2}{3}$ of that remainder. So the total fraction of the original pie that remained after the porcupine left was\n\n$\\dfrac{3}{4}\\cdot\\dfrac{2}{3}\\cdot\\dfrac{2}{3} = \\dfrac{3\\cdot4}{4\\cdot3\\cdot3} = \\dfrac{1}{3}.$\n$OR$\nSuppose the plum pie is cut into $12$ equal slices. Harold ate $\\dfrac{12}{4} = 3$ slices, leaving $9$ slices. Then the moose ate $\\dfrac{9}{3} = 3$ slices, leaving $6$ slices. Then the porcupine ate $\\dfrac{6}{3} = 2$ slices, leaving $4$ slices. Thus $\\dfrac{4}{12} = \\dfrac{1}{3}$ of the original pie remained after the porcupine left.\n\nAnswer: $\\boxed{D}$."
+        "solution_info": "Harold ate $\\dfrac{1}{4}$ of the pie, so he left behind $\\dfrac{3}{4}$ of the pie. The moose ate $\\dfrac{1}{3}$ of the\n\nremainder, so it ate $\\dfrac{1}{3}\\cdot\\dfrac{3}{4} =\\dfrac{1}{4}$ of the pie, leaving behind $\\dfrac{3}{4}-\\dfrac{1}{4} = \\dfrac{1}{2}$ of the pie. Finally, the porcupine ate $\\dfrac{1}{3}$ of the remainder, so it ate $\\dfrac{1}{3}\\cdot\\dfrac{1}{2} =\\dfrac{1}{6}$ of the pie, leaving behind $\\dfrac{1}{2}-\\dfrac{1}{6} = \\dfrac{1}{3}$ of the original pie.\n\n$OR$\nHarold left behind $\\dfrac{3}{4}$ of the pie, the moose left behind $\\dfrac{2}{3}$ of the remainder, and the porcupine left behind $\\dfrac{2}{3}$ of that remainder. So the total fraction of the original pie that remained after the porcupine left was\n\n$\\dfrac{3}{4}\\cdot\\dfrac{2}{3}\\cdot\\dfrac{2}{3} = \\dfrac{3\\cdot4}{4\\cdot3\\cdot3} = \\dfrac{1}{3}.$\n$OR$\nSuppose the plum pie is cut into $12$ equal slices. Harold ate $\\dfrac{12}{4} = 3$ slices, leaving $9$ slices. Then the moose ate $\\dfrac{9}{3} = 3$ slices, leaving $6$ slices. Then the porcupine ate $\\dfrac{6}{3} = 2$ slices, leaving $4$ slices. Thus $\\dfrac{4}{12} = \\dfrac{1}{3}$ of the original pie remained after the porcupine left.\n\nAnswer: $\\boxed{D}$."
       }
     ],
     "children": []
@@ -30016,7 +30016,7 @@
     },
     "solution_info": [
       {
-        "solution_info": "The $2$ repair stations are equally spaced along the route, so they divide the total race distance into thirds. Similarly, the $7$ water stations are equally spaced, so they divide the distance into eighths. The 1$st$ repair station is $\\dfrac{1}{3}$ of the way from start to finish, and the $3rd$ water station is $2$ miles further, $\\dfrac{3}{8}$ of the distance along the way. The difference between $\\dfrac{3}{8}$ and $\\dfrac{1}{3}$ is $\\dfrac{9}{24} - \\dfrac{8}{24} = \\dfrac{1}{24}$, and because\t$\\dfrac{1}{24}$ of the total distance is $2$ miles, the race must be $48$ miles long.\n\n[Figure: /question-assets/source/amc/c2b71375c4f9dac715ba3a90af33122a4d365ad11252605613dce2589ffba208.jpg]\n\n$OR$\nLet the total distance be $x$ miles. Then the water stations are spaced $\\dfrac{x}{8}$ miles apart and the repair stations are $\\dfrac{x}{3}$ miles apart. It is given that the $3rd$ water station is located $2$ miles after the $1st$ repair station, so\n\n$\\dfrac{3x}{8} = \\dfrac{x}{3} + 2.$\nMultiplying both sides of the equation by $24$ and simplifying gives\n\n$9x = 8x + 48$\n$x = 48.$\nTherefore the length of the race is $48$ miles.\n\n$OR$\nLet $w$ represent the distance between water stations and $r$ represent the distance between repair stations in miles. The stations are equally spaced along the road and the $3rd$ water station is located $2$ miles past the $1st$ repair station, so\n\n$8w = 3r\\ and\\ 3w = r + 2.$\nSolving for $r$ in the second equation gives $r=3$ $w - 2$ and substituting into the first equation yields\n\n$8w = 3(3w — 2) = 9w — 6,$\nthus\n\n$w = 6.$\nTherefore the length of the race is $8w = 8 \\cdot 6 = 48\\ miles$.\n\nAnswer: $\\boxed{D}$."
+        "solution_info": "The $2$ repair stations are equally spaced along the route, so they divide the total race distance into thirds. Similarly, the $7$ water stations are equally spaced, so they divide the distance into eighths. The 1$st$ repair station is $\\dfrac{1}{3}$ of the way from start to finish, and the $3rd$ water station is $2$ miles further, $\\dfrac{3}{8}$ of the distance along the way. The difference between $\\dfrac{3}{8}$ and $\\dfrac{1}{3}$ is $\\dfrac{9}{24} - \\dfrac{8}{24} = \\dfrac{1}{24}$, and because $\\dfrac{1}{24}$ of the total distance is $2$ miles, the race must be $48$ miles long.\n\n[Figure: /question-assets/source/amc/c2b71375c4f9dac715ba3a90af33122a4d365ad11252605613dce2589ffba208.jpg]\n\n$OR$\nLet the total distance be $x$ miles. Then the water stations are spaced $\\dfrac{x}{8}$ miles apart and the repair stations are $\\dfrac{x}{3}$ miles apart. It is given that the $3rd$ water station is located $2$ miles after the $1st$ repair station, so\n\n$\\dfrac{3x}{8} = \\dfrac{x}{3} + 2.$\nMultiplying both sides of the equation by $24$ and simplifying gives\n\n$9x = 8x + 48$\n$x = 48.$\nTherefore the length of the race is $48$ miles.\n\n$OR$\nLet $w$ represent the distance between water stations and $r$ represent the distance between repair stations in miles. The stations are equally spaced along the road and the $3rd$ water station is located $2$ miles past the $1st$ repair station, so\n\n$8w = 3r\\ and\\ 3w = r + 2.$\nSolving for $r$ in the second equation gives $r=3$ $w - 2$ and substituting into the first equation yields\n\n$8w = 3(3w — 2) = 9w — 6,$\nthus\n\n$w = 6.$\nTherefore the length of the race is $8w = 8 \\cdot 6 = 48\\ miles$.\n\nAnswer: $\\boxed{D}$."
       }
     ],
     "children": []

@@ -6,11 +6,13 @@ import {
   formatCjevalAnswer,
   formatCjevalContent,
   normalizeCjevalText,
+  repairCjevalRecord,
   splitChoiceContent,
 } from "./cjeval.mjs";
 
 test("normalizes CJEval presentation markup without leaving executable HTML", () => {
   assert.equal(normalizeCjevalText("读<dotted>音</dotted><br>并<u>作答</u>"), "读【音】\n并【作答】");
+  assert.equal(normalizeCjevalText("循序\u200b\u200b渐进"), "循序渐进");
 });
 
 test("preserves text inside source-specific angle markers", () => {
@@ -124,6 +126,21 @@ test("converts a simple choice record with stable provenance and imported topics
   assert.equal(converted.source_tags.length, 1);
 });
 
+test("preserves structured CJEval explanations instead of stringifying objects", () => {
+  const converted = convertCjevalRecord({
+    subject: "初中语文",
+    ques_type: "现代文阅读",
+    ques_difficulty: "一般",
+    ques_content: "阅读材料并回答问题。",
+    ques_answer: ["甲", "乙"],
+    ques_analyze: { "(1)": "第一问解析", "(2)": "第二问解析" },
+    ques_knowledges: ["阅读理解"],
+  }, "test", 115);
+
+  assert.equal(converted.solution_info[0].solution_info, "（1）第一问解析\n（2）第二问解析");
+  assert.doesNotMatch(converted.solution_info[0].solution_info, /\[object Object\]/u);
+});
+
 test("applies all pinned editorial repairs without leaving review markers", () => {
   const source = (ques_content, overrides = {}) => ({
     subject: "初中语文",
@@ -137,12 +154,18 @@ test("applies all pinned editorial repairs without leaving review markers", () =
   });
   const cases = [
     [0, source("题目。选项：A. 甲 B. 乙 C. 丙 D. 粗<dotted>拙</dotted>（zhuō）", { ques_answer: ["C"] })],
-    [25, source("下列词语中没有错别字的一项是（ ）", { ques_answer: ["D"] })],
+    [25, source("下列词语中没有错别字的一项是（ ）", { ques_answer: ["D"], ques_analyze: "此题目的目的是识别错别字。" })],
     [
       179,
       source("父母无私的爱的<dotted>养</dotted>育。选项: 1. 甲 2. 文中乙 3. “漫步”丙 4. 文中的“馈赠”一词与“赠送”意义相近，且“馈”的发音与“愧”相同。", { ques_answer: ["1"] }),
     ],
     [304, source("题目。选项：A. 甲 B. ①会 ②孺 ③搏 C. 丙 D. 丁", { ques_answer: ["B"] })],
+    [
+      378,
+      source("题目。选项：A. 甲 B. 乙 C. 丙 D. 丁", {
+        ques_analyze: "四个词的加点字音标标注都正确。",
+      }),
+    ],
     [379, source("损坏的数字选项", { ques_answer: ["1"] })],
     [408, source("含两个选择小问的完整题干", { ques_answer: ["B", "D"] })],
     [
@@ -151,6 +174,27 @@ test("applies all pinned editorial repairs without leaving review markers", () =
         "文章。(3) 题目内容：从修辞角度品析加点词的妙用。就在一个拐角处，一树柿子<点>头<点>雪跃入我的眼帘。这是一棵老柿树，它<悠然>矗立在废弃土房旁。",
         { ques_type: "现代文阅读", ques_answer: ["一", "二", "旧答案"], ques_analyze: ["一", "二", "旧解析"] },
       ),
+    ],
+    [
+      695,
+      source("英语言期中考试前的星期天晚上。", {
+        ques_type: "现代文阅读",
+        ques_answer: ["答案"],
+      }),
+    ],
+    [
+      873,
+      source("为什么野生动植物被称为最珍惜的自然资源？", {
+        ques_type: "现代文阅读",
+        ques_answer: ["答案"],
+      }),
+    ],
+    [
+      1074,
+      source("一直把敌人消灭尽尽为止。", {
+        ques_type: "现代文阅读",
+        ques_answer: ["答案"],
+      }),
     ],
     [
       1561,
@@ -164,14 +208,74 @@ test("applies all pinned editorial repairs without leaving review markers", () =
         },
       ),
     ],
+    [
+      1618,
+      source("解释“<dotted>虚</dotted><dotted>幻</dotted><dotted>幻</dotted><dotted>境</dotted>”的含义。", {
+        ques_type: "现代文阅读",
+        ques_answer: ["答案"],
+        ques_analyze: "“虚幻幻境”指不切实际的幻想。",
+      }),
+    ],
   ];
 
-  assert.equal(CJEVAL_REPAIR_COUNT, cases.length);
+  assert.equal(CJEVAL_REPAIR_COUNT, 30);
   for (const [index, record] of cases) {
     const converted = convertCjevalRecord(record, "train", index);
     assert.match(converted.quality, /EduLoop人工校订/u);
     assert.doesNotMatch(converted.quality, /NEEDS_REVIEW/u);
   }
+});
+
+test("repairs all newly reviewed CJEval phrase, poetry, and answer defects", () => {
+  const poetryTitleCases = [
+    ["train", 1553, "十五从军征十五岁从军", "十五从军征\n十五岁从军"],
+    ["train", 1612, "关雎关关雎鸠", "关雎\n关关雎鸠"],
+    ["train", 1613, "敷浅原<sup >①</sup>见桃花桃花雨后", "敷浅原<sup >①</sup>见桃花\n桃花雨后"],
+    ["train", 1823, "静女静女其姝", "静女\n静女其姝"],
+    ["train", 1953, "渔家傲·天接云涛连晓雾天接云涛连晓雾", "渔家傲·天接云涛连晓雾\n天接云涛连晓雾"],
+    ["valid", 57, "关雎关关雎鸠", "关雎\n关关雎鸠"],
+    ["test", 120, "（一）十五从军征十五岁时参军", "（一）十五从军征\n十五岁时参军"],
+  ];
+  for (const [split, index, before, after] of poetryTitleCases) {
+    const repaired = repairCjevalRecord({ ques_content: before }, split, index).record;
+    assert.equal(repaired.ques_content, after, `${split}:${index}`);
+  }
+
+  const qr = repairCjevalRecord({
+    ques_content: "即905亿亿亿亿亿亿亿亿。 C. “回”字定位作用指的是二维码在不同方向都能正确扫描反馈。",
+    ques_analyze: "旧解析",
+  }, "train", 1103).record;
+  assert.match(qr.ques_content, /905亿亿亿亿亿亿亿亿亿/u);
+  assert.match(qr.ques_content, /作用是增加二维码的信息存储量/u);
+
+  const veteran = repairCjevalRecord({
+    ques_content: "十五从军征十五从军征",
+    ques_answer: ["B", "B"],
+    ques_analyze: "旧解析",
+  }, "valid", 81).record;
+  assert.match(veteran.ques_answer[1], /兵役制度/u);
+  assert.match(veteran.ques_analyze[0], /并非由远及近/u);
+
+  const comparison = repairCjevalRecord({ ques_answer: ["A", "B", "C", "D"], ques_analyze: ["不断不断"] }, "test", 160).record;
+  assert.equal(comparison.ques_answer[3], "B");
+  assert.match(comparison.ques_answer[0], /土地.*祖国/u);
+  assert.doesNotMatch(JSON.stringify(comparison), /不断不断/u);
+});
+
+test("repairs the pinned CJEval test-split prose duplication", () => {
+  const converted = convertCjevalRecord({
+    subject: "初中语文",
+    ques_type: "现代文阅读",
+    ques_difficulty: "困难",
+    ques_content: "语言只能给出大概概要，有些意思无法完全表达。",
+    ques_answer: ["答案"],
+    ques_analyze: "解析",
+    ques_knowledges: ["阅读理解"],
+  }, "test", 244);
+
+  assert.match(converted.quality, /EduLoop人工校订/u);
+  assert.match(converted.question_info.raw_content.title, /只能给出大概，有些意思/u);
+  assert.doesNotMatch(converted.question_info.raw_content.title, /大概概要/u);
 });
 
 test("repairs the pinned Huanxisha record in the generated archive", () => {

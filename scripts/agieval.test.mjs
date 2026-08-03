@@ -1,8 +1,11 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import {
+  AGIEVAL_AUTHORITATIVE_YANZI_PASSAGE,
+  AGIEVAL_REPAIR_COUNT,
   convertAgievalRecords,
   normalizeAgievalText,
+  repairAgievalRecord,
   stripAgievalOptionLabel,
 } from "./agieval.mjs";
 
@@ -45,4 +48,14 @@ test("deduplicates identical content and merges paper provenance", () => {
 
 test("rejects duplicate content with conflicting answer labels", () => {
   assert.throws(() => convertAgievalRecords([record(), record({ label: "D" })]), /disagree on the answer/u);
+});
+
+test("pins all ten AGIEval source repairs and fails closed on source drift", () => {
+  assert.equal(AGIEVAL_REPAIR_COUNT, 10);
+  assert.match(AGIEVAL_AUTHORITATIVE_YANZI_PASSAGE, /息于涂侧者/u);
+  assert.match(AGIEVAL_AUTHORITATIVE_YANZI_PASSAGE, /士者诎乎不知己，而申乎知己/u);
+  assert.match(AGIEVAL_AUTHORITATIVE_YANZI_PASSAGE, /乃令粪洒②改席，尊醮③而礼之/u);
+  assert.doesNotMatch(AGIEVAL_AUTHORITATIVE_YANZI_PASSAGE, /患于逾侧|见使料归|君了曰|尊残/u);
+  assert.throws(() => repairAgievalRecord(record(), 126), /no longer matches its pinned source/u);
+  assert.throws(() => repairAgievalRecord(record(), 227), /no longer matches its pinned source/u);
 });

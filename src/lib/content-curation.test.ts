@@ -75,10 +75,16 @@ describe("catalog content curation", () => {
     }
   });
 
-  it("publishes all repaired content without outstanding source audit findings", () => {
+  it("publishes all answerable content and quarantines the irrecoverable source stem", () => {
     const questions = [...recordsById.values()].map(({ question, filename }) => normalizeSourceQuestion(question, filename));
     expect(questions).toHaveLength(16_537);
-    expect(questions.filter((question) => question.status === "PUBLISHED")).toHaveLength(16_537);
-    expect(questions.filter((question) => question.status === "NEEDS_REVIEW")).toHaveLength(0);
+    expect(questions.filter((question) => question.status === "PUBLISHED")).toHaveLength(16_536);
+    expect(questions.filter((question) => question.status === "NEEDS_REVIEW")).toEqual([
+      expect.objectContaining({
+        id: "3aa418134c3e4dbcb0e24139a5e61c5a",
+        sourceFile: "mathematics.json",
+        stem: "略",
+      }),
+    ]);
   });
 });

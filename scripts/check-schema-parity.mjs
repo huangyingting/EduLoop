@@ -3,6 +3,7 @@ import { readdir, readFile } from "node:fs/promises";
 async function portableModelTokens(filename) {
   const schema = await readFile(filename, "utf8");
   return schema
+    .replace(/generator\s+client\s*\{[^}]+\}/s, "")
     .replace(/datasource\s+db\s*\{[^}]+\}/s, "")
     .replace(/\s+/g, " ")
     .trim();

@@ -48,6 +48,30 @@ test("accepts injected PostgreSQL production configuration", () => {
   ]);
 });
 
+test("accepts Cloudflare with PostgreSQL and rejects unsupported runtime providers", () => {
+  assert.deepEqual(validateEnvironment(productionEnvironment({
+    EDULOOP_DEPLOYMENT_RUNTIME: "cloudflare",
+  })), {
+    errors: [],
+    warnings: [],
+    provider: "postgresql",
+  });
+  assert.deepEqual(validateEnvironment({
+    DATABASE_URL: "file:./dev.db",
+    EDULOOP_DATABASE_PROVIDER: "sqlite",
+    EDULOOP_DEPLOYMENT_RUNTIME: "cloudflare",
+  }).errors, [
+    "Cloudflare deployments must use EDULOOP_DATABASE_PROVIDER=postgresql with Hyperdrive.",
+  ]);
+  assert.deepEqual(validateEnvironment({
+    DATABASE_URL: "file:./dev.db",
+    EDULOOP_DATABASE_PROVIDER: "sqlite",
+    EDULOOP_DEPLOYMENT_RUNTIME: "edge",
+  }).errors, [
+    "EDULOOP_DEPLOYMENT_RUNTIME must be node or cloudflare.",
+  ]);
+});
+
 test("requires a generated production auth secret", () => {
   for (const AUTH_SECRET of [
     undefined,

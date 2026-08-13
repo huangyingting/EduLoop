@@ -6,11 +6,16 @@
 # Next.js
 /.next/
 /out/
+/.open-next/
+/.wrangler/
 
 # local configuration and databases
 .env
 .env.local
 .env.*.local
+.dev.vars
+.dev.vars.*
+.neon
 prisma/*.db
 prisma/*.db-journal
 /launch-evidence*.json
@@ -23,6 +28,7 @@ test-results/
 /.cache/
 *.tsbuildinfo
 next-env.d.ts
+cloudflare-env.d.ts
 
 # system files
 .DS_Store

@@ -1,4 +1,5 @@
 const PROVIDERS = new Set(["sqlite", "postgresql"]);
+const DEPLOYMENT_RUNTIMES = new Set(["node", "cloudflare"]);
 const SECURE_POSTGRES_SSL_MODES = new Set(["require", "verify-ca", "verify-full"]);
 const SAFE_APP_VERSION = /^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$/;
 const PRODUCTION_APP_VERSION_PLACEHOLDERS = new Set(["development", "unknown", "unavailable"]);
@@ -64,7 +65,12 @@ export function validateEnvironment(environment) {
   const warnings = [];
   const databaseUrl = environment.DATABASE_URL?.trim() ?? "";
   const configuredProvider = environment.EDULOOP_DATABASE_PROVIDER?.trim().toLowerCase() ?? "";
+  const deploymentRuntime = environment.EDULOOP_DEPLOYMENT_RUNTIME?.trim().toLowerCase() || "node";
   const detectedProvider = databaseProvider(databaseUrl);
+
+  if (!DEPLOYMENT_RUNTIMES.has(deploymentRuntime)) {
+    errors.push("EDULOOP_DEPLOYMENT_RUNTIME must be node or cloudflare.");
+  }
 
   if (!databaseUrl) errors.push("DATABASE_URL is required.");
   else if (!detectedProvider) errors.push("DATABASE_URL must use file:, postgresql:, or postgres:.");
@@ -80,6 +86,9 @@ export function validateEnvironment(environment) {
     errors.push("EDULOOP_DATABASE_PROVIDER must be sqlite or postgresql.");
   } else if (configuredProvider && detectedProvider && configuredProvider !== detectedProvider) {
     errors.push(`EDULOOP_DATABASE_PROVIDER=${configuredProvider} does not match the DATABASE_URL provider ${detectedProvider}.`);
+  }
+  if (deploymentRuntime === "cloudflare" && configuredProvider !== "postgresql") {
+    errors.push("Cloudflare deployments must use EDULOOP_DATABASE_PROVIDER=postgresql with Hyperdrive.");
   }
 
   if (environment.NODE_ENV === "production") {

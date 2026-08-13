@@ -83,6 +83,8 @@ The included multi-stage `Dockerfile` builds the PostgreSQL Prisma client and Ne
 
 For the repository's Azure path—Container Apps plus PostgreSQL Flexible Server B1ms in Southeast Asia—see [Azure deployment](./docs/azure-deployment.md). The deployment script creates the release and hourly cleanup jobs as well as the public application.
 
+For Cloudflare Workers, the same application code runs through OpenNext and the Prisma provider wrapper uses PostgreSQL through Hyperdrive. See [Cloudflare deployment](./docs/cloudflare-deployment.md). D1 is intentionally not used because the application depends on real interactive transactions for grading, account security, and erasure.
+
 ## Adding question content
 
 Place another `.json` file with the same source contract in `data/zh-CN/`, then run `npm run data:verify` and `npm run db:seed`. Put translated source material under its BCP 47 locale directory and keep matching filenames and stable IDs across locales. Stable source IDs prevent duplicates. The normalization boundary is [content.ts](./src/lib/content.ts): add aliases there when a new provider uses different subject, grade, difficulty, or type labels. Add source-specific invariants to `data:verify` so CI enforces them alongside the generic audit. See [the content layout](./data/README.md) for the directory contract.

@@ -1,0 +1,34 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "main": ".open-next/worker.js",
+  "name": "eduloop",
+  "compatibility_date": "2026-08-13",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "vars": {
+    "APP_VERSION": "cf-20260813-1",
+    "AUTH_URL": "https://eduloop.eduloop.workers.dev",
+    "EDULOOP_DEPLOYMENT_RUNTIME": "cloudflare",
+    "EDULOOP_DATABASE_PROVIDER": "postgresql",
+    "TRUSTED_PROXY_HOPS": "1"
+  },
+  "services": [
+    {
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "eduloop"
+    }
+  ],
+  "hyperdrive": [
+    {
+      "binding": "HYPERDRIVE",
+      "id": "b33d21c9ca334169a95fb81acd1385a7",
+      "localConnectionString": "postgresql://postgres:postgres@127.0.0.1:5432/eduloop"
+    }
+  ],
+  "images": {
+    "binding": "IMAGES"
+  }
+}

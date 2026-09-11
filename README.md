@@ -27,6 +27,7 @@ The repository includes an ignored local `.env` configured for SQLite. For a fre
 ```bash
 cp .env.example .env
 npm install
+npm run dependencies:activate
 npm run db:generate
 npm run db:migrate
 npm run db:seed
@@ -71,6 +72,7 @@ export DATABASE_URL='postgresql://USER:PASSWORD@HOST:5432/eduloop?schema=public&
 export EDULOOP_DATABASE_PROVIDER='postgresql'
 export APP_VERSION='RELEASE_ID'
 npm ci
+npm run dependencies:activate
 npm run env:check
 npm run db:generate:postgres
 npm run db:deploy:postgres

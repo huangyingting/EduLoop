@@ -2,7 +2,7 @@
 
 import { BarChart3, BookmarkCheck, ClipboardCheck, Compass, Flame, Home, LogIn, LogOut, Menu, ShieldCheck, Sparkles, Target, X } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { LearnerProvider, useLearner } from "./learner-provider";
 import { Logo } from "./logo";
@@ -28,6 +28,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
 function AppShellContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [desktopNavigation, setDesktopNavigation] = useState(false);
   const menuButton = useRef<HTMLButtonElement>(null);
@@ -75,7 +76,8 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
   async function signOut() {
     try {
       await auth.logout();
-      window.location.assign("/practice");
+      router.replace("/practice");
+      router.refresh();
     } catch {
       window.alert("退出登录失败，请重试。");
     }

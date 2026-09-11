@@ -2,24 +2,28 @@
 
 import { ArrowRight, BadgeCheck, LoaderCircle } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { RecoveryShell } from "@/components/password-recovery-form";
 
 type ChangeState = "checking" | "changed" | "conflict" | "invalid";
 
 export function EmailChangeForm() {
   const [state, setState] = useState<ChangeState>("checking");
+  const pendingFragmentToken = useRef<string | null>(null);
 
   useEffect(() => {
     let active = true;
     let timer: number | undefined;
     let requestVersion = 0;
     function consumeFragment() {
-      const token = new URLSearchParams(window.location.hash.slice(1)).get("token") || "";
+      const fragmentToken = new URLSearchParams(window.location.hash.slice(1)).get("token") || "";
+      if (fragmentToken) pendingFragmentToken.current = fragmentToken;
+      const token = fragmentToken || pendingFragmentToken.current || "";
       window.history.replaceState(null, "", "/change-email");
       const version = ++requestVersion;
       window.clearTimeout(timer);
       timer = window.setTimeout(() => {
+        pendingFragmentToken.current = null;
         if (!token) {
           if (active && version === requestVersion) setState("invalid");
           return;

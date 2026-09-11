@@ -6,6 +6,7 @@ Provision PostgreSQL with TLS, automated backups, and a restricted application r
 
 ```bash
 npm ci
+npm run dependencies:activate
 npm run env:check
 npm run db:generate:postgres
 npm run db:deploy:postgres
@@ -77,7 +78,7 @@ Custom application JSON mutations reject bodies larger than 32 KiB while streami
 
 The Auth.js/account-only migrations intentionally sign old sessions out and erase historical anonymous learner rows. The active-session migration abandons all but the newest active session per learner before adding the unique active slot. The delivery-aware proof migration removes the unique `EmailChangeToken.userId` index that the earlier application uses for upsert, so an older replica must not serve email-change requests after that migration either. Deploy this release as a drained or maintenance-window cutover: stop every old replica, record the pre-migration anonymous-profile and duplicate-active-session counts, take a backup, apply migrations, replace every replica, and then verify no duplicate active sessions remain.
 
-The Docker runtime, PostgreSQL CI service, and GitHub Actions are pinned to immutable digests or commit SHAs. `.node-version` and `packageManager` align CI with the container toolchain. Dependency lifecycle scripts are denied unless their exact package version has an `allowScripts` decision; `.npmrc` makes a newly introduced script fail `npm ci`. Dependabot proposes weekly npm, Actions, and Docker updates. Review upstream release notes and any changed install script before refreshing its exact allowlist entry, then require the full CI suite before merging.
+The Docker runtime, PostgreSQL CI service, and GitHub Actions are pinned to immutable digests or commit SHAs. `.node-version` and `packageManager` align CI with the container toolchain. `.npmrc` disables dependency lifecycle scripts during installation; `npm run dependencies:activate` verifies every install-script package against the exact-version `allowScripts` decisions before explicitly rebuilding them. Dependabot proposes weekly npm, Actions, and Docker updates. Review upstream release notes and any changed install script before refreshing its exact allowlist entry, then require the full CI suite before merging.
 
 Production responses set HSTS, same-origin opener/resource isolation, and a resource-complete CSP. Next.js hydration currently requires inline scripts and the UI uses inline style values, so `script-src` and `style-src` allow inline content; `unsafe-eval` and WebSocket connections are development-only. Recheck the built application before tightening these remaining framework allowances.
 

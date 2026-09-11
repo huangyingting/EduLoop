@@ -3,7 +3,7 @@
 import { ArrowRight, BadgeCheck, CheckCircle2, LoaderCircle, LockKeyhole, Mail, RotateCcw } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const inputClass = "min-h-11 w-full rounded-xl border-2 border-ink/10 bg-canvas/60 pl-10 pr-4 text-sm font-semibold outline-none transition focus:border-violet focus:bg-white";
 
@@ -52,14 +52,18 @@ export function ResetPasswordForm() {
   const [error, setError] = useState("");
   const [changed, setChanged] = useState(false);
   const [providersDisconnected, setProvidersDisconnected] = useState(false);
+  const pendingFragmentToken = useRef<string | null>(null);
 
   useEffect(() => {
     let timer: number | undefined;
     function readToken() {
       const params = new URLSearchParams(window.location.hash.slice(1));
-      const value = params.get("token") || "";
+      const fragmentToken = params.get("token") || "";
+      if (fragmentToken) pendingFragmentToken.current = fragmentToken;
+      const value = fragmentToken || pendingFragmentToken.current || "";
       window.clearTimeout(timer);
       timer = window.setTimeout(() => {
+        pendingFragmentToken.current = null;
         setToken(value);
         if (value) {
           setChanged(false);
@@ -118,6 +122,7 @@ export function EmailVerificationForm() {
   const [busy, setBusy] = useState(false);
   const [sent, setSent] = useState(false);
   const [error, setError] = useState("");
+  const pendingFragmentToken = useRef<string | null>(null);
   const registered = searchParams.get("registered") === "1";
   const passwordSet = searchParams.get("passwordSet") === "1";
   const passwordVerificationScheduled = searchParams.get("delivery") === "scheduled";
@@ -125,10 +130,13 @@ export function EmailVerificationForm() {
   useEffect(() => {
     let timer: number | undefined;
     function readFragment() {
-      const value = new URLSearchParams(window.location.hash.slice(1)).get("token") || "";
+      const fragmentToken = new URLSearchParams(window.location.hash.slice(1)).get("token") || "";
+      if (fragmentToken) pendingFragmentToken.current = fragmentToken;
+      const value = fragmentToken || pendingFragmentToken.current || "";
       window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}`);
       window.clearTimeout(timer);
       timer = window.setTimeout(() => {
+        pendingFragmentToken.current = null;
         setToken(value);
         setVerified(false);
         setProvidersDisconnected(false);

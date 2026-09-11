@@ -79,6 +79,20 @@ describe("authentication helpers", () => {
     expect(isSameOriginRequest(legitimate, { AUTH_URL: "://invalid" })).toBe(false);
   });
 
+  it("fails closed without AUTH_URL in production", () => {
+    const spoofed = new Request("http://127.0.0.1:3000/api/auth/account", {
+      headers: {
+        host: "internal:3000",
+        origin: "https://evil.example",
+        "x-forwarded-host": "evil.example",
+        "x-forwarded-proto": "https",
+      },
+    });
+
+    expect(isSameOriginRequest(spoofed, { NODE_ENV: "production" })).toBe(false);
+    expect(isSameOriginRequest(spoofed, { NODE_ENV: "development" })).toBe(true);
+  });
+
   it("uses Auth.js' host-only session cookie", () => {
     expect(AUTH_SESSION_COOKIE).toMatch(/authjs\.session-token$/);
   });

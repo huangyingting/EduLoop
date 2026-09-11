@@ -97,7 +97,10 @@ export function safeReturnPath(value: string | null | undefined) {
   }
 }
 
-type AuthOriginEnvironment = { AUTH_URL?: string };
+type AuthOriginEnvironment = {
+  AUTH_URL?: string;
+  NODE_ENV?: string;
+};
 
 function configuredAuthOrigin(environment: AuthOriginEnvironment) {
   const configured = environment.AUTH_URL?.trim();
@@ -111,7 +114,10 @@ function configuredAuthOrigin(environment: AuthOriginEnvironment) {
 
 export function isSameOriginRequest(
   request: Request,
-  environment: AuthOriginEnvironment = { AUTH_URL: process.env.AUTH_URL },
+  environment: AuthOriginEnvironment = {
+    AUTH_URL: process.env.AUTH_URL,
+    NODE_ENV: process.env.NODE_ENV,
+  },
 ) {
   const origin = request.headers.get("origin");
   if (!origin) return request.headers.get("sec-fetch-site") !== "cross-site";
@@ -119,6 +125,7 @@ export function isSameOriginRequest(
     const publicOrigin = configuredAuthOrigin(environment);
     if (publicOrigin === null) return false;
     if (publicOrigin) return new URL(origin).origin === publicOrigin;
+    if (environment.NODE_ENV === "production") return false;
 
     const requestUrl = new URL(request.url);
     const forwardedHost = request.headers.get("x-forwarded-host")?.split(",", 1)[0]?.trim();

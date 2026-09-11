@@ -2,6 +2,7 @@
 
 import { AlertTriangle, CheckCircle2, ChevronLeft, ChevronRight, FileWarning, LoaderCircle, RotateCcw, ShieldAlert } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { hasRecentAuthentication, SENSITIVE_ACTION_MAX_AGE_SECONDS } from "@/lib/auth-validation";
 import { useAuth } from "@/lib/use-auth";
@@ -69,6 +70,7 @@ function displayDate(value: string) {
 }
 
 export function ContentStudio() {
+  const router = useRouter();
   const auth = useAuth();
   const [status, setStatus] = useState<"OPEN" | "RESOLVED">("OPEN");
   const [page, setPage] = useState(1);
@@ -168,7 +170,8 @@ export function ContentStudio() {
     try {
       await auth.logout();
     } finally {
-      window.location.assign("/login?next=%2Fstudio");
+      router.replace("/login?next=%2Fstudio");
+      router.refresh();
     }
   }
 

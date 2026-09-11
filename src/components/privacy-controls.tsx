@@ -2,6 +2,7 @@
 
 import { Download, LoaderCircle, LogIn, Trash2 } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
   hasRecentAuthentication,
@@ -16,6 +17,7 @@ async function errorMessage(response: Response, fallback: string) {
 
 export function PrivacyControls() {
   const auth = useAuth();
+  const router = useRouter();
   const [deleting, setDeleting] = useState(false);
   const [exporting, setExporting] = useState(false);
   const [deleteError, setDeleteError] = useState("");
@@ -54,7 +56,8 @@ export function PrivacyControls() {
     try {
       const response = await fetch("/api/learner", { method: "DELETE" });
       if (!response.ok) throw new Error(await errorMessage(response, "删除失败，请稍后再试。"));
-      window.location.assign("/");
+      router.replace("/");
+      router.refresh();
     } catch (cause) {
       setDeleteError(cause instanceof Error ? cause.message : "删除失败");
       setDeleting(false);
@@ -85,7 +88,8 @@ export function PrivacyControls() {
     try {
       await auth.logout();
     } finally {
-      window.location.assign("/login?next=%2Fprivacy");
+      router.replace("/login?next=%2Fprivacy");
+      router.refresh();
     }
   }
 

@@ -1,6 +1,7 @@
 import { cp, mkdir } from "node:fs/promises";
 import path from "node:path";
 import { spawn } from "node:child_process";
+import { propagateChildExit } from "./child-exit.mjs";
 import { validateEnvironment } from "./environment.mjs";
 
 const projectDirectory = process.cwd();
@@ -27,5 +28,5 @@ for (const signal of ["SIGINT", "SIGTERM"]) {
 }
 
 server.on("exit", (code, signal) => {
-  process.exit(code ?? (signal ? 0 : 1));
+  propagateChildExit(code, signal);
 });

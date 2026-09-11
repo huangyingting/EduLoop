@@ -3,6 +3,7 @@
 import { Check, KeyRound, Link2, LoaderCircle, LogIn, LogOut, Mail, Unlink, UserX } from "lucide-react";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
   hasRecentAuthentication,
@@ -25,6 +26,7 @@ async function errorMessage(response: Response, fallback: string) {
 
 export function AccountControls() {
   const auth = useAuth();
+  const router = useRouter();
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [newEmail, setNewEmail] = useState("");
@@ -141,7 +143,8 @@ export function AccountControls() {
           await auth.logout();
         } finally {
           const delivery = body.verificationScheduled ? "&delivery=scheduled" : "";
-          window.location.assign(`/verify-email?passwordSet=1${delivery}`);
+          router.replace(`/verify-email?passwordSet=1${delivery}`);
+          router.refresh();
         }
         return;
       }
@@ -177,7 +180,8 @@ export function AccountControls() {
       try {
         await auth.logout();
       } finally {
-        window.location.assign("/practice");
+        router.replace("/practice");
+        router.refresh();
       }
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "账号删除失败");
@@ -217,7 +221,8 @@ export function AccountControls() {
       try {
         await auth.logout();
       } finally {
-        window.location.assign("/login?next=%2Fprivacy&notice=provider_disconnected");
+        router.replace("/login?next=%2Fprivacy&notice=provider_disconnected");
+        router.refresh();
       }
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "暂时无法移除登录方式");
@@ -240,7 +245,8 @@ export function AccountControls() {
       try {
         await auth.logout();
       } finally {
-        window.location.assign("/login?next=%2Fprivacy&notice=sessions_revoked");
+        router.replace("/login?next=%2Fprivacy&notice=sessions_revoked");
+        router.refresh();
       }
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "暂时无法退出所有设备");
@@ -252,7 +258,8 @@ export function AccountControls() {
     try {
       await auth.logout();
     } finally {
-      window.location.assign("/login?next=%2Fprivacy");
+      router.replace("/login?next=%2Fprivacy");
+      router.refresh();
     }
   }
 

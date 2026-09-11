@@ -28,16 +28,20 @@ async function createFixture(t, overrides = {}) {
       `  postgres:\n    image: postgres:17-alpine@${imageDigest}`,
     ].join("\n"),
     ".node-version": "24.18.1\n",
-    ".npmrc": "strict-allow-scripts=true\n",
+    ".npmrc": "ignore-scripts=true\n",
     Dockerfile: [
       `FROM node:24.18.1-alpine@${imageDigest} AS builder`,
       "COPY package.json package-lock.json .npmrc ./",
-      "RUN npm ci",
+      "COPY scripts/verify-install-scripts.mjs ./scripts/",
+      "RUN npm ci && npm run dependencies:activate",
       `FROM node:24.18.1-alpine@${imageDigest} AS runner`,
     ].join("\n"),
     "package.json": JSON.stringify({
       packageManager: "npm@11.16.0",
       engines: { node: ">=24 <25" },
+      scripts: {
+        "dependencies:activate": "node scripts/verify-install-scripts.mjs && npm rebuild --ignore-scripts=false",
+      },
       allowScripts: { "example-installer@1.2.3": true },
     }),
     "package-lock.json": JSON.stringify({
@@ -109,17 +113,18 @@ test("rejects any Node Docker stage that drifts from .node-version", async (t) =
   await assert.rejects(assertSupplyChain(root), /does not match \.node-version 24\.18\.1/);
 });
 
-test("requires the Docker install layer to receive strict npm policy", async (t) => {
+test("requires the Docker install layer to enforce reviewed dependency scripts", async (t) => {
   const root = await createFixture(t, {
     Dockerfile: [
       `FROM node:24.18.1-alpine@${imageDigest} AS builder`,
       "RUN npm ci",
       "COPY package.json package-lock.json .npmrc ./",
+      "COPY scripts/verify-install-scripts.mjs ./scripts/",
       `FROM node:24.18.1-alpine@${imageDigest} AS runner`,
     ].join("\n"),
   });
 
-  await assert.rejects(assertSupplyChain(root), /Dockerfile must copy \.npmrc/);
+  await assert.rejects(assertSupplyChain(root), /activate only reviewed dependency scripts/);
 });
 
 test("rejects package metadata that drifts from the pinned Node major", async (t) => {
@@ -127,6 +132,9 @@ test("rejects package metadata that drifts from the pinned Node major", async (t
     "package.json": JSON.stringify({
       packageManager: "npm@11.16.0",
       engines: { node: ">=24" },
+      scripts: {
+        "dependencies:activate": "node scripts/verify-install-scripts.mjs && npm rebuild --ignore-scripts=false",
+      },
       allowScripts: { "example-installer@1.2.3": true },
     }),
   });
@@ -139,6 +147,9 @@ test("rejects broad or missing install-script review entries", async (t) => {
     "package.json": JSON.stringify({
       packageManager: "npm@11.16.0",
       engines: { node: ">=24 <25" },
+      scripts: {
+        "dependencies:activate": "node scripts/verify-install-scripts.mjs && npm rebuild --ignore-scripts=false",
+      },
       allowScripts: { "example-installer": true },
     }),
   });
@@ -149,10 +160,10 @@ test("rejects broad or missing install-script review entries", async (t) => {
   );
 });
 
-test("requires strict npm enforcement for unreviewed scripts", async (t) => {
+test("requires npm to disable dependency scripts by default", async (t) => {
   const root = await createFixture(t, { ".npmrc": "audit=true\n" });
 
-  await assert.rejects(assertSupplyChain(root), /\.npmrc must set strict-allow-scripts=true/);
+  await assert.rejects(assertSupplyChain(root), /\.npmrc must set ignore-scripts=true/);
 });
 
 test("does not count commented Dependabot ecosystems", async (t) => {

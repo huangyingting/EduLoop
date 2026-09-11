@@ -227,7 +227,7 @@ start_and_wait_for_job() {
   wait_for_job_execution "$job_name" "$execution_name" "$timeout_seconds"
 }
 
-configure_health_probes() {
+configure_health_probes() (
   local template_file
   local patch_file
   local app_resource_id
@@ -236,6 +236,7 @@ configure_health_probes() {
 
   template_file="$(mktemp)"
   patch_file="$(mktemp)"
+  trap 'rm -f "$template_file" "$patch_file"' EXIT
   az containerapp show \
     --name "$APP_NAME" \
     --resource-group "$RESOURCE_GROUP" \
@@ -301,7 +302,6 @@ NODE
     --body "$(cat "$patch_file")" \
     --only-show-errors \
     --output none
-  rm -f "$template_file" "$patch_file"
 
   for _ in {1..30}; do
     probe_count="$(az containerapp show \
@@ -322,7 +322,7 @@ NODE
     sleep 2
   done
   die "Azure did not persist the expected health probes."
-}
+)
 
 require_command az
 require_command curl

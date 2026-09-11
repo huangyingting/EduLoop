@@ -53,6 +53,7 @@ Every release must pass:
 
 ```bash
 npm ci
+npm run dependencies:activate
 npm audit --omit=dev --audit-level=high
 npm run db:generate
 npm run env:check

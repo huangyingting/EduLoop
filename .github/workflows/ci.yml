@@ -23,6 +23,7 @@ jobs:
           node-version-file: .node-version
           cache: npm
       - run: npm ci
+      - run: npm run dependencies:activate
       - run: npm audit --omit=dev --audit-level=high
       - run: npm run db:generate
       - run: npm run env:check
@@ -76,6 +77,7 @@ jobs:
           node-version-file: .node-version
           cache: npm
       - run: npm ci
+      - run: npm run dependencies:activate
       - run: npm run db:generate:postgres
       - run: NODE_ENV=production npm run env:check
       - run: npm run db:deploy:postgres

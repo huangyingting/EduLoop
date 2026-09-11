@@ -36,7 +36,8 @@ export function ConsentForm() {
       const body = await response.json() as { error?: string };
       if (!response.ok) throw new Error(body.error ?? "暂时无法保存确认，请稍后重试。");
       await auth.refresh();
-      window.location.assign(next);
+      router.replace(next);
+      router.refresh();
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "暂时无法保存确认，请稍后重试。");
       setBusy(false);
@@ -45,7 +46,8 @@ export function ConsentForm() {
 
   async function leave() {
     await auth.logout();
-    window.location.assign("/practice");
+    router.replace("/practice");
+    router.refresh();
   }
 
   if (auth.status !== "authenticated" || auth.user?.hasCurrentConsent) {

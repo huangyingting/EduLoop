@@ -13,6 +13,7 @@ function run(command, args) {
 }
 
 try {
+  run("npx", ["prisma", "generate", "--schema", "prisma/schema.prisma"]);
   run("npx", ["prisma", "migrate", "deploy", "--schema", "prisma/schema.prisma"]);
   run("npx", ["tsx", "prisma/seed.ts"]);
   process.env.DATABASE_URL = databaseUrl;

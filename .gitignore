@@ -6,8 +6,6 @@
 # Next.js
 /.next/
 /out/
-/.open-next/
-/.wrangler/
 
 # local configuration and databases
 .env
@@ -28,8 +26,6 @@ test-results/
 /.cache/
 *.tsbuildinfo
 next-env.d.ts
-cloudflare-env.d.ts
-
 # system files
 .DS_Store
 *.pem

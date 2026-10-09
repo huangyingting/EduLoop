@@ -3,12 +3,6 @@ import { securityHeaders } from "./src/lib/security-headers";
 
 const nextConfig: NextConfig = {
   output: "standalone",
-  outputFileTracingIncludes: {
-    "/*": [
-      "./node_modules/pg-cloudflare/dist/index.js",
-      "./node_modules/pg-cloudflare/esm/index.mjs",
-    ],
-  },
   outputFileTracingExcludes: {
     "/*": [
       "./node_modules/.prisma/client/query_compiler_bg.wasm",

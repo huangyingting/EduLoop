@@ -1,5 +1,4 @@
-import { hashPassword } from "../src/lib/auth";
-import { normalizeEmail } from "../src/lib/auth-validation";
+import bcrypt from "bcryptjs";
 import { PRIVACY_VERSION, TERMS_VERSION } from "../src/lib/legal";
 import { prisma } from "../src/lib/prisma";
 
@@ -8,7 +7,7 @@ const password = process.env.BOOTSTRAP_USER_PASSWORD ?? "";
 const displayName = process.env.BOOTSTRAP_USER_NAME?.trim() || "EduLoop Admin";
 
 async function main() {
-  const email = normalizeEmail(rawEmail);
+  const email = rawEmail.toLowerCase();
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     throw new Error("BOOTSTRAP_USER_EMAIL must be a valid email address.");
   }
@@ -33,7 +32,7 @@ async function main() {
   }
 
   const acceptedAt = new Date();
-  const passwordHash = await hashPassword(password);
+  const passwordHash = await bcrypt.hash(password, 12);
   await prisma.user.create({
     data: {
       email,

@@ -70,7 +70,7 @@ SQLite and PostgreSQL have separate schema entrypoints and migration histories:
 
 Both contain the same portable models but different datasource providers. This duplication is explicit and testable; it avoids runtime provider tricks and prevents SQLite migration SQL from reaching production. Schema changes must be applied to both files in one change.
 
-`src/lib/prisma.ts` is the deployment provider boundary. Node deployments use the generated native Prisma client singleton. Cloudflare Workers use the same generated PostgreSQL client and API through a request-scoped `PrismaPg` adapter connected to the `HYPERDRIVE` binding. This keeps model queries and interactive transactions unchanged. D1 is not a supported application database because Prisma's D1 adapter does not preserve those transaction guarantees.
+`src/lib/prisma.ts` provides the native Prisma client singleton used by local development and the Webstack VM deployment.
 
 For a production schema change, update both schemas, run a local migration, generate a PostgreSQL migration against a disposable/shadow PostgreSQL database, inspect both SQL files, and then deploy the PostgreSQL migration before the application build starts serving traffic.
 

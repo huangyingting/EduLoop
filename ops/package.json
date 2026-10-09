@@ -1,0 +1,32 @@
+{
+  "name": "eduloop-operations",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "npm@11.16.0",
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "allowScripts": {
+    "@prisma/client@6.19.3": true,
+    "@prisma/engines@6.19.3": true,
+    "esbuild@0.28.2": true,
+    "fsevents@2.3.3": true,
+    "prisma@6.19.3": true
+  },
+  "scripts": {
+    "dependencies:activate": "node scripts/verify-install-scripts.mjs && npm rebuild --ignore-scripts=false",
+    "db:generate:postgres": "prisma generate --schema prisma/postgresql/schema.prisma",
+    "db:deploy:postgres": "prisma migrate deploy --schema prisma/postgresql/schema.prisma",
+    "db:seed": "node --import tsx prisma/seed.ts",
+    "users:bootstrap": "node --import tsx scripts/bootstrap-user.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "6.19.3",
+    "bcryptjs": "3.0.3",
+    "prisma": "6.19.3",
+    "tsx": "4.23.1"
+  },
+  "overrides": {
+    "deepmerge-ts": "8.0.2"
+  }
+}

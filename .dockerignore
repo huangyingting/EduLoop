@@ -1,7 +1,11 @@
 node_modules
 .next
 .git
+.cache
 .env*
+*.pem
 prisma/*.db*
 coverage
+playwright-report
+test-results
 npm-debug.log*

@@ -83,11 +83,7 @@ Run `npm run db:seed` once if the production database should include the bundled
 
 The included multi-stage `Dockerfile` builds the PostgreSQL Prisma client and Next.js standalone server. Its startup validation refuses provider drift, malformed database URLs, non-loopback PostgreSQL without authenticated TLS, unbounded connection pools or timeouts, and malformed ports before accepting traffic. Apply migrations and seed content as release jobs before starting application replicas, then run `npm run smoke:deployment -- https://your-production-origin.example` before opening traffic. See [production readiness](./docs/production-readiness.md) and [operations](./docs/operations.md) for launch gates, backups, monitoring, and rollback guidance.
 
-For the repository's Azure path—Container Apps plus PostgreSQL Flexible Server B1ms in Southeast Asia—see [Azure deployment](./docs/azure-deployment.md). The deployment script creates the release and hourly cleanup jobs as well as the public application.
-
-For the Azure VM created by the sibling Webstack infrastructure repository, see [Webstack VM deployment](./docs/vm-deployment.md). The GitHub workflow builds immutable images, creates a dedicated EduLoop role/database through Webstack, applies migrations and seed data, verifies readiness, and uses Webstack's Compose rollback without affecting other hosted applications.
-
-For Cloudflare Workers, the same application code runs through OpenNext and the Prisma provider wrapper uses PostgreSQL through Hyperdrive. See [Cloudflare deployment](./docs/cloudflare-deployment.md). D1 is intentionally not used because the application depends on real interactive transactions for grading, account security, and erasure.
+Production supports the Azure VM created by the sibling Webstack infrastructure repository. See [Webstack VM deployment](./docs/vm-deployment.md). The GitHub workflow builds immutable images, creates a dedicated EduLoop role/database through Webstack, applies migrations and seed data, verifies readiness, and uses Webstack's Compose rollback without affecting other hosted applications.
 
 ## Adding question content
 

@@ -1,9 +1,14 @@
 FROM node:24.18.1-alpine@sha256:f70403e87646dc51b45295f4b8b70cdad0b63d2297c4c9899119b03f7af7a6b3 AS operations
 WORKDIR /app
-COPY package.json package-lock.json .npmrc ./
+COPY ops/package.json ops/package-lock.json ops/.npmrc ./
 COPY scripts/verify-install-scripts.mjs ./scripts/
-RUN npm ci --include=dev && npm run dependencies:activate && apk add --no-cache postgresql-client
-COPY . .
+RUN npm ci && npm run dependencies:activate && apk add --no-cache postgresql-client
+COPY tsconfig.json ./
+COPY data ./data
+COPY prisma/seed.ts ./prisma/seed.ts
+COPY prisma/postgresql ./prisma/postgresql
+COPY scripts/bootstrap-user.ts ./scripts/bootstrap-user.ts
+COPY src/lib ./src/lib
 RUN DATABASE_URL=postgresql://build:build@localhost:5432/build npm run db:generate:postgres
 ENV NODE_ENV=production
 ENV EDULOOP_DATABASE_PROVIDER=postgresql

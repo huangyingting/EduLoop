@@ -5,22 +5,6 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
 
-test("Azure deployment script is valid Bash and cleans probe temp files", async () => {
-  const script = new URL("./deploy-azure.sh", import.meta.url);
-  const syntax = spawnSync("bash", ["-n", script.pathname], { encoding: "utf8" });
-  assert.equal(syntax.status, 0, syntax.stderr);
-
-  const source = await readFile(script, "utf8");
-  const start = source.indexOf("configure_health_probes() (");
-  const end = source.indexOf("\n)\n\nrequire_command az", start);
-  assert.notEqual(start, -1);
-  assert.notEqual(end, -1);
-  assert.match(
-    source.slice(start, end),
-    /trap 'rm -f "\$template_file" "\$patch_file"' EXIT/,
-  );
-});
-
 test("VM deployment script integrates with Webstack isolation and rollback", async () => {
   const script = new URL("./deploy-vm.sh", import.meta.url);
   const syntax = spawnSync("bash", ["-n", script.pathname], { encoding: "utf8" });
@@ -101,11 +85,32 @@ test("VM workflow pins actions and keeps SSH host verification enabled", async (
   assert.match(workflow, /VM_APP_DOMAIN/);
   assert.match(workflow, /sudo docker login/);
   assert.match(workflow, /docker push "\$APP_IMAGE"/);
+  assert.match(workflow, /--file Dockerfile\.ops/);
   assert.match(workflow, /scripts\/deploy-vm\.sh/);
   assert.doesNotMatch(workflow, /ssh-keyscan/);
 });
 
-test("Node and Cloudflare builds generate compatible PostgreSQL Prisma engines", async () => {
+test("VM images exclude local caches and secrets", async () => {
+  const dockerignore = await readFile(
+    new URL("../.dockerignore", import.meta.url),
+    "utf8",
+  );
+  const operationsDockerfile = await readFile(
+    new URL("../Dockerfile.ops", import.meta.url),
+    "utf8",
+  );
+  const operationsPackage = JSON.parse(await readFile(
+    new URL("../ops/package.json", import.meta.url),
+    "utf8",
+  ));
+  assert.match(dockerignore, /^\.cache$/m);
+  assert.match(dockerignore, /^\*\.pem$/m);
+  assert.match(operationsDockerfile, /npm ci/);
+  assert.doesNotMatch(operationsDockerfile, /^COPY \. \.$/m);
+  assert.equal(operationsPackage.devDependencies, undefined);
+});
+
+test("VM builds generate the native PostgreSQL Prisma engine", async () => {
   const packageJson = JSON.parse(await readFile(
     new URL("../package.json", import.meta.url),
     "utf8",
@@ -115,7 +120,7 @@ test("Node and Cloudflare builds generate compatible PostgreSQL Prisma engines",
     "utf8",
   );
   assert.doesNotMatch(schema, /engineType\s*=\s*"client"/);
-  assert.match(packageJson.scripts["db:generate:postgres"], /PRISMA_CLIENT_ENGINE_TYPE=library/);
-  assert.match(packageJson.scripts["db:generate:postgres:cloudflare"], /PRISMA_CLIENT_ENGINE_TYPE=client/);
-  assert.match(packageJson.scripts["build:cloudflare"], /db:generate:postgres:cloudflare/);
+  assert.match(packageJson.scripts["db:generate:postgres"], /prisma generate/);
+  assert.equal(packageJson.scripts["db:generate:postgres:cloudflare"], undefined);
+  assert.equal(packageJson.scripts["build:cloudflare"], undefined);
 });

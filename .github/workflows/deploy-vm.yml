@@ -80,7 +80,7 @@ jobs:
             --tag "$APP_IMAGE" \
             .
           docker build \
-            --file Dockerfile.azure-ops \
+            --file Dockerfile.ops \
             --label "org.opencontainers.image.revision=$RELEASE" \
             --tag "$OPS_IMAGE" \
             .

@@ -55,7 +55,7 @@ Set repository variables:
 | `VM_APP_DOMAIN` | required | Lowercase public DNS hostname whose A record points to the VM |
 | `VM_APP_PORT` | `10001` | Unique loopback port allocated to EduLoop |
 
-`VM_APP_ENV` contains only application-level production settings. Do not include `DATABASE_URL`, `PG*`, `APP_VERSION`, `PORT`, `NODE_ENV`, `EDULOOP_DATABASE_PROVIDER`, or `EDULOOP_DEPLOYMENT_RUNTIME`; the VM deployment script derives and protects those values.
+`VM_APP_ENV` contains only application-level production settings. Do not include `DATABASE_URL`, `PG*`, `APP_VERSION`, `PORT`, `NODE_ENV`, or `EDULOOP_DATABASE_PROVIDER`; the VM deployment script derives and protects those values.
 
 ```dotenv
 AUTH_SECRET=generated-with-npx-auth-secret

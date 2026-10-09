@@ -103,8 +103,8 @@ current_path, incoming_path, output_path = map(Path, sys.argv[1:4])
 release = sys.argv[4]
 reserved = {
     "APP_VERSION", "DATABASE_URL", "EDULOOP_DATABASE_PROVIDER",
-    "EDULOOP_DEPLOYMENT_RUNTIME", "NODE_ENV", "PGDATABASE", "PGHOST",
-    "PGPASSWORD", "PGPORT", "PGUSER", "PORT",
+    "NODE_ENV", "PGDATABASE", "PGHOST", "PGPASSWORD", "PGPORT",
+    "PGUSER", "PORT",
 }
 
 def values(path):
@@ -156,7 +156,6 @@ fixed = [
     f"PGPASSWORD={database['PGPASSWORD']}",
     f"DATABASE_URL={database_url}",
     "EDULOOP_DATABASE_PROVIDER=postgresql",
-    "EDULOOP_DEPLOYMENT_RUNTIME=node",
     f"APP_VERSION={release}",
     "PORT=3000",
 ]

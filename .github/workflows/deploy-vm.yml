@@ -12,19 +12,11 @@ on:
         required: true
         default: main
         type: string
-      seed_database:
-        description: Synchronize the bundled question catalog after migrations
-        required: true
-        default: true
-        type: boolean
 
 permissions:
   contents: read
+  id-token: write
   packages: write
-
-concurrency:
-  group: deploy-vm-production
-  cancel-in-progress: false
 
 jobs:
   deploy:
@@ -38,167 +30,12 @@ jobs:
           && github.event.workflow_run.head_repository.full_name == github.repository
         )
       )
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    environment: production
-    env:
-      DEPLOY_REF: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || inputs.ref }}
-      DEPLOY_EVENT: ${{ github.event_name }}
-      MANUAL_SEED_DATABASE: ${{ inputs.seed_database }}
-      VM_HOST: ${{ secrets.VM_HOST }}
-      VM_USER: ${{ secrets.VM_USER }}
-      VM_SSH_PORT: ${{ vars.VM_SSH_PORT || '22222' }}
-      VM_DEPLOY_PATH: ${{ vars.VM_DEPLOY_PATH || '.eduloop' }}
-      VM_APP_NAME: ${{ vars.VM_APP_NAME || 'eduloop' }}
-      VM_APP_DOMAIN: ${{ vars.VM_APP_DOMAIN }}
-      VM_APP_PORT: ${{ vars.VM_APP_PORT || '10001' }}
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          ref: ${{ env.DEPLOY_REF }}
-          persist-credentials: false
-
-      - name: Resolve immutable image names
-        shell: bash
-        run: |
-          set -euo pipefail
-          release="$(git rev-parse HEAD)"
-          repository="${GITHUB_REPOSITORY,,}"
-          echo "RELEASE=$release" >>"$GITHUB_ENV"
-          echo "APP_IMAGE=ghcr.io/${repository}:${release}" >>"$GITHUB_ENV"
-          echo "OPS_IMAGE=ghcr.io/${repository}-ops:${release}" >>"$GITHUB_ENV"
-
-      - name: Build and publish deployment images
-        env:
-          GHCR_TOKEN: ${{ github.token }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          printf '%s' "$GHCR_TOKEN" | docker login ghcr.io --username "$GITHUB_ACTOR" --password-stdin
-          docker build \
-            --label "org.opencontainers.image.revision=$RELEASE" \
-            --tag "$APP_IMAGE" \
-            .
-          docker build \
-            --file Dockerfile.ops \
-            --label "org.opencontainers.image.revision=$RELEASE" \
-            --tag "$OPS_IMAGE" \
-            .
-          docker push "$APP_IMAGE"
-          docker push "$OPS_IMAGE"
-
-      - name: Prepare SSH credentials and deployment environment
-        env:
-          VM_SSH_PRIVATE_KEY: ${{ secrets.VM_SSH_PRIVATE_KEY }}
-          VM_KNOWN_HOSTS: ${{ secrets.VM_KNOWN_HOSTS }}
-          VM_APP_ENV: ${{ secrets.VM_APP_ENV }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          [[ -n "$VM_HOST" ]] || { echo "VM_HOST secret is required." >&2; exit 1; }
-          [[ "$VM_HOST" =~ ^[A-Za-z0-9][A-Za-z0-9.-]*$ ]] || { echo "VM_HOST must be a DNS name or IPv4 address." >&2; exit 1; }
-          [[ "$VM_USER" =~ ^[A-Za-z_][A-Za-z0-9_-]*$ ]] || { echo "VM_USER secret is invalid." >&2; exit 1; }
-          [[ "$VM_SSH_PORT" =~ ^[0-9]+$ ]] && ((VM_SSH_PORT >= 1 && VM_SSH_PORT <= 65535)) \
-            || { echo "VM_SSH_PORT must be from 1 through 65535." >&2; exit 1; }
-          [[ "$VM_APP_PORT" =~ ^[0-9]+$ ]] && ((VM_APP_PORT >= 1024 && VM_APP_PORT <= 65535)) \
-            || { echo "VM_APP_PORT must be from 1024 through 65535." >&2; exit 1; }
-          [[ "$VM_DEPLOY_PATH" =~ ^[A-Za-z0-9._/][A-Za-z0-9._/-]*$ && "$VM_DEPLOY_PATH" != "/" && "$VM_DEPLOY_PATH" != -* && "$VM_DEPLOY_PATH" != *".."* ]] \
-            || { echo "VM_DEPLOY_PATH contains unsupported characters." >&2; exit 1; }
-          [[ "$VM_APP_NAME" =~ ^[a-z][a-z0-9_]{0,39}$ ]] || { echo "VM_APP_NAME is invalid." >&2; exit 1; }
-          [[ "$VM_APP_DOMAIN" =~ ^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]([a-z0-9-]{0,61}[a-z0-9])?$ ]] \
-            || { echo "VM_APP_DOMAIN must be a lowercase public DNS hostname." >&2; exit 1; }
-          [[ -n "$VM_SSH_PRIVATE_KEY" && -n "$VM_KNOWN_HOSTS" && -n "$VM_APP_ENV" ]] \
-            || { echo "VM_SSH_PRIVATE_KEY, VM_KNOWN_HOSTS, and VM_APP_ENV secrets are required." >&2; exit 1; }
-
-          install -d -m 700 "$RUNNER_TEMP/eduloop-deploy"
-          printf '%s\n' "$VM_SSH_PRIVATE_KEY" | tr -d '\r' >"$RUNNER_TEMP/eduloop-deploy/id"
-          printf '%s\n' "$VM_KNOWN_HOSTS" >"$RUNNER_TEMP/eduloop-deploy/known_hosts"
-          printf '%s\n' "$VM_APP_ENV" >"$RUNNER_TEMP/eduloop-deploy/eduloop.env.incoming"
-          chmod 600 "$RUNNER_TEMP/eduloop-deploy/id" \
-            "$RUNNER_TEMP/eduloop-deploy/known_hosts" \
-            "$RUNNER_TEMP/eduloop-deploy/eduloop.env.incoming"
-
-      - name: Upload deployment inputs
-        shell: bash
-        run: |
-          set -euo pipefail
-          ssh_options=(
-            -i "$RUNNER_TEMP/eduloop-deploy/id"
-            -p "$VM_SSH_PORT"
-            -o BatchMode=yes
-            -o IdentitiesOnly=yes
-            -o StrictHostKeyChecking=yes
-            -o "UserKnownHostsFile=$RUNNER_TEMP/eduloop-deploy/known_hosts"
-          )
-          scp_options=(
-            -i "$RUNNER_TEMP/eduloop-deploy/id"
-            -P "$VM_SSH_PORT"
-            -o BatchMode=yes
-            -o IdentitiesOnly=yes
-            -o StrictHostKeyChecking=yes
-            -o "UserKnownHostsFile=$RUNNER_TEMP/eduloop-deploy/known_hosts"
-          )
-          destination="${VM_USER}@${VM_HOST}"
-          printf -v prepare_command 'umask 077; mkdir -p -- %q' "$VM_DEPLOY_PATH"
-          ssh "${ssh_options[@]}" "$destination" "$prepare_command"
-          scp "${scp_options[@]}" \
-            scripts/deploy-vm.sh \
-            "$RUNNER_TEMP/eduloop-deploy/eduloop.env.incoming" \
-            "${destination}:${VM_DEPLOY_PATH}/"
-          printf -v permission_command 'chmod 700 -- %q; chmod 600 -- %q' \
-            "$VM_DEPLOY_PATH/deploy-vm.sh" \
-            "$VM_DEPLOY_PATH/eduloop.env.incoming"
-          ssh "${ssh_options[@]}" "$destination" "$permission_command"
-
-      - name: Deploy application and database
-        env:
-          GHCR_TOKEN: ${{ github.token }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          ssh_options=(
-            -i "$RUNNER_TEMP/eduloop-deploy/id"
-            -p "$VM_SSH_PORT"
-            -o BatchMode=yes
-            -o IdentitiesOnly=yes
-            -o StrictHostKeyChecking=yes
-            -o "UserKnownHostsFile=$RUNNER_TEMP/eduloop-deploy/known_hosts"
-          )
-          destination="${VM_USER}@${VM_HOST}"
-          seed_database=true
-          if [[ "$DEPLOY_EVENT" == "workflow_dispatch" ]]; then
-            seed_database="$MANUAL_SEED_DATABASE"
-          fi
-
-          printf '%s' "$GHCR_TOKEN" \
-            | ssh "${ssh_options[@]}" "$destination" \
-                "sudo docker login ghcr.io --username '$GITHUB_ACTOR' --password-stdin"
-          printf -v deploy_command '%q ' \
-            "$VM_DEPLOY_PATH/deploy-vm.sh" \
-            "$APP_IMAGE" \
-            "$OPS_IMAGE" \
-            "$RELEASE" \
-            "$VM_DEPLOY_PATH/eduloop.env.incoming" \
-            "$VM_APP_NAME" \
-            "$VM_APP_DOMAIN" \
-            "$VM_APP_PORT" \
-            "$seed_database"
-          ssh "${ssh_options[@]}" "$destination" "sudo $deploy_command"
-
-      - name: Remove temporary credentials
-        if: always()
-        shell: bash
-        run: |
-          set +e
-          if [[ -f "$RUNNER_TEMP/eduloop-deploy/id" && -n "$VM_HOST" && -n "$VM_USER" ]]; then
-            ssh \
-              -i "$RUNNER_TEMP/eduloop-deploy/id" \
-              -p "$VM_SSH_PORT" \
-              -o BatchMode=yes \
-              -o IdentitiesOnly=yes \
-              -o StrictHostKeyChecking=yes \
-              -o "UserKnownHostsFile=$RUNNER_TEMP/eduloop-deploy/known_hosts" \
-              "${VM_USER}@${VM_HOST}" \
-              "sudo docker logout ghcr.io >/dev/null 2>&1 || true; rm -f -- '$VM_DEPLOY_PATH/eduloop.env.incoming'"
-          fi
-          rm -rf "$RUNNER_TEMP/eduloop-deploy"
+    uses: huangyingting/webstack/.github/workflows/webstack-deploy.yml@5221aae007d854c06e33839ab9c9036ad7867a70
+    with:
+      mode: deploy-webapp
+      app_name: ${{ vars.VM_APP_NAME || 'eduloop' }}
+      ref: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || inputs.ref }}
+      operations_dockerfile: Dockerfile.ops
+      operations_command: npm run db:deploy:postgres && npm run db:seed
+      release_env_var: APP_VERSION
+    secrets: inherit

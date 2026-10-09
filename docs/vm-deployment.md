@@ -1,135 +1,127 @@
 # Webstack VM deployment
 
-This deployment path targets the Azure VM created by the sibling `webstack` infrastructure repository. It uses that VM's native Caddy, `webstack-apps` Docker network, `/data/apps` layout, per-application PostgreSQL isolation, deployment lock, and rollback helper.
-
-GitHub Actions publishes immutable application and operations images to GitHub Container Registry, connects with the provided `webstack.pem`, creates the EduLoop app and database once, applies migrations and seed data, preflights readiness, then delegates the final Compose update to `webstack-deploy`.
+EduLoop deploys to the Azure VM managed by the sibling
+[`webstack`](https://github.com/huangyingting/webstack) repository. The local
+workflow is intentionally a thin caller of Webstack's reusable workflow; it
+does not contain SSH credentials or duplicate VM orchestration.
 
 ## Architecture
 
 ```text
-GitHub Actions
-  -> ghcr.io/OWNER/eduloop:{commit}
-  -> ghcr.io/OWNER/eduloop-ops:{commit}
-  -> SSH port 22222 with verified host key
-  -> sudo webstack-create-app eduloop DOMAIN --container-port 3000 --host-port 10001
-  -> dedicated app_eduloop PostgreSQL role and database
-  -> migrations and idempotent catalog seed on webstack-apps
-  -> candidate /api/health readiness
-  -> sudo webstack-deploy eduloop IMAGE
+successful EduLoop CI
+  -> pinned Webstack reusable workflow
+  -> build ghcr.io/OWNER/eduloop:{commit}
+  -> build ghcr.io/OWNER/eduloop-ops:{commit}
+  -> Azure OIDC + VM Run Command
+  -> operations container on webstack-apps
+       -> Prisma migrations
+       -> idempotent catalog seed
+  -> webstack-deploy eduloop APP_IMAGE
+  -> Docker Compose health check and old-image rollback
 
 Internet -> Caddy HTTPS -> 127.0.0.1:10001 -> EduLoop container
-EduLoop container -> 172.30.0.1:5432 -> native PostgreSQL
+EduLoop -> 172.30.0.1:5432 -> native shared PostgreSQL
 ```
 
-The workflow never deploys a second PostgreSQL server and never uses a database administrator credential. `webstack-create-app` creates a random, non-superuser role and a dedicated database, stores the credentials only in `/data/apps/eduloop/app.env`, and preserves every other webapp.
+The workflow reference is pinned to a full Webstack commit SHA. Dependabot and
+the repository supply-chain check reject mutable action references.
 
-## GitHub configuration
+## One-time Webstack setup
 
-The `VM_SSH_PRIVATE_KEY` repository secret can be populated directly from `webstack.pem`; never commit the PEM. The repository already ignores `*.pem`.
+The VM must be deployed from a Webstack revision that installs
+`webstack-create-app`, `webstack-deploy`, and `webstack-db`. Add the lowercase
+caller repository `huangyingting/eduloop` to Webstack's
+`github_repositories` Terraform variable, apply the infrastructure, and obtain
+the repository-specific client ID from `deployment.GITHUB_CLIENT_IDS`.
 
-Create a protected GitHub Environment named `production`. Set these secrets:
-
-| Name | Value |
-| --- | --- |
-| `VM_HOST` | `PUBLIC_IP` from `terraform output -json deployment` |
-| `VM_USER` | `SSH_USER` from the same output, normally `azadmin` |
-| `VM_SSH_PRIVATE_KEY` | Complete contents of `webstack.pem` |
-| `VM_KNOWN_HOSTS` | Verified host-key line for the VM and SSH port |
-| `VM_APP_ENV` | EduLoop application secrets, excluding database and fixed runtime values |
-
-Obtain the host key from the VM/provider console or another trusted channel and compare its fingerprint before saving it. Do not disable `StrictHostKeyChecking`.
+Create the app once on the VM:
 
 ```bash
-ssh-keyscan -p 22222 -H VM_PUBLIC_IP > vm_known_hosts
-ssh-keygen -lf vm_known_hosts
+sudo webstack-create-app eduloop eduloop.genisisiq.com \
+  --container-port 3000 \
+  --host-port 10001
 ```
 
-Set repository variables:
-
-| Name | Default | Purpose |
-| --- | --- | --- |
-| `VM_DEPLOY_ENABLED` | unset | Must be exactly `true` before deployment runs |
-| `VM_SSH_PORT` | `22222` | Webstack SSH port |
-| `VM_DEPLOY_PATH` | `.eduloop` | Temporary deployment directory in the SSH user's home |
-| `VM_APP_NAME` | `eduloop` | Webstack app identifier |
-| `VM_APP_DOMAIN` | required | Lowercase public DNS hostname whose A record points to the VM |
-| `VM_APP_PORT` | `10001` | Unique loopback port allocated to EduLoop |
-
-`VM_APP_ENV` contains only application-level production settings. Do not include `DATABASE_URL`, `PG*`, `APP_VERSION`, `PORT`, `NODE_ENV`, or `EDULOOP_DATABASE_PROVIDER`; the VM deployment script derives and protects those values.
+This creates the isolated `app_eduloop` role/database, Caddy route,
+`webstack-apps` network attachment, and root-only
+`/data/apps/eduloop/app.env`. Preserve the generated database settings and add
+the EduLoop production settings:
 
 ```dotenv
-AUTH_SECRET=generated-with-npx-auth-secret
-AUTH_URL=https://learn.example.com
+DATABASE_URL=******172.30.0.1:5432/app_eduloop?schema=public&sslmode=require&connection_limit=8&pool_timeout=10&connect_timeout=5
+EDULOOP_DATABASE_PROVIDER=postgresql
+AUTH_SECRET=generated-high-entropy-secret
+AUTH_URL=https://eduloop.genisisiq.com
 TRUSTED_PROXY_HOPS=1
-RESEND_API_KEY=re_...
-AUTH_EMAIL_FROM=EduLoop <accounts@example.com>
-LEGAL_ENTITY_NAME=Your legal entity
-LEGAL_CONTACT_EMAIL=privacy@example.com
-LEGAL_JURISDICTION=Your governing law and venue
+EDULOOP_PRIVATE_DEPLOYMENT=true
+PORT=3000
 ```
 
-Add complete OAuth provider pairs only when enabled. `AUTH_URL` must equal `https://VM_APP_DOMAIN`.
+`APP_VERSION` is maintained automatically from the immutable image tag. Do not
+store the administrator bootstrap password in `app.env`.
 
-For an operator-managed private deployment with pre-created accounts, set
-`EDULOOP_PRIVATE_DEPLOYMENT=true`. This disables public registration and permits
-the email-provider and public legal-identity settings above to be omitted. Create
-the initial account from the operations image with `BOOTSTRAP_USER_EMAIL`,
-`BOOTSTRAP_USER_PASSWORD`, and `npm run users:bootstrap`; the command creates a
-verified administrator once and never prints or resets its password.
+The generated Compose service must expose `127.0.0.1:10001:3000`, join the
+external `webstack-apps` network, and provide an `/api/health` healthcheck.
 
-## One-time infrastructure checks
+## GitHub production environment
 
-The Webstack VM must already pass its own deployment checks:
+Create a protected `production` environment in EduLoop and configure the
+values emitted by Webstack Terraform:
 
-```bash
-ssh -p 22222 azadmin@VM_PUBLIC_IP
-sudo systemctl is-active docker caddy postgresql
-sudo docker network inspect webstack-apps
-sudo test -x /usr/local/sbin/webstack-create-app
-sudo test -x /usr/local/sbin/webstack-deploy
-```
+| Variable | Value |
+| --- | --- |
+| `AZURE_CLIENT_ID` | `deployment.GITHUB_CLIENT_IDS["huangyingting/eduloop"]` |
+| `AZURE_TENANT_ID` | Webstack `AZURE_TENANT_ID` |
+| `AZURE_SUBSCRIPTION_ID` | Webstack `AZURE_SUBSCRIPTION_ID` |
+| `AZURE_RESOURCE_GROUP` | Webstack resource group |
+| `AZURE_VM_NAME` | Webstack VM name |
+| `VM_APP_NAME` | `eduloop` |
 
-PostgreSQL on Ubuntu enables TLS and Webstack listens on `172.30.0.1` for the fixed Docker subnet. EduLoop rewrites its generated connection URL with `sslmode=require`, an eight-connection pool, and bounded pool/connect timeouts. Confirm total pools for every hosted application plus migration/operator reserve remain below Webstack's PostgreSQL `max_connections`.
+Set the repository variable `VM_DEPLOY_ENABLED=true` only after those values
+are present. The reusable workflow uses short-lived GitHub OIDC credentials;
+EduLoop no longer needs `VM_HOST`, `VM_USER`, `VM_SSH_PRIVATE_KEY`,
+`VM_KNOWN_HOSTS`, `VM_DEPLOY_PATH`, `VM_SSH_PORT`, `VM_APP_DOMAIN`,
+`VM_APP_PORT`, or `VM_APP_ENV`.
 
-Choose a unique `VM_APP_PORT`; Webstack rejects ports or domains already assigned in `/data/apps`. Point the selected domain's A record at the VM before the first deployment so Caddy can obtain its certificate.
+If the GHCR packages are private, authenticate the VM's root Docker client once
+with a narrowly scoped `read:packages` token as documented by Webstack.
 
 ## Deployment behavior
 
-`.github/workflows/deploy-vm.yml` runs automatically after a successful `CI` push to `main`, or manually for a selected ref. It remains skipped until `VM_DEPLOY_ENABLED=true`.
+`.github/workflows/deploy-vm.yml` runs after a successful `CI` push to `main`
+or by manual dispatch. It delegates to the SHA-pinned reusable workflow with:
 
-On the first run, `scripts/deploy-vm.sh` calls `webstack-create-app`, which creates:
+- `mode: deploy-webapp`;
+- the exact CI commit as `ref`;
+- `Dockerfile.ops` as the transient operations image;
+- `npm run db:deploy:postgres && npm run db:seed` before activation;
+- `APP_VERSION` synchronized from the immutable image tag.
 
-```text
-/data/apps/eduloop/
-├── app.env
-├── app.json
-├── compose.yml
-└── image.env
-```
+Webstack builds both linux/amd64 images, uses Azure Run Command instead of
+inbound GitHub-runner SSH, executes migrations and seed data with the
+application's root-only database environment, and calls `webstack-deploy` only
+after those operations succeed. Compose keeps the prior image available and
+rolls back if the new container does not become healthy. Database migrations
+are not reversed by image rollback, so schema changes must remain
+backward-compatible.
 
-The script preserves the generated database credentials, adds the production EduLoop environment, and writes a hardened Compose service with a 1 GiB memory limit, dropped capabilities, `no-new-privileges`, a 30-second stop grace period, bounded logs, loopback-only publication, and `/api/health` readiness.
+## Administrator and verification
 
-Each deployment:
-
-1. takes Webstack's per-app deployment lock;
-2. pulls commit-addressed app and operations images;
-3. validates the complete production environment;
-4. applies only EduLoop's PostgreSQL migrations;
-5. optionally synchronizes the idempotent bundled catalog;
-6. starts an unpublished candidate on `webstack-apps` and requires readiness;
-7. calls `webstack-deploy`, which performs the Compose update and rollback;
-8. restores the prior EduLoop environment and image if the update fails.
-
-The current release stays online during image pulls, migrations, seed synchronization, and candidate preflight. The final single-replica Compose update is not zero-downtime. Database migrations are not reversed by a container rollback, so take a verified Webstack Blob backup and review migration backward compatibility before release.
-
-The active app/database environment remains root-only at `/data/apps/eduloop/app.env`. The workflow removes its temporary uploaded environment and logs out the root Docker client from GHCR after each attempt.
-
-## First deployment and verification
-
-Configure the domain, secrets, and variables while leaving `VM_DEPLOY_ENABLED` unset. Run the repository validation suite, set the variable to `true`, and manually start **Deploy VM**. After Caddy serves the release, verify externally:
+Create the initial verified administrator once with the operations image and
+transient `BOOTSTRAP_USER_EMAIL` and `BOOTSTRAP_USER_PASSWORD` variables. The
+command refuses to overwrite a non-admin and never prints the password:
 
 ```bash
-npm run smoke:deployment -- https://learn.example.com
+npm run users:bootstrap
 ```
 
-Complete email, OAuth, backup/restore, capacity, monitoring, and launch-evidence gates in `docs/production-readiness.md`. Subsequent successful `main` CI runs deploy automatically.
+After deployment, verify:
+
+```bash
+curl --fail https://eduloop.genisisiq.com/api/live
+curl --fail https://eduloop.genisisiq.com/api/health
+npm run smoke:deployment -- https://eduloop.genisisiq.com
+```
+
+Also confirm the administrator can sign in and access `/studio`, and that
+public registration returns `403` in private deployment mode.

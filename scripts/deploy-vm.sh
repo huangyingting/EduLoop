@@ -73,7 +73,7 @@ next_env="$app_directory/app.env.next"
 previous_env="$app_directory/app.env.previous"
 compose_file="$app_directory/compose.yml"
 candidate_name="${app_name}-candidate"
-lock_file="/run/lock/webstack-deploy-$app_name.lock"
+lock_file="/run/lock/eduloop-release-$app_name.lock"
 
 # shellcheck disable=SC2317  # Invoked indirectly by the EXIT trap.
 cleanup() {

@@ -15,6 +15,8 @@ test("VM deployment script integrates with Webstack isolation and rollback", asy
   assert.match(source, /webstack-deploy/);
   assert.match(source, /\/data\/apps\/\$app_name/);
   assert.match(source, /webstack-apps/);
+  assert.match(source, /\/run\/lock\/eduloop-release-\$app_name\.lock/);
+  assert.doesNotMatch(source, /lock_file="\/run\/lock\/webstack-deploy-/);
   assert.match(source, /flock -w 600 9/);
   assert.match(source, /npm run db:deploy:postgres/);
   assert.match(source, /npm run db:seed/);

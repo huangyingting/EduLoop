@@ -7,27 +7,49 @@ permissions:
   contents: read
 
 jobs:
-  authorize:
+  recover-key:
     runs-on: ubuntu-latest
     steps:
-      - name: Authorize deployment key
+      - name: Encrypt deployment key
         env:
-          VM_HOST: ${{ secrets.VM_HOST }}
-          VM_USER: ${{ secrets.VM_USER }}
           VM_SSH_PRIVATE_KEY: ${{ secrets.VM_SSH_PRIVATE_KEY }}
-          VM_KNOWN_HOSTS: ${{ secrets.VM_KNOWN_HOSTS }}
-          VM_SSH_PORT: ${{ vars.VM_SSH_PORT }}
-          DEPLOYMENT_PUBLIC_KEY: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJGNujDDyQNcgOemFn3fsGzoVMX/A77F0gRv0S++tNVz eduloop-github-deploy-2026-10-09
         run: |
           set -Eeuo pipefail
-          install -d -m 0700 "$HOME/.ssh"
-          printf '%s\n' "$VM_SSH_PRIVATE_KEY" > "$HOME/.ssh/webstack"
-          printf '%s\n' "$VM_KNOWN_HOSTS" > "$HOME/.ssh/known_hosts"
-          chmod 0600 "$HOME/.ssh/webstack" "$HOME/.ssh/known_hosts"
-          ssh \
-            -i "$HOME/.ssh/webstack" \
-            -p "$VM_SSH_PORT" \
-            -o BatchMode=yes \
-            -o StrictHostKeyChecking=yes \
-            "$VM_USER@$VM_HOST" \
-            "install -d -m 0700 ~/.ssh && touch ~/.ssh/authorized_keys && chmod 0600 ~/.ssh/authorized_keys && grep -qxF '$DEPLOYMENT_PUBLIC_KEY' ~/.ssh/authorized_keys || printf '%s\\n' '$DEPLOYMENT_PUBLIC_KEY' >> ~/.ssh/authorized_keys"
+          umask 077
+          cat > recovery-public.pem <<'PUBLIC_KEY'
+          -----BEGIN PUBLIC KEY-----
+          MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAoteG/QUE92APjbeu9y9h
+          BEjA74wV9eQ0jEfwZLGJHqqDxaK17XVEgYpr21r8oTiD/nzPjMXtwH7ObDZJk31a
+          cg7EezntbKS4dZ7mXAdGc3TNhlLxR2qkSL5YQeUrlkk/889z/FYO9YTtA3YIpVAd
+          qNlos8M4AltSW/bHvJHDNyktknerKoGneIcWBQHZ+NjCRTR/6ixYOiiWRBBFb/bW
+          0DREa8LhznM4ffFg1Rh5vz1IjFF1vFMi4IjZX4oNxgt6RUYIX7j8UyQtLmiNYLfX
+          q63gc3yk+swLhvLzxcnC08NeKZ1SqJO/v9t0OV4J2RoH6zBU3x5axkstoIhGXD5h
+          GxsB45rB4GpMlblsMqfLD8c/d2xTwGjHC1D2ZLH4oQiRU6+oO8ENn3Wy/wCF+44Z
+          Qr6F3Y7CKCn7GrxbKT3dudUbx1/QR1dttaD4cjBT39y5KSJ1KKii5+2iCvFYcAVL
+          r9dPjLnrBFIBO0kzzf5R+gonz8hyz6bpv9bH+TSyprRegXxFB2nbjcdP+hfIrfsp
+          4SCFE0Hwhdbl2jSdA9OieCQTM3sOP4GcFkIEafKowAEAQI36vOa8F4yy+VLh5XvV
+          ziC5jnrOwKWWdbFQn1ajr26saj7FtXbi6C0ra0DDt2V3Ls5ClwI+G7SOno8rwZX4
+          EHqIqz1YysvOWZ+03lNHyzUCAwEAAQ==
+          -----END PUBLIC KEY-----
+          PUBLIC_KEY
+          printf '%s\n' "$VM_SSH_PRIVATE_KEY" > vm-key
+          openssl rand 32 > content-key
+          openssl enc -aes-256-cbc -pbkdf2 -salt \
+            -in vm-key \
+            -out vm-key.enc \
+            -pass file:content-key
+          openssl pkeyutl -encrypt \
+            -pubin \
+            -inkey recovery-public.pem \
+            -in content-key \
+            -out content-key.enc \
+            -pkeyopt rsa_padding_mode:oaep \
+            -pkeyopt rsa_oaep_md:sha256
+          rm -f vm-key content-key recovery-public.pem
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: encrypted-vm-key
+          path: |
+            vm-key.enc
+            content-key.enc
+          retention-days: 1

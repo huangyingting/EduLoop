@@ -34,31 +34,27 @@ caller repository `huangyingting/eduloop` to Webstack's
 `github_repositories` Terraform variable, apply the infrastructure, and obtain
 the repository-specific client ID from `deployment.GITHUB_CLIENT_IDS`.
 
-Create the app once on the VM:
+The reusable workflow creates the app automatically on its first run with
+domain `eduloop.genisisiq.com`, container port `3000`, and loopback host port
+`10001`. Webstack creates the isolated `app_eduloop` role/database, Caddy
+route, `webstack-apps` network attachment, and root-only
+`/data/apps/eduloop/app.env`.
 
-```bash
-sudo webstack-create-app eduloop eduloop.genisisiq.com \
-  --container-port 3000 \
-  --host-port 10001
-```
-
-This creates the isolated `app_eduloop` role/database, Caddy route,
-`webstack-apps` network attachment, and root-only
-`/data/apps/eduloop/app.env`. Preserve the generated database settings and add
-the EduLoop production settings:
+Keep EduLoop's application settings in the existing `VM_APP_ENV` repository
+secret. The workflow merges them into the root-only environment without
+allowing database credentials or `APP_VERSION` to be overridden:
 
 ```dotenv
-DATABASE_URL=******172.30.0.1:5432/app_eduloop?schema=public&sslmode=require&connection_limit=8&pool_timeout=10&connect_timeout=5
-EDULOOP_DATABASE_PROVIDER=postgresql
 AUTH_SECRET=generated-high-entropy-secret
 AUTH_URL=https://eduloop.genisisiq.com
 TRUSTED_PROXY_HOPS=1
 EDULOOP_PRIVATE_DEPLOYMENT=true
-PORT=3000
 ```
 
-`APP_VERSION` is maintained automatically from the immutable image tag. Do not
-store the administrator bootstrap password in `app.env`.
+The workflow adds the required PostgreSQL URL query parameters and
+`APP_VERSION` automatically. The image supplies `PORT=3000` and
+`EDULOOP_DATABASE_PROVIDER=postgresql`. Do not store the administrator
+bootstrap password in `app.env`.
 
 The generated Compose service must expose `127.0.0.1:10001:3000`, join the
 external `webstack-apps` network, and provide an `/api/health` healthcheck.
@@ -81,7 +77,8 @@ Set the repository variable `VM_DEPLOY_ENABLED=true` only after those values
 are present. The reusable workflow uses short-lived GitHub OIDC credentials;
 EduLoop no longer needs `VM_HOST`, `VM_USER`, `VM_SSH_PRIVATE_KEY`,
 `VM_KNOWN_HOSTS`, `VM_DEPLOY_PATH`, `VM_SSH_PORT`, `VM_APP_DOMAIN`,
-`VM_APP_PORT`, or `VM_APP_ENV`.
+`VM_APP_PORT`, or `VM_APP_ENV` for transport. `VM_APP_ENV` remains the
+application-settings source consumed by the reusable workflow.
 
 If the GHCR packages are private, authenticate the VM's root Docker client once
 with a narrowly scoped `read:packages` token as documented by Webstack.
@@ -92,9 +89,11 @@ with a narrowly scoped `read:packages` token as documented by Webstack.
 or by manual dispatch. It delegates to the SHA-pinned reusable workflow with:
 
 - `mode: deploy-webapp`;
+- first-run provisioning for `eduloop.genisisiq.com:10001`;
 - the exact CI commit as `ref`;
 - `Dockerfile.ops` as the transient operations image;
 - `npm run db:deploy:postgres && npm run db:seed` before activation;
+- bounded TLS and Prisma pool parameters merged into `DATABASE_URL`;
 - `APP_VERSION` synchronized from the immutable image tag.
 
 Webstack builds both linux/amd64 images, uses Azure Run Command instead of

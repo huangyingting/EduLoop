@@ -30,12 +30,17 @@ jobs:
           && github.event.workflow_run.head_repository.full_name == github.repository
         )
       )
-    uses: huangyingting/webstack/.github/workflows/webstack-deploy.yml@5221aae007d854c06e33839ab9c9036ad7867a70
+    uses: huangyingting/webstack/.github/workflows/webstack-deploy.yml@a52909d973b6ed0359f7d1d584d0f882d504eef1
     with:
       mode: deploy-webapp
       app_name: ${{ vars.VM_APP_NAME || 'eduloop' }}
+      app_domain: eduloop.genisisiq.com
+      container_port: 3000
+      host_port: 10001
       ref: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || inputs.ref }}
       operations_dockerfile: Dockerfile.ops
       operations_command: npm run db:deploy:postgres && npm run db:seed
       release_env_var: APP_VERSION
-    secrets: inherit
+      database_url_query: schema=public&sslmode=require&connection_limit=8&pool_timeout=10&connect_timeout=5
+    secrets:
+      APPLICATION_ENV: ${{ secrets.VM_APP_ENV }}

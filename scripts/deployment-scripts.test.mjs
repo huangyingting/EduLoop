@@ -14,11 +14,18 @@ test("VM deployment delegates to the pinned Webstack workflow", async () => {
   );
   assert.match(workflow, /mode: deploy-webapp/);
   assert.match(workflow, /app_name: \$\{\{ vars\.VM_APP_NAME \|\| 'eduloop' \}\}/);
+  assert.match(workflow, /app_domain: eduloop\.genisisiq\.com/);
+  assert.match(workflow, /container_port: 3000/);
+  assert.match(workflow, /host_port: 10001/);
   assert.match(workflow, /github\.event\.workflow_run\.head_sha/);
   assert.match(workflow, /operations_dockerfile: Dockerfile\.ops/);
   assert.match(workflow, /operations_command: npm run db:deploy:postgres && npm run db:seed/);
   assert.match(workflow, /release_env_var: APP_VERSION/);
-  assert.match(workflow, /secrets: inherit/);
+  assert.match(
+    workflow,
+    /database_url_query: schema=public&sslmode=require&connection_limit=8&pool_timeout=10&connect_timeout=5/,
+  );
+  assert.match(workflow, /APPLICATION_ENV: \$\{\{ secrets\.VM_APP_ENV \}\}/);
   assert.doesNotMatch(workflow, /\bssh\b|\bscp\b|VM_SSH_PRIVATE_KEY|VM_KNOWN_HOSTS/);
 });
 

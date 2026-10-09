@@ -70,6 +70,13 @@ LEGAL_JURISDICTION=Your governing law and venue
 
 Add complete OAuth provider pairs only when enabled. `AUTH_URL` must equal `https://VM_APP_DOMAIN`.
 
+For an operator-managed private deployment with pre-created accounts, set
+`EDULOOP_PRIVATE_DEPLOYMENT=true`. This disables public registration and permits
+the email-provider and public legal-identity settings above to be omitted. Create
+the initial account from the operations image with `BOOTSTRAP_USER_EMAIL`,
+`BOOTSTRAP_USER_PASSWORD`, and `npm run users:bootstrap`; the command creates a
+verified administrator once and never prints or resets its password.
+
 ## One-time infrastructure checks
 
 The Webstack VM must already pass its own deployment checks:

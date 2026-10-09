@@ -22,6 +22,9 @@ function registrationOrigin(request: Request) {
 }
 
 async function postRegistration(request: Request) {
+  if (process.env.EDULOOP_PRIVATE_DEPLOYMENT === "true") {
+    return apiError("Registration is disabled for this deployment.", 403, "FORBIDDEN");
+  }
   if (!isSameOriginRequest(request)) {
     return apiError("Invalid request origin.", 403, "FORBIDDEN");
   }

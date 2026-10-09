@@ -18,6 +18,12 @@ Run migrations as a single pre-deploy job, not from every application replica. T
 
 For the VM created by the sibling Webstack repository, use its `webstack-create-app` helper to allocate a dedicated EduLoop role/database and Caddy route. The VM GitHub workflow and rollback boundary are documented in `docs/vm-deployment.md`; it manages only EduLoop migrations and catalog data, uses the fixed `webstack-apps` network, binds the application to loopback, and never restarts or replaces the shared PostgreSQL server.
 
+Small operator-managed installations may set `EDULOOP_PRIVATE_DEPLOYMENT=true`
+to disable public registration and omit outbound email/public legal identity
+configuration. Provision the first verified administrator with the
+`users:bootstrap` operator command and transient `BOOTSTRAP_USER_*` environment
+variables; do not place the bootstrap password in the application environment.
+
 Size `connection_limit` per application replica: the maximum replica count multiplied by that limit, plus connections for the migration job, scheduled cleanup, and operator reserve, must remain below PostgreSQL `max_connections` or the pooler's application allocation. The example uses eight connections, a 10-second pool-acquisition timeout, and a 5-second connection timeout; load-test those values against the actual replica and database plan before launch. Never set `pool_timeout=0`, because that permits an overloaded request to wait indefinitely. A Prisma `P2024` pool timeout and database reachability/timeout errors are logged with bounded metadata and returned by custom APIs as HTTP 503 rather than an opaque 500. Alert on those codes and sustained 503 completion records, and keep readiness-probe timeouts compatible with the selected database timeouts.
 
 Send `SIGTERM` for replica shutdown and allow at least 30 seconds before a forced kill. The standalone Next.js server first stops accepting connections, finishes in-flight requests, and then drains registered post-response tasks; the local `npm start` wrapper forwards the same signal. Email-provider requests abort after 10 seconds, leaving time for proof cleanup or delivery finalization. A shorter or hard-kill path can still interrupt an acknowledged verification or recovery request, so keep the resend controls available and alert on the delivery events below.

@@ -35,6 +35,30 @@ test("accepts injected PostgreSQL production configuration", () => {
     PORT: "8080",
     TRUSTED_PROXY_HOPS: "2",
   });
+
+  test("accepts a private production deployment without public email or legal settings", () => {
+    const environment = productionEnvironment({
+      EDULOOP_PRIVATE_DEPLOYMENT: "true",
+      RESEND_API_KEY: undefined,
+      AUTH_EMAIL_FROM: undefined,
+      LEGAL_ENTITY_NAME: undefined,
+      LEGAL_CONTACT_EMAIL: undefined,
+      LEGAL_JURISDICTION: undefined,
+    });
+    assert.deepEqual(validateEnvironment(environment), {
+      errors: [],
+      warnings: [],
+      provider: "postgresql",
+    });
+    assert.deepEqual(validateEnvironment({
+      ...environment,
+      EDULOOP_PRIVATE_DEPLOYMENT: "yes",
+    }).errors, [
+      "EDULOOP_PRIVATE_DEPLOYMENT must be true or false.",
+      "Production account email requires RESEND_API_KEY and AUTH_EMAIL_FROM.",
+      "Production legal pages require LEGAL_ENTITY_NAME, LEGAL_CONTACT_EMAIL, and LEGAL_JURISDICTION.",
+    ]);
+  });
   assert.deepEqual(validateEnvironment(production), {
     errors: [],
     warnings: [],

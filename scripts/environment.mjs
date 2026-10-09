@@ -63,6 +63,13 @@ function validProductionAuthSecret(value) {
 export function validateEnvironment(environment) {
   const errors = [];
   const warnings = [];
+  const privateDeployment = environment.EDULOOP_PRIVATE_DEPLOYMENT === "true";
+  if (
+    environment.EDULOOP_PRIVATE_DEPLOYMENT !== undefined
+    && !["true", "false"].includes(environment.EDULOOP_PRIVATE_DEPLOYMENT)
+  ) {
+    errors.push("EDULOOP_PRIVATE_DEPLOYMENT must be true or false.");
+  }
   const databaseUrl = environment.DATABASE_URL?.trim() ?? "";
   const configuredProvider = environment.EDULOOP_DATABASE_PROVIDER?.trim().toLowerCase() ?? "";
   const deploymentRuntime = environment.EDULOOP_DEPLOYMENT_RUNTIME?.trim().toLowerCase() || "node";
@@ -147,10 +154,10 @@ export function validateEnvironment(environment) {
         errors.push("AUTH_URL must be a public HTTPS origin without a path, query, or fragment.");
       }
     }
-    if (!environment.RESEND_API_KEY?.trim() || !environment.AUTH_EMAIL_FROM?.trim()) {
+    if (!privateDeployment && (!environment.RESEND_API_KEY?.trim() || !environment.AUTH_EMAIL_FROM?.trim())) {
       errors.push("Production account email requires RESEND_API_KEY and AUTH_EMAIL_FROM.");
     }
-    if (!environment.LEGAL_ENTITY_NAME?.trim() || !environment.LEGAL_CONTACT_EMAIL?.trim() || !environment.LEGAL_JURISDICTION?.trim()) {
+    if (!privateDeployment && (!environment.LEGAL_ENTITY_NAME?.trim() || !environment.LEGAL_CONTACT_EMAIL?.trim() || !environment.LEGAL_JURISDICTION?.trim())) {
       errors.push("Production legal pages require LEGAL_ENTITY_NAME, LEGAL_CONTACT_EMAIL, and LEGAL_JURISDICTION.");
     }
   } else if (

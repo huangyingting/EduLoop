@@ -1,0 +1,33 @@
+name: Bootstrap VM access
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  authorize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Authorize deployment key
+        env:
+          VM_HOST: ${{ secrets.VM_HOST }}
+          VM_USER: ${{ secrets.VM_USER }}
+          VM_SSH_PRIVATE_KEY: ${{ secrets.VM_SSH_PRIVATE_KEY }}
+          VM_KNOWN_HOSTS: ${{ secrets.VM_KNOWN_HOSTS }}
+          VM_SSH_PORT: ${{ vars.VM_SSH_PORT }}
+          DEPLOYMENT_PUBLIC_KEY: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJGNujDDyQNcgOemFn3fsGzoVMX/A77F0gRv0S++tNVz eduloop-github-deploy-2026-10-09
+        run: |
+          set -Eeuo pipefail
+          install -d -m 0700 "$HOME/.ssh"
+          printf '%s\n' "$VM_SSH_PRIVATE_KEY" > "$HOME/.ssh/webstack"
+          printf '%s\n' "$VM_KNOWN_HOSTS" > "$HOME/.ssh/known_hosts"
+          chmod 0600 "$HOME/.ssh/webstack" "$HOME/.ssh/known_hosts"
+          ssh \
+            -i "$HOME/.ssh/webstack" \
+            -p "$VM_SSH_PORT" \
+            -o BatchMode=yes \
+            -o StrictHostKeyChecking=yes \
+            "$VM_USER@$VM_HOST" \
+            "install -d -m 0700 ~/.ssh && touch ~/.ssh/authorized_keys && chmod 0600 ~/.ssh/authorized_keys && grep -qxF '$DEPLOYMENT_PUBLIC_KEY' ~/.ssh/authorized_keys || printf '%s\\n' '$DEPLOYMENT_PUBLIC_KEY' >> ~/.ssh/authorized_keys"

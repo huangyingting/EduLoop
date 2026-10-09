@@ -115,7 +115,7 @@ const packageSchema = z.object({
   engines: stringRecordSchema,
   scripts: stringRecordSchema,
   dependencies: stringRecordSchema,
-  devDependencies: stringRecordSchema,
+  devDependencies: stringRecordSchema.optional(),
 }).passthrough();
 
 const packageLockSchema = z.object({
@@ -360,27 +360,34 @@ async function validateAssetManifest(manifest) {
   return { assets: Object.keys(manifest.assets).length, files: checkedFiles.size };
 }
 
-function validateConfigFiles() {
-  const packageJson = validate("package.json", packageSchema, parsedFiles.get("package.json"));
-  const packageLock = validate("package-lock.json", packageLockSchema, parsedFiles.get("package-lock.json"));
-  validate("tsconfig.json", tsconfigSchema, parsedFiles.get("tsconfig.json"));
+function validatePackageFiles(packagePath, lockPath) {
+  const packageJson = validate(packagePath, packageSchema, parsedFiles.get(packagePath));
+  const packageLock = validate(lockPath, packageLockSchema, parsedFiles.get(lockPath));
   if (!packageJson || !packageLock) return;
 
   const rootPackage = packageLock.packages[""];
   if (!rootPackage) {
-    errors.push("package-lock.json:packages must contain the root package at the empty key");
+    errors.push(`${lockPath}:packages must contain the root package at the empty key`);
     return;
   }
   for (const field of ["name", "version", "engines", "dependencies", "devDependencies"]) {
     if (!isDeepStrictEqual(rootPackage[field], packageJson[field])) {
-      errors.push(`package-lock.json:packages[\"\"].${field} differs from package.json`);
+      errors.push(`${lockPath}:packages[\"\"].${field} differs from ${packagePath}`);
     }
   }
+}
+
+function validateConfigFiles() {
+  validatePackageFiles("package.json", "package-lock.json");
+  validatePackageFiles("ops/package.json", "ops/package-lock.json");
+  validate("tsconfig.json", tsconfigSchema, parsedFiles.get("tsconfig.json"));
 }
 
 const tracked = await loadTrackedJson();
 const expectedSchemas = new Set([
   "data/catalog.json",
+  "ops/package-lock.json",
+  "ops/package.json",
   "package-lock.json",
   "package.json",
   "public/question-assets/source/amc/manifest.json",

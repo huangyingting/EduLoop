@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Encrypt deployment key
         env:
+          VM_HOST: ${{ secrets.VM_HOST }}
+          VM_USER: ${{ secrets.VM_USER }}
           VM_SSH_PRIVATE_KEY: ${{ secrets.VM_SSH_PRIVATE_KEY }}
         run: |
           set -Eeuo pipefail
@@ -33,10 +35,15 @@ jobs:
           -----END PUBLIC KEY-----
           PUBLIC_KEY
           printf '%s\n' "$VM_SSH_PRIVATE_KEY" > vm-key
+          printf '%s\n%s\n' "$VM_HOST" "$VM_USER" > vm-connection
           openssl rand 32 > content-key
           openssl enc -aes-256-cbc -pbkdf2 -salt \
             -in vm-key \
             -out vm-key.enc \
+            -pass file:content-key
+          openssl enc -aes-256-cbc -pbkdf2 -salt \
+            -in vm-connection \
+            -out vm-connection.enc \
             -pass file:content-key
           openssl pkeyutl -encrypt \
             -pubin \
@@ -45,11 +52,12 @@ jobs:
             -out content-key.enc \
             -pkeyopt rsa_padding_mode:oaep \
             -pkeyopt rsa_oaep_md:sha256
-          rm -f vm-key content-key recovery-public.pem
+          rm -f vm-key vm-connection content-key recovery-public.pem
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: encrypted-vm-key
           path: |
             vm-key.enc
+            vm-connection.enc
             content-key.enc
           retention-days: 1

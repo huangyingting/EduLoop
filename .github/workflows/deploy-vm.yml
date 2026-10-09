@@ -30,7 +30,7 @@ jobs:
           && github.event.workflow_run.head_repository.full_name == github.repository
         )
       )
-    uses: huangyingting/webstack/.github/workflows/webstack-deploy.yml@a52909d973b6ed0359f7d1d584d0f882d504eef1
+    uses: huangyingting/webstack/.github/workflows/webstack-deploy.yml@125f6f78f45dbf1e4e67aba1e397f48c25c1efbd
     with:
       mode: deploy-webapp
       app_name: ${{ vars.VM_APP_NAME || 'eduloop' }}

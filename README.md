@@ -85,6 +85,8 @@ The included multi-stage `Dockerfile` builds the PostgreSQL Prisma client and Ne
 
 For the repository's Azure path—Container Apps plus PostgreSQL Flexible Server B1ms in Southeast Asia—see [Azure deployment](./docs/azure-deployment.md). The deployment script creates the release and hourly cleanup jobs as well as the public application.
 
+For the Azure VM created by the sibling Webstack infrastructure repository, see [Webstack VM deployment](./docs/vm-deployment.md). The GitHub workflow builds immutable images, creates a dedicated EduLoop role/database through Webstack, applies migrations and seed data, verifies readiness, and uses Webstack's Compose rollback without affecting other hosted applications.
+
 For Cloudflare Workers, the same application code runs through OpenNext and the Prisma provider wrapper uses PostgreSQL through Hyperdrive. See [Cloudflare deployment](./docs/cloudflare-deployment.md). D1 is intentionally not used because the application depends on real interactive transactions for grading, account security, and erasure.
 
 ## Adding question content

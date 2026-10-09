@@ -46,6 +46,7 @@ School-managed accounts are a separate launch mode. The public account path reco
 | Proxy-derived security decisions are bounded | `AUTH_URL`-anchored mutation origins plus trusted-hop client address selection and validation |
 | Untrusted mutation payloads are bounded | shared streaming 32 KiB JSON cap with declared-length and chunked-body coverage |
 | Supply and build are repeatable | lockfile, exact Node/npm toolchain, exact dependency-script policy, SHA-pinned Actions, digest-pinned images, Dependabot, standalone Dockerfile |
+| Webstack VM deployment is isolated and recoverable | Webstack-created PostgreSQL role/database, verified SSH host key, commit-addressed GHCR images, single migration job, unpublished candidate readiness, Caddy loopback routing, and Compose rollback |
 
 ## Release Gates
 

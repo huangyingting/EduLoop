@@ -19,7 +19,9 @@ export async function verifySupplyChain(root = process.cwd()) {
       const action = line.match(/^\s*(?:-\s*)?uses:\s*([^\s#]+)/)?.[1];
       if (action) {
         actionReferences.push(action);
+        const protectedWebstackRelease = /^huangyingting\/webstack\/\.github\/workflows\/webstack-deploy\.yml@v\d+\.\d+\.\d+$/.test(action);
         const immutable = action.startsWith("./")
+          || protectedWebstackRelease
           || (action.startsWith("docker://")
             ? /^docker:\/\/.+@sha256:[a-f0-9]{64}$/.test(action)
             : /^[^@\s]+@[a-f0-9]{40}$/.test(action));

@@ -83,7 +83,7 @@ Run `npm run db:seed` once if the production database should include the bundled
 
 The included multi-stage `Dockerfile` builds the PostgreSQL Prisma client and Next.js standalone server. Its startup validation refuses provider drift, malformed database URLs, non-loopback PostgreSQL without authenticated TLS, unbounded connection pools or timeouts, and malformed ports before accepting traffic. Apply migrations and seed content as release jobs before starting application replicas, then run `npm run smoke:deployment -- https://your-production-origin.example` before opening traffic. See [production readiness](./docs/production-readiness.md) and [operations](./docs/operations.md) for launch gates, backups, monitoring, and rollback guidance.
 
-Production supports the Azure VM created by the sibling Webstack infrastructure repository. See [Webstack VM deployment](./docs/vm-deployment.md). EduLoop calls Webstack's SHA-pinned reusable workflow, which builds immutable application and operations images, runs Prisma migrations and the catalog seed against EduLoop's dedicated PostgreSQL database, and activates the release through Webstack's health-checked Compose rollback without affecting other hosted applications.
+Production supports the Azure VM created by the sibling Webstack infrastructure repository. See [Webstack VM deployment](./docs/vm-deployment.md). EduLoop calls Webstack's exact-version reusable workflow, which builds immutable application and operations images, runs Prisma migrations and the catalog seed against EduLoop's dedicated PostgreSQL database, and activates the release through Webstack's health-checked Compose rollback without affecting other hosted applications.
 
 ## Adding question content
 

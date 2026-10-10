@@ -10,7 +10,7 @@ test("VM deployment delegates to the pinned Webstack workflow", async () => {
 
   assert.match(
     workflow,
-    /uses: huangyingting\/webstack\/\.github\/workflows\/webstack-deploy\.yml@[a-f0-9]{40}/,
+    /uses: huangyingting\/webstack\/\.github\/workflows\/webstack-deploy\.yml@v\d+\.\d+\.\d+/,
   );
   assert.match(workflow, /mode: deploy-webapp/);
   assert.match(workflow, /app_name: \$\{\{ vars\.VM_APP_NAME \|\| 'eduloop' \}\}/);

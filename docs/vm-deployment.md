@@ -23,8 +23,10 @@ Internet -> Caddy HTTPS -> 127.0.0.1:10001 -> EduLoop container
 EduLoop -> 172.30.0.1:5432 -> native shared PostgreSQL
 ```
 
-The workflow reference is pinned to a full Webstack commit SHA. Dependabot and
-the repository supply-chain check reject mutable action references.
+The workflow reference is pinned to the exact Webstack release `v1.0.0`.
+Webstack protects `v*` tags against deletion and non-fast-forward updates.
+The repository supply-chain check accepts only a full `vMAJOR.MINOR.PATCH`
+Webstack release, rejecting mutable major tags and branches.
 
 ## One-time Webstack setup
 
@@ -86,7 +88,7 @@ with a narrowly scoped `read:packages` token as documented by Webstack.
 ## Deployment behavior
 
 `.github/workflows/deploy-vm.yml` runs after a successful `CI` push to `main`
-or by manual dispatch. It delegates to the SHA-pinned reusable workflow with:
+or by manual dispatch. It delegates to the exact-version reusable workflow with:
 
 - `mode: deploy-webapp`;
 - first-run provisioning for `eduloop.genisisiq.com:10001`;

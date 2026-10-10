@@ -71,6 +71,21 @@ test("accepts immutable and version-aligned build inputs", async (t) => {
   assert.equal(summary.pinnedBaseImages, 2);
 });
 
+test("accepts an exact protected Webstack release", async (t) => {
+  const root = await createFixture(t, {
+    ".github/workflows/ci.yml": [
+      "jobs:",
+      "  deploy:",
+      "    uses: huangyingting/webstack/.github/workflows/webstack-deploy.yml@v1.0.0",
+      "services:",
+      `  postgres:\n    image: postgres:17-alpine@${imageDigest}`,
+    ].join("\n"),
+  });
+
+  const summary = await assertSupplyChain(root);
+  assert.equal(summary.pinnedActions, 1);
+});
+
 test("rejects mutable action and service image references", async (t) => {
   const root = await createFixture(t, {
     ".github/workflows/ci.yml": [
@@ -79,6 +94,22 @@ test("rejects mutable action and service image references", async (t) => {
       "services:",
       "  postgres:\n    image: postgres:17-alpine",
     ].join("\n"),
+  });
+
+  test("rejects mutable Webstack major and branch references", async (t) => {
+    for (const reference of ["v1", "main"]) {
+      const root = await createFixture(t, {
+        ".github/workflows/ci.yml": [
+          "jobs:",
+          "  deploy:",
+          `    uses: huangyingting/webstack/.github/workflows/webstack-deploy.yml@${reference}`,
+          "services:",
+          `  postgres:\n    image: postgres:17-alpine@${imageDigest}`,
+        ].join("\n"),
+      });
+
+      await assert.rejects(assertSupplyChain(root), /action is not pinned to an immutable revision/);
+    }
   });
 
   await assert.rejects(

@@ -48,11 +48,11 @@ test.describe("local login email change workflow", () => {
   test("learner verifies a new address before the login identity changes", async ({ page }) => {
     test.setTimeout(75_000);
     const browserErrors = captureBrowserErrors(page);
-    await page.goto("/login?next=%2Fprivacy");
+    await page.goto("/login?next=%2Fprofile");
     await page.getByLabel("邮箱").fill(oldEmail);
     await page.getByLabel("密码").fill(password);
     await page.getByRole("button", { name: "登录并继续" }).click();
-    await expect(page).toHaveURL(/\/privacy$/, { timeout: 30_000 });
+    await expect(page).toHaveURL(/\/profile$/, { timeout: 30_000 });
 
     await page.route("**/api/auth/email-change", (route) => route.fulfill({
       status: 202,

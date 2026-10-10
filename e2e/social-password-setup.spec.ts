@@ -72,13 +72,14 @@ test.describe("unverified social password setup", () => {
       sameSite: "Lax",
     }]);
 
-    await page.goto("/privacy");
+    await page.goto("/profile");
     await expect(page.getByText(`当前账号：${email}（邮箱未验证）`)).toBeVisible();
     await expect(page.getByText("若要启用邮箱登录，请先设置密码", { exact: false })).toBeVisible();
     await expect(page.getByText("确认邮箱归属时会移除当前社交登录连接", { exact: false })).toBeVisible();
     await expect(page.getByRole("button", { name: "断开 Microsoft" })).toBeDisabled();
 
-    await page.getByLabel("新密码").fill(password);
+    await page.getByLabel("新密码", { exact: true }).fill(password);
+    await page.getByLabel("再次输入新密码").fill(password);
     await page.getByRole("button", { name: "设置密码" }).click();
     await expect(page).toHaveURL(/\/verify-email\?passwordSet=1$/, { timeout: 30_000 });
     await expect(page.getByRole("status")).toContainText("密码已设置并退出所有旧会话");
@@ -114,11 +115,11 @@ test.describe("unverified social password setup", () => {
       };
     }).toEqual({ emailVerified: true, sessionVersion: 2, providers: 0 });
 
-    await page.goto("/login?next=%2Fprivacy");
+    await page.goto("/login?next=%2Fprofile");
     await page.getByLabel("邮箱").fill(email);
     await page.getByLabel("密码").fill(password);
     await page.getByRole("button", { name: "登录并继续" }).click();
-    await expect(page).toHaveURL(/\/privacy$/, { timeout: 30_000 });
+    await expect(page).toHaveURL(/\/profile$/, { timeout: 30_000 });
     await expect(page.getByText(`当前账号：${email}（邮箱已验证）`)).toBeVisible();
     await expect(page.getByRole("button", { name: "断开 Microsoft" })).toHaveCount(0);
     expect(browserErrors).toEqual([]);

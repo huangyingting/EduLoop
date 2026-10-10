@@ -51,13 +51,13 @@ test("rejected account-link callback reaches a stable recovery screen without a 
   const password = "e2e-provider-recovery-password-123";
 
   try {
-    await page.goto("/register?next=%2Fprivacy");
+    await page.goto("/register?next=%2Fprofile");
     await page.getByLabel("邮箱").fill(email);
     await page.getByLabel("密码").fill(password);
     await page.getByLabel("年满 18 岁的学习者").check();
     await page.getByLabel(/我接受 服务条款/).check();
     await page.getByRole("button", { name: "创建账号" }).click();
-    await expect(page).toHaveURL(/\/privacy$/, { timeout: 30_000 });
+    await expect(page).toHaveURL(/\/profile$/, { timeout: 30_000 });
 
     const failedLinkUrl = new URL("/login?error=Configuration", page.url()).href;
     await page.route("**/api/auth/signin/facebook", (route) => route.fulfill({
@@ -79,7 +79,7 @@ test("rejected account-link callback reaches a stable recovery screen without a 
           "Content-Type": "application/x-www-form-urlencoded",
           "X-Auth-Return-Redirect": "1",
         },
-        body: new URLSearchParams({ csrfToken, callbackUrl: "/privacy" }),
+        body: new URLSearchParams({ csrfToken, callbackUrl: "/profile" }),
       });
       const body = await response.json() as { url: string };
       return body.url;
@@ -95,8 +95,8 @@ test("rejected account-link callback reaches a stable recovery screen without a 
     await page.waitForTimeout(500);
     await expect(page).toHaveURL(/\/login\?error=OAuthCallbackError$/);
 
-    await page.getByRole("link", { name: "返回数据与隐私" }).click();
-    await expect(page).toHaveURL(/\/privacy$/);
+    await page.getByRole("link", { name: "返回账号设置" }).click();
+    await expect(page).toHaveURL(/\/profile$/);
     expect(browserErrors).toEqual([]);
   } finally {
     await page.request.delete("/api/auth/account", {

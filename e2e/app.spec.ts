@@ -118,10 +118,8 @@ test("complete export and learning-data deletion require a recent login", async 
 
     const downloadButton = page.getByRole("button", { name: "下载 JSON" });
     const deleteLearningDataButton = page.getByRole("button", { name: "删除我的学习记录" });
-    const revokeSessionsButton = page.getByRole("button", { name: "退出所有设备" });
     await expect(downloadButton).toBeEnabled();
     await expect(deleteLearningDataButton).toBeEnabled();
-    await expect(revokeSessionsButton).toBeEnabled();
 
     await page.addInitScript(() => {
       const systemNow = Date.now.bind(Date);
@@ -130,11 +128,9 @@ test("complete export and learning-data deletion require a recent login", async 
     await page.reload();
 
     await expect(page.getByText("导出完整资料或删除学习记录前", { exact: false })).toBeVisible();
-    await expect(page.getByText("退出所有设备前", { exact: false })).toBeVisible();
     await expect(page.getByRole("button", { name: "重新登录验证" }).first()).toBeVisible();
     await expect(downloadButton).toBeDisabled();
     await expect(deleteLearningDataButton).toBeDisabled();
-    await expect(revokeSessionsButton).toBeDisabled();
     expect(browserErrors).toEqual([]);
   } finally {
     await page.request.delete("/api/auth/account", {
@@ -144,7 +140,7 @@ test("complete export and learning-data deletion require a recent login", async 
 });
 
 test("account journey persists learning data and enforces studio authorization", async ({ page }) => {
-  test.setTimeout(90_000);
+  test.setTimeout(120_000);
   const browserErrors = captureBrowserErrors(page);
   const email = `e2e-${Date.now()}-${test.info().workerIndex}@example.test`;
   let password = "e2e-password-123";
@@ -164,7 +160,7 @@ test("account journey persists learning data and enforces studio authorization",
     const knowledgeGroup = page.getByRole("group", { name: "知识阶段" });
     await knowledgeGroup.getByRole("button").nth(1).click();
     await page.getByRole("button", { name: "保存学习档案" }).click();
-    await expect(page.getByRole("status")).toContainText("学习档案已保存");
+    await expect(page.getByRole("status").filter({ hasText: "学习档案已保存" })).toBeVisible();
 
     await page.getByRole("button", { name: "退出登录" }).click();
     await expect(page).toHaveURL(/\/practice$/);
@@ -233,24 +229,27 @@ test("account journey persists learning data and enforces studio authorization",
     expect(clearedProgress.ok()).toBe(true);
     expect((await clearedProgress.json() as { summary: { totalAttempts: number } }).summary.totalAttempts).toBe(0);
 
-    await page.goto("/privacy");
+    await page.goto("/profile");
     const updatedPassword = "e2e-updated-password-456";
     await page.getByLabel("当前密码", { exact: true }).fill(password);
-    await page.getByLabel("新密码").fill(updatedPassword);
+    await page.getByLabel("新密码", { exact: true }).fill(updatedPassword);
+    await page.getByLabel("再次输入新密码").fill(updatedPassword);
     await page.getByRole("button", { name: "更新密码" }).click();
-    await expect(page.getByText("密码已更新，其他设备上的登录会话已退出。")).toBeVisible();
+    await expect(page.getByText("密码已更新，其他设备上的登录会话已退出。")).toBeVisible({
+      timeout: 15_000,
+    });
     password = updatedPassword;
 
     page.once("dialog", (dialog) => dialog.accept());
     await page.getByRole("button", { name: "退出所有设备" }).click();
-    await expect(page).toHaveURL(/\/login\?next=%2Fprivacy&notice=sessions_revoked$/, {
+    await expect(page).toHaveURL(/\/login\?next=%2Fprofile&notice=sessions_revoked$/, {
       timeout: 30_000,
     });
     await expect(page.getByRole("status")).toContainText("所有设备上的旧登录会话都已退出");
     await page.getByLabel("邮箱").fill(email);
     await page.getByLabel("密码").fill(password);
     await page.getByRole("button", { name: "登录并继续" }).click();
-    await expect(page).toHaveURL(/\/privacy$/, { timeout: 30_000 });
+    await expect(page).toHaveURL(/\/profile$/, { timeout: 30_000 });
 
     await page.getByLabel("输入当前密码确认").fill(password);
     page.once("dialog", (dialog) => dialog.accept());

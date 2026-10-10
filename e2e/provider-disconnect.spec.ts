@@ -48,16 +48,16 @@ test.describe("local provider disconnect workflow", () => {
 
   test("learner removes a provider and signs back in with the remaining password", async ({ page }) => {
     const browserErrors = captureBrowserErrors(page);
-    await page.goto("/login?next=%2Fprivacy");
+    await page.goto("/login?next=%2Fprofile");
     await page.getByLabel("邮箱").fill(email);
     await page.getByLabel("密码").fill(password);
     await page.getByRole("button", { name: "登录并继续" }).click();
-    await expect(page).toHaveURL(/\/privacy$/, { timeout: 30_000 });
+    await expect(page).toHaveURL(/\/profile$/, { timeout: 30_000 });
 
     await expect(page.getByText("Google（已连接）")).toBeVisible();
     page.once("dialog", (dialog) => dialog.accept());
     await page.getByRole("button", { name: "断开 Google" }).click();
-    await expect(page).toHaveURL(/\/login\?next=%2Fprivacy&notice=provider_disconnected$/, {
+    await expect(page).toHaveURL(/\/login\?next=%2Fprofile&notice=provider_disconnected$/, {
       timeout: 30_000,
     });
     await expect(page.getByRole("status")).toContainText("社交登录连接已移除");
@@ -70,7 +70,7 @@ test.describe("local provider disconnect workflow", () => {
     await page.getByLabel("邮箱").fill(email);
     await page.getByLabel("密码").fill(password);
     await page.getByRole("button", { name: "登录并继续" }).click();
-    await expect(page).toHaveURL(/\/privacy$/, { timeout: 30_000 });
+    await expect(page).toHaveURL(/\/profile$/, { timeout: 30_000 });
     await expect(page.getByText(`当前账号：${email}`)).toBeVisible();
     expect(browserErrors).toEqual([]);
   });

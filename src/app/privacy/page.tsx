@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Database, EyeOff, ShieldCheck, Trash2 } from "lucide-react";
 import Link from "next/link";
-import { AccountControls } from "@/components/account-controls";
 import { PrivacyControls } from "@/components/privacy-controls";
 
 export const metadata: Metadata = { title: "数据与隐私" };
@@ -33,7 +32,6 @@ export default function PrivacyPage() {
         </div>
       </section>
       <PrivacyControls />
-      <AccountControls />
     </div>
   );
 }

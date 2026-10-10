@@ -109,7 +109,7 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
           <div role="progressbar" aria-label="今日十题目标" aria-valuemin={0} aria-valuemax={10} aria-valuenow={Math.min(stats.todayAttempts, 10)} className="mt-2 h-2.5 overflow-hidden rounded-full bg-white/70"><div className="h-full rounded-full bg-violet transition-all" style={{ width: `${Math.min(stats.todayAttempts * 10, 100)}%` }} /></div>
           <p className="mt-1.5 text-xs font-semibold text-ink/65">{remainingToday ? `再完成 ${remainingToday} 题，点亮今日星环` : "今日星环已点亮，做得好！"}</p>
         </div> : <div className="mt-auto rounded-[24px] border-2 border-violet/20 bg-[#f0edff] p-3 text-sm font-semibold leading-5 text-muted">访客练习不会保存答案、筛选或进度。登录后可使用完整学习功能。</div>}
-        {auth.status === "authenticated" ? <Link href="/profile" onClick={() => setOpen(false)} className="mt-3 flex items-center gap-3 rounded-xl px-2 py-1 transition hover:bg-white" aria-label="编辑学习档案">
+        {auth.status === "authenticated" ? <Link href="/profile" onClick={() => setOpen(false)} className="mt-3 flex items-center gap-3 rounded-xl px-2 py-1 transition hover:bg-white" aria-label="管理账号与学习档案">
           <div className="grid size-9 place-items-center rounded-full bg-peach text-base">🧑‍🚀</div>
           <div className="min-w-0"><p className="truncate text-sm font-extrabold text-ink">{auth.user?.displayName || (auth.status === "authenticated" ? auth.user?.email : "匿名探索者")}</p><p className="text-xs text-muted">Level {stats.level} · {stats.xp} XP</p></div>
           <div className="ml-auto flex items-center gap-1 text-xs font-black text-coral"><Flame size={20} />{stats.currentStreak}</div>

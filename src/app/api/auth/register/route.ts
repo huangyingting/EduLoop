@@ -13,6 +13,7 @@ import {
   deleteExpiredUnusedRegistration,
   registrationExpiration,
 } from "@/lib/retention";
+import { registrationEnabled } from "@/lib/deployment-mode";
 
 export const runtime = "nodejs";
 
@@ -22,7 +23,7 @@ function registrationOrigin(request: Request) {
 }
 
 async function postRegistration(request: Request) {
-  if (process.env.EDULOOP_PRIVATE_DEPLOYMENT === "true") {
+  if (!registrationEnabled()) {
     return apiError("Registration is disabled for this deployment.", 403, "FORBIDDEN");
   }
   if (!isSameOriginRequest(request)) {

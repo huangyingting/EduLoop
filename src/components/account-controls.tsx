@@ -24,11 +24,12 @@ async function errorMessage(response: Response, fallback: string) {
   return body?.error ?? fallback;
 }
 
-export function AccountControls() {
+export function AccountControls({ returnPath = "/profile" }: { returnPath?: string }) {
   const auth = useAuth();
   const router = useRouter();
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [newEmail, setNewEmail] = useState("");
   const [emailPassword, setEmailPassword] = useState("");
   const [deletePassword, setDeletePassword] = useState("");
@@ -126,6 +127,7 @@ export function AccountControls() {
     if (changing) return;
     setChanging(true); setError(""); setMessage("");
     try {
+      if (newPassword !== confirmPassword) throw new Error("两次输入的新密码不一致。");
       const response = await fetch("/api/auth/account", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
@@ -138,7 +140,7 @@ export function AccountControls() {
       } | null;
       if (!response.ok) throw new Error(body?.error ?? "密码修改失败，请稍后再试。");
       if (body?.verificationRequired) {
-        setCurrentPassword(""); setNewPassword("");
+        setCurrentPassword(""); setNewPassword(""); setConfirmPassword("");
         try {
           await auth.logout();
         } finally {
@@ -155,7 +157,7 @@ export function AccountControls() {
       });
       if (!signedIn.ok) throw new Error("密码已更新，请使用新密码重新登录。");
       await auth.refresh();
-      setCurrentPassword(""); setNewPassword("");
+      setCurrentPassword(""); setNewPassword(""); setConfirmPassword("");
       setMessage(auth.user?.hasPassword ? "密码已更新，其他设备上的登录会话已退出。" : "密码已设置，现在也可以使用邮箱登录。");
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "密码修改失败");
@@ -193,7 +195,7 @@ export function AccountControls() {
     if (linking || disconnecting || needsRecentLogin) return;
     setLinking(provider.id); setError(""); setMessage("");
     try {
-      const result = await requestProviderAuthorization(provider.id, "/privacy");
+      const result = await requestProviderAuthorization(provider.id, returnPath);
       if (!result.ok) {
         setError(authErrorMessage(result.error, result.code, "account-link"));
         return;
@@ -221,7 +223,7 @@ export function AccountControls() {
       try {
         await auth.logout();
       } finally {
-        router.replace("/login?next=%2Fprivacy&notice=provider_disconnected");
+        router.replace(`/login?next=${encodeURIComponent(returnPath)}&notice=provider_disconnected`);
         router.refresh();
       }
     } catch (cause) {
@@ -245,7 +247,7 @@ export function AccountControls() {
       try {
         await auth.logout();
       } finally {
-        router.replace("/login?next=%2Fprivacy&notice=sessions_revoked");
+        router.replace(`/login?next=${encodeURIComponent(returnPath)}&notice=sessions_revoked`);
         router.refresh();
       }
     } catch (cause) {
@@ -258,7 +260,7 @@ export function AccountControls() {
     try {
       await auth.logout();
     } finally {
-      router.replace("/login?next=%2Fprivacy");
+      router.replace(`/login?next=${encodeURIComponent(returnPath)}`);
       router.refresh();
     }
   }
@@ -307,6 +309,7 @@ export function AccountControls() {
         <h3 className="flex items-center gap-2 font-black"><KeyRound size={18} /> {auth.user?.hasPassword ? "更改密码" : "设置邮箱密码"}</h3>
         {auth.user?.hasPassword ? <label className="mt-4 block text-sm font-bold">当前密码<input type="password" required autoComplete="current-password" value={currentPassword} onChange={(event) => setCurrentPassword(event.target.value)} className="mt-1.5 min-h-11 w-full rounded-xl border-2 border-ink/10 bg-white px-3 outline-none focus:border-violet" /></label> : <p className="mt-3 text-sm font-semibold leading-6 text-muted">{auth.user?.isEmailVerified ? "设置后可继续使用社交登录，也可直接使用邮箱和密码登录。" : "设置后会退出所有设备并发送邮箱验证链接；你需要在验证页再次输入这个密码。确认邮箱归属时会移除当前社交登录连接，之后可重新连接。"}</p>}
         <label className="mt-3 block text-sm font-bold">新密码<input type="password" required minLength={8} maxLength={128} autoComplete="new-password" value={newPassword} onChange={(event) => setNewPassword(event.target.value)} className="mt-1.5 min-h-11 w-full rounded-xl border-2 border-ink/10 bg-white px-3 outline-none focus:border-violet" /></label>
+        <label className="mt-3 block text-sm font-bold">再次输入新密码<input type="password" required minLength={8} maxLength={128} autoComplete="new-password" value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} className="mt-1.5 min-h-11 w-full rounded-xl border-2 border-ink/10 bg-white px-3 outline-none focus:border-violet" /></label>
         <button disabled={changing || needsRecentSensitiveLogin} className="mt-4 inline-flex min-h-11 items-center gap-2 rounded-xl bg-violet px-5 text-sm font-black text-white disabled:opacity-50">{changing ? <LoaderCircle className="animate-spin" size={17} /> : <KeyRound size={17} />} {auth.user?.hasPassword ? "更新密码" : "设置密码"}</button>
       </form>
       <div className="rounded-2xl border-2 border-amber-300/60 bg-amber-50 p-5">

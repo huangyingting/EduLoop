@@ -18,7 +18,13 @@ import { CustomSelect } from "./custom-select";
 
 type GradeBandOption = { slug: string; name: string };
 
-export function AuthForm({ mode }: { mode: "login" | "register" }) {
+export function AuthForm({
+  mode,
+  registrationEnabled = true,
+}: {
+  mode: "login" | "register";
+  registrationEnabled?: boolean;
+}) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const auth = useAuth();
@@ -40,6 +46,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
   const emailVerified = isLogin && searchParams.get("verified") === "1";
   const providerDisconnected = isLogin && searchParams.get("notice") === "provider_disconnected";
   const sessionsRevoked = isLogin && searchParams.get("notice") === "sessions_revoked";
+  const registrationDisabled = isLogin && searchParams.get("registration") === "disabled";
   const queryAuthError = searchParams.get("error");
   const queryAuthCode = searchParams.get("code");
   const authenticatedAuthError = auth.status === "authenticated" && queryAuthError
@@ -191,13 +198,14 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
             {emailVerified ? <p role="status" className="rounded-xl border-2 border-lime bg-[#f7fadf] px-4 py-3 text-sm font-bold text-[#557000]">邮箱已验证，请登录继续学习。</p> : null}
             {providerDisconnected ? <p role="status" className="rounded-xl border-2 border-lime bg-[#f7fadf] px-4 py-3 text-sm font-bold text-[#557000]">社交登录连接已移除，所有旧会话已退出。请使用剩余方式重新登录。</p> : null}
             {sessionsRevoked ? <p role="status" className="rounded-xl border-2 border-lime bg-[#f7fadf] px-4 py-3 text-sm font-bold text-[#557000]">所有设备上的旧登录会话都已退出。请重新登录。</p> : null}
+            {registrationDisabled ? <p role="status" className="rounded-xl border-2 border-violet/20 bg-[#f0edff] px-4 py-3 text-sm font-bold text-violet">当前为内部测试模式，公开注册已关闭。请使用管理员提供的测试账号登录。</p> : null}
             {error ? <div role="alert" className="rounded-xl border-2 border-coral/30 bg-[#fff0ed] px-4 py-3 text-sm font-bold text-coral"><p>{error}</p>{emailUnverified ? <Link href="/verify-email" className="mt-2 inline-block text-violet hover:underline">重新发送验证邮件</Link> : null}</div> : null}
             <button type="submit" disabled={busy} className="flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-ink px-5 font-black text-white shadow-[0_4px_0_#6c5ce7] transition hover:-translate-y-0.5 disabled:translate-y-0 disabled:opacity-60">
               {busy ? <LoaderCircle className="animate-spin" size={18} /> : <>{isLogin ? "登录并继续" : "创建账号"}<ArrowRight size={18} /></>}
             </button>
           </form>
 
-          <p className="mt-4 text-center text-sm font-semibold text-muted">{isLogin ? "还没有账号？" : "已经有账号？"} <Link href={alternateHref} className="font-black text-violet hover:underline">{isLogin ? "免费注册" : "直接登录"}</Link></p>
+          {isLogin && !registrationEnabled ? null : <p className="mt-4 text-center text-sm font-semibold text-muted">{isLogin ? "还没有账号？" : "已经有账号？"} <Link href={alternateHref} className="font-black text-violet hover:underline">{isLogin ? "免费注册" : "直接登录"}</Link></p>}
           <p className="mt-2.5 text-center text-xs font-semibold text-muted"><Link href="/practice" className="hover:text-ink hover:underline">暂时以匿名访客练习（不保存记录）</Link></p>
           <p className="mt-2 text-center text-[11px] font-semibold text-muted"><Link href="/terms" className="hover:text-ink hover:underline">服务条款</Link> · <Link href="/privacy-policy" className="hover:text-ink hover:underline">隐私说明</Link></p>
         </section>
@@ -225,5 +233,5 @@ function ProviderIcon({ id }: { id: string }) {
 }
 
 function AuthenticatedProviderError({ message }: { message: string }) {
-  return <main id="main-content" className="grid min-h-screen place-items-center bg-canvas p-6"><section className="w-full max-w-lg rounded-[28px] border-2 border-ink bg-white p-7 shadow-[7px_8px_0_#242136]"><p className="text-xs font-black uppercase tracking-[.2em] text-coral">Account connection</p><h1 className="mt-2 font-display text-2xl font-black">社交账号连接未完成</h1><p role="alert" className="mt-4 rounded-xl bg-[#fff0ed] px-4 py-3 text-sm font-bold leading-6 text-coral">{message}</p><div className="mt-5 flex flex-wrap gap-3"><Link href="/privacy" className="inline-flex min-h-11 items-center rounded-xl bg-violet px-5 text-sm font-black text-white">返回数据与隐私</Link><Link href="/practice" className="inline-flex min-h-11 items-center rounded-xl border-2 border-ink/10 px-5 text-sm font-black">继续练习</Link></div></section></main>;
+  return <main id="main-content" className="grid min-h-screen place-items-center bg-canvas p-6"><section className="w-full max-w-lg rounded-[28px] border-2 border-ink bg-white p-7 shadow-[7px_8px_0_#242136]"><p className="text-xs font-black uppercase tracking-[.2em] text-coral">Account connection</p><h1 className="mt-2 font-display text-2xl font-black">社交账号连接未完成</h1><p role="alert" className="mt-4 rounded-xl bg-[#fff0ed] px-4 py-3 text-sm font-bold leading-6 text-coral">{message}</p><div className="mt-5 flex flex-wrap gap-3"><Link href="/profile" className="inline-flex min-h-11 items-center rounded-xl bg-violet px-5 text-sm font-black text-white">返回账号设置</Link><Link href="/practice" className="inline-flex min-h-11 items-center rounded-xl border-2 border-ink/10 px-5 text-sm font-black">继续练习</Link></div></section></main>;
 }

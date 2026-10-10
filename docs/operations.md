@@ -19,10 +19,14 @@ Run migrations as a single pre-deploy job, not from every application replica. T
 For the VM created by the sibling Webstack repository, use its `webstack-create-app` helper to allocate a dedicated EduLoop role/database and Caddy route. The GitHub workflow and rollback boundary are documented in `docs/vm-deployment.md`; EduLoop delegates to Webstack's pinned reusable workflow over Azure OIDC, manages only EduLoop migrations and catalog data on the fixed `webstack-apps` network, and never restarts or replaces the shared PostgreSQL server.
 
 Small operator-managed installations may set `EDULOOP_PRIVATE_DEPLOYMENT=true`
-to disable public registration and omit outbound email/public legal identity
-configuration. Provision the first verified administrator with the
-`users:bootstrap` operator command and transient `BOOTSTRAP_USER_*` environment
-variables; do not place the bootstrap password in the application environment.
+to disable public registration at the API, `/register` route, and login UI, and
+omit outbound email/public legal identity configuration. Provision the first
+verified administrator with the `users:bootstrap` operator command and transient
+`BOOTSTRAP_USER_*` environment variables; do not place the bootstrap password in
+the application environment. Authenticated users manage their nickname,
+recommendation range, email, password, social sign-in methods, and active
+sessions from `/profile`; privacy export and deletion controls remain under
+`/privacy`.
 
 Size `connection_limit` per application replica: the maximum replica count multiplied by that limit, plus connections for the migration job, scheduled cleanup, and operator reserve, must remain below PostgreSQL `max_connections` or the pooler's application allocation. The example uses eight connections, a 10-second pool-acquisition timeout, and a 5-second connection timeout; load-test those values against the actual replica and database plan before launch. Never set `pool_timeout=0`, because that permits an overloaded request to wait indefinitely. A Prisma `P2024` pool timeout and database reachability/timeout errors are logged with bounded metadata and returned by custom APIs as HTTP 503 rather than an opaque 500. Alert on those codes and sustained 503 completion records, and keep readiness-probe timeouts compatible with the selected database timeouts.
 

@@ -114,7 +114,7 @@ describe("normalizeMathExpression", () => {
   it("produces strict-compatible KaTeX for normalized notation", () => {
     const warnings: string[] = [];
     const expression = normalizeMathExpression(
-      "∆A′B′C′⊥BD, 3∶5, -95℃, 0.1％, 6□0",
+      "∆A′B′C′⊥BD, 3∶5, -95℃, 0.1％, 6□0, \\rm{点燃} + Ⅰ + Ⅱ + a\\text{♁}b + 30\\text{º} + X～B(n,p)。",
     );
 
     expect(() => katex.renderToString(expression, {

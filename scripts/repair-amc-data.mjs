@@ -52,6 +52,23 @@ const REPAIRS = [
   ["data/en/amc12.json", "4bf13f208977f76ac9594bafe4152d6c", "solutions.0", "\n[A B C D]=k\\sqrt{3}+\\sqrt{36-k^{2}}+10\\sqrt\n", "\n$[A B C D]=k\\sqrt{3}+\\sqrt{36-k^{2}}+10\\sqrt{3}.$\n"],
   ["data/en/amc12.json", "a8ee0142b0def76f26020202ad555995", "solutions.0", "\n(100 \\%-70 \\%) \\cdot\\left(1-\\dfrac{1}{3}\\right)=30 \\% \\cdot \\dfrac{2}{3}=\\boxed\n", "\n$(100 \\%-70 \\%) \\cdot\\left(1-\\dfrac{1}{3}\\right)=30 \\% \\cdot \\dfrac{2}{3}=\\boxed{(C)20 \\%}$\n"],
   ["data/en/amc12.json", "a49ae7a05f4d572a44a6bc464b7367df", "solutions.0", "$0 \\Longrightarrow x=$ \\dfrac{n \\pm \\sqrt{n^{2}-4 a n^{2}}}", "$0 \\Longrightarrow x= \\dfrac{n \\pm \\sqrt{n^{2}-4 a n^{2}}}{2a}.$"],
+
+  // Wave 4 AMC URL, image-reference, and inline contributor note repairs
+  ["data/en/amc8.json", "4f5f71e7724917441e2594a485476f88", "solutions.0", " (See https://arxiv.org/pdf/1602.06208.pdf.)", ""],
+  ["data/zh-CN/amc8.json", "4f5f71e7724917441e2594a485476f88", "solutions.0", "（见https://arxiv.org/pdf/1602.06208.pdf。）", ""],
+  ["data/en/amc8.json", "cce96b0cdf1c65f61bea3822dc4a7285", "solutions.0", "$Note:$ Input data was taken from the NASA website https://mars.nasa.gov/mars2020/.\n\n", ""],
+  ["data/zh-CN/amc8.json", "cce96b0cdf1c65f61bea3822dc4a7285", "solutions.0", "$Note:$ 输入数据来自 NASA 网站 https://mars.nasa.gov/mars2020/。\n\n", ""],
+  ["data/en/amc10.json", "00f82f94ecadadc5f226e071dcbefd8f", "solutions.0", " See this website:\n\ndecisionsciencenews.com/?s=happens+next", ""],
+  ["data/en/amc10.json", "344051be2dd9e6d31574f57e55ed109c", "solutions.0", " (look at this problem to get a better idea of what's happening: https://artofproblemsolving.com/wiki/index.php/2011_AMC_10B_Problems/Problem_24)", ""],
+  ["data/en/amc10.json", "344051be2dd9e6d31574f57e55ed109c", "solutions.0", " (see https://en.wikipedia.org/wiki/Farey_sequence#Farey_neighbours)", ""],
+  ["data/en/amc10.json", "344051be2dd9e6d31574f57e55ed109c", "solutions.0", " Wikipedia page: https://en.wikipedia.org/wiki/Pick%27s_theorem.", ""],
+  ["data/en/amc10.json", "8428c2de928d9ab9debcc590c4b49685", "solutions.4", " ~ primegn.", "."],
+  ["data/en/amc10.json", "8428c2de928d9ab9debcc590c4b49685", "solutions.4", " ~Puer_137)", ")"],
+  ["data/en/amc10.json", "dda3ada2ccd5c3ac6628ec704b430bbb", "solutions.1", " ~KingRavi)", ")"],
+  ["data/en/amc10.json", "1d61c20cadddf582fabc1649d95e5413", "solutions.0", " ~ YTH)", ")"],
+  ["data/en/amc10.json", "39932dd34ea8cc4e71b30d54cde465e6", "solutions.0", "Note from ~milquetoast:", "Note:"],
+  ["data/en/amc10.json", "584efebe71a94be6e09f5b51d4c17b0e", "solutions.0", " ~ minor $\\LaTeX$ edits by dolphin7", ""],
+  ["data/en/amc10.json", "ed7eb6a3d013a7ca5884177151a7122c", "solutions.4", "(not named in my image)", "$K$", 2],
 ];
 
 const AMC_FILES = [
@@ -68,9 +85,24 @@ function cleanAmcMarkupAndSignatures(text, isZh = false) {
     .replace(/\\section\*\{另一种解法\}/gu, "另一种解法：")
     .replace(/\\section\*\{OR\}/gu, "OR")
     .replace(/\n\n\\mathrm\n\n/gu, isZh ? "\n\n另一种解法：\n\n" : "\n\nOR\n\n")
-    .replace(/\n\n\\end\n\n/gu, "\n\n");
+    .replace(/\n\n\\end\n\n/gu, "\n\n")
+    .replace(
+      /\s*~+\s*@?[A-Za-z][A-Za-z0-9_. ]*(?:\([A-Za-z0-9_ ]+\))?(?:\s*~+\s*[A-Za-z0-9_. ()]+)?~*\s*$/gmu,
+      "",
+    );
 
-  const lines = out.split("\n").filter((line) => !/^\s*~\s*[A-Za-z0-9_\\$]/u.test(line));
+  const lineDropRe =
+    /^\s*(?:~+\s*@?[A-Za-z0-9_\\$]|vladimir\.shelomovskii@gmail\.com,\s*vvsss|emilyyunhanq@gmail\.com|Emily Q|Solution by [A-Za-z0-9_~ ]+|\((?:[Ee]dited|minor edits)[^)]*\)|By Antony Huang.*|Video Solution.*|https?:\/\/(?:www\.)?(?:youtube\.com|youtu\.be|imgur\.com|mathworld\.wolfram\.com)\S*|decisionsciencenews\.com\S*|(?:[Mm]inor |[Vv]ery small )?(?:latex |rephrasing )?(?:edits?|corrections?) (?:by|from|for) [^\n]+|A very similar solution offered by [^\n]+|added a single R to spell [^\n]+|i feel this explanation [^\n]+|17:51, 6 November 2025[^\n]+|\$\\newline\$\s*~[^\n]+)\s*$/u;
+
+  const lines = out.split("\n").filter((line) => !lineDropRe.test(line));
+  while (lines.length > 0) {
+    const last = lines[lines.length - 1].trim();
+    if (!last || /^[-–—]{1,2}\s*[A-Za-z_@][^\n$]{0,90}$/u.test(last)) {
+      lines.pop();
+    } else {
+      break;
+    }
+  }
   return lines.join("\n").replace(/\n{3,}/g, "\n\n").trim();
 }
 
@@ -136,6 +168,57 @@ for (const filename of AMC_FILES) {
   if (changed) {
     await writeFile(filepath, `${JSON.stringify(questions, null, 2)}\n`);
   }
+}
+
+for (const base of ["amc8.json", "amc10.json", "amc12.json"]) {
+  const enPath = path.resolve(`data/en/${base}`);
+  const zhPath = path.resolve(`data/zh-CN/${base}`);
+  const enQuestions = JSON.parse((await readFile(enPath, "utf8")).replace(/^\uFEFF/, ""));
+  const zhQuestions = JSON.parse((await readFile(zhPath, "utf8")).replace(/^\uFEFF/, ""));
+  let enChanged = false;
+  let zhChanged = false;
+
+  for (let i = 0; i < enQuestions.length; i += 1) {
+    const enQ = enQuestions[i];
+    const zhQ = zhQuestions[i];
+    if (!enQ || !zhQ || enQ.id !== zhQ.id) continue;
+    const enSols = enQ.solutions ?? [];
+    const zhSols = zhQ.solutions ?? [];
+    if (enSols.length !== zhSols.length) continue;
+
+    const seenEn = new Set();
+    const seenZh = new Set();
+    const nextEn = [];
+    const nextZh = [];
+    for (let k = 0; k < enSols.length; k += 1) {
+      const eSol = enSols[k];
+      const zSol = zhSols[k];
+      if (
+        !eSol ||
+        !zSol ||
+        /^Notice that only answer choices \(a\) and \(c\) sum to 180/u.test(eSol) ||
+        /^The problem mentions the sum of digits - recall that if a number is divisible by 9[\s\S]*Guess that the answer must therefore be/u.test(eSol) ||
+        /let’s move on and pray that our answer is right/u.test(eSol)
+      ) {
+        continue;
+      }
+      if (seenEn.has(eSol) || seenZh.has(zSol)) continue;
+      seenEn.add(eSol);
+      seenZh.add(zSol);
+      nextEn.push(eSol);
+      nextZh.push(zSol);
+    }
+    if (nextEn.length > 0 && nextEn.length !== enSols.length) {
+      enQ.solutions = nextEn;
+      zhQ.solutions = nextZh;
+      cleanedTextFields += 2;
+      enChanged = true;
+      zhChanged = true;
+    }
+  }
+
+  if (enChanged) await writeFile(enPath, `${JSON.stringify(enQuestions, null, 2)}\n`);
+  if (zhChanged) await writeFile(zhPath, `${JSON.stringify(zhQuestions, null, 2)}\n`);
 }
 
 console.log(JSON.stringify({ repairedFields, cleanedTextFields }, null, 2));

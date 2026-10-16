@@ -18120,7 +18120,7 @@
     },
     "answer": "A",
     "solutions": [
-      "$Answer (A)$: The two-digit palindromes are $11, 22, 33, ..., 99$, all of which are multiples of $11$. A sum of three of these palindromes will also be a multiple of $11$. The smallest three-digit multiple of $11$ is $110$, and 110 can be expressed as the sum of three two-digit palindromes. For example, $110 = 22+33+55$. The sum of the digits of $110$ is $1+1+0 =2$.\n\nNote: Javier Cilleruelo, Florian Luca, and Lewis Baxter recently proved that any positive integer can be written as the sum of three palindromes. (See https://arxiv.org/pdf/1602.06208.pdf.)\n\nAnswer: $\\boxed{A}$."
+      "$Answer (A)$: The two-digit palindromes are $11, 22, 33, ..., 99$, all of which are multiples of $11$. A sum of three of these palindromes will also be a multiple of $11$. The smallest three-digit multiple of $11$ is $110$, and 110 can be expressed as the sum of three two-digit palindromes. For example, $110 = 22+33+55$. The sum of the digits of $110$ is $1+1+0 =2$.\n\nNote: Javier Cilleruelo, Florian Luca, and Lewis Baxter recently proved that any positive integer can be written as the sum of three palindromes.\n\nAnswer: $\\boxed{A}$."
     ],
     "tags": []
   },
@@ -19653,7 +19653,7 @@
     },
     "answer": "C",
     "solutions": [
-      "The average speed of the Rover can be calculated by dividing the total distance traveled by the number of hours in flight. The Rover covered almost $300,000,000$ miles over $6\\cdot5$ months. Assuming about $30$ days in a month, the trip lasted about $6\\cdot5 \\times 30 = 195$ days, which is almost $200$ days. Therefore the Rover’s average interplanetary speed was approximately\n\n$\\dfrac{300,000,000\\ miles}{200\\ days}\\cdot\\dfrac{1\\ day}{24\\ hours} \\approx \\dfrac{300,000,000\\ miles}{5000\\ hours} = 60,000 mph.$\n$Note:$ Input data was taken from the NASA website https://mars.nasa.gov/mars2020/.\n\nAnswer: $\\boxed{C}$."
+      "The average speed of the Rover can be calculated by dividing the total distance traveled by the number of hours in flight. The Rover covered almost $300,000,000$ miles over $6\\cdot5$ months. Assuming about $30$ days in a month, the trip lasted about $6\\cdot5 \\times 30 = 195$ days, which is almost $200$ days. Therefore the Rover’s average interplanetary speed was approximately\n\n$\\dfrac{300,000,000\\ miles}{200\\ days}\\cdot\\dfrac{1\\ day}{24\\ hours} \\approx \\dfrac{300,000,000\\ miles}{5000\\ hours} = 60,000 mph.$\nAnswer: $\\boxed{C}$."
     ],
     "tags": []
   },
@@ -20604,7 +20604,7 @@
     },
     "answer": "C",
     "solutions": [
-      "The sum of all five numbers is $85$. Since $85$ is $1$ more than a multiple of $4$, the number being subtracted must be $1$ more than a multiple of $4$. Thus, the answer is $\\boxed{\\textbf{(C)}~17}$. ~Gavin_Deng",
+      "The sum of all five numbers is $85$. Since $85$ is $1$ more than a multiple of $4$, the number being subtracted must be $1$ more than a multiple of $4$. Thus, the answer is $\\boxed{\\textbf{(C)}~17}$.",
       "Notice the $10$'s place as you erase one number; you get $40$, which is a multiple of $4$, so you can ignore the $10$'s place in the numbers provided altogether because it will always be a multiple of 40. This means that the only relevant numbers are the $1$'s digit ones. If you add the numbers now, you get $5+6+7+8+9=35.$ The closest multiple of $4$ underneath $35$ which can be achieved as a result of subtracting either $5$, $6$, $7$, $8$, or $9$ is $28$, which is achieved by subtracting $7$, therefore the answer is $\\boxed{\\textbf{(C)}~17}$.",
       "The sum of the residues of these numbers modulo $4$ is $-1+0+1+2+3=5 \\equiv 1 \\pmod 4$. Hence, the number being subtracted must be congruent to $1$ modulo $4$. The only such answer is $\\boxed{\\textbf{(C)}~17}$.\n\n$\\textbf{Note}$: To those who are confused about why, for $15$, it said the residue modulo $4$ is $-1$ instead of $3$ (because of $12$), look here. $-1 \\equiv 3 \\pmod 4$. The same principle above applies even if you replace $-1$ with $3$; two numbers are in the same residue class if their difference is a multiple of the modulus ( $3-(-1)=4$, which is $1\\times 4$ ).",
       "The sum of all the numbers here is equivalent to $17 \\cdot 5$. Subtracting 17 gives us $17 \\cdot 4$, which is clearly a multiple of 4. Therefore, the answer is $\\boxed{\\textbf{(C)}~17}$.",
@@ -20632,7 +20632,7 @@
     "answer": "D",
     "solutions": [
       "$50$ people scored at least $80\\%$, and out of these $50$ people, $13$ of them earned a score that was not less than $90\\%$, so the number of people that scored in between at least $80\\%$ and less than $90\\%$ is $50-13 = \\boxed{\\text{(D)\\ 37}}$.",
-      "Let $a$ denote the number of people who had a score of at least $85$, but less than $90$, and let $b$ denote the number of people who had a score of at least $80$ but less than $85$. Our answer is equal to $a+b$. We find $a = 27 - 13 = 14$, while $b = 50 - 27 = 23$. Thus, the answer is $23 + 14 = \\boxed{\\text{(D)\\ 37}}$.\n\n-vockey"
+      "Let $a$ denote the number of people who had a score of at least $85$, but less than $90$, and let $b$ denote the number of people who had a score of at least $80$ but less than $85$. Our answer is equal to $a+b$. We find $a = 27 - 13 = 14$, while $b = 50 - 27 = 23$. Thus, the answer is $23 + 14 = \\boxed{\\text{(D)\\ 37}}$."
     ],
     "tags": []
   },
@@ -20783,7 +20783,7 @@
     "answer": "E",
     "solutions": [
       "Okay so we see the median (or the middle number of the list) is $7$. And double $7$ is $14$, so our mean has to equal $14$. we add up the numbers we have to get $50$. so our equation is: $50$ + N / $6$ = $14$. We multiply both sides by $6$ and get $50$ + N = $84$. Now we do $84$-$50$ to get our answer $\\boxed{\\text{(E)\\ 34}}$\n\nThe median of the list is $7$, so the mean of the new list will be $7 \\cdot 2 = 14$. Since there are $6$ numbers in the new list, the sum of the $6$ numbers will be $14 \\cdot 6 = 84$. Therefore, $2+6+7+7+28+N = 84 \\implies N = \\boxed{\\text{(E)\\ 34}}$",
-      "Since the average right now is $10$, and the median is $7$, we see that $N$ must be larger than $10$, which means that the median of the 6 resulting numbers should be $7$, making the mean of these $14$. We can do $2 + 6 + 7 + 7 + 28 + N = 14 * 6 = 84$. $50 + N = 84$, so $N$ = $\\boxed{\\text{(E)\\ 34}}$\n\ni feel this explanation doesn’t make much sense ~anynomous",
+      "Since the average right now is $10$, and the median is $7$, we see that $N$ must be larger than $10$, which means that the median of the 6 resulting numbers should be $7$, making the mean of these $14$. We can do $2 + 6 + 7 + 7 + 28 + N = 14 * 6 = 84$. $50 + N = 84$, so $N$ = $\\boxed{\\text{(E)\\ 34}}$",
       "We try out every option by inserting each number into the list. After trying out each number, we get $\\boxed{\\text{(E)\\ 34}}$\n\nNote that this is very time-consuming and it is not the most practical solution.\n\n$~$",
       "We could use answer choices to solve this problem. The sum of the $5$ numbers is $50$. If you add $7$ to the list, $57$ is not divisible by $6$, therefore it will not work. Same thing applies to $14$ and $20$. The only possible choices left are $28$ and $34$. Now you check $28$. You see that $28$ doesn't work because $(28+50) \\div 6 = 13$ and $13$ is not twice of the median, which is still $7$. Therefore, only choice left is $\\boxed{\\text{(E)\\ 34}}$",
       "We see that in the list, both $7$s are $3$rd and $4$th. So, no matter what number we plug in, we will have two $7$s in $3$rd and $4$th. So, the median will always be $7$. That means we have to find the option that makes the mean $14$. If the mean is $14$, the sum of all the six numbers is $84$. The sum of the five numbers we are given is $50$, so the answer must be $\\boxed{\\text{(E)\\ 34}}$"
@@ -20958,11 +20958,11 @@
     },
     "answer": "D",
     "solutions": [
-      "Suppose there are $c$ coats on the rack. Notice that there are $c+1$ \"gaps\" formed by these coats, each of which must have the same number of empty spaces (say, $k$). Then the values $k$ and $c$ must satisfy $c+k(c+1)=35 \\implies kc+k+c=35$. We now use Simon's Favorite Factoring Trick as follows: $kc+k+c=35$ $\\implies kc+k+c+1=36$ $\\implies (k+1)(c+1)=36$ Our only restrictions now are that $k>0 \\implies k+1 > 1$ and $c>0 \\implies c+1>1$. Other than that, each factor pair of $36$ produces a valid solution $(k,c)$, which in turn uniquely determines an arrangement. Since $36$ has $9$ factors, our answer is $9-2=\\boxed{\\textbf{(D)}~7}$. ~cxsmi",
+      "Suppose there are $c$ coats on the rack. Notice that there are $c+1$ \"gaps\" formed by these coats, each of which must have the same number of empty spaces (say, $k$). Then the values $k$ and $c$ must satisfy $c+k(c+1)=35 \\implies kc+k+c=35$. We now use Simon's Favorite Factoring Trick as follows: $kc+k+c=35$ $\\implies kc+k+c+1=36$ $\\implies (k+1)(c+1)=36$ Our only restrictions now are that $k>0 \\implies k+1 > 1$ and $c>0 \\implies c+1>1$. Other than that, each factor pair of $36$ produces a valid solution $(k,c)$, which in turn uniquely determines an arrangement. Since $36$ has $9$ factors, our answer is $9-2=\\boxed{\\textbf{(D)}~7}$.",
       "Say Paulina placed $n$ coats. That will divide the 35 hooks into $n+1$ spaces and $35-n$ empty hooks. Therefore, $n+1|35-n$ The values of $n$ that satisfy this are $n\\in{1,2,3,5,8,11,17}$The answer is $\\boxed{\\text{(D) }7}$.",
       "Suppose there are $c$ coats and $k\\ge1$ empty hooks in each of the $c+1$ gaps. Then\n\n$c+k(c+1)=35$,\n\nso\n\n$(c+1)(k+1)=36$.\n\nBoth factors must exceed $1$. The nine positive divisors of $36$ give nine ordered factor choices, and excluding the two choices with a factor equal to $1$ leaves $9-2=\\boxed{\\textbf{(D)}\\ 7}$ possible coat counts.",
       "Suppose there are $n$ occupied hooks on the rack. Observe that there are $n+1$ intervals, each of which must have the same number of empty hooks. Let's suppose $m$ is the number of empty hooks plus the occupied hook to its right. Then, we have the equation $(n+1)m-1=35$ $\\implies (n+1)m=36$ Our restrictions are n > 0 and m > 1. 36 has 9 factors, and two pairs do not meet the restriction. Our answer is then $9-2=\\boxed{\\textbf{(D)}~7}$.",
-      "Note that, for any possible valid arrangement of coats, there is always a set number of empty coat hangers between the coats. This is never 0, since then there would be no empty hangers on either side. So suppose there is $n$ hangers between every coat. Then, there is one coat every n+1 hangers. For any value of $n+1$, divide it into 35, the amount of hangers. If $35/(n+1)$ has a remainder of $n$, then that would be a valid arrangement for that value of $n+1$. This works for values of 2, 3, 4, 6, 9, 12, and 18. This means there are $\\boxed{\\textbf{(D)}~7}$ total possible arrangements.\n\n-Arm123"
+      "Note that, for any possible valid arrangement of coats, there is always a set number of empty coat hangers between the coats. This is never 0, since then there would be no empty hangers on either side. So suppose there is $n$ hangers between every coat. Then, there is one coat every n+1 hangers. For any value of $n+1$, divide it into 35, the amount of hangers. If $35/(n+1)$ has a remainder of $n$, then that would be a valid arrangement for that value of $n+1$. This works for values of 2, 3, 4, 6, 9, 12, and 18. This means there are $\\boxed{\\textbf{(D)}~7}$ total possible arrangements."
     ],
     "tags": []
   },

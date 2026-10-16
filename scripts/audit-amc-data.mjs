@@ -80,6 +80,9 @@ for (const { filename, question } of records) {
   if (content.some((value) => /problems and solutions on this page are the property of the MAA/i.test(String(value)))) {
     issues.push("source attribution boilerplate");
   }
+  if (content.some((value) => /https?:\/\/|\b[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}\b/i.test(String(value)))) {
+    issues.push("external URL or email residue");
+  }
   if (content.some((value) => [...String(value).matchAll(/(?<!\\)\$/g)].length % 2 !== 0)) issues.push("unbalanced math");
   if (content.some((value) => /\[(?:asy|tikz)[\s\S]*?\[\/(?:asy|tikz)\]/i.test(value))) issues.push("unrendered figure source");
   const fields = [

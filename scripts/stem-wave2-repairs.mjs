@@ -630,6 +630,12 @@ export const WAVE2_ITEM_OVERRIDES = new Map(Object.entries({
   "aba455fb2ba5bdc2b99b8d23c5629cfe": {
     stem: "研究斜抛运动时，将其分解为两个直线运动，可以有两种分解方法，其两个直线运动的方向和性质在两种方法中分别是： 方法一：（1）______；（2）______； 方法二：（1）______；（2）______．",
   },
+  "172dbfaa727615f8470548e855819536": {
+    stem: "为了保证交通安全，国家颁布实施了更为严格的酒驾、醉驾处罚措施。酒精监测仪中的反应原理如下化学方程式：$$\\rm{C_2H_5OH+4X(\\text{红棕色})+6H_2SO_4=2Cr_2(SO_4)_3(\\text{绿色})+2CO_2\\uparrow+9H_2O}$$，则物质$$\\rm{X}$$的化学式应为（ ）",
+    solutions: [
+      "解：根据反应的化学方程式$$\\rm{C_2H_5OH+4X(\\text{红棕色})+6H_2SO_4=2Cr_2(SO_4)_3(\\text{绿色})+2CO_2\\uparrow+9H_2O}$$，结合质量守恒定律：反应物中除外已知的碳、氢、氧、硫原子个数分别为2、18、25、6，反应后的生成物中铬、碳、氢、氧、硫原子个数分别为4、2、18、37、6。根据反应前后原子种类、数目不变，则$$\\rm{4X}$$含有4个铬原子和12个氧原子，每个$$\\rm{X}$$分子由1个铬原子和3个氧原子构成，物质$$\\rm{X}$$的化学式为$$\\rm{CrO_3}$$。故选D。",
+    ],
+  },
   // Wave 3: Biology stripped blanks, choice options, 判断题, and OCR/rubric fixes
   "7e224d27969d3c2cea3f24c543c9ed60": {
     stem: "某同学暑假放假期间，从事大豆田间管理，除感受到“粒粒皆辛苦”外，还尝试着将生物学的相关知识运用到实践中。请帮他完成以下内容： （1）如果他想比较一下自家大豆与别家大豆的数量，那么他应该______。 A．一棵一棵去数进行比较 B．用样方法估算出种群密度进行比较 C．用标志重捕法估算出种群密度 D．用调查法统计出往年数量进行比较 （2）该农田中有一种从外地带来的昆虫，在短期内，该昆虫会呈______增长。 （3）若长期不耕作，则将会发生______演替。自然状况下，发生的演替将使物种丰富度______。 （4）大豆与大豆田中的杂草之间的关系是______。",
@@ -1200,6 +1206,90 @@ export const WAVE2_ITEM_OVERRIDES = new Map(Object.entries({
   "8ff6654551030748110adfc3e8a10d49": {
     stem: "三个共点力，大小分别是$$2N$$、$$3N$$、$$4N$$，那么这三个共点力的合力的最小值为______$$N$$，最大值为______$$N$$。",
   },
+  // Wave 4: Biology, Chemistry, Physics, and Mathematics deep-audit overrides
+  "d2c5bb52628db267eaa91bf86cc2d5e5": {
+    stem: "已知氯气、溴蒸气分别跟氢气反应的热化学方程式如下：$$\\rm{H_{2}(g)+Cl_{2}(g)=2HCl(g)+Q_{1}}$$；$$\\rm{H_{2}(g)+Br_{2}(g)=2HBr(g)+Q_{2}}$$。有关上述反应的叙述正确的是（ ）",
+    options: {
+      A: "$$\\rm{Q_{1} > Q_{2}}$$",
+      B: "生成物总能量均高于反应物总能量",
+      C: "生成$$\\rm{1\\ mol\\ HCl}$$气体时放出$$\\rm{Q_{1}}$$的热量",
+      D: "$$\\rm{1\\ mol\\ HBr(g)}$$具有的能量小于$$\\rm{1\\ mol\\ HCl(g)}$$具有的能量",
+    },
+  },
+  "00fb80123b353ec013042b448a246c83": {
+    stem: "太阳能属于 ______（选填“可再生”或“不可再生”）能源，某太阳能热水器装水$$250kg$$，水的初温为$$20℃$$，日晒一天后，水温升高到$$80℃$$，水吸收了 ______ $$J$$的热量，若这些热量通过电加热的方式获得，则需要用 ______ $$kW⋅h$$的电，已知水的比热容是$$4.2×10^{3}J/(kg⋅℃)$$．",
+  },
+  "b81ec8868d3913d34f95594b3af54382": {
+    stem: "小华轻松地戴上宽大的乳胶手套做家务，劳动后发现汗涔涔的手很难从手套中抽出，这是由于______导致手套与手之间的摩擦力______（选填“变小”“不变”或“变大”）．",
+  },
+  "b4744917a9588a8d1290d39fbddaecc7": {
+    stem: "有一句谚语说：“霜前冷，雪后寒”．是因为：霜是由于气温较______（选填“高”或“低”）而使空气中的水蒸气发生______现象形成的；雪后寒是由于雪熔化时需要______热量，从而导致气温降低，使人感到寒冷．",
+  },
+  "a7d9f4f71f477f9885e84324f4ecfdbb": {
+    stem: "用普通相机拍照时，要根据物距进行“调焦”，使用起来不太便捷。有一种“傻瓜”相机，只要将景物全部纳入取景区内，不论景物的远近，都能得到比较清晰的像，从而使拍照的过程变得十分快捷。这种“傻瓜”相机不用“调焦”的奥秘是采用了 ______（选填“长”或“短”）焦距的镜头，使远近不同的物体成像的位置相差不大。",
+  },
+  "b2bede7d643da67a7617b152e2af9916": {
+    type: "判断题",
+    stem: "理想变压器正常工作时，原、副线圈中，每匝线圈中磁通量的变化率、交变电流的频率都相同。（ ）",
+    answer: "√",
+    solutions: [
+      "变压器的工作原理是互感现象，原、副线圈绕在同一个闭合铁芯上，穿过每匝线圈的磁通量及磁通量的变化率相同；理想变压器只改变交流电压和电流，不改变交变电流的频率和电功率，故该说法正确。",
+    ],
+  },
+  "2604370578ad62ac47781c682a636f7b": {
+    type: "判断题",
+    stem: "任何情况下物体受到的支持力一定等于重力。（ ）",
+    answer: "×",
+    solutions: [
+      "物体受到重力的方向总是竖直向下的，而支持力的方向总是垂直于接触面指向被支持的物体（如斜面上的物体支持力不等于重力，加速升降的物体支持力也不等于重力），故该说法错误。",
+    ],
+  },
+  "44514fb8c3d97b3aa23e956ca9867f6d": {
+    type: "多选题",
+    stem: "在做“研究平抛运动”实验中，以下哪些操作可能引起实验误差（ ）",
+    options: {
+      A: "安装斜槽时，斜槽末端切线方向不水平",
+      B: "确定Oy轴时，没有用重垂线",
+      C: "斜槽不是绝对光滑的，有一定摩擦",
+      D: "每次从轨道同一位置释放小球",
+    },
+    answer: "AB",
+  },
+  "e1f5bce82edae8d9c6c6c9daa3b3e144": {
+    stem: "初中生具有丰富的想象力，一天香香与几位同学在讨论：要是没有了重力，妈妈在厨房做早餐时，会发现什么事？以下是她记录的A、B、C、D四位同学的发言，错误的是（ ）",
+  },
+  "f9ae4a3ea3a2276a3dce891481caedf0": {
+    stem: "长方形相对的两条边互相______，相邻的两条边互相______。（选填字母：A．平行 B．垂直 C．既不平行也不垂直）",
+  },
+  "43f8ef4158d10b0eb644a9d37f47c957": {
+    stem: "用$$4$$、$$7$$、$$3$$和$$0$$组成的最小四位数是______，组成最大的四位数是______。（选填字母：A．$$3407$$ B．$$7340$$ C．$$3047$$ D．$$7430$$）",
+  },
+  "b611a5856b5fa8b9719fb79f3f2d6d6a": {
+    stem: "计算或因式分解：\n(1) 计算：$$[(a+b)^{2}+(a-b)^{2}](a^{2}-b^{2})$$；$$(3x^{2}-4x+5)(3x^{2}+4x-5)$$\n(2) 因式分解：$$1+x+x(1+x)$$；$$81x^{4}-18x^{2}y^{2}+y^{4}$$",
+  },
+  "daa0fec0555fc792ceb61c3372728651": {
+    answer: "能；169＜170，207＜210，170+210=380（人），380＜400，所以能同时坐下",
+    solutions: [
+      "把169人往大估看作170人，207人往大估看作210人，两个年级的人数加起来最多约是170+210=380（人）。因为380＜400，实际总人数169+207=376（人）也小于400，所以三、四年级的学生能同时坐下听报告。",
+    ],
+  },
+  "7d3fdb9dcc8ce4a7c52dd6c3b29f46ce": {
+    solutions: [
+      "命题“同角的补角相等”的题设是“两个角是同一个角的补角”，结论是“这两个角相等”。写成“如果……那么……”的形式为：如果两个角是同一个角的补角，那么这两个角相等。",
+    ],
+  },
+  "99331955e19598ae0a6a1567d039e3ac": {
+    answer: "(1) $$\\begin{cases}x=3\\\\ y=-1\\end{cases}$$；(2) $$\\begin{cases}x=1\\\\ y=1\\end{cases}$$",
+    solutions: [
+      "$$(1)\\begin{cases}2x+3y=3①\\\\ x-y=4②\\end{cases}$$ 解：由②得：$$x=4+y$$，代入①得：$$2(4+y)+3y=3$$，即$$5y+8=3$$，$$\\therefore y=-1$$，将$$y=-1$$代入②得$$x=3$$，所以原方程组的解为$$\\begin{cases}x=3\\\\ y=-1\\end{cases}$$。\n$$(2)\\begin{cases}2x+3y=5①\\\\ 3x+4y=7②\\end{cases}$$ 解：①$$\\times 3$$得：$$6x+9y=15$$③，②$$\\times 2$$得：$$6x+8y=14$$④，③$$-$$④得：$$y=1$$，将$$y=1$$代入①得：$$2x+3=5$$，$$\\therefore x=1$$，所以原方程组的解为$$\\begin{cases}x=1\\\\ y=1\\end{cases}$$。",
+    ],
+  },
+  "87e137d66e62211651e12354e06e6427": {
+    answer: "5",
+    solutions: [
+      "利用乘法分配律展开计算：原式$$=-8\\times\\dfrac{1}{2}-(-8)\\times \\dfrac{5}{4}+(-8)\\times\\dfrac{1}{8}=-4+10-1=5$$。",
+    ],
+  },
 }));
 
 const TRAILING_STRIPPED_BLANK_RE = /\s+((?:厘米|米|分米|毫米|千米|平方厘米|平方米|平方分米|公顷|立方厘米|立方分米|立方米|升|毫升|克|千克|吨|秒|分|小时|时|天|元|角|度|°|′|″|个|只|条|次|倍|人|件|箱|棵|本|支|辆|架|种|项|号|象限角|条件)?\s*[.．。])$/;
@@ -1207,6 +1297,227 @@ const TRAILING_STRIPPED_BLANK_RE = /\s+((?:厘米|米|分米|毫米|千米|平�
 const LEADING_STEM_HEADER_RE = /^(?:[（(]\s*(?:\d{4}\s*[•·．.]\s*[^）)\d]{1,20}|[\d.]+分|[一二三四五六七八九十]+)\s*[)）]\s*|【[^】]{2,15}】\s*|\d{1,2}\s*[.．、]\s*(?=[（(【\u4e00-\u9fa5A-Za-z]))+/;
 
 const TRAILING_NEXT_QUESTION_IN_SOLUTION_RE = /\s+(?:(?:\d{1,2}|[一二三四五六七八九十]+)\s*[.．、]\s*)?[（(]\s*(?:\d{4}\s*[•·．.]|\d+(?:\.\d+)?\s*分)[^）)]*[)）][^\n]*$/;
+
+function parenDiff(body) {
+  const s = body.replace(/\\left\s*[()]/g, "").replace(/\\right\s*[()]/g, "");
+  let d = 0;
+  for (const ch of s) {
+    if (ch === "(") d++;
+    else if (ch === ")") d--;
+  }
+  return d;
+}
+
+function stripTrailingLatexSpace(str) {
+  return str.replace(/(?:\\[,;:!\s]|\\)+$/gu, "").trim();
+}
+
+export function cleanStemMathBoundaries(str, isChoice) {
+  let s = String(str ?? "");
+  const blankRepl = isChoice ? "（ ）" : "（______）";
+
+  // Merge equation-internal (浓)/(稀)/(正)/(逆) inside chemical equations
+  s = s.replace(
+    /\$\$\\rm\{([A-Za-z0-9_{}+\-=·.\s\[\]]+)\(\}\$\$([\u4e00-\u9fa5]{1,4})\$\$\\rm\{\)([A-Za-z0-9_{}+\-=·.\s↑↓\[\]]+)\}\$\$/gu,
+    "$$\\rm{$1(\\text{$2})$3}$$",
+  );
+  s = s.replace(
+    /\$\$\\rm\{([A-Za-z0-9_{}+\-=·.\s\[\]\\text()]+)\(\}\$\$([\u4e00-\u9fa5]{1,4})\$\$\\rm\{\)([A-Za-z0-9_{}+\-=·.\s↑↓\[\]]+)\}\$\$/gu,
+    "$$\\rm{$1(\\text{$2})$3}$$",
+  );
+
+  const pureBlank =
+    /^(?:\\rm\{|\{\\rm\s*|\\text\{)?\s*[\(（]\s*(?:\}\\rm\{)?\s*(?:\\quad|\\qquad|\\;|\\,|\\:|\\!|\s)*[\)）]\s*\}?\s*$/u;
+  const purePunct =
+    /^(?:\\rm\{|\{\\rm\s*|\\text\{)?\s*([()（）.,，。；;：:、？！?!~～—\-“”"''‘’\[\]【】《》/]+)\s*(?:\})?$/u;
+  const pureSubq =
+    /^(?:\\rm\{|\{\\rm\s*|\\text\{)?\s*([\(（](?:[1-9]\d*|[一二三四五六七八九十]+|[①-⑳]|[ivxIVX]+)[\)）]|[①-⑳]|[1-9]\d*\))\s*(?:\})?$/u;
+
+  // Pre-split multi-subquestion math blocks so each sub-block gets full boundary cleanup
+  s = s.replace(/\$\$([\s\S]*?)\$\$/gu, (m, body) => {
+    const trimmed = body.trim();
+    if (
+      !/^\\rm\{/u.test(trimmed) &&
+      !/^\{\\rm/u.test(trimmed) &&
+      /^\(1\)/u.test(trimmed) &&
+      /(?<![_^{A-Za-z0-9])\([2-9]\d*\)/u.test(trimmed)
+    ) {
+      const split = trimmed.replace(
+        /\s*(?<![_^{A-Za-z0-9])(\([1-9]\d*\))\s*/gu,
+        "$$$$ $1 $$$$",
+      );
+      return `$$${split}$$`.replace(/\$\$\s*\$\$/gu, "");
+    }
+    return m;
+  });
+
+  s = s.replace(/\$\$([\s\S]*?)\$\$/gu, (m, body) => {
+    if (pureBlank.test(body.trim())) return blankRepl;
+    let b = body
+      .replace(/[０-９]/gu, (ch) => String.fromCharCode(ch.charCodeAt(0) - 0xfee0))
+      .replace(/＋/gu, "+")
+      .replace(/－/gu, "-")
+      .replace(/＝/gu, "=")
+      .replace(/([A-Za-z0-9)\]}])\{\\,\\!\}(?=[_^])/gu, "$1")
+      .replace(/\{\\,\\!\}(?=[0-9A-Za-z])/gu, "")
+      .replace(/\{\\,\\!\}(?=[_^])/gu, "{}")
+      .replace(/\\begin\{align\}/gu, "\\begin{aligned}")
+      .replace(/\\end\{align\}/gu, "\\end{aligned}")
+      .replace(/\\inN\b/gu, "\\in N")
+      .replace(/\\subseteqN\b/gu, "\\subseteq N")
+      .replace(/_\{([^}]+)\}_\{([^}]+)\}/gu, "_{$1$2}")
+      .replace(
+        /\\rlap\{_\{1\}\}\{\^\{2\}\}H\+\\rlap\{_\{1\}\}\{\^\{3\}\}H―→\\rlap\{_\{2\}\}\{\^\{4\}\}He\+\\rlap\{_\{0\}\}\{\^\{1\}\}n/gu,
+        "{}_{1}^{2}\\text{H}+{}_{1}^{3}\\text{H}\\rightarrow{}_{2}^{4}\\text{He}+{}_{0}^{1}\\text{n}",
+      )
+      .replace(/\\rlap\{_\{([^}]+)\}\}\{\^\{([^}]+)\}\}/gu, "_{$1}^{$2}")
+      .replace(/(?:\\[,;:!\s])+\s*\}/gu, "}");
+    b = stripTrailingLatexSpace(b);
+    if (!b) return "";
+    if (pureBlank.test(b)) return blankRepl;
+    const pm = b.match(purePunct);
+    if (pm) return pm[1];
+    const sm = b.match(pureSubq);
+    if (sm) return sm[1];
+
+    let prefix = "";
+    let suffix = "";
+
+    // Peel leading punctuation (including inside \rm{...} or {\rm ...})
+    const leadPunctMatch = b.match(/^([，。；：？！,.;:?!]+)\s*([\s\S]*)$/u);
+    if (leadPunctMatch) {
+      prefix += leadPunctMatch[1];
+      b = stripTrailingLatexSpace(leadPunctMatch[2]);
+    } else {
+      const leadRmPunct = b.match(/^(\\rm\{|\{\\rm\s*)([，。；：？！,.;:?!]+)\s*([\s\S]*)$/u);
+      if (leadRmPunct) {
+        prefix += leadRmPunct[2];
+        b = leadRmPunct[1] + leadRmPunct[3].trim();
+      }
+    }
+
+    const leadSubq = b.match(/^(\([1-9]\d*\)|[①-⑳])\s*(?=\\|[A-Za-z0-9(（.，。；：？！,;:?!])/u);
+    if (leadSubq) {
+      const rest = b.slice(leadSubq[0].length).trim();
+      if (!/(?<![_^{A-Za-z0-9])\([2-9]\d*\)/u.test(rest)) {
+        prefix += `${leadSubq[1]} `;
+        b = rest;
+      }
+    } else {
+      const leadRmSubq = b.match(/^(\\rm\{|\{\\rm\s*)(\([1-9]\d*\)|[①-⑳])\s*([\s\S]*)$/u);
+      if (leadRmSubq) {
+        prefix += `${leadRmSubq[2]} `;
+        b = leadRmSubq[1] + leadRmSubq[3].trim();
+      }
+    }
+
+    const leadPunctAfterSubq = b.match(/^([，。；：？！,.;:?!]+)\s*([\s\S]*)$/u);
+    if (leadPunctAfterSubq) {
+      prefix += leadPunctAfterSubq[1];
+      b = stripTrailingLatexSpace(leadPunctAfterSubq[2]);
+    }
+
+    const midSubq = b.match(/^([\s\S]+?[.\uff0e。；;])\s*(\([1-9]\d*\)|[①-⑳])$/u);
+    if (midSubq) {
+      b = midSubq[1].trim();
+      suffix = ` ${midSubq[2]}${suffix}`;
+    }
+
+    // Peel trailing punctuation accidentally placed inside trailing subscript/superscript _{...}/^{...} or \rm{...}
+    b = b.replace(
+      /([_^]\{[^{}]+?)([,，.．。；;：:？?！!])(\})\s*$/u,
+      (_, pre, p, close) => {
+        suffix = p + suffix;
+        return pre + close;
+      },
+    );
+    b = b.replace(
+      /^((?:\\rm\{|\{\\rm\s*)[\s\S]+?)([,，.．。；;：:？?！!])\s*(\})\s*$/u,
+      (_, pre, p, close) => {
+        suffix = p + suffix;
+        return stripTrailingLatexSpace(pre) + close;
+      },
+    );
+
+    const trailPunct = b.match(/^([\s\S]+?)([.．,，。；;：:？?！!])$/u);
+    if (
+      trailPunct &&
+      !/^\d+$/u.test(trailPunct[1].trim()) &&
+      !/\\right\s*$/u.test(trailPunct[1])
+    ) {
+      b = stripTrailingLatexSpace(trailPunct[1]);
+      suffix = trailPunct[2] + suffix;
+    }
+
+    const diff = parenDiff(b);
+    if (diff > 0) {
+      const trailOpen = b.match(/^([\s\S]*?)\(\s*$/u);
+      if (trailOpen) {
+        b = stripTrailingLatexSpace(trailOpen[1]);
+        suffix = `(${suffix}`;
+      } else {
+        const trailRmOpen = b.match(/^([\s\S]*?\\rm\{[^}]*?)\(\s*\}\s*$/u);
+        if (trailRmOpen) {
+          b = `${trailRmOpen[1].trim()}}`;
+          suffix = `(${suffix}`;
+        } else {
+          const leadOpen = b.match(/^\(\s*([\s\S]*)$/u);
+          if (leadOpen && parenDiff(leadOpen[1]) === 0) {
+            prefix += "(";
+            b = stripTrailingLatexSpace(leadOpen[1]);
+          } else {
+            const leadRmOpen = b.match(/^(\\rm\{)\s*\(\s*([\s\S]*)$/u);
+            if (leadRmOpen && parenDiff(leadRmOpen[1] + leadRmOpen[2]) === 0) {
+              prefix += "(";
+              b = leadRmOpen[1] + leadRmOpen[2].trim();
+            }
+          }
+        }
+      }
+    } else if (diff < 0) {
+      const leadClose = b.match(/^\)\s*([\s\S]*)$/u);
+      if (leadClose) {
+        prefix += ")";
+        b = stripTrailingLatexSpace(leadClose[1]);
+      } else {
+        const leadRmClose = b.match(/^(\\rm\{)\s*\)\s*([\s\S]*)$/u);
+        if (leadRmClose) {
+          prefix += ")";
+          b = leadRmClose[1] + leadRmClose[2].trim();
+        } else {
+          const trailClose = b.match(/^([\s\S]*?)\)\s*$/u);
+          if (trailClose && parenDiff(trailClose[1]) === 0) {
+            b = stripTrailingLatexSpace(trailClose[1]);
+            suffix = `)${suffix}`;
+          } else {
+            const trailRmClose = b.match(/^([\s\S]*?\\rm\{[^}]*?)\)\s*\}\s*$/u);
+            if (trailRmClose && parenDiff(`${trailRmClose[1]}}`) === 0) {
+              b = `${trailRmClose[1].trim()}}`;
+              suffix = `)${suffix}`;
+            }
+          }
+        }
+      }
+    }
+
+    b = stripTrailingLatexSpace(b.replace(/^(?:\\rm\{|\{\\rm)\s*\}\s*$/u, ""));
+    const leadPunctAfterParen = b.match(/^([，。；：？！,.;:?!]+)\s*([\s\S]*)$/u);
+    if (leadPunctAfterParen) {
+      prefix += leadPunctAfterParen[1];
+      b = stripTrailingLatexSpace(leadPunctAfterParen[2]);
+    }
+    if (!b) return prefix + suffix;
+    if (pureBlank.test(b)) return prefix + blankRepl + suffix;
+    const pm2 = b.match(purePunct);
+    if (pm2) return prefix + pm2[1] + suffix;
+    const sm2 = b.match(pureSubq);
+    if (sm2) return prefix + sm2[1] + suffix;
+
+    return `${prefix}$$${b}$$${suffix}`;
+  });
+
+  return s;
+}
 
 export function applyWave2StemNormalization(question) {
   const override = WAVE2_ITEM_OVERRIDES.get(question.id);
@@ -1218,10 +1529,14 @@ export function applyWave2StemNormalization(question) {
     if (override.solutions) question.solutions = [...override.solutions];
   }
 
+  const isChoiceLike = ["单选题", "多选题", "选择题", "双选题", "不定项选择题", "判断题"].includes(question.type);
+
   // Strip leading exam headers / score prefixes / item numbers from stem, and normalize short underscore runs
-  question.stem = question.stem
+  question.stem = cleanStemMathBoundaries(question.stem, isChoiceLike)
     .replace(/^\$\$\\rm\{\(?(\d+)\s*分?\)?[、.．]?}\$\$\s*/, "")
+    .replace(/^\$\$\s*(?:\\rm\{)?\d+(?:\})?\s*\$\$[、.．]\s*(?!\$\$)/u, "")
     .replace(LEADING_STEM_HEADER_RE, "")
+    .replace(/^[、，。．.,;；:：]+\s*/u, "")
     .replace(/[（(]\s*\d+(?:\.\d+)?\s*分(?:[，,。；;][^）)\n]{1,15})?[）)]/gu, "")
     .replace(/(?<!_)_{2,}(?!_)/gu, "______")
     .replace(/(?:\s*\\:){3,}\s*/gu, " ")
@@ -1229,20 +1544,22 @@ export function applyWave2StemNormalization(question) {
 
   if (question.options && typeof question.options === "object") {
     for (const key of Object.keys(question.options)) {
-      question.options[key] = String(question.options[key] ?? "")
+      question.options[key] = cleanStemMathBoundaries(question.options[key], true)
         .replace(/(?:\s*\\:){3,}\s*/gu, " ")
         .trim();
     }
   }
 
-  question.answer = String(question.answer ?? "")
+  question.answer = cleanStemMathBoundaries(question.answer, false)
     .replace(/[（(]\s*\d+(?:\.\d+)?\s*分(?:[，,。；;][^）)\n]{1,15})?[）)]/gu, "")
     .replace(/(?:\s*\\:){3,}\s*/gu, " ")
     .trim();
 
-  // Strip leaked next-question headers at the tail of solutions
+  // Strip leaked next-question headers and residual bracket section labels in solutions
   question.solutions = (question.solutions ?? []).map((sol) =>
-    String(sol ?? "")
+    cleanStemMathBoundaries(sol, false)
+      .replace(/【(?:答案|解析|详解|分析|点睛|点评)】\s*/gu, "")
+      .replace(/(?:^|\s)试题分析[:：]\s*/gu, " ")
       .replace(TRAILING_NEXT_QUESTION_IN_SOLUTION_RE, "")
       .replace(/(?:\s*\\:){3,}\s*/gu, " ")
       .replace(/故答为/g, "故答案为")

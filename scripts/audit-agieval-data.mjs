@@ -102,7 +102,8 @@ for (const [index, question] of questions.entries()) {
     if (/材料[一二三四五六七八九十\d]+[：:]\s*\n\s*(?:下列|根据)/u.test(stem)) errors.push(`${location}: truncated material body in stem`);
     if (/材料三[：:]\s*[A-D][.．]/u.test(stem)) errors.push(`${location}: option text leaked into material body in stem`);
     if (new RegExp(`(?:[（(]\\s*[）)]|项是)\\s*${label}$`, "u").test(stem)) errors.push(`${location}: answer key leaked at end of stem`);
-    if (/<\/?a\b/iu.test(stem) || /学科\.?网/u.test(stem)) errors.push(`${location}: HTML or scraper watermark in stem`);
+    if (/<\/?a\b/iu.test(stem) || /学科[.*]?网|ks5u\.com/iu.test(stem)) errors.push(`${location}: HTML or scraper watermark in stem`);
+    if (/\*[^*\n]+\*/u.test(stem)) errors.push(`${location}: uncleaned markdown asterisk emphasis in stem`);
     if (/<(?:庄子|古文观止|中国目录学史|五藏山经)/u.test(stem)) errors.push(`${location}: ASCII angle-bracket book title in stem`);
   }
   for (const [idx, value] of options.entries()) {

@@ -11248,7 +11248,6 @@
       "设\n$$n=\\prod p^{e_p}.$$\n则\n$$f(n)^3=\\prod_p\\frac{(e_p+1)^3}{p^{e_p}}.$$\n各个素数对应的因子彼此独立，因此只需对每个 $p$ 分别选择非负整数 $e_p$，使\n$$\\frac{(e_p+1)^3}{p^{e_p}}$$\n最大。逐项比较可得：$p=2$ 时最大指数为 $3$；$p=3$ 时为 $2$；$p=5,7$ 时均为 $1$；而 $p\\ge11$ 时最大指数为 $0$。故\n$$N=2^3\\cdot3^2\\cdot5\\cdot7=2520.$$\n其各位数字之和为\n$$2+5+2+0=\\boxed{\\textbf{(E)}~9}.$$",
       "若 $p^a$ 是 $N$ 的素数幂因子，则它对\n$$f(N)=\\frac{d(N)}{\\sqrt[3]{N}}$$\n的贡献为\n$$\\frac{a+1}{\\sqrt[3]{p^a}}.$$\n所以可以对每个素数独立地选择使该式最大的非负整数 $a$。直接比较相邻取值可知：素数 $2,3,5,7$ 的最佳指数依次为 $3,2,1,1$；对所有 $p\\ge11$，最佳指数为 $0$。因此\n$$N=2^3\\cdot3^2\\cdot5\\cdot7=2520,$$\n各位数字之和是\n$$2+5+2+0=\\boxed{\\textbf{(E)}~9}.$$",
       "写成素因数分解 $n=\\prod p^{e_p}$，有\n$$f(n)^3=\\prod_p\\frac{(e_p+1)^3}{p^{e_p}}.$$\n为了使这个乘积最大，每个指数都必须独立地取对应因子的唯一最大值。计算得到\n$$e_2=3,\\qquad e_3=2,\\qquad e_5=e_7=1,$$\n而对 $p\\ge11$ 有 $e_p=0$。于是唯一的最大值点为\n$$N=2^3\\cdot3^2\\cdot5\\cdot7=2520.$$\n由于 $N$ 的各位数字之和为 $2+5+2+0=9$，答案是\n$$\\boxed{\\textbf{(E)}~9}.$$",
-      "对 $n=\\prod p^{e_p}$，\n$$f(n)^3=\\prod_p\\frac{(e_p+1)^3}{p^{e_p}}.$$\n逐个素数比较这个乘积中的独立因子，最佳指数依次为\n$$e_2=3,\\quad e_3=2,\\quad e_5=e_7=1,\\quad e_p=0\\ (p\\ge11).$$\n因此\n$$N=2^3\\cdot3^2\\cdot5\\cdot7=2520,$$\n其各位数字之和为\n$$2+5+2+0=\\boxed{\\textbf{(E)}~9}.$$",
       "设 $n=\\prod p^{e_p}$。因\n$$\\frac{d(n)}{\\sqrt[3]n}=\\prod_p\\frac{e_p+1}{p^{e_p/3}},$$\n可分别为每个素数 $p$ 选择最佳指数。比较 $\\frac{(e+1)^3}{p^e}$ 的值可得\n$$p=2: e=3;\\qquad p=3:e=2;\\qquad p=5,7:e=1.$$\n当 $p\\ge11$ 时，任取 $e\\ge1$ 都不如 $e=0$。故\n$$N=2^3\\cdot3^2\\cdot5\\cdot7=2520,$$\n答案为\n$$2+5+2+0=\\boxed{\\textbf{(E)}~9}.$$"
     ],
     "tags": []
@@ -12078,8 +12077,7 @@
       "写成\n$$P(x)=1+e^{ix}-e^{2ix}+e^{3ix}.$$\n令 $y=e^{ix}$，则 $|y|=1$。取 $1+y-y^2+y^3=0$ 的虚部，得到\n$$2\\operatorname{Im}y\\operatorname{Re}y(2\\operatorname{Re}y-1)=0.$$\n由此只需检查 $y=\\pm1,\\pm i,e^{\\pm i\\pi/3}$；无一满足原方程。因此共有 $\\boxed{\\textbf{(A)}~0}$ 个值。",
       "令 $z=e^{ix}$。若 $P(x)=0$，则\n$$z^3-z^2+z=-1.$$\n又因 $|z|=1$，左边可写成 $z^2(2\\operatorname{Re}z-1)$。比较模与辐角，只可能有 $z^2=\\pm1$；检查 $z\\in\\{1,i,-1,-i\\}$ 均不成立。故答案为 $\\boxed{\\textbf{(A)}~0}$。",
       "将方程写为\n$$1+\\operatorname{cis}x-\\operatorname{cis}2x+\\operatorname{cis}3x=0.$$\n三个单位向量 $\\operatorname{cis}x,-\\operatorname{cis}2x,\\operatorname{cis}3x$ 必须和为 $-1$。利用\n$$\\operatorname{cis}x+\\operatorname{cis}3x=2\\cos x\\,\\operatorname{cis}2x,$$\n方程化为\n$$1+(2\\cos x-1)\\operatorname{cis}2x=0.$$\n比较模与辐角所得候选均不能满足等式，因此无解，答案为 $\\boxed{\\textbf{(A)}~0}$。",
-      "实部与虚部分别要求\n$$1+\\cos x-\\cos2x+\\cos3x=0,$$\n$$\\sin x-\\sin2x+\\sin3x=0.$$\n第二式化为\n$$\\sin x\\cos x(1-2\\cos x)=0.$$\n所以 $\\sin x=0$、$\\cos x=0$ 或 $\\cos x=1/2$。将这些候选代入第一式均不成立，故答案为 $\\boxed{\\textbf{(A)}~0}$。",
-      "原方程等价于\n$$1+\\operatorname{cis}x+\\operatorname{cis}3x=\\operatorname{cis}2x.$$\n利用 $\\operatorname{cis}x+\\operatorname{cis}3x=2\\cos x\\operatorname{cis}2x$，得到\n$$1=(1-2\\cos x)\\operatorname{cis}2x.$$\n比较绝对值可得 $\\cos x=0$ 或 $1$，逐一代入又都不成立。因此没有解，答案为 $\\boxed{\\textbf{(A)}~0}$。"
+      "实部与虚部分别要求\n$$1+\\cos x-\\cos2x+\\cos3x=0,$$\n$$\\sin x-\\sin2x+\\sin3x=0.$$\n第二式化为\n$$\\sin x\\cos x(1-2\\cos x)=0.$$\n所以 $\\sin x=0$、$\\cos x=0$ 或 $\\cos x=1/2$。将这些候选代入第一式均不成立，故答案为 $\\boxed{\\textbf{(A)}~0}$。"
     ],
     "tags": []
   },

@@ -1,4 +1,20 @@
 // Comprehensive post-processing and editorial repairs for CJEval junior-high Chinese records.
+import {
+  WAVE4_CANONICAL_POEMS,
+  WAVE4_CHOICE_OVERRIDES,
+  WAVE4_CONTENT_OVERRIDES,
+  WAVE4_PINNED_ANSWERS,
+  WAVE4_POEM_PHRASE_SYNC,
+  WAVE4_TYPE_OVERRIDES,
+} from "./cjeval-wave4-overrides.mjs";
+
+const CIRCLED_PAREN_READING_IDS = new Set([
+  "5aa2a19d1d66c61c8e35570ca9379109",
+  "9d5126540a6b571b0731101498f3a8c7",
+  "b4cbf9511a172fe4fb8ba768c1f6f00a",
+  "af258b2b020a735c67a1c13796060b6b",
+  "d12c1deae16ee850a021db56390851c3",
+]);
 
 export const CJEVAL_EXCLUDED_IDS = new Set([
   "b322acd92726ee4475566fea98ca185b", // train #527: 现代文阅读 missing reading passage
@@ -52,6 +68,15 @@ export function cleanCjevalEscapesAndBrackets(text, id = "", isStem = false) {
     .replace(/（上标：\\uf082）|\\uf082|\uf082/giu, "②")
     .replace(/（上标：\\uf083）|\\uf083|\uf083/giu, "③")
     .replace(/（上标：\\uf084）|\\uf084|\uf084/giu, "④")
+    .replace(/（上标：([①-⑳])）/gu, "$1")
+    .replace(/（上标：注释）/gu, "【注释】")
+    .replace(/2（上标：249）/gu, "$2^{249}$")
+    .replace(/9\.05×10（上标：74）/gu, "$9.05\\times 10^{74}$")
+    .replace(/2（上标：408）/gu, "$2^{408}$")
+    .replace(/[\u2474-\u2487]/gu, (ch) => {
+      const n = ch.codePointAt(0) - 0x2473;
+      return CIRCLED_PAREN_READING_IDS.has(id) ? toCircled(n) : `（${n}）`;
+    })
     .replace(/\u0261/gu, "g")
     .replace(/[（(]\s*dotted\s*[）)]([\s\S]*?)[（(]\s*\/dotted\s*[）)]/giu, "【$1】")
     .replace(/\*\*([^*\n]+)\*\*/gu, "【$1】")
@@ -110,7 +135,7 @@ export function cleanCjevalEscapesAndBrackets(text, id = "", isStem = false) {
       )
       .replace(/^根据所提供的题目，请回答以下问题[：:]\s*/u, "")
       .replace(/^改写后的问题内容如下[：:]\s*/u, "")
-      .replace(/(^|\n|（\d+）\s*)(?:题目内容|问题内容|试题类型|试题内容|题目|问题|正文|句子)\s*[:：]\s*/gu, "$1")
+      .replace(/(^|\n|（\d+）\s*|[1-9][.．、]\s*)(?:”\s*)?(?:题目内容|问题内容|试题类型|试题内容|题目|问题|正文|句子)\s*[:：]\s*/gu, "$1")
       .replace(/(?:作答|题)类型为T\/F[（(]对\/错[）)][：:。]?\s*/gu, "")
       .replace(/[（(]\s*\d+(?:\.\d+)?\s*分(?:[，,。；;][^）)\n]{1,20})?[）)]/gu, "")
       .replace(/(?<!_)_②/gu, "______②")
@@ -320,7 +345,7 @@ export function normalizeStemNumbering(stem, qId = "", qType = "") {
   );
 
   // Check if top-level Arabic "1. ... 2. ..." subquestions exist
-  const arabRe = /(?:^|[\n。！？；”’）)】])\s*([1-9])[.．、]\s*(?=(?:请|阅读|根据|结合|从|下列|以下|文章|选文|文中|本文|材料|链接|第[一二三四五六七八九十\d①-⑳]|为什么|说说|谈谈|简析|分析|概括|赏析|品析|品味|理解|判断|选择|填写|写出|指出|解释|补写|仿写|修改|梳|如果|有人|作家的|在作家|游记|通读))/gu;
+  const arabRe = /(?:^|[\n。！？；”’）)】])\s*([1-9])[.．、]\s*(?=(?:请|阅读|根据|结合|从|下列|以下|文章|选文|文中|本文|材料|链接|第[一二三四五六七八九十\d①-⑳]|为什么|说说|谈谈|简析|简要|分别|品读|分析|概括|赏析|品析|品味|理解|判断|选择|填写|写出|指出|解释|补写|仿写|修改|梳|如果|有人|作家的|在作家|游记|通读|诗中|冰心|你|老钱|给|我|谁|“|小说|游戏|在现代汉语中))/gu;
   const arabMatches = [...s.matchAll(arabRe)];
   const hasSequentialArab =
     arabMatches.length >= 2 && arabMatches.every((m, idx) => Number(m[1]) === idx + 1);
@@ -662,6 +687,7 @@ export function normalizeAnswerNumbering(ans, K = 0, qId = "") {
 }
 
 export const PINNED_ANSWERS = {
+  ...WAVE4_PINNED_ANSWERS,
   // Placeholder answers repaired from solutions[0]
   "1e6987207756bf96653525b749ff234c":
     "（1）B\n（2）“垂”字写出了星辰低垂、仿佛近在眼前的景象，烘托出原野的辽阔苍茫；“涌”字描绘出月光随大江奔涌翻腾的动态感，展现出江水磅礴的气势；诗人以乐景写哀情，借雄浑阔大的夜景反衬孤舟漂泊的凄凉与孤独。",
@@ -865,7 +891,8 @@ export function alignSubquestionAnswers(question) {
 export function cleanMangledSolutionMeta(text) {
   if (!text) return "";
   return String(text)
-    .replace(/^【(?:优化后?解析|详解优化|赏析优化|分析思路|解题思路)】\s*/u, "")
+    .replace(/^(?:【(?:优化后?解析|详解优化|赏析优化|分析思路|解题思路|答案|解析|分析|详解|解答|点睛|点评)】\s*|试题分析[：:]\s*)+/u, "")
+    .replace(/\n\s*【(?:详解|分析|解析|点睛|点评|解答)】\s*/gu, "\n")
     .replace(/为了减少阅读负担，解析可简化为[：:]\s*/gu, "")
     .replace(/与原题解析保持一致，未进行大幅度修改[。.]?\s*/gu, "")
     .replace(/新选项([A-F])/gu, "$1项")
@@ -1972,12 +1999,78 @@ export function postProcessCjevalQuestion(question) {
     POETRY_ITEM_OVERRIDES[q.id](q);
   }
 
+  // Apply Wave 4 canonical poem restorations and verse/footnote synchronization
+  if (WAVE4_CANONICAL_POEMS[q.id] && !WAVE4_TYPE_OVERRIDES[q.id]?.stem) {
+    const restored = WAVE4_CANONICAL_POEMS[q.id];
+    if (!q.stem.startsWith(restored)) {
+      const boundaryRe = restored.includes("【乙】")
+        ? /\n+(?=(?:【(?:注释?|链接材料|材料|助读资料)】|\[(?:注释?)\]|注释?[：:]|（1）|\(1\)|1[.．、]|⑴))/u
+        : /\n+(?=(?:【(?:注释?|链接材料|材料|助读资料|乙)】|\[(?:注释?)\]|注释?[：:]|（1）|\(1\)|1[.．、]|⑴|(?:结合具体词句，|请从修辞手法的角度分析)))/u;
+      const m = q.stem.match(boundaryRe);
+      q.stem = m ? `${restored}\n\n${q.stem.slice(m.index).trimStart()}` : restored;
+    }
+  }
+  if (WAVE4_POEM_PHRASE_SYNC[q.id]) {
+    for (const [from, to] of WAVE4_POEM_PHRASE_SYNC[q.id]) {
+      q.stem = q.stem.replaceAll(from, to);
+      q.answer = q.answer.replaceAll(from, to);
+      if (q.options && typeof q.options === "object") {
+        for (const k of Object.keys(q.options)) {
+          q.options[k] = q.options[k].replaceAll(from, to);
+        }
+      }
+      if (Array.isArray(q.solutions)) {
+        q.solutions = q.solutions.map((s) => s.replaceAll(from, to));
+      }
+    }
+  }
+  for (const map of [WAVE4_TYPE_OVERRIDES, WAVE4_CHOICE_OVERRIDES, WAVE4_CONTENT_OVERRIDES]) {
+    const ov = map[q.id];
+    if (!ov) continue;
+    if (typeof ov === "function") {
+      ov(q);
+      continue;
+    }
+    if (ov.type) q.type = ov.type;
+    if (ov.stem) q.stem = ov.stem;
+    if (ov.stemReplace) {
+      for (const [from, to] of ov.stemReplace) {
+        if (!to || !q.stem.includes(to)) {
+          q.stem = q.stem.replaceAll(from, to);
+        }
+      }
+    }
+    if (ov.solutionReplace && Array.isArray(q.solutions)) {
+      for (const [from, to] of ov.solutionReplace) {
+        q.solutions = q.solutions.map((s) => (!to || !s.includes(to) ? s.replaceAll(from, to) : s));
+      }
+    }
+    if (ov.options) {
+      q.options =
+        q.type === "单选题" || q.type === "多选题"
+          ? { ...(q.options || {}), ...ov.options }
+          : { ...ov.options };
+    }
+    if (ov.answer) q.answer = ov.answer;
+    if (ov.solutions) q.solutions = [...ov.solutions];
+  }
+
   // Re-clean escapes/brackets in case overrides introduced nested 【...【...】...】
   q.stem = cleanCjevalEscapesAndBrackets(q.stem, q.id, true);
 
   // Normalize stem subquestion numbering & align answers/solutions
   q.stem = normalizeStemNumbering(q.stem, q.id, q.type).replace(/([①②③④⑤⑥⑦⑧⑨⑩])\1+/gu, "$1");
   alignSubquestionAnswers(q);
+
+  if (WAVE4_PINNED_ANSWERS[q.id]) {
+    q.answer = WAVE4_PINNED_ANSWERS[q.id];
+  }
+  if (WAVE4_TYPE_OVERRIDES[q.id]?.answer) {
+    q.answer = WAVE4_TYPE_OVERRIDES[q.id].answer;
+  }
+  if (WAVE4_CONTENT_OVERRIDES[q.id]?.answer) {
+    q.answer = WAVE4_CONTENT_OVERRIDES[q.id].answer;
+  }
 
   // Re-apply poetry/content answer overrides if they modified answer after alignment
   if (q.id === "de5b16c9ee5406fc83c7e1320d5b52eb") {
@@ -1987,8 +2080,56 @@ export function postProcessCjevalQuestion(question) {
   // Ensure all 填空题 have explicit blank markers (______) and normalize 2+ underscore runs across all types
   ensureFillBlankMarkers(q);
 
+  q.answer = String(q.answer ?? "").replace(/^【(?:答案|解析|分析|详解|解答|点睛|点评)】\s*/u, "").trim();
+  if (Array.isArray(q.solutions)) {
+    q.solutions = q.solutions.map((s) => cleanMangledSolutionMeta(s)).filter(Boolean);
+  }
+
   return q;
 }
+
+export function postProcessChineseHighSchoolQuestion(q) {
+  if (!q) return q;
+
+  let s = String(q.stem ?? "");
+  // Removeks5u markdown link and 学科*网 watermark
+  s = s
+    .replace(
+      /\[母欺子，子而不信其母，非以成教也。”遂烹彘也\]\(http:\/\/www\.ks5u\.com\/\)/gu,
+      "【母欺子，子而不信其母，非以成教也。”遂烹彘也】",
+    )
+    .replace(/学科\*网[。.]?/gu, "");
+
+  // Replace markdown *...* emphasis around underlined target sentences/idioms with 【...】
+  if (q.id === "3941e5cf1da5afba33992143dc9b4e6f") {
+    s = s.replace(
+      "*夫冠足以修敬不务其饰衣足以掩形御寒不务其美身服不杂彩首服不镂刻**。*",
+      "【夫冠足以修敬不务其饰衣足以掩形御寒不务其美身服不杂彩首服不镂刻】。",
+    );
+  } else if (q.id === "9cda772ba914e8901e30c67f4a55a4ea" || q.id === "dddbbd02c2862912896c6e579b87c719") {
+    s = s.replace(/\*([^*\n]{2,})\*/gu, "【$1】");
+  }
+
+  // Fix title/author separator underscores and spurious 贞________幼聪敏 blank
+  s = s
+    .replace(/赵一曼女士_+阿成[。.]?\s*/gu, "赵一曼女士\n阿成\n")
+    .replace(/围棋与国家_+林建超[。.]?\s*/gu, "围棋与国家\n林建超\n")
+    .replace(/贞_+幼聪敏/gu, "贞幼聪敏");
+
+  const isChoice = q.type === "单选题" || q.type === "多选题";
+  if (isChoice) {
+    s = s
+      .replace(/[（(]\s*_{2,}\s*[）)]/gu, "（   ）")
+      .replace(/(的一项是)\s*_{2,}/gu, "$1（   ）")
+      .replace(/(?<!_)_{2,}(?!_)/gu, "______");
+  } else {
+    s = s.replace(/(?<!_)_{2,}(?!_)/gu, "______");
+  }
+
+  q.stem = s.trim();
+  return q;
+}
+
 
 
 

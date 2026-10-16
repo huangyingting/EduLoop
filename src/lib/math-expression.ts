@@ -1,6 +1,11 @@
 const MATH_SYMBOL_REPLACEMENTS: Readonly<Record<string, string>> = {
   "⊥": "\\perp{}",
   "∆": "\\triangle{}",
+  "△": "\\triangle{}",
+  "▽": "\\triangledown{}",
+  "○": "\\bigcirc{}",
+  "●": "\\bullet{}",
+  "◦": "\\circ{}",
   "∶": "\\mathbin{:}",
   "︰": "\\mathbin{:}",
   "﹕": "\\mathbin{:}",
@@ -10,6 +15,46 @@ const MATH_SYMBOL_REPLACEMENTS: Readonly<Record<string, string>> = {
   "℃": "{}^{\\circ}\\mathrm{C}",
   "□": "\\square{}",
   "═": "=",
+  "—": "-",
+  "–": "-",
+  "¯": "-",
+  "Ⅰ": "\\mathrm{I}",
+  "Ⅱ": "\\mathrm{II}",
+  "Ⅲ": "\\mathrm{III}",
+  "Ⅳ": "\\mathrm{IV}",
+  "Ⅴ": "\\mathrm{V}",
+  "Ⅵ": "\\mathrm{VI}",
+  "ⅰ": "\\mathrm{i}",
+  "ⅱ": "\\mathrm{ii}",
+  "ⅲ": "\\mathrm{iii}",
+  "ⅳ": "\\mathrm{iv}",
+  "ⅹ": "x",
+  "※": "\\ast{}",
+  "ㅤ": "\\quad{}",
+  "ɛ": "\\varepsilon{}",
+  "﹤": "<",
+  "﹥": ">",
+  "’": "'",
+  "‘": "'",
+  "´": "'",
+  "ˈ": "'",
+  "♁": "\\oplus{}",
+  "⃐": "",
+  "º": "^{\\circ}",
+  "²": "^{2}",
+  "⊄": "\\not\\subset{}",
+  "⨉": "\\times{}",
+  "､": ",",
+  "⑴": "(1)",
+  "⑵": "(2)",
+  "∕": "/",
+  "￢": "\\neg{}",
+  "⌀": "\\varnothing{}",
+  "√": "\\checkmark{}",
+  "～": "\\sim{}",
+  "．": ".",
+  "〔": "[",
+  "〕": "]",
   "¢": "\\,\\mathrm{cent}",
   "①": "\\text{\\textcircled{1}}",
   "②": "\\text{\\textcircled{2}}",
@@ -28,7 +73,8 @@ const MATH_SYMBOL_REPLACEMENTS: Readonly<Record<string, string>> = {
   "\uef01": "",
 };
 
-const REPLACEABLE_MATH_SYMBOL = /[⊥∆∶︰﹕〈〉％℃□═¢①②③④⑤⑥⑦⑧⑨⑩\u2061\u200b\ue004\ue007\uef01]/gu;
+const REPLACEABLE_MATH_SYMBOL =
+  /[⊥∆△▽○●◦∶︰﹕〈〉％℃□═—–¯ⅠⅡⅢⅣⅤⅥⅰⅱⅲⅳⅹ※ㅤɛ﹤﹥’‘´ˈ♁⃐º²⊄⨉､⑴⑵∕￢⌀√～．〔〕¢①②③④⑤⑥⑦⑧⑨⑩\u2061\u200b\ue004\ue007\uef01]/gu;
 const DISPLAY_ONLY_MATH = /\\tag(?![A-Za-z])|\\begin\{(?:align\*?|alignat\*?|eqnarray\*?|gather\*?|split)\}/u;
 const TEXT_MODE_COMMANDS = [
   "\\textnormal",
@@ -54,7 +100,8 @@ function normalizeMathModeSegment(segment: string) {
   return segment
     .replace(/″/gu, "''")
     .replace(/′/gu, "'")
-    .replace(REPLACEABLE_MATH_SYMBOL, (symbol) => MATH_SYMBOL_REPLACEMENTS[symbol]);
+    .replace(REPLACEABLE_MATH_SYMBOL, (symbol) => MATH_SYMBOL_REPLACEMENTS[symbol])
+    .replace(/[\p{Script=Han}。，、；：？！“”（）【】《》￥]+/gu, "{\\text{$&}}");
 }
 
 function normalizeLegacyLatex(expression: string) {
@@ -70,7 +117,22 @@ function normalizeLegacyLatex(expression: string) {
     .replace(/\\mbox(?![A-Za-z])/gu, "\\text")
     .replace(/\\hdots(?![A-Za-z])/gu, "\\dots")
     .replace(/\\iddots(?![A-Za-z])/gu, "\\cdots")
-    .replace(/\\smiley(?![A-Za-z])/gu, "\\text{☺}")
+    .replace(/\\smiley(?![A-Za-z])/gu, "\\odot")
+    .replace(/\\text\{×\}/gu, "\\times{}")
+    .replace(/\\text\{÷\}/gu, "\\div{}")
+    .replace(/\\text\{÷\|-\}/gu, "\\div|-")
+    .replace(/\\text\{→\}/gu, "\\rightarrow{}")
+    .replace(/\\text\{⊥\}/gu, "\\perp{}")
+    .replace(/\\text\{∩\}/gu, "\\cap{}")
+    .replace(/\\text\{∃\}/gu, "\\exists{}")
+    .replace(/\\text\{∀\}/gu, "\\forall{}")
+    .replace(/\\text\{-∞,\}/gu, "-\\infty,")
+    .replace(/\\text\{¢\}/gu, "\\,\\mathrm{cent}")
+    .replace(/\\text\{♁\}/gu, "\\oplus{}")
+    .replace(/\\text\{º\}/gu, "^{\\circ}")
+    .replace(/\\not\s*\\text\s*\{\s*²134\)\s*\}/gu, "\\not 35134\\not 4")
+    .replace(/\\text\{([①②③④⑤⑥⑦⑧⑨⑩])\}/gu, (_, c: string) => MATH_SYMBOL_REPLACEMENTS[c] ?? c)
+    .replace(/\\begin\{array\}\{cc\}(?=\s*\\text\{(?:ACROSS|横向)\}\s*&\s*\\qquad\s*&)/gu, "\\begin{array}{ccc}")
     .replace(/\\linebreak(?![A-Za-z])/gu, "\\allowbreak")
     .replace(/\\lefteqn(?![A-Za-z])/gu, "\\mathrlap")
     .replace(/\\renewcommand\{\\arraystretch\}\{[^{}]*\}/gu, "")

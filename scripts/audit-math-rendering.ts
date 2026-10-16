@@ -4,11 +4,8 @@ import katex from "katex";
 import { tokenizeMathContent } from "../src/lib/math-content";
 import { normalizeMathExpression, requiresDisplayMath } from "../src/lib/math-expression";
 
-// KaTeX 0.19 reports additional existing Unicode-in-math and font warnings.
-// The same archive rebased this count from 1054 to 1184 without parse errors
-// or new warning families.
-const MAX_STRICT_WARNINGS = 1184;
-const MAX_CONSOLE_WARNINGS = 136;
+const MAX_STRICT_WARNINGS = 0;
+const MAX_CONSOLE_WARNINGS = 0;
 const dataDirectories = [
   { locale: "zh-CN", dir: path.join(process.cwd(), "data", "zh-CN") },
   { locale: "en", dir: path.join(process.cwd(), "data", "en") },

@@ -55,10 +55,22 @@ for (const { filename, question } of records) {
   if (!stem || PLACEHOLDER.test(stem)) issues.push("missing or placeholder stem");
   if (/【题文】/u.test(stem)) issues.push("stem: source field label residue");
   if (!answer || PLACEHOLDER.test(answer)) issues.push("missing or placeholder answer");
+  if (/^【(?:答案|解析|分析|详解|解答|点睛|点评)】/u.test(answer)) {
+    issues.push("answer: leading bracket label residue");
+  }
+  if (!isChoice && question.type !== "填空题" && /^[A-E]{1,4}$/u.test(answer)) {
+    issues.push("answer: bare option letters on non-choice question");
+  }
   if (!solutions.length || solutions.some((solution) => !solution || PLACEHOLDER.test(solution))) {
     issues.push("missing or placeholder solution");
   }
+  if (solutions.length !== new Set(solutions.map(normalize)).size) {
+    issues.push("duplicate solution");
+  }
   for (let index = 0; index < solutions.length; index += 1) {
+    if (/^(?:【(?:答案|解析|分析|详解|解答|点睛|点评)】|试题分析[：:])/u.test(solutions[index])) {
+      issues.push(`solution_${index}: leading label residue`);
+    }
     if (LEGACY_SOLUTION_FALLBACK.test(solutions[index])) {
       issues.push(`solution_${index}: legacy fallback explanation`);
     }
@@ -156,6 +168,15 @@ for (const { filename, question } of records) {
     if (filename === "chinese.json" && /\\n|\\u[0-9a-fA-F]{4}/u.test(String(value))) {
       issues.push(`${field}: literal escape residue`);
     }
+    if (filename === "chinese-high-school.json" && /学科网|版权所有|zxxk|21世纪教育|组卷网/iu.test(String(value))) {
+      issues.push(`${field}: watermark residue`);
+    }
+    if (
+      ["biology.json", "chemistry.json", "mathematics.json", "physics.json"].includes(filename) &&
+      [...String(value).matchAll(/\$\$([\s\S]*?)\$\$/gu)].some((m) => /^[，。；：、！？]|[，。；：、！？]$/u.test(m[1]))
+    ) {
+      issues.push(`${field}: CJK punctuation inside math delimiter boundary`);
+    }
   }
 
   const fingerprint = digest(normalize([stem, ...options].join("\n")));
@@ -187,4 +208,4 @@ const report = {
   invalid,
 };
 console.log(JSON.stringify(report, null, 2));
-if (invalid.length) process.exitCode = 1;
+if (invalid.length || report.exactDuplicateContent.length) process.exitCode = 1;

@@ -767,6 +767,25 @@ function convertGroup(group) {
   const duplicateNote = sources.length > 1 ? `；合并 ${sources.length} 个内容完全相同的试卷来源` : "";
   const repairNote = repairNotes.length ? `；EduLoop人工校订：${repairNotes.join("；")}` : "";
   const skillTag = passage ? "阅读理解" : "语言运用";
+  const rawStem = passage ? `${passage}\n\n${question}` : question;
+  const stem = rawStem
+    .replace(
+      /\[母欺子，子而不信其母，非以成教也。”遂烹彘也\]\(http:\/\/www\.ks5u\.com\/\)/gu,
+      "【母欺子，子而不信其母，非以成教也。”遂烹彘也】",
+    )
+    .replace(/学科\*网[。.]?/gu, "")
+    .replace(
+      "*夫冠足以修敬不务其饰衣足以掩形御寒不务其美身服不杂彩首服不镂刻**。*",
+      "【夫冠足以修敬不务其饰衣足以掩形御寒不务其美身服不杂彩首服不镂刻】。",
+    )
+    .replace(/\*([^*\n]{2,})\*/gu, "【$1】")
+    .replace(/赵一曼女士_+阿成[。.]?\s*/gu, "赵一曼女士\n阿成\n")
+    .replace(/围棋与国家_+林建超[。.]?\s*/gu, "围棋与国家\n林建超\n")
+    .replace(/贞_+幼聪敏/gu, "贞幼聪敏")
+    .replace(/[（(]\s*_{2,}\s*[）)]/gu, "（   ）")
+    .replace(/(的一项是)\s*_{2,}/gu, "$1（   ）")
+    .replace(/(?<!_)_{2,}(?!_)/gu, "______")
+    .trim();
 
   return {
     id: stableId(sourceIndex),
@@ -775,7 +794,7 @@ function convertGroup(group) {
     type: "单选题",
     difficulty: "一般",
     sourcePaper: `${paper}（AGIEval v1.1 MIT许可导入；固定提交 ${AGIEVAL_COMMIT}；源文件SHA-256 ${AGIEVAL_SOURCE_SHA256}${repairNote}${duplicateNote}）`,
-    stem: passage ? `${passage}\n\n${question}` : question,
+    stem,
     options: {
       A: optionByLabel.get("A") ?? "",
       B: optionByLabel.get("B") ?? "",

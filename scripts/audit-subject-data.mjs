@@ -107,6 +107,33 @@ for (const { filename, question } of records) {
   if (question.type === "填空题" && !/_{2,}|[（(]\s*[）)]/u.test(stem)) {
     issues.push("stem: fill-in-the-blank question lacks blank marker");
   }
+  if (
+    filename === "chinese.json" &&
+    question.type === "填空题" &&
+    /[（(]1[）)][\s\S]*?[（(]2[）)]/u.test(stem) &&
+    !/[（(][12][）)]/u.test(answer)
+  ) {
+    issues.push("answer: multi-part fill-in-the-blank question lacks numbered answer parts");
+  }
+  if (filename === "chinese.json" && ["略", "示例", "参考答案"].includes(answer.trim())) {
+    issues.push("answer: placeholder answer text");
+  }
+  if (
+    filename === "chinese.json" &&
+    isChoice &&
+    /字音和字形/u.test(stem) &&
+    !/[①②③④]/u.test(stem) &&
+    presentOptions.some((opt) => !/[a-zāáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜ]/iu.test(opt))
+  ) {
+    issues.push("options: pronunciation-and-orthography question option lacks pinyin annotation");
+  }
+  if (
+    filename === "chinese.json" &&
+    isChoice &&
+    presentOptions.some((opt) => /；.*(?:选项|正确|错误|有误|应为|应改|符合题意|不合题意)/u.test(opt))
+  ) {
+    issues.push("options: option text contains explanatory semicolon clause");
+  }
   if (question.type === "判断题" && answer !== "√" && answer !== "×") {
     issues.push("answer: true/false question answer must be √ or ×");
   }
@@ -176,6 +203,28 @@ for (const { filename, question } of records) {
       [...String(value).matchAll(/\$\$([\s\S]*?)\$\$/gu)].some((m) => /^[，。；：、！？]|[，。；：、！？]$/u.test(m[1]))
     ) {
       issues.push(`${field}: CJK punctuation inside math delimiter boundary`);
+    }
+    if (["biology.json", "chemistry.json", "mathematics.json", "physics.json", "chinese.json"].includes(filename)) {
+      if (/(?:[，。；：、]{2,}|？？+|，。|。，|[。！？]；|；[。，：]|：[；，。]|，[；：]|？：)/u.test(String(value))) {
+        issues.push(`${field}: doubled Chinese punctuation`);
+      }
+      if (/[（(]\d+分[）)]/u.test(String(value))) {
+        issues.push(`${field}: inline grading score marker`);
+      }
+      if (
+        /(?:【(?:试题解析|知识点|分析|详解|点睛|解答|答案|解析|考点|解题思路|名师点评|方法点拨|易错点|详解详析|技术的)】|\[(?:分析|详解|点睛|解答|答案|解析)(?:\$\$)?\]|名师点评本题考点：)/u.test(
+          String(value),
+        )
+      ) {
+        issues.push(`${field}: residual solution/meta tag`);
+      }
+      if (
+        field === "stem" &&
+        ["biology.json", "chemistry.json", "mathematics.json", "physics.json"].includes(filename) &&
+        /(?<![（(][^）)\n]{0,12})(?:选填[“"‘']|填物态变化)/u.test(String(value))
+      ) {
+        issues.push(`${field}: unparenthesized fill-in prompt`);
+      }
     }
   }
 

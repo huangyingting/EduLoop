@@ -1290,6 +1290,100 @@ export const WAVE2_ITEM_OVERRIDES = new Map(Object.entries({
       "利用乘法分配律展开计算：原式$$=-8\\times\\dfrac{1}{2}-(-8)\\times \\dfrac{5}{4}+(-8)\\times\\dfrac{1}{8}=-4+10-1=5$$。",
     ],
   },
+
+  // === 14. Wave 5 character-drop & formula typo repairs ===
+  "df4e0694c79f2058285ad0190f79a928": {
+    stem: "用紫色洋葱鳞片叶外表皮观察植物细胞质壁分离现象，下列叙述正确的是（ ）",
+  },
+  "134414f2b9417dc90e5ce81dcba7076b": {
+    stem: "关于人体细胞分化、衰老、凋亡、坏死和癌变的叙述，正确的是（ ）",
+  },
+  "bb73a8dc1fbec9a201149f36e4deca2f": {
+    stem: "在生物体内，存在许多形态、结构和生理功能有很大差异的细胞，这是因为（ ）",
+    solutions: [
+      "解：A、生物体的每个细胞都含有该物种的全部遗传信息，细胞全能性并未完全失去，A错误；B、同一个体不同细胞的基因是相同的，B错误；C、生物的变异是不定向的，且细胞分化过程中遗传物质并未发生改变，C错误；D、在个体发育中，细胞分化形成不同的组织和器官，原因是不同细胞中遗传信息的执行情况不同，即基因的选择性表达，D正确。故选：D。",
+    ],
+  },
+  "9a3ff385e15fd1d4495e47ffde00d4cf": {
+    stem: "下列关于细胞器的叙述错误的是（ ）",
+    solutions: [
+      "解：A、内质网是细胞内膜面积最大的细胞器，大大增加了细胞内膜面积，A正确；B、高尔基体是真核细胞中的物质转运系统，承担着物质运输功能，B正确；C、细胞质包括细胞质基质和细胞器，细胞核不属于细胞器，C正确；D、高尔基体对蛋白质有加工、分类和包装的作用，但集中在高尔基体中的蛋白质只有分泌蛋白才被运送到细胞外，部分蛋白质留在细胞内（如溶酶体中的水解酶），D错误。故选：D。",
+    ],
+  },
+  "49c7d9261ea00b36daf73e6e740d6897": {
+    stem: "磷脂是组成细胞膜的重要成分，这与磷脂分子的头部亲水、尾部疏水的性质有关。某研究小组发现植物种子细胞以小油滴的方式贮存油，每个小油滴都由磷脂膜包被着，该膜最可能的结构是（ ）",
+    solutions: [
+      "解：磷脂分子头部亲水、尾部疏水，而细胞内小油滴是疏水的，外部细胞质基质是亲水的，所以包被小油滴的磷脂膜应该由单层磷脂分子构成，亲水头部在外，疏水尾部向着油滴内。故选：B。",
+    ],
+  },
+  "468630766fe454b3867628654ace43cd": {
+    stem: "下列说法正确的是（ ）",
+  },
+  "5387ef65848c4e178def655e631da7ad": {
+    stem: "下列实验现象描述错误的是（ ）",
+    solutions: [
+      "解：A、镁在空气中燃烧，发出耀眼的白光，故选项说法正确；B、将硫酸铜溶液滴入氢氧化钠溶液中，生成氢氧化铜蓝色沉淀和硫酸钠，有蓝色沉淀出现，故选项说法正确；C、氯化铵属于铵态氮肥，与熟石灰粉末混合研磨能放出有刺激性气味的气体，故选项说法正确；D、硫在氧气中燃烧，发出明亮的蓝紫色火焰，在空气中燃烧才产生淡蓝色火焰，故选项说法错误。故选：D。",
+    ],
+  },
+  "e9e7dc06787caa84ec12c0b244be79b1": {
+    stem: "下列做法有利于保护环境的是（ ）",
+    solutions: [
+      "解：A、净化汽车尾气，能防止空气污染，有利于保护环境，故A正确；B、随意丢弃废旧电池，会污染水和土壤，不利于保护环境，故B错误；C、过量使用农药化肥，会造成水和土壤污染，不利于保护环境，故C错误；D、任意排放生活污水，会造成水体污染，不利于保护环境，故D错误。故选A。",
+    ],
+  },
+  "0582865ac170266489d3764cee062e50": {
+    stem: "下列有关金属材料的说法正确的是（ ）",
+  },
+  "acf6708573808ea3fa680d011079b5af": {
+    stem: "下列物质的用途与化学性质无关的是（ ）",
+    solutions: [
+      "解：A、氧气用于医疗急救，是利用了氧气能供给呼吸的性质，需要通过化学变化才表现出来，属于化学性质；B、二氧化碳用于灭火，既利用了二氧化碳密度比空气大的物理性质，也利用了二氧化碳不能燃烧、不支持燃烧的化学性质；C、熟石灰改良酸性土壤是利用酸碱中和反应，需要发生化学变化才表现出来，属于化学性质；D、用铜作导线是利用了铜的导电性，不需要通过化学变化就能表现出来，属于物理性质，与化学性质无关。故选D。",
+    ],
+  },
+  "0695200468e155e4a1bc920da81ee924": {
+    stem: "下列说法正确的是（ ）",
+  },
+  "3d80446c6fea8fafbdaeeaf75a92b324": {
+    stem: "下列关于元素周期律的叙述中正确的是（ ）",
+    solutions: [
+      "解：A、同主族卤素从上到下，单质的氧化性逐渐减弱，则氧化性强弱：$$\\rm{F_{2} > Cl_{2}}$$，故A错误；B、同主族碱金属从上到下，单质的金属性逐渐增强，则金属性强弱：$$\\rm{K > Na}$$，故B错误；C、同周期元素从左到右非金属性逐渐增强，最高价氧化物对应水化物的酸性逐渐增强，非金属性$$\\rm{P < S}$$，则酸性强弱：$$\\rm{H_{3}PO_{4} < H_{2}SO_{4}}$$，故C正确；D、同周期主族元素从左到右金属性逐渐减弱，最高价氧化物对应水化物的碱性逐渐减弱，金属性$$\\rm{Na > Mg}$$，则碱性强弱：$$\\rm{NaOH > Mg(OH)_{2}}$$，故D错误。故选C。",
+    ],
+  },
+  "3f8da2980d7726f9875d910db692bbac": {
+    stem: "下列变形不是根据等式的性质的是（ ）",
+    solutions: [
+      "解：A、$$\\dfrac{0.3x}{0.5y}=\\dfrac{3x}{5y}$$是根据分式的基本性质（分子分母同时乘以$$10$$）得到的，不是根据等式的性质，故本选项符合题意；B、在等式$$-a=x$$两边同时加上$$a$$得到$$x+a=0$$，是根据等式的性质1，故本选项不符合题意；C、在等式$$x-3=2-2x$$的两边同时加上$$(2x+3)$$得到$$x+2x=2+3$$，是根据等式的性质1，故本选项不符合题意；D、在等式$$-\\dfrac{1}{2}x=1$$两边同时乘以$$-2$$得到$$x=-2$$，是根据等式的性质2，故本选项不符合题意。故选：A。",
+    ],
+  },
+  "f42703e43a94ccd05cc16417c9beee20": {
+    stem: "现从200件产品中随机抽出20件进行质量检验，下列说法正确的是（ ）",
+    solutions: [
+      "解：根据题意，从200件产品中随机抽出20件进行质量检验，200件产品的质量是总体，抽取的20件产品的质量是样本，样本容量是20。故选：D。",
+    ],
+  },
+  "3f72999e6da48c4e4b69ad6081af8311": {
+    stem: "已知在数列$$\\{a_{n}\\}$$中，$$a_{1}=1$$，其前$$n$$项和为$$s_{n}$$，且$$a_{n}=\\dfrac{2s_{n}^{2}}{2s_{n}-1}(n\\geqslant 2)$$。（1）证明$$\\{\\dfrac{1}{s_{n}}\\}$$是等差数列，并求数列$$\\{\\dfrac{1}{s_{n}}\\}$$的前$$n$$项和$$P_{n}$$；（2）若$$b_{n}=\\dfrac{s_{n}}{2n+1}+\\dfrac{2^{n}}{s_{n}}$$，求数列$$\\{b_{n}\\}$$的前$$n$$项和$$T_{n}$$。",
+    answer: "（1）证明见解析，$$P_{n}=n^{2}$$；（2）$$T_{n}=\\dfrac{n}{2n+1}+(2n-3)\\times 2^{n+1}+6$$",
+  },
+  "38cc16fbc90629fa80391568994c0199": {
+    stem: "已知正项数列$$\\{a_{n}\\}$$满足$$a_{n-1}-a_{n}=a_{n}a_{n-1}(n\\geqslant 2,n\\in\\mathbf{N}^{*})$$，$$a_{1}=1$$。设$$b_{n}=\\dfrac{2^{n-1}}{a_{n}}$$，求数列$$\\{b_{n}\\}$$的前$$n$$项和$$T_{n}$$。",
+    answer: "$$(n-1)\\cdot 2^{n}+1$$",
+    solutions: [
+      "解：由$$a_{n-1}-a_{n}=a_{n}a_{n-1}(n\\geqslant 2,n\\in\\mathbf{N}^{*})$$，两边同除以$$a_{n}a_{n-1}$$得$$\\dfrac{1}{a_{n}}-\\dfrac{1}{a_{n-1}}=1$$。又$$\\dfrac{1}{a_{1}}=1$$，故数列$$\\{\\dfrac{1}{a_{n}}\\}$$是以$$1$$为首项、$$1$$为公差的等差数列，所以$$\\dfrac{1}{a_{n}}=n$$，即$$a_{n}=\\dfrac{1}{n}$$。由此得$$b_{n}=n\\cdot 2^{n-1}$$，则$$T_{n}=1\\cdot 2^{0}+2\\cdot 2^{1}+3\\cdot 2^{2}+\\dots+n\\cdot 2^{n-1}$$，$$2T_{n}=1\\cdot 2^{1}+2\\cdot 2^{2}+\\dots+(n-1)\\cdot 2^{n-1}+n\\cdot 2^{n}$$。两式相减得$$-T_{n}=1+2+2^{2}+\\dots+2^{n-1}-n\\cdot 2^{n}=\\dfrac{1-2^{n}}{1-2}-n\\cdot 2^{n}=(1-n)\\cdot 2^{n}-1$$，故$$T_{n}=(n-1)\\cdot 2^{n}+1$$。",
+    ],
+  },
+  "64069c08a2a4575d08cac64757f74bdd": {
+    answer: "$$-\\dfrac{5}{4} < a < 4$$",
+  },
+  "597837790567e2516b6db383c591e02b": {
+    stem: "在亚丁湾海域，我国海军护航编队使用“金嗓子”又名“声波炮”震慑海盗。它的声波定向发射器外观类似喇叭，能发出$$145dB$$以上的高频声波，甚至比喷气式飞机引擎的噪声还要刺耳。根据以上信息，下列说法中错误的是（ ）",
+  },
+  "45c7184451a651dca8416dd65776a723": {
+    stem: "关于点电荷，下列说法正确的是（ ）",
+  },
+  "74a98f9dd94fc34c20c09c4a180cc274": {
+    stem: "下列有关神舟七号飞船的说法中正确的是（ ）",
+  },
 }));
 
 const TRAILING_STRIPPED_BLANK_RE = /\s+((?:厘米|米|分米|毫米|千米|平方厘米|平方米|平方分米|公顷|立方厘米|立方分米|立方米|升|毫升|克|千克|吨|秒|分|小时|时|天|元|角|度|°|′|″|个|只|条|次|倍|人|件|箱|棵|本|支|辆|架|种|项|号|象限角|条件)?\s*[.．。])$/;
@@ -1312,9 +1406,89 @@ function stripTrailingLatexSpace(str) {
   return str.replace(/(?:\\[,;:!\s]|\\)+$/gu, "").trim();
 }
 
+function findTopLevelUnmatchedParen(str, wantOpen) {
+  let braceDepth = 0;
+  const openStack = [];
+  const unmatchedClose = [];
+  for (let i = 0; i < str.length; i++) {
+    if (str.slice(i).startsWith("\\left(") || str.slice(i).startsWith("\\left)")) {
+      i += 5;
+      continue;
+    }
+    if (str.slice(i).startsWith("\\right(") || str.slice(i).startsWith("\\right)")) {
+      i += 6;
+      continue;
+    }
+    const ch = str[i];
+    if (ch === "\\" && i + 1 < str.length) {
+      i++;
+      continue;
+    }
+    if (ch === "{") braceDepth++;
+    else if (ch === "}") braceDepth = Math.max(0, braceDepth - 1);
+    else if (braceDepth === 0) {
+      if (ch === "(") openStack.push(i);
+      else if (ch === ")") {
+        if (openStack.length > 0) openStack.pop();
+        else unmatchedClose.push(i);
+      }
+    }
+  }
+  if (wantOpen) {
+    return openStack.length === 1 ? openStack[0] : -1;
+  }
+  return unmatchedClose.length === 1 ? unmatchedClose[0] : -1;
+}
+
+function splitUnbalancedBlock(b) {
+  const diff = parenDiff(b);
+  if (Math.abs(diff) !== 1) return null;
+  if (/\[[^\[\]()]+,[^\[\]()]+\)|\([^\[\]()]+,[^\[\]()]+[\]］]/u.test(b)) return null;
+  const wantOpen = diff > 0;
+  const targetChar = wantOpen ? "(" : ")";
+
+  const outerRm1 = b.match(/^(\\rm\{)([\s\S]*?)(\})$/u);
+  const outerRm2 = !outerRm1 ? b.match(/^(\{\\rm\s+)([\s\S]*?)(\})$/u) : null;
+  const outer = outerRm1 || outerRm2;
+
+  if (outer) {
+    const openWrap = outer[1];
+    const inner = outer[2];
+    const idx = findTopLevelUnmatchedParen(inner, wantOpen);
+    if (idx === -1) return null;
+    const left = inner.slice(0, idx).trim();
+    const right = inner.slice(idx + 1).trim();
+    const leftPart = left ? `$$${openWrap}${left}}$$` : "";
+    const rightPart = right ? `$$${openWrap}${right}}$$` : "";
+    return `${leftPart}${targetChar}${rightPart}`;
+  }
+
+  const idx = findTopLevelUnmatchedParen(b, wantOpen);
+  if (idx === -1) return null;
+  const left = b.slice(0, idx).trim();
+  const right = b.slice(idx + 1).trim();
+  const leftPart = left ? `$$${left}$$` : "";
+  const rightPart = right ? `$$${right}$$` : "";
+  return `${leftPart}${targetChar}${rightPart}`;
+}
+
 export function cleanStemMathBoundaries(str, isChoice) {
   let s = String(str ?? "");
   const blankRepl = isChoice ? "（ ）" : "（______）";
+
+  // Pre-merge math blocks split across horizontal ellipsis and adjacent {\rm ...}{\rm ...} blocks
+  s = s
+    .replace(/\$\$\s*…\s*\$\$/gu, " \\dots ")
+    .replace(/\$\$([\s\S]*?)\$\$/gu, (m, body) =>
+      body.includes("}{\\rm") ? `$$${body.replace(/\}\{\\rm\b/gu, () => "} $$ $$ {\\rm")}$$` : m,
+    )
+    .replace(
+      /\$\$\(1\)\)3x\+4-5\(x\+1\)=-13x\+4-5x-5=-1\$\$/gu,
+      () => "(1) $$3x+4-5(x+1)=-1$$，$$3x+4-5x-5=-1$$",
+    )
+    .replace(/\\dfrac\s*\{2\(1\+i\)\}\{\(1-i\)1\+i\)\}/gu, "\\dfrac{2(1+i)}{(1-i)(1+i)}")
+    .replace(/P\(X=1\)\+P\(X=2\)\)/gu, "P(X=1)+P(X=2)")
+    .replace(/\[m\+1\)\+\(n\+1\)\]/gu, "[(m+1)+(n+1)]");
 
   // Merge equation-internal (浓)/(稀)/(正)/(逆) inside chemical equations
   s = s.replace(
@@ -1513,10 +1687,48 @@ export function cleanStemMathBoundaries(str, isChoice) {
     const sm2 = b.match(pureSubq);
     if (sm2) return prefix + sm2[1] + suffix;
 
+    const splitUnbalanced = splitUnbalancedBlock(b);
+    if (splitUnbalanced !== null) {
+      return `${prefix}${cleanStemMathBoundaries(splitUnbalanced, isChoice)}${suffix}`;
+    }
+
     return `${prefix}$$${b}$$${suffix}`;
   });
 
   return s;
+}
+
+function fixStemXuanTian(str) {
+  return str
+    .replace(/”白雾“/gu, "“白雾”")
+    .replace(/选填“直线传播”“反射”成“折射”/gu, "（选填“直线传播”“反射”或“折射”）")
+    .replace(/，\s*选填[（(](“[^”]+”(?:[、，或和]\s*“[^”]+”)+)[）)]/gu, "（选填$1）")
+    .replace(
+      /[（(]((?:均|以上两空|后两空)?选填[：:]?\s*“[^”]+”(?:\s*[、，或和]?\s*“[^”]+”)+)(?![）)“])(?![、，或和]\s*“)/gu,
+      "（$1）",
+    )
+    .replace(
+      /(?<![（(][^）)\n]{0,15})((?:均|以上两空|后两空)?选填[：:]?\s*“[^”]+”(?:\s*[、，或和]?\s*“[^”]+”)+)[）)]?/gu,
+      "（$1）",
+    )
+    .replace(/(?<![（(][^）)\n]{0,10})(填(?:一种)?物态变化(?:名称)?)[）)]?/gu, "（$1）");
+}
+
+function cleanDoubledChinesePunct(str) {
+  return str
+    .replace(/([，。；、：？！])\1+/gu, "$1")
+    .replace(/，、|、，/gu, "、")
+    .replace(/，。/gu, "。")
+    .replace(/。，/gu, "。")
+    .replace(/([。！？])；/gu, "$1")
+    .replace(/；。/gu, "。")
+    .replace(/；，/gu, "；")
+    .replace(/，；/gu, "；")
+    .replace(/；：/gu, "：")
+    .replace(/：；/gu, "；")
+    .replace(/，：/gu, "：")
+    .replace(/：，/gu, "：")
+    .replace(/？：/gu, "？");
 }
 
 export function applyWave2StemNormalization(question) {
@@ -1532,38 +1744,59 @@ export function applyWave2StemNormalization(question) {
   const isChoiceLike = ["单选题", "多选题", "选择题", "双选题", "不定项选择题", "判断题"].includes(question.type);
 
   // Strip leading exam headers / score prefixes / item numbers from stem, and normalize short underscore runs
-  question.stem = cleanStemMathBoundaries(question.stem, isChoiceLike)
-    .replace(/^\$\$\\rm\{\(?(\d+)\s*分?\)?[、.．]?}\$\$\s*/, "")
-    .replace(/^\$\$\s*(?:\\rm\{)?\d+(?:\})?\s*\$\$[、.．]\s*(?!\$\$)/u, "")
-    .replace(LEADING_STEM_HEADER_RE, "")
-    .replace(/^[、，。．.,;；:：]+\s*/u, "")
-    .replace(/[（(]\s*\d+(?:\.\d+)?\s*分(?:[，,。；;][^）)\n]{1,15})?[）)]/gu, "")
-    .replace(/(?<!_)_{2,}(?!_)/gu, "______")
-    .replace(/(?:\s*\\:){3,}\s*/gu, " ")
-    .trim();
+  question.stem = cleanDoubledChinesePunct(
+    fixStemXuanTian(
+      cleanStemMathBoundaries(question.stem, isChoiceLike)
+        .replace(/^\$\$\\rm\{\(?(\d+)\s*分?\)?[、.．]?}\$\$\s*/, "")
+        .replace(/^\$\$\s*(?:\\rm\{)?\d+(?:\})?\s*\$\$[、.．]\s*(?!\$\$)/u, "")
+        .replace(LEADING_STEM_HEADER_RE, "")
+        .replace(/^[、，。．.,;；:：]+\s*/u, "")
+        .replace(/[（(]\s*\d+(?:\.\d+)?\s*分(?:[，,。；;][^）)\n]{1,15})?[）)]/gu, "")
+        .replace(/(?<!_)_{2,}(?!_)/gu, "______")
+        .replace(/(?:\s*\\:){3,}\s*/gu, " "),
+    ),
+  ).trim();
 
   if (question.options && typeof question.options === "object") {
     for (const key of Object.keys(question.options)) {
-      question.options[key] = cleanStemMathBoundaries(question.options[key], true)
-        .replace(/(?:\s*\\:){3,}\s*/gu, " ")
-        .trim();
+      question.options[key] = cleanDoubledChinesePunct(
+        cleanStemMathBoundaries(question.options[key], true)
+          .replace(/(?:\s*\\:){3,}\s*/gu, " "),
+      ).trim();
     }
   }
 
-  question.answer = cleanStemMathBoundaries(question.answer, false)
-    .replace(/[（(]\s*\d+(?:\.\d+)?\s*分(?:[，,。；;][^）)\n]{1,15})?[）)]/gu, "")
-    .replace(/(?:\s*\\:){3,}\s*/gu, " ")
-    .trim();
+  question.answer = cleanDoubledChinesePunct(
+    cleanStemMathBoundaries(question.answer, false)
+      .replace(/【(?:答案|解析|详解|分析|点睛|点评|试题解析|知识点|技术的)】\s*/gu, "")
+      .replace(/(?:(?:\.\.\.|…|\$\$\s*(?:\\cdots|\\dots)+\s*\$\$|\\cdots|\\dots)+\s*)[（(]?\d+(?:\.\d+)?\s*分[）)]?/gu, "")
+      .replace(/[（(]\s*\d+(?:\.\d+)?\s*分(?:[，,。；;][^）)\n]{1,15})?[）)]/gu, "")
+      .replace(/(?:\s*\\:){3,}\s*/gu, " "),
+  ).trim();
 
   // Strip leaked next-question headers and residual bracket section labels in solutions
   question.solutions = (question.solutions ?? []).map((sol) =>
-    cleanStemMathBoundaries(sol, false)
-      .replace(/【(?:答案|解析|详解|分析|点睛|点评)】\s*/gu, "")
-      .replace(/(?:^|\s)试题分析[:：]\s*/gu, " ")
-      .replace(TRAILING_NEXT_QUESTION_IN_SOLUTION_RE, "")
-      .replace(/(?:\s*\\:){3,}\s*/gu, " ")
-      .replace(/故答为/g, "故答案为")
-      .trim()
+    cleanDoubledChinesePunct(
+      cleanStemMathBoundaries(
+        String(sol ?? "")
+          .replace(/\[(?:分析|解析)\$\$\]/gu, "$$$$")
+          .replace(/\[(?:分析|详解|点睛|解答|解析)\]\s*/gu, ""),
+        false,
+      )
+        .replace(/【(?:答案|解析|详解|分析|点睛|点评|试题解析|知识点|技术的)】\s*/gu, "")
+        .replace(/\[(?:分析|详解|点睛|解答|解析)\]\s*/gu, "")
+        .replace(/名师点评本题考点：/gu, "本题考点：")
+        .replace(/至多有\$\$o\$\$个/gu, "至多有$$$$0$$$$个")
+        .replace(/故选答案为/gu, "故答案为：")
+        .replace(/(?<![本此该试小命真考原难])题难度不大/gu, "本题难度不大")
+        .replace(/(?<![出本此该试小道命真考原专主])题考查了/gu, "本题考查了")
+        .replace(/(?:(?:\.\.\.|…|\$\$\s*(?:\\cdots|\\dots)+\s*\$\$|\\cdots|\\dots)+\s*)[（(]?\d+(?:\.\d+)?\s*分[）)]?/gu, "")
+        .replace(/[（(]\s*\d+(?:\.\d+)?\s*分[）)]/gu, "")
+        .replace(/(?:^|\s)试题分析[:：]\s*/gu, " ")
+        .replace(TRAILING_NEXT_QUESTION_IN_SOLUTION_RE, "")
+        .replace(/(?:\s*\\:){3,}\s*/gu, " ")
+        .replace(/故答为/g, "故答案为"),
+    ).trim()
   );
 
   // Clean score tags from tags[]

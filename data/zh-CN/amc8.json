@@ -5592,7 +5592,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "1995 AJHSME · 第 17 题",
-    "stem": "下表给出安维尔小学和克利奥纳小学各年级学生所占百分比。安维尔有 $100$ 名学生，克利奥纳有 $200$ 名学生。两校合计，六年级学生占百分之多少？",
+    "stem": "下表给出安维尔小学和克利奥纳小学各年级学生所占百分比：\n\n$\\begin{array}{cccccccc} & \\underline{\\textbf{K}} & \\underline{\\textbf{1}} & \\underline{\\textbf{2}} & \\underline{\\textbf{3}} & \\underline{\\textbf{4}} & \\underline{\\textbf{5}} & \\underline{\\textbf{6}} \\\\ \\text{安维尔：} & 16\\% & 15\\% & 15\\% & 14\\% & 13\\% & 16\\% & 11\\% \\\\ \\text{克利奥纳：} & 12\\% & 15\\% & 14\\% & 13\\% & 15\\% & 14\\% & 17\\% \\\\ \\end{array}$\n\n安维尔有 $100$ 名学生，克利奥纳有 $200$ 名学生。两校合计，六年级学生占百分之多少？",
     "options": {
       "A": "$12 \\%$",
       "B": "$13 \\%$",

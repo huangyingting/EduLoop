@@ -123,6 +123,28 @@ for (const [contest, entries] of contests) {
 const crossFileDuplicateQuestions = [...duplicateQuestions.values()].filter((group) => (
   group.length > 1 && new Set(group.map(({ filename }) => filename)).size > 1
 ));
+
+for (const base of ["amc8.json", "amc10.json", "amc12.json"]) {
+  const enById = new Map(
+    records.filter((r) => r.filename === `en/${base}`).map((r) => [r.question.id, r.question]),
+  );
+  const zhById = new Map(
+    records.filter((r) => r.filename === `zh-CN/${base}`).map((r) => [r.question.id, r.question]),
+  );
+  for (const [id, enQ] of enById) {
+    const zhQ = zhById.get(id);
+    if (!zhQ) continue;
+    const arrayRe = /\\begin\{(?:array|tabular|matrix|pmatrix|bmatrix|cases)\}/u;
+    if (arrayRe.test(enQ.stem) !== arrayRe.test(zhQ.stem)) {
+      invalid.push({
+        filename: base,
+        id,
+        sourcePaper: enQ.sourcePaper,
+        issues: ["en/zh-CN stem LaTeX table/array parity mismatch"],
+      });
+    }
+  }
+}
 const report = {
   files: Object.fromEntries(FILES.map((filename) => [filename, records.filter((record) => record.filename === filename).length])),
   total: records.length,

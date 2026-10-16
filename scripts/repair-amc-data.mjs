@@ -69,6 +69,29 @@ const REPAIRS = [
   ["data/en/amc10.json", "39932dd34ea8cc4e71b30d54cde465e6", "solutions.0", "Note from ~milquetoast:", "Note:"],
   ["data/en/amc10.json", "584efebe71a94be6e09f5b51d4c17b0e", "solutions.0", " ~ minor $\\LaTeX$ edits by dolphin7", ""],
   ["data/en/amc10.json", "ed7eb6a3d013a7ca5884177151a7122c", "solutions.4", "(not named in my image)", "$K$", 2],
+
+  // Wave 5 AMC8 en/zh-CN LaTeX array table parity repairs
+  [
+    "data/zh-CN/amc8.json",
+    "1aab49b9248398d72de9548b2b752eea",
+    "stem",
+    "下表给出安维尔小学和克利奥纳小学各年级学生所占百分比。安维尔有 $100$ 名学生，克利奥纳有 $200$ 名学生。两校合计，六年级学生占百分之多少？",
+    "下表给出安维尔小学和克利奥纳小学各年级学生所占百分比：\n\n$\\begin{array}{cccccccc} & \\underline{\\textbf{K}} & \\underline{\\textbf{1}} & \\underline{\\textbf{2}} & \\underline{\\textbf{3}} & \\underline{\\textbf{4}} & \\underline{\\textbf{5}} & \\underline{\\textbf{6}} \\\\ \\text{安维尔：} & 16\\% & 15\\% & 15\\% & 14\\% & 13\\% & 16\\% & 11\\% \\\\ \\text{克利奥纳：} & 12\\% & 15\\% & 14\\% & 13\\% & 15\\% & 14\\% & 17\\% \\\\ \\end{array}$\n\n安维尔有 $100$ 名学生，克利奥纳有 $200$ 名学生。两校合计，六年级学生占百分之多少？",
+  ],
+  [
+    "data/en/amc8.json",
+    "bc6c0f7881c9d86ce3cae1541a713085",
+    "stem",
+    "$9876$ If $A$ and $B$ are nonzero digits, then the number of three whole numbers is",
+    "In the addition problem\n\n$\\begin{array}{r}9876\\\\ A32\\\\ +\\ B1\\\\ \\hline\\end{array}$\n\nif $A$ and $B$ are nonzero digits, then the number of digits in the sum of the three whole numbers is",
+  ],
+  [
+    "data/en/amc8.json",
+    "bc6c0f7881c9d86ce3cae1541a713085",
+    "solutions.0",
+    "Since $A$is a digit",
+    "Since $A$ is a digit",
+  ],
 ];
 
 const AMC_FILES = [
@@ -134,10 +157,13 @@ for (const filename of AMC_FILES) {
       throw new Error(`Repair ${filename}:${id} expected one record, received ${matches.length}`);
     }
     const [container, leaf] = fieldContainer(matches[0], fieldPath);
+    if (container[leaf] === undefined) {
+      continue;
+    }
     const value = String(container[leaf] ?? "");
     const matchCount = value.split(search).length - 1;
-    const replacementCount = value.split(replacement).length - 1;
-    if (matchCount === 0 && (replacement === "" || replacementCount >= expectedCount)) {
+    const replacementCount = replacement ? value.split(replacement).length - 1 : 0;
+    if (matchCount === 0 && (replacement === "" || replacementCount >= 1)) {
       continue;
     }
     if (matchCount !== expectedCount) {

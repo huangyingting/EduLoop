@@ -12,6 +12,7 @@ import {
   repairCjevalRecord,
   splitChoiceContent,
 } from "./cjeval.mjs";
+import { postProcessCjevalQuestion } from "./cjeval-repairs.mjs";
 
 test("normalizes CJEval presentation markup without leaving executable HTML", () => {
   assert.equal(normalizeCjevalText("读<dotted>音</dotted><br>并<u>作答</u>"), "读【音】\n并【作答】");
@@ -338,6 +339,7 @@ test("postProcessCjevalQuestion repairs brackets, escapes, blanks, and subquesti
     const opens = (q.stem.match(/【/gu) ?? []).length;
     const closes = (q.stem.match(/】/gu) ?? []).length;
     assert.equal(opens, closes, `Unbalanced 【】 in ${q.id}`);
+    assert.deepEqual(postProcessCjevalQuestion(q), q, `Non-idempotent postProcessCjevalQuestion for ${q.id}`);
   }
 });
 

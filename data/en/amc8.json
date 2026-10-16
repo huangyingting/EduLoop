@@ -1644,7 +1644,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "1988 AJHSME · Problem 4",
-    "stem": "The figure consists of alternating light and dark squares. The number of dark squares exceeds the number of light squares by",
+    "stem": "The figure consists of alternating light and dark squares. The number of dark squares exceeds the number of light squares by\n\n[Figure: /question-assets/source/amc/863f96dccd0615b18b9cb0646250c9e5c278b10c2e00c551f0b03b1778683160.svg]",
     "options": {
       "A": "$7$",
       "B": "$8$",
@@ -6789,7 +6789,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "1997 AJHSME · Problem 24",
-    "stem": "$ACE$ is divided at $\\mathrm{C}$ in the ratio $2: 3$. The two semicircles, $A B C$ and $C D E$, divide the circular region into an upper (shaded) region and a lower region. The ratio of the area of the upper region to that of the lower region is\n\n[Figure: /question-assets/source/amc/396710c89880c5b3f93b5f62ec835d707155cef25b8bf58cfe26306f930d4eae.jpg]",
+    "stem": "Diameter $ACE$ is divided at $\\mathrm{C}$ in the ratio $2: 3$. The two semicircles, $A B C$ and $C D E$, divide the circular region into an upper (shaded) region and a lower region. The ratio of the area of the upper region to that of the lower region is\n\n[Figure: /question-assets/source/amc/396710c89880c5b3f93b5f62ec835d707155cef25b8bf58cfe26306f930d4eae.jpg]",
     "options": {
       "A": "$2: 3$",
       "B": "$1: 1$",
@@ -10926,7 +10926,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2005 AMC 8 · Problem 21",
-    "stem": "How many distinct triangles can be drawn using three of the dots below as vertices?",
+    "stem": "How many distinct triangles can be drawn using three of the dots below as vertices?\n\n[Figure: /question-assets/source/amc/55e5343996c10fa90a61e7cfd9e3238616c1003fd277b7d14ce17f5002fc50b0.svg]",
     "options": {
       "A": "$9$",
       "B": "$12$",
@@ -12217,7 +12217,7 @@
     },
     "answer": "E",
     "solutions": [
-      "Note that $\\dfrac{M}{45}=\\dfrac{3}{5}=\\dfrac{3.9}{5.9}=\\dfrac{27}{45}$, so $M=27$. Similarly, $\\dfrac{60}{N}=\\dfrac{3}{5}=$ $\\dfrac{3 \\cdot 20}{5 \\cdot 20}=\\dfrac{60}{100}$, so $N=100$. The sum $M+N=27+100=127$.\n\n$\\textbf{OR}$\nNote that $\\dfrac{M}{45}=\\dfrac{3}{5}$, so $M=\\dfrac{3}{5} \\cdot 45=27$. Also $\\dfrac{60}{N}=\\dfrac{3}{5}$, so $\\dfrac{N}{60}=\\dfrac{5}{3}$, and $N=\\dfrac{5}{3} \\cdot 60 = 100$. The $\\operatorname{sum} M+N=27+100=127$.\n\nAnswer: $\\boxed{E}$."
+      "Note that $\\dfrac{M}{45}=\\dfrac{3}{5}=\\dfrac{3.9}{5.9}=\\dfrac{27}{45}$, so $M=27$. Similarly, $\\dfrac{60}{N}=\\dfrac{3}{5}=$ $\\dfrac{3 \\cdot 20}{5 \\cdot 20}=\\dfrac{60}{100}$, so $N=100$. The sum $M+N=27+100=127$.\n\n$\\textbf{OR}$\nNote that $\\dfrac{M}{45}=\\dfrac{3}{5}$, so $M=\\dfrac{3}{5} \\cdot 45=27$. Also $\\dfrac{60}{N}=\\dfrac{3}{5}$, so $\\dfrac{N}{60}=\\dfrac{5}{3}$, and $N=\\dfrac{5}{3} \\cdot 60 = 100$. The sum $M+N=27+100=127$.\n\nAnswer: $\\boxed{E}$."
     ],
     "tags": []
   },
@@ -12459,7 +12459,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2008 AMC 8 · Problem 19",
-    "stem": "Eight points are spaced at intervals of one unit around a $2 \\times 2$ square, as shown. Two of the $8$ points are chosen at random. What is the probability that the points are one unit apart?",
+    "stem": "Eight points are spaced at intervals of one unit around a $2 \\times 2$ square, as shown. Two of the $8$ points are chosen at random. What is the probability that the points are one unit apart?\n\n[Figure: /question-assets/source/amc/3d09bd72f60cad813532179c4238b16e19f8b64b8de29cc7a05517edc89eb61d.svg]",
     "options": {
       "A": "$\\dfrac{1}{4}$",
       "B": "$\\dfrac{2}{7}$",
@@ -13005,7 +13005,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2009 AMC 8 · Problem 20",
-    "stem": "How many non-congruent triangles have vertices at three of the eight points in the array shown below?",
+    "stem": "How many non-congruent triangles have vertices at three of the eight points in the array shown below?\n\n[Figure: /question-assets/source/amc/2e35c8fbb3bda3d65eef83fdfd65383c2279c782c225040731219bcbcd304936.svg]",
     "options": {
       "A": "$5$",
       "B": "$6$",
@@ -16230,7 +16230,7 @@
     },
     "answer": "D",
     "solutions": [
-      "The sum of the numbers is $35$. So the $5$ consecutive numbers in the cups must be $5,6,7,8$, and $9$. It is impossible to get a sum of $5$ or $7$ using the slip with $3.5$. Cup $B$ needs a sum of $6$, but it already has a slip with $3$ on it so the slip with a $3.5$ can't go there. Cup $E$ needs a sum of $9$, but with a slip with $2$ in it the slip with $3.5$ can't go there. The only place the slip with $3.5$ on it can go is Cup $D$. One possibility is:\n\n$\\operatorname{Cup}$ A. $2,3$\n\nCup $B$. $3,3$\n\nCup $C$. $2.5,4.5$\n\nCup $D$. $2,2.5,3.5$\n\nCup $E$. $2,3,4$\n\nAnswer: $\\boxed{D}$."
+      "The sum of the numbers is $35$. So the $5$ consecutive numbers in the cups must be $5,6,7,8$, and $9$. It is impossible to get a sum of $5$ or $7$ using the slip with $3.5$. Cup $B$ needs a sum of $6$, but it already has a slip with $3$ on it so the slip with a $3.5$ can't go there. Cup $E$ needs a sum of $9$, but with a slip with $2$ in it the slip with $3.5$ can't go there. The only place the slip with $3.5$ on it can go is Cup $D$. One possibility is:\n\nCup $A$. $2,3$\n\nCup $B$. $3,3$\n\nCup $C$. $2.5,4.5$\n\nCup $D$. $2,2.5,3.5$\n\nCup $E$. $2,3,4$\n\nAnswer: $\\boxed{D}$."
     ],
     "tags": []
   },
@@ -19874,7 +19874,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2023 AMC 8 · Problem 22",
-    "stem": "n a sequence of positive integers, each term after the second is the product of the previous two terms. The sixth term in the sequence is $4000$. What is the first term?",
+    "stem": "In a sequence of positive integers, each term after the second is the product of the previous two terms. The sixth term in the sequence is $4000$. What is the first term?",
     "options": {
       "A": "$1$",
       "B": "$2$",

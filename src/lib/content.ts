@@ -167,7 +167,7 @@ function hasSplitOptions(question: SourceQuestion) {
 }
 
 function extractEmbeddedChoice(question: SourceQuestion) {
-  if (hasSplitOptions(question) || !/选择/.test(question.type)) return null;
+  if (hasSplitOptions(question) || !/选择|单选|多选|双选|不定项/.test(question.type)) return null;
   const stem = String(question.stem ?? "");
   const markerPattern = /(?:^|[\s\u3000])(?:[（(]\s*([A-EＡ-Ｅ])\s*[）)]|([A-EＡ-Ｅ])\s*[.．、:：]|([A-EＡ-Ｅ])(?=\s+|[\u3400-\u9fff]))/gi;
   const markers = [...stem.matchAll(markerPattern)].map((match) => ({
@@ -345,7 +345,7 @@ export function normalizeSourceQuestion(question: SourceQuestion, sourceFile: st
   );
   const visualHeuristicMatch = /识图|填图/.test(sourceType) || referencesMissingFigure(stem);
   const requiresVisual = !isAmcSource && visualHeuristicMatch && !reviewedSelfContainedVisualIds.has(question.id);
-  const hasUnparsedChoice = !selfAssessedCompositeIds.has(question.id) && /选择/.test(sourceType) && (
+  const hasUnparsedChoice = !selfAssessedCompositeIds.has(question.id) && /选择|单选|多选|双选|不定项/.test(sourceType) && (
     options.length < 2 || options.some((option, index) => option.label !== String.fromCharCode(65 + index))
   );
   const hasPlaceholderStem = /^(?:略|无|暂无)[。.]?$/u.test(stem);

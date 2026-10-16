@@ -4,45 +4,45 @@ Audit date: 2026-08-03. Reproduce the structural portion with `node scripts/anal
 
 ## Inventory
 
-The nine Simplified Chinese runtime files under `data/zh-CN/` contain 16,489 unique question IDs: six subject archives and separate AMC 8, AMC 10, and AMC 12 archives. Matching English AMC source files live under `data/en/`. The AMC files hold 3,446 unique questions representing 3,575 contest slots; 129 exact AMC 10/12 overlaps are stored once with merged paper provenance and solutions.
+The nine Simplified Chinese runtime files under `data/zh-CN/` contain 16,022 unique question IDs: six subject archives and separate AMC 8, AMC 10, and AMC 12 archives. Matching English AMC source files live under `data/en/`. The AMC files hold 2,984 unique questions representing 3,575 contest slots; 591 exact AMC 10/12 overlaps are stored once in `amc10.json` with merged paper provenance and solutions.
 
 | Dimension | Distribution |
 | --- | --- |
-| Grade band | Primary 1,815; middle 7,102; high 4,126; AMC-8 1,025; AMC-10 1,275; AMC-12 1,146 |
-| Subject | Mathematics 8,827; Chinese 2,707; physics 2,226; chemistry 1,646; biology 1,083 |
-| Difficulty | Easy 7,585; medium 7,547; hard 1,357 |
-| Largest grades | Middle-school comprehensive: 2,494; Grade 9: 2,403; high school year 3: 1,857 |
-| Online-ready flag | True 10,590; false 5,899 |
+| Grade band | Primary 1,815; middle 7,101; high 4,122; AMC-8 1,025; AMC-10 1,275; AMC-12 684 |
+| Subject | Mathematics 8,363; Chinese 2,707; physics 2,224; chemistry 1,645; biology 1,083 |
+| Difficulty | Easy 7,320; medium 7,381; hard 1,321 |
+| Largest grades | Middle-school comprehensive: 2,494; Grade 9: 2,403; high school year 3: 1,856 |
+| Online-ready flag | True 10,082; false 5,940 |
 | Quality label | Original subject/AMC provenance is preserved in `sourcePaper`; CJEval and AGIEval records identify their licensed import and pinned provenance |
 
-The source has 30 question-type strings. Normalization reduces them to seven stable product families:
+The source has 17 normalized question-type strings across seven stable product families:
 
 | Product family | Questions | Typical source types |
 | --- | ---: | --- |
-| Single choice | 9,952 | 选择题, 单选题 |
-| Fill blank | 3,313 | 填空题, 单空题, 多空题 |
-| Written response | 2,378 | 解答题, 简答题, 应用题, 证明题, 现代文阅读, 诗歌鉴赏 |
-| Multiple choice | 392 | 多选题, 双选题, 不定项选择题 |
-| Computation | 234 | 计算题 |
-| True/false | 204 | 判断题 |
-| Experiment/inquiry | 64 | 实验题, 探究题 and combinations |
+| Single choice | 9,458 | 单选题 |
+| Fill blank | 3,315 | 填空题 |
+| Written response | 2,344 | 解答题, 诗歌鉴赏, 现代文阅读, 简答题, 综合题, 材料分析题, 复合题, 应用题, 推断题, 识图作答题, 证明题 |
+| Multiple choice | 393 | 多选题 |
+| True/false | 264 | 判断题 |
+| Computation | 182 | 计算题 |
+| Experiment/inquiry | 61 | 实验探究题 |
 
 ## Content and answer quality
 
-- All records use the same outer and nested key shape. Several files start with a UTF-8 BOM; the importer removes it before parsing.
-- 10,273 questions have options. Of these, 6,599 have four, 184 have three, 3,486 have five, and four have two.
-- 4,592 stems match the structural LaTeX audit. The brace-aware renderer supports both the original `$$...$$` convention and the AMC archives' `$...$` inline notation, promotes display-only environments, and normalizes reviewed legacy notation without changing the source archives. The rendering gate parses all 59,215 unique catalog formulas with KaTeX and rejects any parse failure or increase above the recorded strict/character-metric warning budgets.
-- Every record has non-empty `answer` and a non-empty `solutions` entry. Choice questions store their direct option letters in `answer` (such as `"A"` or `"BC"`), while non-choice questions store the reference answer in `answer`. The non-AMC repair pass replaced every identified empty, placeholder, or legacy fallback explanation with record-specific reasoning. AGIEval does not supply explanations, so its 227 solution entries explicitly disclose that boundary and show only the source answer key.
-- IDs are unique. There are 333 repeated stems, which may represent legitimate grade/source duplication and are retained under their source IDs. Five exact non-AMC content pairs—three mathematics pairs and two physics pairs—retain their distinct stable source IDs. The AGIEval importer merges 19 exact duplicate rows before assigning IDs, and its emitted archive has no duplicate content fingerprint. No AMC stem exactly duplicates a stem in the original files, and no exact question fingerprint is duplicated among the AMC files.
+- All records use the same 11-field schema (`id`, `subject`, `grade`, `type`, `difficulty`, `sourcePaper`, `stem`, `options`, `answer`, `solutions`, `tags`). Several files start with a UTF-8 BOM; the importer removes it before parsing.
+- 9,850 questions have options. Of these, 6,618 have four, 218 have three, 3,009 have five, and five have two.
+- 4,569 stems match the structural LaTeX audit. The brace-aware renderer supports both the original `$$...$$` convention and the AMC archives' `$...$` inline notation, promotes display-only environments, and normalizes reviewed legacy notation without changing the source archives. The rendering gate parses all 58,640 unique catalog formulas with KaTeX and rejects any parse failure or increase above the recorded strict/character-metric warning budgets.
+- Every record has non-empty `answer` and a non-empty `solutions` entry. Choice questions store their direct option letters in `answer` (such as `"A"` or `"BC"`), while non-choice questions store the reference answer in `answer`. The non-AMC repair pass replaced every identified empty, placeholder, or legacy fallback explanation with record-specific reasoning. AGIEval does not supply explanations, so its 213 solution entries explicitly disclose that boundary and show only the source answer key.
+- IDs are unique. There are 331 repeated stems across distinct sub-questions or grade bands, while all exact duplicate records (`exactDuplicateContent: []` in `audit-subject-data.mjs` and `crossFileDuplicateQuestionGroups: 0` in `audit-amc-data.mjs`) have been deduplicated. The AGIEval importer merges 33 exact or passage-matched duplicate rows before assigning IDs, and its emitted archive has no duplicate content fingerprint.
 - Two source records contain child questions. Their parent records are retained under the stable source IDs and have reviewed, self-contained written-response versions so both sets of learning objectives remain usable.
-- The AMC archives contain 1,675 figure references across 1,068 questions, including 688 question prompts. All are stored locally as 1,656 SHA-256-deduplicated files under `public/question-assets/source/amc/`; `manifest.json` retains each original source URL for provenance. The AMC audit rejects remote markers, malformed local markers, and missing files. The original subject files still use reviewed textual rewrites or approved generated replacements; unrecognized future figure references remain quarantined by default. Inline choices are recovered only when their `A/B/C...` sequence and content are complete.
+- The AMC archives contain 1,611 figure references across 929 questions, including 587 question prompts. All are stored locally as 1,596 SHA-256-deduplicated files under `public/question-assets/source/amc/` (including four newly generated SVG stem diagrams for AMC 8 figure-referencing problems whose upstream scrapes lacked `[asy]`/image tags); `manifest.json` retains each source or generated provenance entry. The AMC audit rejects remote markers, malformed local markers, and missing files.
 - The Simplified Chinese AMC audit preserves ordinary formulas structurally and translates only reviewed prose inside LaTeX text commands. Controlled OCR repairs and complete equivalent solution rewrites are pinned by an aggregate SHA-256 approval over the exact source value, translated value, question ID, and field index. Any source drift, translation edit, added or removed exception, or field movement invalidates the approval and restores the detailed per-field audit errors.
 
-Source normalization plus approved curation yields 10,545 published, high-confidence auto-gradable questions and 5,986 published questions that use reference-answer self-assessment. One irrecoverable mathematics record whose entire source stem was `略` (`3aa418134c3e4dbcb0e24139a5e61c5a`) and five exact duplicate subject records were removed from the bundled archives, so all 16,531 bundled runtime records are published (`0` `NEEDS_REVIEW`). The 30 repaired CJEval records and 10 repaired AGIEval source rows have pinned, provenance-labeled editorial repairs.
+Source normalization plus approved curation yields 10,082 published, high-confidence auto-gradable questions and 5,940 published questions that use reference-answer self-assessment. One irrecoverable mathematics record whose entire source stem was `略` (`3aa418134c3e4dbcb0e24139a5e61c5a`), ten exact duplicate subject records, and 591 cross-file AMC 10/12 overlaps were deduplicated, so all 16,022 bundled runtime records are published (`0` `NEEDS_REVIEW`).
 
-The non-AMC audit covers all 13,069 biology, chemistry, Chinese, mathematics, and physics records. It rejects missing stems, answers, or explanations; placeholder and legacy fallback solutions; source-field labels; invalid choice keys; answer/solution conclusions that disagree with the stored key; duplicated options; malformed braces, environments, and math delimiters; encoding damage; and raw HTML residue. All 71 inline-option choice questions have been split into structured `options`, 103 non-choice records with swapped `answer`/`solutions` have been restored to concise reference answers, 392 `【解答】`/`【分析】` split records have been consolidated, 18 bare-answer explanations have been expanded into step-by-step reasoning, and 7,579 scraped `【题文】`/`【答案】`/`【解析】` prefix markers have been stripped directly in the JSON archives.
+The non-AMC audit covers all 13,038 biology, chemistry, Chinese, mathematics, and physics records. It rejects missing stems, answers, or explanations; placeholder and legacy fallback solutions; source-field labels; invalid choice keys; answer/solution conclusions that disagree with the stored key; duplicated options; malformed braces, environments, and math delimiters; encoding damage; raw HTML residue; subquestion/answer numbering mismatches; and fill-in-the-blank items missing `______` markers.
 
-The catalog stores 24 accessible SVG diagrams across 21 questions as `GENERATED_REPLACEMENT` assets with `APPROVED` review status (`public/question-assets/generated/zh-CN/<id>/`). In addition to the four-option vertical-angle question (`option-a.svg`..`option-d.svg`), reviewed `stem.svg` diagrams cover all 20 figure- and table-dependent biology, chemistry, mathematics, and physics questions—including enzyme catalysis, meiosis II nondisjunction, meiosis/mitosis bar-and-cell diagrams, closed ecosphere and mouse oxygen-consumption tables, a simple water purifier, rectangle folding, grid rotation/translation, triangle rotation, segment counting, parallel-line construction and angle problems, a number-line interval, intersecting ellipses, Lenz's law coil repulsion, wave/vibration graphs, a compressed spring on a block, an ionization smoke detector, a suspended-lamp force setup, and a half-deflection voltmeter resistance circuit. Practice APIs continue to expose only assets marked `APPROVED`.
+The catalog stores 24 accessible SVG diagrams across 21 questions as `GENERATED_REPLACEMENT` assets with `APPROVED` review status (`public/question-assets/generated/zh-CN/<id>/`), including the four-option vertical-angle question (`option-a.svg`..`option-d.svg`) and 20 reviewed `stem.svg` diagrams across biology, chemistry, mathematics, and physics, plus four generated AMC 8 SVG stem diagrams in `public/question-assets/source/amc/`. Practice APIs continue to expose only assets marked `APPROVED`.
 
 The eight nonvisual records previously held for malformed choices are also usable. Compact `A/B/C/D` markers attached directly to Chinese text are parsed deterministically; three source-specific omissions or duplicate labels have reviewed option corrections; and one five-part source record is retained as a written, self-assessed response rather than being misrepresented as a single choice. Two nested source records likewise use reviewed self-assessed parent versions.
 

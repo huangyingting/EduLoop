@@ -9978,6 +9978,30 @@
       "sha256": "e1ba1b119a32884aa58cc919cb414b02e564625bc838094758cd9fa1a9faba09",
       "bytes": 2497,
       "contentType": "image/svg+xml"
+    },
+    "https://artofproblemsolving.com/wiki/images/generated/1988_AJHSME_Problem_4.svg": {
+      "path": "/question-assets/source/amc/863f96dccd0615b18b9cb0646250c9e5c278b10c2e00c551f0b03b1778683160.svg",
+      "sha256": "863f96dccd0615b18b9cb0646250c9e5c278b10c2e00c551f0b03b1778683160",
+      "bytes": 6469,
+      "contentType": "image/svg+xml"
+    },
+    "https://artofproblemsolving.com/wiki/images/generated/2005_AMC8_Problem_21.svg": {
+      "path": "/question-assets/source/amc/55e5343996c10fa90a61e7cfd9e3238616c1003fd277b7d14ce17f5002fc50b0.svg",
+      "sha256": "55e5343996c10fa90a61e7cfd9e3238616c1003fd277b7d14ce17f5002fc50b0",
+      "bytes": 408,
+      "contentType": "image/svg+xml"
+    },
+    "https://artofproblemsolving.com/wiki/images/generated/2008_AMC8_Problem_19.svg": {
+      "path": "/question-assets/source/amc/3d09bd72f60cad813532179c4238b16e19f8b64b8de29cc7a05517edc89eb61d.svg",
+      "sha256": "3d09bd72f60cad813532179c4238b16e19f8b64b8de29cc7a05517edc89eb61d",
+      "bytes": 511,
+      "contentType": "image/svg+xml"
+    },
+    "https://artofproblemsolving.com/wiki/images/generated/2009_AMC8_Problem_20.svg": {
+      "path": "/question-assets/source/amc/2e35c8fbb3bda3d65eef83fdfd65383c2279c782c225040731219bcbcd304936.svg",
+      "sha256": "2e35c8fbb3bda3d65eef83fdfd65383c2279c782c225040731219bcbcd304936",
+      "bytes": 513,
+      "contentType": "image/svg+xml"
     }
   }
 }

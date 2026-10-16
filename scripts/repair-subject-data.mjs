@@ -1,41 +1,12 @@
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
+import {
+  REMOVED_DUPLICATE_IDS,
+  WAVE2_ITEM_OVERRIDES,
+  applyWave2StemNormalization,
+} from "./stem-wave2-repairs.mjs";
 
 const SUBJECT_FILES = ["biology.json", "chemistry.json", "mathematics.json", "physics.json"];
-
-function applyRequiredReplacements(value, replacements, repairKey, field) {
-  let repaired = String(value ?? "");
-  for (const [search, replacement, expectedCount = 1] of replacements ?? []) {
-    const matches = repaired.split(search).length - 1;
-    const repairedMatches = repaired.split(replacement).length - 1;
-    // Earlier versions passed LaTeX-bearing replacements directly to
-    // String.replaceAll, where `$$` is interpreted as a replacement token for
-    // one literal dollar sign. Recover those already-written intermediate
-    // values before applying the corrected literal replacement behavior.
-    const collapsedReplacement = replacement.replaceAll("$$", "$");
-    const collapsedMatches = collapsedReplacement === replacement
-      ? 0
-      : repaired.split(collapsedReplacement).length - 1;
-    if (matches === 0 && collapsedMatches === expectedCount) {
-      repaired = repaired.replaceAll(collapsedReplacement, () => replacement);
-      continue;
-    }
-    if (matches === 0 && repairedMatches >= expectedCount) {
-      continue;
-    }
-    // A replacement can intentionally extend the matched source fragment.
-    // Once applied, the shorter fragment remains inside the corrected value;
-    // recognize that exact state instead of extending it again on every run.
-    if (replacement.includes(search) && repairedMatches >= expectedCount && matches === repairedMatches) {
-      continue;
-    }
-    if (matches !== expectedCount) {
-      throw new Error(`Repair ${repairKey} expected ${expectedCount} ${field} match(es) for ${JSON.stringify(search)}, received ${matches}`);
-    }
-    repaired = repaired.replaceAll(search, () => replacement);
-  }
-  return repaired;
-}
 
 const repairs = new Map(Object.entries({
   "732ad197bad41d4003e9413ef15e6708": {
@@ -824,49 +795,29 @@ const repairs = new Map(Object.entries({
 }));
 
 let repaired = 0;
+let wave2Overridden = 0;
+let removedDuplicates = 0;
 const unresolvedSolutions = [];
 const seenRepairs = new Set();
+const seenWave2Overrides = new Set();
 for (const filename of SUBJECT_FILES) {
   const filepath = path.resolve("data", "zh-CN", filename);
-  const questions = JSON.parse((await readFile(filepath, "utf8")).replace(/^\uFEFF/, ""));
-  for (const question of questions) {
-    const repair = repairs.get(question.id);
-    if (repair) {
-      if (repair.type) question.type = repair.type;
-      if (repair.title) question.stem = repair.title;
-      if (repair.titleReplacements) {
-        question.stem = applyRequiredReplacements(question.stem, repair.titleReplacements, question.id, "stem");
-      }
-      if (repair.options) {
-        question.options = {};
-        ["A", "B", "C", "D", "E"].forEach((label, index) => {
-          const val = String(repair.options[index] ?? "").trim();
-          if (val) question.options[label] = val;
-        });
-      }
-      if (repair.optionReplacements) {
-        for (const [option, replacements] of Object.entries(repair.optionReplacements)) {
-          const label = option.replace(/^option_/i, "").toUpperCase();
-          question.options[label] = applyRequiredReplacements(question.options[label], replacements, question.id, `options.${label}`);
-        }
-      }
-      if (repair.answer !== undefined) {
-        question.answer = repair.answer1 ? repair.answer1.replaceAll("|", "") : repair.answer;
-      } else if (repair.answer1 !== undefined) {
-        question.answer = repair.answer1.replaceAll("|", "");
-      }
-      if (repair.answerReplacements) {
-        question.answer = applyRequiredReplacements(question.answer, repair.answerReplacements, question.id, "answer");
-      }
-      if (repair.solution !== undefined) question.solutions = [repair.solution];
-      if (repair.solutionReplacements) {
-        question.solutions = (question.solutions ?? []).map((solution) => (
-          applyRequiredReplacements(solution, repair.solutionReplacements, question.id, "solution")
-        ));
-      }
+  const rawQuestions = JSON.parse((await readFile(filepath, "utf8")).replace(/^\uFEFF/, ""));
+  const questions = [];
+  for (const question of rawQuestions) {
+    if (REMOVED_DUPLICATE_IDS.has(question.id)) {
+      removedDuplicates += 1;
+      continue;
+    }
+    if (repairs.has(question.id)) {
       repaired += 1;
       seenRepairs.add(question.id);
     }
+    if (WAVE2_ITEM_OVERRIDES.has(question.id)) {
+      wave2Overridden += 1;
+      seenWave2Overrides.add(question.id);
+    }
+    applyWave2StemNormalization(question);
     const solutions = question.solutions ?? [];
     const needsSolution = !solutions.some((solution) => {
       const value = String(solution ?? "").trim();
@@ -875,13 +826,16 @@ for (const filename of SUBJECT_FILES) {
     if (needsSolution) {
       unresolvedSolutions.push(`${filename}:${question.id}`);
     }
+    questions.push(question);
   }
   await writeFile(filepath, `${JSON.stringify(questions, null, 2)}\n`);
 }
 
-const missingRepairs = [...repairs.keys()].filter((id) => !seenRepairs.has(id));
+const missingRepairs = [...repairs.keys()].filter((id) => !seenRepairs.has(id) && !REMOVED_DUPLICATE_IDS.has(id));
 if (missingRepairs.length) throw new Error(`Repair IDs not found: ${missingRepairs.join(", ")}`);
+const missingWave2 = [...WAVE2_ITEM_OVERRIDES.keys()].filter((id) => !seenWave2Overrides.has(id));
+if (missingWave2.length) throw new Error(`Wave 2 repair IDs not found: ${missingWave2.join(", ")}`);
 if (unresolvedSolutions.length) {
   throw new Error(`Questions still need substantive solutions: ${unresolvedSolutions.join(", ")}`);
 }
-console.log(JSON.stringify({ explicitRepairs: repaired, unresolvedSolutions: 0 }, null, 2));
+console.log(JSON.stringify({ explicitRepairs: repaired, wave2Overridden, removedDuplicates, unresolvedSolutions: 0 }, null, 2));

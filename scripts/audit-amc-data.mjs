@@ -27,10 +27,17 @@ const OPTION_LABELS = ["A", "B", "C", "D", "E"];
 
 function questionFingerprint(question) {
   const options = question.options ?? {};
-  return digest(normalize([
+  const canonical = [
     question.stem,
     ...OPTION_LABELS.map((label) => options[label]),
-  ].join("\n")));
+  ]
+    .map((value) => normalize(value)
+      .replace(/\\d?frac/g, "\\frac")
+      .replace(/\\left|\\right/g, "")
+      .replace(/\[figure:[^\]]+\]/g, "[fig]")
+      .replace(/[\s,.;:?!()"'`]/g, ""))
+    .join("\n");
+  return digest(canonical);
 }
 
 const records = (await Promise.all(FILES.map(async (filename) => {

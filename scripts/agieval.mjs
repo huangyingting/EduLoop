@@ -669,6 +669,7 @@ export function normalizeAgievalText(value) {
     .replace(/学科\.?网/gu, "")
     .replace(/<庄子\.秋水>/gu, "《庄子·秋水》")
     .replace(/<(古文观止|中国目录学史|五藏山经)>/gu, "《$1》")
+    .replace(/从左传》开始/gu, "从《左传》开始")
     .replace(/(?<!_)__([^_\n]+)__(?!_)/gu, "$1")
     .replace(/(材料[一二三四五六七八九十\d]+[：:])。/gu, "$1")
     .replace(/([。！？；”])[ \t]{4,}/gu, "$1\n")

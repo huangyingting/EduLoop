@@ -15,8 +15,8 @@ function digest(value) {
 }
 
 function questionFingerprint(question) {
-  const raw = question.question_info.raw_content;
-  return digest(normalize([raw.title, raw.option_a, raw.option_b, raw.option_c, raw.option_d, raw.option_e].join("\n")));
+  const options = question.options;
+  return digest(normalize([question.stem, options.A, options.B, options.C, options.D, options.E].join("\n")));
 }
 
 const datasets = new Map();
@@ -39,12 +39,12 @@ for (const filename of FILES) {
       continue;
     }
 
-    canonical.paper = [...new Set([...canonical.paper.split(" | "), ...question.paper.split(" | ")])].join(" | ");
-    const solutionFingerprints = new Set(canonical.solution_info.map(({ solution_info: solution }) => digest(normalize(solution))));
-    for (const solution of question.solution_info) {
-      const solutionFingerprint = digest(normalize(solution.solution_info));
+    canonical.sourcePaper = [...new Set([...canonical.sourcePaper.split(" | "), ...question.sourcePaper.split(" | ")])].join(" | ");
+    const solutionFingerprints = new Set(canonical.solutions.map((solution) => digest(normalize(solution))));
+    for (const solution of question.solutions) {
+      const solutionFingerprint = digest(normalize(solution));
       if (solutionFingerprints.has(solutionFingerprint)) continue;
-      canonical.solution_info.push(solution);
+      canonical.solutions.push(solution);
       solutionFingerprints.add(solutionFingerprint);
     }
     merged += 1;

@@ -121,9 +121,9 @@ test("converts a simple choice record with stable provenance and imported topics
   const converted = convertCjevalRecord(source, "valid", 3);
   assert.equal(converted.id.length, 32);
   assert.equal(converted.grade, "初中综合");
-  assert.equal(converted.question_info.raw_content.option_c, "丙");
-  assert.equal(converted.question_info.raw_content.answer1, "C");
-  assert.equal(converted.source_tags.length, 1);
+  assert.equal(converted.options.C, "丙");
+  assert.equal(converted.answer, "C");
+  assert.equal(converted.tags.length, 1);
 });
 
 test("preserves structured CJEval explanations instead of stringifying objects", () => {
@@ -137,8 +137,8 @@ test("preserves structured CJEval explanations instead of stringifying objects",
     ques_knowledges: ["阅读理解"],
   }, "test", 115);
 
-  assert.equal(converted.solution_info[0].solution_info, "（1）第一问解析\n（2）第二问解析");
-  assert.doesNotMatch(converted.solution_info[0].solution_info, /\[object Object\]/u);
+  assert.equal(converted.solutions[0], "（1）第一问解析\n（2）第二问解析");
+  assert.doesNotMatch(converted.solutions[0], /\[object Object\]/u);
 });
 
 test("applies all pinned editorial repairs without leaving review markers", () => {
@@ -221,8 +221,8 @@ test("applies all pinned editorial repairs without leaving review markers", () =
   assert.equal(CJEVAL_REPAIR_COUNT, 30);
   for (const [index, record] of cases) {
     const converted = convertCjevalRecord(record, "train", index);
-    assert.match(converted.quality, /EduLoop人工校订/u);
-    assert.doesNotMatch(converted.quality, /NEEDS_REVIEW/u);
+    assert.match(converted.sourcePaper, /EduLoop人工校订/u);
+    assert.doesNotMatch(converted.sourcePaper, /NEEDS_REVIEW/u);
   }
 });
 
@@ -273,9 +273,9 @@ test("repairs the pinned CJEval test-split prose duplication", () => {
     ques_knowledges: ["阅读理解"],
   }, "test", 244);
 
-  assert.match(converted.quality, /EduLoop人工校订/u);
-  assert.match(converted.question_info.raw_content.title, /只能给出大概，有些意思/u);
-  assert.doesNotMatch(converted.question_info.raw_content.title, /大概概要/u);
+  assert.match(converted.sourcePaper, /EduLoop人工校订/u);
+  assert.match(converted.stem, /只能给出大概，有些意思/u);
+  assert.doesNotMatch(converted.stem, /大概概要/u);
 });
 
 test("repairs the pinned Huanxisha record in the generated archive", () => {
@@ -289,7 +289,7 @@ test("repairs the pinned Huanxisha record in the generated archive", () => {
     ques_knowledges: ["苏轼(1037-1101)", "词"],
   };
   const converted = convertCjevalRecord(source, "train", 1561);
-  const stem = converted.question_info.raw_content.title;
+  const stem = converted.stem;
   assert.match(stem, /^阅读下面的古诗词，完成下面小题。\n\n浣溪沙①\n苏轼\n/u);
   assert.match(stem, /\n\n【注释】\n① 公元1078年/u);
   assert.match(stem, /\n\n（1） 下列对诗歌的理解不正确的一项是（ ）\n选项：\nA\. /u);

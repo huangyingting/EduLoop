@@ -45,20 +45,24 @@ for (const filename of FILES) {
       errors.push(`${filename}: ID/order mismatch at index ${index}`);
       continue;
     }
-    for (const key of ["id", "type", "grade_band", "difficulty", "grade", "course", "online_test", "option_split", "quality"]) {
+    for (const key of ["id", "subject", "grade", "type", "difficulty"]) {
       if (JSON.stringify(original[key]) !== JSON.stringify(chinese[key])) errors.push(`${filename}/${original.id}: metadata ${key} changed`);
     }
-    if (original.question_info.raw_content.answer1 !== chinese.question_info.raw_content.answer1
-      || original.answer_info.raw_content !== chinese.answer_info.raw_content) {
+    if (original.answer !== chinese.answer) {
       errors.push(`${filename}/${original.id}: answer key changed`);
     }
+    const optionLabels = ["A", "B", "C", "D", "E"];
     const sourceFields = [
-      ...Object.values(original.question_info.raw_content),
-      ...original.solution_info.map(({ solution_info }) => solution_info),
+      original.stem,
+      ...optionLabels.map((label) => original.options[label]),
+      original.answer,
+      ...original.solutions,
     ];
     const translatedValues = [
-      ...Object.values(chinese.question_info.raw_content),
-      ...chinese.solution_info.map(({ solution_info }) => solution_info),
+      chinese.stem,
+      ...optionLabels.map((label) => chinese.options[label]),
+      chinese.answer,
+      ...chinese.solutions,
     ];
     if (sourceFields.length !== translatedValues.length) {
       errors.push(`${filename}/${original.id}: translatable field count changed`);

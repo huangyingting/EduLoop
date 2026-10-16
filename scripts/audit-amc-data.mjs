@@ -23,15 +23,13 @@ function digest(value) {
   return createHash("sha256").update(value).digest("hex");
 }
 
+const OPTION_LABELS = ["A", "B", "C", "D", "E"];
+
 function questionFingerprint(question) {
-  const raw = question.question_info?.raw_content ?? {};
+  const options = question.options ?? {};
   return digest(normalize([
-    raw.title,
-    raw.option_a,
-    raw.option_b,
-    raw.option_c,
-    raw.option_d,
-    raw.option_e,
+    question.stem,
+    ...OPTION_LABELS.map((label) => options[label]),
   ].join("\n")));
 }
 
@@ -48,17 +46,15 @@ const figureReferences = [];
 const invalidFigureMarkers = [];
 
 for (const { filename, question } of records) {
-  const raw = question.question_info?.raw_content ?? {};
+  const rawOptions = question.options ?? {};
+  const options = OPTION_LABELS.map((label) => rawOptions[label]);
+  const solutions = question.solutions ?? [];
   const content = [
-    raw.title,
-    raw.option_a,
-    raw.option_b,
-    raw.option_c,
-    raw.option_d,
-    raw.option_e,
-    ...(question.solution_info ?? []).map(({ solution_info: solution }) => solution),
+    question.stem,
+    ...options,
+    ...solutions,
   ];
-  const solutionFingerprints = (question.solution_info ?? []).map(({ solution_info: solution }) => digest(normalize(solution)));
+  const solutionFingerprints = solutions.map((solution) => digest(normalize(solution)));
   const issues = [];
   for (const value of content) {
     for (const match of String(value).matchAll(/\[Figure:\s*([^\]\s]+)\]/g)) {
@@ -70,8 +66,7 @@ for (const { filename, question } of records) {
     }
   }
   if (content.some((value) => !value)) issues.push("missing content");
-  if (!/^[A-E]$/.test(raw.answer1 ?? "") || question.answer_info?.raw_content !== raw.answer1) issues.push("invalid answer key");
-  const options = [raw.option_a, raw.option_b, raw.option_c, raw.option_d, raw.option_e];
+  if (!/^[A-E]$/.test(question.answer ?? "")) issues.push("invalid answer key");
   const normalizedOptions = options.map(normalizeOption);
   if (new Set(normalizedOptions).size !== normalizedOptions.length) issues.push("duplicate option");
   if (solutionFingerprints.length !== new Set(solutionFingerprints).size) issues.push("duplicate solution");
@@ -81,18 +76,18 @@ for (const { filename, question } of records) {
   if (content.some((value) => [...String(value).matchAll(/(?<!\\)\$/g)].length % 2 !== 0)) issues.push("unbalanced math");
   if (content.some((value) => /\[(?:asy|tikz)[\s\S]*?\[\/(?:asy|tikz)\]/i.test(value))) issues.push("unrendered figure source");
   const fields = [
-    ["title", raw.title, false],
-    ...options.map((value, index) => [`option_${"abcde"[index]}`, value, false]),
-    ...(question.solution_info ?? []).map(({ solution_info: solution }, index) => [`solution_${index}`, solution, true]),
+    ["stem", question.stem, false],
+    ...options.map((value, index) => [`options.${OPTION_LABELS[index]}`, value, false]),
+    ...solutions.map((solution, index) => [`solution_${index}`, solution, true]),
   ];
   for (const [field, value, solution] of fields) {
     for (const issue of contentDamageIssues(value, { solution })) issues.push(`${field}: ${issue}`);
   }
-  for (let index = 0; index < (question.solution_info ?? []).length; index += 1) {
-    const choice = terminalLabeledChoice(question.solution_info[index].solution_info);
-    if (choice && choice !== raw.answer1) issues.push(`solution_${index}: terminal answer ${choice} disagrees with key ${raw.answer1}`);
+  for (let index = 0; index < solutions.length; index += 1) {
+    const choice = terminalLabeledChoice(solutions[index]);
+    if (choice && choice !== question.answer) issues.push(`solution_${index}: terminal answer ${choice} disagrees with key ${question.answer}`);
   }
-  if (issues.length) invalid.push({ filename, id: question.id, paper: question.paper, issues });
+  if (issues.length) invalid.push({ filename, id: question.id, sourcePaper: question.sourcePaper, issues });
 }
 
 const localFigurePaths = [...new Set(figureReferences
@@ -108,7 +103,7 @@ const missingFigureAssets = (await Promise.all(localFigurePaths.map(async (refer
 }))).filter(Boolean);
 const remoteFigureReferences = figureReferences.filter(({ reference }) => /^https?:\/\//i.test(reference));
 
-const contestReferences = records.flatMap(({ filename, question }) => question.paper.split(" | ").map((paper) => ({ filename, paper })));
+const contestReferences = records.flatMap(({ filename, question }) => question.sourcePaper.split(" | ").map((sourcePaper) => ({ filename, paper: sourcePaper })));
 const contests = Map.groupBy(contestReferences, ({ paper }) => paper.split(" · Problem ")[0]);
 for (const [contest, entries] of contests) {
   const slots = new Set(entries.map(({ paper }) => Number(paper.match(/Problem (\d+)/)?.[1])));

@@ -17,7 +17,7 @@ Finish fresh Simplified Chinese translations for every AMC 10 and AMC 12 record,
 - Preserve IDs, options, answer keys, image paths, formulas, solutions, and metadata.
 - Translate naturally and make each question self-contained.
 - Correct demonstrable OCR, formula, and source-solution defects.
-- Treat `answer_info.raw_content` as authoritative when a source solution has the wrong boxed answer.
+- Treat `answer` as authoritative when a source solution has the wrong boxed answer.
 - Do not weaken any validator.
 - Do not revert unrelated user changes.
 - Use the repository utilities in `scripts/`; do not rely on old script copies under `/tmp`.

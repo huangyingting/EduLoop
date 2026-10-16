@@ -41,31 +41,33 @@ if (questions.length !== AGIEVAL_OUTPUT_COUNT) {
 
 for (const [index, question] of questions.entries()) {
   const location = `${filename}:${question.id ?? index}`;
-  const raw = question.question_info?.raw_content ?? {};
-  const options = [raw.option_a, raw.option_b, raw.option_c, raw.option_d].map((option) => String(option ?? "").trim());
-  const label = String(raw.answer1 ?? "").trim();
+  const rawOptions = question.options ?? {};
+  const options = ["A", "B", "C", "D"].map((label) => String(rawOptions[label] ?? "").trim());
+  const label = String(question.answer ?? "").trim();
+  const sourcePaper = String(question.sourcePaper ?? "");
   if (ids.has(question.id)) errors.push(`${location}: duplicate ID`);
   ids.add(question.id);
-  if (question.course !== "语文" || question.grade_band !== "高中" || question.grade !== "高三" || question.type !== "单选题") {
+  if (question.subject !== "语文" || question.grade !== "高三" || question.type !== "单选题") {
     errors.push(`${location}: invalid subject, grade, or type mapping`);
   }
-  if (options.some((option) => !option) || String(raw.option_e ?? "")) errors.push(`${location}: expected exactly four options`);
-  if (!/^[A-D]$/u.test(label) || question.answer_info?.raw_content !== label) errors.push(`${location}: invalid answer key`);
-  if (!String(question.solution_info?.[0]?.solution_info ?? "").includes(`参考答案为 ${label}`)) {
+  if (options.some((option) => !option) || String(rawOptions.E ?? "")) errors.push(`${location}: expected exactly four options`);
+  if (!/^[A-D]$/u.test(label)) errors.push(`${location}: invalid answer key`);
+  if (!String(question.solutions?.[0] ?? "").includes(`参考答案为 ${label}`)) {
     errors.push(`${location}: missing explicit source-explanation boundary`);
   }
-  if (!String(question.quality ?? "").includes(AGIEVAL_COMMIT) || !String(question.quality ?? "").includes(AGIEVAL_SOURCE_SHA256)) {
+  if (!sourcePaper.includes(AGIEVAL_COMMIT) || !sourcePaper.includes(AGIEVAL_SOURCE_SHA256)) {
     errors.push(`${location}: missing pinned source provenance`);
   }
-  const fingerprint = createHash("sha256").update(normalize([raw.title, ...options].join("\n"))).digest("hex");
+  const fingerprint = createHash("sha256").update(normalize([question.stem, ...options].join("\n"))).digest("hex");
   if (fingerprints.has(fingerprint)) errors.push(`${location}: duplicate normalized content`);
   fingerprints.add(fingerprint);
-  for (const paper of String(question.paper ?? "").split("；同题亦见：")) if (paper) papers.add(paper);
-  if (String(question.quality ?? "").includes("合并")) merged += 1;
-  if (String(question.quality ?? "").includes("EduLoop人工校订")) repaired += 1;
+  const basePaper = sourcePaper.replace(/（AGIEval v1\.1[\s\S]*$/u, "");
+  for (const paper of basePaper.split("；同题亦见：")) if (paper) papers.add(paper);
+  if (sourcePaper.includes("合并")) merged += 1;
+  if (sourcePaper.includes("EduLoop人工校订")) repaired += 1;
   const authoritativeOptions = AUTHORITATIVE_YANZI_OPTIONS.get(question.id);
   if (authoritativeOptions) {
-    if (!String(raw.title ?? "").startsWith(`${AGIEVAL_AUTHORITATIVE_YANZI_PASSAGE}\n\n`)) {
+    if (!String(question.stem ?? "").startsWith(`${AGIEVAL_AUTHORITATIVE_YANZI_PASSAGE}\n\n`)) {
       errors.push(`${location}: authoritative Yanzi passage repair is missing`);
     }
     if (JSON.stringify(options) !== JSON.stringify(authoritativeOptions)) {
@@ -73,13 +75,13 @@ for (const [index, question] of questions.entries()) {
     }
   }
   if (AUTHORITATIVE_GO_IDS.has(question.id)) {
-    if (DAMAGED_GO_TEXT.test(String(raw.title ?? ""))) {
+    if (DAMAGED_GO_TEXT.test(String(question.stem ?? ""))) {
       errors.push(`${location}: damaged Go passage text remains`);
     }
-    if (!String(raw.title ?? "").includes("源头相符")
-      || !String(raw.title ?? "").includes("围棋的产生和发展")
-      || !String(raw.title ?? "").includes("宜于赌博")
-      || !String(raw.title ?? "").includes("精神寄托的工具")) {
+    if (!String(question.stem ?? "").includes("源头相符")
+      || !String(question.stem ?? "").includes("围棋的产生和发展")
+      || !String(question.stem ?? "").includes("宜于赌博")
+      || !String(question.stem ?? "").includes("精神寄托的工具")) {
       errors.push(`${location}: authoritative Go passage repair is incomplete`);
     }
     if (question.id === "a75fe39ecc9c54ec8838244576b307d2"

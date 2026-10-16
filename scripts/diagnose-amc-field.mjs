@@ -11,9 +11,11 @@ const workspace = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..
 const source = JSON.parse((await readFile(path.join(workspace, "data/en", `${dataset}.json`), "utf8")).replace(/^\uFEFF/, ""));
 const question = source.find((entry) => entry.id === id);
 if (!question) throw new Error(`Unknown question ${id}`);
-const sourceValue = fieldName === "title" || fieldName.startsWith("option_")
-  ? question.question_info.raw_content[fieldName]
-  : question.solution_info[Number(fieldName.slice("solution_".length))].solution_info;
+const sourceValue = fieldName === "stem" || fieldName === "title"
+  ? question.stem
+  : fieldName.startsWith("option_")
+    ? question.options[fieldName.slice("option_".length).toUpperCase()]
+    : question.solutions[Number(fieldName.slice("solution_".length))];
 const protectedPattern = /(\$\$[\s\S]*?\$\$|(?<!\\)\$(?!\$)[\s\S]*?(?<!\\)\$|\[Figure:\s*[^\]]+\]|\\begin\{([A-Za-z*]+)\}[\s\S]*?\\end\{\2\})/g;
 const protectedValues = [...String(sourceValue).matchAll(protectedPattern)].map((match) => match[0]);
 const directory = path.join(process.env.AMC_TRANSLATION_ROOT ?? "/tmp", `eduloop-${dataset}-translation`);

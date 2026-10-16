@@ -29,11 +29,10 @@ test("normalizes AGIEval markdown while preserving answer blanks", () => {
 test("converts a labeled question into an auto-gradable high-school record", () => {
   const [question] = convertAgievalRecords([record()]);
   assert.equal(question.id.length, 32);
-  assert.equal(question.grade_band, "高中");
   assert.equal(question.grade, "高三");
-  assert.equal(question.question_info.raw_content.option_c, "丙");
-  assert.equal(question.question_info.raw_content.answer1, "C");
-  assert.match(question.solution_info[0].solution_info, /未提供解析/u);
+  assert.equal(question.options.C, "丙");
+  assert.equal(question.answer, "C");
+  assert.match(question.solutions[0], /未提供解析/u);
 });
 
 test("deduplicates identical content and merges paper provenance", () => {
@@ -42,8 +41,8 @@ test("deduplicates identical content and merges paper provenance", () => {
     record({ other: { source: "2021年高考语文备用卷" } }),
   ]);
   assert.equal(questions.length, 1);
-  assert.match(questions[0].paper, /备用卷/u);
-  assert.match(questions[0].quality, /合并 2 个/u);
+  assert.match(questions[0].sourcePaper, /备用卷/u);
+  assert.match(questions[0].sourcePaper, /合并 2 个/u);
 });
 
 test("rejects duplicate content with conflicting answer labels", () => {

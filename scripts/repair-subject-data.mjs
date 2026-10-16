@@ -832,36 +832,44 @@ for (const filename of SUBJECT_FILES) {
   for (const question of questions) {
     const repair = repairs.get(question.id);
     if (repair) {
-      const raw = question.question_info.raw_content;
       if (repair.type) question.type = repair.type;
-      if (repair.title) raw.title = repair.title;
-      if (repair.titleReplacements) raw.title = applyRequiredReplacements(raw.title, repair.titleReplacements, question.id, "title");
-      if (repair.options) [raw.option_a, raw.option_b, raw.option_c, raw.option_d, raw.option_e] = repair.options;
+      if (repair.title) question.stem = repair.title;
+      if (repair.titleReplacements) {
+        question.stem = applyRequiredReplacements(question.stem, repair.titleReplacements, question.id, "stem");
+      }
+      if (repair.options) {
+        question.options = {};
+        ["A", "B", "C", "D", "E"].forEach((label, index) => {
+          const val = String(repair.options[index] ?? "").trim();
+          if (val) question.options[label] = val;
+        });
+      }
       if (repair.optionReplacements) {
         for (const [option, replacements] of Object.entries(repair.optionReplacements)) {
-          raw[option] = applyRequiredReplacements(raw[option], replacements, question.id, option);
+          const label = option.replace(/^option_/i, "").toUpperCase();
+          question.options[label] = applyRequiredReplacements(question.options[label], replacements, question.id, `options.${label}`);
         }
       }
-      if (repair.answer1 !== undefined) raw.answer1 = repair.answer1;
-      if (repair.answer1Replacements) {
-        raw.answer1 = applyRequiredReplacements(raw.answer1, repair.answer1Replacements, question.id, "answer1");
+      if (repair.answer !== undefined) {
+        question.answer = repair.answer1 ? repair.answer1.replaceAll("|", "") : repair.answer;
+      } else if (repair.answer1 !== undefined) {
+        question.answer = repair.answer1.replaceAll("|", "");
       }
-      if (repair.answer !== undefined) question.answer_info.raw_content = repair.answer;
       if (repair.answerReplacements) {
-        question.answer_info.raw_content = applyRequiredReplacements(question.answer_info.raw_content, repair.answerReplacements, question.id, "answer");
+        question.answer = applyRequiredReplacements(question.answer, repair.answerReplacements, question.id, "answer");
       }
-      if (repair.solution !== undefined) question.solution_info = [{ solution_info: repair.solution }];
+      if (repair.solution !== undefined) question.solutions = [repair.solution];
       if (repair.solutionReplacements) {
-        question.solution_info = (question.solution_info ?? []).map(({ solution_info }) => ({
-          solution_info: applyRequiredReplacements(solution_info, repair.solutionReplacements, question.id, "solution"),
-        }));
+        question.solutions = (question.solutions ?? []).map((solution) => (
+          applyRequiredReplacements(solution, repair.solutionReplacements, question.id, "solution")
+        ));
       }
       repaired += 1;
       seenRepairs.add(question.id);
     }
-    const solutions = question.solution_info ?? [];
-    const needsSolution = !solutions.some(({ solution_info }) => {
-      const value = String(solution_info ?? "").trim();
+    const solutions = question.solutions ?? [];
+    const needsSolution = !solutions.some((solution) => {
+      const value = String(solution ?? "").trim();
       return value && !/^(?:略|无|暂无|暂无解析|答案略|解析略|见答案)[。.]?$/.test(value);
     });
     if (needsSolution) {

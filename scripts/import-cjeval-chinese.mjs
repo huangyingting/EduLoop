@@ -32,9 +32,9 @@ async function downloadSplit(split) {
 
 const questions = (await Promise.all(CJEVAL_SPLITS.map(downloadSplit))).flat();
 if (new Set(questions.map((question) => question.id)).size !== questions.length) throw new Error("CJEval conversion produced duplicate IDs");
-const leakedSourceLabels = questions.filter((question) => hasCjevalSourceLabel(question.question_info.raw_content.title));
-if (leakedSourceLabels.length) throw new Error(`CJEval conversion leaked source labels into ${leakedSourceLabels.length} generated titles`);
+const leakedSourceLabels = questions.filter((question) => hasCjevalSourceLabel(question.stem));
+if (leakedSourceLabels.length) throw new Error(`CJEval conversion leaked source labels into ${leakedSourceLabels.length} generated stems`);
 await writeFile(outputPath, `${JSON.stringify(questions, null, 2)}\n`, "utf8");
-const reviewCount = questions.filter((question) => question.quality.includes("NEEDS_REVIEW")).length;
-const structuredCount = questions.filter((question) => question.question_info.raw_content.title.includes("\n")).length;
-console.log(`Wrote ${questions.length} CJEval Chinese questions to ${outputPath} (${structuredCount} structured titles; ${reviewCount} conversion issues marked for review).`);
+const reviewCount = questions.filter((question) => question.sourcePaper.includes("NEEDS_REVIEW")).length;
+const structuredCount = questions.filter((question) => question.stem.includes("\n")).length;
+console.log(`Wrote ${questions.length} CJEval Chinese questions to ${outputPath} (${structuredCount} structured stems; ${reviewCount} conversion issues marked for review).`);

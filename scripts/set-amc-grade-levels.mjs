@@ -22,9 +22,9 @@ export function normalizeAmcGrades(records, level, filename = "<input>") {
     if (!question || typeof question !== "object" || Array.isArray(question)) {
       throw new Error(`${filename} record ${index + 1} must be an object`);
     }
-    if (question.grade_band === level && question.grade === level) return question;
+    if (question.grade === level) return question;
     changed += 1;
-    return { ...question, grade_band: level, grade: level };
+    return { ...question, grade: level };
   });
   return { questions, changed };
 }

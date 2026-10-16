@@ -7,6 +7,7 @@ The application imports Simplified Chinese content by default. Keep question fil
 ```text
 data/
   catalog.json              # Locale and collection manifest consumed by all tools
+  schema.json               # Formal JSON Schema (Draft 2020-12) for question archives
   zh-CN/                    # Complete runtime catalog imported by the seed
     biology.json
     chemistry.json
@@ -28,7 +29,7 @@ public/question-assets/
   generated/zh-CN/<id>/     # Reviewed, language-specific replacement diagrams
 ```
 
-Add runtime content to `data/zh-CN/`. Acquisition and deduplication scripts operate on `data/en/`; the translation script writes their Simplified Chinese counterparts to `data/zh-CN/`. AMC records use `AMC-8`, `AMC-10`, or `AMC-12` for both `grade_band` and `grade`.
+Add runtime content to `data/zh-CN/`. Acquisition and deduplication scripts operate on `data/en/`; the translation script writes their Simplified Chinese counterparts to `data/zh-CN/`. AMC records use `AMC-8`, `AMC-10`, or `AMC-12` for `grade`.
 
 The licensed CJEval junior-high Chinese import is pinned to an upstream commit and source-file hashes. Rebuild `chinese.json` with `npm run data:import:cjeval`. CJEval does not identify an individual grade, so its records use `初中综合`; do not infer seventh, eighth, or ninth grade from question wording alone. Source `<dotted>` and related presentation tags are converted into visible plain-text emphasis, nested answers are formatted for self-assessment, and source knowledge concepts become imported topic tags.
 
@@ -48,12 +49,24 @@ npm run data:import:agieval
 
 Validate all source and translated content with `npm run data:verify`.
 
-## Source record schema
+## Unified question record schema
 
-Question archives intentionally retain the upstream snake-case envelope. Every record has the same required fields: `id`, `type`, `grade_band`, `difficulty`, `grade`, `course`, `paper`, `online_test`, `option_split`, `quality`, `question_info`, `answer_info`, `solution_info`, and `children`. A record may also carry `source_tags`, an array of imported `TOPIC`, `SKILL`, or `FORMAT` tags with a stable slug, display label, confidence, and source. The prompt, five option slots, and source answer key live under `question_info.raw_content`; the reference answer is `answer_info.raw_content`; and each explanation is a `solution_info` entry. Empty option strings are meaningful placeholders for non-choice questions.
+All question archives in `data/zh-CN/` and `data/en/` conform to the unified schema defined in `data/schema.json` (JSON Schema Draft 2020-12). Every record has the exact same 11 required camelCase properties:
 
-Names such as `question_info.raw_content` and `solution_info[].solution_info` are legacy source-contract names. Do not rename them in an individual archive: acquisition, translation, audit, deduplication, and import tools all consume that contract. `src/lib/content.ts` is the normalization boundary where source fields become the application's cleaner question model. New product-facing code should use normalized fields rather than expose the archive envelope.
+- `id`: 32-character lowercase hexadecimal identifier (`^[a-f0-9]{32}$`).
+- `subject`: Curriculum subject (`"数学"`, `"物理"`, `"化学"`, `"生物"`, or `"语文"`).
+- `grade`: Specific grade level or competition track (`"一年级"`..`"六年级"`, `"七年级"`..`"九年级"`, `"初中综合"`, `"高一"`..`"高三"`, `"AMC-8"`, `"AMC-10"`, or `"AMC-12"`).
+- `type`: Source question type classification (30 supported types defined in `data/schema.json#/$defs/QuestionType`).
+- `difficulty`: Source difficulty rating (`"容易"`, `"一般"`, or `"困难"`).
+- `sourcePaper`: Source examination paper, contest problem identifier, or provenance reference string.
+- `stem`: Primary question prompt or reading passage text.
+- `options`: Object containing only non-empty option keys (`A`, `B`, `C`, `D`, `E`); `{}` for non-choice questions.
+- `answer`: Unified answer string (uppercase option letters such as `"A"` or `"BC"` for auto-gradable choice questions, or reference answer text for non-choice questions).
+- `solutions`: Non-empty array of step-by-step explanation strings (`string[]`).
+- `tags`: Array of non-empty topic or skill tag strings (`string[]`); `[]` when empty.
 
-`npm run data:verify` begins by validating every tracked JSON file. It enforces exact question keys and value types, stable 32-character hexadecimal IDs, per-locale ID uniqueness, catalog membership, configuration and approval-file shapes, and the path, size, media type, and SHA-256 integrity of every source asset manifest entry. Add a validator when introducing a new JSON family.
+`src/lib/content.ts` is the normalization boundary where unified archive records become the application's normalized runtime model.
+
+`npm run data:verify` begins by validating every tracked JSON file (`data/catalog.json`, `data/schema.json`, all 12 question archives, configuration files, and asset manifests). It enforces exact question keys and enum values, stable 32-character hexadecimal IDs, per-locale ID uniqueness, catalog membership, and the path, size, media type, and SHA-256 integrity of every source asset manifest entry. Add a validator when introducing a new JSON family.
 
 Shared source assets are content-addressed and must retain their provenance in `public/question-assets/source/amc/manifest.json`. Put generated assets under `generated/<locale>/<question-id>/` whenever their text or accessibility metadata is locale-specific.

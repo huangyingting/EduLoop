@@ -21,53 +21,59 @@ const localeSchema = z.string().regex(/^[a-z]{2}(?:-[A-Z]{2})?$/);
 const hex32Schema = z.string().regex(/^[a-f0-9]{32}$/);
 const hex64Schema = z.string().regex(/^[a-f0-9]{64}$/);
 
-const rawQuestionContentSchema = z.object({
-  title: z.string(),
-  option_a: z.string(),
-  option_b: z.string(),
-  option_c: z.string(),
-  option_d: z.string(),
-  option_e: z.string(),
-  answer1: z.string(),
-}).strict();
+const QUESTION_SUBJECTS = ["数学", "物理", "化学", "生物", "语文"];
+const QUESTION_GRADES = [
+  "一年级", "二年级", "三年级", "四年级", "五年级", "六年级",
+  "七年级", "八年级", "九年级", "初中综合", "高一", "高二", "高三",
+  "AMC-8", "AMC-10", "AMC-12",
+];
+const QUESTION_TYPES = [
+  "单选题", "多选题", "双选题", "不定项选择题", "选择题", "判断题",
+  "填空题", "单空题", "多空题", "计算题", "应用题", "解答题", "简答题",
+  "证明题", "推断题", "排序题", "书写", "实验题", "探究题", "实验探究题",
+  "实验题探究题", "识图作答题", "填图题", "材料分析题", "资料分析题",
+  "综合题", "现代文阅读", "诗歌鉴赏", "复合题", "其他",
+];
+const QUESTION_DIFFICULTIES = ["容易", "一般", "困难"];
 
-const childQuestionSchema = z.object({
-  title: z.string(),
-  option_a: z.string(),
-  option_b: z.string(),
-  option_c: z.string(),
-  option_d: z.string(),
-  option_e: z.string().optional(),
-  answer1: z.string(),
-  order: z.number().int().positive(),
+const optionMapSchema = z.object({
+  A: z.string().min(1).optional(),
+  B: z.string().min(1).optional(),
+  C: z.string().min(1).optional(),
+  D: z.string().min(1).optional(),
+  E: z.string().min(1).optional(),
 }).strict();
 
 const questionSchema = z.object({
   id: hex32Schema,
-  type: z.string().min(1),
-  grade_band: z.enum(["小学", "初中", "高中", "AMC-8", "AMC-10", "AMC-12"]),
-  difficulty: z.enum(["容易", "一般", "困难"]),
-  grade: z.enum([
-    "一年级", "二年级", "三年级", "四年级", "五年级", "六年级",
-    "七年级", "八年级", "九年级", "初中综合", "高一", "高二", "高三",
-    "AMC-8", "AMC-10", "AMC-12",
-  ]),
-  course: z.enum(["数学", "物理", "化学", "生物", "语文"]),
-  paper: z.string(),
-  online_test: z.boolean(),
-  option_split: z.boolean(),
-  quality: z.string().min(1),
-  question_info: z.object({ raw_content: rawQuestionContentSchema }).strict(),
-  answer_info: z.object({ raw_content: z.string() }).strict(),
-  solution_info: z.array(z.object({ solution_info: z.string() }).strict()).min(1),
-  children: z.array(childQuestionSchema),
-  source_tags: z.array(z.object({
-    dimension: z.enum(["TOPIC", "SKILL", "FORMAT"]),
-    slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
-    label: z.string().min(1),
-    confidence: z.number().min(0).max(1),
-    source: z.enum(["RULE", "IMPORT"]),
-  }).strict()).optional(),
+  subject: z.enum(QUESTION_SUBJECTS),
+  grade: z.enum(QUESTION_GRADES),
+  type: z.enum(QUESTION_TYPES),
+  difficulty: z.enum(QUESTION_DIFFICULTIES),
+  sourcePaper: z.string(),
+  stem: z.string().min(1),
+  options: optionMapSchema,
+  answer: z.string().min(1),
+  solutions: z.array(z.string().min(1)).min(1),
+  tags: z.array(z.string().min(1)),
+}).strict();
+
+const questionArchiveJsonSchema = z.object({
+  $schema: z.literal("https://json-schema.org/draft/2020-12/schema"),
+  $id: z.string().url(),
+  title: z.string().min(1),
+  description: z.string().min(1),
+  type: z.literal("array"),
+  minItems: z.literal(1),
+  items: z.object({ $ref: z.literal("#/$defs/QuestionRecord") }).strict(),
+  $defs: z.object({
+    Subject: z.object({ type: z.literal("string"), enum: z.array(z.string()) }).strict(),
+    Grade: z.object({ type: z.literal("string"), enum: z.array(z.string()) }).strict(),
+    QuestionType: z.object({ type: z.literal("string"), enum: z.array(z.string()) }).strict(),
+    Difficulty: z.object({ type: z.literal("string"), enum: z.array(z.string()) }).strict(),
+    OptionMap: z.record(z.string(), z.unknown()),
+    QuestionRecord: z.record(z.string(), z.unknown()),
+  }).strict(),
 }).strict();
 
 const localeEntrySchema = z.object({
@@ -222,11 +228,10 @@ function validateCatalog(catalog) {
 }
 
 async function validateQuestionArchives(catalog) {
-  if (!catalog) return { files: 0, questions: 0, children: 0 };
+  if (!catalog) return { files: 0, questions: 0 };
   let fileCount = 0;
   let questionCount = 0;
-  let childCount = 0;
-  const expectedCourse = {
+  const expectedSubject = {
     "biology.json": "生物",
     "chemistry.json": "化学",
     "mathematics.json": "数学",
@@ -273,7 +278,6 @@ async function validateQuestionArchives(catalog) {
         if (!question) continue;
         validateQuestionText(filepath, question.id, question);
         questionCount += 1;
-        childCount += question.children.length;
         const previous = localeIds.get(question.id);
         if (previous) errors.push(`${filepath}:${question.id}: duplicate locale ID (also in ${previous})`);
         else localeIds.set(question.id, filepath);
@@ -281,16 +285,16 @@ async function validateQuestionArchives(catalog) {
         const amc = filename.match(/^amc(8|10|12)\.json$/);
         if (amc) {
           const grade = `AMC-${amc[1]}`;
-          if (question.grade_band !== grade || question.grade !== grade || question.course !== "数学") {
-            errors.push(`${filepath}:${question.id}: ${filename} requires grade_band=${grade}, grade=${grade}, course=数学`);
+          if (question.grade !== grade || question.subject !== "数学") {
+            errors.push(`${filepath}:${question.id}: ${filename} requires grade=${grade}, subject=数学`);
           }
-        } else if (expectedCourse[filename] && question.course !== expectedCourse[filename]) {
-          errors.push(`${filepath}:${question.id}: ${filename} requires course=${expectedCourse[filename]}`);
+        } else if (expectedSubject[filename] && question.subject !== expectedSubject[filename]) {
+          errors.push(`${filepath}:${question.id}: ${filename} requires subject=${expectedSubject[filename]}`);
         }
       }
     }
   }
-  return { files: fileCount, questions: questionCount, children: childCount };
+  return { files: fileCount, questions: questionCount };
 }
 
 async function validateAssetManifest(manifest) {
@@ -383,9 +387,25 @@ function validateConfigFiles() {
   validate("tsconfig.json", tsconfigSchema, parsedFiles.get("tsconfig.json"));
 }
 
+function validateQuestionSchemaDocument(document) {
+  if (!document) return;
+  const expectedEnums = [
+    ["Subject", QUESTION_SUBJECTS],
+    ["Grade", QUESTION_GRADES],
+    ["QuestionType", QUESTION_TYPES],
+    ["Difficulty", QUESTION_DIFFICULTIES],
+  ];
+  for (const [name, expected] of expectedEnums) {
+    if (!isDeepStrictEqual(document.$defs[name].enum, expected)) {
+      errors.push(`data/schema.json:$defs.${name}.enum does not match QUESTION_${name.toUpperCase()} validator constants`);
+    }
+  }
+}
+
 const tracked = await loadTrackedJson();
 const expectedSchemas = new Set([
   "data/catalog.json",
+  "data/schema.json",
   "ops/package-lock.json",
   "ops/package.json",
   "package-lock.json",
@@ -397,6 +417,8 @@ const expectedSchemas = new Set([
 
 const catalog = validate("data/catalog.json", catalogSchema, parsedFiles.get("data/catalog.json"));
 validateCatalog(catalog);
+const questionSchemaDoc = validate("data/schema.json", questionArchiveJsonSchema, parsedFiles.get("data/schema.json"));
+validateQuestionSchemaDocument(questionSchemaDoc);
 if (catalog) {
   for (const [locale, entry] of Object.entries(catalog.locales)) {
     for (const filename of entry.files) expectedSchemas.add(`data/${locale}/${filename}`);
@@ -427,7 +449,6 @@ const report = {
   trackedJsonFiles: tracked.length,
   questionArchives: questions.files,
   questions: questions.questions,
-  childQuestions: questions.children,
   assetProvenanceEntries: assets.assets,
   uniqueAssetFiles: assets.files,
   errors,

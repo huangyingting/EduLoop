@@ -138,9 +138,9 @@ for (const filename of filenames) {
   for (const translation of parseTranslations(body, filename)) {
     const question = sourceById.get(translation.id);
     if (!question) throw new Error(`${filename} contains unknown question ${translation.id}`);
-    const expectedSlug = paperSlug(question.paper);
+    const expectedSlug = paperSlug(question.sourcePaper);
     if (stem !== expectedSlug && !stem.startsWith(`${expectedSlug}-`)) {
-      throw new Error(`${filename} contains ${translation.id} from ${paperName(question.paper)} (${expectedSlug})`);
+      throw new Error(`${filename} contains ${translation.id} from ${paperName(question.sourcePaper)} (${expectedSlug})`);
     }
     if (translations.has(translation.id)) throw new Error(`Duplicate translation for ${translation.id}`);
     translations.set(translation.id, translation);
@@ -151,36 +151,41 @@ const output = source.map((question) => {
   const translation = translations.get(question.id);
   if (!translation) return structuredClone(question);
   const translated = structuredClone(question);
-  const sourceRaw = question.question_info.raw_content;
-  const targetRaw = translated.question_info.raw_content;
-  const requiredFields = ["title", ...question.solution_info.map((_, index) => `solution_${index}`)];
+  const stemField = "stem" in translation.fields ? "stem" : "title";
+  const requiredFields = [stemField, ...question.solutions.map((_, index) => `solution_${index}`)];
   for (const field of requiredFields) {
     if (!(field in translation.fields)) throw new Error(`${translation.filename}/${question.id} is missing ${field}`);
   }
   const allowedFields = new Set([
-    "title", "option_a", "option_b", "option_c", "option_d", "option_e",
-    ...question.solution_info.map((_, index) => `solution_${index}`),
+    "stem", "title", "option_a", "option_b", "option_c", "option_d", "option_e",
+    ...question.solutions.map((_, index) => `solution_${index}`),
   ]);
   for (const field of Object.keys(translation.fields)) {
     if (!allowedFields.has(field)) throw new Error(`${translation.filename}/${question.id} has unknown field ${field}`);
   }
-  for (const field of ["title", "option_a", "option_b", "option_c", "option_d", "option_e"]) {
-    if (!(field in translation.fields)) continue;
-    targetRaw[field] = resolveProtectedContent(sourceRaw[field], translation.fields[field], `${question.id}/${field}`);
+  translated.stem = translateKnownMathText(
+    resolveProtectedContent(question.stem, translation.fields[stemField], `${question.id}/stem`),
+  );
+  for (const label of ["A", "B", "C", "D", "E"]) {
+    const optionField = `option_${label.toLowerCase()}`;
+    if (optionField in translation.fields) {
+      translated.options[label] = resolveProtectedContent(
+        question.options[label],
+        translation.fields[optionField],
+        `${question.id}/${optionField}`,
+      );
+    }
+    translated.options[label] = translateKnownMathText(translated.options[label]);
   }
-  for (const field of Object.keys(targetRaw)) {
-    targetRaw[field] = translateKnownMathText(targetRaw[field]);
-  }
-  translated.solution_info = question.solution_info.map((entry, index) => ({
-    ...structuredClone(entry),
-    solution_info: resolveProtectedContent(
-      entry.solution_info,
+  translated.solutions = question.solutions.map((solution, index) => (
+    resolveProtectedContent(
+      solution,
       translation.fields[`solution_${index}`],
       `${question.id}/solution_${index}`,
-      question.answer_info.raw_content.match(/[A-E]/)?.[0] ?? null,
-    ),
-  }));
-  translated.paper = translated.paper.replace(/ · Problem (\d+)/g, " · 第 $1 题");
+      question.answer.match(/[A-E]/)?.[0] ?? null,
+    )
+  ));
+  translated.sourcePaper = translated.sourcePaper.replace(/ · Problem (\d+)/g, " · 第 $1 题");
   return translated;
 });
 

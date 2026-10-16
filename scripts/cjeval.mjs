@@ -221,17 +221,6 @@ function stableId(split, index) {
   return createHash("sha256").update(`cjeval:${CJEVAL_COMMIT}:初中语文:${split}:${index}`).digest("hex").slice(0, 32);
 }
 
-function knowledgeTag(label) {
-  const normalized = normalizeCjevalText(label);
-  return {
-    dimension: "TOPIC",
-    slug: `cjeval-${createHash("sha256").update(normalized).digest("hex").slice(0, 12)}`,
-    label: normalized,
-    confidence: 1,
-    source: "IMPORT",
-  };
-}
-
 function mapDifficulty(value) {
   if (value === "容易" || value === "较易") return "容易";
   if (value === "较难" || value === "困难") return "困难";
@@ -762,37 +751,21 @@ export function convertCjevalRecord(record, split, index) {
   const normalizedOptions = parsedChoice?.options.map((option) => option.content.replace(/\s+/gu, "")) ?? [];
   if (new Set(normalizedOptions).size !== normalizedOptions.length) issues.push("选择题包含重复选项");
 
-  const optionByLabel = new Map(parsedChoice?.options.map((option) => [option.label, option.content]) ?? []);
-  const answerKey = isGradableChoice ? choiceAnswers.join("|") : "";
-  const quality = issues.length
-    ? `CJEval许可导入；${repair.note ? `EduLoop人工校订：${repair.note}；` : ""}NEEDS_REVIEW：${issues.join("；")}`
-    : `CJEval许可导入${repair.note ? `；EduLoop人工校订：${repair.note}` : ""}`;
+  const options = Object.fromEntries(parsedChoice?.options.map((option) => [option.label, option.content]) ?? []);
+  const finalAnswer = isGradableChoice ? choiceAnswers.join("") : answer;
+  const sourcePaper = `CJEval ${split} #${index + 1}；原始难度：${source.ques_difficulty}${repair.note ? `；EduLoop人工校订：${repair.note}` : ""}${issues.length ? `；NEEDS_REVIEW：${issues.join("；")}` : ""}`;
 
   return {
     id: stableId(split, index),
-    type: isGradableChoice ? choiceAnswers.length > 1 ? "多选题" : "单选题" : source.ques_type === "选择题" ? "复合题" : source.ques_type,
-    grade_band: "初中",
-    difficulty: mapDifficulty(source.ques_difficulty),
+    subject: "语文",
     grade: "初中综合",
-    course: "语文",
-    paper: `CJEval ${split} #${index + 1}；原始难度：${source.ques_difficulty}`,
-    online_test: true,
-    option_split: Boolean(parsedChoice),
-    quality,
-    question_info: {
-      raw_content: {
-        title: parsedChoice?.stem ?? formattedContent,
-        option_a: optionByLabel.get("A") ?? "",
-        option_b: optionByLabel.get("B") ?? "",
-        option_c: optionByLabel.get("C") ?? "",
-        option_d: optionByLabel.get("D") ?? "",
-        option_e: optionByLabel.get("E") ?? "",
-        answer1: answerKey,
-      },
-    },
-    answer_info: { raw_content: answer },
-    solution_info: [{ solution_info: explanation }],
-    children: [],
-    source_tags: [...new Set(source.ques_knowledges.map((item) => normalizeCjevalText(item)).filter(Boolean))].map(knowledgeTag),
+    type: isGradableChoice ? choiceAnswers.length > 1 ? "多选题" : "单选题" : source.ques_type === "选择题" ? "复合题" : source.ques_type,
+    difficulty: mapDifficulty(source.ques_difficulty),
+    sourcePaper,
+    stem: parsedChoice?.stem ?? formattedContent,
+    options,
+    answer: finalAnswer,
+    solutions: [explanation],
+    tags: [...new Set(source.ques_knowledges.map((item) => normalizeCjevalText(item)).filter(Boolean))],
   };
 }

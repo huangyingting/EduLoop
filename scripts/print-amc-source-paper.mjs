@@ -45,8 +45,8 @@ const sourceFile = path.join(workspace, "data/en", `${dataset}.json`);
 const questions = JSON.parse((await readFile(sourceFile, "utf8")).replace(/^\uFEFF/, ""));
 const papers = new Map();
 questions.forEach((question, index) => {
-  const slug = paperSlug(question.paper);
-  if (!papers.has(slug)) papers.set(slug, { name: paperName(question.paper), indexes: [] });
+  const slug = paperSlug(question.sourcePaper);
+  if (!papers.has(slug)) papers.set(slug, { name: paperName(question.sourcePaper), indexes: [] });
   papers.get(slug).indexes.push(index);
 });
 
@@ -64,12 +64,12 @@ if (!papers.has(requestedSlug) || !outputFile) {
 const output = [];
 for (const index of papers.get(requestedSlug).indexes) {
   const question = questions[index];
-  const raw = question.question_info.raw_content;
-  output.push(`<<<SOURCE index=${index} id=${question.id} slug=${requestedSlug} paper=${question.paper}>>>`);
-  for (const key of ["title", "option_a", "option_b", "option_c", "option_d", "option_e"]) {
-    if (key in raw) printField(output, key, raw[key]);
+  output.push(`<<<SOURCE index=${index} id=${question.id} slug=${requestedSlug} paper=${question.sourcePaper}>>>`);
+  printField(output, "stem", question.stem);
+  for (const label of ["A", "B", "C", "D", "E"]) {
+    if (label in question.options) printField(output, `option_${label.toLowerCase()}`, question.options[label]);
   }
-  question.solution_info.forEach(({ solution_info: solution }, solutionIndex) => {
+  question.solutions.forEach((solution, solutionIndex) => {
     printField(output, `solution_${solutionIndex}`, solution);
   });
   output.push("<<<END SOURCE>>>");

@@ -59,19 +59,16 @@ const USER_AGENT = `EduLoop${COMPETITION.key.toUpperCase()}Importer/1.0 (authori
 
 type SourceQuestion = {
   id: string;
-  type: string;
-  grade_band: string;
-  difficulty: string;
+  subject: string;
   grade: string;
-  course: string;
-  paper: string;
-  online_test: boolean;
-  option_split: boolean;
-  quality: string;
-  question_info: { raw_content: Record<string, string> };
-  answer_info: { raw_content: string };
-  solution_info: Array<{ solution_info: string }>;
-  children: unknown[];
+  type: string;
+  difficulty: string;
+  sourcePaper: string;
+  stem: string;
+  options: Record<"A" | "B" | "C" | "D" | "E", string>;
+  answer: string;
+  solutions: string[];
+  tags: string[];
 };
 
 type ScrapedQuestion = {
@@ -793,42 +790,36 @@ function sourceDifficulty(problemNumber: number) {
 }
 
 function makeQuestion(contest: string, problemNumber: number, answer: string, parsed: ReturnType<typeof parseProblemPage>) {
-  const rawContent: Record<string, string> = {
-    title: parsed.stem,
-    option_a: parsed.options[0],
-    option_b: parsed.options[1],
-    option_c: parsed.options[2],
-    option_d: parsed.options[3],
-    option_e: parsed.options[4],
-    answer1: answer,
-  };
   return {
     id: digest(`aops-${COMPETITION.key}:${contest}:${problemNumber}`, "md5"),
-    type: "单选题",
-    grade_band: COMPETITION.level,
-    difficulty: sourceDifficulty(problemNumber),
+    subject: "数学",
     grade: COMPETITION.level,
-    course: "数学",
-    paper: `${displayContest(contest)} · Problem ${problemNumber}`,
-    online_test: true,
-    option_split: true,
-    quality: "精品",
-    question_info: { raw_content: rawContent },
-    answer_info: { raw_content: answer },
-    solution_info: parsed.solutions.map((solution) => ({ solution_info: solution })),
-    children: [],
+    type: "单选题",
+    difficulty: sourceDifficulty(problemNumber),
+    sourcePaper: `${displayContest(contest)} · Problem ${problemNumber}`,
+    stem: parsed.stem,
+    options: {
+      A: parsed.options[0],
+      B: parsed.options[1],
+      C: parsed.options[2],
+      D: parsed.options[3],
+      E: parsed.options[4],
+    },
+    answer,
+    solutions: parsed.solutions,
+    tags: [],
   } satisfies SourceQuestion;
 }
 
 function questionFingerprint(question: SourceQuestion) {
-  const raw = question.question_info.raw_content;
+  const options = question.options;
   return digest(normalizedFingerprint([
-    raw.title,
-    raw.option_a,
-    raw.option_b,
-    raw.option_c,
-    raw.option_d,
-    raw.option_e,
+    question.stem,
+    options.A,
+    options.B,
+    options.C,
+    options.D,
+    options.E,
   ].join("\n")));
 }
 
@@ -842,13 +833,13 @@ function mergeDuplicateQuestions(scraped: ScrapedQuestion[]) {
       byFingerprint.set(fingerprint, item.question);
       continue;
     }
-    duplicateOccurrences.push({ canonical: existing.paper, duplicate: item.question.paper });
-    existing.paper = [...new Set(`${existing.paper} | ${item.question.paper}`.split(" | "))].join(" | ");
-    const solutionFingerprints = new Set(existing.solution_info.map((part) => digest(normalizedFingerprint(part.solution_info))));
-    for (const solution of item.question.solution_info) {
-      const solutionFingerprint = digest(normalizedFingerprint(solution.solution_info));
+    duplicateOccurrences.push({ canonical: existing.sourcePaper, duplicate: item.question.sourcePaper });
+    existing.sourcePaper = [...new Set(`${existing.sourcePaper} | ${item.question.sourcePaper}`.split(" | "))].join(" | ");
+    const solutionFingerprints = new Set(existing.solutions.map((part) => digest(normalizedFingerprint(part))));
+    for (const solution of item.question.solutions) {
+      const solutionFingerprint = digest(normalizedFingerprint(solution));
       if (!solutionFingerprints.has(solutionFingerprint)) {
-        existing.solution_info.push(solution);
+        existing.solutions.push(solution);
         solutionFingerprints.add(solutionFingerprint);
       }
     }
@@ -981,26 +972,25 @@ async function main() {
   const duplicateIds = questions.length - new Set(questions.map((question) => question.id)).size;
   const duplicateFingerprints = questions.length - new Set(questions.map(questionFingerprint)).size;
   const duplicateSolutionCount = questions.reduce((total, question) => {
-    const fingerprints = question.solution_info.map((part) => digest(normalizedFingerprint(part.solution_info)));
+    const fingerprints = question.solutions.map((part) => digest(normalizedFingerprint(part)));
     return total + fingerprints.length - new Set(fingerprints).size;
   }, 0);
   const invalid = questions.flatMap((question) => {
-    const raw = question.question_info.raw_content;
     const fields = {
-      title: raw.title,
-      ...Object.fromEntries(["A", "B", "C", "D", "E"].map((letter) => [
-        `option_${letter.toLowerCase()}`,
-        raw[`option_${letter.toLowerCase()}`],
+      stem: question.stem,
+      ...Object.fromEntries((["A", "B", "C", "D", "E"] as const).map((letter) => [
+        `options.${letter}`,
+        question.options[letter],
       ])),
-      ...Object.fromEntries(question.solution_info.map((item, index) => [`solution_${index + 1}`, item.solution_info])),
+      ...Object.fromEntries(question.solutions.map((item, index) => [`solution_${index + 1}`, item])),
     };
     const issues = Object.entries(fields).flatMap(([field, value]) => {
       if (!value) return [`${field}: missing`];
       return hasTextIntegrityIssue(value) ? [`${field}: ${textIntegritySummary(value)}`] : [];
     });
-    if (!raw.answer1 || !/^[A-E]$/.test(raw.answer1)) issues.push("answer1: missing or invalid");
-    if (!question.solution_info.length) issues.push("solutions: missing");
-    return issues.length ? [{ paper: question.paper, issues }] : [];
+    if (!question.answer || !/^[A-E]$/.test(question.answer)) issues.push("answer: missing or invalid");
+    if (!question.solutions.length) issues.push("solutions: missing");
+    return issues.length ? [{ sourcePaper: question.sourcePaper, issues }] : [];
   });
   if (duplicateIds || duplicateFingerprints || duplicateSolutionCount || invalid.length) {
     throw new Error(JSON.stringify({ duplicateIds, duplicateFingerprints, duplicateSolutionCount, invalid }, null, 2));
@@ -1011,7 +1001,7 @@ async function main() {
     contestSlots: expectedSlots,
     uniqueQuestions: questions.length,
     duplicateQuestionOccurrencesMerged: duplicateOccurrences.length,
-    solutions: questions.reduce((total, question) => total + question.solution_info.length, 0),
+    solutions: questions.reduce((total, question) => total + question.solutions.length, 0),
     duplicateSolutions: duplicateSolutionCount,
     output: options.dryRun || options.contest ? null : path.relative(process.cwd(), OUTPUT_FILE),
   };

@@ -284,39 +284,25 @@ function convertGroup(group) {
   const paper = sources.join("；同题亦见：");
   const duplicateNote = sources.length > 1 ? `；合并 ${sources.length} 个内容完全相同的试卷来源` : "";
   const repairNote = repairNotes.length ? `；EduLoop人工校订：${repairNotes.join("；")}` : "";
-  const skillTag = passage
-    ? { dimension: "SKILL", slug: "reading-comprehension", label: "阅读理解", confidence: 0.9, source: "IMPORT" }
-    : { dimension: "SKILL", slug: "language-application", label: "语言运用", confidence: 0.85, source: "IMPORT" };
+  const skillTag = passage ? "阅读理解" : "语言运用";
 
   return {
     id: stableId(sourceIndex),
-    type: "单选题",
-    grade_band: "高中",
-    difficulty: "一般",
+    subject: "语文",
     grade: "高三",
-    course: "语文",
-    paper,
-    online_test: true,
-    option_split: true,
-    quality: `AGIEval v1.1 MIT许可导入；固定提交 ${AGIEVAL_COMMIT}；源文件SHA-256 ${AGIEVAL_SOURCE_SHA256}${repairNote}${duplicateNote}`,
-    question_info: {
-      raw_content: {
-        title: passage ? `${passage}\n\n${question}` : question,
-        option_a: optionByLabel.get("A") ?? "",
-        option_b: optionByLabel.get("B") ?? "",
-        option_c: optionByLabel.get("C") ?? "",
-        option_d: optionByLabel.get("D") ?? "",
-        option_e: "",
-        answer1: record.label,
-      },
+    type: "单选题",
+    difficulty: "一般",
+    sourcePaper: `${paper}（AGIEval v1.1 MIT许可导入；固定提交 ${AGIEVAL_COMMIT}；源文件SHA-256 ${AGIEVAL_SOURCE_SHA256}${repairNote}${duplicateNote}）`,
+    stem: passage ? `${passage}\n\n${question}` : question,
+    options: {
+      A: optionByLabel.get("A") ?? "",
+      B: optionByLabel.get("B") ?? "",
+      C: optionByLabel.get("C") ?? "",
+      D: optionByLabel.get("D") ?? "",
     },
-    answer_info: { raw_content: record.label },
-    solution_info: [{ solution_info: `AGIEval v1.1 原始数据未提供解析。参考答案为 ${record.label}。` }],
-    children: [],
-    source_tags: [
-      { dimension: "TOPIC", slug: "gaokao-chinese", label: "高考语文", confidence: 1, source: "IMPORT" },
-      skillTag,
-    ],
+    answer: record.label,
+    solutions: [`AGIEval v1.1 原始数据未提供解析。参考答案为 ${record.label}。`],
+    tags: ["高考语文", skillTag],
   };
 }
 

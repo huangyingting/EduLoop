@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import {
   curatedChoiceContent,
   curatedQuestionUpdates,
@@ -36,6 +37,15 @@ export const GRADES = [
   ["amc-12", "AMC-12", "amc-12", 12],
 ] as const;
 
+const GRADE_BAND_NAME_BY_SLUG = new Map<string, string>(GRADE_BANDS.map((band) => [band.slug, band.name]));
+const GRADE_BAND_BY_GRADE = new Map<string, string>(
+  GRADES.map(([, name, bandSlug]) => [name, GRADE_BAND_NAME_BY_SLUG.get(bandSlug) ?? "初中"]),
+);
+
+export function deriveGradeBand(grade: string): string {
+  return GRADE_BAND_BY_GRADE.get(grade) ?? "初中";
+}
+
 const GRADE_ORDER_BY_NAME = new Map<string, number>(GRADES.map(([, name, , sortOrder]) => [name, sortOrder]));
 GRADE_ORDER_BY_NAME.set("初中综合", 8);
 
@@ -55,43 +65,22 @@ export const QUESTION_TYPE_LABELS: Record<string, string> = {
   WRITTEN_RESPONSE: "解答",
 };
 
-export type SourceQuestionRawContent = {
-  title: string;
-  option_a: string;
-  option_b: string;
-  option_c: string;
-  option_d: string;
-  option_e: string;
-  answer1: string;
-};
-
-export type SourceChildQuestion = {
-  title: string;
-  option_a: string;
-  option_b: string;
-  option_c: string;
-  option_d: string;
-  option_e?: string;
-  answer1: string;
-  order: number;
-};
+export const OPTION_LABELS = ["A", "B", "C", "D", "E"] as const;
+export type OptionLabel = (typeof OPTION_LABELS)[number];
+export type SourceOptionMap = Partial<Record<OptionLabel, string>>;
 
 export type SourceQuestion = {
   id: string;
-  type: string;
-  grade_band: string;
-  difficulty: string;
+  subject: string;
   grade: string;
-  course: string;
-  paper: string;
-  online_test: boolean;
-  option_split: boolean;
-  quality: string;
-  question_info: { raw_content: SourceQuestionRawContent };
-  answer_info: { raw_content: string };
-  solution_info: Array<{ solution_info: string }>;
-  children: SourceChildQuestion[];
-  source_tags?: NormalizedTag[];
+  type: string;
+  difficulty: string;
+  sourcePaper: string;
+  stem: string;
+  options: SourceOptionMap;
+  answer: string;
+  solutions: string[];
+  tags: string[];
 };
 
 export type NormalizedTag = {
@@ -173,11 +162,15 @@ function normalizeOptionLabel(label: string) {
   return codePoint >= 0xff21 && codePoint <= 0xff25 ? String.fromCharCode(codePoint - 0xfee0) : label.toUpperCase();
 }
 
+function hasSplitOptions(question: SourceQuestion) {
+  return OPTION_LABELS.some((label) => String(question.options?.[label] ?? "").trim().length > 0);
+}
+
 function extractEmbeddedChoice(question: SourceQuestion) {
-  if (question.option_split || !/选择/.test(question.type)) return null;
-  const title = String(question.question_info.raw_content.title ?? "");
+  if (hasSplitOptions(question) || !/选择/.test(question.type)) return null;
+  const stem = String(question.stem ?? "");
   const markerPattern = /(?:^|[\s\u3000])(?:[（(]\s*([A-EＡ-Ｅ])\s*[）)]|([A-EＡ-Ｅ])\s*[.．、:：]|([A-EＡ-Ｅ])(?=\s+|[\u3400-\u9fff]))/gi;
-  const markers = [...title.matchAll(markerPattern)].map((match) => ({
+  const markers = [...stem.matchAll(markerPattern)].map((match) => ({
     label: normalizeOptionLabel(match[1] ?? match[2] ?? match[3]),
     start: match.index ?? 0,
     end: (match.index ?? 0) + match[0].length,
@@ -186,11 +179,11 @@ function extractEmbeddedChoice(question: SourceQuestion) {
   if (markers.some((marker, index) => marker.label !== String.fromCharCode(65 + index))) return null;
   const options: NormalizedOption[] = markers.map((marker, index) => ({
     label: marker.label,
-    content: title.slice(marker.end, markers[index + 1]?.start ?? title.length).trim(),
+    content: stem.slice(marker.end, markers[index + 1]?.start ?? stem.length).trim(),
     sortOrder: index,
   }));
   if (options.some((option) => !option.content)) return null;
-  return { stem: title.slice(0, markers[0].start).trim(), options };
+  return { stem: stem.slice(0, markers[0].start).trim(), options };
 }
 
 export function extractQuestionStem(question: SourceQuestion) {
@@ -198,7 +191,7 @@ export function extractQuestionStem(question: SourceQuestion) {
   if (update) return update.stem;
   const curated = curatedChoiceContent.get(question.id);
   if (curated) return curated.stem;
-  const rawStem = String(question.question_info.raw_content.title ?? "").trim();
+  const rawStem = String(question.stem ?? "").trim();
   return extractEmbeddedChoice(question)?.stem || rawStem;
 }
 
@@ -211,11 +204,10 @@ export function extractOptions(question: SourceQuestion) {
   if (curated) return curated.options.map((content, sortOrder) => ({
     label: String.fromCharCode(65 + sortOrder), content, sortOrder,
   }));
-  const raw = question.question_info.raw_content;
-  const options: NormalizedOption[] = (["option_a", "option_b", "option_c", "option_d", "option_e"] as const)
-    .map((field, index) => ({
-      label: String.fromCharCode(65 + index),
-      content: raw[field].trim(),
+  const options: NormalizedOption[] = OPTION_LABELS
+    .map((label, index) => ({
+      label,
+      content: String(question.options?.[label] ?? "").trim(),
       sortOrder: index,
     }))
     .filter((option) => option.content.length > 0);
@@ -235,22 +227,18 @@ function directChoiceLabels(value: string) {
 }
 
 export function extractCorrectLabels(question: SourceQuestion) {
-  const raw = question.question_info.raw_content;
   if (/判断/.test(question.type)) {
-    const answer1 = String(raw.answer1 ?? "").trim();
-    const fullAnswer = String(question.answer_info.raw_content ?? "").trim();
-    const candidate = answer1 && !answer1.includes("$###$") ? answer1 : fullAnswer;
+    const candidate = String(question.answer ?? "").trim();
     const unwrapped = candidate
       .replace(/^\s*【(?:答案|解答)】\s*/, "")
       .replace(/^\s*[（(]\s*\d+\s*[）)]\s*/, "")
       .trim();
     const finalMark = candidate.match(/(?:故答案为|答案为|答案是)[：:\s]*(√|×|正确|错误|对|错|A|B)/i);
-    const directMark = unwrapped.match(/^\s*(√|×|正确|错误|对|错|A|B)[。．.\s]*$/i);
+    const directMark = unwrapped.match(/^\s*(√|×|正确|错误|对|错|A|B)(?:\s*[；;]\s*(?:√|×|正确|错误|对|错|A|B))*[。．.\s]*$/i);
     const mark = finalMark?.[1] ?? directMark?.[1];
     if (mark) return /^(√|正确|对|A)$/i.test(mark) ? ["A"] : ["B"];
   }
-  const fromAnswer1 = directChoiceLabels(String(raw.answer1 ?? ""));
-  const labels = fromAnswer1.length ? fromAnswer1 : directChoiceLabels(String(question.answer_info.raw_content ?? ""));
+  const labels = directChoiceLabels(String(question.answer ?? ""));
   const available = new Set(extractOptions(question).map((option) => option.label));
   return labels.filter((label) => available.has(label));
 }
@@ -270,20 +258,43 @@ export function normalizeQuestionType(question: SourceQuestion) {
   return "WRITTEN_RESPONSE";
 }
 
+const IMPORTED_TAG_DEFINITIONS: Record<string, NormalizedTag> = {
+  高考语文: { dimension: "TOPIC", slug: "gaokao-chinese", label: "高考语文", confidence: 1, source: "IMPORT" },
+  阅读理解: { dimension: "SKILL", slug: "reading-comprehension", label: "阅读理解", confidence: 0.9, source: "IMPORT" },
+  语言运用: { dimension: "SKILL", slug: "language-application", label: "语言运用", confidence: 0.85, source: "IMPORT" },
+};
+
+function normalizeSourceTag(rawLabel: string): NormalizedTag | null {
+  const label = String(rawLabel ?? "").trim().normalize("NFC");
+  if (!label) return null;
+  if (IMPORTED_TAG_DEFINITIONS[label]) return IMPORTED_TAG_DEFINITIONS[label];
+  return {
+    dimension: "TOPIC",
+    slug: `cjeval-${createHash("sha256").update(label).digest("hex").slice(0, 12)}`,
+    label,
+    confidence: 1,
+    source: "IMPORT",
+  };
+}
+
 function addTag(tags: NormalizedTag[], tag: NormalizedTag) {
   if (!tags.some((item) => item.dimension === tag.dimension && item.slug === tag.slug)) tags.push(tag);
 }
 
 export function inferTags(question: SourceQuestion): NormalizedTag[] {
   const stem = extractQuestionStem(question);
-  const combined = `${stem} ${question.solution_info.map((item) => item.solution_info).join(" ")}`;
+  const combined = `${stem} ${question.solutions.join(" ")}`;
   const type = normalizeQuestionType(question);
-  const tags: NormalizedTag[] = [...(question.source_tags ?? [])];
+  const tags: NormalizedTag[] = [];
+  for (const rawTag of question.tags ?? []) {
+    const normalizedTag = normalizeSourceTag(rawTag);
+    if (normalizedTag) addTag(tags, normalizedTag);
+  }
 
-  for (const rule of TOPIC_RULES[question.course] ?? []) {
+  for (const rule of TOPIC_RULES[question.subject] ?? []) {
     if (rule.pattern.test(combined)) addTag(tags, { dimension: "TOPIC", slug: rule.slug, label: rule.label, confidence: 0.72, source: "RULE" });
   }
-  if (question.course === "数学" && !tags.some((tag) => tag.dimension === "TOPIC")) {
+  if (question.subject === "数学" && !tags.some((tag) => tag.dimension === "TOPIC")) {
     addTag(tags, { dimension: "TOPIC", slug: "mixed-problem-solving", label: "综合问题解决", confidence: 0.55, source: "RULE" });
   }
 
@@ -328,16 +339,18 @@ export function normalizeSourceQuestion(question: SourceQuestion, sourceFile: st
   const isAmcSource = /^amc(?:8|10|12)\.json$/.test(sourceFile);
   const normalizedType = normalizeQuestionType(question);
   const sourceDifficulty = normalizeDifficulty(question.difficulty);
-  const answer = update?.answer ?? String(question.answer_info.raw_content ?? "").trim();
+  const answer = update?.answer ?? String(question.answer ?? "").trim();
   const explanation = update?.explanation ?? (
-    question.solution_info.map((item) => item.solution_info?.trim()).filter(Boolean).join("\n\n") || null
+    question.solutions.map((solution) => solution?.trim()).filter(Boolean).join("\n\n") || null
   );
   const visualHeuristicMatch = /识图|填图/.test(sourceType) || referencesMissingFigure(stem);
   const requiresVisual = !isAmcSource && visualHeuristicMatch && !reviewedSelfContainedVisualIds.has(question.id);
   const hasUnparsedChoice = !selfAssessedCompositeIds.has(question.id) && /选择/.test(sourceType) && (
     options.length < 2 || options.some((option, index) => option.label !== String.fromCharCode(65 + index))
   );
-  const sourceRequiresReview = /NEEDS_REVIEW/u.test(question.quality);
+  const hasPlaceholderStem = /^(?:略|无|暂无)[。.]?$/u.test(stem);
+  const sourceRequiresReview = /NEEDS_REVIEW/u.test(question.sourcePaper) || hasPlaceholderStem;
+  const isAutoGradable = correctLabels.length > 0 && options.length >= 2;
   const normalized = applyQuestionReplacement({
     id: question.id,
     sourceId: question.id,
@@ -349,15 +362,15 @@ export function normalizeSourceQuestion(question: SourceQuestion, sourceFile: st
     answer,
     correctAnswer: correctLabels.length ? JSON.stringify(correctLabels) : null,
     explanation,
-    quality: question.quality || null,
+    quality: null,
     status: update?.publish
       ? "PUBLISHED"
-      : !stem || requiresVisual || hasUnparsedChoice || sourceRequiresReview || Boolean(question.children?.length) ? "NEEDS_REVIEW" : "PUBLISHED",
-    isAutoGradable: correctLabels.length > 0 && options.length >= 2,
-    onlineTest: Boolean(question.online_test),
-    optionSplit: Boolean(question.option_split),
-    subjectName: question.course,
-    gradeBandName: question.grade_band,
+      : !stem || requiresVisual || hasUnparsedChoice || sourceRequiresReview ? "NEEDS_REVIEW" : "PUBLISHED",
+    isAutoGradable,
+    onlineTest: isAutoGradable,
+    optionSplit: hasSplitOptions(question),
+    subjectName: question.subject,
+    gradeBandName: deriveGradeBand(question.grade),
     gradeName: question.grade,
     options,
     assets: [] as NormalizedAsset[],

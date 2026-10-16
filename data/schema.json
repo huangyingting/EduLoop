@@ -1,0 +1,177 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eduloop.local/schemas/data/question-archive.schema.json",
+  "title": "EduLoop Question Archive",
+  "description": "Unified schema for EduLoop question archives under data/<locale>/*.json.",
+  "type": "array",
+  "minItems": 1,
+  "items": {
+    "$ref": "#/$defs/QuestionRecord"
+  },
+  "$defs": {
+    "Subject": {
+      "type": "string",
+      "enum": [
+        "数学",
+        "物理",
+        "化学",
+        "生物",
+        "语文"
+      ]
+    },
+    "Grade": {
+      "type": "string",
+      "enum": [
+        "一年级",
+        "二年级",
+        "三年级",
+        "四年级",
+        "五年级",
+        "六年级",
+        "七年级",
+        "八年级",
+        "九年级",
+        "初中综合",
+        "高一",
+        "高二",
+        "高三",
+        "AMC-8",
+        "AMC-10",
+        "AMC-12"
+      ]
+    },
+    "QuestionType": {
+      "type": "string",
+      "enum": [
+        "单选题",
+        "多选题",
+        "双选题",
+        "不定项选择题",
+        "选择题",
+        "判断题",
+        "填空题",
+        "单空题",
+        "多空题",
+        "计算题",
+        "应用题",
+        "解答题",
+        "简答题",
+        "证明题",
+        "推断题",
+        "排序题",
+        "书写",
+        "实验题",
+        "探究题",
+        "实验探究题",
+        "实验题探究题",
+        "识图作答题",
+        "填图题",
+        "材料分析题",
+        "资料分析题",
+        "综合题",
+        "现代文阅读",
+        "诗歌鉴赏",
+        "复合题",
+        "其他"
+      ]
+    },
+    "Difficulty": {
+      "type": "string",
+      "enum": [
+        "容易",
+        "一般",
+        "困难"
+      ]
+    },
+    "OptionMap": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "A": {
+          "type": "string",
+          "minLength": 1
+        },
+        "B": {
+          "type": "string",
+          "minLength": 1
+        },
+        "C": {
+          "type": "string",
+          "minLength": 1
+        },
+        "D": {
+          "type": "string",
+          "minLength": 1
+        },
+        "E": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "QuestionRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "subject",
+        "grade",
+        "type",
+        "difficulty",
+        "sourcePaper",
+        "stem",
+        "options",
+        "answer",
+        "solutions",
+        "tags"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{32}$"
+        },
+        "subject": {
+          "$ref": "#/$defs/Subject"
+        },
+        "grade": {
+          "$ref": "#/$defs/Grade"
+        },
+        "type": {
+          "$ref": "#/$defs/QuestionType"
+        },
+        "difficulty": {
+          "$ref": "#/$defs/Difficulty"
+        },
+        "sourcePaper": {
+          "type": "string"
+        },
+        "stem": {
+          "type": "string",
+          "minLength": 1
+        },
+        "options": {
+          "$ref": "#/$defs/OptionMap"
+        },
+        "answer": {
+          "type": "string",
+          "minLength": 1
+        },
+        "solutions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}

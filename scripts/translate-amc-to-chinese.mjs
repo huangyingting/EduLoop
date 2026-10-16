@@ -20,7 +20,7 @@ const EXACT_PROTECTION_MARKER = /⟪P(\d+)Q⟫/g;
 const EXACT_LATEX_TEXT_MARKER = /⟪L(\d+)Q⟫/g;
 const LATEX_TEXT_SYNTAX = /\\[$%&#_]\s*[0-9.,]*|\\[A-Za-z]+/g;
 const MANGLED_TRANSLATION_MARKER = /(?<!⟪)[PL]\d+Q|A+(?:ZERO|ONE|TWO|THREE|FOUR|FIVE|SIX|SEVEN|EIGHT|NINE)+A+/i;
-const USER_CONTENT_KEYS = ["title", "option_a", "option_b", "option_c", "option_d", "option_e"];
+const OPTION_LABELS = ["A", "B", "C", "D", "E"];
 const LOCAL_TRANSLATIONS = new Map([
   ["in All Rows", "在所有行中"],
   ["of the time", "的时间"],
@@ -201,12 +201,12 @@ function prepareValue(value) {
 
 function prepareQuestion(question) {
   const translated = structuredClone(question);
-  const raw = translated.question_info.raw_content;
-  for (const key of USER_CONTENT_KEYS) raw[key] = prepareValue(String(raw[key] ?? ""));
-  translated.solution_info = translated.solution_info.map(({ solution_info: solution }) => ({
-    solution_info: prepareValue(String(solution)),
-  }));
-  translated.paper = String(translated.paper ?? "").replace(/ · Problem (\d+)/g, " · 第 $1 题");
+  translated.stem = prepareValue(String(translated.stem ?? ""));
+  for (const label of OPTION_LABELS) {
+    translated.options[label] = prepareValue(String(translated.options[label] ?? ""));
+  }
+  translated.solutions = translated.solutions.map((solution) => prepareValue(String(solution)));
+  translated.sourcePaper = String(translated.sourcePaper ?? "").replace(/ · Problem (\d+)/g, " · 第 $1 题");
   return translated;
 }
 
@@ -464,11 +464,11 @@ function resolveTemplate(value, cache) {
 
 function resolveQuestion(question, cache) {
   const resolved = structuredClone(question);
-  const raw = resolved.question_info.raw_content;
-  for (const key of USER_CONTENT_KEYS) raw[key] = resolveTemplate(String(raw[key] ?? ""), cache);
-  resolved.solution_info = resolved.solution_info.map(({ solution_info: solution }) => ({
-    solution_info: resolveTemplate(String(solution), cache),
-  }));
+  resolved.stem = resolveTemplate(String(resolved.stem ?? ""), cache);
+  for (const label of OPTION_LABELS) {
+    resolved.options[label] = resolveTemplate(String(resolved.options[label] ?? ""), cache);
+  }
+  resolved.solutions = resolved.solutions.map((solution) => resolveTemplate(String(solution), cache));
   return resolved;
 }
 

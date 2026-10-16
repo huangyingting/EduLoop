@@ -73,6 +73,27 @@ for (const { filename, question } of records) {
     if (/选项[:：][^\n]|选择[:：]\s*[A-EＡ-Ｅ]\s*[.．、:：]/u.test(stem)) {
       issues.push("stem: inline CJEval option heading");
     }
+    const stemMarkers = [...stem.matchAll(/(?:^|\n)（([1-9]\d*)）/gu)].map((match) => Number(match[1]));
+    const ansMarkers = [...answer.matchAll(/(?:^|\n)（([1-9]\d*)）/gu)].map((match) => Number(match[1]));
+    if (stemMarkers.length >= 2) {
+      if (!stemMarkers.every((num, index) => num === index + 1)) {
+        issues.push("stem: non-sequential CJEval subquestion numbering");
+      }
+      if (
+        ansMarkers.length !== stemMarkers.length ||
+        !ansMarkers.every((num, index) => num === index + 1)
+      ) {
+        issues.push("answer: CJEval subquestion answer count mismatch");
+      }
+    }
+    const openLenticular = (stem.match(/【/gu) ?? []).length;
+    const closeLenticular = (stem.match(/】/gu) ?? []).length;
+    if (openLenticular !== closeLenticular) {
+      issues.push("stem: unbalanced lenticular brackets");
+    }
+  }
+  if (question.type === "填空题" && !/_{2,}|[（(]\s*[）)]/u.test(stem)) {
+    issues.push("stem: fill-in-the-blank question lacks blank marker");
   }
 
   const normalizedOptions = presentOptions.map(normalize);
@@ -113,6 +134,12 @@ for (const { filename, question } of records) {
     if ([...String(value).matchAll(/(?<!\\)\$/gu)].length % 2 !== 0) issues.push(`${field}: unbalanced math delimiters`);
     if (/<\/?(?:script|style|iframe|img|div|span|p|br)\b|&(?:nbsp|amp|lt|gt);/iu.test(String(value))) {
       issues.push(`${field}: raw HTML residue`);
+    }
+    if (/[\uE000-\uF8FF]/u.test(String(value))) {
+      issues.push(`${field}: Private Use Area character residue`);
+    }
+    if (filename === "chinese.json" && /\\n|\\u[0-9a-fA-F]{4}/u.test(String(value))) {
+      issues.push(`${field}: literal escape residue`);
     }
   }
 

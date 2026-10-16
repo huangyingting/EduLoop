@@ -38,7 +38,7 @@
     "answer": "C",
     "solutions": [
       "$(2, 12, 9)=\\frac{2}{12}+\\frac{12}{9}+\\frac{9}{2}=\\frac{1}{6}+\\frac{4}{3}+\\frac{9}{2}=\\frac{1}{6}+\\frac{8}{6}+\\frac{27}{6}=\\frac{36}{6}=6$。因此答案为 $\\boxed{\\textbf{(C) }6}$。",
-      "不必精确计算即可看出 $2/12=\\text{a little}$、$12/9=\\text{more than }1$，以及 $9/2=4.5$。\n它们的和为 $4.5 + (\\text{more than }1) + (\\text{a little}) = (\\text{more than }5.5) + (\\text{a little})$；所有选项都是整数，所以正确答案是 $\\boxed{\\textbf{(C) }6}$。"
+      "不必精确计算即可看出 $2/12=\\text{一点点}$、$12/9=\\text{多于 }1$，以及 $9/2=4.5$。\n它们的和为 $4.5 + (\\text{多于 }1) + (\\text{一点点}) = (\\text{多于 }5.5) + (\\text{一点点})$；所有选项都是整数，所以正确答案是 $\\boxed{\\textbf{(C) }6}$。"
     ],
     "tags": []
   },
@@ -188,7 +188,7 @@
       "B": "$\\ 3$",
       "C": "$\\ 6$",
       "D": "$\\ 9$",
-      "E": "$\\text{Not uniquely determined}$"
+      "E": "$\\text{不能唯一确定}$"
     },
     "answer": "B",
     "solutions": [
@@ -483,7 +483,7 @@
     },
     "answer": "C",
     "solutions": [
-      "列出前几项后，规律很容易看出：\n\n$\\begin{tabular}{|r|r|r|} \\hline \\#&\\text{Removed}&\\text{Left}\\\\ \\hline 1&10&90\\\\ 2&9&81\\\\ 3&9&72\\\\ 4&8&64\\\\ 5&8&56\\\\ 6&7&49\\\\ 7&7&42\\\\ 8&6&36\\\\ 9&6&30\\\\ 10&5&25\\\\ 11&5&20\\\\ 12&4&16\\\\ 13&4&12\\\\ 14&3&9\\\\ 15&3&6\\\\ 16&2&4\\\\ 17&2&2\\\\ 18&1&1\\\\ \\hline \\end{tabular}$\n\n因此答案为 $\\boxed{\\text{(C) } 18}$。",
+      "列出前几项后，规律很容易看出：\n\n$\\begin{tabular}{|r|r|r|} \\hline \\#&\\text{移除}&\\text{剩余}\\\\ \\hline 1&10&90\\\\ 2&9&81\\\\ 3&9&72\\\\ 4&8&64\\\\ 5&8&56\\\\ 6&7&49\\\\ 7&7&42\\\\ 8&6&36\\\\ 9&6&30\\\\ 10&5&25\\\\ 11&5&20\\\\ 12&4&16\\\\ 13&4&12\\\\ 14&3&9\\\\ 15&3&6\\\\ 16&2&4\\\\ 17&2&2\\\\ 18&1&1\\\\ \\hline \\end{tabular}$\n\n因此答案为 $\\boxed{\\text{(C) } 18}$。",
       "若有 $n^2$ 张牌，一次操作会移除 $n$ 张，剩下 $n^2 - n$ 张。由于 $(n-1)^2 = n^2 - n + (1-n) < n^2 - n < n^2$，下一次操作会移除 $n-1$ 张，于是剩下 $(n^2 - n) - (n-1) = n^2 - 2n + 1 = (n-1)^2$，它又是完全平方数。\n\n因此每两次操作就从一个完全平方数降到下一个完全平方数；经过 $(10-1)\\times 2 = 18$ 次操作后剩 $1$ 张牌，答案为 $\\boxed{\\text{(C) } 18}$。",
       "开始有 $100 = 10 \\cdot 10$ 个数。把这种操作记作 $P(x)$，操作一次后有 $100 - 10 = 90 = 10 \\cdot 9$。再做一次 $P(x)$，减去 $9$ 个数，得到 $9 \\cdot 9$。最终希望得到 $1 = 1 \\cdot 1$。可以说，$P(x)$ 一次把 $n \\cdot n$ 变成 $n \\cdot (n-1)$，所以从 $n \\cdot n$ 变成 $(n-1)(n-1)$ 需要两次。例如，从 $10 \\cdot 10$ 变到 $9 \\cdot 9$ 要做 $P(x)$ 共 $2$ 次；从 $9 \\cdot 9$ 变到 $8 \\cdot 8$ 也要做 $P(x)$ 共 $2$ 次。可以用 $7$ 和 $6$ 验证这一规律。若用 $n$ 表示起始数、$1$ 表示目标数，则要做 $P(x)$ 共 $2(n - 1)$ 次才能得到 $1 \\cdot 1$。将 $n$ 取为 $10$，得到 $2(10-1) = 2 \\cdot 9 = \\boxed{18}$。"
     ],
@@ -674,16 +674,16 @@
     "sourcePaper": "2002 AMC 10B · 第 6 题",
     "stem": "有多少个正整数 $n$，使 $n^2 - 3n + 2$ 为质数？",
     "options": {
-      "A": "$\\ \\text{none}$",
-      "B": "$\\ \\text{one}$",
-      "C": "$\\ \\text{two}$",
-      "D": "$\\ \\text{more\\ than\\ two,\\ but\\ finitely\\ many}$",
-      "E": "$\\ \\text{infinitely\\ many}$"
+      "A": "$\\ \\text{0 个}$",
+      "B": "$\\ \\text{1 个}$",
+      "C": "$\\ \\text{2 个}$",
+      "D": "$\\ \\text{多于两个，但有限个}$",
+      "E": "$\\ \\text{无穷多个}$"
     },
     "answer": "B",
     "solutions": [
-      "因式分解得 $n^2 - 3n + 2 = (n-2)(n-1)$。$n-1$ 与 $n-2$ 中一个为奇数、另一个为偶数，所以乘积必为偶数。唯一的偶质数是 $2$，此时 $n$ 为 $3$ 或 $0$。由于 $0$ 不是正数，答案为 $\\boxed{\\mathrm{(B)}\\ \\text{one}}$。",
-      "由奇偶性可知 $n^2 - 3n + 2$ 总是偶数。唯一的偶质数是 $2$，所以 $n^2-3n=0$，从而 $n=3\\Rightarrow\\boxed{\\mathrm{(B)}\\ \\text{one}}$。"
+      "因式分解得 $n^2 - 3n + 2 = (n-2)(n-1)$。$n-1$ 与 $n-2$ 中一个为奇数、另一个为偶数，所以乘积必为偶数。唯一的偶质数是 $2$，此时 $n$ 为 $3$ 或 $0$。由于 $0$ 不是正数，答案为 $\\boxed{\\mathrm{(B)}\\ \\text{1 个}}$。",
+      "由奇偶性可知 $n^2 - 3n + 2$ 总是偶数。唯一的偶质数是 $2$，所以 $n^2-3n=0$，从而 $n=3\\Rightarrow\\boxed{\\mathrm{(B)}\\ \\text{1 个}}$。"
     ],
     "tags": []
   },
@@ -693,7 +693,7 @@
     "grade": "AMC-10",
     "type": "单选题",
     "difficulty": "容易",
-    "sourcePaper": "2002 AMC 10B · 第 7 题",
+    "sourcePaper": "2002 AMC 10B · 第 7 题 | 2002 AMC 12B · 第 4 题",
     "stem": "设正整数 $n$ 使 $\\dfrac{1}{2}+\\dfrac{1}{3}+\\dfrac{1}{7}+\\dfrac{1}{n}$ 为整数。下列哪个说法不正确？",
     "options": {
       "A": "$2$ 整除 $n$",
@@ -853,7 +853,7 @@
     },
     "answer": "B",
     "solutions": [
-      "有\n\n$N=\\sqrt{\\left(5^{2}\\right)^{64} \\cdot\\left(2^{6}\\right)^{25}}=5^{64} \\cdot 2^{3 \\cdot 25}=(5 \\cdot 2)^{64} \\cdot 2^{11}=10^{64} \\cdot 2048=2048 \\underbrace{000 \\cdots 0}_{64 \\text{ digits }}.$\n末尾的 0 对数字和没有贡献，所以 $N$ 的各位数字之和为 $2+4+8=14$。\n\n答案：$\\boxed{B}$。"
+      "有\n\n$N=\\sqrt{\\left(5^{2}\\right)^{64} \\cdot\\left(2^{6}\\right)^{25}}=5^{64} \\cdot 2^{3 \\cdot 25}=(5 \\cdot 2)^{64} \\cdot 2^{11}=10^{64} \\cdot 2048=2048 \\underbrace{000 \\cdots 0}_{64 \\text{ 位数字 }}.$\n末尾的 0 对数字和没有贡献，所以 $N$ 的各位数字之和为 $2+4+8=14$。\n\n答案：$\\boxed{B}$。"
     ],
     "tags": []
   },
@@ -863,7 +863,7 @@
     "grade": "AMC-10",
     "type": "单选题",
     "difficulty": "一般",
-    "sourcePaper": "2002 AMC 10B · 第 15 题",
+    "sourcePaper": "2002 AMC 10B · 第 15 题 | 2002 AMC 12B · 第 11 题",
     "stem": "正整数 $A, B, A-B$ 和 $A+B$ 都是质数。这四个质数之和是",
     "options": {
       "A": "偶数",
@@ -997,7 +997,7 @@
     "grade": "AMC-10",
     "type": "单选题",
     "difficulty": "困难",
-    "sourcePaper": "2002 AMC 10B · 第 21 题",
+    "sourcePaper": "2002 AMC 10B · 第 21 题 | 2002 AMC 12B · 第 17 题",
     "stem": "Andy 的草坪面积是 Beth 草坪的两倍，也是 Carlos 草坪的三倍。Carlos 的割草机速度是 Beth 的一半、Andy 的三分之一。如果三人同时开始修剪各自的草坪，谁最先完成？",
     "options": {
       "A": "Andy",
@@ -1072,7 +1072,7 @@
     },
     "answer": "D",
     "solutions": [
-      "图中摩天轮中心为 $O$，乘客从 $A$ 运动到 $B$。由于 $A C=10$ 且 $O B=O A=20$，点 $C$ 是 $\\overline{O A}$ 的中点。在直角三角形 $\\triangle O C B$ 中，$O C$ 是斜边 $O B$ 的一半，所以 $m \\angle C O B=60^{\\circ}$。摩天轮在 $60$ 秒内转过 $360^{\\circ}$，因此转过 $60^{\\circ}$ 所需时间为\n\n$60\\left(\\dfrac{60}{360}\\right)=10 \\text{ seconds. }$\n\n[Figure: /question-assets/source/amc/4c72ed2fc8497af1f7d6b120b3f6cd7af0e9ec24346c9707b114a32275b204ce.jpg]\n\n答案：$\\boxed{D}$。"
+      "图中摩天轮中心为 $O$，乘客从 $A$ 运动到 $B$。由于 $A C=10$ 且 $O B=O A=20$，点 $C$ 是 $\\overline{O A}$ 的中点。在直角三角形 $\\triangle O C B$ 中，$O C$ 是斜边 $O B$ 的一半，所以 $m \\angle C O B=60^{\\circ}$。摩天轮在 $60$ 秒内转过 $360^{\\circ}$，因此转过 $60^{\\circ}$ 所需时间为\n\n$60\\left(\\dfrac{60}{360}\\right)=10 \\text{ 秒。}$\n\n[Figure: /question-assets/source/amc/4c72ed2fc8497af1f7d6b120b3f6cd7af0e9ec24346c9707b114a32275b204ce.jpg]\n\n答案：$\\boxed{D}$。"
     ],
     "tags": []
   },
@@ -1351,8 +1351,8 @@
     },
     "answer": "C",
     "solutions": [
-      "逐一检查 $\\text{I., II., III.,}$、$\\text{IV.}$。由于 $f_n=x^n,$ 且 $f_{2002}(a)=a^{2002},$，符合的式子必须等于 $a^{2002}.$。\n\n$\\text{I. } (f_{11}(a)f_{13}(a))^{14}$\n\n$(f_{11}(a)f_{13}(a))^{14} =(a^{11}a^{13})^{14} = (a^{24})^14 = a^{336} \\neq a^{2002}$\n\n$\\text{II. } f_{11}(a)f_{13}(a)f_{14}(a)$\n\n$f_{11}(a)f_{13}(a)f_{14}(a) =a^{11}a^{13}a^{14} =a^{38} \\neq a^{2002}$\n\n$\\text{III. } (f_{11}(f_{13}(a)))^{14}$\n\n$(f_{11}(f_{13}(a)))^{14} =((a^{13})^{11})^{14} =a^{13 \\cdot 11 \\cdot 14} =a^{2002}$\n\n$\\text{IV. } f_{11}(f_{13}(f_{14}(a)))$\n\n$f_{11}(f_{13}(f_{14}(a))) =((a^{14})^{13})^{11} =a^{14 \\cdot 13 \\cdot 11} =a^{2002}$\n\n所以答案为 $\\boxed{\\textbf{(C) }\\text{ III and IV only}}.$。",
-      "还可以更快判断。除 $\\text{(C)}$ 外，所有选项都含 $\\text{II}.$。因此只需证明 $\\text{II}.$ 不成立。与解法一相同，直接看出：\n\n$\\text{II. } f_{11}(a)f_{13}(a)f_{14}(a)$\n\n$f_{11}(a)f_{13}(a)f_{14}(a) =a^{11}a^{13}a^{14} =a^{38} \\neq a^{2002}$\n\n由排除法，答案为 $\\boxed{\\textbf{(C) }\\text{ III and IV only}}.$。"
+      "逐一检查 $\\text{I., II., III.,}$、$\\text{IV.}$。由于 $f_n=x^n,$ 且 $f_{2002}(a)=a^{2002},$，符合的式子必须等于 $a^{2002}.$。\n\n$\\text{I. } (f_{11}(a)f_{13}(a))^{14}$\n\n$(f_{11}(a)f_{13}(a))^{14} =(a^{11}a^{13})^{14} = (a^{24})^14 = a^{336} \\neq a^{2002}$\n\n$\\text{II. } f_{11}(a)f_{13}(a)f_{14}(a)$\n\n$f_{11}(a)f_{13}(a)f_{14}(a) =a^{11}a^{13}a^{14} =a^{38} \\neq a^{2002}$\n\n$\\text{III. } (f_{11}(f_{13}(a)))^{14}$\n\n$(f_{11}(f_{13}(a)))^{14} =((a^{13})^{11})^{14} =a^{13 \\cdot 11 \\cdot 14} =a^{2002}$\n\n$\\text{IV. } f_{11}(f_{13}(f_{14}(a)))$\n\n$f_{11}(f_{13}(f_{14}(a))) =((a^{14})^{13})^{11} =a^{14 \\cdot 13 \\cdot 11} =a^{2002}$\n\n所以答案为 $\\boxed{\\textbf{(C) }\\text{ 仅 III 和 IV}}.$。",
+      "还可以更快判断。除 $\\text{(C)}$ 外，所有选项都含 $\\text{II}.$。因此只需证明 $\\text{II}.$ 不成立。与解法一相同，直接看出：\n\n$\\text{II. } f_{11}(a)f_{13}(a)f_{14}(a)$\n\n$f_{11}(a)f_{13}(a)f_{14}(a) =a^{11}a^{13}a^{14} =a^{38} \\neq a^{2002}$\n\n由排除法，答案为 $\\boxed{\\textbf{(C) }\\text{ 仅 III 和 IV}}.$。"
     ],
     "tags": []
   },
@@ -1738,7 +1738,7 @@
     },
     "answer": "B",
     "solutions": [
-      "因为\n\n$0=2 x^{2}+3 x-5=(2 x+5)(x-1) \\quad \\text{ we have } \\quad d=-\\dfrac{5}{2} \\text{ 和 } e=1.$\n所以 $(d-1)(e-1)=0$。\n\n$\\textbf{或}$\n若 $x=d$、$x=e$ 是二次方程 $a x^{2}+b x+c=0$ 的根，则\n\n$d e=\\dfrac{c}{a} \\quad \\text{ 和 } \\quad d+e=-\\dfrac{b}{a}.$\n对本题方程，这说明\n\n$(d-1)(e-1)=d e-(d+e)+1=-\\dfrac{5}{2}-\\left(-\\dfrac{3}{2}\\right)+1=0.$\n答案：$\\boxed{B}$。"
+      "因为\n\n$0=2 x^{2}+3 x-5=(2 x+5)(x-1) \\quad \\text{ 可得 } \\quad d=-\\dfrac{5}{2} \\text{ 和 } e=1.$\n所以 $(d-1)(e-1)=0$。\n\n$\\textbf{或}$\n若 $x=d$、$x=e$ 是二次方程 $a x^{2}+b x+c=0$ 的根，则\n\n$d e=\\dfrac{c}{a} \\quad \\text{ 和 } \\quad d+e=-\\dfrac{b}{a}.$\n对本题方程，这说明\n\n$(d-1)(e-1)=d e-(d+e)+1=-\\dfrac{5}{2}-\\left(-\\dfrac{3}{2}\\right)+1=0.$\n答案：$\\boxed{B}$。"
     ],
     "tags": []
   },
@@ -1748,7 +1748,7 @@
     "grade": "AMC-10",
     "type": "单选题",
     "difficulty": "容易",
-    "sourcePaper": "2003 AMC 10A · 第 6 题",
+    "sourcePaper": "2003 AMC 10A · 第 6 题 | 2003 AMC 12A · 第 6 题",
     "stem": "对所有实数 $x$、$y$，定义 $x \\heartsuit y$ 为 $|x-y|$。下列哪个说法不正确？",
     "options": {
       "A": "对所有 $x$、$y$，$x \\heartsuit y=y \\heartsuit x$",
@@ -1801,7 +1801,7 @@
     },
     "answer": "E",
     "solutions": [
-      "$60$ 的正因数为\n\n$1,2,3,4,5,6,10,12,15,20,30 \\text{, and } 60.$\n十二个因数中有六个小于 $7$，所以概率为 $1 / 2$。\n\n答案：$\\boxed{E}$。"
+      "$60$ 的正因数为\n\n$1,2,3,4,5,6,10,12,15,20,30 \\text{，且 } 60.$\n十二个因数中有六个小于 $7$，所以概率为 $1 / 2$。\n\n答案：$\\boxed{E}$。"
     ],
     "tags": []
   },
@@ -2013,7 +2013,7 @@
     },
     "answer": "B",
     "solutions": [
-      "令 $a=2003 / 2004$，原方程等价于\n\n$a x^{2}+x+1=0.$\n若两根为 $r$、$s$，则\n\n$r s=\\dfrac{1}{a} \\quad \\text{ 和 } \\quad r+s=-\\dfrac{1}{a},$\n所以\n\n$\\dfrac{1}{r}+\\dfrac{1}{s}=\\dfrac{r+s}{r s}= -1.$\n$\\textbf{或}$\n也可将 $x$ 替换为 $1 / y$，则新方程的根是原方程根的倒数。新方程为\n\n$\\dfrac{2003}{2004 y}+1+y=0 \\quad \\text{ which is equivalent to } \\quad y^{2}+y+\\dfrac{2003}{2004}=0.$\n其根之和是 $y$ 项系数的相反数，即 $-1$。\n\n答案：$\\boxed{B}$。"
+      "令 $a=2003 / 2004$，原方程等价于\n\n$a x^{2}+x+1=0.$\n若两根为 $r$、$s$，则\n\n$r s=\\dfrac{1}{a} \\quad \\text{ 和 } \\quad r+s=-\\dfrac{1}{a},$\n所以\n\n$\\dfrac{1}{r}+\\dfrac{1}{s}=\\dfrac{r+s}{r s}= -1.$\n$\\textbf{或}$\n也可将 $x$ 替换为 $1 / y$，则新方程的根是原方程根的倒数。新方程为\n\n$\\dfrac{2003}{2004 y}+1+y=0 \\quad \\text{ 这等价于 } \\quad y^{2}+y+\\dfrac{2003}{2004}=0.$\n其根之和是 $y$ 项系数的相反数，即 $-1$。\n\n答案：$\\boxed{B}$。"
     ],
     "tags": []
   },
@@ -2118,7 +2118,7 @@
     },
     "answer": "C",
     "solutions": [
-      "大等边三角形的底行有 $1001$ 个向下的三角形和 $1002$ 个向上的三角形。向下三角形不需要额外牙签，所以底行需要 $3(1002)$ 根。往上每一行少一组 $3$ 根，因此总数为\n\n$3(1002+1001+1000+\\cdots+2+1)=3 \\cdot \\dfrac{1002 \\cdot 1003}{2}= 1,507,509.$\n$\\textbf{或}$\n也可列表：\n\n$\\begin{array}{c|c|c} \\text{Number of Rows} & \\text{Number of Triangles} & \\text{Number of Toothpicks} \\\\ & \\text{in Base Row} & \\text{in All Rows} \\\\ \\hline 1 & 1 & 3 \\\\ 2 & 3 & 3+6 \\\\ 3 & 5 & 3+6+9 \\\\ \\ \\ \\ \\vdots & \\ \\ \\ \\vdots & \\ \\ \\ \\vdots \\\\ n & 2n-1 & 3(1+2+\\cdots+n) \\end{array}$\n所以\n\n$2003=2 n-1 \\quad \\text{ so } \\quad n=1002.$\n牙签数为\n\n$3(1+2+\\cdots+1002)=3 \\dfrac{(1002)(1003)}{2}= 1,507,509.$\n答案：$\\boxed{C}$。"
+      "大等边三角形的底行有 $1001$ 个向下的三角形和 $1002$ 个向上的三角形。向下三角形不需要额外牙签，所以底行需要 $3(1002)$ 根。往上每一行少一组 $3$ 根，因此总数为\n\n$3(1002+1001+1000+\\cdots+2+1)=3 \\cdot \\dfrac{1002 \\cdot 1003}{2}= 1,507,509.$\n$\\textbf{或}$\n也可列表：\n\n$\\begin{array}{c|c|c} \\text{行数} & \\text{三角形数} & \\text{牙签数} \\\\ & \\text{底行} & \\text{所有行总计} \\\\ \\hline 1 & 1 & 3 \\\\ 2 & 3 & 3+6 \\\\ 3 & 5 & 3+6+9 \\\\ \\ \\ \\ \\vdots & \\ \\ \\ \\vdots & \\ \\ \\ \\vdots \\\\ n & 2n-1 & 3(1+2+\\cdots+n) \\end{array}$\n所以\n\n$2003=2 n-1 \\quad \\text{ so } \\quad n=1002.$\n牙签数为\n\n$3(1+2+\\cdots+1002)=3 \\dfrac{(1002)(1003)}{2}= 1,507,509.$\n答案：$\\boxed{C}$。"
     ],
     "tags": []
   },
@@ -2287,7 +2287,7 @@
     },
     "answer": "D",
     "solutions": [
-      "高度、水平长度与对角线之比为 $3: 4: 5$。对角线长为 $27$，所以水平长度为\n\n$\\dfrac{4}{5}(27)=21.6 \\text{ inches. }$\n答案：$\\boxed{D}$。"
+      "高度、水平长度与对角线之比为 $3: 4: 5$。对角线长为 $27$，所以水平长度为\n\n$\\dfrac{4}{5}(27)=21.6 \\text{ 英寸。}$\n答案：$\\boxed{D}$。"
     ],
     "tags": []
   },
@@ -2476,7 +2476,7 @@
     },
     "answer": "E",
     "solutions": [
-      "第一轮淘汰 $100-64=36$ 人，每场淘汰一人。第二轮有 $32$ 场，第三轮 $16$ 场，随后依次有 $8,4,2$、$1$ 场。总场数为\n\n$36+32+16+8+4+2+1=99$\n注意 $99$ $\\text{divisible by 11}$，但 $99$ 不满足其他选项所述条件。\n\n$\\textbf{或}$\n也可注意每场恰淘汰一人。共有 $100$ 名选手，除冠军外都被淘汰，所以必有 $99$ 场。\n\n答案：$\\boxed{E}$。"
+      "第一轮淘汰 $100-64=36$ 人，每场淘汰一人。第二轮有 $32$ 场，第三轮 $16$ 场，随后依次有 $8,4,2$、$1$ 场。总场数为\n\n$36+32+16+8+4+2+1=99$\n注意 $99$ $\\text{能被 11 整除}$，但 $99$ 不满足其他选项所述条件。\n\n$\\textbf{或}$\n也可注意每场恰淘汰一人。共有 $100$ 名选手，除冠军外都被淘汰，所以必有 $99$ 场。\n\n答案：$\\boxed{E}$。"
     ],
     "tags": []
   },
@@ -2623,7 +2623,7 @@
     },
     "answer": "B",
     "solutions": [
-      "任意十二小时内，半点钟声有 $12$ 次，整点钟声有 $1+2+3+\\ldots+$$12=78$ 次，所以十二小时共 $90$ 次。$2003$ 除以 $90$ 的商为 $22.2 \\overline{5}$。因此第 $2003^{\\text{rd }}$ 次钟声在略多于 $11$ 天后，即 $\\text{March } 9$ 出现。\n\n答案：$\\boxed{B}$。"
+      "任意十二小时内，半点钟声有 $12$ 次，整点钟声有 $1+2+3+\\ldots+$$12=78$ 次，所以十二小时共 $90$ 次。$2003$ 除以 $90$ 的商为 $22.2 \\overline{5}$。因此第 $2003^{\\text{rd }}$ 次钟声在略多于 $11$ 天后，即 $\\text{3月} 9$ 出现。\n\n答案：$\\boxed{B}$。"
     ],
     "tags": []
   },
@@ -2665,7 +2665,7 @@
     },
     "answer": "E",
     "solutions": [
-      "前两项之差为 $-2 y$，所以第三、第四项应为 $x-3 y$、$x-5 y$。因此\n\n$x-3 y=x y \\quad \\text{ 和 } \\quad x-5 y=\\dfrac{x}{y}$\n所以 $x y-5 y^{2}=x$。合并这些等式得\n\n$(x-3 y)-5 y^{2}=x \\quad \\text{ and, therefore, } \\quad-3 y-5 y^{2}=0$\n由于 $y$ 不能为 $0$，有 $y=-3 / 5$，从而 $x=-9 / 8$。第五项为 $x-7 y= 123 / 40$。\n\n答案：$\\boxed{E}$。"
+      "前两项之差为 $-2 y$，所以第三、第四项应为 $x-3 y$、$x-5 y$。因此\n\n$x-3 y=x y \\quad \\text{ 和 } \\quad x-5 y=\\dfrac{x}{y}$\n所以 $x y-5 y^{2}=x$。合并这些等式得\n\n$(x-3 y)-5 y^{2}=x \\quad \\text{ 因此，} \\quad-3 y-5 y^{2}=0$\n由于 $y$ 不能为 $0$，有 $y=-3 / 5$，从而 $x=-9 / 8$。第五项为 $x-7 y= 123 / 40$。\n\n答案：$\\boxed{E}$。"
     ],
     "tags": []
   },
@@ -2897,7 +2897,7 @@
     },
     "answer": "D",
     "solutions": [
-      "当 $A$、$B$ 都出现 $0,1,2$ 或 $3$ 次正面时，条件成立，各概率见表：\n\n$\\begin{array}{ccccc} \\text{Heads} & 0 & 1 & 2 & 3 \\\\ \\hline \\\\ A & \\dfrac{1}{8} & \\dfrac{3}{8} & \\dfrac{3}{8} & \\dfrac{1}{8} \\\\ \\\\ \\hline \\\\ B & \\dfrac{1}{16} & \\dfrac{4}{16} & \\dfrac{6}{16} & \\dfrac{4}{16} \\\\ \\\\ \\hline \\end{array}$\n两枚硬币正面次数相同的概率为\n\n$\\dfrac{1}{8} \\cdot \\dfrac{1}{16}+\\dfrac{3}{8} \\cdot \\dfrac{4}{16}+\\dfrac{3}{8} \\cdot \\dfrac{6}{16}+\\dfrac{1}{8} \\cdot \\dfrac{4}{16}=\\dfrac{35}{128}$\n答案：$\\boxed{D}$。"
+      "当 $A$、$B$ 都出现 $0,1,2$ 或 $3$ 次正面时，条件成立，各概率见表：\n\n$\\begin{array}{ccccc} \\text{正面} & 0 & 1 & 2 & 3 \\\\ \\hline \\\\ A & \\dfrac{1}{8} & \\dfrac{3}{8} & \\dfrac{3}{8} & \\dfrac{1}{8} \\\\ \\\\ \\hline \\\\ B & \\dfrac{1}{16} & \\dfrac{4}{16} & \\dfrac{6}{16} & \\dfrac{4}{16} \\\\ \\\\ \\hline \\end{array}$\n两枚硬币正面次数相同的概率为\n\n$\\dfrac{1}{8} \\cdot \\dfrac{1}{16}+\\dfrac{3}{8} \\cdot \\dfrac{4}{16}+\\dfrac{3}{8} \\cdot \\dfrac{6}{16}+\\dfrac{1}{8} \\cdot \\dfrac{4}{16}=\\dfrac{35}{128}$\n答案：$\\boxed{D}$。"
     ],
     "tags": []
   },
@@ -3339,7 +3339,7 @@
     },
     "answer": "C",
     "solutions": [
-      "对 $m<n$，有\n\n$m ! \\cdot n !=(m !)^{2} \\cdot (m+1) \\cdot (m+2) \\cdots \\cdot \\cdot n$\n所以 $m ! \\cdot n !$ 是完全平方数，当且仅当\n\n$(m+1) \\cdot (m+2) \\cdots \\cdot \\cdot n$\n是完全平方数。五个选项对应的这一部分分别为\n\n$99,99 \\cdot 100,100,100 \\cdot 101 \\text{, and 101, }$\n其中只有 $100$ 是完全平方数。因此答案为 $99 ! \\cdot 100 !$。\n\n答案：$\\boxed{C}$。"
+      "对 $m<n$，有\n\n$m ! \\cdot n !=(m !)^{2} \\cdot (m+1) \\cdot (m+2) \\cdots \\cdot \\cdot n$\n所以 $m ! \\cdot n !$ 是完全平方数，当且仅当\n\n$(m+1) \\cdot (m+2) \\cdots \\cdot \\cdot n$\n是完全平方数。五个选项对应的这一部分分别为\n\n$99,99 \\cdot 100,100,100 \\cdot 101 \\text{，以及 101，}$\n其中只有 $100$ 是完全平方数。因此答案为 $99 ! \\cdot 100 !$。\n\n答案：$\\boxed{C}$。"
     ],
     "tags": []
   },
@@ -3528,7 +3528,7 @@
     },
     "answer": "A",
     "solutions": [
-      "交换两种硬币后总值增加，说明 5 美分硬币多于 10 美分硬币。每将一枚 5 美分换成 10 美分，总值增加 $5$ 美分，所以 5 美分硬币比 10 美分多 $70 / 5=14$ 枚。因此她有\n\n$\\dfrac{1}{2}(20 -14)=3 \\quad \\text{ dimes } \\quad \\text{ 和 } \\quad 20 - 3=17 \\text{ nickels }$\n硬币总值为 $3 \\cdot10+17 \\cdot 5=115$ 美分，$=\\$ 1.15$。\n\n答案：$\\boxed{A}$。"
+      "交换两种硬币后总值增加，说明 5 美分硬币多于 10 美分硬币。每将一枚 5 美分换成 10 美分，总值增加 $5$ 美分，所以 5 美分硬币比 10 美分多 $70 / 5=14$ 枚。因此她有\n\n$\\dfrac{1}{2}(20 -14)=3 \\quad \\text{ 枚 10 美分硬币 } \\quad \\text{ 和 } \\quad 20 - 3=17 \\text{ 枚 5 美分硬币 }$\n硬币总值为 $3 \\cdot10+17 \\cdot 5=115$ 美分，$=\\$ 1.15$。\n\n答案：$\\boxed{A}$。"
     ],
     "tags": []
   },
@@ -4144,7 +4144,7 @@
     },
     "answer": "D",
     "solutions": [
-      "考察图中的旋转正方形，它会下降到 $D E$ 长为 $1$ 英寸。于是\n\n$F C=D F=F E=\\dfrac{1}{2} \\quad \\text{ 和 } \\quad B C=\\sqrt{2}$\n所以 $B F=\\sqrt{2}-1 / 2$。再加上支撑正方形的 $1$ 英寸高度，点 $B$ 到直线的总高度为\n\n$1+B F= \\sqrt{2}+ \\dfrac{1}{2} \\text{ inches. }$\n\n[Figure: /question-assets/source/amc/280772e039c0d13fafa29b51849e626df49aa7fd76657afa8625a69a0d8e6976.jpg]\n\n答案：$\\boxed{D}$。"
+      "考察图中的旋转正方形，它会下降到 $D E$ 长为 $1$ 英寸。于是\n\n$F C=D F=F E=\\dfrac{1}{2} \\quad \\text{ 和 } \\quad B C=\\sqrt{2}$\n所以 $B F=\\sqrt{2}-1 / 2$。再加上支撑正方形的 $1$ 英寸高度，点 $B$ 到直线的总高度为\n\n$1+B F= \\sqrt{2}+ \\dfrac{1}{2} \\text{ 英寸。}$\n\n[Figure: /question-assets/source/amc/280772e039c0d13fafa29b51849e626df49aa7fd76657afa8625a69a0d8e6976.jpg]\n\n答案：$\\boxed{D}$。"
     ],
     "tags": []
   },
@@ -4186,7 +4186,7 @@
     },
     "answer": "B",
     "solutions": [
-      "因为\n\n$1+2+\\cdots+n=\\dfrac{n(n+1)}{2}$\n$1+2+\\cdots+n$ 整除正整数 $6 n$，当且仅当\n\n$\\dfrac{6 n}{n(n+1) / 2}=\\dfrac{12}{n+1} \\text{ is an integer. }$\n这样的正整数 $n$ 有 $5$ 个，即 $1,2,3,5$、$11$。\n\n答案：$\\boxed{B}$。"
+      "因为\n\n$1+2+\\cdots+n=\\dfrac{n(n+1)}{2}$\n$1+2+\\cdots+n$ 整除正整数 $6 n$，当且仅当\n\n$\\dfrac{6 n}{n(n+1) / 2}=\\dfrac{12}{n+1} \\text{ 是整数。}$\n这样的正整数 $n$ 有 $5$ 个，即 $1,2,3,5$、$11$。\n\n答案：$\\boxed{B}$。"
     ],
     "tags": []
   },
@@ -4566,7 +4566,7 @@
     },
     "answer": "C",
     "solutions": [
-      "作 $\\overline{M Q}$ 垂直于 $\\overline{B C}$。那么 $\\triangle M Q C$ 是一个 $30-60-90^{\\circ}$ 三角形，所以 $M Q=\\sqrt{3} / 2$，从而 $\\triangle C D M$ 的面积为\n\n$\\dfrac{1}{2}\\left(2 \\cdot \\dfrac{\\sqrt{3}}{2}\\right)= (\\text{C})\\boxed{\\dfrac{\\sqrt{3}}{2}}$\n$\\textbf{或}$\n三角形 $A B C$ 与 $C D M$ 的底边相等。因为 $M$ 是 $\\overline{A C}$ 的中点，从 $M$ 和 $A$ 向这两条底边所作高之比为 $1 / 2$。因此 $\\triangle C D M$ 的面积是 $\\triangle A B C$ 面积的一半。又因为\n\n$\\operatorname{Area}(\\triangle A B C)=\\dfrac{\\sqrt{3}}{4} \\cdot 2^{2}=\\sqrt{3}, \\quad \\text{ we have } \\quad \\operatorname{Area}(\\triangle C D M)= \\dfrac{\\sqrt{3}}{2}$\n\n答案：$\\boxed{C}$。"
+      "作 $\\overline{M Q}$ 垂直于 $\\overline{B C}$。那么 $\\triangle M Q C$ 是一个 $30-60-90^{\\circ}$ 三角形，所以 $M Q=\\sqrt{3} / 2$，从而 $\\triangle C D M$ 的面积为\n\n$\\dfrac{1}{2}\\left(2 \\cdot \\dfrac{\\sqrt{3}}{2}\\right)= (\\text{C})\\boxed{\\dfrac{\\sqrt{3}}{2}}$\n$\\textbf{或}$\n三角形 $A B C$ 与 $C D M$ 的底边相等。因为 $M$ 是 $\\overline{A C}$ 的中点，从 $M$ 和 $A$ 向这两条底边所作高之比为 $1 / 2$。因此 $\\triangle C D M$ 的面积是 $\\triangle A B C$ 面积的一半。又因为\n\n$\\operatorname{Area}(\\triangle A B C)=\\dfrac{\\sqrt{3}}{4} \\cdot 2^{2}=\\sqrt{3}, \\quad \\text{ 可得 } \\quad \\operatorname{Area}(\\triangle C D M)= \\dfrac{\\sqrt{3}}{2}$\n\n答案：$\\boxed{C}$。"
     ],
     "tags": []
   },
@@ -4828,14 +4828,14 @@
     "grade": "AMC-10",
     "type": "单选题",
     "difficulty": "容易",
-    "sourcePaper": "2006 AMC 10A · 第 2 题",
+    "sourcePaper": "2006 AMC 10A · 第 2 题 | 2006 AMC 12A · 第 2 题",
     "stem": "定义 $x \\otimes y=x^{3}-y$。求 $h \\otimes(h \\otimes h)?$",
     "options": {
       "A": "$-h$",
       "B": "$0$",
       "C": "$h$",
       "D": "$2 h$",
-      "E": "h^"
+      "E": "$h^{3}$"
     },
     "answer": "C",
     "solutions": [
@@ -5031,7 +5031,7 @@
     },
     "answer": "C",
     "solutions": [
-      "方程 $(x+y)^{2}=x^{2}+y^{2}$ 等价于 $x^{2}+2 x y+y^{2}=x^{2}+y^{2}$，化简得 $x y=0$。因此其图像由作为坐标轴的 $(\\text{C})\\boxed{\\text{two lines}}$ 组成。",
+      "方程 $(x+y)^{2}=x^{2}+y^{2}$ 等价于 $x^{2}+2 x y+y^{2}=x^{2}+y^{2}$，化简得 $x y=0$。因此其图像由作为坐标轴的 $(\\text{C})\\boxed{\\text{两条直线}}$ 组成。",
       "方程 $(x+y)^{2}=x^{2}+y^{2}$ 等价于 $x^{2}+2 x y+y^{2}=x^{2}+y^{2}$，化简得 $x y=0$。因此其图像由作为坐标轴的 $\\boxed{two \\quad lines}$ 组成。"
     ],
     "tags": []
@@ -5117,7 +5117,7 @@
     "answer": "D",
     "solutions": [
       "先求 Odell 和 Kershaw 再次相遇所需的分钟数 $k$。设从出发点到首次相遇点沿逆时针方向量得的圆心角为 $a$ 弧度。\n\n此时 Kershaw 跑了 $300k$ 米，而他的跑道周长为 $120\\pi$，所以 $a=\\frac{300k}{120\\pi}\\cdot 2\\pi$。同理，Odell 沿反方向跑了 $250k$ 米，跑道周长为 $100\\pi$，故 $2\\pi-a=\\frac{250k}{100\\pi}\\cdot{2\\pi}$。\n\n从第二个方程解出 $a$，得 $a=2\\pi-\\frac{250k}{100\\pi}\\cdot 2\\pi$。代入第一个方程，有 $\\frac{300k}{120\\pi}\\cdot 2\\pi=2\\pi-\\frac{250k}{100\\pi}\\cdot 2\\pi$。解 $k$ 得 $k=\\frac{\\pi}{5}$。经过 $k$ 分钟，两人回到同样的相对位置，只是整体转过了一个角度，因此再过 $k$ 分钟又会相遇。相遇总次数为 $\\lfloor\\frac{30}{k}\\rfloor=\\lfloor\\frac{150}{\\pi}\\rfloor=\\boxed{\\textbf{(D) }47}$。",
-      "Odell 的速度是 Kershaw 的 $5/6$，而 Kershaw 每圈的路程是 Odell 的 $6/5$，所以两人跑一圈所需时间相同。于是每当他们各跑一圈时会相遇两次。Odell 跑过 $(30 \\ \\text{min})\\left(250\\frac{\\text{m}}{\\text{min}}\\right)\\left(\\frac{1}{100\\pi}\\frac{\\text{laps}}{\\text{m}}\\right)= \\frac{75}{\\pi}\\,\\text{laps}\\approx 23.87\\ \\text{laps},$，Kershaw 也是如此。因为 $23.5 < 23.87 < 24$，所以两人共相遇 $2(23.5)=\\boxed{47}$ 次。"
+      "Odell 的速度是 Kershaw 的 $5/6$，而 Kershaw 每圈的路程是 Odell 的 $6/5$，所以两人跑一圈所需时间相同。于是每当他们各跑一圈时会相遇两次。Odell 跑过 $(30 \\ \\text{min})\\left(250\\frac{\\text{m}}{\\text{min}}\\right)\\left(\\frac{1}{100\\pi}\\frac{\\text{圈}}{\\text{m}}\\right)= \\frac{75}{\\pi}\\,\\text{圈}\\approx 23.87\\ \\text{圈},$，Kershaw 也是如此。因为 $23.5 < 23.87 < 24$，所以两人共相遇 $2(23.5)=\\boxed{47}$ 次。"
     ],
     "tags": []
   },
@@ -5201,7 +5201,7 @@
     },
     "answer": "C",
     "solutions": [
-      "设三角形三个角为 $n-d, n$、$n+d$。则\n\n$180=n-d+n+n+d=3 n, \\quad \\text{ so } \\quad n=60$\n\n因为三角形任意两角的度数之和小于 $180$，所以\n\n$180>n+(n+d)=120+d, \\quad \\text{ which implies that } 0<d<60 \\text{. }$\n\n满足条件的三角形共有 $(\\text{C})\\boxed{59}$ 个。"
+      "设三角形三个角为 $n-d, n$、$n+d$。则\n\n$180=n-d+n+n+d=3 n, \\quad \\text{ so } \\quad n=60$\n\n因为三角形任意两角的度数之和小于 $180$，所以\n\n$180>n+(n+d)=120+d, \\quad \\text{ 由此可得 } 0<d<60 \\text{. }$\n\n满足条件的三角形共有 $(\\text{C})\\boxed{59}$ 个。"
     ],
     "tags": []
   },
@@ -5523,7 +5523,7 @@
     },
     "answer": "B",
     "solutions": [
-      "Francesca 所制柠檬水的热量与质量之比为\n\n$\\frac{25+386+0}{100+100+400}=\\frac{411\\textrm{ calories}}{600\\textrm{ grams}}=\\frac{137\\textrm{ calories}}{200\\textrm{ grams}}$\n\n所以 $200\\textrm{ grams}$ 柠檬水含有\n\n$200\\textrm{ grams}\\cdot\\frac{137\\textrm{ calories}}{200\\textrm{ grams}}=\\boxed{\\textbf{(B) }137\\textrm{ calories}}.$"
+      "Francesca 所制柠檬水的热量与质量之比为\n\n$\\frac{25+386+0}{100+100+400}=\\frac{411\\textrm{ 卡路里}}{600\\textrm{ 克}}=\\frac{137\\textrm{ 卡路里}}{200\\textrm{ 克}}$\n\n所以 $200\\textrm{ 克}$ 柠檬水含有\n\n$200\\textrm{ 克}\\cdot\\frac{137\\textrm{ 卡路里}}{200\\textrm{ 克}}=\\boxed{\\textbf{(B) }137\\textrm{ 卡路里}}.$"
     ],
     "tags": []
   },
@@ -5586,7 +5586,7 @@
     },
     "answer": "E",
     "solutions": [
-      "把 $x=1$、$y=2$ 代入方程，得到\n\n$1=\\dfrac{2}{4}+a \\quad \\text{ 和 } \\quad 2=\\dfrac{1}{4}+b$\n\n于是\n\n$a+b=\\left(1-\\dfrac{2}{4}\\right)+\\left(2-\\dfrac{1}{4}\\right)=3-\\dfrac{3}{4}=(\\text{E})\\boxed{\\dfrac{9}{4}}$\n\n$\\textbf{或}$\n\n因为\n\n$a=x-\\dfrac{y}{4} \\quad \\text{ 和 } \\quad b=y-\\dfrac{x}{4} \\quad \\text{ we have } \\quad a+b=\\dfrac{3}{4}(x+y) .$\n\n当 $x=1$、$y=2$ 时，可得 $a+b=\\dfrac{3}{4}(1+2)= (\\text{E})\\boxed{\\dfrac{9}{4}}$。"
+      "把 $x=1$、$y=2$ 代入方程，得到\n\n$1=\\dfrac{2}{4}+a \\quad \\text{ 和 } \\quad 2=\\dfrac{1}{4}+b$\n\n于是\n\n$a+b=\\left(1-\\dfrac{2}{4}\\right)+\\left(2-\\dfrac{1}{4}\\right)=3-\\dfrac{3}{4}=(\\text{E})\\boxed{\\dfrac{9}{4}}$\n\n$\\textbf{或}$\n\n因为\n\n$a=x-\\dfrac{y}{4} \\quad \\text{ 和 } \\quad b=y-\\dfrac{x}{4} \\quad \\text{ 可得 } \\quad a+b=\\dfrac{3}{4}(x+y) .$\n\n当 $x=1$、$y=2$ 时，可得 $a+b=\\dfrac{3}{4}(1+2)= (\\text{E})\\boxed{\\dfrac{9}{4}}$。"
     ],
     "tags": []
   },
@@ -5671,8 +5671,8 @@
     },
     "answer": "E",
     "solutions": [
-      "一年有 $365$ 天；若有闰日则多 $1$ 天。闰年通常是 $4$ 的倍数，本题不涉及例外情形。\n\n因此从 $2004$ 年闰日到 $2020$ 年闰日相隔的天数为\n\n$16 \\cdot 365 + 4 \\cdot 1 = 5844$\n\n星期每 $7$ 天循环一次，而 $5844 \\equiv -1 \\bmod{7}$，所以 $2020$ 年闰日的星期比 $2004$ 年闰日早一天，即 $\\boxed{\\textbf{(E) }\\textrm{Saturday}}$。",
-      "每个平年包含 $52$ 个完整星期后还多一天。因此若向后经过 $x$ 个平年，星期将从“星期日”向后移动 $x$ 天。\n\n但这段时间内还包含闰年，每经过一个闰年，除 52 个完整星期外会多两天，所以相当于从星期日向后移动 $2x$ 天。\n\n综合起来，这段时间有 $4$ 个闰年 $(2008, 2012, 2016, 2020)$，以及 $12$ 个平年，因此共有 $12 + 2\\cdot 4 = 20$ 个“多出的天数”。因为一周有七天，$20 \\bmod{7} \\equiv 6$，星期日之后六天是 $\\boxed{\\textbf{(E) }\\textrm{Saturday}}$。"
+      "一年有 $365$ 天；若有闰日则多 $1$ 天。闰年通常是 $4$ 的倍数，本题不涉及例外情形。\n\n因此从 $2004$ 年闰日到 $2020$ 年闰日相隔的天数为\n\n$16 \\cdot 365 + 4 \\cdot 1 = 5844$\n\n星期每 $7$ 天循环一次，而 $5844 \\equiv -1 \\bmod{7}$，所以 $2020$ 年闰日的星期比 $2004$ 年闰日早一天，即 $\\boxed{\\textbf{(E) }\\textrm{星期六}}$。",
+      "每个平年包含 $52$ 个完整星期后还多一天。因此若向后经过 $x$ 个平年，星期将从“星期日”向后移动 $x$ 天。\n\n但这段时间内还包含闰年，每经过一个闰年，除 52 个完整星期外会多两天，所以相当于从星期日向后移动 $2x$ 天。\n\n综合起来，这段时间有 $4$ 个闰年 $(2008, 2012, 2016, 2020)$，以及 $12$ 个平年，因此共有 $12 + 2\\cdot 4 = 20$ 个“多出的天数”。因为一周有七天，$20 \\bmod{7} \\equiv 6$，星期日之后六天是 $\\boxed{\\textbf{(E) }\\textrm{星期六}}$。"
     ],
     "tags": []
   },
@@ -5704,7 +5704,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2006 AMC 10B · 第 18 题",
-    "stem": "数列 $a_{1}, a_{2}, \\ldots$ 满足\n\n$a_{1}=2, \\quad a_{2}=3, \\quad \\text{ 和 } \\quad a_{n}=\\dfrac{a_{n-1}}{a_{n-2}} \\text{ for each positive integer } n \\geq 3$\n\n求 $a_{2006}$。",
+    "stem": "数列 $a_{1}, a_{2}, \\ldots$ 满足\n\n$a_{1}=2, \\quad a_{2}=3, \\quad \\text{ 和 } \\quad a_{n}=\\dfrac{a_{n-1}}{a_{n-2}} \\text{ 对每个正整数 } n \\geq 3$\n\n求 $a_{2006}$。",
     "options": {
       "A": "$\\dfrac{1}{2}$",
       "B": "$\\dfrac{2}{3}$",
@@ -5735,7 +5735,7 @@
     },
     "answer": "A",
     "solutions": [
-      "因为 $O C=1$ 且 $O E=2$，所以 $\\angle E O C=60^{\\circ}$、$\\angle E O A=30^{\\circ}$。阴影面积等于 $30^{\\circ}$ 扇形 $D O E$ 的面积减去全等三角形 $O B D$、$O B E$ 的面积。先注意到\n\n$\\text{ 面积 }(\\text{ Sector } D O E)=\\dfrac{1}{12}(4 \\pi)=\\dfrac{\\pi}{3} \\text{. }$\n\n[Figure: /question-assets/source/amc/1e9db8247675828990fae29ba80d0d23255b79f379a104c6aec3fe6f4c1ee14d.jpg]\n\n在直角三角形 $O C E$ 中，$C E=\\sqrt{3}$，所以 $B E=\\sqrt{3}-1$。因此\n\n$\\operatorname{Area}(\\triangle O B E)=\\dfrac{1}{2}(\\sqrt{3}-1)(1) .$\n\n所求面积为\n\n$\\dfrac{\\pi}{3}-2\\left(\\dfrac{\\sqrt{3}-1}{2}\\right)=(\\text{A})\\boxed{\\dfrac{\\pi}{3}+1-\\sqrt{3}}$\n\n$\\textbf{或}$\n\n设射线 $O A$ 与圆交于 $F$，射线 $O C$ 与圆交于 $G$。\n\n[Figure: /question-assets/source/amc/f7d91bebf8f5bf6a8e303bb2430a1f39d617269c5215491ca43c1738a1b3bbf6.jpg]\n\n设题中阴影面积为 $a$，由 $\\overline{A D}, \\overline{A F}$ 和从 $D$ 到 $F$ 的劣弧围成的区域面积为 $b$。那么 $b$ 也等于由 $\\overline{C E}, \\overline{C G}$ 和从 $G$ 到 $E$ 的劣弧围成的区域面积。由容斥原理，\n\n$2 b-a=\\text{ 面积 }(\\text{ Quartercircle } O F G)-\\text{ Area (Square } O A B C)=\\pi-1$\n\n由于 $b$ 等于一个 $60^{\\circ}$ 扇形的面积减去 $\\triangle O A D$ 的面积，所以\n\n$b=\\dfrac{2 \\pi}{3}-\\dfrac{\\sqrt{3}}{2}$\n\n故题中阴影面积为\n\n$a=2 b-\\pi+1=2\\left(\\dfrac{2 \\pi}{3}-\\dfrac{\\sqrt{3}}{2}\\right)-\\pi+1= (\\text{A})\\boxed{\\dfrac{\\pi}{3}+1-\\sqrt{3}}$"
+      "因为 $O C=1$ 且 $O E=2$，所以 $\\angle E O C=60^{\\circ}$、$\\angle E O A=30^{\\circ}$。阴影面积等于 $30^{\\circ}$ 扇形 $D O E$ 的面积减去全等三角形 $O B D$、$O B E$ 的面积。先注意到\n\n$\\text{ 面积 }(\\text{ 扇形 } D O E)=\\dfrac{1}{12}(4 \\pi)=\\dfrac{\\pi}{3} \\text{. }$\n\n[Figure: /question-assets/source/amc/1e9db8247675828990fae29ba80d0d23255b79f379a104c6aec3fe6f4c1ee14d.jpg]\n\n在直角三角形 $O C E$ 中，$C E=\\sqrt{3}$，所以 $B E=\\sqrt{3}-1$。因此\n\n$\\operatorname{Area}(\\triangle O B E)=\\dfrac{1}{2}(\\sqrt{3}-1)(1) .$\n\n所求面积为\n\n$\\dfrac{\\pi}{3}-2\\left(\\dfrac{\\sqrt{3}-1}{2}\\right)=(\\text{A})\\boxed{\\dfrac{\\pi}{3}+1-\\sqrt{3}}$\n\n$\\textbf{或}$\n\n设射线 $O A$ 与圆交于 $F$，射线 $O C$ 与圆交于 $G$。\n\n[Figure: /question-assets/source/amc/f7d91bebf8f5bf6a8e303bb2430a1f39d617269c5215491ca43c1738a1b3bbf6.jpg]\n\n设题中阴影面积为 $a$，由 $\\overline{A D}, \\overline{A F}$ 和从 $D$ 到 $F$ 的劣弧围成的区域面积为 $b$。那么 $b$ 也等于由 $\\overline{C E}, \\overline{C G}$ 和从 $G$ 到 $E$ 的劣弧围成的区域面积。由容斥原理，\n\n$2 b-a=\\text{ 面积 }(\\text{ 四分之一圆 } O F G)-\\text{ 面积（正方形 } O A B C)=\\pi-1$\n\n由于 $b$ 等于一个 $60^{\\circ}$ 扇形的面积减去 $\\triangle O A D$ 的面积，所以\n\n$b=\\dfrac{2 \\pi}{3}-\\dfrac{\\sqrt{3}}{2}$\n\n故题中阴影面积为\n\n$a=2 b-\\pi+1=2\\left(\\dfrac{2 \\pi}{3}-\\dfrac{\\sqrt{3}}{2}\\right)-\\pi+1= (\\text{A})\\boxed{\\dfrac{\\pi}{3}+1-\\sqrt{3}}$"
     ],
     "tags": []
   },
@@ -5892,7 +5892,7 @@
     },
     "answer": "C",
     "solutions": [
-      "$\\textbf{Answer: (C)}$\n\nSusan 支付 $(4)(0.75)(20) = 60$ 美元。Pam 支付 $(5)(0.70)(20) = 70$ 美元，所以她比 Susan 多付 $70-60=10$ 美元。"
+      "$\\textbf{答案：(C)}$\n\nSusan 支付 $(4)(0.75)(20) = 60$ 美元。Pam 支付 $(5)(0.70)(20) = 70$ 美元，所以她比 Susan 多付 $70-60=10$ 美元。"
     ],
     "tags": []
   },
@@ -5934,8 +5934,8 @@
     },
     "answer": "D",
     "solutions": [
-      "砖的体积为 $40 \\cdot 20 \\cdot 10=8000$ 立方厘米。设放入砖后水面上升 $h$ 厘米，那么水族箱中新增加的占用体积为 $100 \\cdot 40 \\cdot h=$ $4000 h$ 立方厘米。它必须等于砖的体积，所以\n\n$8000=4000 h \\text{ 和 } h= (\\text{D})\\boxed{2} \\text{ centimeters }$",
-      "砖的体积为 $40 \\cdot 20 \\cdot 10=8000$ 立方厘米。设放入砖后水面上升 $h$ 厘米，那么水族箱中新增加的占用体积为 $100 \\cdot 40 \\cdot h=$ $4000 h$ 立方厘米。它必须等于砖的体积，所以\n\n$8000=4000 h \\quad \\text{ 和 } \\quad h= \\boxed{2} \\text{ centimeters }$"
+      "砖的体积为 $40 \\cdot 20 \\cdot 10=8000$ 立方厘米。设放入砖后水面上升 $h$ 厘米，那么水族箱中新增加的占用体积为 $100 \\cdot 40 \\cdot h=$ $4000 h$ 立方厘米。它必须等于砖的体积，所以\n\n$8000=4000 h \\text{ 和 } h= (\\text{D})\\boxed{2} \\text{ 厘米 }$",
+      "砖的体积为 $40 \\cdot 20 \\cdot 10=8000$ 立方厘米。设放入砖后水面上升 $h$ 厘米，那么水族箱中新增加的占用体积为 $100 \\cdot 40 \\cdot h=$ $4000 h$ 立方厘米。它必须等于砖的体积，所以\n\n$8000=4000 h \\quad \\text{ 和 } \\quad h= \\boxed{2} \\text{ 厘米 }$"
     ],
     "tags": []
   },
@@ -5945,7 +5945,7 @@
     "grade": "AMC-10",
     "type": "单选题",
     "difficulty": "容易",
-    "sourcePaper": "2007 AMC 10A · 第 4 题",
+    "sourcePaper": "2007 AMC 10A · 第 4 题 | 2007 AMC 12A · 第 3 题",
     "stem": "两个连续奇数中，较大者是较小者的三倍。它们的和是多少？",
     "options": {
       "A": "$\\ 4$",
@@ -6266,7 +6266,7 @@
     },
     "answer": "C",
     "solutions": [
-      "把 $\\overline{C D}$ 越过 $C$ 延长，交 $\\overline{A G}$ 于 $N$。\n\n[Figure: /question-assets/source/amc/7c8ab1b10fba41f2b32e075066dcce95264cf4b1d6ee69d7eaac481d511741fc.jpg]\n\n因为 $\\triangle A B G$ 与 $\\triangle N C G$ 相似，\n\n$N C=A B \\cdot \\dfrac{C G}{B G}=4 \\cdot \\dfrac{8}{12}=\\dfrac{8}{3}$\n\n所以梯形 $A B C N$ 的面积为\n\n$\\dfrac{1}{2} \\cdot\\left(\\dfrac{8}{3}+4\\right) \\cdot 4=\\dfrac{40}{3}$\n\n设从 $M$ 到 $\\overline{N C}$ 的垂线长为 $v$。因为 $\\triangle C M N$ 与 $\\triangle H M G$ 相似，且\n\n$\\dfrac{G H}{N C}=\\dfrac{4}{8 / 3}=\\dfrac{3}{2}$\n\n所以从 $M$ 到 $\\overline{H G}$ 的垂线长为 $\\dfrac{3}{2} v$。又因为\n\n$v+\\dfrac{3}{2} v=8, \\quad \\text{ we have } \\quad v=\\dfrac{16}{5}$\n\n所以 $\\triangle C M N$ 的面积为\n\n$\\dfrac{1}{2} \\cdot \\dfrac{8}{3} \\cdot \\dfrac{16}{5}=\\dfrac{64}{15}$\n\n故\n\n$\\operatorname{Area}(A B C M)=\\operatorname{Area}(A B C N)+\\operatorname{Area}(\\triangle C M N)=\\dfrac{40}{3}+\\dfrac{64}{15}= (\\text{C})\\boxed{\\dfrac{88}{5}}$\n\n$\\textbf{或}$\n\n设从 $M$ 到 $\\overline{B G}$ 的垂足为 $Q$。\n\n[Figure: /question-assets/source/amc/23b21243ca8feebee6885ab4063e8db56481b5536cd0fb9a39a289a7f0a9ffa6.jpg]\n\n因为 $\\triangle M Q G$ 与 $\\triangle A B G$ 相似，\n\n$\\dfrac{M Q}{Q G}=\\dfrac{A B}{B G}=\\dfrac{4}{12}=\\dfrac{1}{3}$\n\n又因为 $\\triangle M C Q$ 与 $\\triangle H C G$ 相似，\n\n$\\dfrac{M Q}{C Q}=\\dfrac{H G}{C G}=\\dfrac{4}{8}=\\dfrac{1}{2}$\n\n所以\n\n$Q G=3 M Q=3\\left(\\dfrac{1}{2} C Q\\right)=\\dfrac{3}{2}(8-Q G),$\n\n从而\n\n$Q G=\\dfrac{24}{5} \\quad \\text{ 和 } \\quad M Q=\\dfrac{1}{3} Q G=\\dfrac{8}{5} .$\n\n因此\n\n$\\operatorname{Area}(A B C M)=\\operatorname{Area}(\\triangle A B G)-\\operatorname{Area}(\\triangle C M G)=\\dfrac{1}{2} \\cdot 4 \\cdot 12-\\dfrac{1}{2} \\cdot 8 \\cdot \\dfrac{8}{5}=(\\text{C})\\boxed{\\dfrac{88}{5}}$"
+      "把 $\\overline{C D}$ 越过 $C$ 延长，交 $\\overline{A G}$ 于 $N$。\n\n[Figure: /question-assets/source/amc/7c8ab1b10fba41f2b32e075066dcce95264cf4b1d6ee69d7eaac481d511741fc.jpg]\n\n因为 $\\triangle A B G$ 与 $\\triangle N C G$ 相似，\n\n$N C=A B \\cdot \\dfrac{C G}{B G}=4 \\cdot \\dfrac{8}{12}=\\dfrac{8}{3}$\n\n所以梯形 $A B C N$ 的面积为\n\n$\\dfrac{1}{2} \\cdot\\left(\\dfrac{8}{3}+4\\right) \\cdot 4=\\dfrac{40}{3}$\n\n设从 $M$ 到 $\\overline{N C}$ 的垂线长为 $v$。因为 $\\triangle C M N$ 与 $\\triangle H M G$ 相似，且\n\n$\\dfrac{G H}{N C}=\\dfrac{4}{8 / 3}=\\dfrac{3}{2}$\n\n所以从 $M$ 到 $\\overline{H G}$ 的垂线长为 $\\dfrac{3}{2} v$。又因为\n\n$v+\\dfrac{3}{2} v=8, \\quad \\text{ 可得 } \\quad v=\\dfrac{16}{5}$\n\n所以 $\\triangle C M N$ 的面积为\n\n$\\dfrac{1}{2} \\cdot \\dfrac{8}{3} \\cdot \\dfrac{16}{5}=\\dfrac{64}{15}$\n\n故\n\n$\\operatorname{Area}(A B C M)=\\operatorname{Area}(A B C N)+\\operatorname{Area}(\\triangle C M N)=\\dfrac{40}{3}+\\dfrac{64}{15}= (\\text{C})\\boxed{\\dfrac{88}{5}}$\n\n$\\textbf{或}$\n\n设从 $M$ 到 $\\overline{B G}$ 的垂足为 $Q$。\n\n[Figure: /question-assets/source/amc/23b21243ca8feebee6885ab4063e8db56481b5536cd0fb9a39a289a7f0a9ffa6.jpg]\n\n因为 $\\triangle M Q G$ 与 $\\triangle A B G$ 相似，\n\n$\\dfrac{M Q}{Q G}=\\dfrac{A B}{B G}=\\dfrac{4}{12}=\\dfrac{1}{3}$\n\n又因为 $\\triangle M C Q$ 与 $\\triangle H C G$ 相似，\n\n$\\dfrac{M Q}{C Q}=\\dfrac{H G}{C G}=\\dfrac{4}{8}=\\dfrac{1}{2}$\n\n所以\n\n$Q G=3 M Q=3\\left(\\dfrac{1}{2} C Q\\right)=\\dfrac{3}{2}(8-Q G),$\n\n从而\n\n$Q G=\\dfrac{24}{5} \\quad \\text{ 和 } \\quad M Q=\\dfrac{1}{3} Q G=\\dfrac{8}{5} .$\n\n因此\n\n$\\operatorname{Area}(A B C M)=\\operatorname{Area}(\\triangle A B G)-\\operatorname{Area}(\\triangle C M G)=\\dfrac{1}{2} \\cdot 4 \\cdot 12-\\dfrac{1}{2} \\cdot 8 \\cdot \\dfrac{8}{5}=(\\text{C})\\boxed{\\dfrac{88}{5}}$"
     ],
     "tags": []
   },
@@ -6336,7 +6336,7 @@
     "answer": "C",
     "solutions": [
       "外层立方体每个面的面积为 $\\frac {24}{6} = 4$，棱长为 $2$。这也是球的直径，亦即内层立方体的体对角线长。\n\n立方体的体对角线，是以一条棱和一个面对角线为直角边的直角三角形斜边。若内层立方体棱长为 $x$，则 $2 = \\sqrt {x^{2} + (\\sqrt {2}x)^{2}}\\Rightarrow x = \\frac {2}{\\sqrt {3}}$。\n\n所以内层立方体表面积为 $6x^{2} = 6\\left(\\frac {2}{\\sqrt {3}}\\right )^{2} = 8$。",
-      "外层立方体表面积为 24 平方米，所以每个面面积为 $24/6 = 4$ 平方米，棱长为 2 米。内切球直径为 2 米，这也是球内接立方体的体对角线长。设内层立方体棱长为 $l$，连续使用两次勾股定理，得 $l^2 + l^2 + l^2 = 2^2 = 4.$。因此每个面面积为 $l^2 = \\frac{4}{3} \\ \\text{square meters}.$，内层立方体表面积为 $6\\cdot \\frac43 = \\boxed{8}$ 平方米。",
+      "外层立方体表面积为 24 平方米，所以每个面面积为 $24/6 = 4$ 平方米，棱长为 2 米。内切球直径为 2 米，这也是球内接立方体的体对角线长。设内层立方体棱长为 $l$，连续使用两次勾股定理，得 $l^2 + l^2 + l^2 = 2^2 = 4.$。因此每个面面积为 $l^2 = \\frac{4}{3} \\ \\text{平方米}.$，内层立方体表面积为 $6\\cdot \\frac43 = \\boxed{8}$ 平方米。",
       "外层立方体棱长为 $2$，所以球半径为 $1$。设球内接立方体棱长为 $x$，则球半径可表示为 $\\frac {\\sqrt3x}{2} = 1$，解得 $x=\\frac {2\\sqrt3}{3}$。代入表面积公式得 $\\frac {2\\sqrt3}{3}*\\frac {2\\sqrt3}{3}*6=8$，所以最终答案是 $\\boxed{C}$。"
     ],
     "tags": []
@@ -6493,7 +6493,7 @@
     },
     "answer": "B",
     "solutions": [
-      "回家途中用油 $120 / 30=4$ 加仑，返校途中用油 $120 / 20=6$ 加仑。因此往返全程的平均油耗里程为\n\n$\\dfrac{240 \\text{ 英里 }}{10 \\text{ gallons }}= (\\text{B})\\boxed{24} \\text{ miles per gallon. }$"
+      "回家途中用油 $120 / 30=4$ 加仑，返校途中用油 $120 / 20=6$ 加仑。因此往返全程的平均油耗里程为\n\n$\\dfrac{240 \\text{ 英里 }}{10 \\text{ 加仑 }}= (\\text{B})\\boxed{24} \\text{ 英里/加仑。}$"
     ],
     "tags": []
   },
@@ -6535,7 +6535,7 @@
     },
     "answer": "D",
     "solutions": [
-      "令 $A, B, C$、$D$ 表示这个地方某个人具有以下身份：\n\n$A: \\text{ Is an Arog. } \\quad B: \\text{ Is a Braf. } \\quad C: \\text{ Is a Crup. } \\quad D: \\text{ Is a Dramp. }$\n\n题目第一句可表示为\n\n$A \\Longrightarrow B, \\quad C \\Longrightarrow B, \\quad D \\Longrightarrow A \\quad \\text{ 和 } \\quad C \\Longrightarrow D \\text{. }$\n\n最多能推出\n\n$C \\Longrightarrow D \\Longrightarrow A \\Longrightarrow B \\text{. }$\n\n因此选项中唯一必然成立的是：Crup 同时是 Arog 和 Braf。"
+      "令 $A, B, C$、$D$ 表示这个地方某个人具有以下身份：\n\n$A: \\text{ 是 Arog。} \\quad B: \\text{ 是 Braf。} \\quad C: \\text{ 是 Crup。} \\quad D: \\text{ 是 Dramp。}$\n\n题目第一句可表示为\n\n$A \\Longrightarrow B, \\quad C \\Longrightarrow B, \\quad D \\Longrightarrow A \\quad \\text{ 和 } \\quad C \\Longrightarrow D \\text{. }$\n\n最多能推出\n\n$C \\Longrightarrow D \\Longrightarrow A \\Longrightarrow B \\text{. }$\n\n因此选项中唯一必然成立的是：Crup 同时是 Arog 和 Braf。"
     ],
     "tags": []
   },
@@ -6615,7 +6615,7 @@
       "B": "$\\mathrm{h}$",
       "C": "$\\mathrm{o}$",
       "D": "$\\mathrm{s}$",
-      "E": "\\mathrm"
+      "E": "$\\mathrm{t}$"
     },
     "answer": "D",
     "solutions": [
@@ -7083,7 +7083,7 @@
     },
     "answer": "D",
     "solutions": [
-      "设每段长 $x$ 千米。完成比赛需\n\n$\\dfrac{x}{3}+\\dfrac{x}{20}+\\dfrac{x}{10}=\\dfrac{29}{60}x$\n\n小时，总路程为 $3 x$ 千米。因此平均速度为\n\n$\\dfrac{3 x}{\\dfrac{29}{60} x} \\approx (\\text{D})\\boxed{6} \\text{ kilometers per hour. } $"
+      "设每段长 $x$ 千米。完成比赛需\n\n$\\dfrac{x}{3}+\\dfrac{x}{20}+\\dfrac{x}{10}=\\dfrac{29}{60}x$\n\n小时，总路程为 $3 x$ 千米。因此平均速度为\n\n$\\dfrac{3 x}{\\dfrac{29}{60} x} \\approx (\\text{D})\\boxed{6} \\text{ 千米/小时。} $"
     ],
     "tags": []
   },
@@ -7252,7 +7252,7 @@
     },
     "answer": "D",
     "solutions": [
-      "设屏幕高、宽分别为 $h$、$w$ 英寸。由勾股定理，$h: w: 27=3: 4: 5$，所以\n\n$h=\\dfrac{3}{5} \\cdot 27=16.2 \\quad \\text{ 和 } \\quad w=\\dfrac{4}{5} \\cdot 27=21.6$\n\n未变暗部分的高度是宽的一半，即 $10.8$ 英寸。因此每条暗带高\n\n$\\dfrac{1}{2}(16.2-10.8)=2.7 \\quad \\text{ inches. }$\n\n$\\textbf{或}$\n\n屏幕尺寸为 $4 a \\times 3 a$，其中 $a$ 为正数。未被暗带覆盖部分的宽高比为 $2: 1$，所以尺寸为 $4 a \\times 2 a$。因此每条暗带高 $\\dfrac{a}{2}$。由勾股定理，屏幕对角线为 $5 a=27$ 英寸，故每条暗带高 $\\dfrac{27}{10}=(\\text{D})\\boxed{2.7}$ 英寸。"
+      "设屏幕高、宽分别为 $h$、$w$ 英寸。由勾股定理，$h: w: 27=3: 4: 5$，所以\n\n$h=\\dfrac{3}{5} \\cdot 27=16.2 \\quad \\text{ 和 } \\quad w=\\dfrac{4}{5} \\cdot 27=21.6$\n\n未变暗部分的高度是宽的一半，即 $10.8$ 英寸。因此每条暗带高\n\n$\\dfrac{1}{2}(16.2-10.8)=2.7 \\quad \\text{ 英寸。}$\n\n$\\textbf{或}$\n\n屏幕尺寸为 $4 a \\times 3 a$，其中 $a$ 为正数。未被暗带覆盖部分的宽高比为 $2: 1$，所以尺寸为 $4 a \\times 2 a$。因此每条暗带高 $\\dfrac{a}{2}$。由勾股定理，屏幕对角线为 $5 a=27$ 英寸，故每条暗带高 $\\dfrac{27}{10}=(\\text{D})\\boxed{2.7}$ 英寸。"
     ],
     "tags": []
   },
@@ -7273,7 +7273,7 @@
     },
     "answer": "D",
     "solutions": [
-      "设 Ian 以平均 $r$ 英里/小时行驶 $t$ 小时，路程为 $r t$ 英里。Han 以快 $5$ 英里/小时的速度多行驶 $1$ 小时，路程为\n\n$(r+5)(t+1)=r t+5 t+r+5$\n\n因为 Han 比 Ian 多行驶 $70$ 英里，\n\n$70=(r+5)(t+1)-r t=5 t+r+5, \\quad \\text{ so } \\quad 5 t+r=65 .$\n\n所以 Jan 比 Ian 多行驶\n\n$(r+10)(t+2)-r t=10 t+2 r+20=2(5 t+r)+20=2 \\cdot 65+20=150 .$\n\n也可用矩形的长、宽、面积分别表示 Ian 的行驶时间、平均速度、路程。Han 的矩形比 Ian 的长多 $1$、宽多 $5$；Jan 的矩形则分别多 $2$、$10$。\n\n[Figure: /question-assets/source/amc/a4de5f9c48872a1d6312156f783824ba6410f0ea2af3a82ce9e1dfabadadc299.jpg]\n\nIan\n\n[Figure: /question-assets/source/amc/4babd56aaf39dcc053caf024bf465472f0a414043775b7c9447b823934a11002.jpg]\n\nHan\n\n[Figure: /question-assets/source/amc/8af3eb4b56697c5686d2197caa3d2e209dea3e5c6ae2808f8b34d590c7b9ff51.jpg]\n\nJan\n\nHan 比 Ian 多 $70$ 英里，而 Jan 的 $10 \\times t$、$2 \\times r$ 矩形分别是 Ian 的 $5 \\times t$、$1 \\times r$ 矩形的两倍，所以 Jan 比 Ian 多\n\n$2(70-5)+20= (\\text{D})\\boxed{150} \\text{ miles. }$"
+      "设 Ian 以平均 $r$ 英里/小时行驶 $t$ 小时，路程为 $r t$ 英里。Han 以快 $5$ 英里/小时的速度多行驶 $1$ 小时，路程为\n\n$(r+5)(t+1)=r t+5 t+r+5$\n\n因为 Han 比 Ian 多行驶 $70$ 英里，\n\n$70=(r+5)(t+1)-r t=5 t+r+5, \\quad \\text{ so } \\quad 5 t+r=65 .$\n\n所以 Jan 比 Ian 多行驶\n\n$(r+10)(t+2)-r t=10 t+2 r+20=2(5 t+r)+20=2 \\cdot 65+20=150 .$\n\n也可用矩形的长、宽、面积分别表示 Ian 的行驶时间、平均速度、路程。Han 的矩形比 Ian 的长多 $1$、宽多 $5$；Jan 的矩形则分别多 $2$、$10$。\n\n[Figure: /question-assets/source/amc/a4de5f9c48872a1d6312156f783824ba6410f0ea2af3a82ce9e1dfabadadc299.jpg]\n\nIan\n\n[Figure: /question-assets/source/amc/4babd56aaf39dcc053caf024bf465472f0a414043775b7c9447b823934a11002.jpg]\n\nHan\n\n[Figure: /question-assets/source/amc/8af3eb4b56697c5686d2197caa3d2e209dea3e5c6ae2808f8b34d590c7b9ff51.jpg]\n\nJan\n\nHan 比 Ian 多 $70$ 英里，而 Jan 的 $10 \\times t$、$2 \\times r$ 矩形分别是 Ian 的 $5 \\times t$、$1 \\times r$ 矩形的两倍，所以 Jan 比 Ian 多\n\n$2(70-5)+20= (\\text{D})\\boxed{150} \\text{ 英里。}$"
     ],
     "tags": []
   },
@@ -8013,7 +8013,7 @@
     },
     "answer": "B",
     "solutions": [
-      "把垃圾桶连续编号，使 Michael 当前在 $0$ 号桶，垃圾车在 $1$ 号桶。Michael 在相邻桶间需 $200 / 5=40$ 秒，所以对 $n \\geq 0$，他在 $40 n$ 秒后经过 $n$ 号桶。垃圾车行驶一段需 $20$ 秒，在每桶停 $30$ 秒；所以对 $n \\geq 1$，它在 $50(n-1)$ 秒后离开 $n$ 号桶，对 $n \\geq 2$，在 $50(n-1)-30$ 秒后到达 $n$ 号桶。Michael 在 $n$ 号桶与车相遇，当且仅当\n\n$50(n-1)-30 \\leq 40 n \\leq 50(n-1) \\text{ or, equivalently, } 5 \\leq n \\leq 8$\n\n[Figure: /question-assets/source/amc/eb4d80ffe4235e9d35ff5d7885ed20c8800b51e1d2c1e65826a71652beeb62b2.jpg]\n\n所以他在 $200$ 秒后于 $5$ 号桶首次相遇，恰逢车离开；在 $240$ 秒后于 $6$ 号桶越过车，在 $280$ 秒后于 $7$ 号桶再次越过；最后在 $320$ 秒后于 $8$ 号桶与刚到达的车相遇。这说明在 $5$、$6$ 号桶之间车领先，在 $7$、$8$ 号桶之间 Michael 领先。但车还会在 $6$、$7$ 号桶之间追过 Michael，因此总共相遇 $(\\text{B})\\boxed{5}$ 次。"
+      "把垃圾桶连续编号，使 Michael 当前在 $0$ 号桶，垃圾车在 $1$ 号桶。Michael 在相邻桶间需 $200 / 5=40$ 秒，所以对 $n \\geq 0$，他在 $40 n$ 秒后经过 $n$ 号桶。垃圾车行驶一段需 $20$ 秒，在每桶停 $30$ 秒；所以对 $n \\geq 1$，它在 $50(n-1)$ 秒后离开 $n$ 号桶，对 $n \\geq 2$，在 $50(n-1)-30$ 秒后到达 $n$ 号桶。Michael 在 $n$ 号桶与车相遇，当且仅当\n\n$50(n-1)-30 \\leq 40 n \\leq 50(n-1) \\text{ 即等价于 } 5 \\leq n \\leq 8$\n\n[Figure: /question-assets/source/amc/eb4d80ffe4235e9d35ff5d7885ed20c8800b51e1d2c1e65826a71652beeb62b2.jpg]\n\n所以他在 $200$ 秒后于 $5$ 号桶首次相遇，恰逢车离开；在 $240$ 秒后于 $6$ 号桶越过车，在 $280$ 秒后于 $7$ 号桶再次越过；最后在 $320$ 秒后于 $8$ 号桶与刚到达的车相遇。这说明在 $5$、$6$ 号桶之间车领先，在 $7$、$8$ 号桶之间 Michael 领先。但车还会在 $6$、$7$ 号桶之间追过 Michael，因此总共相遇 $(\\text{B})\\boxed{5}$ 次。"
     ],
     "tags": []
   },
@@ -8283,7 +8283,7 @@
       "B": "$P^{n} Q^{m}$",
       "C": "$P^{n} Q^{2 m}$",
       "D": "$P^{2 m} Q^{n}$",
-      "E": "P^{2 n} Q^"
+      "E": "$P^{2 n} Q^{m}$"
     },
     "answer": "E",
     "solutions": [
@@ -8560,7 +8560,7 @@
     },
     "answer": "B",
     "solutions": [
-      "列出松饼和贝果的费用表：\n\n$\\begin{array}{|c|c|c|} \\hline \\text{Cost of Muffins} & \\text{Cost of Bagels} & \\text{Total Cost} \\\\ \\hline 0 \\cdot 0.50=0.00 & 5 \\cdot 0.75=3.75 & 3.75 \\\\ \\hline 1 \\cdot 0.50=0.50 & 4 \\cdot 0.75=3.00 & 3.50 \\\\ \\hline 2 \\cdot 0.50=1.00 & 3 \\cdot 0.75=2.25 & 3.25 \\\\ \\hline 3 \\cdot 0.50=1.50 & 2 \\cdot 0.75=1.50 & 3.00 \\\\ \\hline 4 \\cdot 0.50=2.00 & 1 \\cdot 0.75=0.75 & 2.75 \\\\ \\hline 5 \\cdot 0.50=2.50 & 0 \\cdot 0.75=0.00 & 2.50 \\\\ \\hline \\end{array}$\n\n唯一为整数美元的组合是 $3$ 个松饼和 $(\\text{B})\\boxed{2}$ 个贝果。"
+      "列出松饼和贝果的费用表：\n\n$\\begin{array}{|c|c|c|} \\hline \\text{松饼费用} & \\text{百吉饼费用} & \\text{总费用} \\\\ \\hline 0 \\cdot 0.50=0.00 & 5 \\cdot 0.75=3.75 & 3.75 \\\\ \\hline 1 \\cdot 0.50=0.50 & 4 \\cdot 0.75=3.00 & 3.50 \\\\ \\hline 2 \\cdot 0.50=1.00 & 3 \\cdot 0.75=2.25 & 3.25 \\\\ \\hline 3 \\cdot 0.50=1.50 & 2 \\cdot 0.75=1.50 & 3.00 \\\\ \\hline 4 \\cdot 0.50=2.00 & 1 \\cdot 0.75=0.75 & 2.75 \\\\ \\hline 5 \\cdot 0.50=2.50 & 0 \\cdot 0.75=0.00 & 2.50 \\\\ \\hline \\end{array}$\n\n唯一为整数美元的组合是 $3$ 个松饼和 $(\\text{B})\\boxed{2}$ 个贝果。"
     ],
     "tags": []
   },
@@ -8834,7 +8834,7 @@
     },
     "answer": "D",
     "solutions": [
-      "星期一，即第 $1$ 天，鸟会看到喂鸟器中有 $\\dfrac{1}{4}$ 夸脱小米。星期二有\n\n$\\dfrac{1}{4}+\\dfrac{3}{4} \\cdot \\dfrac{1}{4}$\n\n夸脱小米。星期三，即第 3 天，有\n\n$\\dfrac{1}{4}+\\dfrac{3}{4} \\cdot \\dfrac{1}{4}+\\left(\\dfrac{3}{4}\\right)^{2} \\cdot \\dfrac{1}{4}$\n\n夸脱小米。第 $n$ 天鸟所看到的小米量为\n\n$\\dfrac{1}{4}+\\dfrac{3}{4} \\cdot \\dfrac{1}{4}+\\left(\\dfrac{3}{4}\\right)^{2} \\cdot \\dfrac{1}{4}+\\cdots+\\left(\\dfrac{3}{4}\\right)^{n-1} \\cdot \\dfrac{1}{4}=\\dfrac{\\left(\\dfrac{1}{4}\\right)\\left(1-\\left(\\dfrac{3}{4}\\right)^{n}\\right)}{1-\\dfrac{3}{4}}=1-\\left(\\dfrac{3}{4}\\right)^{n}$\n\n鸟每天所看到的其他种子总是 $\\dfrac{3}{4}$ 夸脱，因此当 $1-\\left(\\dfrac{3}{4}\\right)^{n}>\\dfrac{3}{4}$ 时，小米超过全部种子的一半；等价地，需有 $\\left(\\dfrac{3}{4}\\right)^{n}<\\dfrac{1}{4}$。由于 $\\left(\\dfrac{3}{4}\\right)^{4}=\\dfrac{81}{256}>\\dfrac{1}{4}$ 而 $\\left(\\dfrac{3}{4}\\right)^{5}=\\dfrac{243}{1024}<\\dfrac{1}{4}$，这种情况最早出现在第 $5$ 天，即 $(\\text{D})\\boxed{\\text{Friday}}$。",
+      "星期一，即第 $1$ 天，鸟会看到喂鸟器中有 $\\dfrac{1}{4}$ 夸脱小米。星期二有\n\n$\\dfrac{1}{4}+\\dfrac{3}{4} \\cdot \\dfrac{1}{4}$\n\n夸脱小米。星期三，即第 3 天，有\n\n$\\dfrac{1}{4}+\\dfrac{3}{4} \\cdot \\dfrac{1}{4}+\\left(\\dfrac{3}{4}\\right)^{2} \\cdot \\dfrac{1}{4}$\n\n夸脱小米。第 $n$ 天鸟所看到的小米量为\n\n$\\dfrac{1}{4}+\\dfrac{3}{4} \\cdot \\dfrac{1}{4}+\\left(\\dfrac{3}{4}\\right)^{2} \\cdot \\dfrac{1}{4}+\\cdots+\\left(\\dfrac{3}{4}\\right)^{n-1} \\cdot \\dfrac{1}{4}=\\dfrac{\\left(\\dfrac{1}{4}\\right)\\left(1-\\left(\\dfrac{3}{4}\\right)^{n}\\right)}{1-\\dfrac{3}{4}}=1-\\left(\\dfrac{3}{4}\\right)^{n}$\n\n鸟每天所看到的其他种子总是 $\\dfrac{3}{4}$ 夸脱，因此当 $1-\\left(\\dfrac{3}{4}\\right)^{n}>\\dfrac{3}{4}$ 时，小米超过全部种子的一半；等价地，需有 $\\left(\\dfrac{3}{4}\\right)^{n}<\\dfrac{1}{4}$。由于 $\\left(\\dfrac{3}{4}\\right)^{4}=\\dfrac{81}{256}>\\dfrac{1}{4}$ 而 $\\left(\\dfrac{3}{4}\\right)^{5}=\\dfrac{243}{1024}<\\dfrac{1}{4}$，这种情况最早出现在第 $5$ 天，即 $(\\text{D})\\boxed{\\text{星期五}}$。",
       "星期一，即第 1 天，鸟会看到喂鸟器中有 $\\dfrac{1}{4}$ 夸脱小米。星期二有\n\n$\\dfrac{1}{4}+\\dfrac{3}{4} \\cdot \\dfrac{1}{4}$\n\n夸脱小米。星期三，即第 3 天，有\n\n$\\dfrac{1}{4}+\\dfrac{3}{4} \\cdot \\dfrac{1}{4}+\\left(\\dfrac{3}{4}\\right)^{2} \\cdot \\dfrac{1}{4}$\n\n夸脱小米。第 $n$ 天鸟所看到的小米量为\n\n$\\dfrac{1}{4}+\\dfrac{3}{4} \\cdot \\dfrac{1}{4}+\\left(\\dfrac{3}{4}\\right)^{2} \\cdot \\dfrac{1}{4}+\\cdots+\\left(\\dfrac{3}{4}\\right)^{n-1} \\cdot \\dfrac{1}{4}=\\dfrac{\\left(\\dfrac{1}{4}\\right)\\left(1-\\left(\\dfrac{3}{4}\\right)^{n}\\right)}{1-\\dfrac{3}{4}}=1-\\left(\\dfrac{3}{4}\\right)^{n}$\n\n鸟每天所看到的其他种子总是 $\\dfrac{3}{4}$ 夸脱，因此当 $1-\\left(\\dfrac{3}{4}\\right)^{n}>\\dfrac{3}{4}$ 时，小米超过全部种子的一半；等价地，需有 $\\left(\\dfrac{3}{4}\\right)^{n}<\\dfrac{1}{4}$。由于 $\\left(\\dfrac{3}{4}\\right)^{4}=\\dfrac{81}{256}>\\dfrac{1}{4}$ 而 $\\left(\\dfrac{3}{4}\\right)^{5}=\\dfrac{243}{1024}<\\dfrac{1}{4}$，这种情况最早出现在第 5 天，即 $\\boxed{Friday}$。"
     ],
     "tags": []
@@ -9215,7 +9215,7 @@
     },
     "answer": "C",
     "solutions": [
-      "Crystal 向东北跑一英里时，向北移动 $\\dfrac{\\sqrt{2}}{2}$ 英里、向东移动 $\\dfrac{\\sqrt{2}}{2}$ 英里。同理，向东南跑一英里时，她向南移动 $\\dfrac{\\sqrt{2}}{2}$ 英里、向东移动 $\\dfrac{\\sqrt{2}}{2}$ 英里。因此，在最后一段之前，她合计向北移动 $1+\\dfrac{\\sqrt{2}}{2}-\\dfrac{\\sqrt{2}}{2}=1$ 英里、向东移动 $\\dfrac{\\sqrt{2}}{2}+\\dfrac{\\sqrt{2}}{2}=\\sqrt{2}$ 英里。由勾股定理，最后一段的长度为\n\n$\\sqrt{1^{2}+(\\sqrt{2})^{2}}=\\sqrt{1+2}=\\text{(C)}\\boxed{\\sqrt{3}} \\text{ miles. }$"
+      "Crystal 向东北跑一英里时，向北移动 $\\dfrac{\\sqrt{2}}{2}$ 英里、向东移动 $\\dfrac{\\sqrt{2}}{2}$ 英里。同理，向东南跑一英里时，她向南移动 $\\dfrac{\\sqrt{2}}{2}$ 英里、向东移动 $\\dfrac{\\sqrt{2}}{2}$ 英里。因此，在最后一段之前，她合计向北移动 $1+\\dfrac{\\sqrt{2}}{2}-\\dfrac{\\sqrt{2}}{2}=1$ 英里、向东移动 $\\dfrac{\\sqrt{2}}{2}+\\dfrac{\\sqrt{2}}{2}=\\sqrt{2}$ 英里。由勾股定理，最后一段的长度为\n\n$\\sqrt{1^{2}+(\\sqrt{2})^{2}}=\\sqrt{1+2}=\\text{(C)}\\boxed{\\sqrt{3}} \\text{ 英里。}$"
     ],
     "tags": []
   },
@@ -10620,7 +10620,7 @@
     },
     "answer": "C",
     "solutions": [
-      "每个人数完后，留给下一个人的数都构成等差数列。例如，Alice 留给 Barbara 的数为 $2,5,8,11,14, \\ldots, 2+3 \\cdot 332$。若某学生面对的数列为 $a, a+d, a+2 d, a+3 d, a+4 d, \\ldots$，则她留给下一人的数列为 $a+d,(a+d)+3 d,(a+d)+6 d, \\ldots$。\n\n因此在下表中，第三列的每个数都是上一行第三列的三倍，而第二列的每个数等于上一行第二、三列之和：\n\n$\\begin{array}{|l|c|c|} \\hline \\text{Left for} & \\text{First} & \\text{Term Common Difference} \\\\ \\hline \\text{Alice} & 1 & 1 \\\\ \\hline \\text{Barbara} & 2 & 3 \\\\ \\hline \\text{Candice} & 5 & 9 \\\\ \\hline \\text{Debbie} & 14 & 27 \\\\ \\hline \\text{Eliza} & 41 & 81 \\\\ \\hline \\text{Fatima} & 122 & 243 \\\\ \\hline \\text{George} & 365 & 729 \\\\ \\hline \\end{array}$\n\nGeorge 最后只剩下 $\\text{(C)}\\boxed{365}$ 这一项。\n\n$\\textbf{或}$\n\nAlice 跳过的是每组连续 $3,$ 个数中的中间数，即 $2,5,8,$ 等。Alice 和 Barbara 都跳过的，是每组 $9$ 个数中的中间数，即 $5,14,23$ 等。一般而言，前 $n$ 名学生都跳过的数，是每组 $3^{n}$ 个数中的中间数。由于 $3^{6}=729$，不超过 $1000$ 且被前六名学生全部跳过的唯一数是 $\\dfrac{729+1}{2}=\\text{(C)}\\boxed{365}$，这正是 George 所说的数。"
+      "每个人数完后，留给下一个人的数都构成等差数列。例如，Alice 留给 Barbara 的数为 $2,5,8,11,14, \\ldots, 2+3 \\cdot 332$。若某学生面对的数列为 $a, a+d, a+2 d, a+3 d, a+4 d, \\ldots$，则她留给下一人的数列为 $a+d,(a+d)+3 d,(a+d)+6 d, \\ldots$。\n\n因此在下表中，第三列的每个数都是上一行第三列的三倍，而第二列的每个数等于上一行第二、三列之和：\n\n$\\begin{array}{|l|c|c|} \\hline \\text{出发前往} & \\text{首项} & \\text{公差} \\\\ \\hline \\text{Alice} & 1 & 1 \\\\ \\hline \\text{Barbara} & 2 & 3 \\\\ \\hline \\text{Candice} & 5 & 9 \\\\ \\hline \\text{Debbie} & 14 & 27 \\\\ \\hline \\text{Eliza} & 41 & 81 \\\\ \\hline \\text{Fatima} & 122 & 243 \\\\ \\hline \\text{George} & 365 & 729 \\\\ \\hline \\end{array}$\n\nGeorge 最后只剩下 $\\text{(C)}\\boxed{365}$ 这一项。\n\n$\\textbf{或}$\n\nAlice 跳过的是每组连续 $3,$ 个数中的中间数，即 $2,5,8,$ 等。Alice 和 Barbara 都跳过的，是每组 $9$ 个数中的中间数，即 $5,14,23$ 等。一般而言，前 $n$ 名学生都跳过的数，是每组 $3^{n}$ 个数中的中间数。由于 $3^{6}=729$，不超过 $1000$ 且被前六名学生全部跳过的唯一数是 $\\dfrac{729+1}{2}=\\text{(C)}\\boxed{365}$，这正是 George 所说的数。"
     ],
     "tags": []
   },
@@ -12215,10 +12215,10 @@
     "grade": "AMC-10",
     "type": "单选题",
     "difficulty": "困难",
-    "sourcePaper": "2012 AMC 10B · 第 24 题",
+    "sourcePaper": "2012 AMC 10B · 第 24 题 | 2012 AMC 12B · 第 16 题",
     "stem": "Amy、Beth 和 Jo 听四首不同的歌曲，并讨论各自喜欢哪些歌。没有一首歌被三人同时喜欢。此外，对三名女孩的每一对，都至少有一首歌被这两人喜欢而被第三人不喜欢。共有多少种不同的可能？",
     "options": {
-      "A": "108",
+      "A": "$108$",
       "B": "$132$",
       "C": "$671$",
       "D": "$846$",
@@ -12331,7 +12331,7 @@
     },
     "answer": "C",
     "solutions": [
-      "只有当垒球队本场得分为偶数时，才可能是对手得分的两倍。在这些比赛中，对手共得\n\n$\\dfrac{2}{2}+\\dfrac{4}{2}+\\dfrac{6}{2}+\\dfrac{8}{2}+\\dfrac{10}{2}=15 \\text{ runs. }$\n\n分。在垒球队落败的比赛中，对手共得\n\n$(1+1)+(3+1)+(5+1)+(7+1)+(9+1)=30 \\text{ runs. }$\n\n分。因此对手总得分为 $15+30=(\\text{C})\\boxed{45}$ 分。"
+      "只有当垒球队本场得分为偶数时，才可能是对手得分的两倍。在这些比赛中，对手共得\n\n$\\dfrac{2}{2}+\\dfrac{4}{2}+\\dfrac{6}{2}+\\dfrac{8}{2}+\\dfrac{10}{2}=15 \\text{ 分。}$\n\n分。在垒球队落败的比赛中，对手共得\n\n$(1+1)+(3+1)+(5+1)+(7+1)+(9+1)=30 \\text{ 分。}$\n\n分。因此对手总得分为 $15+30=(\\text{C})\\boxed{45}$ 分。"
     ],
     "tags": []
   },
@@ -13068,7 +13068,7 @@
     },
     "answer": "E",
     "solutions": [
-      "方程 $x\\clubsuit y=y\\clubsuit x$ 等价于 $x^{2} y-x y^{2}=y^{2} x-y x^{2}$。化简得到 $2 x y(x-y)=0$。当且仅当 $x=0, y=0$ 或 $x=y$ 时，该方程成立。解集由 $(\\text{E})\\boxed{\\text{three lines}}$ 组成：$x$ 轴、$y$ 轴以及直线 $x=y$。"
+      "方程 $x\\clubsuit y=y\\clubsuit x$ 等价于 $x^{2} y-x y^{2}=y^{2} x-y x^{2}$。化简得到 $2 x y(x-y)=0$。当且仅当 $x=0, y=0$ 或 $x=y$ 时，该方程成立。解集由 $(\\text{E})\\boxed{\\text{三条直线}}$ 组成：$x$ 轴、$y$ 轴以及直线 $x=y$。"
     ],
     "tags": []
   },
@@ -13131,7 +13131,7 @@
     },
     "answer": "E",
     "solutions": [
-      "亚历克斯在第一个兑换亭兑换 $m$ 次、在第二个兑换亭兑换 $n$ 次后，有 $75-(2 m-n)$ 枚红色代币、$75-(3 n-m)$ 枚蓝色代币和 $m+n$ 枚银色代币。当红色代币少于 $2$ 枚且蓝色代币少于 $3$ 枚时，无法继续兑换。因此，无法继续兑换当且仅当 $2 m-n \\geq 74$ 且 $3 n-m \\geq 73$。当 $(m, n)=(59,44)$ 时可以同时取到等号，此时亚历克斯有 $59+44=(\\text{E})\\boxed{103}$ 枚银色代币。\n\n以下兑换过程确实能得到 $103$ 枚银色代币：\n\n$\\begin{array}{|l|c|c|c|} \\hline & \\text{Red Tokens} & \\text{Blue Tokens} & \\text{Silver Tokens} \\\\ \\hline \\text{Exchange 75 blue tokens} & 100 & 0 & 25 \\\\ \\hline \\text{Exchange 100 red tokens} & 0 & 50 & 75 \\\\ \\hline \\text{Exchange 48 blue tokens} & 16 & 2 & 91 \\\\ \\hline \\text{Exchange 16 red tokens} & 0 & 10 & 99 \\\\ \\hline \\text{Exchange 9 blue tokens} & 3 & 1 & 102 \\\\ \\hline \\text{Exchange 2 red tokens} & 1 & 2 & 103 \\\\ \\hline \\end{array}$"
+      "亚历克斯在第一个兑换亭兑换 $m$ 次、在第二个兑换亭兑换 $n$ 次后，有 $75-(2 m-n)$ 枚红色代币、$75-(3 n-m)$ 枚蓝色代币和 $m+n$ 枚银色代币。当红色代币少于 $2$ 枚且蓝色代币少于 $3$ 枚时，无法继续兑换。因此，无法继续兑换当且仅当 $2 m-n \\geq 74$ 且 $3 n-m \\geq 73$。当 $(m, n)=(59,44)$ 时可以同时取到等号，此时亚历克斯有 $59+44=(\\text{E})\\boxed{103}$ 枚银色代币。\n\n以下兑换过程确实能得到 $103$ 枚银色代币：\n\n$\\begin{array}{|l|c|c|c|} \\hline & \\text{红币} & \\text{蓝币} & \\text{银币} \\\\ \\hline \\text{兑换 75 枚蓝币} & 100 & 0 & 25 \\\\ \\hline \\text{兑换 100 枚红币} & 0 & 50 & 75 \\\\ \\hline \\text{兑换 48 枚蓝币} & 16 & 2 & 91 \\\\ \\hline \\text{兑换 16 枚红币} & 0 & 10 & 99 \\\\ \\hline \\text{兑换 9 枚蓝币} & 3 & 1 & 102 \\\\ \\hline \\text{兑换 2 枚红币} & 1 & 2 & 103 \\\\ \\hline \\end{array}$"
     ],
     "tags": []
   },
@@ -13378,7 +13378,7 @@
     "grade": "AMC-10",
     "type": "单选题",
     "difficulty": "容易",
-    "sourcePaper": "2014 AMC 10A · 第 4 题",
+    "sourcePaper": "2014 AMC 10A · 第 4 题 | 2014 AMC 12A · 第 3 题",
     "stem": "拉尔夫沿简街步行时，依次经过四幢房子，每幢颜色各不相同。他先经过橙色房子，后经过红色房子；先经过蓝色房子，后经过黄色房子。蓝色房子与黄色房子不相邻。四种颜色的房子共有多少种可能的排列顺序？",
     "options": {
       "A": "$\\ 2$",
@@ -13425,7 +13425,7 @@
     "grade": "AMC-10",
     "type": "单选题",
     "difficulty": "容易",
-    "sourcePaper": "2014 AMC 10A · 第 6 题",
+    "sourcePaper": "2014 AMC 10A · 第 6 题 | 2014 AMC 12A · 第 4 题",
     "stem": "假设 $a$ 头奶牛在 $c$ 天内产奶 $b$ 加仑。按此速度，$d$ 头奶牛在 $e$ 天内能产多少加仑牛奶？",
     "options": {
       "A": "$\\ \\frac{bde}{ac}$",
@@ -13439,7 +13439,7 @@
       "要适应新的奶牛数量和时间，应将 $b$ 分别乘以 $\\frac{d}{a}$ 和 $\\frac{e}{c}$，所以答案是 $b\\cdot \\frac{d}{a}\\cdot \\frac{e}{c}=\\frac{bde}{ac}$，即 $\\boxed{\\textbf{(A) } \\frac{bde}{ac}}$。",
       "取 $a=2$、$b=3$、$c=4$、$d=5$ 和 $e=6$。题目就变为：“2 头奶牛在 4 天内产 3 加仑牛奶，5 头奶牛在 6 天内产多少加仑？”\n\n若 2 头奶牛 4 天产 3 加仑，那么 2 头奶牛 1 天产 $\\frac{3}{4}$ 加仑，1 头奶牛 1 天产 $\\frac{3}{4\\cdot2}$ 加仑。因此 5 头奶牛 1 天产 $\\frac{5\\cdot3}{4\\cdot2}$ 加仑，6 天产 $\\frac{5\\cdot3\\cdot6}{4\\cdot2}$ 加仑。将这些数换回变量，结果为 $\\frac{dbe}{ac}$，即 $\\boxed{\\textbf{(A)}\\ \\frac{bde}{ac}}$。",
       "奶牛数量与所需天数成反比，与牛奶加仑数成正比，所以比例常数为 $\\dfrac{ac}{b}$。\n\n设问题的答案为 $g$，则 $\\dfrac{de}{g}=\\dfrac{ac}{b}\\implies gac=bde\\implies g=\\dfrac{bde}{ac}\\implies\\boxed{ \\textbf{(A)}\\ \\frac{bde}{ac}}$",
-      "题目给出了“速度”，所以先求一头奶牛一天的产奶量。用总产量除以奶牛数和天数，得 $\\implies\\text{rate}=\\dfrac{b}{ac}$。\n\n再用这一产奶率乘以奶牛数和天数，得 $\\implies\\boxed{\\textbf{(A) } \\dfrac{bde}{ac}}$。",
+      "题目给出了“速度”，所以先求一头奶牛一天的产奶量。用总产量除以奶牛数和天数，得 $\\implies\\text{速率}=\\dfrac{b}{ac}$。\n\n再用这一产奶率乘以奶牛数和天数，得 $\\implies\\boxed{\\textbf{(A) } \\dfrac{bde}{ac}}$。",
       "若 $a$ 头奶牛在 $c$ 天内产 $b$ 加仑牛奶，则一头奶牛在 $c$ 天内产 $\\frac{b}{a}$ 加仑。现在要计算 $d$ 头奶牛在 $e$ 天内的产量；在 $\\frac{e}{c}$ 个原时间段内，$d$ 头奶牛产 $\\frac{bd}{a}$ 加仑。利用公式 $d=rt$，得到 $\\boxed{\\textbf{(A) } \\dfrac{bde}{ac}}$。",
       "在正确公式中代入 $d=a$ 和 $e=c$ 后，结果应化为 $b$；否则就相当于说“$a$ 头奶牛在 $c$ 天内产 $b$ 加仑，但同样的 $a$ 头奶牛在同样的 $c$ 天内却不产 $b$ 加仑”。选项中只有 $\\boxed{\\textbf{(A)}}$ 满足这一点。",
       "设一头奶牛的产奶率为 $r$。由已知条件得 $rac=b$，而所求为 $rde$。从第一个方程解出 $r$，得 $r=b \\cdot \\tfrac{1}{ac}$。把 $r$ 的值代入所求表达式，得到 $rde=\\frac{bde}{ac}$，即 $\\boxed{\\textbf{(A)}}$。"
@@ -13643,7 +13643,7 @@
     "answer": "C",
     "solutions": [
       "第一小时后，他以每小时 $50$ 英里的速度继续行驶直至到达。\n\n设经过 $1$ 小时后还需行驶 $d$ 英里。则 $\\dfrac{d}{50}+1.5=\\dfrac{d}{35}$，其中 $1.5$ 来自从迟到 $1$ 小时变为提前 $0.5$ 小时。\n\n化简得 $7d+525=10d$，即 $d=175$。\n\n再加上第一小时行驶的 $35$ 英里，总路程为 $\\boxed{\\textbf{(C) } 210}$ 英里。",
-      "也可以直接检验选项。很快可知 $\\textbf{(A)}$ 和 $\\textbf{(B)}$ 均不符合，而 $\\textbf{(C)}$ 符合。验证如下：以 $35 \\text{ mph}$ 行驶 $1$ 小时后，戴维还剩 $175$ 英里；以 $50 \\text{ mph}$ 行驶这段路需要 $3.5$ 小时。而 $210/35 = 6 \\text{ hours}$。由于 $1+3.5 = 4.5 \\text{ hours}$ 比 $6$ 少 $1.5$ 小时，所以答案是 $\\boxed{\\textbf{(C)} \\: 210}$。",
+      "也可以直接检验选项。很快可知 $\\textbf{(A)}$ 和 $\\textbf{(B)}$ 均不符合，而 $\\textbf{(C)}$ 符合。验证如下：以 $35 \\text{ mph}$ 行驶 $1$ 小时后，戴维还剩 $175$ 英里；以 $50 \\text{ mph}$ 行驶这段路需要 $3.5$ 小时。而 $210/35 = 6 \\text{ 小时}$。由于 $1+3.5 = 4.5 \\text{ 小时}$ 比 $6$ 少 $1.5$ 小时，所以答案是 $\\boxed{\\textbf{(C)} \\: 210}$。",
       "设总路程为 $d$，变速后所用时间为 $t$。则 $d=35(t+1)$。由于已经过了 1 小时、车速提高了每小时 $15$ 英里且此前已行驶 $35$ 英里，另一个方程为 $d-35=50(t-1-\\frac{1}{2})=50(t-\\frac{3}{2})$。解得 $d=35t+35=50t-40$、$15t=75$、$t=5$，从而 $d=35(5+1)=35\\cdot 6=210 \\Longrightarrow \\boxed{\\textbf{(C) } 210}$。"
     ],
     "tags": []
@@ -14231,7 +14231,7 @@
       "B": "$2^{1003}$",
       "C": "$2^{1004}$",
       "D": "$2^{1005}$",
-      "E": "2^"
+      "E": "$2^{1006}$"
     },
     "answer": "D",
     "solutions": [
@@ -14581,7 +14581,7 @@
     "grade": "AMC-10",
     "type": "单选题",
     "difficulty": "容易",
-    "sourcePaper": "2015 AMC 10A · 第 9 题",
+    "sourcePaper": "2015 AMC 10A · 第 9 题 | 2015 AMC 12A · 第 7 题",
     "stem": "两个正圆柱体积相同。第二个圆柱的半径比第一个大 $10 \\%$。两个圆柱的高有何关系？",
     "options": {
       "A": "第二个圆柱的高比第一个低 $10\\%$",
@@ -16558,7 +16558,7 @@
     },
     "answer": "A",
     "solutions": [
-      "由于 $x = \\lfloor x \\rfloor + \\{ x \\}$，有\n\n$f(x) = \\sum_{k=2}^{10} (\\lfloor k \\lfloor x \\rfloor +k \\{ x \\} \\rfloor - k \\lfloor x \\rfloor)$\n\n函数可化简为\n\n$f(x) = \\sum_{k=2}^{10} ( k \\lfloor x \\rfloor + \\lfloor k \\{ x \\} \\rfloor - k \\lfloor x \\rfloor)$\n\n即\n\n$f(x) = \\sum_{k=2}^{10} \\lfloor k \\{ x \\} \\rfloor$\n\n可以看出，对每个 $k$，$\\lfloor k \\{ x \\} \\rfloor$ 可以取从 $0$ 到 $k-1$ 的所有整数值。\n\n显然，$\\lfloor k \\{ x \\} \\rfloor$ 的值只会在 $\\{ x \\}$ 等于某个分数 $\\frac{1}{k}, \\frac{2}{k} \\dots \\frac{k-1}{k}$ 时发生变化。\n\n因此，要数出所有小于 $1$、形如 $\\frac{m}{n}$ 且满足 $n \\le 10$ 的不同分数。可用下式直接计算：\n\n$\\sum_{k=2}^{10} \\phi(k)$\n\n其中 $\\phi(k)$ 是欧拉函数。具体来说，$\\phi(k)$ 统计约分后分母为 $k$ 的分数个数，计算结果为 $31$。\n\n由于 $f(x)$ 的最小值为 $0$，且能增加 $31$ 次，所以 $f(x)$ 共有 $\\fbox{\\textbf{(A)}\\ 32}$ 个不同的可能值。\n\n说明：\n将所有这些分数按从小到大排列，考察当前分数 $\\frac{m}{n}$。设 $p$ 为表中前一个分数；对每个 $k$，令 $x_\\text{old}$（$0 \\le x_\\text{old} < k$）为满足 $\\frac{x_\\text{old}}{k} \\le p$ 的最大数。由于 $\\text{ }\\text{ }\\frac{m}{n} > p$，显然所有 $x_\\text{new} \\ge x_\\text{old}$，所以变化量必为非负数。\n\n而在此前所有与 $n$ 互质的分子中，$m$ 最大。因此，当 ${x}$ 取 $\\frac{m}{n}$ 时，$\\lfloor n \\{ x \\} \\rfloor$ 的值会增加。随着分数 $m/n$ 增大，$f(x)$ 的总变化为正，所以每个这样的分数都对应函数的一个不同取值。\n\nMathWizard10 对 LaTeX 作了少量编辑。\n\n补充\n下面列出所有不同的 $\\frac{m}{n}$ 以及 $\\phi(k):$\n\n当 $n=2$ 时，$\\frac{m}{n}=\\frac{1}{2}$，$\\phi(2)=1$\n\n当 $n=3$ 时，$\\frac{m}{n}=\\frac{1}{3}$、$\\frac{2}{3}$，$\\phi(3)=2$\n\n当 $n=4$ 时，$\\frac{m}{n}=\\frac{1}{4}$、$\\frac{3}{4}$，$\\phi(4)=2$\n\n当 $n=5$ 时，$\\frac{m}{n}=\\frac{1}{5}$、$\\frac{2}{5}$、$\\frac{3}{5}$、$\\frac{4}{5}$，$\\phi(5)=4$\n\n当 $n=6$ 时，$\\frac{m}{n}=\\frac{1}{6}$、$\\frac{5}{6}$，$\\phi(6)=2$\n\n当 $n=7$ 时，$\\frac{m}{n}=\\frac{1}{7}$、$\\frac{2}{7}$、$\\frac{3}{7}$、$\\frac{4}{7}$、$\\frac{5}{7}$、$\\frac{6}{7}$，$\\phi(7)=6$\n\n当 $n=8$ 时，$\\frac{m}{n}=\\frac{1}{8}$、$\\frac{3}{8}$、$\\frac{5}{8}$、$\\frac{7}{8}$，$\\phi(8)=4$\n\n当 $n=9$ 时，$\\frac{m}{n}=\\frac{1}{9}$、$\\frac{2}{9}$、$\\frac{4}{9}$、$\\frac{5}{9}$、$\\frac{7}{9}$、$\\frac{8}{9}$，$\\phi(9)=6$\n\n当 $n=10$ 时，$\\frac{m}{n}=\\frac{1}{10}$、$\\frac{3}{10}$、$\\frac{7}{10}$、$\\frac{9}{10}$，$\\phi(10)=4$\n\n$\\sum_{k=2}^{10} \\phi(k)=31$\n\n$31+1=\\fbox{\\textbf{(A)}\\ 32}$\n\n~isabelchen",
+      "由于 $x = \\lfloor x \\rfloor + \\{ x \\}$，有\n\n$f(x) = \\sum_{k=2}^{10} (\\lfloor k \\lfloor x \\rfloor +k \\{ x \\} \\rfloor - k \\lfloor x \\rfloor)$\n\n函数可化简为\n\n$f(x) = \\sum_{k=2}^{10} ( k \\lfloor x \\rfloor + \\lfloor k \\{ x \\} \\rfloor - k \\lfloor x \\rfloor)$\n\n即\n\n$f(x) = \\sum_{k=2}^{10} \\lfloor k \\{ x \\} \\rfloor$\n\n可以看出，对每个 $k$，$\\lfloor k \\{ x \\} \\rfloor$ 可以取从 $0$ 到 $k-1$ 的所有整数值。\n\n显然，$\\lfloor k \\{ x \\} \\rfloor$ 的值只会在 $\\{ x \\}$ 等于某个分数 $\\frac{1}{k}, \\frac{2}{k} \\dots \\frac{k-1}{k}$ 时发生变化。\n\n因此，要数出所有小于 $1$、形如 $\\frac{m}{n}$ 且满足 $n \\le 10$ 的不同分数。可用下式直接计算：\n\n$\\sum_{k=2}^{10} \\phi(k)$\n\n其中 $\\phi(k)$ 是欧拉函数。具体来说，$\\phi(k)$ 统计约分后分母为 $k$ 的分数个数，计算结果为 $31$。\n\n由于 $f(x)$ 的最小值为 $0$，且能增加 $31$ 次，所以 $f(x)$ 共有 $\\fbox{\\textbf{(A)}\\ 32}$ 个不同的可能值。\n\n说明：\n将所有这些分数按从小到大排列，考察当前分数 $\\frac{m}{n}$。设 $p$ 为表中前一个分数；对每个 $k$，令 $x_\\text{旧}$（$0 \\le x_\\text{旧} < k$）为满足 $\\frac{x_\\text{旧}}{k} \\le p$ 的最大数。由于 $\\text{ }\\text{ }\\frac{m}{n} > p$，显然所有 $x_\\text{新} \\ge x_\\text{旧}$，所以变化量必为非负数。\n\n而在此前所有与 $n$ 互质的分子中，$m$ 最大。因此，当 ${x}$ 取 $\\frac{m}{n}$ 时，$\\lfloor n \\{ x \\} \\rfloor$ 的值会增加。随着分数 $m/n$ 增大，$f(x)$ 的总变化为正，所以每个这样的分数都对应函数的一个不同取值。\n\nMathWizard10 对 LaTeX 作了少量编辑。\n\n补充\n下面列出所有不同的 $\\frac{m}{n}$ 以及 $\\phi(k):$\n\n当 $n=2$ 时，$\\frac{m}{n}=\\frac{1}{2}$，$\\phi(2)=1$\n\n当 $n=3$ 时，$\\frac{m}{n}=\\frac{1}{3}$、$\\frac{2}{3}$，$\\phi(3)=2$\n\n当 $n=4$ 时，$\\frac{m}{n}=\\frac{1}{4}$、$\\frac{3}{4}$，$\\phi(4)=2$\n\n当 $n=5$ 时，$\\frac{m}{n}=\\frac{1}{5}$、$\\frac{2}{5}$、$\\frac{3}{5}$、$\\frac{4}{5}$，$\\phi(5)=4$\n\n当 $n=6$ 时，$\\frac{m}{n}=\\frac{1}{6}$、$\\frac{5}{6}$，$\\phi(6)=2$\n\n当 $n=7$ 时，$\\frac{m}{n}=\\frac{1}{7}$、$\\frac{2}{7}$、$\\frac{3}{7}$、$\\frac{4}{7}$、$\\frac{5}{7}$、$\\frac{6}{7}$，$\\phi(7)=6$\n\n当 $n=8$ 时，$\\frac{m}{n}=\\frac{1}{8}$、$\\frac{3}{8}$、$\\frac{5}{8}$、$\\frac{7}{8}$，$\\phi(8)=4$\n\n当 $n=9$ 时，$\\frac{m}{n}=\\frac{1}{9}$、$\\frac{2}{9}$、$\\frac{4}{9}$、$\\frac{5}{9}$、$\\frac{7}{9}$、$\\frac{8}{9}$，$\\phi(9)=6$\n\n当 $n=10$ 时，$\\frac{m}{n}=\\frac{1}{10}$、$\\frac{3}{10}$、$\\frac{7}{10}$、$\\frac{9}{10}$，$\\phi(10)=4$\n\n$\\sum_{k=2}^{10} \\phi(k)=31$\n\n$31+1=\\fbox{\\textbf{(A)}\\ 32}$\n\n~isabelchen",
       "由 $x = \\lfloor x \\rfloor + \\{ x \\}$，可得 $f(x) = \\sum_{k=2}^{10} \\lfloor k \\{ x \\} \\rfloor.$。显然，$\\lfloor k \\{ x \\} \\rfloor$ 的值只会在 $x$ 等于某个分数 $\\frac{1}{k}, \\frac{2}{k} \\dots \\frac{k-1}{k}$ 时变化。把该函数画成图像，可得到 $46$ 个分数。不过平均每三个分数中约有一个与其他分数重复（见下文）。所以 $f(x)$ 共有 $\\fbox{\\textbf{(A)}\\ 32}$ 个不同的可能值。\n\n注：分母满足 $2\\le k \\le 5$ 的所有分数都会与分母为 $2k,$ 的某个分数重复，这约占全部分数的 $\\frac{1}{4}$。此外，较大分母的分数中还散布着一些重复项。因此可合理估计，约有 $\\frac{1}{3}$ 的分数与其他分数重复。",
       "解法 $1$ 较为抽象，下面给出一个具体说明。\n\n不失一般性，例如当 $x$ 从 $\\frac{2}{3}-\\epsilon$ 增加到 $\\frac{2}{3}$ 时，$\\lfloor 3 \\{ x \\} \\rfloor$ 从 $1$ 增加到 $2$，$\\lfloor 6 \\{ x \\} \\rfloor$ 从 $3$ 增加到 $4$，$\\lfloor 9 \\{ x \\} \\rfloor$ 从 $5$ 增加到 $6$。因此 $f(x)$ 总共增加 $3$。由于 $\\frac{1}{3}=\\frac{2}{6}=\\frac{3}{9}$，这 $3$ 个数实际上是同一个 $1$，只会使 $f(x)$ 发生一次变化。一般地，当 $x$ 从 $\\frac{m}{n}-\\epsilon$ 增加到 $\\frac{m}{n}$ 时，若 $k \\cdot \\frac{m}{n}$ 是整数，$\\lfloor k \\{ x \\} \\rfloor$ 就会从 $k \\cdot \\frac{m}{n} -1$ 增加到 $k \\cdot \\frac{m}{n}$，于是 $f(x)$ 的值发生变化。因此，$f(x)$ 的不同取值个数等于满足 $0 < \\frac{m}{n}<1$ 和 $2 \\le n \\le 10$ 的 $\\frac{m}{n}$ 的不同取值个数。\n\n解法 $1$ 用欧拉函数统计不同的 $\\frac{m}{n}$。下面不用重复计数的方法，分类统计 $\\frac{m}{n}$ 的不同取值。\n\n当 $n=10$ 时，$\\frac{m}{n}=\\frac{1}{10}$、$\\frac{2}{10}$、$...$、$\\frac{9}{10}$，$\\Longrightarrow 9$\n\n当 $n=9$ 时，$\\frac{m}{n}=\\frac{1}{9}$、$\\frac{2}{9}$、$...$、$\\frac{8}{9}$，$\\Longrightarrow 8$\n\n当 $n=8$ 时，$\\frac{m}{n}=\\frac{1}{8}$、$\\frac{2}{8}$、$...$、$\\frac{7}{8}$，$\\Longrightarrow 6$（$\\frac{4}{8}$ 重复）\n\n当 $n=7$ 时，$\\frac{m}{n}=\\frac{1}{7}$、$\\frac{2}{7}$、$...$、$\\frac{6}{7}$，$\\Longrightarrow 6$\n\n当 $n=6$ 时，$\\frac{m}{n}=\\frac{1}{6}$、$\\frac{5}{6}$，$\\Longrightarrow 2$（$\\frac{2}{6}$、$\\frac{3}{6}$、$\\frac{4}{6}$ 重复）\n\n当 $n=5$、$4$、$3$、$2$ 时，所有 $\\frac{m}{n}$ 都重复。\n\n$9+8+6+6+2=31$，$31+1=\\fbox{\\textbf{(A)}\\ 32}$\n\n~isabelchen",
       "由 Hermite 恒等式，\n\n\\begin{align*} & \\lfloor kx \\rfloor = \\lfloor x \\rfloor + \\lfloor x + \\frac1k \\rfloor + \\lfloor x + \\frac2k \\rfloor + \\dots + \\lfloor x + \\frac{k-1}{k} \\rfloor\\\\ & \\lfloor kx \\rfloor -k \\lfloor x \\rfloor = \\lfloor x + \\frac1k \\rfloor + \\lfloor x + \\frac2k \\rfloor + \\dots + \\lfloor x + \\frac{k-1}{k} \\rfloor - (k-1) \\lfloor x \\rfloor \\end{align*}\n\n因此\n\\begin{align*} \\sum_{k=2}^{10}(\\lfloor kx \\rfloor -k \\lfloor x \\rfloor) & \\\\ &= \\sum_{k=2}^{10}(\\lfloor x + \\frac1k \\rfloor + \\lfloor x + \\frac2k \\rfloor + \\dots + \\lfloor x + \\frac{k-1}{k} \\rfloor - (k-1) \\lfloor x \\rfloor)\\\\ &= \\sum_{k=2}^{10}\\sum_{i=1}^{k-1}( \\lfloor x + \\frac{i}{k} \\rfloor - \\lfloor x \\rfloor)\\\\ &= \\sum_{k=2}^{10}\\sum_{i=1}^{k-1}( \\lfloor \\{ x \\} + \\frac{i}{k} \\rfloor) \\end{align*}\n\n$0 \\le \\{ x \\} < 1$，$0 < \\frac{j}{k}<1$ $\\Longrightarrow$ $0 < \\lfloor \\{ x \\} + \\frac{i}{k} \\rfloor < 2$ $\\Longrightarrow$ $\\lfloor \\{ x \\} + \\frac{i}{k} \\rfloor = 0 \\text{ 或 } 1$\n\n$\\{ x \\} + \\frac{i}{k} \\ge 1$ $\\Longrightarrow$ $\\{ x \\} \\ge 1 - \\frac{j}{k}$\n\n将 $1 - \\frac{i_j}{k_j}$ 从小到大排列，$\\{ x \\}$ 必落在其中一个区间内。不失一般性，设 $1 - \\frac{i_n}{k_n} \\le \\{ x \\} < 1- \\frac{i_{n+1}}{k_{n+1}}$。\n\n若 $j \\le n$，\n$\\lfloor \\{ x \\} + \\frac{i_j}{k_j} \\rfloor = 1$\n\n若 $j > n$，\n$\\lfloor \\{ x \\} + \\frac{i_j}{k_j} \\rfloor = 0$\n\n因此，$\\sum_{k=2}^{10}\\sum_{i=1}^{k-1}( \\lfloor \\{ x \\} + \\frac{i}{k} \\rfloor)$ 的每个不同取值都与 $\\frac{i}{k}$ 的一个不同取值一一对应，其中 $\\frac{i}{k}$ 为既约分数，$(i, k) = 1$。\n\n像解法 1 的补充部分那样使用欧拉函数，答案为 $\\fbox{\\textbf{(A)}\\ 32}$\n\n~isabelchen",
@@ -16705,7 +16705,7 @@
     "grade": "AMC-10",
     "type": "单选题",
     "difficulty": "容易",
-    "sourcePaper": "2017 AMC 10A · 第 7 题",
+    "sourcePaper": "2017 AMC 10A · 第 7 题 | 2017 AMC 12A · 第 4 题",
     "stem": "杰里和西尔维娅都要从一块正方形田地的西南角走到东北角。杰里先正向东走，再正向北走到终点；西尔维娅则向东北方向沿直线走到终点。与杰里的路程相比，西尔维娅的路程大约短百分之多少？",
     "options": {
       "A": "$\\ 30\\%$",
@@ -16896,7 +16896,7 @@
     "solutions": [
       "可以用几何概率求解。\n设点 $(x,y)$ 位于 $xy$ 平面内，$x$ 为克洛伊所选的数，$y$ 为劳伦特所选的数。所求条件显然是 $y>x$，它对应直线以上的区域。克洛伊的数在区间 $[0,2017]$ 内，劳伦特的数在区间 $[0,4034]$ 内，所以可在平面上画出一个长为 $2017$、宽为 $4034$ 的矩形。把它分成 4 个全等三角形，可见劳伦特获胜的区域占 3 个三角形，而克洛伊获胜的区域占 1 个三角形。因此 $\\boxed{\\textbf{(C)}\\ \\frac{3}{4}}$。",
       "把数值都缩小 $2017$ 倍，则克洛伊从 $[0,1]$ 中选择，劳伦特从 $[0,2]$ 中选择。克洛伊可能选取无穷多个数，但它们的平均值为 $0.5$。所以劳伦特获胜的区间为 $[X, 2]$，其中 $X$ 的平均值是 $0.5$。于是获胜区间的平均长度为 $2-0.5=1.5$，总区间长度为 $2-0=2$，故概率为 $1.5/2=15/20=\\boxed{\\frac{3}{4} \\space \\text{(C)}}.$",
-      "若暂以整数情形计数，劳伦特和克洛伊共有 $2018\\times4034$ 种选法（两人不能选择同一个数）。若克洛伊选 2017，劳伦特有 2017 种获胜选法；若克洛伊选 2016，劳伦特有 2018 种；依此类推，直到克洛伊选 0 时，劳伦特有 4034 种。因此答案为：\n\n$\\frac{\\text{number of ways lauren can win}}{\\text{number of combinations}}=\\frac{2017+2018+2019...+4034}{2018\\times4034}$\n\n利用等差数列求和公式：\n\n$\\frac{\\frac{1}{2}(2018)(2017+4034)}{2018\\times4034}=\\frac{3}{4}$\n\n正确答案是 $\\fbox{C}$。\n\n~Lion08；~Theoneandonlymathman 修正语法\n\n注：题目选择的是实数而非整数，所以这种解法并非在所有类似问题中都适用。",
+      "若暂以整数情形计数，劳伦特和克洛伊共有 $2018\\times4034$ 种选法（两人不能选择同一个数）。若克洛伊选 2017，劳伦特有 2017 种获胜选法；若克洛伊选 2016，劳伦特有 2018 种；依此类推，直到克洛伊选 0 时，劳伦特有 4034 种。因此答案为：\n\n$\\frac{\\text{Lauren 获胜的方式数}}{\\text{组合总数}}=\\frac{2017+2018+2019...+4034}{2018\\times4034}$\n\n利用等差数列求和公式：\n\n$\\frac{\\frac{1}{2}(2018)(2017+4034)}{2018\\times4034}=\\frac{3}{4}$\n\n正确答案是 $\\fbox{C}$。\n\n~Lion08；~Theoneandonlymathman 修正语法\n\n注：题目选择的是实数而非整数，所以这种解法并非在所有类似问题中都适用。",
       "设劳伦特所选的数为 $L \\in [0, 4034]$，克洛伊所选的数为 $C \\in [0, 2017]$。有 $\\frac{1}{2}$ 的概率满足 $L \\in (2017, 4034]$，此时无论克洛伊选什么数都有 $L > C$。若 $L \\in [0, 2017]$，其概率同样为 $\\frac{1}{2}$，则 $C$ 与 $L$ 是从同一区间独立选出的实数。由对称性，两者各自较大的概率相等，因此这部分贡献 $\\frac{1}{2} \\times \\frac{1}{2}$。\n\n答案为 $\\frac{1}{2} + \\frac{1}{2} \\times \\frac{1}{2} = \\boxed{\\textbf{(C)}\\ \\frac{3}{4}}$\n\n~abghim"
     ],
     "tags": []
@@ -18901,7 +18901,7 @@
       "B": "$4 \\sqrt{2}$",
       "C": "$6$",
       "D": "$8$",
-      "E": "$6\\sqrt2$"
+      "E": "$6 \\sqrt{2}$"
     },
     "answer": "C",
     "solutions": [
@@ -18937,7 +18937,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2019 AMC 10A · 第 9 题",
-    "stem": "最大的三位正整数 $n$ 是多少，使得前 $n$ 个正整数之和 $\\underline{\\text{not}}$ 前 $n$ 个正整数之积的因数？",
+    "stem": "最大的三位正整数 $n$ 是多少，使得前 $n$ 个正整数之和 $\\underline{\\text{不}}$ 前 $n$ 个正整数之积的因数？",
     "options": {
       "A": "$995$",
       "B": "$996$",
@@ -19202,7 +19202,7 @@
     },
     "answer": "D",
     "solutions": [
-      "三角形所在平面截球所得的圆正是该三角形的内切圆。用 $\\text{area} = \\text{内切圆半径} \\cdot \\text{semiperimeter}$ 求内切圆半径。过两条 $15$ 长边之间的顶点，向长为 $24$ 的边中点作高；由勾股数组 $9$—$12$—$15$ 可知底为 $24$、高为 $9$。用 $\\frac {\\text{底} \\cdot \\text{height}} {2}$ 得三角形面积为 $108$，半周长为 $\\frac {15 + 15 + 24} {2} = 27$。代入可得 $108 = \\text{内切圆半径} \\cdot 27$，所以内切圆半径是 $4$。\n\n设 $O$ 到三角形平面的距离为 $x$，在内切圆上取一点 $A$。$OA$ 等于球半径 $6$；$A$ 到内切圆圆心的距离等于内切圆半径 $4$。由勾股定理得 $x = \\sqrt{6^2-4^2}=\\sqrt{20} = \\boxed{\\textbf{(D) } 2 \\sqrt {5}}$。",
+      "三角形所在平面截球所得的圆正是该三角形的内切圆。用 $\\text{面积} = \\text{内切圆半径} \\cdot \\text{半周长}$ 求内切圆半径。过两条 $15$ 长边之间的顶点，向长为 $24$ 的边中点作高；由勾股数组 $9$—$12$—$15$ 可知底为 $24$、高为 $9$。用 $\\frac {\\text{底} \\cdot \\text{高}} {2}$ 得三角形面积为 $108$，半周长为 $\\frac {15 + 15 + 24} {2} = 27$。代入可得 $108 = \\text{内切圆半径} \\cdot 27$，所以内切圆半径是 $4$。\n\n设 $O$ 到三角形平面的距离为 $x$，在内切圆上取一点 $A$。$OA$ 等于球半径 $6$；$A$ 到内切圆圆心的距离等于内切圆半径 $4$。由勾股定理得 $x = \\sqrt{6^2-4^2}=\\sqrt{20} = \\boxed{\\textbf{(D) } 2 \\sqrt {5}}$。",
       "在等腰三角形中作高，令所得的 3-4-5 直角三角形 $ABC$ 满足 $AB=15$、$BC=12$，由特殊直角三角形得 $AC=9$。设截面圆半径为 $r$，圆心为 $O$，$D$ 是 $AB$ 上距 $O$ 最近的点。\n\n则 $OD=r$。显然 $ODBC$ 是风筝形，所以 $BC=DB=12$、$AD=15-DB=3$，并且 $AO=AC-r=9-r$。由勾股定理，$AD^2+OD^2=AO^2$，即 $3^2+r^2=(9-r)^2$；消去 $r^2$ 项，得 $r=4$。\n\n再次应用勾股定理，所求距离为 $\\sqrt{6^2-4^2}=\\boxed{\\textbf{(D)}2\\sqrt{5}}$。"
     ],
     "tags": []
@@ -19387,7 +19387,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2019 AMC 10B · 第 5 题",
-    "stem": "三角形 $A B C$ 位于第一象限。点 $A, B$、$C$ 关于直线 $y=x$ 的对称点分别为 $A^{\\prime}, B^{\\prime}$、$C^{\\prime}$。假设三角形的顶点均不在直线 $y=x$ 上。下列哪一陈述 $\\underline{\\text{not}}$ 一定成立？",
+    "stem": "三角形 $A B C$ 位于第一象限。点 $A, B$、$C$ 关于直线 $y=x$ 的对称点分别为 $A^{\\prime}, B^{\\prime}$、$C^{\\prime}$。假设三角形的顶点均不在直线 $y=x$ 上。下列哪一陈述 $\\underline{\\text{不}}$ 一定成立？",
     "options": {
       "A": "三角形 $A^{\\prime} B^{\\prime} C^{\\prime}$ 位于第一象限。",
       "B": "三角形 $A B C$ 与 $A^{\\prime} B^{\\prime} C^{\\prime}$ 面积相等。",
@@ -19548,7 +19548,7 @@
     },
     "answer": "C",
     "solutions": [
-      "将 $2018$ 反复除以 $7$，各次余数从右到左就是七进制表示的各位数字。因此 $2018=5612_{\\text{seven }}$。小于 $2019$ 的正整数的七进制表示至多有四位，每位至多为 $6$，最高位至多为 $5$。若最高位为 $4$，其余各位可全取 $6$，数字和为 $4+6+6+6=22$。若最高位为 $5$，其余各位不能全为 $6$，故数字和不超过 $5+5+6+6=22$。因为 $5566_{\\text{seven }}<5612_{\\text{seven }}<2019$（并且 $\\left.4666_{\\text{seven }}<5612_{\\text{seven }}<2019\\right)$），所求最大数字和为 $(\\text{C})\\boxed{22}$。"
+      "将 $2018$ 反复除以 $7$，各次余数从右到左就是七进制表示的各位数字。因此 $2018=5612_{\\text{7 }}$。小于 $2019$ 的正整数的七进制表示至多有四位，每位至多为 $6$，最高位至多为 $5$。若最高位为 $4$，其余各位可全取 $6$，数字和为 $4+6+6+6=22$。若最高位为 $5$，其余各位不能全为 $6$，故数字和不超过 $5+5+6+6=22$。因为 $5566_{\\text{7 }}<5612_{\\text{7 }}<2019$（并且 $\\left.4666_{\\text{7 }}<5612_{\\text{7 }}<2019\\right)$），所求最大数字和为 $(\\text{C})\\boxed{22}$。"
     ],
     "tags": []
   },
@@ -19675,7 +19675,7 @@
     },
     "answer": "C",
     "solutions": [
-      "由对称性，亨利的路程会趋于在两点间往返：其中一点距健身房 $x$，另一点距家同样为 $x$。他最接近健身房时距家 $2-x$ 千米，而向家走后会到达这一距离的 $\\dfrac{1}{4}$ 处，所以 $x=\\dfrac{1}{4}(2-x)$。解得 $x=\\dfrac{2}{5}$。因此亨利趋近于每次走 $2-2 \\cdot \\dfrac{2}{5}=1 \\dfrac{1}{5}$ 千米。\n\n$\\textbf{或}$\n设亨利第 $k$ 次朝健身房走后距家 $a_{k}$ 千米，第 $k$ 次朝家走后距家 $b_{k}$ 千米。则 $a_{0}=b_{0}=0$；当 $k \\geq 1$ 时，\n\n$a_{k}=b_{k-1}+\\dfrac{3}{4}\\left(2-b_{k-1}\\right)=\\dfrac{3}{2}+\\dfrac{1}{4} b_{k-1}$\n并且\n\n$b_{k}=\\dfrac{1}{4} a_{k}=\\dfrac{3}{8}+\\dfrac{1}{16} b_{k-1}$\n迭代可知数列 $\\left(b_{k}\\right)$ 收敛到\n\n$B=\\dfrac{3}{8}+\\dfrac{3}{8} \\cdot \\dfrac{1}{16}+\\dfrac{3}{8} \\cdot\\left(\\dfrac{1}{16}\\right)^{2}+\\cdots=\\dfrac{3}{8} \\cdot \\dfrac{1}{1-\\dfrac{1}{16}}=\\dfrac{2}{5}$\n于是 $\\left(a_{k}\\right)$ 收敛到 $A=\\dfrac{3}{2}+\\dfrac{1}{4} \\cdot \\dfrac{2}{5}=\\dfrac{8}{5}$。所求绝对差为 $\\left|\\dfrac{8}{5}-\\dfrac{2}{5}\\right|= (\\text{C})\\boxed{1 \\dfrac{1}{5}}$。\n\n$\\textbf{或}$\n设 $x_{k}$ 表示亨利第 $k$ 次行走后距家的距离。下式给出 $x_{k}$：\n\n$x_{k}=\\dfrac{2}{5}-\\dfrac{2}{5 \\cdot 4^{k}} \\quad \\text{ when } k \\text{ is even }$\n以及\n\n$x_{k}=\\dfrac{8}{5}-\\dfrac{2}{5 \\cdot 4^{k}} \\quad \\text{ when } k \\text{ is odd }$\n用数学归纳法证明：首先确有 $x_{0}=$ $\\dfrac{2}{5}-\\dfrac{2}{5 \\cdot 4^{0}}=0$，且 $x_{1}=\\dfrac{8}{5}-\\dfrac{2}{5 \\cdot 4^{1}}=\\dfrac{3}{2}=\\dfrac{3}{4} \\cdot 2$。当 $k \\geq 2$ 为偶数时，亨利朝家走，所以\n\n$x_{k}=\\dfrac{1}{4} x_{k-1}=\\dfrac{1}{4}\\left(\\dfrac{8}{5}-\\dfrac{2}{5 \\cdot 4^{k-1}}\\right)=\\dfrac{2}{5}-\\dfrac{2}{5 \\cdot 4^{k}}$\n当 $k \\geq 3$ 为奇数时，他朝健身房走，所以\n\n$\\begin{aligned} x_{k} &=x_{k-1}+\\dfrac{3}{4}\\left(2-x_{k-1}\\right) \\\\ &=\\dfrac{3}{2}+\\dfrac{1}{4} x_{k-1} \\\\ &=\\dfrac{3}{2}+\\dfrac{1}{4}\\left(\\dfrac{2}{5}-\\dfrac{2}{5 \\cdot 4^{k-1}}\\right) \\\\ &=\\dfrac{8}{5}-\\dfrac{2}{5 \\cdot 4^{k}} . \\end{aligned}$\n当 $k$ 趋于无穷时，这些值分别快速收敛到 $\\dfrac{2}{5}$、$\\dfrac{8}{5}$，因此亨利实际上趋于在相距 $\\dfrac{8}{5}-\\dfrac{2}{5}= (\\text{C})\\boxed{1 \\dfrac{1}{5}}$ 千米的两点间往返。"
+      "由对称性，亨利的路程会趋于在两点间往返：其中一点距健身房 $x$，另一点距家同样为 $x$。他最接近健身房时距家 $2-x$ 千米，而向家走后会到达这一距离的 $\\dfrac{1}{4}$ 处，所以 $x=\\dfrac{1}{4}(2-x)$。解得 $x=\\dfrac{2}{5}$。因此亨利趋近于每次走 $2-2 \\cdot \\dfrac{2}{5}=1 \\dfrac{1}{5}$ 千米。\n\n$\\textbf{或}$\n设亨利第 $k$ 次朝健身房走后距家 $a_{k}$ 千米，第 $k$ 次朝家走后距家 $b_{k}$ 千米。则 $a_{0}=b_{0}=0$；当 $k \\geq 1$ 时，\n\n$a_{k}=b_{k-1}+\\dfrac{3}{4}\\left(2-b_{k-1}\\right)=\\dfrac{3}{2}+\\dfrac{1}{4} b_{k-1}$\n并且\n\n$b_{k}=\\dfrac{1}{4} a_{k}=\\dfrac{3}{8}+\\dfrac{1}{16} b_{k-1}$\n迭代可知数列 $\\left(b_{k}\\right)$ 收敛到\n\n$B=\\dfrac{3}{8}+\\dfrac{3}{8} \\cdot \\dfrac{1}{16}+\\dfrac{3}{8} \\cdot\\left(\\dfrac{1}{16}\\right)^{2}+\\cdots=\\dfrac{3}{8} \\cdot \\dfrac{1}{1-\\dfrac{1}{16}}=\\dfrac{2}{5}$\n于是 $\\left(a_{k}\\right)$ 收敛到 $A=\\dfrac{3}{2}+\\dfrac{1}{4} \\cdot \\dfrac{2}{5}=\\dfrac{8}{5}$。所求绝对差为 $\\left|\\dfrac{8}{5}-\\dfrac{2}{5}\\right|= (\\text{C})\\boxed{1 \\dfrac{1}{5}}$。\n\n$\\textbf{或}$\n设 $x_{k}$ 表示亨利第 $k$ 次行走后距家的距离。下式给出 $x_{k}$：\n\n$x_{k}=\\dfrac{2}{5}-\\dfrac{2}{5 \\cdot 4^{k}} \\quad \\text{ 当 } k \\text{ 为偶数 }$\n以及\n\n$x_{k}=\\dfrac{8}{5}-\\dfrac{2}{5 \\cdot 4^{k}} \\quad \\text{ 当 } k \\text{ 为奇数 }$\n用数学归纳法证明：首先确有 $x_{0}=$ $\\dfrac{2}{5}-\\dfrac{2}{5 \\cdot 4^{0}}=0$，且 $x_{1}=\\dfrac{8}{5}-\\dfrac{2}{5 \\cdot 4^{1}}=\\dfrac{3}{2}=\\dfrac{3}{4} \\cdot 2$。当 $k \\geq 2$ 为偶数时，亨利朝家走，所以\n\n$x_{k}=\\dfrac{1}{4} x_{k-1}=\\dfrac{1}{4}\\left(\\dfrac{8}{5}-\\dfrac{2}{5 \\cdot 4^{k-1}}\\right)=\\dfrac{2}{5}-\\dfrac{2}{5 \\cdot 4^{k}}$\n当 $k \\geq 3$ 为奇数时，他朝健身房走，所以\n\n$\\begin{aligned} x_{k} &=x_{k-1}+\\dfrac{3}{4}\\left(2-x_{k-1}\\right) \\\\ &=\\dfrac{3}{2}+\\dfrac{1}{4} x_{k-1} \\\\ &=\\dfrac{3}{2}+\\dfrac{1}{4}\\left(\\dfrac{2}{5}-\\dfrac{2}{5 \\cdot 4^{k-1}}\\right) \\\\ &=\\dfrac{8}{5}-\\dfrac{2}{5 \\cdot 4^{k}} . \\end{aligned}$\n当 $k$ 趋于无穷时，这些值分别快速收敛到 $\\dfrac{2}{5}$、$\\dfrac{8}{5}$，因此亨利实际上趋于在相距 $\\dfrac{8}{5}-\\dfrac{2}{5}= (\\text{C})\\boxed{1 \\dfrac{1}{5}}$ 千米的两点间往返。"
     ],
     "tags": []
   },
@@ -20107,7 +20107,7 @@
     },
     "answer": "C",
     "solutions": [
-      "四边形 $U V C M$ 的两条对角线互相垂直，面积等于对角线长度乘积的一半。又由相似可知，$\\triangle A U V$ 的面积是 $A M C$ 面积的 $\\dfrac{1}{4}$，所以\n\n$[U V C M]=\\dfrac{3}{4} \\cdot[A M C]$\n于是\n\n$\\begin{aligned} \\dfrac{1}{2} \\cdot 12 \\cdot 12 &=\\dfrac{3}{4} \\cdot[A M C] \\\\ 72 &=\\dfrac{3}{4} \\cdot [A M C] \\\\ [A M C] &=\\boxed{(C) \\ 96}. \\end{aligned}$\n$\\textbf{或}$\n已知 $\\triangle A U V \\sim \\triangle A M C$，对应边比为 $\\dfrac{1}{2}$，故面积比为 $\\left(\\dfrac{1}{2}\\right)^{2}=\\dfrac{1}{4}$。若 $\\triangle A U V$ 面积是 $\\triangle A M C$ 的 $\\dfrac{1}{4}$，则梯形 $M U V C$ 面积是 $\\triangle A M C$ 的 $\\dfrac{3}{4}$。\n\n设 $\\overline{U C}$ 与 $\\overline{M V} P$ 相交于 P。\n\n$\\text{ Let } \\overline{U P}=x$\n$\\text{ Then } \\overline{P C}=12-x$\n因为 $\\overline{U C} \\perp \\overline{M V}, \\overline{U P}$、$\\overline{C P}$ 分别是三角形 $\\triangle M U V$、$\\triangle M C V$ 的高，且两三角形底均为 $12$，所以\n\n$\\text{ 面积 } \\triangle M U V=\\dfrac{x \\cdot 12}{2}=6 x$\n$\\text{ 面积 } \\triangle M C V=\\dfrac{(12-x) \\cdot 12}{2}=72-6 x$\n相加得到梯形 $M U V C$ 面积\n\n$6 x+(72-6 x)=72$\n它是原三角形的 $\\dfrac{3}{4}$，故原三角形面积为\n\n$\\dfrac{4}{3} \\cdot 72=\\boxed{(C) \\ 96}.$"
+      "四边形 $U V C M$ 的两条对角线互相垂直，面积等于对角线长度乘积的一半。又由相似可知，$\\triangle A U V$ 的面积是 $A M C$ 面积的 $\\dfrac{1}{4}$，所以\n\n$[U V C M]=\\dfrac{3}{4} \\cdot[A M C]$\n于是\n\n$\\begin{aligned} \\dfrac{1}{2} \\cdot 12 \\cdot 12 &=\\dfrac{3}{4} \\cdot[A M C] \\\\ 72 &=\\dfrac{3}{4} \\cdot [A M C] \\\\ [A M C] &=\\boxed{(C) \\ 96}. \\end{aligned}$\n$\\textbf{或}$\n已知 $\\triangle A U V \\sim \\triangle A M C$，对应边比为 $\\dfrac{1}{2}$，故面积比为 $\\left(\\dfrac{1}{2}\\right)^{2}=\\dfrac{1}{4}$。若 $\\triangle A U V$ 面积是 $\\triangle A M C$ 的 $\\dfrac{1}{4}$，则梯形 $M U V C$ 面积是 $\\triangle A M C$ 的 $\\dfrac{3}{4}$。\n\n设 $\\overline{U C}$ 与 $\\overline{M V} P$ 相交于 P。\n\n$\\text{ 设 } \\overline{U P}=x$\n$\\text{ 则 } \\overline{P C}=12-x$\n因为 $\\overline{U C} \\perp \\overline{M V}, \\overline{U P}$、$\\overline{C P}$ 分别是三角形 $\\triangle M U V$、$\\triangle M C V$ 的高，且两三角形底均为 $12$，所以\n\n$\\text{ 面积 } \\triangle M U V=\\dfrac{x \\cdot 12}{2}=6 x$\n$\\text{ 面积 } \\triangle M C V=\\dfrac{(12-x) \\cdot 12}{2}=72-6 x$\n相加得到梯形 $M U V C$ 面积\n\n$6 x+(72-6 x)=72$\n它是原三角形的 $\\dfrac{3}{4}$，故原三角形面积为\n\n$\\dfrac{4}{3} \\cdot 72=\\boxed{(C) \\ 96}.$"
     ],
     "tags": []
   },
@@ -20233,7 +20233,7 @@
     },
     "answer": "E",
     "solutions": [
-      "对条件 $P(n) \\leq 0$ 分情况讨论。当 $P(n)=0$ 时，满足条件的 $n$ 有 $100$ 个，即 $1^{2}, 2^{2}, 3^{2}, \\ldots, 100^{2}$。\n\n当 $P(n)<0$ 时，$P(x)$ 有 $100$ 个因子，需要奇数个为负。符号区间如 $\\begin{array}{|c|c|c|c|} \\hline & \\text{Interval of } \\boldsymbol{x} & \\# \\text{ of Negative Factors} & \\text{Valid?} \\\\ \\hline & (-\\infty, 1^{2}) & 100 & \\\\ \\hline & (1^{2}, 2^{2})^{\\prime} & 99 & \\checkmark \\\\ \\hline & \\left(2^{2}, 3^{2}\\right) & 98 \\\\ \\hline & \\left(3^{2}, 4^{2}\\right) & 97 & \\checkmark \\\\ \\hline & \\left(4^{2}, 5^{2}\\right) & 96 \\\\ \\hline & \\left(5^{2}, 6^{2}\\right) & 95 & \\checkmark \\\\ \\hline & \\left(6^{2}, 7^{2}\\right) & 94 \\\\ \\hline & \\left(99^{2} 100^{2}\\right) & 1 & j \\\\ \\hline & \\left(100^{2} \\cdot \\infty\\right) & 0 & \\\\ \\hline \\end{array}$ 所示。共有 $50$ 个有效的 $x$ 区间，其中整数数目为\n\n$\\begin{aligned} &\\left(2^{2}-1^{2}-1\\right)+\\left(4^{2}-3^{2}-1\\right)+\\left(6^{2}-5^{2}-1\\right)+\\cdots+\\left(100^{2}-99^{2}-1\\right) \\\\ &=\\underbrace{\\left(2^{2}-1^{2}\\right)}_{(2+1)(2-1)}+\\underbrace{\\left(4^{2}-3^{2}\\right)}_{(4+3)(4-3)}+\\underbrace{\\left(6^{2}-5^{2}\\right)}_{(6+5)(6-5)}+\\cdots+\\underbrace{\\left(100^{2}-99^{2}\\right)}_{(100+99)(100-99)}-50 \\\\ &=\\underbrace{(2+1)+(4+3)+(6+5)+\\cdots+(100+99)}_{1+2+3+4+5+6+\\cdots+99+100}-50 \\\\ &=\\dfrac{101(100)}{2}-50 \\\\ &=5000 \\end{aligned}$\n所以此情形有 $5000$ 个 $n$。合计为 $100+5000=\\boxed{(E) \\ 5100}$。\n\n$\\textbf{或}$\n也可注意 $P(x)$ 在 $x$ 位于 $100^{2}$ 与 $99^{2}, 98^{2}$、$97^{2}, \\cdots, 2^{2}$ 与 $1^{2}$ 等交替闭区间时非正，整数数目为\n\n$((100+99)(100-99)+1)+((98+97)(98-97)+1)+\\cdots+((2+1)(2-1)+1)$\n化简为\n\n$200+196+192+\\cdots+4=4(1+2+\\cdots+50)=4 \\cdot \\dfrac{50 \\cdot 51}{2}=\\text{} \\boxed{(E) \\ 5100}$"
+      "对条件 $P(n) \\leq 0$ 分情况讨论。当 $P(n)=0$ 时，满足条件的 $n$ 有 $100$ 个，即 $1^{2}, 2^{2}, 3^{2}, \\ldots, 100^{2}$。\n\n当 $P(n)<0$ 时，$P(x)$ 有 $100$ 个因子，需要奇数个为负。符号区间如 $\\begin{array}{|c|c|c|c|} \\hline & \\text{区间 } \\boldsymbol{x} & \\# \\text{ 负因数的个数} & \\text{有效？} \\\\ \\hline & (-\\infty, 1^{2}) & 100 & \\\\ \\hline & (1^{2}, 2^{2})^{\\prime} & 99 & \\checkmark \\\\ \\hline & \\left(2^{2}, 3^{2}\\right) & 98 \\\\ \\hline & \\left(3^{2}, 4^{2}\\right) & 97 & \\checkmark \\\\ \\hline & \\left(4^{2}, 5^{2}\\right) & 96 \\\\ \\hline & \\left(5^{2}, 6^{2}\\right) & 95 & \\checkmark \\\\ \\hline & \\left(6^{2}, 7^{2}\\right) & 94 \\\\ \\hline & \\left(99^{2} 100^{2}\\right) & 1 & j \\\\ \\hline & \\left(100^{2} \\cdot \\infty\\right) & 0 & \\\\ \\hline \\end{array}$ 所示。共有 $50$ 个有效的 $x$ 区间，其中整数数目为\n\n$\\begin{aligned} &\\left(2^{2}-1^{2}-1\\right)+\\left(4^{2}-3^{2}-1\\right)+\\left(6^{2}-5^{2}-1\\right)+\\cdots+\\left(100^{2}-99^{2}-1\\right) \\\\ &=\\underbrace{\\left(2^{2}-1^{2}\\right)}_{(2+1)(2-1)}+\\underbrace{\\left(4^{2}-3^{2}\\right)}_{(4+3)(4-3)}+\\underbrace{\\left(6^{2}-5^{2}\\right)}_{(6+5)(6-5)}+\\cdots+\\underbrace{\\left(100^{2}-99^{2}\\right)}_{(100+99)(100-99)}-50 \\\\ &=\\underbrace{(2+1)+(4+3)+(6+5)+\\cdots+(100+99)}_{1+2+3+4+5+6+\\cdots+99+100}-50 \\\\ &=\\dfrac{101(100)}{2}-50 \\\\ &=5000 \\end{aligned}$\n所以此情形有 $5000$ 个 $n$。合计为 $100+5000=\\boxed{(E) \\ 5100}$。\n\n$\\textbf{或}$\n也可注意 $P(x)$ 在 $x$ 位于 $100^{2}$ 与 $99^{2}, 98^{2}$、$97^{2}, \\cdots, 2^{2}$ 与 $1^{2}$ 等交替闭区间时非正，整数数目为\n\n$((100+99)(100-99)+1)+((98+97)(98-97)+1)+\\cdots+((2+1)(2-1)+1)$\n化简为\n\n$200+196+192+\\cdots+4=4(1+2+\\cdots+50)=4 \\cdot \\dfrac{50 \\cdot 51}{2}=\\text{} \\boxed{(E) \\ 5100}$"
     ],
     "tags": []
   },
@@ -20256,7 +20256,7 @@
     "solutions": [
       "要使 $a\\cdot d-b\\cdot c$ 为奇数，按奇偶性必须是“偶数减奇数”或“奇数减偶数”。得到偶数乘积有 $2(2 + 4) = 12$ 种，得到奇数乘积有 $2 \\cdot 2 = 4$ 种。因此使 $a\\cdot d-b\\cdot c$ 为奇数的总数为 $2 \\cdot (12 \\cdot 4) = \\boxed{\\bold{(C)}\\ 96}$。",
       "按奇偶性，两个乘积必须一奇一偶。由对称性，先令 $ad$ 为奇、$bc$ 为偶，最后乘 $2.$。$ad$ 为奇时，$a$、$d$ 都为奇数，故 $ad.$ 有 $2\\cdot2=4$ 种。对 $bc.$，若 $b$ 为偶，则 $bc.$ 有 $2\\cdot4=8$ 种；若 $b$ 为奇，还贡献 $bc.$ 的 $2\\cdot2=4$ 种。因此 $bc$ 有 $12$ 种，$ad.$ 有 $4$ 种；计入对称性共 $2 \\cdot 4 \\cdot 12= \\boxed{ \\text{(C) } 96}$ 个 $ad-bc.$。",
-      "任一数有 4 种选择，奇数有 2 种。偶数乘积数为 $\\text{P(any number)} \\cdot \\text{P(any number)}-\\text{P(odd)}\\cdot\\text{P(odd)}$，即 $4 \\cdot 4 - 2 \\cdot 2=12$；奇数乘积数为 $\\text{P(odd)}\\cdot\\text{P(odd)}$，即 $2 \\cdot 2$ 或 $4$。一个乘积奇、另一个偶且次序有别，所以共有 $2 \\cdot 4 \\cdot 12= \\boxed{ \\text{(C) } 96}$。",
+      "任一数有 4 种选择，奇数有 2 种。偶数乘积数为 $\\text{P(任意数)} \\cdot \\text{P(任意数)}-\\text{P(奇数)}\\cdot\\text{P(奇数)}$，即 $4 \\cdot 4 - 2 \\cdot 2=12$；奇数乘积数为 $\\text{P(奇数)}\\cdot\\text{P(奇数)}$，即 $2 \\cdot 2$ 或 $4$。一个乘积奇、另一个偶且次序有别，所以共有 $2 \\cdot 4 \\cdot 12= \\boxed{ \\text{(C) } 96}$。",
       "用补集计数。总数为 $4^4=256$。差为偶数时，要么偶数减偶数，要么奇数减奇数。偶乘积有 $4 \\cdot 4 - 2 \\cdot 2=12$ 种，奇乘积有 $2 \\cdot 2 =4$ 种。因此所求为 $256-12^2-4^2=\\textbf{(C)96}$。",
       "若 $ad$ 偶而 $bc$ 奇，或 $ad$ 奇而 $bc$ 偶，差为奇数；由 $ad$ 奇而 $bc$ 偶的对称情形，最后乘 2。令 $e$ 表示偶数、$o$ 表示奇数。考虑 $ad$ 偶、$bc$ 奇，其奇偶模式有\n\n$(e,o,o,e)$\n$(e,o,o,o)$\n$(o,o,o,e)$\n\n每种模式在 $(0,1,2,3)$ 中有 $2^4$ 个四元组。再计入 $ad$ 偶、$bc$ 奇与 $ad$ 奇、$bc$ 偶两大情形，得到 $2^4 \\cdot 3 \\cdot 2= \\textbf{(C)96}$。",
       "要使 $ad - bc$ 为奇数，必须是 $ad$ 奇、$bc$ 偶，或 $ad$ 偶、$bc$ 奇。两种情形对称。$ad$ 为奇要求 $a$、$d$ 都为奇，有 $2 \\cdot 2$ 种。用容斥计算 $bc$ 为偶：$b$ 为奇有 $2 \\cdot 4 = 8$ 种，$c$ 为奇有 $4 \\cdot 2 = 8$ 种，两者都为奇有 $2 \\cdot 2 = 4$ 种，所以 $bc$ 为偶有 $8 + 8 - 4 = 12$ 种。乘起来并计入对称性，得到 $2 \\cdot 4 \\cdot 12$ 个使 $ad - bc$ 为奇的四元组，即 $\\boxed{\\textbf{(C)}~96}$。"
@@ -20706,7 +20706,7 @@
     },
     "answer": "B",
     "solutions": [
-      "安迪共走 $2020$ 段，其中 $1010$ 段水平（$505$ 段向左、$505$ 段向右），$1010$ 段竖直（$505$ 段向上、$505$ 段向下）。\n\n最终位置的 $x$ 坐标为 $-20+\\overbrace{\\underbrace{1-3}_{-2}+\\underbrace{5-7}_{-2}+\\underbrace{9-11}_{-2}+\\cdots+\\underbrace{2017-2019}_{-2}}^{\\text{1010 terms, 505 pairs}}=-20-2\\cdot505=-1030.$\n最终位置的 $y$ 坐标为 $20+\\overbrace{\\underbrace{2-4}_{-2}+\\underbrace{6-8}_{-2}+\\underbrace{10-12}_{-2}+\\cdots+\\underbrace{2018-2020}_{-2}}^{\\text{1010 terms, 505 pairs}}=20-2\\cdot505=-990.$\n合起来得到 $(x,y)=\\boxed{\\textbf{(B)}\\ (-1030, -990)}.$",
+      "安迪共走 $2020$ 段，其中 $1010$ 段水平（$505$ 段向左、$505$ 段向右），$1010$ 段竖直（$505$ 段向上、$505$ 段向下）。\n\n最终位置的 $x$ 坐标为 $-20+\\overbrace{\\underbrace{1-3}_{-2}+\\underbrace{5-7}_{-2}+\\underbrace{9-11}_{-2}+\\cdots+\\underbrace{2017-2019}_{-2}}^{\\text{1010 项，505 对}}=-20-2\\cdot505=-1030.$\n最终位置的 $y$ 坐标为 $20+\\overbrace{\\underbrace{2-4}_{-2}+\\underbrace{6-8}_{-2}+\\underbrace{10-12}_{-2}+\\cdots+\\underbrace{2018-2020}_{-2}}^{\\text{1010 项，505 对}}=20-2\\cdot505=-990.$\n合起来得到 $(x,y)=\\boxed{\\textbf{(B)}\\ (-1030, -990)}.$",
       "每走四段，两个坐标都减少 $2.$。共需这样减少 $505$ 次，所以从起点相减得到 $\\boxed{\\textbf{(B)}\\ (-1030, -990)}.$",
       "前几个转折点显示每四步形成一个周期。第 $4n-1$ 步所在点为\n$$(-20-2n,20+2n).$$\n因 $2019=4\\cdot505-1$，第 2019 步后在 $(-1030,1030)$。第 2020 步向南走 2020，故到达\n$$\\boxed{\\textbf{(B)}\\ (-1030,-990)}.$$",
       "画出螺旋可见，每完成四步，两个坐标各减少 2；所以 2020 步即 505 个周期后，从 $(-20,20)$ 变为\n$$(-20-2\\cdot505,20-2\\cdot505)=\\boxed{\\textbf{(B)}\\ (-1030,-990)}.$$"
@@ -20772,7 +20772,7 @@
     },
     "answer": "A",
     "solutions": [
-      "贝拉先选区间 $[0, n]$ 的中点。此后珍每选一个数，贝拉就选择它关于中点的对称数。若珍的选择合法，则对称性保证贝拉的选择也合法且未被选过。因此珍必先无数可选，答案是 $(\\text{A}) \\boxed{\\text{Bela will always win}}$。\n\n$\\textbf{或}$\n也可先排除依赖奇偶性的可能性：$n$ 的奇偶不会改变中点对称策略；例如 $n=1$、$n=2$、$n=3$ 时都可从 $n / 2$ 开始，$n>8$ 亦同。剩下 $(\\text{A})$、$(\\text{B})$，先手优势与对称策略给出 $(\\text{A}) \\boxed{\\text{Bela will always win}}$。"
+      "贝拉先选区间 $[0, n]$ 的中点。此后珍每选一个数，贝拉就选择它关于中点的对称数。若珍的选择合法，则对称性保证贝拉的选择也合法且未被选过。因此珍必先无数可选，答案是 $(\\text{A}) \\boxed{\\text{Bela 总会获胜}}$。\n\n$\\textbf{或}$\n也可先排除依赖奇偶性的可能性：$n$ 的奇偶不会改变中点对称策略；例如 $n=1$、$n=2$、$n=3$ 时都可从 $n / 2$ 开始，$n>8$ 亦同。剩下 $(\\text{A})$、$(\\text{B})$，先手优势与对称策略给出 $(\\text{A}) \\boxed{\\text{Bela 总会获胜}}$。"
     ],
     "tags": []
   },
@@ -20866,7 +20866,7 @@
     },
     "answer": "B",
     "solutions": [
-      "把 $S(r)$ 分为 $4$ 类区域：\n\n$1.$ 长方体本身；\n\n$2.$ $B$ 各面的向外延伸；\n\n$3.$ $B$ 各棱处的四分之一圆柱；\n\n$4.$ $B$ 各顶点处的八分之一球。\n\n区域 $1$：$B$ 体积为 $1 \\cdot 3 \\cdot 4=12 \\text{, so } d=12$。\n\n区域 $2$：体积为 $B$ 表面积乘 $r$，即 $\\mathrm{SA} \\cdot r=2(1 \\cdot 3+1 \\cdot 4+3 \\cdot 4) r=38 r \\text{ to get } c=38$。\n\n区域 $3$：共有 $12$ 个四分之一圆柱，三类各 $4$ 个；其中 $4$ 个的高度为 $1 , 4$，其余两类高度为 $3,4$、$4$。$4$ 个四分之一圆柱合成一整圆柱，所以总体积为 $4 \\cdot \\dfrac{1 \\pi r^{2}}{4}+4 \\cdot \\dfrac{3 \\pi r^{2}}{4}+4 \\cdot \\dfrac{4 \\pi r^{2}}{4}=8 \\pi r^{2}$，故 $b=8 \\pi$。\n\n区域 $4$：$B$ 的每个顶点有半径 $r$ 的八分之一球；$8$ 个角合成 $1$ 个半径 $r$ 的整球，体积为 $\\dfrac{4}{3} \\pi \\cdot r^{3}, \\text{ so } a=\\dfrac{4 \\pi}{3}$。\n\n代入得 $\\dfrac{b c}{a d}=\\dfrac{(8 \\pi)(38)}{(4 \\pi / 3)(12)}=(\\mathrm{B}) \\boxed{19}$"
+      "把 $S(r)$ 分为 $4$ 类区域：\n\n$1.$ 长方体本身；\n\n$2.$ $B$ 各面的向外延伸；\n\n$3.$ $B$ 各棱处的四分之一圆柱；\n\n$4.$ $B$ 各顶点处的八分之一球。\n\n区域 $1$：$B$ 体积为 $1 \\cdot 3 \\cdot 4=12 \\text{, so } d=12$。\n\n区域 $2$：体积为 $B$ 表面积乘 $r$，即 $\\mathrm{SA} \\cdot r=2(1 \\cdot 3+1 \\cdot 4+3 \\cdot 4) r=38 r \\text{ 得到 } c=38$。\n\n区域 $3$：共有 $12$ 个四分之一圆柱，三类各 $4$ 个；其中 $4$ 个的高度为 $1 , 4$，其余两类高度为 $3,4$、$4$。$4$ 个四分之一圆柱合成一整圆柱，所以总体积为 $4 \\cdot \\dfrac{1 \\pi r^{2}}{4}+4 \\cdot \\dfrac{3 \\pi r^{2}}{4}+4 \\cdot \\dfrac{4 \\pi r^{2}}{4}=8 \\pi r^{2}$，故 $b=8 \\pi$。\n\n区域 $4$：$B$ 的每个顶点有半径 $r$ 的八分之一球；$8$ 个角合成 $1$ 个半径 $r$ 的整球，体积为 $\\dfrac{4}{3} \\pi \\cdot r^{3}, \\text{ so } a=\\dfrac{4 \\pi}{3}$。\n\n代入得 $\\dfrac{b c}{a d}=\\dfrac{(8 \\pi)(38)}{(4 \\pi / 3)(12)}=(\\mathrm{B}) \\boxed{19}$"
     ],
     "tags": []
   },
@@ -21687,7 +21687,7 @@
     "grade": "AMC-10",
     "type": "单选题",
     "difficulty": "容易",
-    "sourcePaper": "2021 AMC 10B · 第 4 题",
+    "sourcePaper": "2021 AMC 10B · 第 4 题 | 2021 AMC 12B · 第 2 题",
     "stem": "一次数学竞赛中，$57$ 名学生穿蓝色衬衫，另有 $75$ 名学生穿黄色衬衫。这 $132$ 名学生被分成 $66$ 对，其中恰有 $23$ 对的两人都穿蓝色衬衫。有多少对的两人都穿黄色衬衫？",
     "options": {
       "A": "$~23$",
@@ -22431,7 +22431,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2021 Fall AMC 10A · 第 12 题",
-    "stem": "数 $N$ 的九进制表示为 $27,006,000,052_{\\text{nine }}$。$N$ 除以 5 的余数是多少？",
+    "stem": "数 $N$ 的九进制表示为 $27,006,000,052_{\\text{9 }}$。$N$ 除以 5 的余数是多少？",
     "options": {
       "A": "$0$",
       "B": "$1$",
@@ -23134,7 +23134,7 @@
     },
     "answer": "C",
     "solutions": [
-      "由于已知雨果获胜，利用玩家之间的对称性，他第一次掷出 $5$ 的条件概率，等于第一轮的最大点数为 $5$ 的概率。\n\n令 $P(x)$ 表示事件 $x$ 发生的概率。最大点数为 5，等价于“无人掷出 6”但并非“无人掷出 5 或 6”，即 $P$（无人掷出 6$)-P($无人掷出 5 或 6$)=$$P$（最大点数为 $5$）。\n\n所以\n\n$\\begin{gathered} P(\\text{No one rolls a } 6) = \\left(\\frac{5}{6}\\right)^{4}, \\\\ P(\\text{No one rolls a } 5 \\text{ 或 } 6) = \\left(\\frac{2}{3}\\right)^{4}, \\\\ P(\\text{The highest roll is a } 5) = \\left(\\frac{5}{6}\\right)^{4} - \\left(\\frac{4}{6}\\right)^{4} = \\frac{5^{4} - 4^{4}}{6^{4}} = \\frac{369}{1296} = \\boxed{\\text{E. }\\frac{41}{144}}. \\end{gathered}$"
+      "由于已知雨果获胜，利用玩家之间的对称性，他第一次掷出 $5$ 的条件概率，等于第一轮的最大点数为 $5$ 的概率。\n\n令 $P(x)$ 表示事件 $x$ 发生的概率。最大点数为 5，等价于“无人掷出 6”但并非“无人掷出 5 或 6”，即 $P$（无人掷出 6$)-P($无人掷出 5 或 6$)=$$P$（最大点数为 $5$）。\n\n所以\n\n$\\begin{gathered} P(\\text{无人掷出 } 6) = \\left(\\frac{5}{6}\\right)^{4}, \\\\ P(\\text{无人掷出 } 5 \\text{ 或 } 6) = \\left(\\frac{2}{3}\\right)^{4}, \\\\ P(\\text{最大点数为 } 5) = \\left(\\frac{5}{6}\\right)^{4} - \\left(\\frac{4}{6}\\right)^{4} = \\frac{5^{4} - 4^{4}}{6^{4}} = \\frac{369}{1296} = \\boxed{\\text{E. }\\frac{41}{144}}. \\end{gathered}$"
     ],
     "tags": []
   },
@@ -24986,7 +24986,7 @@
     "grade": "AMC-10",
     "type": "单选题",
     "difficulty": "容易",
-    "sourcePaper": "2023 AMC 10B · 第 4 题",
+    "sourcePaper": "2023 AMC 10B · 第 4 题 | 2023 AMC 12B · 第 4 题",
     "stem": "杰克逊的画笔能画出宽 $6.5$ 毫米的窄条。他有足够的颜料画出长 $25$ 米的窄条。他能用颜料覆盖多少平方厘米的纸？",
     "options": {
       "A": "$162,500$",
@@ -25124,7 +25124,7 @@
     "grade": "AMC-10",
     "type": "单选题",
     "difficulty": "容易",
-    "sourcePaper": "2023 AMC 10B · 第 10 题",
+    "sourcePaper": "2023 AMC 10B · 第 10 题 | 2023 AMC 12B · 第 5 题",
     "stem": "你在玩一个游戏。一个 $2 \\times 1$ 矩形覆盖 $3 \\times 3$ 方格中的两个相邻小方格（可横放或竖放），但你不知道覆盖的是哪两个。你的目标是至少找出一个被覆盖的小方格。每一“回合”你猜一个小方格，随后得知该格是否被覆盖。为了保证至少猜中一个被覆盖格，最少需要多少回合？",
     "options": {
       "A": "$~3$",
@@ -25263,7 +25263,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2023 AMC 10B · 第 16 题",
-    "stem": "把位数不少于 $2$ 且各位数字从左到右严格递增的正整数称为 $\\textit{upno}$。类似地，把位数不少于 $2$ 且各位数字从左到右严格递减的正整数称为 $\\textit{downno}$。例如，$258$ 是递增数，$8620$ 是递减数。设 $U$ 为所有 $upnos$ 的总数，$D$ 为所有 $downnos$ 的总数。求 $|U-D|$。",
+    "stem": "把位数不少于 $2$ 且各位数字从左到右严格递增的正整数称为 “递增数”（upno）。类似地，把位数不少于 $2$ 且各位数字从左到右严格递减的正整数称为 “递减数”（downno）。例如，$258$ 是递增数，$8620$ 是递减数。设 $U$ 为所有 递增数 的总数，$D$ 为所有 递减数 的总数。求 $|U-D|$。",
     "options": {
       "A": "$~512$",
       "B": "$~10$",
@@ -25414,7 +25414,7 @@
     "sourcePaper": "2023 AMC 10B · 第 22 题",
     "stem": "有多少个不同的 $x$ 满足\n$\\lfloor{x}\\rfloor^2-3x+2=0$，其中 $\\lfloor{x}\\rfloor$ 表示不大于 $x$ 的最大整数？",
     "options": {
-      "A": "$\\text{an infinite number}$",
+      "A": "$\\text{无穷多}$",
       "B": "$4$",
       "C": "$2$",
       "D": "$3$",
@@ -25746,7 +25746,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2024 AMC 10A · 第 12 题",
-    "stem": "Zelda 在 8 月 1 日玩 Adventures of Math 游戏，得分 1700 分，随后 5 天每天都玩。下方柱状图给出每天相对前一天的分数变化。（例如，8 月 2 日得分为 $1700+80=1780$。）这 6 天 Zelda 的平均得分是多少？\n\n$\\textbf{Daily Change in Score from August 2 to 6}$\n\n[Figure: /question-assets/source/amc/c101b28b86992886c76d0ccf2e154cebc06552eb08d2eff5dde5ddb04631cbe8.jpg]\n\n8 月 2 日　8 月 3 日　8 月 4 日　8 月 5 日　8 月 6 日",
+    "stem": "Zelda 在 8 月 1 日玩 Adventures of Math 游戏，得分 1700 分，随后 5 天每天都玩。下方柱状图给出每天相对前一天的分数变化。（例如，8 月 2 日得分为 $1700+80=1780$。）这 6 天 Zelda 的平均得分是多少？\n\n$\\textbf{8月2日至6日分数的每日变化}$\n\n[Figure: /question-assets/source/amc/c101b28b86992886c76d0ccf2e154cebc06552eb08d2eff5dde5ddb04631cbe8.jpg]\n\n8 月 2 日　8 月 3 日　8 月 4 日　8 月 5 日　8 月 6 日",
     "options": {
       "A": "$1700$",
       "B": "$1702$",
@@ -25756,7 +25756,7 @@
     },
     "answer": "E",
     "solutions": [
-      "下表列出 Zelda 这 6 天每天的得分。\n\n$\\begin{array}{c|c|c} \\textbf{Date} & \\textbf{Change} & \\textbf{Score} \\\\ \\hline Aug 1 & & 1700 \\\\ Aug 2 & +80 & 1780 \\\\ Aug 3 & -90 & 1690 \\\\ Aug 4 & -10 & 1680 \\\\ Aug 5 & +60 & 1740 \\\\ Aug 6 & -40 & 1700 \\\\ \\end{array}$\n\n总分除以 6，平均为\n\n$\\frac{1700+1780+1690+1680+1740+1700}{6}=\\frac{10290}{6}=(\\text{E})\\boxed{1715} \\text{ points. }$\n\n$\\textbf{或}$\n\n也可画出每天相对 8 月 1 日 1700 分的累计变化：\n\n$\\textbf{Cumulative Change in Score since August 1}$\n\n[Figure: /question-assets/source/amc/c112ac483e437cf6723ff67cb540f2bd3ac88999bb5521cc5f0c59951113bed3.jpg]\n\n8 月 2 日　8 月 3 日　8 月 $4 \\quad$ 日　8 月 $5 \\quad$ 日　8 月 6 日\n\n6 天累计变化的平均值为 $\\frac{80-10-20+40+0}{6}=\\frac{90}{6}=15 \\text{ points }$，所以平均得分为 $1700+15=(\\text{E})\\boxed{1715}$ 分。"
+      "下表列出 Zelda 这 6 天每天的得分。\n\n$\\begin{array}{c|c|c} \\textbf{日期} & \\textbf{变化量} & \\textbf{得分} \\\\ \\hline Aug 1 & & 1700 \\\\ Aug 2 & +80 & 1780 \\\\ Aug 3 & -90 & 1690 \\\\ Aug 4 & -10 & 1680 \\\\ Aug 5 & +60 & 1740 \\\\ Aug 6 & -40 & 1700 \\\\ \\end{array}$\n\n总分除以 6，平均为\n\n$\\frac{1700+1780+1690+1680+1740+1700}{6}=\\frac{10290}{6}=(\\text{E})\\boxed{1715} \\text{ 分。}$\n\n$\\textbf{或}$\n\n也可画出每天相对 8 月 1 日 1700 分的累计变化：\n\n$\\textbf{自8月1日起分数的累计变化}$\n\n[Figure: /question-assets/source/amc/c112ac483e437cf6723ff67cb540f2bd3ac88999bb5521cc5f0c59951113bed3.jpg]\n\n8 月 2 日　8 月 3 日　8 月 $4 \\quad$ 日　8 月 $5 \\quad$ 日　8 月 6 日\n\n6 天累计变化的平均值为 $\\frac{80-10-20+40+0}{6}=\\frac{90}{6}=15 \\text{ 分 }$，所以平均得分为 $1700+15=(\\text{E})\\boxed{1715}$ 分。"
     ],
     "tags": []
   },
@@ -26452,7 +26452,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2024 AMC 10B · 第 19 题",
-    "stem": "下表每个问号应填“可能”或“不可能”，表示具有给定斜率的非竖直直线能否恰含给定数量的格点（两个坐标均为整数的点）。12 个位置中有多少个应填“可能”？\n\n$\\begin{array}{|c|c|c|c|c|} \\hline & \\textbf{zero} & \\textbf{exactly one} & \\textbf{exactly two} & \\textbf{more than two} \\\\ \\hline \\textbf{zero slope} & ? & ? & ? & ? \\\\ \\hline \\textbf{nonzero rational slope} & ? & ? & ? & ? \\\\ \\hline \\textbf{irrational slope} & ? & ? & ? & ? \\\\ \\hline \\end{array}$",
+    "stem": "下表每个问号应填“可能”或“不可能”，表示具有给定斜率的非竖直直线能否恰含给定数量的格点（两个坐标均为整数的点）。12 个位置中有多少个应填“可能”？\n\n$\\begin{array}{|c|c|c|c|c|} \\hline & \\textbf{零} & \\textbf{恰好一个} & \\textbf{恰好两个} & \\textbf{多于两个} \\\\ \\hline \\textbf{零斜率} & ? & ? & ? & ? \\\\ \\hline \\textbf{非零有理斜率} & ? & ? & ? & ? \\\\ \\hline \\textbf{无理斜率} & ? & ? & ? & ? \\\\ \\hline \\end{array}$",
     "options": {
       "A": "$4$",
       "B": "$5$",
@@ -26684,7 +26684,7 @@
     "grade": "AMC-10",
     "type": "单选题",
     "difficulty": "容易",
-    "sourcePaper": "2025 AMC 10A · 第 4 题",
+    "sourcePaper": "2025 AMC 10A · 第 4 题 | 2025 AMC 12A · 第 3 题",
     "stem": "一支学生队将与一支教师队参加知识竞赛，学生和教师总人数为 $15$。一名学生的表亲 Ash 想加入。若加入学生队，该队平均年龄从 $12$ 岁升至 $14$ 岁；若加入教师队，该队平均年龄从 $55$ 岁降至 $52$ 岁。Ash 多少岁？",
     "options": {
       "A": "$~28$",
@@ -26914,7 +26914,7 @@
     "grade": "AMC-10",
     "type": "单选题",
     "difficulty": "一般",
-    "sourcePaper": "2025 AMC 10A · 第 14 题",
+    "sourcePaper": "2025 AMC 10A · 第 14 题 | 2025 AMC 12A · 第 6 题",
     "stem": "六把椅子围绕圆桌摆放。两名学生和两名教师随机选择其中四把坐下。两名学生坐在相邻椅子上且两名教师也坐在相邻椅子上的概率是多少？",
     "options": {
       "A": "$\\frac 16$",

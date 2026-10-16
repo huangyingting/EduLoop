@@ -2,8 +2,10 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import {
   AGIEVAL_AUTHORITATIVE_YANZI_PASSAGE,
+  AGIEVAL_REPAIRED_OUTPUT_COUNT,
   AGIEVAL_REPAIR_COUNT,
   convertAgievalRecords,
+  normalizeAgievalQuestion,
   normalizeAgievalText,
   repairAgievalRecord,
   stripAgievalOptionLabel,
@@ -24,6 +26,9 @@ function record(overrides = {}) {
 test("normalizes AGIEval markdown while preserving answer blanks", () => {
   assert.equal(normalizeAgievalText("__材料一：__。内容____①____"), "材料一：内容____①____");
   assert.equal(stripAgievalOptionLabel("（Ａ） 选项内容"), "选项内容");
+  assert.equal(stripAgievalOptionLabel("(A)A．选项内容"), "选项内容");
+  assert.equal(stripAgievalOptionLabel("(A)、选项内容"), "选项内容");
+  assert.equal(normalizeAgievalQuestion("1、下列词语中，字形和加点字的读音全都正确的一项是（  ）D", "D"), "下列词语中，字形和加点字的读音全都正确的一项是");
 });
 
 test("converts a labeled question into an auto-gradable high-school record", () => {
@@ -49,8 +54,9 @@ test("rejects duplicate content with conflicting answer labels", () => {
   assert.throws(() => convertAgievalRecords([record(), record({ label: "D" })]), /disagree on the answer/u);
 });
 
-test("pins all ten AGIEval source repairs and fails closed on source drift", () => {
-  assert.equal(AGIEVAL_REPAIR_COUNT, 10);
+test("pins all AGIEval source repairs and fails closed on source drift", () => {
+  assert.equal(AGIEVAL_REPAIR_COUNT, 49);
+  assert.equal(AGIEVAL_REPAIRED_OUTPUT_COUNT, 44);
   assert.match(AGIEVAL_AUTHORITATIVE_YANZI_PASSAGE, /息于涂侧者/u);
   assert.match(AGIEVAL_AUTHORITATIVE_YANZI_PASSAGE, /士者诎乎不知己，而申乎知己/u);
   assert.match(AGIEVAL_AUTHORITATIVE_YANZI_PASSAGE, /乃令粪洒②改席，尊醮③而礼之/u);

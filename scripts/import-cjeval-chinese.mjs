@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 import { writeFile } from "node:fs/promises";
 import path from "node:path";
-import { CJEVAL_COMMIT, CJEVAL_SPLITS, convertCjevalRecord, hasCjevalSourceLabel } from "./cjeval.mjs";
+import { CJEVAL_COMMIT, CJEVAL_SPLITS, convertCjevalRecord, hasCjevalSourceLabel, postProcessCjevalQuestion } from "./cjeval.mjs";
 
 const outputPath = path.join(process.cwd(), "data", "zh-CN", "chinese.json");
 
@@ -24,7 +24,7 @@ async function downloadSplit(split) {
       }
     });
     if (records.length !== split.count) throw new Error(`CJEval ${split.name} expected ${split.count} records, received ${records.length}`);
-    return records.map((record, index) => convertCjevalRecord(record, split.name, index));
+    return records.map((record, index) => postProcessCjevalQuestion(convertCjevalRecord(record, split.name, index))).filter(Boolean);
   } finally {
     clearTimeout(timeout);
   }

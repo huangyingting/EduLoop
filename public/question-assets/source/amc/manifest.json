@@ -9948,6 +9948,36 @@
       "sha256": "a55fa4f7b13c3af89eb0766d0a727aa87ff743a04849b668b589e9777b7dd1e2",
       "bytes": 9285,
       "contentType": "image/jpeg"
+    },
+    "https://artofproblemsolving.com/wiki/images/generated/2025_AMC8_Problem_13_A.svg": {
+      "path": "/question-assets/source/amc/42187719fa04413b3e4798ae3ea2f7a8a06571119bc7a711994db14268dd4b1d.svg",
+      "sha256": "42187719fa04413b3e4798ae3ea2f7a8a06571119bc7a711994db14268dd4b1d",
+      "bytes": 2497,
+      "contentType": "image/svg+xml"
+    },
+    "https://artofproblemsolving.com/wiki/images/generated/2025_AMC8_Problem_13_B.svg": {
+      "path": "/question-assets/source/amc/8ac8f4454748c924c19dbab8efe427e61f14b1047074829eb03034f438c29df8.svg",
+      "sha256": "8ac8f4454748c924c19dbab8efe427e61f14b1047074829eb03034f438c29df8",
+      "bytes": 2497,
+      "contentType": "image/svg+xml"
+    },
+    "https://artofproblemsolving.com/wiki/images/generated/2025_AMC8_Problem_13_C.svg": {
+      "path": "/question-assets/source/amc/58ff0f13fd2dba8cdb6192194834819878058500b8a1bc1fd114140f437e9555.svg",
+      "sha256": "58ff0f13fd2dba8cdb6192194834819878058500b8a1bc1fd114140f437e9555",
+      "bytes": 2497,
+      "contentType": "image/svg+xml"
+    },
+    "https://artofproblemsolving.com/wiki/images/generated/2025_AMC8_Problem_13_D.svg": {
+      "path": "/question-assets/source/amc/f097ab0f87efe6eb3fbbd0fe2be8b49669b023185dd04a825ac621fff30bface.svg",
+      "sha256": "f097ab0f87efe6eb3fbbd0fe2be8b49669b023185dd04a825ac621fff30bface",
+      "bytes": 2497,
+      "contentType": "image/svg+xml"
+    },
+    "https://artofproblemsolving.com/wiki/images/generated/2025_AMC8_Problem_13_E.svg": {
+      "path": "/question-assets/source/amc/e1ba1b119a32884aa58cc919cb414b02e564625bc838094758cd9fa1a9faba09.svg",
+      "sha256": "e1ba1b119a32884aa58cc919cb414b02e564625bc838094758cd9fa1a9faba09",
+      "bytes": 2497,
+      "contentType": "image/svg+xml"
     }
   }
 }

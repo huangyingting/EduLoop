@@ -1,4 +1,25 @@
 import { createHash } from "node:crypto";
+import {
+  CJEVAL_EXCLUDED_IDS,
+  alignSubquestionAnswers,
+  cleanCjevalEscapesAndBrackets,
+  cleanMangledSolutionMeta,
+  ensureFillBlankMarkers,
+  normalizeAnswerNumbering,
+  normalizeStemNumbering,
+  postProcessCjevalQuestion,
+} from "./cjeval-repairs.mjs";
+
+export {
+  CJEVAL_EXCLUDED_IDS,
+  alignSubquestionAnswers,
+  cleanCjevalEscapesAndBrackets,
+  cleanMangledSolutionMeta,
+  ensureFillBlankMarkers,
+  normalizeAnswerNumbering,
+  normalizeStemNumbering,
+  postProcessCjevalQuestion,
+};
 
 export const CJEVAL_COMMIT = "590fb8f34239f642324b806b68374c303fe643bf";
 

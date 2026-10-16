@@ -1,6 +1,9 @@
 import assert from "node:assert/strict";
+import fs from "node:fs";
+import path from "node:path";
 import test from "node:test";
 import {
+  CJEVAL_EXCLUDED_IDS,
   CJEVAL_REPAIR_COUNT,
   convertCjevalRecord,
   formatCjevalAnswer,
@@ -296,3 +299,45 @@ test("repairs the pinned Huanxisha record in the generated archive", () => {
   assert.match(stem, /\n\n（2） 这首词清新朴实/u);
   assert.doesNotMatch(stem, /题目内容|上标/u);
 });
+
+test("postProcessCjevalQuestion repairs brackets, escapes, blanks, and subquestion alignment across chinese.json", () => {
+  const archivePath = path.join(process.cwd(), "data", "zh-CN", "chinese.json");
+  const questions = JSON.parse(fs.readFileSync(archivePath, "utf8"));
+  assert.equal(questions.length, 2494);
+
+  for (const excludedId of CJEVAL_EXCLUDED_IDS) {
+    assert.equal(
+      questions.some((q) => q.id === excludedId),
+      false,
+      `Expected excluded passage-less record ${excludedId} to be absent`,
+    );
+  }
+
+  for (const q of questions) {
+    const stemMarkers = [...q.stem.matchAll(/(?:^|\n)（([1-9]\d*)）/gu)].map((m) => Number(m[1]));
+    const ansMarkers = [...q.answer.matchAll(/(?:^|\n)（([1-9]\d*)）/gu)].map((m) => Number(m[1]));
+    if (stemMarkers.length >= 2) {
+      assert.deepEqual(
+        stemMarkers,
+        stemMarkers.map((_, idx) => idx + 1),
+        `Non-sequential stem numbering in ${q.id}`,
+      );
+      assert.deepEqual(
+        ansMarkers,
+        stemMarkers,
+        `Subquestion answer count mismatch in ${q.id}`,
+      );
+    }
+    if (q.type === "填空题") {
+      assert.equal(q.stem.includes("______"), true, `Fill-in-the-blank ${q.id} missing ______ marker`);
+    }
+    const texts = [q.stem, ...Object.values(q.options ?? {}), q.answer, ...(q.solutions ?? [])];
+    for (const t of texts) {
+      assert.doesNotMatch(t, /\\n|\\u[0-9a-fA-F]{4}|[\uE000-\uF8FF]/u, `Escaped or PUA character in ${q.id}`);
+    }
+    const opens = (q.stem.match(/【/gu) ?? []).length;
+    const closes = (q.stem.match(/】/gu) ?? []).length;
+    assert.equal(opens, closes, `Unbalanced 【】 in ${q.id}`);
+  }
+});
+

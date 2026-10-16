@@ -4,15 +4,15 @@ Audit date: 2026-08-03. Reproduce the structural portion with `node scripts/anal
 
 ## Inventory
 
-The nine Simplified Chinese runtime files under `data/zh-CN/` contain 16,531 unique question IDs: six subject archives and separate AMC 8, AMC 10, and AMC 12 archives. Matching English AMC source files live under `data/en/`. The AMC files hold 3,462 unique questions representing 3,575 contest slots; 113 exact AMC 10/12 overlaps are stored once with merged paper provenance and solutions.
+The nine Simplified Chinese runtime files under `data/zh-CN/` contain 16,489 unique question IDs: six subject archives and separate AMC 8, AMC 10, and AMC 12 archives. Matching English AMC source files live under `data/en/`. The AMC files hold 3,446 unique questions representing 3,575 contest slots; 129 exact AMC 10/12 overlaps are stored once with merged paper provenance and solutions.
 
 | Dimension | Distribution |
 | --- | --- |
-| Grade band | Primary 1,815; middle 7,111; high 4,143; AMC-8 1,025; AMC-10 1,275; AMC-12 1,162 |
-| Subject | Mathematics 8,847; Chinese 2,726; physics 2,226; chemistry 1,647; biology 1,085 |
-| Difficulty | Easy 7,603; medium 7,570; hard 1,358 |
-| Largest grades | Middle-school comprehensive: 2,499; Grade 9: 2,403; high school year 3: 1,873 |
-| Online-ready flag | True 10,545; false 5,986 |
+| Grade band | Primary 1,815; middle 7,102; high 4,126; AMC-8 1,025; AMC-10 1,275; AMC-12 1,146 |
+| Subject | Mathematics 8,827; Chinese 2,707; physics 2,226; chemistry 1,646; biology 1,083 |
+| Difficulty | Easy 7,585; medium 7,547; hard 1,357 |
+| Largest grades | Middle-school comprehensive: 2,494; Grade 9: 2,403; high school year 3: 1,857 |
+| Online-ready flag | True 10,590; false 5,899 |
 | Quality label | Original subject/AMC provenance is preserved in `sourcePaper`; CJEval and AGIEval records identify their licensed import and pinned provenance |
 
 The source has 30 question-type strings. Normalization reduces them to seven stable product families:
@@ -58,15 +58,15 @@ Audit version 1 assessed all 16,537 bundled questions and changed 5,232 high-con
 
 ## AGIEval high-school Chinese
 
-`npm run data:import:agieval` downloads `data/v1_1/gaokao-chinese.jsonl` from pinned AGIEval commit `84ab72d94318290aad2e4ec820d535a95a1f7552`, rejects redirects, limits the response to 5 MB, and verifies SHA-256 `1ddcf8fa15e07a25589796dc1c72a341c2d874af8de41970262d66693f95285f`. The 246 upstream rows contain 19 exact duplicate rows with matching answers. The importer merges those paper references and deterministically emits 227 unique, four-option `高三` questions in `chinese-high-school.json`.
+`npm run data:import:agieval` downloads `data/v1_1/gaokao-chinese.jsonl` from pinned AGIEval commit `84ab72d94318290aad2e4ec820d535a95a1f7552`, rejects redirects, limits the response to 5 MB, and verifies SHA-256 `1ddcf8fa15e07a25589796dc1c72a341c2d874af8de41970262d66693f95285f`. The 246 upstream rows contain 33 exact or passage-matched duplicate rows with matching answers. The importer merges those paper references and deterministically emits 213 unique, four-option `高三` questions in `chinese-high-school.json`.
 
-The archive covers 35 named source papers from 2008 through 2021. Of the 227 unique questions, 201 include their reading passage and 26 are standalone language-use questions. All retain the source paper, a stable ID, the upstream commit and file digest, a direct `A`–`D` answer key, and imported high-school Chinese and skill tags. Ten SHA-256-pinned source-row repairs correct confirmed OCR and grammar damage in a language-use item, the `围棋与国家` and `抗生素滥用与DNA污染` passages, and a 2008 classical-Chinese passage with its options. AGIEval does not provide answer explanations; EduLoop says so in every solution entry rather than generating unreviewed reasoning. The upstream `data/v1_1/LICENSE` applies the MIT License to Gaokao data, and its required notice is retained at `data/licenses/agieval-gaokao-mit.txt`.
+The archive covers 35 named source papers from 2008 through 2021. Of the 213 unique questions, 190 include their reading passage and 23 are standalone language-use questions. All retain the source paper, a stable ID, the upstream commit and file digest, a direct `A`–`D` answer key, and imported high-school Chinese and skill tags. Forty-nine SHA-256-pinned source-row repairs correct confirmed OCR, passage-omission, and grammar damage across the archive. AGIEval does not provide answer explanations; EduLoop says so in every solution entry rather than generating unreviewed reasoning. The upstream `data/v1_1/LICENSE` applies the MIT License to Gaokao data, and its required notice is retained at `data/licenses/agieval-gaokao-mit.txt`.
 
 ## CJEval junior-high Chinese
 
 The project owner confirmed a separate permission covering use, modification, learner display, repository redistribution, and commercial use of the CJEval records in EduLoop. The upstream public repository otherwise states an academic/research-only restriction, so evidence of the project-specific permission must be retained outside this repository. Preserve attribution to CJEval and its paper when redistributing the derived archive.
 
-`npm run data:import:cjeval` downloads the three `初中语文` JSONL splits from pinned commit `590fb8f34239f642324b806b68374c303fe643bf`, verifies each source SHA-256 and record count, and deterministically rebuilds `data/zh-CN/chinese.json`. The import contains 2,499 questions: 576 source choice questions, 664 fill blanks, 597 modern-reading questions, and 662 poetry-appreciation questions. All have non-empty answers, explanations, difficulty labels, and one or more knowledge concepts. The 4,095 source knowledge links across 276 distinct labels are imported as stable topic tags.
+`npm run data:import:cjeval` downloads the three `初中语文` JSONL splits from pinned commit `590fb8f34239f642324b806b68374c303fe643bf`, verifies each source SHA-256 and record count, and deterministically rebuilds `data/zh-CN/chinese.json`. Five irrecoverable passage-less reading records (`b322acd92726ee4475566fea98ca185b`, `369620bbf4863cbc0c99aa7cd3b32cc0`, `e0fb5848cfea070ce51e75cd16f7f075`, `a33ac42806f8c2ef83a188bd99507662`, `0f8838554c65ee5c51d1540eb1944356`) are excluded. The import contains 2,494 questions: 576 source choice questions, 658 fill blanks, 598 modern-reading questions, 660 poetry-appreciation questions, and 2 composite items. All have non-empty answers, explanations, difficulty labels, and one or more knowledge concepts. The 4,095 source knowledge links across 276 distinct labels are imported as stable topic tags.
 
 CJEval does not identify seventh, eighth, or ninth grade, so all records use the honest `初中综合` grade. The converter renders source emphasis markup as visible plain text, formats nested answers for learner self-assessment, removes transport-only labels, restores deterministic section/paragraph/subquestion/option line breaks, applies conservative poetry line formatting, recovers safely delimited and reordered lettered choices, and preserves source split/index provenance. Thirty pinned source defects have explicit EduLoop editorial repairs. The importer corrects contradictory or mismatched choices and explanations, reconstructs incomplete option sets and substantive multi-part answers, retains one genuine two-part item for reference-answer self-assessment, repairs damaged reading quotations and repeated or near-character text, separates poem titles from first lines, restores flattened poetry structure, and corrects the reviewed Chinese large-number representation in a QR-code item. Each repair is keyed by source split/index, fails closed if its expected source text drifts, and remains labeled in the generated record's quality provenance. The import currently produces no `NEEDS_REVIEW` records, but source permission and automated checks do not replace ongoing editorial fact checking.
 

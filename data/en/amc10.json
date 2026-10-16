@@ -693,7 +693,7 @@
     "grade": "AMC-10",
     "type": "单选题",
     "difficulty": "容易",
-    "sourcePaper": "2002 AMC 10B · Problem 7",
+    "sourcePaper": "2002 AMC 10B · Problem 7 | 2002 AMC 12B · Problem 4",
     "stem": "Let $n$ be a positive integer such that $\\dfrac{1}{2}+\\dfrac{1}{3}+\\dfrac{1}{7}+\\dfrac{1}{n}$ is an integer. Which of the following statements is not true:",
     "options": {
       "A": "$2$ divides $n$",
@@ -863,7 +863,7 @@
     "grade": "AMC-10",
     "type": "单选题",
     "difficulty": "一般",
-    "sourcePaper": "2002 AMC 10B · Problem 15",
+    "sourcePaper": "2002 AMC 10B · Problem 15 | 2002 AMC 12B · Problem 11",
     "stem": "The positive integers $A, B, A-B$, and $A+B$ are all prime numbers. The sum of these four primes is",
     "options": {
       "A": "even",
@@ -997,7 +997,7 @@
     "grade": "AMC-10",
     "type": "单选题",
     "difficulty": "困难",
-    "sourcePaper": "2002 AMC 10B · Problem 21",
+    "sourcePaper": "2002 AMC 10B · Problem 21 | 2002 AMC 12B · Problem 17",
     "stem": "Andy's lawn has twice as much area as Beth's lawn and three times as much area as Carlos' lawn. Carlos' lawn mower cuts half as fast as Beth's mower and one third as fast as Andy's mower. If they all start to mow their lawns at the same time, who will finish first?",
     "options": {
       "A": "Andy",
@@ -1748,7 +1748,7 @@
     "grade": "AMC-10",
     "type": "单选题",
     "difficulty": "容易",
-    "sourcePaper": "2003 AMC 10A · Problem 6",
+    "sourcePaper": "2003 AMC 10A · Problem 6 | 2003 AMC 12A · Problem 6",
     "stem": "Define $x \\heartsuit y$ to be $|x-y|$ for all real numbers $x$ and $y$. Which of the following statements is not true?",
     "options": {
       "A": "$x \\heartsuit y=y \\heartsuit x$ for all $x$ and $y$",
@@ -4828,14 +4828,14 @@
     "grade": "AMC-10",
     "type": "单选题",
     "difficulty": "容易",
-    "sourcePaper": "2006 AMC 10A · Problem 2",
+    "sourcePaper": "2006 AMC 10A · Problem 2 | 2006 AMC 12A · Problem 2",
     "stem": "Define $x \\otimes y=x^{3}-y$. What is $h \\otimes(h \\otimes h)?$",
     "options": {
       "A": "$-h$",
       "B": "$0$",
       "C": "$h$",
       "D": "$2 h$",
-      "E": "h^"
+      "E": "$h^{3}$"
     },
     "answer": "C",
     "solutions": [
@@ -5945,7 +5945,7 @@
     "grade": "AMC-10",
     "type": "单选题",
     "difficulty": "容易",
-    "sourcePaper": "2007 AMC 10A · Problem 4",
+    "sourcePaper": "2007 AMC 10A · Problem 4 | 2007 AMC 12A · Problem 3",
     "stem": "The larger of two consecutive odd integers is three times the smaller. What is their sum?",
     "options": {
       "A": "$\\ 4$",
@@ -6615,7 +6615,7 @@
       "B": "$\\mathrm{h}$",
       "C": "$\\mathrm{o}$",
       "D": "$\\mathrm{s}$",
-      "E": "\\mathrm"
+      "E": "$\\mathrm{t}$"
     },
     "answer": "D",
     "solutions": [
@@ -8283,7 +8283,7 @@
       "B": "$P^{n} Q^{m}$",
       "C": "$P^{n} Q^{2 m}$",
       "D": "$P^{2 m} Q^{n}$",
-      "E": "P^{2 n} Q^"
+      "E": "$P^{2 n} Q^{m}$"
     },
     "answer": "E",
     "solutions": [
@@ -12201,7 +12201,7 @@
       "B": "$\\dfrac{2 \\sqrt{2}}{3}$",
       "C": "$1$",
       "D": "$\\dfrac{2 \\sqrt{3}}{3}$",
-      "E": "\\sqrt"
+      "E": "$\\sqrt{2}$"
     },
     "answer": "D",
     "solutions": [
@@ -12215,10 +12215,10 @@
     "grade": "AMC-10",
     "type": "单选题",
     "difficulty": "困难",
-    "sourcePaper": "2012 AMC 10B · Problem 24",
+    "sourcePaper": "2012 AMC 10B · Problem 24 | 2012 AMC 12B · Problem 16",
     "stem": "Amy, Beth, and Jo listen to four different songs and discuss which ones they like. No song is liked by all three. Furthermore, for each of the three pairs of the girls, there is at least one song liked by those two girls but disliked by the third. In how many different ways is this possible?",
     "options": {
-      "A": "108",
+      "A": "$108$",
       "B": "$132$",
       "C": "$671$",
       "D": "$846$",
@@ -13378,7 +13378,7 @@
     "grade": "AMC-10",
     "type": "单选题",
     "difficulty": "容易",
-    "sourcePaper": "2014 AMC 10A · Problem 4",
+    "sourcePaper": "2014 AMC 10A · Problem 4 | 2014 AMC 12A · Problem 3",
     "stem": "Walking down Jane Street, Ralph passed four houses in a row, each painted a different color. He passed the orange house before the red house, and he passed the blue house before the yellow house. The blue house was not next to the yellow house. How many orderings of the colored houses are possible?",
     "options": {
       "A": "$\\ 2$",
@@ -13425,7 +13425,7 @@
     "grade": "AMC-10",
     "type": "单选题",
     "difficulty": "容易",
-    "sourcePaper": "2014 AMC 10A · Problem 6",
+    "sourcePaper": "2014 AMC 10A · Problem 6 | 2014 AMC 12A · Problem 4",
     "stem": "Suppose that $a$ cows give $b$ gallons of milk in $c$ days. At this rate, how many gallons of milk will $d$ cows give in $e$ days?",
     "options": {
       "A": "$\\ \\frac{bde}{ac}$",
@@ -14231,7 +14231,7 @@
       "B": "$2^{1003}$",
       "C": "$2^{1004}$",
       "D": "$2^{1005}$",
-      "E": "2^"
+      "E": "$2^{1006}$"
     },
     "answer": "D",
     "solutions": [
@@ -14581,7 +14581,7 @@
     "grade": "AMC-10",
     "type": "单选题",
     "difficulty": "容易",
-    "sourcePaper": "2015 AMC 10A · Problem 9",
+    "sourcePaper": "2015 AMC 10A · Problem 9 | 2015 AMC 12A · Problem 7",
     "stem": "Two right circular cylinders have the same volume. The radius of the second cylinder is $10 \\%$ more than the radius of the first. What is the relationship between the heights of the two cylinders?",
     "options": {
       "A": "The second height is $10 \\%$ less than the first",
@@ -16705,7 +16705,7 @@
     "grade": "AMC-10",
     "type": "单选题",
     "difficulty": "容易",
-    "sourcePaper": "2017 AMC 10A · Problem 7",
+    "sourcePaper": "2017 AMC 10A · Problem 7 | 2017 AMC 12A · Problem 4",
     "stem": "Jerry and Silvia wanted to go from the southwest corner of a square field to the northeast corner. Jerry walked due east and then due north to reach the goal, but Silvia headed northeast and reached the goal walking in a straight line. Which of the following is closest to how much shorter Silvia's trip was, compared to Jerry's trip?",
     "options": {
       "A": "$\\ 30\\%$",
@@ -18526,10 +18526,10 @@
     "sourcePaper": "2018 AMC 10B · Problem 15",
     "stem": "A closed box with a square base is to be wrapped with a square sheet of wrapping paper. The box is centered on the wrapping paper with the vertices of the base lying on the midlines of the square sheet of paper, as shown in the figure on the left. The four corners of the wrapping paper are to be folded up over the sides and brought together to meet at the center of the top of the box, point $A$ in the figure on the right. The box has base length $w$ and height $h$. What is the area of the sheet of wrapping paper?\n\n[Figure: /question-assets/source/amc/0da271ba11ae30dcb296ae307043be97316dd050af8c9195e7e8f5232cf5174c.jpg]",
     "options": {
-      "A": "2(w+h)^",
+      "A": "$2(w+h)^2$",
       "B": "$\\dfrac{(w+h)^{2}}{2}$",
       "C": "$2 w^{2}+4 w h$",
-      "D": "2 w^",
+      "D": "$2w^2+2h^2$",
       "E": "$w^{2} h$"
     },
     "answer": "A",
@@ -18901,7 +18901,7 @@
       "B": "$4 \\sqrt{2}$",
       "C": "$6$",
       "D": "$8$",
-      "E": "6 \\sqrt"
+      "E": "$6 \\sqrt{2}$"
     },
     "answer": "C",
     "solutions": [
@@ -21687,7 +21687,7 @@
     "grade": "AMC-10",
     "type": "单选题",
     "difficulty": "容易",
-    "sourcePaper": "2021 AMC 10B · Problem 4",
+    "sourcePaper": "2021 AMC 10B · Problem 4 | 2021 AMC 12B · Problem 2",
     "stem": "At a math contest, $57$ students are wearing blue shirts, and another $75$ students are wearing yellow shirts. The $132$ students are assigned into $66$ pairs. In exactly $23$ of these pairs, both students are wearing blue shirts. In how many pairs are both students wearing yellow shirts?",
     "options": {
       "A": "$~23$",
@@ -24986,7 +24986,7 @@
     "grade": "AMC-10",
     "type": "单选题",
     "difficulty": "容易",
-    "sourcePaper": "2023 AMC 10B · Problem 4",
+    "sourcePaper": "2023 AMC 10B · Problem 4 | 2023 AMC 12B · Problem 4",
     "stem": "Jackson's paintbrush makes a narrow strip with a width of $6.5$ millimeters. Jackson has enough paint to make a strip $25$ meters long. How many square centimeters of paper could Jackson cover with paint?",
     "options": {
       "A": "$162,500$",
@@ -25124,7 +25124,7 @@
     "grade": "AMC-10",
     "type": "单选题",
     "difficulty": "容易",
-    "sourcePaper": "2023 AMC 10B · Problem 10",
+    "sourcePaper": "2023 AMC 10B · Problem 10 | 2023 AMC 12B · Problem 5",
     "stem": "You are playing a game. A $2 \\times 1$ rectangle covers two adjacent squares (oriented either horizontally or vertically) of a $3 \\times 3$ grid of squares, but you are not told which two squares are covered. Your goal is to find at least one square that is covered by the rectangle. A \"turn\" consists of you guessing a square, after which you are told whether that square is covered by the hidden rectangle. What is the minimum number of turns you need to ensure that at least one of your guessed squares is covered by the rectangle?",
     "options": {
       "A": "$~3$",
@@ -26684,7 +26684,7 @@
     "grade": "AMC-10",
     "type": "单选题",
     "difficulty": "容易",
-    "sourcePaper": "2025 AMC 10A · Problem 4",
+    "sourcePaper": "2025 AMC 10A · Problem 4 | 2025 AMC 12A · Problem 3",
     "stem": "A team of students is going to compete against a team of teachers in a trivia contest. The total number of students and teachers is $15$. Ash, a cousin of one of the students, wants to join the contest. If Ash plays with the students, the average age on that team will increase from $12$ to $14$. If Ash plays with the teachers, the average age on that team will decrease from $55$ to $52$. How old is Ash?",
     "options": {
       "A": "$~28$",
@@ -26914,7 +26914,7 @@
     "grade": "AMC-10",
     "type": "单选题",
     "difficulty": "一般",
-    "sourcePaper": "2025 AMC 10A · Problem 14",
+    "sourcePaper": "2025 AMC 10A · Problem 14 | 2025 AMC 12A · Problem 6",
     "stem": "Six chairs are arranged around a round table. Two students and two teachers randomly select four of the chairs to sit in. What is the probability that the two students will sit in two adjacent chairs and the two teachers will also sit in two adjacent chairs?",
     "options": {
       "A": "$\\frac 16$",

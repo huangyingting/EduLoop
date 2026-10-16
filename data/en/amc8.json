@@ -20749,13 +20749,13 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2025 AMC 8 · Problem 13",
-    "stem": "Each of the even numbers $2, 4, 6, \\ldots, 50$ is divided by $7$. The remainders are recorded. Which histogram displays the number of times each remainder occurs?\n[asy] /*By Reda_mandymath*/ unitsize(15); void histogram(pair p, string _str, int[] n) { /* p is shift transformation, _str is choice string, n[] is the array of number of remainders, _pen is the pen style of block, a is the width of block, b is the width of gap _scale is the font scale of labels*/ pen _pen; real a = 0.8; real b = 0.3; real _scale = 0.8; draw(shift(p) * ((0, 0) -- (9, 0) -- (9, 5) -- (0, 5) -- cycle)); label(scale(_scale) * rotate(90) * \"Count\", (-0.4, 2.5)+p); label(scale(_scale) * \"Remainder\", (4.5, -1)+p); for (int i = 0; i <= 6; ++i) { if (n[i] == 3) { _pen = mediumgray; } else { _pen = heavygray; } fill(shift(p) * ((a*(i+1) + b*i, 0) -- (a*(i+1) + b*i, n[i]) -- (a*(i+2) + b*i, n[i]) -- (a*(i+2) + b*i, 0) -- cycle), _pen); label(scale(_scale) * string(i), shift(p) * (a*(i+1.5) + b*i, 0), S); label(scale(_scale) * string(n[i]), shift(p) * (a*(i+1.5) + b*i, n[i]), N); } label(_str, shift(p) * (-0.4, 6)); } histogram((0, 0), \"",
+    "stem": "Each of the even numbers $2, 4, 6, \\ldots, 50$ is divided by $7$. The remainders are recorded. Which histogram displays the number of times each remainder occurs?",
     "options": {
-      "A": "$\", new int[] {3, 4, 4, 3, 4, 3, 4}); histogram((12, 0), \"$",
-      "B": "$\", new int[] {3, 4, 4, 4, 3, 3, 4}); histogram((24, 0), \"$",
-      "C": "$\", new int[] {3, 4, 4, 4, 4, 3, 3}); histogram((0, -8), \"$",
-      "D": "$\", new int[] {4, 3, 4, 3, 4, 3, 4}); histogram((12, -8), \"$",
-      "E": "$\", new int[] {4, 4, 3, 4, 3, 4, 3}); [/asy]$"
+      "A": "[Figure: /question-assets/source/amc/58ff0f13fd2dba8cdb6192194834819878058500b8a1bc1fd114140f437e9555.svg]",
+      "B": "[Figure: /question-assets/source/amc/f097ab0f87efe6eb3fbbd0fe2be8b49669b023185dd04a825ac621fff30bface.svg]",
+      "C": "[Figure: /question-assets/source/amc/42187719fa04413b3e4798ae3ea2f7a8a06571119bc7a711994db14268dd4b1d.svg]",
+      "D": "[Figure: /question-assets/source/amc/8ac8f4454748c924c19dbab8efe427e61f14b1047074829eb03034f438c29df8.svg]",
+      "E": "[Figure: /question-assets/source/amc/e1ba1b119a32884aa58cc919cb414b02e564625bc838094758cd9fa1a9faba09.svg]"
     },
     "answer": "A",
     "solutions": [

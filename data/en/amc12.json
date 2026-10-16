@@ -588,27 +588,6 @@
     "tags": []
   },
   {
-    "id": "b24e30157379864e99ef1a63c9142f0b",
-    "subject": "数学",
-    "grade": "AMC-12",
-    "type": "单选题",
-    "difficulty": "容易",
-    "sourcePaper": "2002 AMC 12B · Problem 4",
-    "stem": "Let $n$ be a positive integer such that $\\dfrac{1}{2}+\\dfrac{1}{3}+\\dfrac{1}{7}+\\dfrac{1}{n}$ is an integer. Which of the following statements is not true:",
-    "options": {
-      "A": "$2 divides $n$$",
-      "B": "$3 divides $n$$",
-      "C": "$6 divides $n$$",
-      "D": "$7 divides $n$$",
-      "E": "$n>84$"
-    },
-    "answer": "E",
-    "solutions": [
-      "The number $\\dfrac{1}{2}+\\dfrac{1}{3}+\\dfrac{1}{7}+\\dfrac{1}{n}$ is greater than 0 and less than $\\dfrac{1}{2}+\\dfrac{1}{3}+\\dfrac{1}{7}+\\dfrac{1}{1}<2$. Hence,\n\n$\\dfrac{1}{2}+\\dfrac{1}{3}+\\dfrac{1}{7}+\\dfrac{1}{n}=\\dfrac{41}{42}+\\dfrac{1}{n}$\nis an integer precisely when it is equal to 1 . This implies that $n=42$, so the answer is $\\boxed{(E) n > 84}$."
-    ],
-    "tags": []
-  },
-  {
     "id": "226f759d4773ad2ca2adbc521519702f",
     "subject": "数学",
     "grade": "AMC-12",
@@ -714,27 +693,6 @@
     "tags": []
   },
   {
-    "id": "1164fa97413098aa2e902a1703b4f3a0",
-    "subject": "数学",
-    "grade": "AMC-12",
-    "type": "单选题",
-    "difficulty": "一般",
-    "sourcePaper": "2002 AMC 12B · Problem 11",
-    "stem": "The positive integers $A, B, A-B$, and $A+B$ are all prime numbers. The sum of these four primes is",
-    "options": {
-      "A": "even",
-      "B": "divisible by 3",
-      "C": "divisible by 5",
-      "D": "divisible by 7",
-      "E": "prime"
-    },
-    "answer": "E",
-    "solutions": [
-      "The numbers $A-B$ and $A+B$ are both odd or both even. However, they are also both prime, so they must both be odd. Therefore, one of $A$ and $B$ is odd and the other even. Because $A$ is a prime between $A-B$ and $A+B, A$ must be the odd prime. Therefore, $B=2$, the only even prime. So $A-2, A$, and $A+2$ are consecutive odd primes and thus must be 3,5 , and 7 . The sum of the four primes $2,3,5$, and 7 is the $\\boxed{prime}$ number 17 ."
-    ],
-    "tags": []
-  },
-  {
     "id": "037699ee5f92c296f483c93fa1aa8301",
     "subject": "数学",
     "grade": "AMC-12",
@@ -815,27 +773,6 @@
     "answer": "C",
     "solutions": [
       "The product will be a multiple of 3 if and only if at least one of the two rolls is a 3 or a 6 . The probability that Juan rolls 3 or 6 is $2 / 8=1 / 4$. The probability that Juan does not roll 3 or 6 , but Amal does is $(3 / 4)(1 / 3)=1 / 4$. Thus, the probability that the product of the rolls is a multiple of 3 is\n\n$\\dfrac{1}{4}+\\dfrac{1}{4}=\\boxed{\\dfrac{1}{2}}$"
-    ],
-    "tags": []
-  },
-  {
-    "id": "62097838367cafca4051b90d70ed0227",
-    "subject": "数学",
-    "grade": "AMC-12",
-    "type": "单选题",
-    "difficulty": "一般",
-    "sourcePaper": "2002 AMC 12B · Problem 17",
-    "stem": "Andy's lawn has twice as much area as Beth's lawn and three times as much area as Carlos' lawn. Carlos' lawn mower cuts half as fast as Beth's mower and one third as fast as Andy's mower. If they all start to mow their lawns at the same time, who will finish first?",
-    "options": {
-      "A": "$Andy$",
-      "B": "$Beth$",
-      "C": "$Carlos$",
-      "D": "$Andy and Carlos tie for first.$",
-      "E": "$All three tie.$"
-    },
-    "answer": "B",
-    "solutions": [
-      "Let $A$ be the number of square feet in Andy's lawn. Then $A / 2$ and $A / 3$ are the areas of Beth's lawn and Carlos' lawn, respectively, in square feet. Let $R$ be the rate, in square feet per minute, that Carlos' lawn mower cuts. Then Beth's mower and Andy's mower cut at rates of $2 R$ and $3 R$ square feet per minute, respectively. Thus,\n\nAndy takes $\\dfrac{A}{3 R}$ minutes to mow his lawn,\n\nBeth takes $\\dfrac{A / 2}{2 R}=\\dfrac{A}{4 R}$ minutes to mow hers,\n\nand\n\nCarlos takes $\\dfrac{A / 3}{R}=\\dfrac{A}{3 R}$ minutes to mow his.\n\nSince $\\dfrac{A}{4 R}<\\dfrac{A}{3 R}$, $\\boxed{Beth}$ will finish first."
     ],
     "tags": []
   },
@@ -1323,27 +1260,6 @@
     "answer": "E",
     "solutions": [
       "Since the last two digits of $A M C 10$ and $A M C 12$ sum to 22 , we have\n\n$A M C+A M C=2(A M C)=1234$\nHence $A M C=617$, so $A=6, M=1, C=7$, and $A+M+C=6+1+7=\\boxed{14}$."
-    ],
-    "tags": []
-  },
-  {
-    "id": "55fa3c47f239ef4714a3dab9b0eb1e97",
-    "subject": "数学",
-    "grade": "AMC-12",
-    "type": "单选题",
-    "difficulty": "容易",
-    "sourcePaper": "2003 AMC 12A · Problem 6",
-    "stem": "Define $x \\heartsuit y$ to be $|x-y|$ for all real numbers $x$ and $y$. Which of the following statements is not true?",
-    "options": {
-      "A": "$x \\heartsuit y=y \\heartsuit x$ for all $x$ and $y$",
-      "B": "$2(x \\heartsuit y)=(2 x) \\heartsuit (2 y)$ for all $x$ and $y$",
-      "C": "$x \\heartsuit 0=x$ for all $x$",
-      "D": "$x \\heartsuit x=0$ for all $x$",
-      "E": "$x \\heartsuit y>0$ if $x \\neq y$"
-    },
-    "answer": "C",
-    "solutions": [
-      "For example, $-1 \\heartsuit 0=|-1-0|=1 \\neq-1$. All the other statements are true:\n\n(A) $x \\heartsuit y=|x-y|=|-(y-x)|=|y-x|=y \\unlhd x$ for all $x$ and $y$.\n\n(B) $2(x \\heartsuit y)=2|x-y|=|2 x-2 y|=(2 x) \\heartsuit(2 y)$ for all $x$ and $y$.\n\n(D) $x \\heartsuit x=|x-x|=0$ for all $x$.\n\n(E) $x \\heartsuit y=|x-y|>0$ if $x \\neq y$."
     ],
     "tags": []
   },
@@ -4183,27 +4099,6 @@
     "tags": []
   },
   {
-    "id": "ffce20608ec4a367f5be8af56602235f",
-    "subject": "数学",
-    "grade": "AMC-12",
-    "type": "单选题",
-    "difficulty": "容易",
-    "sourcePaper": "2006 AMC 12A · Problem 2",
-    "stem": "Define $x \\otimes y=x^{3}-y$. What is $h \\otimes(h \\otimes h)?$",
-    "options": {
-      "A": "$-h$",
-      "B": "$0$",
-      "C": "$h$",
-      "D": "$2 h$",
-      "E": "$h^{3}$"
-    },
-    "answer": "C",
-    "solutions": [
-      "By the definition we have\n\n$h \\otimes(h \\otimes h)=h \\otimes\\left(h^{3}-h\\right)=h^{3}-\\left(h^{3}-h\\right)= \\boxed{h}$"
-    ],
-    "tags": []
-  },
-  {
     "id": "87d3b2e2c47b2b5ce29bca1ed43b100f",
     "subject": "数学",
     "grade": "AMC-12",
@@ -5103,27 +4998,6 @@
     "answer": "C",
     "solutions": [
       "Susan pays $(4)(0.75)(20)=60$ dollars. Pam pays $(5)(0.70)(20)=$ 70 dollars, so she pays $70-60= \\boxed{10}$ more dollars than Susan."
-    ],
-    "tags": []
-  },
-  {
-    "id": "7ec1408e1355750d5fffe94731b9e52b",
-    "subject": "数学",
-    "grade": "AMC-12",
-    "type": "单选题",
-    "difficulty": "容易",
-    "sourcePaper": "2007 AMC 12A · Problem 3",
-    "stem": "The larger of two consecutive odd integers is three times the smaller. What is their sum?",
-    "options": {
-      "A": "$4$",
-      "B": "$8$",
-      "C": "$12$",
-      "D": "$16$",
-      "E": "$20$"
-    },
-    "answer": "A",
-    "solutions": [
-      "Let the smaller of the integers be $x$. Then the larger is $x+2$. So $x+2=3 x$, from which $x=1$. Thus the two integers are 1 and 3 , and their sum is $\\boxed{4}$ ."
     ],
     "tags": []
   },
@@ -10756,27 +10630,6 @@
     "tags": []
   },
   {
-    "id": "2a497c230c6cb2e570bcc298c8c04378",
-    "subject": "数学",
-    "grade": "AMC-12",
-    "type": "单选题",
-    "difficulty": "一般",
-    "sourcePaper": "2012 AMC 12B · Problem 16",
-    "stem": "Amy, Beth, and Jo listen to four different songs and discuss which ones they like. No song is liked by all three. Furthermore, for each of the three pairs of the girls, there is at least one song liked by those two girls but disliked by the third. In how many different ways is this possible?",
-    "options": {
-      "A": "$108$",
-      "B": "$132$",
-      "C": "$671$",
-      "D": "$846$",
-      "E": "$1105$"
-    },
-    "answer": "B",
-    "solutions": [
-      "There are two cases to consider.\n\nCase 1\n\nEach song is liked by two of the girls. Then one of the three pairs of girls likes one of the six possible pairs of songs, one of the remaining pairs of girls likes one of the remaining two songs, and the last pair of girls likes the last song. This case can occur in $3 \\cdot 6 \\cdot 2=36$ ways.\n\nCase 2\n\nThree songs are each liked by a different pair of girls, and the fourth song is liked by at most one girl. There are $4 !=24$ ways to assign the songs to these four categories, and the last song can be liked by Amy, Beth, Jo, or no one. This case can occur in $24 \\cdot 4=96$ ways.\n\nThe total number of possibilities is $96+36= \\boxed{132}$."
-    ],
-    "tags": []
-  },
-  {
     "id": "fd40a98f15880a3151b1b26a3e735269",
     "subject": "数学",
     "grade": "AMC-12",
@@ -12016,48 +11869,6 @@
     "tags": []
   },
   {
-    "id": "3ff6722dadb1055d466cdd941178bb33",
-    "subject": "数学",
-    "grade": "AMC-12",
-    "type": "单选题",
-    "difficulty": "容易",
-    "sourcePaper": "2014 AMC 12A · Problem 3",
-    "stem": "Walking down Jane Street, Ralph passed four houses in a row, each painted a different color. He passed the orange house before the red house, and he passed the blue house before the yellow house. The blue house was not next to the yellow house. How many orderings of the colored houses are possible?",
-    "options": {
-      "A": "$2$",
-      "B": "$3$",
-      "C": "$4$",
-      "D": "$5$",
-      "E": "$6$"
-    },
-    "answer": "B",
-    "solutions": [
-      "If Ralph passed the orange house first, then because the blue and yellow houses are not neighbors, the house color ordering must be orange, blue, red, yellow. If Ralph passed the blue house first, then there are 2 possible placements for the yellow house, and each choice determines the placement of the orange and red houses. These 2 house color orderings are blue, orange, yellow, red, and blue, orange, red, yellow. There are $\\boxed{3}$ possible orderings for the colored houses."
-    ],
-    "tags": []
-  },
-  {
-    "id": "a1b3f3ba6ffe9bbcbc8f6d3f49e47511",
-    "subject": "数学",
-    "grade": "AMC-12",
-    "type": "单选题",
-    "difficulty": "容易",
-    "sourcePaper": "2014 AMC 12A · Problem 4",
-    "stem": "Suppose that $a$ cows give $b$ gallons of milk in $c$ days. At this rate, how many gallons of milk will $d$ cows give in $e$ days?",
-    "options": {
-      "A": "$\\dfrac{b d e}{a c}$",
-      "B": "$\\dfrac{a c}{b d e}$",
-      "C": "$\\dfrac{a b d e}{c}$",
-      "D": "$\\dfrac{b c d e}{a}$",
-      "E": "$\\dfrac{a b c}{d e}$"
-    },
-    "answer": "A",
-    "solutions": [
-      "One cow gives $\\dfrac{b}{a}$ gallons in $c$ days, so one cow gives $\\dfrac{b}{a c}$ gallons in 1 day. Thus $d$ cows will give $\\dfrac{b d}{a c}$ gallons in 1 day. In $e$ days $d$ cows will give $\\boxed{\\dfrac{b d e}{a c}}$ gallons of milk."
-    ],
-    "tags": []
-  },
-  {
     "id": "74f67aa95b0b49556f80e3967584d9c1",
     "subject": "数学",
     "grade": "AMC-12",
@@ -13146,27 +12957,6 @@
     "answer": "B",
     "solutions": [
       "Let $p$ be Pete's present age, and let $c$ be Claire's age. Then $p-2=3(c-2)$ and $p-4=4(c-4)$. Solving these equations gives $p=20$ and\n\n$c=8$. Thus Pete is 12 years older than Claire, so the ratio of their ages will be $2: 1$ when Claire is 12 years old. That will occur $12-8= \\boxed{4}$ years from now."
-    ],
-    "tags": []
-  },
-  {
-    "id": "09717c3d6c85c9656d9153c3a15e97ea",
-    "subject": "数学",
-    "grade": "AMC-12",
-    "type": "单选题",
-    "difficulty": "容易",
-    "sourcePaper": "2015 AMC 12A · Problem 7",
-    "stem": "Two right circular cylinders have the same volume. The radius of the second cylinder is $10 \\%$ more than the radius of the first. What is the relationship between the heights of the two cylinders?",
-    "options": {
-      "A": "$The second height is $10 \\%$ less than the first.$",
-      "B": "$The first height is $10 \\%$ more than the second.$",
-      "C": "$The second height is $21 \\%$ less than the first.$",
-      "D": "$The first height is $21 \\%$ more than the second.$",
-      "E": "$The second height is $80 \\%$ of the first.$"
-    },
-    "answer": "D",
-    "solutions": [
-      "Let $r, h, R, H$ be the radii and heights of the first and second cylinders, respectively. The volumes are equal, so $\\pi r^{2} h=\\pi R^{2} H$. Also $R=$ $r+0.1 r=1.1 r$. Thus $\\pi r^{2} h=\\pi(1.1 r)^{2} H=\\pi\\left(1.21 r^{2}\\right) H$. Dividing by $\\pi r^{2}$ yields $h=1.21 H=H+0.21 H$. Thus the first height is $21 \\%$ more than the second height."
     ],
     "tags": []
   },
@@ -15015,27 +14805,6 @@
     "answer": "B",
     "solutions": [
       "The given statement is logically equivalent to its contrapositive: If a student did not receive an $\\mathrm{A}$ on the exam, then the student did not get all the multiple choice questions right, which means that he got at least one of them wrong. None of the other statements follows logically from the given implication; the teacher made no promises concerning students who did not get all the multiple choice questions right. In particular, a statement does not imply its inverse or its converse; and the negation of the statement that Lewis got all the questions right is not the statement that he got all the questions wrong."
-    ],
-    "tags": []
-  },
-  {
-    "id": "a6e4571c589707a61cc5a76cc42c7f01",
-    "subject": "数学",
-    "grade": "AMC-12",
-    "type": "单选题",
-    "difficulty": "容易",
-    "sourcePaper": "2017 AMC 12A · Problem 4",
-    "stem": "Jerry and Silvia wanted to go from the southwest corner of a square field to the northeast corner. Jerry walked due east and then due north to reach the goal, but Silvia headed northeast and reached the goal walking in a straight line. Which of the following is closest to how much shorter Silvia's trip was, compared to Jerry's trip?",
-    "options": {
-      "A": "$30 \\%$",
-      "B": "$40 \\%$",
-      "C": "$50 \\%$",
-      "D": "$60 \\%$",
-      "E": "$70 \\%$"
-    },
-    "answer": "A",
-    "solutions": [
-      "If the square had side length $x$, then Jerry's path had length $2 x$, and Silvia's path along the diagonal, by the Pythagorean Theorem, had length $\\sqrt{2} x$. Therefore Silvia's trip was shorter by\n\n$2 x-\\sqrt{2} x$, and the required percentage is\n\n$\\dfrac{2 x-\\sqrt{2} x}{2 x}=1-\\dfrac{\\sqrt{2}}{2} \\approx 1-0.707=0.293=29.3 \\% \\text {. }$\nThe closest of the answer choices is $\\boxed{30 \\%}$."
     ],
     "tags": []
   },
@@ -17467,7 +17236,7 @@
       "B": "counterclockwise rotation around the origin by $90^{\\circ}$",
       "C": "translation by 3 units to the right and 5 units down",
       "D": "reflection in the $x$-axis",
-      "E": "clockwise rotation about the origin by 180^"
+      "E": "clockwise rotation about the origin by $180^{\\circ}$"
     },
     "answer": "E",
     "solutions": [
@@ -19356,27 +19125,6 @@
     "answer": "D",
     "solutions": [
       "Since $3\\pi \\approx 9.42,$ the inequality $|x| \\lt 3\\pi$ means $-9.42 \\lt x \\lt 9.42.$\n\nThe integers in this range run from $-9$ to $9,$ giving $19$ values.\n\nThus, the correct answer is D."
-    ],
-    "tags": []
-  },
-  {
-    "id": "e82d7fd101972460ceefb0d9ad08200e",
-    "subject": "数学",
-    "grade": "AMC-12",
-    "type": "单选题",
-    "difficulty": "容易",
-    "sourcePaper": "2021 AMC 12B · Problem 2",
-    "stem": "At a math contest, $57$ students are wearing blue shirts, and another $75$ students are wearing yellow shirts. The $132$ students are assigned into $66$ pairs. In exactly $23$ of these pairs, both students are wearing blue shirts. In how many pairs are both students wearing yellow shirts?",
-    "options": {
-      "A": "$23$",
-      "B": "$32$",
-      "C": "$37$",
-      "D": "$41$",
-      "E": "$64$"
-    },
-    "answer": "B",
-    "solutions": [
-      "The $23$ all-blue pairs account for $46$ blue students, leaving $57 - 46 = 11$ blue students.\n\nEach of those $11$ blue students must be paired with a yellow student, so there are $11$ mixed pairs, using $11$ yellow students.\n\nThe remaining $75 - 11 = 64$ yellow students form $64 \\div 2 = 32$ all-yellow pairs.\n\nThus, the correct answer is B."
     ],
     "tags": []
   },
@@ -22421,48 +22169,6 @@
     "tags": []
   },
   {
-    "id": "8c680ef11d41e3c28724c9e774ee6770",
-    "subject": "数学",
-    "grade": "AMC-12",
-    "type": "单选题",
-    "difficulty": "容易",
-    "sourcePaper": "2023 AMC 12B · Problem 4",
-    "stem": "Jackson's paintbrush makes a narrow strip with a width of $6.5$ millimeters. Jackson has enough paint to make a strip $25$ meters long. How many square centimeters of paper could Jackson cover with paint?",
-    "options": {
-      "A": "$162,500$",
-      "B": "$162.5$",
-      "C": "$1,625$",
-      "D": "$1,625,000$",
-      "E": "$16250$"
-    },
-    "answer": "C",
-    "solutions": [
-      "Convert both measurements to centimeters. Because 1 millimeter is $\\frac{1}{10}$ of a centimeter, the width of the line is $0.65=6.5 \\times 10^{-1} \\mathrm{~cm}$. Because a meter is 100 centimeters, the length of the line is $2,500=2.5 \\times 10^{3} \\mathrm{~cm}$. The total area is therefore\n\n$\\left(6.5 \\times 10^{-1}\\right)\\left(2.5 \\times 10^{3}\\right)=16.25 \\times 10^{2}=(\\text{C})\\boxed{1,625 \\text { square centimeters. }}$\nNote: This is about 2.7 sheets of letter-sized paper."
-    ],
-    "tags": []
-  },
-  {
-    "id": "6e1ccb4c69ed5ae7c7d80654e4e384d7",
-    "subject": "数学",
-    "grade": "AMC-12",
-    "type": "单选题",
-    "difficulty": "容易",
-    "sourcePaper": "2023 AMC 12B · Problem 5",
-    "stem": "You are playing a game. A $2 \\times 1$ rectangle covers two adjacent squares (oriented either horizontally or vertically) of a $3 \\times 3$ grid of squares, but you are not told which two squares are covered. Your goal is to find at least one square that is covered by the rectangle. A \"turn\" consists of you guessing a square, after which you are told whether that square is covered by the hidden rectangle. What is the minimum number of turns you need to ensure that at least one of your guessed squares is covered by the rectangle?",
-    "options": {
-      "A": "$3$",
-      "B": "$5$",
-      "C": "$4$",
-      "D": "$8$",
-      "E": "$6$"
-    },
-    "answer": "C",
-    "solutions": [
-      "Any $2 \\times 1$ rectangle must cover one of the shaded squares in the figure below.\n\n[Figure: /question-assets/source/amc/2e9fb6ed1df1e1c3607c82031b58e404741a31ec4cf631ae870de67126ac55ab.jpg]\n\nTherefore guessing these $(\\text{C})\\boxed{4}$ shaded squares will always result in finding a square covered by the rectangle.\n\nIt remains to show that 3 guesses are not always sufficient. If any 2 of the 3 guessed squares are in the same row (or column), then $2 \\times 1$ rectangles in the unselected row (or column) will not cover any of the 3 guessed squares. So if only 3 guesses are made, one square from each row and each column must be selected. There are two ways this can happen, up to symmetry, shown below. A $2 \\times 1$ rectangle covering two unshaded squares can be found in each diagram, so 3 guesses are not sufficient in general.\n\n[Figure: /question-assets/source/amc/f2c96452e74032ca123b004d2e950f069955a3580f75669e8c650e9ada5ac1c5.jpg]"
-    ],
-    "tags": []
-  },
-  {
     "id": "753c5e4f0d4573d44e2f1164938382f1",
     "subject": "数学",
     "grade": "AMC-12",
@@ -23723,27 +23429,6 @@
     "tags": []
   },
   {
-    "id": "ce5881ae2267dab0c62171736f4b8001",
-    "subject": "数学",
-    "grade": "AMC-12",
-    "type": "单选题",
-    "difficulty": "容易",
-    "sourcePaper": "2025 AMC 12A · Problem 3",
-    "stem": "A team of students is going to compete against a team of teachers in a trivia contest. The total number of students and teachers is $15$. Ash, a cousin of one of the students, wants to join the contest. If Ash plays with the students, the average age on that team will increase from $12$ to $14$. If Ash plays with the teachers, the average age on that team will decrease from $55$ to $52$. How old is Ash?",
-    "options": {
-      "A": "$28$",
-      "B": "$29$",
-      "C": "$30$",
-      "D": "$32$",
-      "E": "$33$"
-    },
-    "answer": "A",
-    "solutions": [
-      "Let $s$ = number of students and $t$ = number of teachers. Then\n\n$s + t = 15$\nWe can compute the average age of the students as follows:\n\n$\\frac{12s + A}{s + 1} = 14 \\Rightarrow 12s + A = 14s + 14 \\Rightarrow A = 2s + 14\\tag{1}$\nand the average age of the teachers:\n\n$\\frac{55t + A}{t + 1} = 52 \\Rightarrow 55t + A = 52t + 52 \\Rightarrow A = 52 - 3t\\tag{2}$\nSince we have $2$ values for $A$ in $(1)$ and $(2)$, we can equate them to get\n\n$2s + 14 = 52 - 3t \\Rightarrow 2s + 3t = 38\\tag{3}$\nFrom $s + t = 15$, $t=15-s$. We can substitute this into $(3)$ to get\n\n$2s + 3(15 - s) = 38 \\Rightarrow 2s + 45 - 3s = 38 \\Rightarrow -s = -7 \\Rightarrow s = 7, t=15-s=8$\nUsing $(1)$, we get\n\n$A = 2s + 14 = 2(7) + 14 = 28$\nwhich gives us an answer of $\\boxed{\\textbf{(A)~28}}$"
-    ],
-    "tags": []
-  },
-  {
     "id": "74a30dc91639a8b3a4c9b10481c2e03b",
     "subject": "数学",
     "grade": "AMC-12",
@@ -23761,27 +23446,6 @@
     "answer": "B",
     "solutions": [
       "Let the four statements be $S_1,S_2,S_3,S_4$ in order, and let $T$ be the number of true statements and $F$ the number of false ones, so $T+F=4$.\n\nIf $T = 0$, then all are false. But then $S_3$ says “at least two of these statements are false,” which would be true. Contradiction. So $T \\ne 0$.\n\nIf $T = 4$, then all are true. But then $S_3$ (“at least two are false”) and $S_4$ (“at least one is false”) would both be false. Contradiction.\n\nIf $T = 2$, then $F = 2$. Then $S_3$ (“at least two are false”) is true, and $S_4$ (“at least one is false”) is also true, and $S_1$ (“at least one is true”) is true as well. That gives at least three true statements, so $T \\ge 3$, a contradiction.\n\nIf $T = 1$, then $F = 3$. Then $S_1$ (“at least one is true”) must be true. Since $F = 3$, $S_3$ (“at least two are false”) is also true, giving at least two true statements, so $T \\ge 2$, a contradiction.\n\nThe only remaining possibility is\n\n$T=3,\\quad F=1.$\nIndeed, if three statements are true and one is false, then $S_1$, $S_2$, and $S_4$ are true, and $S_3$ is false, which is consistent.\n\nTherefore, the number of false statements Agnes wrote is $\\boxed{\\textbf{(B)~1}}$."
-    ],
-    "tags": []
-  },
-  {
-    "id": "20f50890938b3c4ecab12d359382b13b",
-    "subject": "数学",
-    "grade": "AMC-12",
-    "type": "单选题",
-    "difficulty": "容易",
-    "sourcePaper": "2025 AMC 12A · Problem 6",
-    "stem": "Six chairs are arranged around a round table. Two students and two teachers randomly select four of the chairs to sit in. What is the probability that the two students will sit in two adjacent chairs and the two teachers will also sit in two adjacent chairs?",
-    "options": {
-      "A": "$\\tfrac{1}{6}$",
-      "B": "$\\tfrac{1}{5}$",
-      "C": "$\\tfrac{2}{9}$",
-      "D": "$\\tfrac{3}{13}$",
-      "E": "$\\tfrac{1}{4}$"
-    },
-    "answer": "B",
-    "solutions": [
-      "If we look around the circle, we can seat the people in $6\\cdot 5\\cdot 4\\cdot 3$ total ways (with full distinguishability). However, if our condition is met, we will first seat the teachers in $6\\cdot 2$ ways (the second teacher must occupy one of the two adjacent spots). Then, the remaining students can choose their seats in $6$ ways (there are $4$ chairs left, so there are $3$ pairs of adjacent seats, and $2$ orders for them to sit in). Thus our overall probaility is\n\n$\\dfrac{6\\cdot 2\\cdot 6}{6\\cdot 5\\cdot 4\\cdot 3}=\\dfrac 15$\nwhich gives us an answer of $\\boxed{\\textbf{(B)}~\\frac{1}{5}}$"
     ],
     "tags": []
   },

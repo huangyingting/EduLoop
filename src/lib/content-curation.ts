@@ -23,7 +23,6 @@ export const reviewedSelfContainedVisualIds = new Set([
   "9f1b05983746b0e8f5c7847b7dc2737f",
   "6928fb678dd530f7a86fb08503283975",
   "e4025c1988fd4825b758cb1f516c03bf",
-  "03e1a552d7c03fa2ebf247f8d4927919",
   "74cf1e5ffea83db110ae3a1168faadb3",
 
   // Physics records whose prose or textual choices contain all necessary information.

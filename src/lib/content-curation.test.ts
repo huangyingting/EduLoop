@@ -32,7 +32,7 @@ function normalized(id: string) {
 
 describe("catalog content curation", () => {
   it("publishes all manually verified self-contained visual matches", () => {
-    expect(reviewedSelfContainedVisualIds.size).toBe(27);
+    expect(reviewedSelfContainedVisualIds.size).toBe(26);
     for (const id of reviewedSelfContainedVisualIds) expect(normalized(id).status).toBe("PUBLISHED");
   });
 
@@ -82,10 +82,10 @@ describe("catalog content curation", () => {
     }
   });
 
-  it("publishes all 16,531 runtime questions with zero quarantined records", () => {
+  it("publishes all 16,489 runtime questions with zero quarantined records", () => {
     const questions = [...recordsById.values()].map(({ question, filename }) => normalizeSourceQuestion(question, filename));
-    expect(questions).toHaveLength(16_531);
-    expect(questions.filter((question) => question.status === "PUBLISHED")).toHaveLength(16_531);
+    expect(questions).toHaveLength(16_489);
+    expect(questions.filter((question) => question.status === "PUBLISHED")).toHaveLength(16_489);
     expect(questions.filter((question) => question.status === "NEEDS_REVIEW")).toEqual([]);
   });
 });

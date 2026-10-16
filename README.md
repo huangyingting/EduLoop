@@ -6,10 +6,10 @@ EduLoop is a Chinese-language practice app for primary, middle, and high school 
 
 - Next.js App Router, React, TypeScript, and Tailwind CSS 4
 - Prisma with SQLite for local development and a parallel PostgreSQL production schema
-- Idempotent import for all 16,537 unique questions, including 2,499 licensed CJEval junior-high Chinese questions, 227 MIT-licensed AGIEval high-school Chinese questions, and 3,462 AMC questions representing 3,575 contest slots, with BOM-safe JSON parsing
+- Idempotent import for all 16,489 unique questions, including 2,494 licensed CJEval junior-high Chinese questions, 213 MIT-licensed AGIEval high-school Chinese questions, and 3,446 AMC questions representing 3,575 contest slots, with BOM-safe JSON parsing
 - Normalized subject, school stage, grade, difficulty, and question-family filters
 - Extensible, learner-filterable topic, skill, and format dimensions with provenance and confidence
-- KaTeX rendering for the 4,595 questions detected with LaTeX-like notation, including inline AMC notation
+- KaTeX rendering for the 4,588 questions detected with LaTeX-like notation, including inline AMC notation
 - Server-side answer checking, account-owned learner profiles, XP, daily streaks, activity, and badges
 - Auth.js verified email/password plus optional Google, Microsoft, and Facebook login with safely removable provider connections, versioned adult/guardian consent, verified login-email changes, single-use email password recovery, encrypted revocable sessions, full account erasure, cross-device progress, and stateless guest practice
 - Ten-question sessions, written-answer self-assessment, saved questions, and spaced mistake review

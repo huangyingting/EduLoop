@@ -4,6 +4,7 @@ import {
   AGIEVAL_AUTHORITATIVE_YANZI_PASSAGE,
   AGIEVAL_COMMIT,
   AGIEVAL_OUTPUT_COUNT,
+  AGIEVAL_REPAIRED_OUTPUT_COUNT,
   AGIEVAL_REPAIR_COUNT,
   AGIEVAL_SOURCE_SHA256,
 } from "./agieval.mjs";
@@ -92,11 +93,29 @@ for (const [index, question] of questions.entries()) {
       errors.push(`${location}: authoritative Go option repair is missing`);
     }
   }
+  const stem = String(question.stem ?? "").trim();
+  if (!stem) {
+    errors.push(`${location}: empty stem`);
+  } else {
+    if (/(?<!_)__[^_\n]+__(?!_)/u.test(stem)) errors.push(`${location}: uncleaned AGIEval emphasis markers in stem`);
+    if (/(材料[一二三四五六七八九十\d]+[：:])。/u.test(stem)) errors.push(`${location}: malformed material heading in stem`);
+    if (/材料[一二三四五六七八九十\d]+[：:]\s*\n\s*(?:下列|根据)/u.test(stem)) errors.push(`${location}: truncated material body in stem`);
+    if (/材料三[：:]\s*[A-D][.．]/u.test(stem)) errors.push(`${location}: option text leaked into material body in stem`);
+    if (new RegExp(`(?:[（(]\\s*[）)]|项是)\\s*${label}$`, "u").test(stem)) errors.push(`${location}: answer key leaked at end of stem`);
+    if (/<\/?a\b/iu.test(stem) || /学科\.?网/u.test(stem)) errors.push(`${location}: HTML or scraper watermark in stem`);
+    if (/<(?:庄子|古文观止|中国目录学史|五藏山经)/u.test(stem)) errors.push(`${location}: ASCII angle-bracket book title in stem`);
+  }
+  for (const [idx, value] of options.entries()) {
+    const key = String.fromCharCode(65 + idx);
+    if (/^[（(]\s*[A-DＡ-Ｄ]\s*[）)]/u.test(value)) errors.push(`${location}: option ${key} still has a label prefix`);
+    if (/^[A-DＡ-Ｄ]\s*[.．、:：]/u.test(value) || /^[、.．]/u.test(value)) errors.push(`${location}: option ${key} has residual punctuation or label prefix`);
+    if (/(?<!_)__[^_\n]+__(?!_)/u.test(value)) errors.push(`${location}: uncleaned AGIEval emphasis markers in option ${key}`);
+  }
 }
 
 if (papers.size !== 35) errors.push(`expected 35 source papers, received ${papers.size}`);
-if (merged !== 19) errors.push(`expected 19 merged duplicate groups, received ${merged}`);
-if (repaired !== AGIEVAL_REPAIR_COUNT) errors.push(`expected ${AGIEVAL_REPAIR_COUNT} repaired source rows, received ${repaired}`);
+if (merged !== 33) errors.push(`expected 33 merged duplicate groups, received ${merged}`);
+if (repaired !== AGIEVAL_REPAIRED_OUTPUT_COUNT) errors.push(`expected ${AGIEVAL_REPAIRED_OUTPUT_COUNT} repaired output questions (from ${AGIEVAL_REPAIR_COUNT} repaired source rows), received ${repaired}`);
 
 console.log(JSON.stringify({
   file: filename,

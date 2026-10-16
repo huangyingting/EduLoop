@@ -29,7 +29,7 @@ const MATH_SYMBOL_REPLACEMENTS: Readonly<Record<string, string>> = {
 };
 
 const REPLACEABLE_MATH_SYMBOL = /[⊥∆∶︰﹕〈〉％℃□═¢①②③④⑤⑥⑦⑧⑨⑩\u2061\u200b\ue004\ue007\uef01]/gu;
-const DISPLAY_ONLY_MATH = /\\tag(?![A-Za-z])|\\begin\{(?:align\*?|split)\}/u;
+const DISPLAY_ONLY_MATH = /\\tag(?![A-Za-z])|\\begin\{(?:align\*?|alignat\*?|eqnarray\*?|gather\*?|split)\}/u;
 const TEXT_MODE_COMMANDS = [
   "\\textnormal",
   "\\textrm",
@@ -45,6 +45,11 @@ const TEXT_MODE_COMMANDS = [
   "\\mbox",
 ] as const;
 
+function rgbComponentToHex(value: string) {
+  const clamped = Math.max(0, Math.min(255, Math.round(Number(value) * 255)));
+  return clamped.toString(16).padStart(2, "0");
+}
+
 function normalizeMathModeSegment(segment: string) {
   return segment
     .replace(/″/gu, "''")
@@ -55,10 +60,25 @@ function normalizeMathModeSegment(segment: string) {
 function normalizeLegacyLatex(expression: string) {
   return expression
     .replace(/\\textbf\{([^$]*)\$([^$]+)\$\}/gu, "\\mathbf{$1$2}")
+    .replace(/\\textnormal\{([^$]*)\$([^$]+)\$\}/gu, "\\textnormal{$1}$2")
     .replace(/(?<!\\)\$/gu, "")
     .replace(/\u000crac/gu, "\\frac")
     .replace(/\\(?:text|math)dollar(?![A-Za-z])/gu, "\\$")
+    .replace(/\\text\{([^{}]*)\\textsuperscript\s*\{([^{}]*)\}\}/gu, "\\text{$1}^{$2}")
+    .replace(/\\textsuperscript\s*\{([^{}]*)\}/gu, "^{$1}")
     .replace(/\\textsubscript\s*\{([^{}]*)\}/gu, "_{$1}")
+    .replace(/\\mbox(?![A-Za-z])/gu, "\\text")
+    .replace(/\\hdots(?![A-Za-z])/gu, "\\dots")
+    .replace(/\\iddots(?![A-Za-z])/gu, "\\cdots")
+    .replace(/\\smiley(?![A-Za-z])/gu, "\\text{☺}")
+    .replace(/\\linebreak(?![A-Za-z])/gu, "\\allowbreak")
+    .replace(/\\lefteqn(?![A-Za-z])/gu, "\\mathrlap")
+    .replace(/\\renewcommand\{\\arraystretch\}\{[^{}]*\}/gu, "")
+    .replace(/\\(?:begin|end)\{centering\}/gu, "")
+    .replace(/\\multicolumn\{1\}\{[^{}]*\}\{((?:[^{}]|\{(?:[^{}]|\{[^{}]*\})*\})*)\}/gu, "$1")
+    .replace(/\\begin\{eqnarray\*?\}/gu, "\\begin{align*}")
+    .replace(/\\end\{eqnarray\*?\}/gu, "\\end{align*}")
+    .replace(/&\s*(=|<|>|\\le|\\ge|\\leq|\\geq|\\neq|\\equiv|\\approx|\\sim)\s*&/gu, "&$1")
     .replace(/\\begin\{tabular\}/gu, "\\begin{array}")
     .replace(/\\end\{tabular\}/gu, "\\end{array}")
     .replace(/\\begin\{array\}\s*\[(?:t|b|c)\]/gu, "\\begin{array}")
@@ -75,6 +95,10 @@ function normalizeLegacyLatex(expression: string) {
     .replace(/b_\{n\}_\{\+1\}/gu, "b_{n+1}")
     .replace(/(?<!\\)left(?=\s*\()/gu, "\\left")
     .replace(/(?<!\\)#/gu, "\\#")
+    .replace(
+      /\\color\[rgb\]\{\s*([0-9.]+)\s*,\s*([0-9.]+)\s*,\s*([0-9.]+)\s*\}/gu,
+      (_, r: string, g: string, b: string) => `\\color{#${rgbComponentToHex(r)}${rgbComponentToHex(g)}${rgbComponentToHex(b)}}`,
+    )
     .replace(/―→/gu, "\\longrightarrow{}");
 }
 

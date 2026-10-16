@@ -92,6 +92,25 @@ describe("normalizeMathExpression", () => {
     expect(requiresDisplayMath("\\begin{align*}x&=1\\end{align*}")).toBe(true);
   });
 
+  it("normalizes eqnarray, mbox, dots, superscripts, and array macros", () => {
+    const expression = normalizeMathExpression(
+      "\\renewcommand{\\arraystretch}{1.5}\\begin{eqnarray*}\\lefteqn{x} & = & \\mbox{val}+1\\textsuperscript{st}+\\hdots+\\iddots+\\smiley\\linebreak\\end{eqnarray*}",
+    );
+    expect(expression).toContain("\\begin{align*}");
+    expect(expression).toContain("\\text{val}");
+    expect(expression).toContain("^{st}");
+    expect(expression).toContain("\\dots");
+    expect(requiresDisplayMath(expression)).toBe(true);
+    expect(() => katex.renderToString(expression, { displayMode: true, throwOnError: true })).not.toThrow();
+  });
+
+  it("normalizes multicolumn, rgb color, and nested-dollar textnormal", () => {
+    const expression = normalizeMathExpression(
+      "\\begin{array}{c}\\multicolumn{1}{c}{\\color[rgb]{1,0,0}A}\\\\\\textnormal{is $5\\%$ of $x$}\\end{array}",
+    );
+    expect(() => katex.renderToString(expression, { displayMode: true, throwOnError: true })).not.toThrow();
+  });
+
   it("produces strict-compatible KaTeX for normalized notation", () => {
     const warnings: string[] = [];
     const expression = normalizeMathExpression(

@@ -478,7 +478,7 @@
     },
     "answer": "C",
     "solutions": [
-      "设 $M$ 为 $\\overline{B C}$ 的中点，令 $A M=2 a$，并设 $\\theta=\\angle A M B$。则 $\\cos \\angle A M C=-\\cos \\theta$。分别对 $\\triangle A B M$ 和 $\\triangle A M C$ 应用余弦定理，得\n\n$a^{2}+4 a^{2}-4 a^{2} \\cos \\theta=1$\n\n和\n\n$a^{2}+4 a^{2}+4 a^{2} \\cos \\theta=4$。\n\n两式相加，得到 $10 a^{2}=5$，所以 $a=\\sqrt{2} / 2$ 且 $B C=2 a=\\boxed{\\sqrt{2}}$。\n\n[Figure: /question-assets/source/amc/c6f30eaa93bc81e973d4ae6950fd687f274dcee50374a0b4e5948319eef66a39.jpg]\n\n\\section*{另一种解法}\n\n仍设 $M$ 为 $\\overline{B C}$ 的中点，且 $A M=2 a$。在三角形所在平面建立直角坐标系，以 $M$ 为原点，使 $A$ 的坐标为 $(0,2 a)$。若 $B$ 的坐标为 $(x, y)$，则点 $C$ 的坐标为 $(-x,-y)$。\n\n[Figure: /question-assets/source/amc/d5d5b07d37fba088d0f256f0b72b01c8a5297562990504e732d861ef178d768b.jpg]\n\n所以\n\n$x^{2}+(2 a-y)^{2}=1 \\quad \\text{ 和 } \\quad x^{2}+(2 a+y)^{2}=4$。\n\n联立最后两个方程，得 $2\\left(x^{2}+y^{2}\\right)+8 a^{2}=5$。又因为 $x^{2}+y^{2}=a^{2}$，所以 $10 a^{2}=5$。因此 $a=\\sqrt{2} / 2$ 且 $B C=\\boxed{\\sqrt{2}}$。"
+      "设 $M$ 为 $\\overline{B C}$ 的中点，令 $A M=2 a$，并设 $\\theta=\\angle A M B$。则 $\\cos \\angle A M C=-\\cos \\theta$。分别对 $\\triangle A B M$ 和 $\\triangle A M C$ 应用余弦定理，得\n\n$a^{2}+4 a^{2}-4 a^{2} \\cos \\theta=1$\n\n和\n\n$a^{2}+4 a^{2}+4 a^{2} \\cos \\theta=4$。\n\n两式相加，得到 $10 a^{2}=5$，所以 $a=\\sqrt{2} / 2$ 且 $B C=2 a=\\boxed{\\sqrt{2}}$。\n\n[Figure: /question-assets/source/amc/c6f30eaa93bc81e973d4ae6950fd687f274dcee50374a0b4e5948319eef66a39.jpg]\n\n另一种解法：\n\n仍设 $M$ 为 $\\overline{B C}$ 的中点，且 $A M=2 a$。在三角形所在平面建立直角坐标系，以 $M$ 为原点，使 $A$ 的坐标为 $(0,2 a)$。若 $B$ 的坐标为 $(x, y)$，则点 $C$ 的坐标为 $(-x,-y)$。\n\n[Figure: /question-assets/source/amc/d5d5b07d37fba088d0f256f0b72b01c8a5297562990504e732d861ef178d768b.jpg]\n\n所以\n\n$x^{2}+(2 a-y)^{2}=1 \\quad \\text{ 和 } \\quad x^{2}+(2 a+y)^{2}=4$。\n\n联立最后两个方程，得 $2\\left(x^{2}+y^{2}\\right)+8 a^{2}=5$。又因为 $x^{2}+y^{2}=a^{2}$，所以 $10 a^{2}=5$。因此 $a=\\sqrt{2} / 2$ 且 $B C=\\boxed{\\sqrt{2}}$。"
     ],
     "tags": []
   },
@@ -860,7 +860,7 @@
     },
     "answer": "D",
     "solutions": [
-      "四边形 $K L M N$ 具有 $90^{\\circ}$ 旋转对称性，因此相邻边等长且垂直，是一个正方形。$A B C D$ 的边长为 4，而点 $K$ 到边 $\\overline{A B}$ 的距离为 $2 \\sqrt{3}$，所以对角线 $\\overline{K M}$ 的长度为 $4+4 \\sqrt{3}$。其面积为\n\n$\\dfrac{1}{2}(4+4 \\sqrt{3})^{2}= \\boxed{32+16 \\sqrt{3}}$。\n\n[Figure: /question-assets/source/amc/3883e9215613003c2372b0b7eeb6714682affdc70d040b4408dee7479bb1e2f3.jpg]\n\n\\section*{另一种解法}\n\n注意 $m(\\angle N A K)=150^{\\circ}$。由余弦定理，\n\n$(N K)^{2}=4^{2}+4^{2}-2(4)(4)\\left(-\\dfrac{\\sqrt{3}}{2}\\right)=32+16 \\sqrt{3}$。\n\n因为 $K L M N$ 是正方形，其面积为 $(N K)^{2}= \\boxed{32+16 \\sqrt{3}}$。"
+      "四边形 $K L M N$ 具有 $90^{\\circ}$ 旋转对称性，因此相邻边等长且垂直，是一个正方形。$A B C D$ 的边长为 4，而点 $K$ 到边 $\\overline{A B}$ 的距离为 $2 \\sqrt{3}$，所以对角线 $\\overline{K M}$ 的长度为 $4+4 \\sqrt{3}$。其面积为\n\n$\\dfrac{1}{2}(4+4 \\sqrt{3})^{2}= \\boxed{32+16 \\sqrt{3}}$。\n\n[Figure: /question-assets/source/amc/3883e9215613003c2372b0b7eeb6714682affdc70d040b4408dee7479bb1e2f3.jpg]\n\n另一种解法：\n\n注意 $m(\\angle N A K)=150^{\\circ}$。由余弦定理，\n\n$(N K)^{2}=4^{2}+4^{2}-2(4)(4)\\left(-\\dfrac{\\sqrt{3}}{2}\\right)=32+16 \\sqrt{3}$。\n\n因为 $K L M N$ 是正方形，其面积为 $(N K)^{2}= \\boxed{32+16 \\sqrt{3}}$。"
     ],
     "tags": []
   },
@@ -1028,7 +1028,7 @@
     },
     "answer": "B",
     "solutions": [
-      "有\n\n$\\begin{aligned} \\log _{a} \\dfrac{a}{b}+\\log _{b} \\dfrac{b}{a} =\\log _{a} a-\\log _{a} b+\\log _{b} b-\\log _{b} a \\\\ =1-\\log _{a} b+1-\\log _{b} a \\\\ =2-\\log _{a} b-\\log _{b} a \\end{aligned}$。\n\n令 $c=\\log _{a} b$。由于 $a$ 和 $b$ 均大于 1，故 $c>0$。于是\n\n$\\log _{a} \\dfrac{a}{b}+\\log _{b} \\dfrac{b}{a}=2-c-\\dfrac{1}{c}=\\dfrac{c^{2}-2 c+1}{-c}=\\dfrac{(c-1)^{2}}{-c} \\leq 0$。\n\n当 $c=1$，即 $a=b$ 时，该式取得 $\\boxed{0}$。\n\n\\section*{另一种解法}\n\n同上可得\n\n$\\log _{a} \\dfrac{a}{b}+\\log _{b} \\dfrac{b}{a}=2-c-\\dfrac{1}{c}$。\n\n由算术—几何平均不等式，\n\n$\\dfrac{c+1 / c}{2} \\geq \\sqrt{c \\cdot \\dfrac{1}{c}}=1, \\quad \\text{ so } \\quad c+\\dfrac{1}{c} \\geq 2$，\n\n从而\n\n$\\log _{a} \\dfrac{a}{b}+\\log _{b} \\dfrac{b}{a}=2-\\left(c+\\dfrac{1}{c}\\right) \\leq 0$，\n\n等号在 $c=\\dfrac{1}{c}$，即 $a=b$ 时成立。"
+      "有\n\n$\\begin{aligned} \\log _{a} \\dfrac{a}{b}+\\log _{b} \\dfrac{b}{a} =\\log _{a} a-\\log _{a} b+\\log _{b} b-\\log _{b} a \\\\ =1-\\log _{a} b+1-\\log _{b} a \\\\ =2-\\log _{a} b-\\log _{b} a \\end{aligned}$。\n\n令 $c=\\log _{a} b$。由于 $a$ 和 $b$ 均大于 1，故 $c>0$。于是\n\n$\\log _{a} \\dfrac{a}{b}+\\log _{b} \\dfrac{b}{a}=2-c-\\dfrac{1}{c}=\\dfrac{c^{2}-2 c+1}{-c}=\\dfrac{(c-1)^{2}}{-c} \\leq 0$。\n\n当 $c=1$，即 $a=b$ 时，该式取得 $\\boxed{0}$。\n\n另一种解法：\n\n同上可得\n\n$\\log _{a} \\dfrac{a}{b}+\\log _{b} \\dfrac{b}{a}=2-c-\\dfrac{1}{c}$。\n\n由算术—几何平均不等式，\n\n$\\dfrac{c+1 / c}{2} \\geq \\sqrt{c \\cdot \\dfrac{1}{c}}=1, \\quad \\text{ so } \\quad c+\\dfrac{1}{c} \\geq 2$，\n\n从而\n\n$\\log _{a} \\dfrac{a}{b}+\\log _{b} \\dfrac{b}{a}=2-\\left(c+\\dfrac{1}{c}\\right) \\leq 0$，\n\n等号在 $c=\\dfrac{1}{c}$，即 $a=b$ 时成立。"
     ],
     "tags": []
   },
@@ -1091,7 +1091,7 @@
     },
     "answer": "D",
     "solutions": [
-      "因为 $f$ 是一次函数，斜率恒定。因此\n\n$\\dfrac{f(6)-f(2)}{6-2}=\\dfrac{f(12)-f(2)}{12-2}, \\quad \\text{ so } \\quad \\dfrac{12}{4}=\\dfrac{f(12)-f(2)}{10}$，\n\n从而 $f(12)-f(2)=30$。\n\n\\section*{另一种解法}\n\n$f$ 的变化率恒定，为\n\n$\\dfrac{f(6)-f(2)}{6-2}=\\dfrac{12}{4}=3$。\n\n所以 $f(12)-f(2)=3(12-2)=30$。\n\n再者，若 $f(x)=m x+b$，则\n\n$12=f(6)-f(2)=6 m+b-(2 m+b)=4 m$，\n\n所以 $m=3$。于是\n\n$f(12)-f(2)=12 m+b-(2 m+b)=10 m= \\boxed{ 30 }$。"
+      "因为 $f$ 是一次函数，斜率恒定。因此\n\n$\\dfrac{f(6)-f(2)}{6-2}=\\dfrac{f(12)-f(2)}{12-2}, \\quad \\text{ so } \\quad \\dfrac{12}{4}=\\dfrac{f(12)-f(2)}{10}$，\n\n从而 $f(12)-f(2)=30$。\n\n另一种解法：\n\n$f$ 的变化率恒定，为\n\n$\\dfrac{f(6)-f(2)}{6-2}=\\dfrac{12}{4}=3$。\n\n所以 $f(12)-f(2)=3(12-2)=30$。\n\n再者，若 $f(x)=m x+b$，则\n\n$12=f(6)-f(2)=6 m+b-(2 m+b)=4 m$，\n\n所以 $m=3$。于是\n\n$f(12)-f(2)=12 m+b-(2 m+b)=10 m= \\boxed{ 30 }$。"
     ],
     "tags": []
   },
@@ -1154,7 +1154,7 @@
     },
     "answer": "D",
     "solutions": [
-      "有\n\n$1=\\log \\left(x y^{3}\\right)=\\log x+3 \\log y \\quad \\text{ 和 } \\quad 1=\\log \\left(x^{2} y\\right)=2 \\log x+\\log y$。\n\n解得 $\\log x=\\dfrac{2}{5}$、$\\log y=\\dfrac{1}{5}$，因此\n\n$\\log (x y)=\\log x+\\log y=\\dfrac{3}{5}$。\n\n已知方程也说明 $x y^{3}=10=x^{2} y$，所以\n\n$y=\\dfrac{10}{x^{2}} \\quad \\text{ 和 } \\quad x\\left(\\dfrac{10}{x^{2}}\\right)^{3}=10$。\n\n由此 $x=10^{2 / 5}$、$y=10^{1 / 5}$，从而 $\\log (x y)=\\log \\left(10^{3 / 5}\\right)=\\boxed{3 / 5}$。\n\n\\section*{另一种解法}\n\n由 $\\log \\left(x y^{3}\\right)=\\log \\left(x^{2} y\\right)$ 得 $x y^{3}=x^{2} y$，所以 $x=y^{2}$。于是\n\n$1=\\log \\left(x y^{3}\\right)=\\log \\left(y^{5}\\right)=5 \\log y, \\quad \\text{ 和 } \\quad \\log y=\\dfrac{1}{5}$，\n\n故 $\\log (x y)=\\log \\left(y^{3}\\right)=\\boxed{3 / 5}$。"
+      "有\n\n$1=\\log \\left(x y^{3}\\right)=\\log x+3 \\log y \\quad \\text{ 和 } \\quad 1=\\log \\left(x^{2} y\\right)=2 \\log x+\\log y$。\n\n解得 $\\log x=\\dfrac{2}{5}$、$\\log y=\\dfrac{1}{5}$，因此\n\n$\\log (x y)=\\log x+\\log y=\\dfrac{3}{5}$。\n\n已知方程也说明 $x y^{3}=10=x^{2} y$，所以\n\n$y=\\dfrac{10}{x^{2}} \\quad \\text{ 和 } \\quad x\\left(\\dfrac{10}{x^{2}}\\right)^{3}=10$。\n\n由此 $x=10^{2 / 5}$、$y=10^{1 / 5}$，从而 $\\log (x y)=\\log \\left(10^{3 / 5}\\right)=\\boxed{3 / 5}$。\n\n另一种解法：\n\n由 $\\log \\left(x y^{3}\\right)=\\log \\left(x^{2} y\\right)$ 得 $x y^{3}=x^{2} y$，所以 $x=y^{2}$。于是\n\n$1=\\log \\left(x y^{3}\\right)=\\log \\left(y^{5}\\right)=5 \\log y, \\quad \\text{ 和 } \\quad \\log y=\\dfrac{1}{5}$，\n\n故 $\\log (x y)=\\log \\left(y^{3}\\right)=\\boxed{3 / 5}$。"
     ],
     "tags": []
   },
@@ -1196,7 +1196,7 @@
     },
     "answer": "E",
     "solutions": [
-      "首项不为 1 时，首项为 2 的概率是 $1 / 4$。若首项为 2，第二项不可能为 2；若首项不为 2，第二项的四个等可能取值中有一个是 2。因此所求概率为\n\n$\\dfrac{1}{4} \\cdot 0+\\dfrac{3}{4} \\cdot \\dfrac{1}{4}=\\dfrac{3}{16}$，\n\n所以 $a+b=3+16=19$。\n\n\\section*{另一种解法}\n\n集合 $S$ 有 $(4)(4!)=96$ 个排列，因为首项有 4 种选择，其余各有 $4!$ 种排列。$S$ 中第二项为 2 的排列有 $(3)(3!)=18$ 个。因此概率为 $18 / 96=3 / 16$，并有 $a+b=\\boxed{19}$。"
+      "首项不为 1 时，首项为 2 的概率是 $1 / 4$。若首项为 2，第二项不可能为 2；若首项不为 2，第二项的四个等可能取值中有一个是 2。因此所求概率为\n\n$\\dfrac{1}{4} \\cdot 0+\\dfrac{3}{4} \\cdot \\dfrac{1}{4}=\\dfrac{3}{16}$，\n\n所以 $a+b=3+16=19$。\n\n另一种解法：\n\n集合 $S$ 有 $(4)(4!)=96$ 个排列，因为首项有 4 种选择，其余各有 $4!$ 种排列。$S$ 中第二项为 2 的排列有 $(3)(3!)=18$ 个。因此概率为 $18 / 96=3 / 16$，并有 $a+b=\\boxed{19}$。"
     ],
     "tags": []
   },
@@ -1217,7 +1217,7 @@
     },
     "answer": "B",
     "solutions": [
-      "有\n\n$0=f(-1)=-a+b-c+d \\quad \\text{ 和 } \\quad 0=f(1)=a+b+c+d$，\n\n所以 $b+d=0$。又 $d=f(0)=2$，故 $b=-2$。\n\n\\section*{另一种解法}\n\n该多项式能被 $(x+1)(x-1)=x^{2}-1$ 整除，首项为 $a x^{3}$，常数项为 2，所以\n\n$f(x)=\\left(x^{2}-1\\right)(a x-2)=a x^{3}-2 x^{2}-a x+2 \\quad \\text{ 和 } \\quad b= \\boxed{-2} \\text{. }$。"
+      "有\n\n$0=f(-1)=-a+b-c+d \\quad \\text{ 和 } \\quad 0=f(1)=a+b+c+d$，\n\n所以 $b+d=0$。又 $d=f(0)=2$，故 $b=-2$。\n\n另一种解法：\n\n该多项式能被 $(x+1)(x-1)=x^{2}-1$ 整除，首项为 $a x^{3}$，常数项为 2，所以\n\n$f(x)=\\left(x^{2}-1\\right)(a x-2)=a x^{3}-2 x^{2}-a x+2 \\quad \\text{ 和 } \\quad b= \\boxed{-2} \\text{. }$。"
     ],
     "tags": []
   },
@@ -2015,7 +2015,7 @@
     },
     "answer": "D",
     "solutions": [
-      "标准骰子共有 21 个点。对 $1 \\leq n \\leq 6$，以概率 $n / 21$ 从原有 $n$ 个点的面去掉一点。因此，原有 $n$ 个点的面最终为奇数的概率：若 $n$ 为偶数，则为 $n / 21$；若 $n$ 为奇数，则为 $1-n / 21$。每个面成为顶面的概率为 $1 / 6$，所以顶面为奇数的概率为\n\n$\\begin{aligned} \\dfrac{1}{6}\\left(\\left(1-\\dfrac{1}{21}\\right)+\\dfrac{2}{21}+\\left(1-\\dfrac{3}{21}\\right)+\\dfrac{4}{21}+\\left(1-\\dfrac{5}{21}\\right)+\\dfrac{6}{21}\\right) =\\dfrac{1}{6}\\left(3+\\dfrac{3}{21}\\right) \\\\ =\\dfrac{1}{6} \\cdot \\dfrac{66}{21}= \\boxed{\\dfrac{11}{21}} \\end{aligned}$。\n\n\\section*{另一种解法}\n\n若从奇数面去掉一点，顶面为奇数的概率为 $1 / 3$；若从偶数面去掉一点，则为 $2 / 3$。每个点被去掉的概率为 $1 / 21$，所以\n\n$\\left(\\dfrac{1}{3}\\right)\\left(\\dfrac{1+3+5}{21}\\right)+\\left(\\dfrac{2}{3}\\right)\\left(\\dfrac{2+4+6}{21}\\right)=\\dfrac{33}{63}= \\boxed{\\dfrac{11}{21}}$。"
+      "标准骰子共有 21 个点。对 $1 \\leq n \\leq 6$，以概率 $n / 21$ 从原有 $n$ 个点的面去掉一点。因此，原有 $n$ 个点的面最终为奇数的概率：若 $n$ 为偶数，则为 $n / 21$；若 $n$ 为奇数，则为 $1-n / 21$。每个面成为顶面的概率为 $1 / 6$，所以顶面为奇数的概率为\n\n$\\begin{aligned} \\dfrac{1}{6}\\left(\\left(1-\\dfrac{1}{21}\\right)+\\dfrac{2}{21}+\\left(1-\\dfrac{3}{21}\\right)+\\dfrac{4}{21}+\\left(1-\\dfrac{5}{21}\\right)+\\dfrac{6}{21}\\right) =\\dfrac{1}{6}\\left(3+\\dfrac{3}{21}\\right) \\\\ =\\dfrac{1}{6} \\cdot \\dfrac{66}{21}= \\boxed{\\dfrac{11}{21}} \\end{aligned}$。\n\n另一种解法：\n\n若从奇数面去掉一点，顶面为奇数的概率为 $1 / 3$；若从偶数面去掉一点，则为 $2 / 3$。每个点被去掉的概率为 $1 / 21$，所以\n\n$\\left(\\dfrac{1}{3}\\right)\\left(\\dfrac{1+3+5}{21}\\right)+\\left(\\dfrac{2}{3}\\right)\\left(\\dfrac{2+4+6}{21}\\right)=\\dfrac{33}{63}= \\boxed{\\dfrac{11}{21}}$。"
     ],
     "tags": []
   },
@@ -2099,7 +2099,7 @@
     },
     "answer": "B",
     "solutions": [
-      "里程表只使用 9 个数字，因此相当于九进制计数，只是其数字 $5,6,7,8$、9 分别表示九进制数字 $4,5,6$、7、8。所以实际里程为\n\n$2004_{\\text{底 } 9}=2 \\cdot 9^{3}+4=2 \\cdot 729+4= \\boxed{1462}$。\n\n\\section*{另一种解法}\n\n实际里程等于 1 至 2005 中不含数字 4 的整数个数。小于 2000 的数，首位（允许前导 0）有 2 种选择，其余三位各有 9 种；扣除 0000，共 $2 \\cdot 9^{3}-1=1457$ 个正整数。2000 至 2005 中另有 5 个不含 4 的整数，所以共 $1457+5=\\boxed{1462}$ 英里。"
+      "里程表只使用 9 个数字，因此相当于九进制计数，只是其数字 $5,6,7,8$、9 分别表示九进制数字 $4,5,6$、7、8。所以实际里程为\n\n$2004_{\\text{底 } 9}=2 \\cdot 9^{3}+4=2 \\cdot 729+4= \\boxed{1462}$。\n\n另一种解法：\n\n实际里程等于 1 至 2005 中不含数字 4 的整数个数。小于 2000 的数，首位（允许前导 0）有 2 种选择，其余三位各有 9 种；扣除 0000，共 $2 \\cdot 9^{3}-1=1457$ 个正整数。2000 至 2005 中另有 5 个不含 4 的整数，所以共 $1457+5=\\boxed{1462}$ 英里。"
     ],
     "tags": []
   },
@@ -2288,7 +2288,7 @@
     },
     "answer": "D",
     "solutions": [
-      "由 $4^{x_{1}}=5,5^{x_{2}}=6, \\ldots, 127^{x_{124}}=128$，有\n\n$4^{7 / 2}=128=127^{x_{124}}=\\left(126^{x_{123}}\\right)^{x_{124}}=126^{x_{123} \\cdot x_{124}}=\\cdots=4^{x_{1} x_{2} \\cdots x_{124}} .$。\n\n所以 $x_{1} x_{2} \\cdots x_{124}=7 / 2$。\n\n\\section*{另一种解法}\n\n有\n\n$\\begin{aligned} x_{1} x_{2} \\cdots x_{124} =\\log _{4} 5 \\cdot \\log _{5} 6 \\cdots \\log _{127} 128 \\\\ =\\dfrac{\\log 5}{\\log 4} \\cdot \\dfrac{\\log 6}{\\log 5} \\cdots \\dfrac{\\log 128}{\\log 127}=\\dfrac{\\log 128}{\\log 4}=\\dfrac{\\log 2^{7}}{\\log 2^{2}}=\\dfrac{7 \\log 2}{2 \\log 2}= \\boxed{\\dfrac{7}{2}} . \\end{aligned}$。"
+      "由 $4^{x_{1}}=5,5^{x_{2}}=6, \\ldots, 127^{x_{124}}=128$，有\n\n$4^{7 / 2}=128=127^{x_{124}}=\\left(126^{x_{123}}\\right)^{x_{124}}=126^{x_{123} \\cdot x_{124}}=\\cdots=4^{x_{1} x_{2} \\cdots x_{124}} .$。\n\n所以 $x_{1} x_{2} \\cdots x_{124}=7 / 2$。\n\n另一种解法：\n\n有\n\n$\\begin{aligned} x_{1} x_{2} \\cdots x_{124} =\\log _{4} 5 \\cdot \\log _{5} 6 \\cdots \\log _{127} 128 \\\\ =\\dfrac{\\log 5}{\\log 4} \\cdot \\dfrac{\\log 6}{\\log 5} \\cdots \\dfrac{\\log 128}{\\log 127}=\\dfrac{\\log 128}{\\log 4}=\\dfrac{\\log 2^{7}}{\\log 2^{2}}=\\dfrac{7 \\log 2}{2 \\log 2}= \\boxed{\\dfrac{7}{2}} . \\end{aligned}$。"
     ],
     "tags": []
   },

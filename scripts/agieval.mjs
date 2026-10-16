@@ -670,8 +670,11 @@ export function normalizeAgievalText(value) {
     .replace(/<庄子\.秋水>/gu, "《庄子·秋水》")
     .replace(/<(古文观止|中国目录学史|五藏山经)>/gu, "《$1》")
     .replace(/从左传》开始/gu, "从《左传》开始")
+    .replace(/吏的缘文为奸/gu, "吏得缘文为奸")
     .replace(/(?<!_)__([^_\n]+)__(?!_)/gu, "$1")
     .replace(/(材料[一二三四五六七八九十\d]+[：:])。/gu, "$1")
+    .replace(/。。/gu, "。")
+    .replace(/。．/gu, "。")
     .replace(/([。！？；”])[ \t]{4,}/gu, "$1\n")
     .replace(/([^\s])[ \t]{4,}([^\s])/gu, "$1________$2")
     .replace(/[ \t]+\n/gu, "\n")
@@ -695,6 +698,7 @@ export function stripAgievalOptionLabel(value) {
     .replace(/^\s*(?:[（(]\s*[A-DＡ-Ｄ]\s*[）)]\s*)+/u, "")
     .replace(/^\s*[A-DＡ-Ｄ]\s*[.．、:：]\s*/u, "")
     .replace(/^\s*[、.．]\s*/u, "")
+    .replace(/[，,]\s*$/u, "")
     .trim();
 }
 

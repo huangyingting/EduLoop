@@ -9,7 +9,10 @@ import { normalizeMathExpression, requiresDisplayMath } from "../src/lib/math-ex
 // or new warning families.
 const MAX_STRICT_WARNINGS = 1184;
 const MAX_CONSOLE_WARNINGS = 136;
-const dataDirectory = path.join(process.cwd(), "data", "zh-CN");
+const dataDirectories = [
+  { locale: "zh-CN", dir: path.join(process.cwd(), "data", "zh-CN") },
+  { locale: "en", dir: path.join(process.cwd(), "data", "en") },
+];
 const formulas = new Map<string, { expression: string; display: boolean; filename: string }>();
 
 function collectFormulas(value: unknown, filename: string) {
@@ -35,10 +38,14 @@ function collectFormulas(value: unknown, filename: string) {
 }
 
 async function main() {
-  const filenames = (await readdir(dataDirectory)).filter((filename) => filename.endsWith(".json"));
-  for (const filename of filenames) {
-    const body = (await readFile(path.join(dataDirectory, filename), "utf8")).replace(/^\uFEFF/, "");
-    collectFormulas(JSON.parse(body) as unknown, filename);
+  let fileCount = 0;
+  for (const { locale, dir } of dataDirectories) {
+    const filenames = (await readdir(dir)).filter((filename) => filename.endsWith(".json"));
+    fileCount += filenames.length;
+    for (const filename of filenames) {
+      const body = (await readFile(path.join(dir, filename), "utf8")).replace(/^\uFEFF/, "");
+      collectFormulas(JSON.parse(body) as unknown, `${locale}/${filename}`);
+    }
   }
 
   const parseErrors: Array<{ filename: string; expression: string; error: string }> = [];
@@ -83,7 +90,7 @@ async function main() {
   }
 
   const report = {
-    files: filenames.length,
+    files: fileCount,
     uniqueFormulas: formulas.size,
     displayFormulas,
     strictWarnings,

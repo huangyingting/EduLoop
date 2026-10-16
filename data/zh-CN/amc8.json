@@ -9876,7 +9876,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2003 AMC 8 · 第 21 题",
-    "stem": "梯形 $A B C D$ 的面积为 $164 \\mathrm{~cm}^{2}$，高为 $8\\mathrm{~cm}$，$AB=$10 \\mathrm{~cm}$$，$CD=$17 \\mathrm{~cm}$$。求 $B C$ 的长度（厘米）。\n\n[Figure: /question-assets/source/amc/4e494ce4a4d0b328b7e00bbb3bc9218be7132fdaf157932d8ab183e7d933b409.jpg]",
+    "stem": "梯形 $A B C D$ 的面积为 $164 \\mathrm{~cm}^{2}$，高为 $8\\mathrm{~cm}$，$AB=10 \\mathrm{~cm}$，$CD=17 \\mathrm{~cm}$。求 $B C$ 的长度（厘米）。\n\n[Figure: /question-assets/source/amc/4e494ce4a4d0b328b7e00bbb3bc9218be7132fdaf157932d8ab183e7d933b409.jpg]",
     "options": {
       "A": "$9$",
       "B": "$10$",
@@ -17826,7 +17826,7 @@
     },
     "answer": "C",
     "solutions": [
-      "设 $s$ 表示立方体的边长。现在 $EJCI$ 是一个非正方形的菱形，其面积为 $\\dfrac{1}{2}$ $EC\\cdot JI$，因为菱形的面积是其对角线长度乘积的一半。根据勾股定理，$JI$ = $FH$ = $s\\sqrt(2)$，使用勾股定理两次，$EC$ = $s\\sqrt(3)$。因此 $R = $\\dfrac{\\dfrac{1}{2}EC.JI}{s^2}$ = $\\dfrac{\\dfrac{1}{2}(s\\sqrt3)(s\\sqrt2)}{s^2}$ = $\\dfrac{\\sqrt6}{2}$$，$R^2 = \\dfrac{6}{4} = \\dfrac{3}{2}$。\n\n答案：$\\boxed{C}$。"
+      "设 $s$ 表示立方体的边长。现在 $EJCI$ 是一个非正方形的菱形，其面积为 $\\dfrac{1}{2}$ $EC\\cdot JI$，因为菱形的面积是其对角线长度乘积的一半。根据勾股定理，$JI$ = $FH$ = $s\\sqrt(2)$，使用勾股定理两次，$EC$ = $s\\sqrt(3)$。因此 $R = \\dfrac{\\dfrac{1}{2}EC\\cdot JI}{s^2} = \\dfrac{\\dfrac{1}{2}(s\\sqrt3)(s\\sqrt2)}{s^2} = \\dfrac{\\sqrt6}{2}$，$R^2 = \\dfrac{6}{4} = \\dfrac{3}{2}$。\n\n答案：$\\boxed{C}$。"
     ],
     "tags": []
   },

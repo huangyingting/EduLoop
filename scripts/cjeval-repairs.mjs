@@ -101,7 +101,7 @@ export function cleanCjevalEscapesAndBrackets(text, id = "", isStem = false) {
   } while (s !== prev);
 
   if (isStem) {
-    // Strip leaked prompt/field labels
+    // Strip leaked prompt/field labels and inline score rubrics
     s = s
       .replace(/^ques_type\s*[:：]\s*[^\n]+\n+/u, "")
       .replace(
@@ -112,6 +112,9 @@ export function cleanCjevalEscapesAndBrackets(text, id = "", isStem = false) {
       .replace(/^改写后的问题内容如下[：:]\s*/u, "")
       .replace(/(^|\n|（\d+）\s*)(?:题目内容|问题内容|试题类型|试题内容|题目|问题|正文|句子)\s*[:：]\s*/gu, "$1")
       .replace(/(?:作答|题)类型为T\/F[（(]对\/错[）)][：:。]?\s*/gu, "")
+      .replace(/[（(]\s*\d+(?:\.\d+)?\s*分(?:[，,。；;][^）)\n]{1,20})?[）)]/gu, "")
+      .replace(/(?<!_)_②/gu, "______②")
+      .replace(/④_△_/gu, "④______")
       .replace(/\n选项：\n(?=[A-E]\.\s)/gu, "\n");
   }
 
@@ -120,7 +123,9 @@ export function cleanCjevalEscapesAndBrackets(text, id = "", isStem = false) {
     .replace(/【优化后?解析】\s*/gu, "")
     .replace(/[（(]?与原题解析保持一致，未进行大幅度修改[。.]?[）)]?/gu, "")
     .replace(/为了减少阅读负担，解析可简化为[:：]\s*/gu, "")
-    .replace(/；评分标准[：:][^\n]+$/gu, "");
+    .replace(/；评分标准[：:][^\n]+$/gu, "")
+    .replace(/\n*评分说明[：:][^\n]+/gu, "")
+    .replace(/[（(](?:共\d+分[。，,]?\s*)?(?:每点|一点)\d+分[，,]?意思对即可[。.]?[）)]/gu, "");
 
   return s.replace(/[ \t]+\n/gu, "\n").replace(/\n{3,}/gu, "\n\n").trim();
 }
@@ -991,6 +996,16 @@ const CHOICE_ITEM_OVERRIDES = {
       "A项《朝花夕拾》是鲁迅的回忆性散文集，而非“散文诗集”（鲁迅的散文诗集是《野草》）；B、C、D三项文学常识表述均正确。故选A。",
     ];
     q.answer = "A";
+  },
+  "98e5bcb430587c8f4e8e7d7cad79e000": (q) => {
+    q.options.C = "两个“这样”都是指示代词，代指前文的内容";
+    q.options.D = "“人类将进入一个新的进化阶段”是主谓短语";
+  },
+  "2603d244b673689871a0df88ccf1bed4": (q) => {
+    q.options.D = "鸿儒（rú）";
+    q.solutions = [
+      "A项“调素琴（tiáo）”注音正确；B项“陋室（lòu）”注音正确；C项“德馨”的“馨”应读“xīn”（前鼻音），而非“xīng”；D项“鸿儒（rú）”注音正确。故选C。",
+    ];
   },
   // 12 单选题 with option/solution mismatches
   "4f0889ba44a0c77123f5e06e307c3c20": (q) => {
@@ -1882,10 +1897,10 @@ const POETRY_ITEM_OVERRIDES = {
 };
 
 export function ensureFillBlankMarkers(question) {
+  // Normalize any run of 2+ underscores to standard 6-underscore blank across all question types
+  question.stem = question.stem.replace(/(?<!_)_{2,}(?!_)/gu, "______");
   if (question.type !== "填空题") return;
 
-  // Normalize any run of 2+ underscores to standard 6-underscore blank
-  question.stem = question.stem.replace(/(?<!_)_{2,}(?!_)/gu, "______");
   // Normalize empty brackets （   ） / (   ) / 【   】 to （______）
   question.stem = question.stem
     .replace(/（\s*）/gu, "（______）")
@@ -1920,6 +1935,15 @@ export function postProcessCjevalQuestion(question) {
 
   const q = structuredClone(question);
 
+  if (q.id === "6415fad0304fb55d3a8db689c78f6273") {
+    q.type = "现代文阅读";
+  } else if (
+    q.id === "94ded0d6e21e9ed16cb6c432fda233c7" ||
+    q.id === "fb8911ecab4e6b33a79063464121bc8f"
+  ) {
+    q.type = "填空题";
+  }
+
   // Clean escapes and brackets first
   q.stem = cleanCjevalEscapesAndBrackets(q.stem, q.id, true);
   if (q.options && typeof q.options === "object") {
@@ -1952,7 +1976,7 @@ export function postProcessCjevalQuestion(question) {
   q.stem = cleanCjevalEscapesAndBrackets(q.stem, q.id, true);
 
   // Normalize stem subquestion numbering & align answers/solutions
-  q.stem = normalizeStemNumbering(q.stem, q.id, q.type);
+  q.stem = normalizeStemNumbering(q.stem, q.id, q.type).replace(/([①②③④⑤⑥⑦⑧⑨⑩])\1+/gu, "$1");
   alignSubquestionAnswers(q);
 
   // Re-apply poetry/content answer overrides if they modified answer after alignment
@@ -1960,7 +1984,7 @@ export function postProcessCjevalQuestion(question) {
     q.answer = q.answer.replace(/^（1）AC/u, "（1）A");
   }
 
-  // Ensure all 填空题 have explicit blank markers (______)
+  // Ensure all 填空题 have explicit blank markers (______) and normalize 2+ underscore runs across all types
   ensureFillBlankMarkers(q);
 
   return q;

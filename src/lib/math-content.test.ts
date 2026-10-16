@@ -44,6 +44,22 @@ describe("tokenizeMathContent", () => {
     }]);
   });
 
+  it("tokenizes generated SVG figure markers and bare LaTeX math blocks", () => {
+    expect(tokenizeMathContent(
+      "See [Figure: /question-assets/generated/test.svg] and \\(a+b\\) with \\[x=1\\] plus \\begin{align*}y&=2\\end{align*}.",
+    )).toEqual([
+      { kind: "text", value: "See " },
+      { kind: "figure", value: "[Figure: /question-assets/generated/test.svg]" },
+      { kind: "text", value: " and " },
+      { kind: "inline-math", value: "a+b" },
+      { kind: "text", value: " with " },
+      { kind: "display-math", value: "x=1" },
+      { kind: "text", value: " plus " },
+      { kind: "display-math", value: "\\begin{align*}y&=2\\end{align*}" },
+      { kind: "text", value: "." },
+    ]);
+  });
+
   it("leaves escaped and unmatched dollars as prose", () => {
     expect(tokenizeMathContent("Price \\$5 and an unmatched $formula")).toEqual([
       { kind: "text", value: "Price \\$5 and an unmatched $formula" },

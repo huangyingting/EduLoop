@@ -95,11 +95,26 @@ for (const { filename, question } of records) {
   if (question.type === "填空题" && !/_{2,}|[（(]\s*[）)]/u.test(stem)) {
     issues.push("stem: fill-in-the-blank question lacks blank marker");
   }
+  if (question.type === "判断题" && answer !== "√" && answer !== "×") {
+    issues.push("answer: true/false question answer must be √ or ×");
+  }
+  if (!isChoice && Object.keys(question.options ?? {}).length > 0) {
+    issues.push("options: non-choice question has unexpected options");
+  }
 
   const normalizedOptions = presentOptions.map(normalize);
   if (normalizedOptions.length !== new Set(normalizedOptions).size) issues.push("duplicate option");
 
   if (isChoice) {
+    if (presentOptions.length < 2) {
+      issues.push("options: choice question has fewer than two options");
+    }
+    if (Object.entries(question.options ?? {}).some(([, val]) => !String(val ?? "").trim())) {
+      issues.push("options: choice question has empty option text");
+    }
+    if (options.slice(0, presentOptions.length).some((opt) => !opt)) {
+      issues.push("options: choice question has non-contiguous option keys");
+    }
     const key = directChoiceLabels(question.answer);
     if (!key.length) issues.push("choice question lacks a direct answer key");
     if (/单选/u.test(String(question.type ?? "")) && key.length !== 1) {

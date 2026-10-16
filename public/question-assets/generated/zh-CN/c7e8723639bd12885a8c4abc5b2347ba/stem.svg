@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" role="img" aria-labelledby="title desc">
+  <title id="title">半偏法测量电压表内阻实验原理电路图</title>
+  <desc id="desc">半偏法测电压表内阻的分压式电路图，滑动变阻器R₁接成分压电路，待测电压表V与电阻箱R₀串联，开关S₂并联在电阻箱R₀两端。</desc>
+  <rect width="720" height="420" rx="24" fill="#fffdf8"/>
+  <rect x="24" y="24" width="672" height="372" rx="18" fill="#fffdf8" stroke="#e5dccb" stroke-width="2"/>
+
+  <g stroke="#163a35" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Left vertical wire from bottom to top branch -->
+    <line x1="140" y1="150" x2="140" y2="340"/>
+    <!-- Upper measuring branch: (140,150) -> Voltmeter V -> R0 -> (560,150) -->
+    <line x1="140" y1="150" x2="225" y2="150"/>
+    <circle cx="255" cy="150" r="30" fill="#fffdf8" stroke="#0f766e" stroke-width="3.5"/>
+    <line x1="285" y1="150" x2="385" y2="150"/>
+    <!-- Resistance box R0 -->
+    <rect x="385" y="132" width="90" height="36" fill="#f8f1e3" stroke="#163a35" stroke-width="3.2"/>
+    <line x1="475" y1="150" x2="540" y2="150"/>
+
+    <!-- Parallel switch S2 across R0 -->
+    <line x1="355" y1="150" x2="355" y2="78"/>
+    <line x1="355" y1="78" x2="405" y2="78"/>
+    <circle cx="408" cy="78" r="4" fill="#fffdf8"/>
+    <line x1="411" y1="76" x2="448" y2="56" stroke="#c2410c" stroke-width="3.5"/>
+    <circle cx="452" cy="78" r="4" fill="#fffdf8"/>
+    <line x1="455" y1="78" x2="505" y2="78"/>
+    <line x1="505" y1="78" x2="505" y2="150"/>
+
+    <!-- Potentiometer R1 (voltage divider) on middle rail y=245 -->
+    <line x1="140" y1="245" x2="230" y2="245"/>
+    <rect x="230" y="227" width="140" height="36" fill="#f8f1e3" stroke="#163a35" stroke-width="3.2"/>
+    <line x1="370" y1="245" x2="580" y2="245"/>
+    <!-- Slider connecting upper measuring branch (540,150) down to R1 top (300,227) -->
+    <polyline points="540,150 540,195 300,195 300,225"/>
+    <polyline points="293,214 300,226 307,214"/>
+
+    <!-- Right vertical wire from middle rail to bottom rail -->
+    <line x1="580" y1="245" x2="580" y2="340"/>
+
+    <!-- Bottom rail y=340: Battery E and main switch S1 -->
+    <line x1="140" y1="340" x2="275" y2="340"/>
+    <!-- Battery -->
+    <line x1="275" y1="316" x2="275" y2="364" stroke-width="3.5"/>
+    <line x1="290" y1="326" x2="290" y2="354" stroke-width="5.5"/>
+    <line x1="290" y1="340" x2="415" y2="340"/>
+    <!-- Switch S1 -->
+    <circle cx="418" cy="340" r="4" fill="#fffdf8"/>
+    <line x1="421" y1="338" x2="458" y2="318" stroke="#c2410c" stroke-width="3.5"/>
+    <circle cx="462" cy="340" r="4" fill="#fffdf8"/>
+    <line x1="465" y1="340" x2="580" y2="340"/>
+  </g>
+
+  <!-- Connection node dots -->
+  <g fill="#163a35">
+    <circle cx="140" cy="245" r="5"/>
+    <circle cx="355" cy="150" r="5"/>
+    <circle cx="505" cy="150" r="5"/>
+  </g>
+
+  <!-- Component labels -->
+  <text x="255" y="158" text-anchor="middle" font-family="sans-serif" font-size="22" font-weight="700" fill="#0f766e">V</text>
+  <text x="430" y="157" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="700" fill="#163a35">R₀</text>
+  <text x="430" y="48" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="700" fill="#c2410c">S₂</text>
+  <text x="300" y="252" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="700" fill="#163a35">R₁</text>
+  <text x="282" y="304" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="700" fill="#163a35">E</text>
+  <text x="440" y="308" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="700" fill="#c2410c">S₁</text>
+</svg>

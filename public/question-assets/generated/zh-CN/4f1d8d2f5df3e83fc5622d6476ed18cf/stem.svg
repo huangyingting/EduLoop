@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" role="img" aria-labelledby="title desc">
+  <title id="title">药物V和肾上腺素对小鼠耗氧量影响的实验表</title>
+  <desc id="desc">探究药物V和肾上腺素对小鼠耗氧量影响的实验分组与耗氧量结果表，A组为空白对照，B组注射药物V耗氧量降低，C组注射肾上腺素耗氧量升高，D组同时注射两者耗氧量接近对照组。</desc>
+  <rect width="720" height="420" rx="24" fill="#fffdf8"/>
+  <rect x="24" y="24" width="672" height="372" rx="18" fill="#fffdf8" stroke="#e5dccb" stroke-width="2"/>
+  <text x="360" y="62" text-anchor="middle" font-family="sans-serif" font-size="20" font-weight="700" fill="#163a35">药物 V 和肾上腺素对小鼠耗氧量的影响实验表</text>
+
+  <g transform="translate(70, 86)">
+    <rect width="580" height="250" rx="12" fill="#ffffff" stroke="#163a35" stroke-width="2.5"/>
+    <rect width="580" height="58" rx="12" fill="#f8f1e3" stroke="#163a35" stroke-width="2.5"/>
+    <line x1="0" y1="58" x2="580" y2="58" stroke="#163a35" stroke-width="2"/>
+    <line x1="0" y1="106" x2="580" y2="106" stroke="#cbd5e1" stroke-width="1.8"/>
+    <line x1="0" y1="154" x2="580" y2="154" stroke="#cbd5e1" stroke-width="1.8"/>
+    <line x1="0" y1="202" x2="580" y2="202" stroke="#cbd5e1" stroke-width="1.8"/>
+
+    <line x1="150" y1="0" x2="150" y2="250" stroke="#163a35" stroke-width="2"/>
+    <line x1="255" y1="0" x2="255" y2="250" stroke="#cbd5e1" stroke-width="1.8"/>
+    <line x1="360" y1="0" x2="360" y2="250" stroke="#cbd5e1" stroke-width="1.8"/>
+    <line x1="465" y1="0" x2="465" y2="250" stroke="#cbd5e1" stroke-width="1.8"/>
+
+    <!-- Headers -->
+    <text x="75" y="36" text-anchor="middle" font-family="sans-serif" font-size="16" font-weight="700" fill="#163a35">药剂 / 指标</text>
+    <text x="202" y="36" text-anchor="middle" font-family="sans-serif" font-size="16" font-weight="700" fill="#163a35">A 组</text>
+    <text x="307" y="36" text-anchor="middle" font-family="sans-serif" font-size="16" font-weight="700" fill="#163a35">B 组</text>
+    <text x="412" y="36" text-anchor="middle" font-family="sans-serif" font-size="16" font-weight="700" fill="#163a35">C 组</text>
+    <text x="522" y="36" text-anchor="middle" font-family="sans-serif" font-size="16" font-weight="700" fill="#163a35">D 组</text>
+
+    <!-- Row 1: 药物 V -->
+    <text x="75" y="88" text-anchor="middle" font-family="sans-serif" font-size="16" font-weight="600" fill="#163a35">药物 V</text>
+    <text x="202" y="88" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#64748b">—</text>
+    <text x="307" y="88" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="700" fill="#0f766e">＋</text>
+    <text x="412" y="88" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#64748b">—</text>
+    <text x="522" y="88" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="700" fill="#0f766e">＋</text>
+
+    <!-- Row 2: 肾上腺素 -->
+    <text x="75" y="136" text-anchor="middle" font-family="sans-serif" font-size="16" font-weight="600" fill="#163a35">肾上腺素</text>
+    <text x="202" y="136" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#64748b">—</text>
+    <text x="307" y="136" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#64748b">—</text>
+    <text x="412" y="136" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="700" fill="#0f766e">＋</text>
+    <text x="522" y="136" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="700" fill="#0f766e">＋</text>
+
+    <!-- Row 3: 对照处理 -->
+    <text x="75" y="184" text-anchor="middle" font-family="sans-serif" font-size="15" font-weight="600" fill="#163a35">A组注射药剂</text>
+    <text x="202" y="184" text-anchor="middle" font-family="sans-serif" font-size="15" font-weight="700" fill="#c2410c">（待填）</text>
+    <text x="307" y="184" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#64748b">—</text>
+    <text x="412" y="184" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#64748b">—</text>
+    <text x="522" y="184" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#64748b">—</text>
+
+    <!-- Row 4: 耗氧量 -->
+    <text x="75" y="226" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="700" fill="#163a35">耗氧量 [mL/(g·h)]</text>
+    <text x="202" y="232" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="700" fill="#163a35">2.0</text>
+    <text x="307" y="232" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="700" fill="#c2410c">1.2</text>
+    <text x="412" y="232" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="700" fill="#0f766e">2.8</text>
+    <text x="522" y="232" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="700" fill="#163a35">2.1</text>
+  </g>
+  <text x="360" y="368" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#5b6b67">注：“＋”表示注射相应等量药剂，“—”表示未注射该药剂</text>
+</svg>

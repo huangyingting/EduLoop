@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" role="img" aria-labelledby="title desc">
+  <title id="title">物体P与竖直弹簧及水平地面接触示意图</title>
+  <desc id="desc">水平地面上的物体P与竖直轻弹簧相连的示意图，弹簧位于物体P上方，地面在物体P下方提供支持。</desc>
+  <rect width="720" height="420" rx="24" fill="#fffdf8"/>
+
+  <!-- Top support/ceiling (or upper spring coils above P) -->
+  <!-- Classic textbook figure: vertical spring attached to the top of block P resting on horizontal ground -->
+  <g stroke="#163a35" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Vertical spring above block P -->
+    <path d="M 360 75 L 360 95 L 332 108 L 388 124 L 332 140 L 388 156 L 332 172 L 388 188 L 332 204 L 360 216 L 360 235"/>
+  </g>
+
+  <!-- Block P -->
+  <rect x="290" y="235" width="140" height="90" rx="6" fill="#f8f1e3" stroke="#163a35" stroke-width="4"/>
+  <text x="360" y="290" text-anchor="middle" font-family="sans-serif" font-size="28" font-weight="700" fill="#163a35">P</text>
+
+  <!-- Horizontal ground -->
+  <line x1="170" y1="325" x2="550" y2="325" stroke="#163a35" stroke-width="4"/>
+  <g stroke="#64748b" stroke-width="2.2">
+    <line x1="190" y1="325" x2="175" y2="345"/>
+    <line x1="225" y1="325" x2="210" y2="345"/>
+    <line x1="260" y1="325" x2="245" y2="345"/>
+    <line x1="295" y1="325" x2="280" y2="345"/>
+    <line x1="330" y1="325" x2="315" y2="345"/>
+    <line x1="365" y1="325" x2="350" y2="345"/>
+    <line x1="400" y1="325" x2="385" y2="345"/>
+    <line x1="435" y1="325" x2="420" y2="345"/>
+    <line x1="470" y1="325" x2="455" y2="345"/>
+    <line x1="505" y1="325" x2="490" y2="345"/>
+    <line x1="540" y1="325" x2="525" y2="345"/>
+  </g>
+</svg>

@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" role="img" aria-labelledby="title desc">
+  <title id="title">甲组密闭透明生态瓶的组成和条件对照表</title>
+  <desc id="desc">甲组3个密闭透明生态瓶的组成与条件对照表，①号瓶具备光、水草、小金鱼、泥沙，②号瓶无光，③号瓶无泥沙。</desc>
+  <rect width="720" height="420" rx="24" fill="#fffdf8"/>
+  <rect x="24" y="24" width="672" height="372" rx="18" fill="#fffdf8" stroke="#e5dccb" stroke-width="2"/>
+  <text x="360" y="64" text-anchor="middle" font-family="sans-serif" font-size="21" font-weight="700" fill="#163a35">甲组 3 个密闭、透明生态瓶的组成与条件表</text>
+
+  <!-- Table frame -->
+  <g transform="translate(70, 92)">
+    <rect width="580" height="240" rx="12" fill="#ffffff" stroke="#163a35" stroke-width="2.5"/>
+    <rect width="580" height="60" rx="12" fill="#f8f1e3" stroke="#163a35" stroke-width="2.5"/>
+    <!-- Horizontal lines -->
+    <line x1="0" y1="60" x2="580" y2="60" stroke="#163a35" stroke-width="2"/>
+    <line x1="0" y1="120" x2="580" y2="120" stroke="#cbd5e1" stroke-width="1.8"/>
+    <line x1="0" y1="180" x2="580" y2="180" stroke="#cbd5e1" stroke-width="1.8"/>
+    <!-- Vertical lines -->
+    <line x1="140" y1="0" x2="140" y2="240" stroke="#163a35" stroke-width="2"/>
+    <line x1="250" y1="0" x2="250" y2="240" stroke="#cbd5e1" stroke-width="1.8"/>
+    <line x1="360" y1="0" x2="360" y2="240" stroke="#cbd5e1" stroke-width="1.8"/>
+    <line x1="470" y1="0" x2="470" y2="240" stroke="#cbd5e1" stroke-width="1.8"/>
+
+    <!-- Header labels -->
+    <text x="70" y="37" text-anchor="middle" font-family="sans-serif" font-size="17" font-weight="700" fill="#163a35">生态瓶编号</text>
+    <text x="195" y="37" text-anchor="middle" font-family="sans-serif" font-size="17" font-weight="700" fill="#163a35">光照</text>
+    <text x="305" y="37" text-anchor="middle" font-family="sans-serif" font-size="17" font-weight="700" fill="#163a35">水草</text>
+    <text x="415" y="37" text-anchor="middle" font-family="sans-serif" font-size="17" font-weight="700" fill="#163a35">小金鱼</text>
+    <text x="525" y="37" text-anchor="middle" font-family="sans-serif" font-size="17" font-weight="700" fill="#163a35">泥沙</text>
+
+    <!-- Row ① -->
+    <text x="70" y="97" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="700" fill="#0f766e">①</text>
+    <text x="195" y="98" text-anchor="middle" font-family="sans-serif" font-size="22" font-weight="700" fill="#0f766e">＋</text>
+    <text x="305" y="98" text-anchor="middle" font-family="sans-serif" font-size="22" font-weight="700" fill="#0f766e">＋</text>
+    <text x="415" y="98" text-anchor="middle" font-family="sans-serif" font-size="22" font-weight="700" fill="#0f766e">＋</text>
+    <text x="525" y="98" text-anchor="middle" font-family="sans-serif" font-size="22" font-weight="700" fill="#0f766e">＋</text>
+
+    <!-- Row ② -->
+    <text x="70" y="157" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="700" fill="#163a35">②</text>
+    <text x="195" y="158" text-anchor="middle" font-family="sans-serif" font-size="22" font-weight="700" fill="#c2410c">—</text>
+    <text x="305" y="158" text-anchor="middle" font-family="sans-serif" font-size="22" font-weight="700" fill="#0f766e">＋</text>
+    <text x="415" y="158" text-anchor="middle" font-family="sans-serif" font-size="22" font-weight="700" fill="#0f766e">＋</text>
+    <text x="525" y="158" text-anchor="middle" font-family="sans-serif" font-size="22" font-weight="700" fill="#0f766e">＋</text>
+
+    <!-- Row ③ -->
+    <text x="70" y="217" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="700" fill="#163a35">③</text>
+    <text x="195" y="218" text-anchor="middle" font-family="sans-serif" font-size="22" font-weight="700" fill="#0f766e">＋</text>
+    <text x="305" y="218" text-anchor="middle" font-family="sans-serif" font-size="22" font-weight="700" fill="#0f766e">＋</text>
+    <text x="415" y="218" text-anchor="middle" font-family="sans-serif" font-size="22" font-weight="700" fill="#0f766e">＋</text>
+    <text x="525" y="218" text-anchor="middle" font-family="sans-serif" font-size="22" font-weight="700" fill="#c2410c">—</text>
+  </g>
+  <text x="360" y="366" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#5b6b67">注：“＋”表示有，“—”表示无；培养观察发现 ① 号瓶生态系统最稳定</text>
+</svg>

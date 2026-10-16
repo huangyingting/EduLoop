@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" role="img" aria-labelledby="title desc">
+  <title id="title">△ABC绕点A顺时针旋转得到△AB′C′示意图</title>
+  <desc id="desc">三角形ABC绕点A顺时针旋转得到三角形AB′C′的几何示意图，其中角B为30度，角C为67度，点C′落在边BC上。</desc>
+  <rect width="720" height="420" rx="24" fill="#fffdf8"/>
+
+  <!-- Exact geometry:
+       Let C = (170, 320), B = (580, 320) along horizontal line y = 320.
+       Angle C = 67 deg, Angle B = 30 deg => Angle BAC = 83 deg.
+       Length BC = 410. By Law of Sines:
+       AC = 410 * sin(30°) / sin(83°) = 206.5
+       A = (170 + 206.5*cos(67°), 320 - 206.5*sin(67°)) = (250.7, 130.0).
+       Since C' is on BC and AC' = AC, triangle ACC' is isosceles with C' symmetric to C across X = 250.7:
+       C' = (250.7 + 80.7, 320) = (331.4, 320).
+       Rotation angle clockwise around A is 180° - 2*67° = 46°.
+       Vector AB = (329.3, 190.0), rotated clockwise (in screen coords, angle decreases by 46°):
+       Original angle of AB from +x is atan2(190, 329.3) = 30.0°.
+       Rotated clockwise by 46° => -16.0°:
+       Length AB = 380.2 => B' = (250.7 + 380.2*cos(-16°), 130.0 + 380.2*sin(-16°)) = (616.2, 25.2) -> let's scale by 0.82 so everything fits with generous margins!
+       Scaled by 0.82 around (360, 220):
+       C = (190, 330), B = (530, 330) (BC = 340)
+       AC = 171.3 => A = (257, 172)
+       C' = (324, 330)
+       B' = (560, 85)
+  -->
+  <!-- Original triangle ABC -->
+  <polygon points="257,172 530,330 190,330" fill="#0f766e" fill-opacity="0.10" stroke="#163a35" stroke-width="3.5" stroke-linejoin="round"/>
+
+  <!-- Rotated triangle AB'C' -->
+  <polygon points="257,172 560,85 324,330" fill="#c2410c" fill-opacity="0.12" stroke="#c2410c" stroke-width="3.5" stroke-linejoin="round"/>
+
+  <!-- Angle arcs -->
+  <!-- Angle C = 67° -->
+  <path d="M 222 330 A 32 32 0 0 0 203 300" fill="none" stroke="#163a35" stroke-width="2.2"/>
+  <text x="225" y="315" font-family="sans-serif" font-size="16" font-weight="600" fill="#163a35">67°</text>
+
+  <!-- Angle B = 30° -->
+  <path d="M 488 330 A 42 42 0 0 1 494 309" fill="none" stroke="#163a35" stroke-width="2.2"/>
+  <text x="452" y="322" font-family="sans-serif" font-size="16" font-weight="600" fill="#163a35">30°</text>
+
+  <!-- Target angle B'C'B -->
+  <path d="M 360 330 A 36 36 0 0 0 349 304" fill="none" stroke="#c2410c" stroke-width="2.5"/>
+
+  <!-- Vertex points -->
+  <circle cx="257" cy="172" r="4.5" fill="#163a35"/>
+  <circle cx="190" cy="330" r="4.5" fill="#163a35"/>
+  <circle cx="530" cy="330" r="4.5" fill="#163a35"/>
+  <circle cx="324" cy="330" r="4.5" fill="#c2410c"/>
+  <circle cx="560" cy="85" r="4.5" fill="#c2410c"/>
+
+  <!-- Labels -->
+  <text x="235" y="160" font-family="sans-serif" font-size="22" font-weight="700" fill="#163a35">A</text>
+  <text x="164" y="348" font-family="sans-serif" font-size="22" font-weight="700" fill="#163a35">C</text>
+  <text x="542" y="348" font-family="sans-serif" font-size="22" font-weight="700" fill="#163a35">B</text>
+  <text x="316" y="362" font-family="sans-serif" font-size="22" font-weight="700" fill="#c2410c">C′</text>
+  <text x="572" y="92" font-family="sans-serif" font-size="22" font-weight="700" fill="#c2410c">B′</text>
+</svg>

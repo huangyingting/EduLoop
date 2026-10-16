@@ -36,12 +36,19 @@ describe("catalog content curation", () => {
     for (const id of reviewedSelfContainedVisualIds) expect(normalized(id).status).toBe("PUBLISHED");
   });
 
-  it("publishes self-contained rewrites of the missing-figure questions", () => {
+  it("publishes SVG-backed replacements for the missing-figure questions", () => {
     expect(repairedMissingFigureIds.size).toBe(9);
     for (const id of repairedMissingFigureIds) {
       const question = normalized(id);
       expect(question.status).toBe("PUBLISHED");
-      expect(question.stem).not.toMatch(/如图|图中|图甲|图乙|图2/);
+      expect(question.assets).toEqual([
+        expect.objectContaining({
+          role: "STEM",
+          kind: "DIAGRAM",
+          path: `/question-assets/generated/zh-CN/${id}/stem.svg`,
+          reviewStatus: "APPROVED",
+        }),
+      ]);
     }
   });
 
@@ -75,16 +82,10 @@ describe("catalog content curation", () => {
     }
   });
 
-  it("publishes all answerable content and quarantines the irrecoverable source stem", () => {
+  it("publishes all 16,531 runtime questions with zero quarantined records", () => {
     const questions = [...recordsById.values()].map(({ question, filename }) => normalizeSourceQuestion(question, filename));
-    expect(questions).toHaveLength(16_537);
-    expect(questions.filter((question) => question.status === "PUBLISHED")).toHaveLength(16_536);
-    expect(questions.filter((question) => question.status === "NEEDS_REVIEW")).toEqual([
-      expect.objectContaining({
-        id: "3aa418134c3e4dbcb0e24139a5e61c5a",
-        sourceFile: "mathematics.json",
-        stem: "略",
-      }),
-    ]);
+    expect(questions).toHaveLength(16_531);
+    expect(questions.filter((question) => question.status === "PUBLISHED")).toHaveLength(16_531);
+    expect(questions.filter((question) => question.status === "NEEDS_REVIEW")).toEqual([]);
   });
 });

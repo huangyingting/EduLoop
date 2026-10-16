@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" role="img" aria-labelledby="title desc">
+  <title id="title">条形磁铁N极朝下向闭合线圈运动示意图</title>
+  <desc id="desc">竖直条形磁铁N极朝下向水平闭合线圈运动，线圈上标有俯视逆时针方向的电流参考箭头。</desc>
+  <rect width="720" height="420" rx="24" fill="#fffdf8"/>
+
+  <!-- Bar magnet (S top, N bottom) -->
+  <g transform="translate(330, 48)">
+    <rect x="0" y="0" width="60" height="85" fill="#e2e8f0" stroke="#163a35" stroke-width="3.5"/>
+    <rect x="0" y="85" width="60" height="85" fill="#fed7aa" stroke="#163a35" stroke-width="3.5"/>
+    <text x="30" y="50" text-anchor="middle" font-family="sans-serif" font-size="26" font-weight="700" fill="#163a35">S</text>
+    <text x="30" y="138" text-anchor="middle" font-family="sans-serif" font-size="26" font-weight="700" fill="#c2410c">N</text>
+  </g>
+
+  <!-- Downward motion arrow v -->
+  <g stroke="#c2410c" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="430" y1="110" x2="430" y2="190"/>
+    <polyline points="420,176 430,192 440,176"/>
+  </g>
+  <text x="448" y="158" font-family="sans-serif" font-size="20" font-weight="700" fill="#c2410c">v（向下）</text>
+
+  <!-- Magnetic flux dashed lines from N pole -->
+  <g stroke="#94a3b8" stroke-width="2" stroke-dasharray="6 6" fill="none">
+    <path d="M 360 218 L 360 345"/>
+    <path d="M 345 218 C 325 265 295 305 270 345"/>
+    <path d="M 375 218 C 395 265 425 305 450 345"/>
+  </g>
+
+  <!-- Horizontal closed coil (perspective ellipse) -->
+  <!-- Back half of coil -->
+  <path d="M 200 310 A 160 44 0 0 1 520 310" fill="none" stroke="#163a35" stroke-width="4" stroke-dasharray="10 6"/>
+  <!-- Front half of coil -->
+  <path d="M 200 310 A 160 44 0 0 0 520 310" fill="none" stroke="#163a35" stroke-width="5.5"/>
+
+  <!-- Reference arrow on front wire pointing left-to-right (counterclockwise from above) -->
+  <g stroke="#0f766e" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 315 352 Q 360 356 405 352"/>
+    <polyline points="392,343 408,352 393,362"/>
+  </g>
+  <text x="360" y="388" text-anchor="middle" font-family="sans-serif" font-size="16" font-weight="600" fill="#0f766e">图中箭头方向（俯视逆时针）</text>
+</svg>

@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" role="img" aria-labelledby="title desc">
+  <title id="title">方格纸中△ABC变换得到△DEF示意图</title>
+  <desc id="desc">方格纸中直角三角形ABC与三角形DEF的位置关系图，三角形ABC绕点A逆时针旋转90度再向右平移6格得到三角形DEF。</desc>
+  <rect width="720" height="420" rx="24" fill="#fffdf8"/>
+
+  <!-- Grid: 10 cols x 5 rows, cell size 54px, origin top-left (90, 65) -->
+  <!-- Grid columns x = 90 + k*54 (k=0..10 => 90..630), rows y = 65 + r*54 (r=0..5 => 65..335) -->
+  <g stroke="#cbd5e1" stroke-width="1.8">
+    <line x1="90" y1="65" x2="630" y2="65"/>
+    <line x1="90" y1="119" x2="630" y2="119"/>
+    <line x1="90" y1="173" x2="630" y2="173"/>
+    <line x1="90" y1="227" x2="630" y2="227"/>
+    <line x1="90" y1="281" x2="630" y2="281"/>
+    <line x1="90" y1="335" x2="630" y2="335"/>
+
+    <line x1="90" y1="65" x2="90" y2="335"/>
+    <line x1="144" y1="65" x2="144" y2="335"/>
+    <line x1="198" y1="65" x2="198" y2="335"/>
+    <line x1="252" y1="65" x2="252" y2="335"/>
+    <line x1="306" y1="65" x2="306" y2="335"/>
+    <line x1="360" y1="65" x2="360" y2="335"/>
+    <line x1="414" y1="65" x2="414" y2="335"/>
+    <line x1="468" y1="65" x2="468" y2="335"/>
+    <line x1="522" y1="65" x2="522" y2="335"/>
+    <line x1="576" y1="65" x2="576" y2="335"/>
+    <line x1="630" y1="65" x2="630" y2="335"/>
+  </g>
+  <rect x="90" y="65" width="540" height="270" fill="none" stroke="#163a35" stroke-width="2.5"/>
+
+  <!-- Triangle ABC: A=(col 2, row 4)=(198,281), B=(col 4, row 4)=(306,281), C=(col 2, row 3)=(198,227) -->
+  <!-- Rotate 90 deg CCW around A: B'=(col 2, row 2), C'=(col 1, row 4) -->
+  <!-- Translate 6 units right (+6 cols): D=(col 8, row 4)=(522,281), E=(col 8, row 2)=(522,173), F=(col 7, row 4)=(468,281) -->
+  <polygon points="198,281 306,281 198,227" fill="#0f766e" fill-opacity="0.22" stroke="#163a35" stroke-width="3.5" stroke-linejoin="round"/>
+  <polygon points="522,281 522,173 468,281" fill="#c2410c" fill-opacity="0.22" stroke="#c2410c" stroke-width="3.5" stroke-linejoin="round"/>
+
+  <!-- Vertex dots -->
+  <g fill="#163a35">
+    <circle cx="198" cy="281" r="5"/>
+    <circle cx="306" cy="281" r="5"/>
+    <circle cx="198" cy="227" r="5"/>
+  </g>
+  <g fill="#c2410c">
+    <circle cx="522" cy="281" r="5"/>
+    <circle cx="522" cy="173" r="5"/>
+    <circle cx="468" cy="281" r="5"/>
+  </g>
+
+  <!-- Labels -->
+  <text x="182" y="304" font-family="sans-serif" font-size="20" font-weight="700" fill="#163a35">A</text>
+  <text x="312" y="304" font-family="sans-serif" font-size="20" font-weight="700" fill="#163a35">B</text>
+  <text x="176" y="222" font-family="sans-serif" font-size="20" font-weight="700" fill="#163a35">C</text>
+
+  <text x="530" y="304" font-family="sans-serif" font-size="20" font-weight="700" fill="#c2410c">D</text>
+  <text x="530" y="168" font-family="sans-serif" font-size="20" font-weight="700" fill="#c2410c">E</text>
+  <text x="448" y="304" font-family="sans-serif" font-size="20" font-weight="700" fill="#c2410c">F</text>
+</svg>

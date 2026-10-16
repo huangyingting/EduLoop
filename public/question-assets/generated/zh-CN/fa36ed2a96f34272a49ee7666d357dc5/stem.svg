@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" role="img" aria-labelledby="title desc">
+  <title id="title">动物精巢内细胞分裂数量变化图（甲图）与染色体变化模式图（乙图）</title>
+  <desc id="desc">甲图为①至④四个时期染色体、染色单体、DNA数量变化柱形图，乙图为a有丝分裂中期、b减数第二次分裂中期、c减数第一次分裂后期、d减数第二次分裂后期四个细胞模式图。</desc>
+  <rect width="720" height="420" rx="24" fill="#fffdf8"/>
+
+  <!-- Left panel: 甲图 (Bar chart) -->
+  <g transform="translate(25, 25)">
+    <rect width="330" height="370" rx="16" fill="#fffdf8" stroke="#e5dccb" stroke-width="2"/>
+    <text x="165" y="32" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="700" fill="#163a35">甲图（数量变化）</text>
+
+    <!-- Legend -->
+    <rect x="42" y="48" width="12" height="12" fill="#163a35"/>
+    <text x="58" y="59" font-family="sans-serif" font-size="12" fill="#163a35">染色体</text>
+    <rect x="112" y="48" width="12" height="12" fill="#c2410c"/>
+    <text x="128" y="59" font-family="sans-serif" font-size="12" fill="#163a35">染色单体</text>
+    <rect x="194" y="48" width="12" height="12" fill="#0f766e"/>
+    <text x="210" y="59" font-family="sans-serif" font-size="12" fill="#163a35">DNA</text>
+
+    <!-- Axes -->
+    <line x1="48" y1="80" x2="48" y2="310" stroke="#163a35" stroke-width="2.5"/>
+    <line x1="48" y1="310" x2="310" y2="310" stroke="#163a35" stroke-width="2.5"/>
+    <!-- Y-axis grid & labels: 4n=100, 2n=205, n=257.5, 0=310 -->
+    <line x1="44" y1="100" x2="305" y2="100" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <line x1="44" y1="205" x2="305" y2="205" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <line x1="44" y1="258" x2="305" y2="258" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <text x="38" y="105" text-anchor="end" font-family="sans-serif" font-size="13" font-weight="600" fill="#163a35">4n</text>
+    <text x="38" y="210" text-anchor="end" font-family="sans-serif" font-size="13" font-weight="600" fill="#163a35">2n</text>
+    <text x="38" y="263" text-anchor="end" font-family="sans-serif" font-size="13" font-weight="600" fill="#163a35">n</text>
+    <text x="38" y="314" text-anchor="end" font-family="sans-serif" font-size="13" font-weight="600" fill="#163a35">0</text>
+
+    <!-- Group ①: 2n, 0, 2n -->
+    <rect x="65" y="205" width="14" height="105" fill="#163a35"/>
+    <rect x="93" y="205" width="14" height="105" fill="#0f766e"/>
+    <text x="86" y="335" text-anchor="middle" font-family="sans-serif" font-size="15" font-weight="700" fill="#163a35">①</text>
+
+    <!-- Group ②: 2n, 4n, 4n -->
+    <rect x="128" y="205" width="14" height="105" fill="#163a35"/>
+    <rect x="142" y="100" width="14" height="210" fill="#c2410c"/>
+    <rect x="156" y="100" width="14" height="210" fill="#0f766e"/>
+    <text x="149" y="335" text-anchor="middle" font-family="sans-serif" font-size="15" font-weight="700" fill="#163a35">②</text>
+
+    <!-- Group ③: n, 2n, 2n -->
+    <rect x="191" y="258" width="14" height="52" fill="#163a35"/>
+    <rect x="205" y="205" width="14" height="105" fill="#c2410c"/>
+    <rect x="219" y="205" width="14" height="105" fill="#0f766e"/>
+    <text x="212" y="335" text-anchor="middle" font-family="sans-serif" font-size="15" font-weight="700" fill="#163a35">③</text>
+
+    <!-- Group ④: n, 0, n -->
+    <rect x="254" y="258" width="14" height="52" fill="#163a35"/>
+    <rect x="282" y="258" width="14" height="52" fill="#0f766e"/>
+    <text x="275" y="335" text-anchor="middle" font-family="sans-serif" font-size="15" font-weight="700" fill="#163a35">④</text>
+  </g>
+
+  <!-- Right panel: 乙图 (4 Cell modes a, b, c, d) -->
+  <g transform="translate(365, 25)">
+    <rect width="330" height="370" rx="16" fill="#fffdf8" stroke="#e5dccb" stroke-width="2"/>
+    <text x="165" y="32" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="700" fill="#163a35">乙图（分裂时期模式图）</text>
+
+    <!-- Cell a: Mitosis Metaphase (4 chromosomes with chromatids on equator) -->
+    <g transform="translate(88, 115)">
+      <circle cx="0" cy="0" r="52" fill="#f8fafc" stroke="#163a35" stroke-width="2.5"/>
+      <line x1="-46" y1="0" x2="46" y2="0" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="3 3"/>
+      <g stroke-width="3" stroke-linecap="round">
+        <path d="M -33 -12 L -25 12 M -25 -12 L -33 12" stroke="#163a35"/>
+        <path d="M -13 -12 L -5 12 M -5 -12 L -13 12" stroke="#c2410c"/>
+        <path d="M 5 -8 L 13 8 M 13 -8 L 5 8" stroke="#163a35"/>
+        <path d="M 25 -8 L 33 8 M 33 -8 L 25 8" stroke="#c2410c"/>
+      </g>
+      <text x="0" y="72" text-anchor="middle" font-family="sans-serif" font-size="15" font-weight="700" fill="#163a35">a（有丝分裂中期）</text>
+    </g>
+
+    <!-- Cell b: MII Metaphase (2 chromosomes with chromatids on equator) -->
+    <g transform="translate(242, 115)">
+      <circle cx="0" cy="0" r="52" fill="#f8fafc" stroke="#163a35" stroke-width="2.5"/>
+      <line x1="-46" y1="0" x2="46" y2="0" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="3 3"/>
+      <g stroke-width="3.2" stroke-linecap="round">
+        <path d="M -22 -13 L -12 13 M -12 -13 L -22 13" stroke="#163a35"/>
+        <path d="M 12 -9 L 22 9 M 22 -9 L 12 9" stroke="#c2410c"/>
+      </g>
+      <text x="0" y="72" text-anchor="middle" font-family="sans-serif" font-size="15" font-weight="700" fill="#163a35">b（减Ⅱ中期）</text>
+    </g>
+
+    <!-- Cell c: MI Anaphase (homologous pairs separating, chromatids present -> matches ②!) -->
+    <g transform="translate(88, 270)">
+      <circle cx="0" cy="0" r="52" fill="#fef3c7" stroke="#c2410c" stroke-width="2.5"/>
+      <g stroke-width="3" stroke-linecap="round">
+        <!-- Upper pole: 2 X-chromosomes -->
+        <path d="M -22 -30 L -12 -12 M -12 -30 L -22 -12" stroke="#163a35"/>
+        <path d="M 12 -28 L 20 -14 M 20 -28 L 12 -14" stroke="#c2410c"/>
+        <!-- Lower pole: 2 X-chromosomes -->
+        <path d="M -22 12 L -12 30 M -12 12 L -22 30" stroke="#c2410c"/>
+        <path d="M 12 14 L 20 28 M 20 14 L 12 28" stroke="#163a35"/>
+      </g>
+      <text x="0" y="72" text-anchor="middle" font-family="sans-serif" font-size="15" font-weight="700" fill="#c2410c">c（减Ⅰ后期）</text>
+    </g>
+
+    <!-- Cell d: MII Anaphase (sister chromatids separated, 2 per pole, no chromatids -> matches ①) -->
+    <g transform="translate(242, 270)">
+      <circle cx="0" cy="0" r="52" fill="#f8fafc" stroke="#163a35" stroke-width="2.5"/>
+      <g stroke-width="3.2" stroke-linecap="round" fill="none">
+        <!-- Upper pole: 2 V-chromosomes -->
+        <path d="M -23 -16 L -16 -30 L -9 -16" stroke="#163a35"/>
+        <path d="M 10 -18 L 16 -28 L 22 -18" stroke="#c2410c"/>
+        <!-- Lower pole: 2 V-chromosomes -->
+        <path d="M -23 16 L -16 30 L -9 16" stroke="#163a35"/>
+        <path d="M 10 18 L 16 28 L 22 18" stroke="#c2410c"/>
+      </g>
+      <text x="0" y="72" text-anchor="middle" font-family="sans-serif" font-size="15" font-weight="700" fill="#163a35">d（减Ⅱ后期）</text>
+    </g>
+  </g>
+</svg>

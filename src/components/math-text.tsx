@@ -17,7 +17,7 @@ const TRUSTED_FIGURE_HOSTS = new Set([
 function figureUrl(part: string) {
   const match = part.match(/^\[Figure:\s*([^\]\s]+)\]$/);
   if (!match) return null;
-  if (/^\/question-assets\/source\/amc\/[a-z0-9._/-]+$/i.test(match[1])) return match[1];
+  if (/^\/question-assets\/(?:source\/amc|generated)\/[a-z0-9._/-]+$/i.test(match[1])) return match[1];
   try {
     const url = new URL(match[1]);
     return url.protocol === "https:" && TRUSTED_FIGURE_HOSTS.has(url.hostname) ? url.toString() : null;

@@ -573,7 +573,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2002 AMC 12P · 第 10 题",
-    "stem": "定义 $f_n (x) = \\text{sin}^n x + \\text{cos}^n x.$。在 $[0,\\pi]$ 中有多少个 $x$ 满足\n\n$6f_{4}(x)-4f_{6}(x)=2f_{2}(x)?$",
+    "stem": "定义 $f_n (x) = \\text{sin}^n x + \\text{cos}^n x.$。在 $[0,\\pi]$ 中有多少个 $x$ 满足\n\n$6f_{4}(x)-4f_{6}(x)=2f_{2}(x)$？",
     "options": {
       "A": "$2$",
       "B": "$4$",
@@ -787,7 +787,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2003 AMC 12A · 第 9 题",
-    "stem": "$x y$ 平面上的点集 $S$ 关于原点、两条坐标轴以及直线 $y=x$ 都对称。若 $(2,3)$ 属于 $S$，则 $S ?$ 中最少有多少个点？",
+    "stem": "$x y$ 平面上的点集 $S$ 关于原点、两条坐标轴以及直线 $y=x$ 都对称。若 $(2,3)$ 属于 $S$，则 $S$ 中最少有多少个点？",
     "options": {
       "A": "$1$",
       "B": "$2$",
@@ -1049,7 +1049,7 @@
     },
     "answer": "C",
     "solutions": [
-      "$f$ 的定义域为 $\\left\\{x \\mid a x^{2}+b x \\geq 0\\right\\}$。若 $a=0$，则对每个正数 $b$，$f$ 的定义域和值域都为 $[0, \\infty)$，所以 $a$ 的一个可能值是 0。\n\n若 $a \\neq 0$，函数 $y=a x^{2}+b x$ 的 $x$ 轴截距为 $x=0$ 和 $x=-b / a$。若 $a>0$，则 $f$ 的定义域为 $(-\\infty,-b / a] \\cup[0, \\infty)$，但 $f$ 的值域不含负数，二者不可能相等。若 $a<0$，则 $f$ 的定义域为 $[0,-b / a]$。$f$ 在两个 $x$ 轴截距的中点 $x=-b / 2 a$ 处取得最大值，并且\n\n$f\\left(-\\dfrac{b}{2 a}\\right)=\\sqrt{a\\left(\\dfrac{b^{2}}{4 a^{2}}\\right)+b\\left(-\\dfrac{b}{2 a}\\right)}=\\dfrac{b}{2 \\sqrt{-a}}$。\n\n因此 $f$ 的值域为 $[0, b / 2 \\sqrt{-a}]$。要使定义域和值域相等，必须有\n\n$-\\dfrac{b}{a}=\\dfrac{b}{2 \\sqrt{-a}} \\quad \\text{ so } \\quad 2 \\sqrt{-a}=-a$。\n\n唯一解为 $a=-4$。所以 $a$ 共有 $\\boxed{two}$ 个可能值，即 $a=0$ 和 $a=-4$。"
+      "$f$ 的定义域为 $\\left\\{x \\mid a x^{2}+b x \\geq 0\\right\\}$。若 $a=0$，则对每个正数 $b$，$f$ 的定义域和值域都为 $[0, \\infty)$，所以 $a$ 的一个可能值是 0。\n\n若 $a \\neq 0$，函数 $y=a x^{2}+b x$ 的 $x$ 轴截距为 $x=0$ 和 $x=-b / a$。若 $a>0$，则 $f$ 的定义域为 $(-\\infty,-b / a] \\cup[0, \\infty)$，但 $f$ 的值域不含负数，二者不可能相等。若 $a<0$，则 $f$ 的定义域为 $[0,-b / a]$。$f$ 在两个 $x$ 轴截距的中点 $x=-b / 2 a$ 处取得最大值，并且\n\n$f\\left(-\\dfrac{b}{2 a}\\right)=\\sqrt{a\\left(\\dfrac{b^{2}}{4 a^{2}}\\right)+b\\left(-\\dfrac{b}{2 a}\\right)}=\\dfrac{b}{2 \\sqrt{-a}}$。\n\n因此 $f$ 的值域为 $[0, b / 2 \\sqrt{-a}]$。要使定义域和值域相等，必须有\n\n$-\\dfrac{b}{a}=\\dfrac{b}{2 \\sqrt{-a}} \\quad \\text{ so } \\quad 2 \\sqrt{-a}=-a$。\n\n唯一解为 $a=-4$。所以 $a$ 共有 $\\boxed{\\text{2}}$ 个可能值，即 $a=0$ 和 $a=-4$。"
     ],
     "tags": []
   },
@@ -1249,7 +1249,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2003 AMC 12B · 第 22 题",
-    "stem": "设 $A B C D$ 是菱形，且 $A C=16$、$B D=30$。点 $N$ 在 $\\overline{A B}$ 上，$P$、$Q$ 分别是从 $N$ 向 $\\overline{A C}$、$\\overline{B D}$ 所作垂线的垂足。$P Q ?$ 的最小可能值最接近下列哪个数？\n\n[Figure: /question-assets/source/amc/beb811c5f312c232aefdf3dce0c8dc445dae25a4f1db8e369410d10af5359e36.jpg]",
+    "stem": "设 $A B C D$ 是菱形，且 $A C=16$、$B D=30$。点 $N$ 在 $\\overline{A B}$ 上，$P$、$Q$ 分别是从 $N$ 向 $\\overline{A C}$、$\\overline{B D}$ 所作垂线的垂足。$P Q$ 的最小可能值最接近下列哪个数？\n\n[Figure: /question-assets/source/amc/beb811c5f312c232aefdf3dce0c8dc445dae25a4f1db8e369410d10af5359e36.jpg]",
     "options": {
       "A": "$6.5$",
       "B": "$6.75$",
@@ -1711,7 +1711,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2004 AMC 12B · 第 13 题",
-    "stem": "若 $f(x)=a x+b$、$f^{-1}(x)=b x+a$，其中 $a$、$b$ 为实数，求 $a+b ?$",
+    "stem": "若 $f(x)=a x+b$、$f^{-1}(x)=b x+a$，其中 $a$、$b$ 为实数，求 $a+b$？",
     "options": {
       "A": "$-2$",
       "B": "$-1$",
@@ -1763,7 +1763,7 @@
     },
     "answer": "C",
     "solutions": [
-      "由 $f$ 的定义，对所有实数 $x$、$y$，\n\n$f(x+i y)=i(x-i y)=y+i x$。\n\n所以满足 $f(z)=z$ 的数形如 $x+i x$，在复平面上构成一条过原点的直线。满足 $|z|=5$ 的数构成以原点为圆心的圆。直线与圆有 $\\boxed{two}$ 个交点。"
+      "由 $f$ 的定义，对所有实数 $x$、$y$，\n\n$f(x+i y)=i(x-i y)=y+i x$。\n\n所以满足 $f(z)=z$ 的数形如 $x+i x$，在复平面上构成一条过原点的直线。满足 $|z|=5$ 的数构成以原点为圆心的圆。直线与圆有 $\\boxed{\\text{2}}$ 个交点。"
     ],
     "tags": []
   },
@@ -1942,7 +1942,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2005 AMC 12A · 第 1 题",
-    "stem": "2 是 $x$ 的 $10 \\%$，也是 $y$ 的 $20 \\%$。求 $x-y?$",
+    "stem": "2 是 $x$ 的 $10 \\%$，也是 $y$ 的 $20 \\%$。求 $x-y$？",
     "options": {
       "A": "$1$",
       "B": "$2$",
@@ -1963,7 +1963,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2005 AMC 12A · 第 8 题",
-    "stem": "设 $A, M$、$C$ 为数字，满足\n\n$(100 A+10 M+C)(A+M+C)=2005$。\n\n求 $A?$",
+    "stem": "设 $A, M$、$C$ 为数字，满足\n\n$(100 A+10 M+C)(A+M+C)=2005$。\n\n求 $A$？",
     "options": {
       "A": "$1$",
       "B": "$2$",
@@ -1984,7 +1984,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2005 AMC 12A · 第 12 题",
-    "stem": "一条直线经过 $A(1,1)$、$B(100,1000)$。在 $A$ 与 $B?$ 之间严格位于线段内部的其他整点有多少个？",
+    "stem": "一条直线经过 $A(1,1)$、$B(100,1000)$。在 $A$ 与 $B$ 之间严格位于线段内部的其他整点有多少个？",
     "options": {
       "A": "$0$",
       "B": "$2$",
@@ -2026,7 +2026,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2005 AMC 12A · 第 16 题",
-    "stem": "在 $x y$ 平面第一象限内画三个半径为 $s$ 的圆。第一个圆与两坐标轴都相切；第二个圆与第一个圆及 $x$ 轴相切；第三个圆与第一个圆及 $y$ 轴相切。一个半径为 $r>s$ 的圆与两坐标轴以及第二、第三个圆都相切。求 $r / s?$\n\n[Figure: /question-assets/source/amc/401724aabc247ad412ec1a29f7061598fc63ceb1145ec6d4fedc3b97fd21d0e1.jpg]",
+    "stem": "在 $x y$ 平面第一象限内画三个半径为 $s$ 的圆。第一个圆与两坐标轴都相切；第二个圆与第一个圆及 $x$ 轴相切；第三个圆与第一个圆及 $y$ 轴相切。一个半径为 $r>s$ 的圆与两坐标轴以及第二、第三个圆都相切。求 $r / s$？\n\n[Figure: /question-assets/source/amc/401724aabc247ad412ec1a29f7061598fc63ceb1145ec6d4fedc3b97fd21d0e1.jpg]",
     "options": {
       "A": "$5$",
       "B": "$6$",
@@ -2047,7 +2047,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2005 AMC 12A · 第 17 题",
-    "stem": "如图 $1$，一个单位立方体被切两刀，形成三个三棱柱，其中两个全等。随后按图 $2$ 中虚线所示以相同方式继续切割，得到九块。包含顶点 $W?$ 的那一块体积是多少？\n\n[Figure: /question-assets/source/amc/a343fbdd758c10ead3296aec7f704bf38bcb3b0f1c78b1263b6e2a5fd31be593.jpg]\n\n[Figure: /question-assets/source/amc/d0a17b5903cf56f8f584a0e12d7c45442f4723157dcbe478e92c5f6803c64b2f.jpg]\n\n$\\quad \\quad \\quad \\quad \\quad \\quad \\quad \\quad \\quad \\quad \\quad \\quad \\quad \\quad \\quad$ 图 1 $\\quad \\quad \\quad \\quad \\quad \\quad \\quad \\quad \\quad \\quad$ 图 2",
+    "stem": "如图 $1$，一个单位立方体被切两刀，形成三个三棱柱，其中两个全等。随后按图 $2$ 中虚线所示以相同方式继续切割，得到九块。包含顶点 $W$ 的那一块体积是多少？\n\n[Figure: /question-assets/source/amc/a343fbdd758c10ead3296aec7f704bf38bcb3b0f1c78b1263b6e2a5fd31be593.jpg]\n\n[Figure: /question-assets/source/amc/d0a17b5903cf56f8f584a0e12d7c45442f4723157dcbe478e92c5f6803c64b2f.jpg]\n\n$\\quad \\quad \\quad \\quad \\quad \\quad \\quad \\quad \\quad \\quad \\quad \\quad \\quad \\quad \\quad$ 图 1 $\\quad \\quad \\quad \\quad \\quad \\quad \\quad \\quad \\quad \\quad$ 图 2",
     "options": {
       "A": "$\\dfrac{1}{12}$",
       "B": "$\\dfrac{1}{9}$",
@@ -2068,7 +2068,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2005 AMC 12A · 第 18 题",
-    "stem": "若一个数是合数但不能被 2、3 或 5 整除，就称它“看起来像质数”。最小的三个此类数为 49、77、91。小于 1000 的质数有 168 个。小于 $1000?$ 的“看起来像质数”共有多少个？",
+    "stem": "若一个数是合数但不能被 2、3 或 5 整除，就称它“看起来像质数”。最小的三个此类数为 49、77、91。小于 1000 的质数有 168 个。小于 $1000$ 的“看起来像质数”共有多少个？",
     "options": {
       "A": "$100$",
       "B": "$102$",
@@ -2110,7 +2110,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2005 AMC 12A · 第 20 题",
-    "stem": "对 $[0,1]$ 中每个 $x$，定义\n\n$f(x)= \\begin{cases}2 x, \\text{ if } 0 \\leq x \\leq \\dfrac{1}{2} \\\\ 2-2 x, \\text{ if } \\dfrac{1}{2}<x \\leq 1\\end{cases}$。\n\n令 $f^{[2]}(x)=f(f(x))$，并对每个整数 $n \\geq 2$ 定义 $f^{[n+1]}(x)=f^{[n]}(f(x))$。$[0,1]$ 中有多少个 $x$ 满足 $f^{[2005]}(x)=1 / 2?$",
+    "stem": "对 $[0,1]$ 中每个 $x$，定义\n\n$f(x)= \\begin{cases}2 x, \\text{ if } 0 \\leq x \\leq \\dfrac{1}{2} \\\\ 2-2 x, \\text{ if } \\dfrac{1}{2}<x \\leq 1\\end{cases}$。\n\n令 $f^{[2]}(x)=f(f(x))$，并对每个整数 $n \\geq 2$ 定义 $f^{[n+1]}(x)=f^{[n]}(f(x))$。$[0,1]$ 中有多少个 $x$ 满足 $f^{[2005]}(x)=1 / 2$？",
     "options": {
       "A": "$0$",
       "B": "$2005$",
@@ -2131,7 +2131,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2005 AMC 12A · 第 21 题",
-    "stem": "有多少个整数有序三元组 $(a, b, c)$（满足 $a \\geq 2, b \\geq 1$、$c \\geq 0$）同时满足 $\\log _{a} b=c^{2005}$、$a+b+c=2005?$",
+    "stem": "有多少个整数有序三元组 $(a, b, c)$（满足 $a \\geq 2, b \\geq 1$、$c \\geq 0$）同时满足 $\\log _{a} b=c^{2005}$、$a+b+c=2005$？",
     "options": {
       "A": "$0$",
       "B": "$1$",
@@ -2152,7 +2152,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2005 AMC 12A · 第 22 题",
-    "stem": "长方体 $P$ 内接于半径为 $r$ 的球。$P$ 的表面积为 384，12 条棱的长度之和为 112。求 $r?$",
+    "stem": "长方体 $P$ 内接于半径为 $r$ 的球。$P$ 的表面积为 384，12 条棱的长度之和为 112。求 $r$？",
     "options": {
       "A": "$8$",
       "B": "$10$",
@@ -2194,7 +2194,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2005 AMC 12A · 第 24 题",
-    "stem": "设 $P(x)=(x-1)(x-2)(x-3)$。有多少个多项式 $Q(x)$，使得存在一个三次多项式 $R(x)$ 满足 $P(Q(x))=P(x) \\cdot R(x)?$",
+    "stem": "设 $P(x)=(x-1)(x-2)(x-3)$。有多少个多项式 $Q(x)$，使得存在一个三次多项式 $R(x)$ 满足 $P(Q(x))=P(x) \\cdot R(x)$？",
     "options": {
       "A": "$19$",
       "B": "$22$",
@@ -2215,7 +2215,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2005 AMC 12A · 第 25 题",
-    "stem": "设 $S$ 为所有坐标为 $(x, y, z)$ 的点组成的集合，其中 $x, y$、$z$ 均从 $\\{0,1,2\\}$ 中选取。顶点都在 $S?$ 中的等边三角形有多少个？",
+    "stem": "设 $S$ 为所有坐标为 $(x, y, z)$ 的点组成的集合，其中 $x, y$、$z$ 均从 $\\{0,1,2\\}$ 中选取。顶点都在 $S$ 中的等边三角形有多少个？",
     "options": {
       "A": "$72$",
       "B": "$76$",
@@ -2267,7 +2267,7 @@
     },
     "answer": "C",
     "solutions": [
-      "抛物线顶点为 $\\left(0, a^{2}\\right)$。直线经过顶点当且仅当 $a^{2}=0+a$。该方程有 $\\boxed{two}$ 个解，即 $a=0$、$a=1$。"
+      "抛物线顶点为 $\\left(0, a^{2}\\right)$。直线经过顶点当且仅当 $a^{2}=0+a$。该方程有 $\\boxed{\\text{2}}$ 个解，即 $a=0$、$a=1$。"
     ],
     "tags": []
   },
@@ -2362,7 +2362,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2005 AMC 12B · 第 17 题",
-    "stem": "满足\n\n$a \\log _{10} 2+b \\log _{10} 3+c \\log _{10} 5+d \\log _{10} 7=2005 ?$\n\n的有理数四元组 $(a, b, c, d)$ 有多少个？",
+    "stem": "满足\n\n$a \\log _{10} 2+b \\log _{10} 3+c \\log _{10} 5+d \\log _{10} 7=2005$\n\n的有理数四元组 $(a, b, c, d)$ 有多少个？",
     "options": {
       "A": "$0$",
       "B": "$1$",
@@ -2404,7 +2404,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2005 AMC 12B · 第 20 题",
-    "stem": "设 $a, b, c, d, e, f, g$、$h$ 是集合 $\\{-7,-5,-3,-2,2,4,6,13\\}$ 中互不相同的元素。求 $(a+b+c+d)^{2}+(e+f+g+h)^{2} ?$ 的最小可能值。",
+    "stem": "设 $a, b, c, d, e, f, g$、$h$ 是集合 $\\{-7,-5,-3,-2,2,4,6,13\\}$ 中互不相同的元素。求 $(a+b+c+d)^{2}+(e+f+g+h)^{2}$ 的最小可能值。",
     "options": {
       "A": "$30$",
       "B": "$32$",
@@ -2593,7 +2593,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2006 AMC 12A · 第 15 题",
-    "stem": "设 $\\cos x=0$、$\\cos (x+z)=1 / 2$。$z?$ 的最小正值是多少？",
+    "stem": "设 $\\cos x=0$、$\\cos (x+z)=1 / 2$。$z$ 的最小正值是多少？",
     "options": {
       "A": "$\\dfrac{\\pi}{6}$",
       "B": "$\\dfrac{\\pi}{3}$",
@@ -2614,7 +2614,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2006 AMC 12A · 第 17 题",
-    "stem": "正方形 $A B C D$ 边长为 $s$，以 $E$ 为圆心的圆半径为 $r$，且 $r$、$s$ 都是有理数。圆经过 $D$，$D$ 在 $\\overline{B E}$ 上。点 $F$ 在圆上且与 $A$ 位于 $\\overline{B E}$ 同侧。$A F$ 与圆相切，且 $A F=\\sqrt{9+5 \\sqrt{2}}$。求 $r / s?$\n\n[Figure: /question-assets/source/amc/fa8b18e546b9bd480989c5e71a76ddc4776b76ec526d9ef77756e7f363a8c680.jpg]",
+    "stem": "正方形 $A B C D$ 边长为 $s$，以 $E$ 为圆心的圆半径为 $r$，且 $r$、$s$ 都是有理数。圆经过 $D$，$D$ 在 $\\overline{B E}$ 上。点 $F$ 在圆上且与 $A$ 位于 $\\overline{B E}$ 同侧。$A F$ 与圆相切，且 $A F=\\sqrt{9+5 \\sqrt{2}}$。求 $r / s$？\n\n[Figure: /question-assets/source/amc/fa8b18e546b9bd480989c5e71a76ddc4776b76ec526d9ef77756e7f363a8c680.jpg]",
     "options": {
       "A": "$\\dfrac{1}{2}$",
       "B": "$\\dfrac{5}{9}$",
@@ -2635,7 +2635,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2006 AMC 12A · 第 18 题",
-    "stem": "函数 $f$ 满足：定义域中每个实数 $x$ 的 $1 / x$ 也在定义域内，且\n\n$f(x)+f\\left(\\dfrac{1}{x}\\right)=x$。\n\n$f?$ 的定义域最多可以包含下列哪个实数集合？",
+    "stem": "函数 $f$ 满足：定义域中每个实数 $x$ 的 $1 / x$ 也在定义域内，且\n\n$f(x)+f\\left(\\dfrac{1}{x}\\right)=x$。\n\n$f$ 的定义域最多可以包含下列哪个实数集合？",
     "options": {
       "A": "$\\{x \\mid x \\neq 0\\}$",
       "B": "$\\{x \\mid x<0\\}$",
@@ -2656,7 +2656,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2006 AMC 12A · 第 19 题",
-    "stem": "圆心为 $(2,4)$、$(14,9)$ 的两圆半径分别为 4、9。它们的一条外公切线方程可写为 $y=m x+b$，其中 $m>0$。求 $b?$\n\n[Figure: /question-assets/source/amc/b31b7a5e681341c7bae64daba89fa09509053a5c8a8b4dcd58dcdb9095f90181.jpg]",
+    "stem": "圆心为 $(2,4)$、$(14,9)$ 的两圆半径分别为 4、9。它们的一条外公切线方程可写为 $y=m x+b$，其中 $m>0$。求 $b$？\n\n[Figure: /question-assets/source/amc/b31b7a5e681341c7bae64daba89fa09509053a5c8a8b4dcd58dcdb9095f90181.jpg]",
     "options": {
       "A": "$\\dfrac{908}{119}$",
       "B": "$\\dfrac{909}{119}$",
@@ -2677,7 +2677,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2006 AMC 12A · 第 21 题",
-    "stem": "设\n\n$S_{1}=\\left\\{(x, y) \\mid \\log _{10}\\left(1+x^{2}+y^{2}\\right) \\leq 1+\\log _{10}(x+y)\\right\\}$\n\n以及\n\n$S_{2}=\\left\\{(x, y) \\mid \\log _{10}\\left(2+x^{2}+y^{2}\\right) \\leq 2+\\log _{10}(x+y)\\right\\}$。\n\n求 $S_{2}$ 与 $S_{1}?$ 的面积之比。",
+    "stem": "设\n\n$S_{1}=\\left\\{(x, y) \\mid \\log _{10}\\left(1+x^{2}+y^{2}\\right) \\leq 1+\\log _{10}(x+y)\\right\\}$\n\n以及\n\n$S_{2}=\\left\\{(x, y) \\mid \\log _{10}\\left(2+x^{2}+y^{2}\\right) \\leq 2+\\log _{10}(x+y)\\right\\}$。\n\n求 $S_{2}$ 与 $S_{1}$ 的面积之比。",
     "options": {
       "A": "$98$",
       "B": "$99$",
@@ -2698,7 +2698,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2006 AMC 12A · 第 22 题",
-    "stem": "一个半径为 $r$ 的圆与边长为 2 的正六边形同心并位于其外。从圆上随机一点能完整看见六边形三条边的概率为 $1 / 2$。求 $r?$",
+    "stem": "一个半径为 $r$ 的圆与边长为 2 的正六边形同心并位于其外。从圆上随机一点能完整看见六边形三条边的概率为 $1 / 2$。求 $r$？",
     "options": {
       "A": "$2 \\sqrt{2}+2 \\sqrt{3}$",
       "B": "$3 \\sqrt{3}+\\sqrt{2}$",
@@ -2719,7 +2719,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2006 AMC 12A · 第 23 题",
-    "stem": "对含 $n$ 个实数的有限数列 $S=\\left(a_{1}, a_{2}, \\ldots, a_{n}\\right)$，令 $A(S)$ 为含 $n-1$ 个实数的数列\n\n$\\left(\\dfrac{a_{1}+a_{2}}{2}, \\dfrac{a_{2}+a_{3}}{2}, \\ldots, \\dfrac{a_{n-1}+a_{n}}{2}\\right)$。\n\n定义 $A^{1}(S)=A(S)$，并对整数 $m, 2 \\leq m \\leq n-$ 定义 $A^{m}(S)=A\\left(A^{m-1}(S)\\right)$。设 $x>0$，令 $S=\\left(1, x, x^{2}, \\ldots, x^{100}\\right)$。若 $A^{100}(S)=\\left(1 / 2^{50}\\right)$，求 $x?$",
+    "stem": "对含 $n$ 个实数的有限数列 $S=\\left(a_{1}, a_{2}, \\ldots, a_{n}\\right)$，令 $A(S)$ 为含 $n-1$ 个实数的数列\n\n$\\left(\\dfrac{a_{1}+a_{2}}{2}, \\dfrac{a_{2}+a_{3}}{2}, \\ldots, \\dfrac{a_{n-1}+a_{n}}{2}\\right)$。\n\n定义 $A^{1}(S)=A(S)$，并对整数 $m, 2 \\leq m \\leq n-$ 定义 $A^{m}(S)=A\\left(A^{m-1}(S)\\right)$。设 $x>0$，令 $S=\\left(1, x, x^{2}, \\ldots, x^{100}\\right)$。若 $A^{100}(S)=\\left(1 / 2^{50}\\right)$，求 $x$？",
     "options": {
       "A": "$1-\\dfrac{\\sqrt{2}}{2}$",
       "B": "$\\sqrt{2}-1$",
@@ -2929,7 +2929,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2006 AMC 12B · 第 20 题",
-    "stem": "从区间 $(0,1)$ 随机选 $x$。满足\n\n$\\left\\lfloor\\log _{10} 4 x\\right\\rfloor-\\left\\lfloor\\log _{10} x\\right\\rfloor=0 ?$\n\n的概率是多少？其中 $\\lfloor x\\rfloor$ 表示不大于 $x$ 的最大整数。",
+    "stem": "从区间 $(0,1)$ 随机选 $x$。满足\n\n$\\left\\lfloor\\log _{10} 4 x\\right\\rfloor-\\left\\lfloor\\log _{10} x\\right\\rfloor=0$\n\n的概率是多少？其中 $\\lfloor x\\rfloor$ 表示不大于 $x$ 的最大整数。",
     "options": {
       "A": "$\\dfrac{1}{8}$",
       "B": "$\\dfrac{3}{20}$",
@@ -3013,7 +3013,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2006 AMC 12B · 第 24 题",
-    "stem": "设 $S$ 是坐标平面中满足 $0 \\leq x \\leq \\dfrac{\\pi}{2}$、$0 \\leq y \\leq \\dfrac{\\pi}{2}$ 的点 $(x, y)$ 的集合。$S$ 中满足\n\n$\\sin ^{2} x-\\sin x \\sin y+\\sin ^{2} y \\leq \\dfrac{3}{4} ?$\n\n的子集面积是多少？",
+    "stem": "设 $S$ 是坐标平面中满足 $0 \\leq x \\leq \\dfrac{\\pi}{2}$、$0 \\leq y \\leq \\dfrac{\\pi}{2}$ 的点 $(x, y)$ 的集合。$S$ 中满足\n\n$\\sin ^{2} x-\\sin x \\sin y+\\sin ^{2} y \\leq \\dfrac{3}{4}$\n\n的子集面积是多少？",
     "options": {
       "A": "$\\dfrac{\\pi^{2}}{9}$",
       "B": "$\\dfrac{\\pi^{2}}{8}$",
@@ -3118,7 +3118,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2007 AMC 12A · 第 13 题",
-    "stem": "一块奶酪位于坐标平面上的 $(12,10)$。一只老鼠从 $(4,-2)$ 出发，沿直线 $y=-5 x+18$ 向上跑。在点 $(a, b)$ 处，老鼠开始离奶酪越来越远，而不再越来越近。求 $a+b?$",
+    "stem": "一块奶酪位于坐标平面上的 $(12,10)$。一只老鼠从 $(4,-2)$ 出发，沿直线 $y=-5 x+18$ 向上跑。在点 $(a, b)$ 处，老鼠开始离奶酪越来越远，而不再越来越近。求 $a+b$？",
     "options": {
       "A": "$6$",
       "B": "$10$",
@@ -3139,7 +3139,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2007 AMC 12A · 第 14 题",
-    "stem": "设 $a, b, c, d$ 和 $e$ 是互不相同的整数，且\n\n$(6-a)(6-b)(6-c)(6-d)(6-e)=45$\n求 $a+b+c+d+e ?$",
+    "stem": "设 $a, b, c, d$ 和 $e$ 是互不相同的整数，且\n\n$(6-a)(6-b)(6-c)(6-d)(6-e)=45$\n求 $a+b+c+d+e$？",
     "options": {
       "A": "$5$",
       "B": "$17$",
@@ -3160,7 +3160,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2007 AMC 12A · 第 15 题",
-    "stem": "在集合 $\\{3,6,9,10\\}$ 中加入与原四个元素均不相等的第五个元素 $n$。所得集合的中位数等于其平均数。$n?$ 的所有可能值之和是多少？",
+    "stem": "在集合 $\\{3,6,9,10\\}$ 中加入与原四个元素均不相等的第五个元素 $n$。所得集合的中位数等于其平均数。$n$ 的所有可能值之和是多少？",
     "options": {
       "A": "$7$",
       "B": "$9$",
@@ -3202,7 +3202,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2007 AMC 12A · 第 17 题",
-    "stem": "已知 $\\sin a+\\sin b=\\sqrt{5 / 3}$ 且 $\\cos a+\\cos b=1$。求 $\\cos (a-b)?$",
+    "stem": "已知 $\\sin a+\\sin b=\\sqrt{5 / 3}$ 且 $\\cos a+\\cos b=1$。求 $\\cos (a-b)$？",
     "options": {
       "A": "$\\sqrt{\\dfrac{5}{3}}-1$",
       "B": "$\\dfrac{1}{3}$",
@@ -3223,7 +3223,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2007 AMC 12A · 第 18 题",
-    "stem": "多项式 $f(x)=x^{4}+a x^{3}+b x^{2}+c x+d$ 的系数均为实数，并且 $f(2 i)=$$f(2+i)=0$。求 $a+b+c+d?$",
+    "stem": "多项式 $f(x)=x^{4}+a x^{3}+b x^{2}+c x+d$ 的系数均为实数，并且 $f(2 i)=$$f(2+i)=0$。求 $a+b+c+d$？",
     "options": {
       "A": "$0$",
       "B": "$1$",
@@ -3244,7 +3244,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2007 AMC 12A · 第 19 题",
-    "stem": "三角形 $A B C$ 和 $A D E$ 的面积分别为 2007 和 7002，其中 $B=$$(0,0), C=(223,0), D=(680,380)$，且 $E=(689,389)$。点 $A?$ 的所有可能 $x$ 坐标之和是多少？",
+    "stem": "三角形 $A B C$ 和 $A D E$ 的面积分别为 2007 和 7002，其中 $B=$$(0,0), C=(223,0), D=(680,380)$，且 $E=(689,389)$。点 $A$ 的所有可能 $x$ 坐标之和是多少？",
     "options": {
       "A": "$282$",
       "B": "$300$",
@@ -3307,7 +3307,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2007 AMC 12A · 第 23 题",
-    "stem": "正方形 $A B C D$ 的面积为 36，且 $\\overline{A B}$ 平行于 $x$ 轴。顶点 $A, B$ 和 $C$ 分别位于 $y=\\log _{a} x, y=2 \\log _{a} x$ 和 $y=3 \\log _{a} x$ 的图像上。求 $a?$",
+    "stem": "正方形 $A B C D$ 的面积为 36，且 $\\overline{A B}$ 平行于 $x$ 轴。顶点 $A, B$ 和 $C$ 分别位于 $y=\\log _{a} x, y=2 \\log _{a} x$ 和 $y=3 \\log _{a} x$ 的图像上。求 $a$？",
     "options": {
       "A": "$\\sqrt[6]{3}$",
       "B": "$\\sqrt{3}$",
@@ -3328,7 +3328,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2007 AMC 12A · 第 24 题",
-    "stem": "对每个整数 $n>1$，令 $F(n)$ 表示方程 $\\sin x=\\sin n x$ 在区间 $[0, \\pi]$ 上的解的个数。求 $\\sum_{n=2}^{2007} F(n)?$",
+    "stem": "对每个整数 $n>1$，令 $F(n)$ 表示方程 $\\sin x=\\sin n x$ 在区间 $[0, \\pi]$ 上的解的个数。求 $\\sum_{n=2}^{2007} F(n)$？",
     "options": {
       "A": "$2,014,524$",
       "B": "$2,015,028$",
@@ -3632,7 +3632,7 @@
     },
     "answer": "A",
     "solutions": [
-      "设三角形的两条直角边长为 $a$ 和 $b$，其中 $a \\leq b$。已知条件给出\n\n$\\dfrac{1}{2} a b=3\\left(a+b+\\sqrt{a^{2}+b^{2}}\\right)$\n所以\n\n$a b-6 a-6 b=6 \\sqrt{a^{2}+b^{2}}$\n两边平方并化简，得到\n\n$a b(a b-12 a-12 b+72)=0$\n由此\n\n$(a-12)(b-12)=72$\n最后一个方程的正整数解为 $(a, b)=(3,4),(13,84)$、$(14,48),(15,36),(16,30),(18,24)$ 和 $(20,21)$。然而，解 $(3,4)$ 是增根，所以满足条件的直角三角形共有 $\\boxed{six}$ 个。"
+      "设三角形的两条直角边长为 $a$ 和 $b$，其中 $a \\leq b$。已知条件给出\n\n$\\dfrac{1}{2} a b=3\\left(a+b+\\sqrt{a^{2}+b^{2}}\\right)$\n所以\n\n$a b-6 a-6 b=6 \\sqrt{a^{2}+b^{2}}$\n两边平方并化简，得到\n\n$a b(a b-12 a-12 b+72)=0$\n由此\n\n$(a-12)(b-12)=72$\n最后一个方程的正整数解为 $(a, b)=(3,4),(13,84)$、$(14,48),(15,36),(16,30),(18,24)$ 和 $(20,21)$。然而，解 $(3,4)$ 是增根，所以满足条件的直角三角形共有 $\\boxed{\\text{6}}$ 个。"
     ],
     "tags": []
   },
@@ -3664,7 +3664,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2008 AMC 12A · 第 2 题",
-    "stem": "$\\dfrac{1}{2}+\\dfrac{2}{3}?$ 的倒数是多少？",
+    "stem": "$\\dfrac{1}{2}+\\dfrac{2}{3}$ 的倒数是多少？",
     "options": {
       "A": "$\\dfrac{6}{7}$",
       "B": "$\\dfrac{7}{6}$",
@@ -3685,7 +3685,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2008 AMC 12A · 第 8 题",
-    "stem": "一个正方体的表面积是体积为 $1?$ 的正方体表面积的两倍。这个正方体的体积是多少？",
+    "stem": "一个正方体的表面积是体积为 $1$ 的正方体表面积的两倍。这个正方体的体积是多少？",
     "options": {
       "A": "$\\sqrt{2}$",
       "B": "$2$",
@@ -3727,7 +3727,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2008 AMC 12A · 第 12 题",
-    "stem": "函数 $f$ 的定义域为 $[0,2]$，值域为 $[0,1]$。（记号 $[a, b]$ 表示 $\\{x: a \\leq x \\leq b\\}$。）函数 $g$ 由 $g(x)=1-f(x+1)?$ 定义，它的定义域和值域依次是什么？",
+    "stem": "函数 $f$ 的定义域为 $[0,2]$，值域为 $[0,1]$。（记号 $[a, b]$ 表示 $\\{x: a \\leq x \\leq b\\}$。）函数 $g$ 由 $g(x)=1-f(x+1)$ 定义，它的定义域和值域依次是什么？",
     "options": {
       "A": "$[-1,1],[-1,0]$",
       "B": "$[-1,1],[0,1]$",
@@ -3748,7 +3748,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2008 AMC 12A · 第 14 题",
-    "stem": "由不等式 $|3 x-18|+|2 y+7| \\leq 3?$ 定义的区域面积是多少？",
+    "stem": "由不等式 $|3 x-18|+|2 y+7| \\leq 3$ 定义的区域面积是多少？",
     "options": {
       "A": "$3$",
       "B": "$\\dfrac{7}{2}$",
@@ -3769,7 +3769,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2008 AMC 12A · 第 16 题",
-    "stem": "数 $\\log \\left(a^{3} b^{7}\\right), \\log \\left(a^{5} b^{12}\\right)$ 和 $\\log \\left(a^{8} b^{15}\\right)$ 是一个等差数列的前三项，而该数列的第 $12^{\\text{th }}$ 项是 $\\log \\left(b^{n}\\right)$。求 $n?$",
+    "stem": "数 $\\log \\left(a^{3} b^{7}\\right), \\log \\left(a^{5} b^{12}\\right)$ 和 $\\log \\left(a^{8} b^{15}\\right)$ 是一个等差数列的前三项，而该数列的第 $12^{\\text{th }}$ 项是 $\\log \\left(b^{n}\\right)$。求 $n$？",
     "options": {
       "A": "$40$",
       "B": "$56$",
@@ -3790,7 +3790,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2008 AMC 12A · 第 17 题",
-    "stem": "整数数列 $a_{1}, a_{2}, \\ldots$ 按以下规则确定：若 $a_{n-1}$ 为偶数，则 $a_{n}=a_{n-1} / 2$；若 $a_{n-1}$ 为奇数，则 $a_{n}=3 a_{n-1}+1$。对多少个正整数 $a_{1} \\leq 2008$，$a_{1}$ 小于 $a_{2}, a_{3}$ 和 $a_{4}?$ 中的每一个？",
+    "stem": "整数数列 $a_{1}, a_{2}, \\ldots$ 按以下规则确定：若 $a_{n-1}$ 为偶数，则 $a_{n}=a_{n-1} / 2$；若 $a_{n-1}$ 为奇数，则 $a_{n}=3 a_{n-1}+1$。对多少个正整数 $a_{1} \\leq 2008$，$a_{1}$ 小于 $a_{2}, a_{3}$ 和 $a_{4}$ 中的每一个？",
     "options": {
       "A": "$250$",
       "B": "$251$",
@@ -3811,7 +3811,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2008 AMC 12A · 第 18 题",
-    "stem": "三边长为 5、6、7 的三角形 $A B C$，三个顶点分别位于正 $x$ 轴、正 $y$ 轴和正 $z$ 轴上。设 $O$ 为原点。四面体 $O A B C?$ 的体积是多少？",
+    "stem": "三边长为 5、6、7 的三角形 $A B C$，三个顶点分别位于正 $x$ 轴、正 $y$ 轴和正 $z$ 轴上。设 $O$ 为原点。四面体 $O A B C$ 的体积是多少？",
     "options": {
       "A": "$\\sqrt{85}$",
       "B": "$\\sqrt{90}$",
@@ -3832,7 +3832,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2008 AMC 12A · 第 19 题",
-    "stem": "在\n\n$\\left(1+x+x^{2}+\\cdots+x^{27}\\right)\\left(1+x+x^{2}+\\cdots+x^{14}\\right)^{2}$\n的展开式中，$x^{28}?$ 的系数是多少？",
+    "stem": "在\n\n$\\left(1+x+x^{2}+\\cdots+x^{27}\\right)\\left(1+x+x^{2}+\\cdots+x^{14}\\right)^{2}$\n的展开式中，$x^{28}$ 的系数是多少？",
     "options": {
       "A": "$195$",
       "B": "$196$",
@@ -3853,7 +3853,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2008 AMC 12A · 第 20 题",
-    "stem": "三角形 $A B C$ 满足 $A C=3, B C=4$ 和 $A B=5$。点 $D$ 在 $\\overline{A B}$ 上，且 $\\overline{C D}$ 平分直角。$\\triangle A D C$ 和 $\\triangle B C D$ 的内切圆半径分别为 $r_{a}$ 和 $r_{b}$。求 $r_{a} / r_{b}?$",
+    "stem": "三角形 $A B C$ 满足 $A C=3, B C=4$ 和 $A B=5$。点 $D$ 在 $\\overline{A B}$ 上，且 $\\overline{C D}$ 平分直角。$\\triangle A D C$ 和 $\\triangle B C D$ 的内切圆半径分别为 $r_{a}$ 和 $r_{b}$。求 $r_{a} / r_{b}$？",
     "options": {
       "A": "$\\dfrac{1}{28}(10-\\sqrt{2})$",
       "B": "$\\dfrac{3}{56}(10-\\sqrt{2})$",
@@ -3916,7 +3916,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2008 AMC 12A · 第 24 题",
-    "stem": "三角形 $A B C$ 满足 $\\angle C=60^{\\circ}$ 且 $B C=4$。点 $D$ 是 $\\overline{B C}$ 的中点。$\\tan (\\angle B A D)?$ 的最大可能值是多少？",
+    "stem": "三角形 $A B C$ 满足 $\\angle C=60^{\\circ}$ 且 $B C=4$。点 $D$ 是 $\\overline{B C}$ 的中点。$\\tan (\\angle B A D)$ 的最大可能值是多少？",
     "options": {
       "A": "$\\dfrac{\\sqrt{3}}{6}$",
       "B": "$\\dfrac{\\sqrt{3}}{3}$",
@@ -3937,7 +3937,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2008 AMC 12A · 第 25 题",
-    "stem": "坐标平面上的点列 $\\left(a_{1}, b_{1}\\right),\\left(a_{2}, b_{2}\\right),\\left(a_{3}, b_{3}\\right), \\ldots$ 满足\n\n$\\left(a_{n+1}, b_{n+1}\\right)=\\left(\\sqrt{3} a_{n}-b_{n}, \\sqrt{3} b_{n}+a_{n}\\right) \\quad \\text{ 当 } \\quad n=1,2,3, \\ldots$\n已知 $\\left(a_{100}, b_{100}\\right)=(2,4)$。求 $a_{1}+b_{1}?$",
+    "stem": "坐标平面上的点列 $\\left(a_{1}, b_{1}\\right),\\left(a_{2}, b_{2}\\right),\\left(a_{3}, b_{3}\\right), \\ldots$ 满足\n\n$\\left(a_{n+1}, b_{n+1}\\right)=\\left(\\sqrt{3} a_{n}-b_{n}, \\sqrt{3} b_{n}+a_{n}\\right) \\quad \\text{ 当 } \\quad n=1,2,3, \\ldots$\n已知 $\\left(a_{100}, b_{100}\\right)=(2,4)$。求 $a_{1}+b_{1}$？",
     "options": {
       "A": "$-\\dfrac{1}{2^{97}}$",
       "B": "$-\\dfrac{1}{2^{99}}$",
@@ -3958,7 +3958,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2008 AMC 12B · 第 4 题",
-    "stem": "在圆 $O$ 上，点 $C$ 和 $D$ 位于直径 $\\overline{A B}, \\angle A O C=30^{\\circ}$ 的同一侧，并且 $\\angle D O B=45^{\\circ}$。较小扇形 $C O D$ 的面积与圆面积之比是多少？$B$\n\n[Figure: /question-assets/source/amc/22b67170d56f004dd20e084f1f8508381f2326aa3768b02336846642cd8c0a5d.jpg]",
+    "stem": "在圆 $O$ 上，点 $C$ 和 $D$ 位于直径 $\\overline{A B}, \\angle A O C=30^{\\circ}$ 的同一侧，并且 $\\angle D O B=45^{\\circ}$。较小扇形 $C O D$ 的面积与圆面积之比是多少？\n\n[Figure: /question-assets/source/amc/22b67170d56f004dd20e084f1f8508381f2326aa3768b02336846642cd8c0a5d.jpg]",
     "options": {
       "A": "$\\dfrac{2}{9}$",
       "B": "$\\dfrac{1}{4}$",
@@ -4021,7 +4021,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2008 AMC 12B · 第 14 题",
-    "stem": "一个圆的半径为 $\\log _{10}\\left(a^{2}\\right)$，周长为 $\\log _{10}\\left(b^{4}\\right)$。求 $\\log _{a} b ?$",
+    "stem": "一个圆的半径为 $\\log _{10}\\left(a^{2}\\right)$，周长为 $\\log _{10}\\left(b^{4}\\right)$。求 $\\log _{a} b$？",
     "options": {
       "A": "$\\dfrac{1}{4 \\pi}$",
       "B": "$\\dfrac{1}{\\pi}$",
@@ -4231,7 +4231,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2009 AMC 12A · 第 1 题",
-    "stem": "Kim 的航班于 $10:34 AM$ 从 Newark 起飞，于 $1:18 PM$ 抵达 Miami。两座城市位于同一时区。若飞行时间为 $h$ 小时 $m$ 分钟，其中 $0 \\leq m<60$，求 $h+m?$",
+    "stem": "Kim 的航班于 $10:34 AM$ 从 Newark 起飞，于 $1:18 PM$ 抵达 Miami。两座城市位于同一时区。若飞行时间为 $h$ 小时 $m$ 分钟，其中 $0 \\leq m<60$，求 $h+m$？",
     "options": {
       "A": "$46$",
       "B": "$47$",
@@ -4252,7 +4252,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2009 AMC 12A · 第 3 题",
-    "stem": "从 $\\dfrac{1}{4}$ 到 $\\dfrac{3}{4}?$ 的三分之一处是什么数？",
+    "stem": "从 $\\dfrac{1}{4}$ 到 $\\dfrac{3}{4}$ 的三分之一处是什么数？",
     "options": {
       "A": "$\\dfrac{1}{3}$",
       "B": "$\\dfrac{5}{12}$",
@@ -4273,7 +4273,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2009 AMC 12A · 第 7 题",
-    "stem": "一个等差数列的前三项依次为 $2 x-3,5 x-11$ 和 $3 x+1$。该数列的第 $n$ 项为 2009。求 $n?$",
+    "stem": "一个等差数列的前三项依次为 $2 x-3,5 x-11$ 和 $3 x+1$。该数列的第 $n$ 项为 2009。求 $n$？",
     "options": {
       "A": "$255$",
       "B": "$502$",
@@ -4294,7 +4294,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2009 AMC 12A · 第 9 题",
-    "stem": "假设 $f(x+3)=3 x^{2}+7 x+4$ 且 $f(x)=a x^{2}+b x+c$。求 $a+b+c?$",
+    "stem": "假设 $f(x+3)=3 x^{2}+7 x+4$ 且 $f(x)=a x^{2}+b x+c$。求 $a+b+c$？",
     "options": {
       "A": "$-1$",
       "B": "$0$",
@@ -4304,7 +4304,7 @@
     },
     "answer": "D",
     "solutions": [
-      "展开得 $f(x+3)=a\\left(x^{2}+6 x+9\\right)+b(x+3)+c=$$a x^{2}+(6 a+b) x+(9 a+3 b+c)$。比较系数可得 $a=3,6 \\cdot 3+b=7$，从而 $b=-11$，再由 $9 \\cdot 3+3 \\cdot(-11)+c=4$ 得 $c=10$。因此 $a+b+c=3-11+10= \\boxed{2}$。\n\n另一种方法：注意\n\n$\\begin{aligned} f(x)=f((x-3)+3) =3(x-3)^{2}+7(x-3)+4 \\\\ =3\\left(x^{2}-6 x+9\\right)+7 x-21+4 \\\\ =3 x^{2}-11 x+10 \\end{aligned}$\n所以 $a=3, b=-11$ 且 $c=10$，得到 $a+b+c=2$。\n\n$OR$\n和 $a+b+c$ 等于 $f(1)=f(-2+3)=3(-2)^{2}+7(-2)+4= \\boxed{2}$。"
+      "展开得 $f(x+3)=a\\left(x^{2}+6 x+9\\right)+b(x+3)+c=$$a x^{2}+(6 a+b) x+(9 a+3 b+c)$。比较系数可得 $a=3,6 \\cdot 3+b=7$，从而 $b=-11$，再由 $9 \\cdot 3+3 \\cdot(-11)+c=4$ 得 $c=10$。因此 $a+b+c=3-11+10= \\boxed{2}$。\n\n另一种方法：注意\n\n$\\begin{aligned} f(x)=f((x-3)+3) =3(x-3)^{2}+7(x-3)+4 \\\\ =3\\left(x^{2}-6 x+9\\right)+7 x-21+4 \\\\ =3 x^{2}-11 x+10 \\end{aligned}$\n所以 $a=3, b=-11$ 且 $c=10$，得到 $a+b+c=2$。\n\n$\\textbf{或}$\n和 $a+b+c$ 等于 $f(1)=f(-2+3)=3(-2)^{2}+7(-2)+4= \\boxed{2}$。"
     ],
     "tags": []
   },
@@ -4336,7 +4336,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2009 AMC 12A · 第 13 题",
-    "stem": "一艘船从 $A$ 沿直线航行 10 英里到 $B$，转过一个介于 $45^{\\circ}$ 与 $60^{\\circ}$ 之间的角，再航行 20 英里到 $C$。设 $A C$ 以英里为单位。$A C^{2}?$ 位于下列哪个区间？\n\n[Figure: /question-assets/source/amc/e84a7c87b4c0df9b2ba66c764cceccf417ddcde48fa6cafb7ae641474c5f0a0c.jpg]",
+    "stem": "一艘船从 $A$ 沿直线航行 10 英里到 $B$，转过一个介于 $45^{\\circ}$ 与 $60^{\\circ}$ 之间的角，再航行 20 英里到 $C$。设 $A C$ 以英里为单位。$A C^{2}$ 位于下列哪个区间？\n\n[Figure: /question-assets/source/amc/e84a7c87b4c0df9b2ba66c764cceccf417ddcde48fa6cafb7ae641474c5f0a0c.jpg]",
     "options": {
       "A": "$[400,500]$",
       "B": "$[500,600]$",
@@ -4357,7 +4357,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2009 AMC 12A · 第 14 题",
-    "stem": "一个三角形的顶点为 $(0,0),(1,1)$ 和 $(6 m, 0)$，直线 $y=m x$ 将三角形分成面积相等的两个三角形。$m?$ 的所有可能值之和是多少？",
+    "stem": "一个三角形的顶点为 $(0,0),(1,1)$ 和 $(6 m, 0)$，直线 $y=m x$ 将三角形分成面积相等的两个三角形。$m$ 的所有可能值之和是多少？",
     "options": {
       "A": "$-\\dfrac{1}{3}$",
       "B": "$-\\dfrac{1}{6}$",
@@ -4399,7 +4399,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2009 AMC 12A · 第 16 题",
-    "stem": "圆心为 $C$ 的圆与正 $x$ 轴和正 $y$ 轴相切，并与圆心为 $(3,0)$、半径为 1 的圆外切。圆心为 $C?$ 的圆的所有可能半径之和是多少？",
+    "stem": "圆心为 $C$ 的圆与正 $x$ 轴和正 $y$ 轴相切，并与圆心为 $(3,0)$、半径为 1 的圆外切。圆心为 $C$ 的圆的所有可能半径之和是多少？",
     "options": {
       "A": "$3$",
       "B": "$4$",
@@ -4420,7 +4420,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2009 AMC 12A · 第 17 题",
-    "stem": "设 $a+a r_{1}+a r_{1}^{2}+a r_{1}^{3}+\\cdots$ 和 $a+a r_{2}+a r_{2}^{2}+a r_{2}^{3}+\\cdots$ 是两个不同的正项无穷等比级数，且首项相同。第一个级数的和为 $r_{1}$，第二个级数的和为 $r_{2}$。求 $r_{1}+r_{2}?$",
+    "stem": "设 $a+a r_{1}+a r_{1}^{2}+a r_{1}^{3}+\\cdots$ 和 $a+a r_{2}+a r_{2}^{2}+a r_{2}^{3}+\\cdots$ 是两个不同的正项无穷等比级数，且首项相同。第一个级数的和为 $r_{1}$，第二个级数的和为 $r_{2}$。求 $r_{1}+r_{2}$？",
     "options": {
       "A": "$0$",
       "B": "$\\dfrac{1}{2}$",
@@ -4462,7 +4462,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2009 AMC 12A · 第 21 题",
-    "stem": "设 $p(x)=x^{3}+a x^{2}+b x+c$，其中 $a, b$ 和 $c$ 是复数。已知\n\n$p(2009+9002 \\pi i)=p(2009)=p(9002)=0 \\text{. }$\n$x^{12}+a x^{8}+b x^{4}+c?$ 有多少个非实数零点？",
+    "stem": "设 $p(x)=x^{3}+a x^{2}+b x+c$，其中 $a, b$ 和 $c$ 是复数。已知\n\n$p(2009+9002 \\pi i)=p(2009)=p(9002)=0 \\text{. }$\n$x^{12}+a x^{8}+b x^{4}+c$ 有多少个非实数零点？",
     "options": {
       "A": "$4$",
       "B": "$6$",
@@ -4483,7 +4483,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2009 AMC 12A · 第 22 题",
-    "stem": "一个正八面体的棱长为 1。一个与其两个相对面平行的平面将八面体切成两个全等立体。该平面与八面体的交集多边形面积为 $\\dfrac{a \\sqrt{b}}{c}$，其中 $a, b$ 和 $c$ 是正整数，$a$ 与 $c$ 互质，且 $b$ 不被任何质数的平方整除。求 $a+b+c?$",
+    "stem": "一个正八面体的棱长为 1。一个与其两个相对面平行的平面将八面体切成两个全等立体。该平面与八面体的交集多边形面积为 $\\dfrac{a \\sqrt{b}}{c}$，其中 $a, b$ 和 $c$ 是正整数，$a$ 与 $c$ 互质，且 $b$ 不被任何质数的平方整除。求 $a+b+c$？",
     "options": {
       "A": "$10$",
       "B": "$11$",
@@ -4504,7 +4504,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2009 AMC 12A · 第 23 题",
-    "stem": "函数 $f$ 和 $g$ 均为二次函数，满足 $g(x)=-f(100-x)$，且 $g$ 的图像经过 $f$ 图像的顶点。两图像共有四个 $x$ 截距，其 $x$ 坐标按递增顺序为 $x_{1}, x_{2}, x_{3}$ 和 $x_{4}$，并且 $x_{3}-x_{2}=150$。$x_{4}-x_{1}$ 的值为 $m+n \\sqrt{p}$，其中 $m, n$ 和 $p$ 是正整数，$p$ 不被任何质数的平方整除。求 $m+n+p?$",
+    "stem": "函数 $f$ 和 $g$ 均为二次函数，满足 $g(x)=-f(100-x)$，且 $g$ 的图像经过 $f$ 图像的顶点。两图像共有四个 $x$ 截距，其 $x$ 坐标按递增顺序为 $x_{1}, x_{2}, x_{3}$ 和 $x_{4}$，并且 $x_{3}-x_{2}=150$。$x_{4}-x_{1}$ 的值为 $m+n \\sqrt{p}$，其中 $m, n$ 和 $p$ 是正整数，$p$ 不被任何质数的平方整除。求 $m+n+p$？",
     "options": {
       "A": "$602$",
       "B": "$652$",
@@ -4546,7 +4546,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2009 AMC 12A · 第 25 题",
-    "stem": "一个数列的前两项为 $a_{1}=1$ 和 $a_{2}=\\dfrac{1}{\\sqrt{3}}$。当 $n \\geq 1$ 时，\n\n$a_{n+2}=\\dfrac{a_{n}+a_{n+1}}{1-a_{n} a_{n+1}} \\text{. }$\n求 $\\left|a_{2009}\\right|?$",
+    "stem": "一个数列的前两项为 $a_{1}=1$ 和 $a_{2}=\\dfrac{1}{\\sqrt{3}}$。当 $n \\geq 1$ 时，\n\n$a_{n+2}=\\dfrac{a_{n}+a_{n+1}}{1-a_{n} a_{n+1}} \\text{. }$\n求 $\\left|a_{2009}\\right|$？",
     "options": {
       "A": "$0$",
       "B": "$2-\\sqrt{3}$",
@@ -4819,7 +4819,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2010 AMC 12A · 第 1 题",
-    "stem": "求 $(20-(2010-201))+(2010-(201-20))?$",
+    "stem": "求 $(20-(2010-201))+(2010-(201-20))$？",
     "options": {
       "A": "$-4020$",
       "B": "$0$",
@@ -4861,7 +4861,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2010 AMC 12A · 第 3 题",
-    "stem": "图中的长方形 $A B C D$ 有 $50 \\%$ 的面积与正方形 $E F G H$ 重合。正方形 $E F G H$ 有 $20 \\%$ 的面积与长方形 $A B C D$ 重合。求 $\\dfrac{A B}{A D}?$\n\n[Figure: /question-assets/source/amc/30f7da14a51b005c72f46d738f12db55d7f2524c3863e8d6f69c3e60834a2cc6.jpg]",
+    "stem": "图中的长方形 $A B C D$ 有 $50 \\%$ 的面积与正方形 $E F G H$ 重合。正方形 $E F G H$ 有 $20 \\%$ 的面积与长方形 $A B C D$ 重合。求 $\\dfrac{A B}{A D}$？\n\n[Figure: /question-assets/source/amc/30f7da14a51b005c72f46d738f12db55d7f2524c3863e8d6f69c3e60834a2cc6.jpg]",
     "options": {
       "A": "$4$",
       "B": "$5$",
@@ -4903,7 +4903,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2010 AMC 12A · 第 5 题",
-    "stem": "一场 100 箭的射箭比赛进行到一半时，Chelsea 领先 50 分。每箭射中靶心得 10 分，其他可能得分为 8、4、2、0。Chelsea 每箭至少得 4 分。若她接下来的 $n$ 箭都射中靶心，她就能确保获胜。$n?$ 的最小值是多少？",
+    "stem": "一场 100 箭的射箭比赛进行到一半时，Chelsea 领先 50 分。每箭射中靶心得 10 分，其他可能得分为 8、4、2、0。Chelsea 每箭至少得 4 分。若她接下来的 $n$ 箭都射中靶心，她就能确保获胜。$n$ 的最小值是多少？",
     "options": {
       "A": "$38$",
       "B": "$40$",
@@ -4913,7 +4913,7 @@
     },
     "answer": "C",
     "solutions": [
-      "第二名选手在剩余箭数中最多可得 $50 \\cdot 10=500$ 分。因此 Chelsea 要确保获胜，必须得到超过 $500-50=450$ 分。若接下来的 $n$ 箭射中靶心，可得 $10 n$ 分，其余 $50-n$ 箭至少得 $4(50-n)$ 分。要确保获胜，\n\n$10 \\cdot n+4 \\cdot(50-n)>450$\n$\\begin{aligned} 6 n+200 >450 \\\\ n >41 \\dfrac{2}{3} \\end{aligned}$\n所以 Chelsea 至少需要 42 个靶心。\n\n$OR$\n若 Chelsea 某箭没有射中靶心，对手每箭最多可追近 $10-4=6$ 分。她必须射中足够多的靶心，使对手无法追上 50 分。因为 $8 \\cdot 6<50<$$9 \\cdot 6$，她至多允许 8 箭未中靶心，因此需要 $50-8= \\boxed{42}$ 个靶心才能确保获胜。"
+      "第二名选手在剩余箭数中最多可得 $50 \\cdot 10=500$ 分。因此 Chelsea 要确保获胜，必须得到超过 $500-50=450$ 分。若接下来的 $n$ 箭射中靶心，可得 $10 n$ 分，其余 $50-n$ 箭至少得 $4(50-n)$ 分。要确保获胜，\n\n$10 \\cdot n+4 \\cdot(50-n)>450$\n$\\begin{aligned} 6 n+200 >450 \\\\ n >41 \\dfrac{2}{3} \\end{aligned}$\n所以 Chelsea 至少需要 42 个靶心。\n\n$\\textbf{或}$\n若 Chelsea 某箭没有射中靶心，对手每箭最多可追近 $10-4=6$ 分。她必须射中足够多的靶心，使对手无法追上 50 分。因为 $8 \\cdot 6<50<$$9 \\cdot 6$，她至多允许 8 箭未中靶心，因此需要 $50-8= \\boxed{42}$ 个靶心才能确保获胜。"
     ],
     "tags": []
   },
@@ -4945,7 +4945,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2010 AMC 12A · 第 11 题",
-    "stem": "方程 $7^{x+7}=8^{x}$ 的解可写成 $x=\\log _{b} 7^{7}$。求 $b?$",
+    "stem": "方程 $7^{x+7}=8^{x}$ 的解可写成 $x=\\log _{b} 7^{7}$。求 $b$？",
     "options": {
       "A": "$\\dfrac{7}{15}$",
       "B": "$\\dfrac{7}{8}$",
@@ -5029,7 +5029,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2010 AMC 12A · 第 20 题",
-    "stem": "整数项等差数列 $\\left(a_{n}\\right)$ 和 $\\left(b_{n}\\right)$ 满足 $a_{1}=b_{1}=1<a_{2} \\leq$$b_{2}$，并且对某个 $n$ 有 $a_{n} b_{n}=2010$。$n?$ 的最大可能值是多少？",
+    "stem": "整数项等差数列 $\\left(a_{n}\\right)$ 和 $\\left(b_{n}\\right)$ 满足 $a_{1}=b_{1}=1<a_{2} \\leq$$b_{2}$，并且对某个 $n$ 有 $a_{n} b_{n}=2010$。$n$ 的最大可能值是多少？",
     "options": {
       "A": "$2$",
       "B": "$3$",
@@ -5071,7 +5071,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2010 AMC 12A · 第 22 题",
-    "stem": "$f(x)=|x-1|+|2 x-1|+|3 x-1|+\\cdots+|119 x-1|?$ 的最小值是多少？",
+    "stem": "$f(x)=|x-1|+|2 x-1|+|3 x-1|+\\cdots+|119 x-1|$ 的最小值是多少？",
     "options": {
       "A": "$49$",
       "B": "$50$",
@@ -5092,7 +5092,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2010 AMC 12A · 第 24 题",
-    "stem": "设 $f(x)=\\log _{10}(\\sin (\\pi x) \\cdot \\sin (2 \\pi x) \\cdot \\sin (3 \\pi x) \\cdots \\sin (8 \\pi x))$。$f(x)$ 的定义域与区间 $[0,1]$ 的交集是 $n$ 个互不相交开区间之并。求 $n?$",
+    "stem": "设 $f(x)=\\log _{10}(\\sin (\\pi x) \\cdot \\sin (2 \\pi x) \\cdot \\sin (3 \\pi x) \\cdots \\sin (8 \\pi x))$。$f(x)$ 的定义域与区间 $[0,1]$ 的交集是 $n$ 个互不相交开区间之并。求 $n$？",
     "options": {
       "A": "$2$",
       "B": "$12$",
@@ -5113,7 +5113,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2010 AMC 12A · 第 25 题",
-    "stem": "若一个四边形可由另一个通过旋转和平移得到，则认为二者相同。边长均为整数且周长为 $32?$ 的不同凸圆内接四边形有多少个？",
+    "stem": "若一个四边形可由另一个通过旋转和平移得到，则认为二者相同。边长均为整数且周长为 $32$ 的不同凸圆内接四边形有多少个？",
     "options": {
       "A": "$560$",
       "B": "$564$",
@@ -5176,7 +5176,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2010 AMC 12B · 第 12 题",
-    "stem": "当 $x$ 取何值时，\n\n$\\log _{\\sqrt{2}} \\sqrt{x}+\\log _{2} x+\\log _{4}\\left(x^{2}\\right)+\\log _{8}\\left(x^{3}\\right)+\\log _{16}\\left(x^{4}\\right)=40 ?$",
+    "stem": "当 $x$ 取何值时，\n\n$\\log _{\\sqrt{2}} \\sqrt{x}+\\log _{2} x+\\log _{4}\\left(x^{2}\\right)+\\log _{8}\\left(x^{3}\\right)+\\log _{16}\\left(x^{4}\\right)=40$？",
     "options": {
       "A": "$8$",
       "B": "$16$",
@@ -5365,7 +5365,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2010 AMC 12B · 第 25 题",
-    "stem": "对每个整数 $n \\geq 2$，令 pow$(n)$ 表示整除 $n$ 的最大质数的最高幂。例如 pow$(144)=\\operatorname{pow}\\left(2^{4} \\cdot 3^{2}\\right)=3^{2}$。使 $2010^{m}$ 整除\n\n$\\prod_{n=2}^{5300} \\operatorname{pow}(n) ?$\n的最大整数 $m$ 是多少？",
+    "stem": "对每个整数 $n \\geq 2$，令 pow$(n)$ 表示整除 $n$ 的最大质数的最高幂。例如 pow$(144)=\\operatorname{pow}\\left(2^{4} \\cdot 3^{2}\\right)=3^{2}$。使 $2010^{m}$ 整除\n\n$\\prod_{n=2}^{5300} \\operatorname{pow}(n)$\n的最大整数 $m$ 是多少？",
     "options": {
       "A": "$74$",
       "B": "$75$",
@@ -5533,7 +5533,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2011 AMC 12A · 第 18 题",
-    "stem": "假设 $|x+y|+|x-y|=2$。$x^{2}-6 x+y^{2} ?$ 的最大可能值是多少？",
+    "stem": "假设 $|x+y|+|x-y|=2$。$x^{2}-6 x+y^{2}$ 的最大可能值是多少？",
     "options": {
       "A": "$5$",
       "B": "$6$",
@@ -5764,7 +5764,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2011 AMC 12B · 第 14 题",
-    "stem": "一条经过抛物线焦点 $F$ 的线段垂直于 $\\overline{F V}$，并与抛物线交于点 $A$ 和 $B$。已知抛物线的顶点为 $V$，求 $\\cos (\\angle A V B) ?$",
+    "stem": "一条经过抛物线焦点 $F$ 的线段垂直于 $\\overline{F V}$，并与抛物线交于点 $A$ 和 $B$。已知抛物线的顶点为 $V$，求 $\\cos (\\angle A V B)$？",
     "options": {
       "A": "$-\\dfrac{3 \\sqrt{5}}{7}$",
       "B": "$-\\dfrac{2 \\sqrt{5}}{5}$",
@@ -5827,7 +5827,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2011 AMC 12B · 第 20 题",
-    "stem": "三角形 $A B C$ 中，$A B=13, B C=14$，且 $A C=15$。点 $D, E$ 和 $F$ 分别是 $\\overline{A B}, \\overline{B C}$ 和 $\\overline{A C}$ 的中点。设 $X \\neq E$ 为 $\\triangle B D E$ 与 $\\triangle C E F$ 的外接圆的另一个交点。求 $X A+X B+$$X C ?$",
+    "stem": "三角形 $A B C$ 中，$A B=13, B C=14$，且 $A C=15$。点 $D, E$ 和 $F$ 分别是 $\\overline{A B}, \\overline{B C}$ 和 $\\overline{A C}$ 的中点。设 $X \\neq E$ 为 $\\triangle B D E$ 与 $\\triangle C E F$ 的外接圆的另一个交点。求 $X A+X B+$$X C$？",
     "options": {
       "A": "$24$",
       "B": "$14 \\sqrt{3}$",
@@ -5911,7 +5911,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2011 AMC 12B · 第 25 题",
-    "stem": "对任意整数 $m$ 及满足 $k$ 为奇数的整数 $k$，用 $\\left[\\dfrac{m}{k}\\right]$ 表示最接近 $\\dfrac{m}{k}$ 的整数。对每个奇整数 $k$，令 $P(k)$ 表示下式成立的概率：\n\n$\\left[\\dfrac{n}{k}\\right]+\\left[\\dfrac{100-n}{k}\\right]=\\left[\\dfrac{100}{k}\\right]$\n其中整数 $n$ 从区间 $1 \\leq n \\leq 99$ 中随机选取。对于区间 $1 \\leq k \\leq 99 ?$ 内的所有奇整数 $k$，$P(k)$ 的最小可能值是多少？",
+    "stem": "对任意整数 $m$ 及满足 $k$ 为奇数的整数 $k$，用 $\\left[\\dfrac{m}{k}\\right]$ 表示最接近 $\\dfrac{m}{k}$ 的整数。对每个奇整数 $k$，令 $P(k)$ 表示下式成立的概率：\n\n$\\left[\\dfrac{n}{k}\\right]+\\left[\\dfrac{100-n}{k}\\right]=\\left[\\dfrac{100}{k}\\right]$\n其中整数 $n$ 从区间 $1 \\leq n \\leq 99$ 中随机选取。对于区间 $1 \\leq k \\leq 99$ 内的所有奇整数 $k$，$P(k)$ 的最小可能值是多少？",
     "options": {
       "A": "$\\dfrac{1}{2}$",
       "B": "$\\dfrac{50}{99}$",
@@ -6373,7 +6373,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2012 AMC 12B · 第 20 题",
-    "stem": "一个梯形的四条边长为 $3,5,7$ 和 11。该梯形所有可能面积之和可写成 $r_{1} \\sqrt{n_{1}}+r_{2} \\sqrt{n_{2}}+r_{3}$，其中 $r_{1}, r_{2}$ 和 $r_{3}$ 为有理数，$n_{1}$ 和 $n_{2}$ 为不被任何质数平方整除的正整数。求不超过\n\n$r_{1}+r_{2}+r_{3}+n_{1}+n_{2} ?$\n的最大整数。",
+    "stem": "一个梯形的四条边长为 $3,5,7$ 和 11。该梯形所有可能面积之和可写成 $r_{1} \\sqrt{n_{1}}+r_{2} \\sqrt{n_{2}}+r_{3}$，其中 $r_{1}, r_{2}$ 和 $r_{3}$ 为有理数，$n_{1}$ 和 $n_{2}$ 为不被任何质数平方整除的正整数。求不超过\n\n$r_{1}+r_{2}+r_{3}+n_{1}+n_{2}$\n的最大整数。",
     "options": {
       "A": "$57$",
       "B": "$59$",
@@ -6940,7 +6940,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2013 AMC 12B · 第 20 题",
-    "stem": "对 $135^{\\circ}<x<180^{\\circ}$，点 $P=\\left(\\cos x, \\cos ^{2} x\\right), Q=\\left(\\cot x, \\cot ^{2} x\\right), R=$$\\left(\\sin x, \\sin ^{2} x\\right)$ 和 $S=\\left(\\tan x, \\tan ^{2} x\\right)$ 是一个梯形的四个顶点。求 $\\sin (2 x) ?$",
+    "stem": "对 $135^{\\circ}<x<180^{\\circ}$，点 $P=\\left(\\cos x, \\cos ^{2} x\\right), Q=\\left(\\cot x, \\cot ^{2} x\\right), R=$$\\left(\\sin x, \\sin ^{2} x\\right)$ 和 $S=\\left(\\tan x, \\tan ^{2} x\\right)$ 是一个梯形的四个顶点。求 $\\sin (2 x)$？",
     "options": {
       "A": "$2-2 \\sqrt{2}$",
       "B": "$3 \\sqrt{3}-6$",
@@ -7234,7 +7234,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2014 AMC 12A · 第 18 题",
-    "stem": "函数 $f(x)=\\log _{\\frac{1}{2}}\\left(\\log _{4}\\left(\\log _{\\frac{1}{4}}\\left(\\log _{16}\\left(\\log _{\\frac{1}{16}} x\\right)\\right)\\right)\\right)$ 的定义域是一个长度为 $\\frac{m}{n}$ 的区间，其中 $m$ 与 $n$ 为互质正整数。求 $m+n ?$",
+    "stem": "函数 $f(x)=\\log _{\\frac{1}{2}}\\left(\\log _{4}\\left(\\log _{\\frac{1}{4}}\\left(\\log _{16}\\left(\\log _{\\frac{1}{16}} x\\right)\\right)\\right)\\right)$ 的定义域是一个长度为 $\\frac{m}{n}$ 的区间，其中 $m$ 与 $n$ 为互质正整数。求 $m+n$？",
     "options": {
       "A": "$19$",
       "B": "$31$",
@@ -7360,7 +7360,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2014 AMC 12A · 第 25 题",
-    "stem": "抛物线 $P$ 的焦点为 $(0,0)$，并经过点 $(4,3)$、$(-4,-3)$。有多少个整数坐标点 $(x, y) \\in P$ 满足 $\\mid 4 x+$$3 y \\mid \\leq 1000 ?$",
+    "stem": "抛物线 $P$ 的焦点为 $(0,0)$，并经过点 $(4,3)$、$(-4,-3)$。有多少个整数坐标点 $(x, y) \\in P$ 满足 $\\mid 4 x+$$3 y \\mid \\leq 1000$？",
     "options": {
       "A": "$38$",
       "B": "$40$",
@@ -7576,7 +7576,7 @@
       "B": "$18$",
       "C": "$19$",
       "D": "$20$",
-      "E": "$infinitely many$"
+      "E": "无穷多个"
     },
     "answer": "B",
     "solutions": [
@@ -7654,7 +7654,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2014 AMC 12B · 第 25 题",
-    "stem": "方程\n\n$2 \\cos (2 x)\\left(\\cos (2 x)-\\cos \\left(\\dfrac{2014 \\pi^{2}}{x}\\right)\\right)=\\cos (4 x)-1 ?$\n的所有正实数解 $x$ 之和是多少？",
+    "stem": "方程\n\n$2 \\cos (2 x)\\left(\\cos (2 x)-\\cos \\left(\\dfrac{2014 \\pi^{2}}{x}\\right)\\right)=\\cos (4 x)-1$\n的所有正实数解 $x$ 之和是多少？",
     "options": {
       "A": "$\\pi$",
       "B": "$810 \\pi$",
@@ -7948,7 +7948,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2015 AMC 12A · 第 25 题",
-    "stem": "在上半平面内构造一组都与 $x$ 轴相切的圆，按如下方式分层。第 $L_{0}$ 层由半径分别为 $70^{2}$ 和 $73^{2}$、彼此外切的两个圆组成。对于 $k \\geq 1$，将 $\\bigcup_{j=0}^{k-1} L_{j}$ 中的圆按它们与 $x$ 轴的切点顺序排列。对这一顺序中的每一对相邻圆，作一个同时与这两个圆外切的新圆。第 $L_{k}$ 层由用这种方式构造出的 $2^{k-1}$ 个圆组成。令 $S=\\bigcup_{j=0}^{6} L_{j}$；对于每个圆 $C$，以 $r(C)$ 表示其半径。求\n\n$\\sum_{C \\in S} \\dfrac{1}{\\sqrt{r(C)}} ?$\n\n[Figure: /question-assets/source/amc/266066837184de893b6897ac4ea390d98a38ec66c4a36ecc72a3c8fba6a830d2.jpg]",
+    "stem": "在上半平面内构造一组都与 $x$ 轴相切的圆，按如下方式分层。第 $L_{0}$ 层由半径分别为 $70^{2}$ 和 $73^{2}$、彼此外切的两个圆组成。对于 $k \\geq 1$，将 $\\bigcup_{j=0}^{k-1} L_{j}$ 中的圆按它们与 $x$ 轴的切点顺序排列。对这一顺序中的每一对相邻圆，作一个同时与这两个圆外切的新圆。第 $L_{k}$ 层由用这种方式构造出的 $2^{k-1}$ 个圆组成。令 $S=\\bigcup_{j=0}^{6} L_{j}$；对于每个圆 $C$，以 $r(C)$ 表示其半径。求\n\n$\\sum_{C \\in S} \\dfrac{1}{\\sqrt{r(C)}}$？\n\n[Figure: /question-assets/source/amc/266066837184de893b6897ac4ea390d98a38ec66c4a36ecc72a3c8fba6a830d2.jpg]",
     "options": {
       "A": "$\\dfrac{286}{35}$",
       "B": "$\\dfrac{583}{70}$",
@@ -8326,7 +8326,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2016 AMC 12A · 第 7 题",
-    "stem": "下列哪项描述了 $x^{2}(x+y+1)=y^{2}(x+y+1)?$ 的图像？",
+    "stem": "下列哪项描述了 $x^{2}(x+y+1)=y^{2}(x+y+1)$ 的图像？",
     "options": {
       "A": "两条平行直线",
       "B": "两条相交直线",
@@ -8347,7 +8347,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2016 AMC 12A · 第 9 题",
-    "stem": "这个单位正方形内的五个阴影小正方形全等，且内部互不重叠。如图，中间正方形每条边的中点都与另外四个小正方形中的一个顶点重合。它们的公共边长为 $\\dfrac{a-\\sqrt{2}}{b}$，其中 $a$、$b$ 为正整数。求 $a+b?$\n\n[Figure: /question-assets/source/amc/e53de29d5fc3b7217b4376d3b36298b18c365bac3db247afa90d5ad13a62b17b.jpg]",
+    "stem": "这个单位正方形内的五个阴影小正方形全等，且内部互不重叠。如图，中间正方形每条边的中点都与另外四个小正方形中的一个顶点重合。它们的公共边长为 $\\dfrac{a-\\sqrt{2}}{b}$，其中 $a$、$b$ 为正整数。求 $a+b$？\n\n[Figure: /question-assets/source/amc/e53de29d5fc3b7217b4376d3b36298b18c365bac3db247afa90d5ad13a62b17b.jpg]",
     "options": {
       "A": "$7$",
       "B": "$8$",
@@ -8389,7 +8389,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2016 AMC 12A · 第 12 题",
-    "stem": "在 $\\triangle A B C, A B=6, B C=7$ 中，$C A=8$。点 $D$ 在 $\\overline{B C}$ 上，且 $\\overline{A D}$ 平分 $\\angle B A C$。点 $E$ 在 $\\overline{A C}$ 上，且 $\\overline{B E}$ 平分 $\\angle A B C$。两条角平分线交于 $F$。求比值 $A F: F D?$\n\n[Figure: /question-assets/source/amc/e28a0a231d6e2362568a1fc3397f304e5b5371c354d93bfa507b33372d2d041b.jpg]",
+    "stem": "在 $\\triangle A B C, A B=6, B C=7$ 中，$C A=8$。点 $D$ 在 $\\overline{B C}$ 上，且 $\\overline{A D}$ 平分 $\\angle B A C$。点 $E$ 在 $\\overline{A C}$ 上，且 $\\overline{B E}$ 平分 $\\angle A B C$。两条角平分线交于 $F$。求比值 $A F: F D$？\n\n[Figure: /question-assets/source/amc/e28a0a231d6e2362568a1fc3397f304e5b5371c354d93bfa507b33372d2d041b.jpg]",
     "options": {
       "A": "$3: 2$",
       "B": "$5: 3$",
@@ -8431,7 +8431,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2016 AMC 12A · 第 17 题",
-    "stem": "设 $A B C D$ 是一个正方形。$E, F, G$、$H$ 分别是以 $\\overline{A B}, \\overline{B C}, \\overline{C D}$、$\\overline{D A}$ 为底边、位于正方形外部的等边三角形的中心。正方形 $E F G H$ 与正方形 $A B C D?$ 的面积之比是多少？",
+    "stem": "设 $A B C D$ 是一个正方形。$E, F, G$、$H$ 分别是以 $\\overline{A B}, \\overline{B C}, \\overline{C D}$、$\\overline{D A}$ 为底边、位于正方形外部的等边三角形的中心。正方形 $E F G H$ 与正方形 $A B C D$ 的面积之比是多少？",
     "options": {
       "A": "$1$",
       "B": "$\\dfrac{2+\\sqrt{3}}{3}$",
@@ -8452,7 +8452,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2016 AMC 12A · 第 19 题",
-    "stem": "Jerry 从实数轴上的 $0$ 出发。他连续抛一枚均匀硬币 $8$ 次。若出现正面，就沿正方向移动 $1$ 个单位；若出现反面，就沿负方向移动 $1$ 个单位。在这一过程中，他曾经到达 $4$ 的概率为 $\\dfrac{a}{b}$，其中 $a$、$b$ 是互质的正整数。求 $a+b?$（例如，抛掷序列 HTHHHHHH 会成功。）",
+    "stem": "Jerry 从实数轴上的 $0$ 出发。他连续抛一枚均匀硬币 $8$ 次。若出现正面，就沿正方向移动 $1$ 个单位；若出现反面，就沿负方向移动 $1$ 个单位。在这一过程中，他曾经到达 $4$ 的概率为 $\\dfrac{a}{b}$，其中 $a$、$b$ 是互质的正整数。求 $a+b$？（例如，抛掷序列 HTHHHHHH 会成功。）",
     "options": {
       "A": "$69$",
       "B": "$151$",
@@ -8494,7 +8494,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2016 AMC 12A · 第 24 题",
-    "stem": "存在最小的正实数 $a$，使得存在正实数 $b$，令多项式 $x^{3}-a x^{2}+b x-a$ 的所有根均为实数。事实上，当 $a$ 取此值时，$b$ 的值唯一。这个 $b?$ 值是多少？",
+    "stem": "存在最小的正实数 $a$，使得存在正实数 $b$，令多项式 $x^{3}-a x^{2}+b x-a$ 的所有根均为实数。事实上，当 $a$ 取此值时，$b$ 的值唯一。这个 $b$ 值是多少？",
     "options": {
       "A": "$8$",
       "B": "$9$",
@@ -8515,7 +8515,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2016 AMC 12A · 第 25 题",
-    "stem": "设 $k$ 为正整数。Bernardo 和 Silvia 轮流在黑板上写数、擦数，规则如下：Bernardo 先写下位数为 $k+1$ 的最小完全平方数。每当 Bernardo 写下一个数，Silvia 就擦去它的末 $k$ 位。随后 Bernardo 写下下一个完全平方数，Silvia 再擦去其末 $k$ 位，如此继续，直到黑板上最后留下的两个数之差至少为 $2$。令 $f(k)$ 为没有在黑板上出现过的最小正整数。例如，当 $k=1$ 时，Bernardo 写下的数依次为 $16,25,36,49$、$64$，Silvia 擦除后黑板上显示的数依次为 $1,2,3,4$、$6$，所以 $f(1)=5$。求 $f(2)+f(4)+f(6)+\\cdots+f(2016)?$ 的各位数字之和。",
+    "stem": "设 $k$ 为正整数。Bernardo 和 Silvia 轮流在黑板上写数、擦数，规则如下：Bernardo 先写下位数为 $k+1$ 的最小完全平方数。每当 Bernardo 写下一个数，Silvia 就擦去它的末 $k$ 位。随后 Bernardo 写下下一个完全平方数，Silvia 再擦去其末 $k$ 位，如此继续，直到黑板上最后留下的两个数之差至少为 $2$。令 $f(k)$ 为没有在黑板上出现过的最小正整数。例如，当 $k=1$ 时，Bernardo 写下的数依次为 $16,25,36,49$、$64$，Silvia 擦除后黑板上显示的数依次为 $1,2,3,4$、$6$，所以 $f(1)=5$。求 $f(2)+f(4)+f(6)+\\cdots+f(2016)$ 的各位数字之和。",
     "options": {
       "A": "$7986$",
       "B": "$8002$",
@@ -8641,7 +8641,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2016 AMC 12B · 第 17 题",
-    "stem": "在图示 $\\triangle A B C$ 中，$A B=7, B C=8, C A=9$，$\\overline{A H}$ 是一条高。点 $D$、$E$ 分别在边 $\\overline{A C}$、$\\overline{A B}$ 上，使 $\\overline{B D}$、$\\overline{C E}$ 为角平分线，并分别在 $Q$、$P$ 处与 $\\overline{A H}$ 相交。求 $P Q ?$\n\n[Figure: /question-assets/source/amc/a5f063779f6844a88adbe11bc6e81f7bcf29114c35c8022b587dd68fddac091f.jpg]",
+    "stem": "在图示 $\\triangle A B C$ 中，$A B=7, B C=8, C A=9$，$\\overline{A H}$ 是一条高。点 $D$、$E$ 分别在边 $\\overline{A C}$、$\\overline{A B}$ 上，使 $\\overline{B D}$、$\\overline{C E}$ 为角平分线，并分别在 $Q$、$P$ 处与 $\\overline{A H}$ 相交。求 $P Q$？\n\n[Figure: /question-assets/source/amc/a5f063779f6844a88adbe11bc6e81f7bcf29114c35c8022b587dd68fddac091f.jpg]",
     "options": {
       "A": "$1$",
       "B": "$\\dfrac{5}{8} \\sqrt{3}$",
@@ -8683,7 +8683,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2016 AMC 12B · 第 21 题",
-    "stem": "设 $A B C D$ 为单位正方形，$Q_{1}$ 为 $\\overline{C D}$ 的中点。对 $i=1,2, \\ldots$，令 $P_{i}$ 为 $\\overline{A Q_{i}}$ 与 $\\overline{B D}$ 的交点，$Q_{i+1}$ 为从 $P_{i}$ 向 $\\overline{C D}$ 所作垂线的垂足。求\n\n$\\sum_{i=1}^{\\infty} \\text{ 面积 } \\triangle D Q_{i} P_{i} ?$",
+    "stem": "设 $A B C D$ 为单位正方形，$Q_{1}$ 为 $\\overline{C D}$ 的中点。对 $i=1,2, \\ldots$，令 $P_{i}$ 为 $\\overline{A Q_{i}}$ 与 $\\overline{B D}$ 的交点，$Q_{i+1}$ 为从 $P_{i}$ 向 $\\overline{C D}$ 所作垂线的垂足。求\n\n$\\sum_{i=1}^{\\infty} \\text{ 面积 } \\triangle D Q_{i} P_{i}$？",
     "options": {
       "A": "$\\dfrac{1}{6}$",
       "B": "$\\dfrac{1}{4}$",
@@ -8788,7 +8788,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2017 AMC 12A · 第 7 题",
-    "stem": "在正整数上递归定义函数：$f(1)=2$；若 $n$ 为偶数，则 $f(n)=f(n-1)+1$；若 $n$ 为大于 1 的奇数，则 $f(n)=f(n-2)+2$。求 $f(2017)?$",
+    "stem": "在正整数上递归定义函数：$f(1)=2$；若 $n$ 为偶数，则 $f(n)=f(n-1)+1$；若 $n$ 为大于 1 的奇数，则 $f(n)=f(n-2)+2$。求 $f(2017)$？",
     "options": {
       "A": "$2017$",
       "B": "$2018$",
@@ -8872,7 +8872,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2017 AMC 12A · 第 16 题",
-    "stem": "如下图，圆心分别为 $A$、$B$，半径分别为 2、1 的两个半圆位于以 $\\overline{J K}$ 为直径的大半圆内部，并与大半圆共用底边。两个小半圆彼此外切，并分别与大半圆内切。以 $P$ 为圆心作一个圆，使其与两个小半圆外切、与大半圆内切。以 $P?$ 为圆心的圆半径是多少？\n\n[Figure: /question-assets/source/amc/d5cb050f671f6bae5ff2cc8208835fdea9d50058f6ffd4ae57484707ed93036f.jpg]",
+    "stem": "如下图，圆心分别为 $A$、$B$，半径分别为 2、1 的两个半圆位于以 $\\overline{J K}$ 为直径的大半圆内部，并与大半圆共用底边。两个小半圆彼此外切，并分别与大半圆内切。以 $P$ 为圆心作一个圆，使其与两个小半圆外切、与大半圆内切。以 $P$ 为圆心的圆半径是多少？\n\n[Figure: /question-assets/source/amc/d5cb050f671f6bae5ff2cc8208835fdea9d50058f6ffd4ae57484707ed93036f.jpg]",
     "options": {
       "A": "$\\dfrac{3}{4}$",
       "B": "$\\dfrac{6}{7}$",
@@ -8914,7 +8914,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2017 AMC 12A · 第 20 题",
-    "stem": "有多少个有序数对 $(a, b)$ 满足：$a$ 为正实数，$b$ 是 2 到 200 之间（含端点）的整数，且方程 $\\left(\\log _{b} a\\right)^{2017}=\\log _{b}\\left(a^{2017}\\right)?$ 成立？",
+    "stem": "有多少个有序数对 $(a, b)$ 满足：$a$ 为正实数，$b$ 是 2 到 200 之间（含端点）的整数，且方程 $\\left(\\log _{b} a\\right)^{2017}=\\log _{b}\\left(a^{2017}\\right)$ 成立？",
     "options": {
       "A": "$198$",
       "B": "$199$",
@@ -8956,7 +8956,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2017 AMC 12A · 第 22 题",
-    "stem": "在直角坐标平面内画一个正方形，其顶点为 $(2,2),(-2,2),(-2,-2)$、$(2,-2)$。一个粒子从 $(0,0)$ 出发。每秒钟，它以相等概率移动到离当前位置最近的八个格点之一，各次移动相互独立。换言之，粒子从 $(x, y)$ 移动到 $(x, y+1)$、$(x+1, y+1),(x+1, y),(x+1, y-1),(x, y-1),(x-1, y-1)$、$(x-1, y)$ 或 $(x-1, y+1)$ 中每一点的概率均为 $\\dfrac{1}{8}$。粒子最终会首次碰到正方形，位置要么是四个顶点之一，要么是边内部的 12 个格点之一。它首次在顶点而非边内部碰到正方形的概率为 $\\dfrac{m}{n}$，其中 $m$、$n$ 是互质正整数。求 $m+n?$",
+    "stem": "在直角坐标平面内画一个正方形，其顶点为 $(2,2),(-2,2),(-2,-2)$、$(2,-2)$。一个粒子从 $(0,0)$ 出发。每秒钟，它以相等概率移动到离当前位置最近的八个格点之一，各次移动相互独立。换言之，粒子从 $(x, y)$ 移动到 $(x, y+1)$、$(x+1, y+1),(x+1, y),(x+1, y-1),(x, y-1),(x-1, y-1)$、$(x-1, y)$ 或 $(x-1, y+1)$ 中每一点的概率均为 $\\dfrac{1}{8}$。粒子最终会首次碰到正方形，位置要么是四个顶点之一，要么是边内部的 12 个格点之一。它首次在顶点而非边内部碰到正方形的概率为 $\\dfrac{m}{n}$，其中 $m$、$n$ 是互质正整数。求 $m+n$？",
     "options": {
       "A": "$4$",
       "B": "$5$",
@@ -8977,7 +8977,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2017 AMC 12A · 第 24 题",
-    "stem": "四边形 $A B C D$ 内接于圆 $O$，其边长为 $A B=3$、$B C=2, C D=6$、$D A=8$。点 $X$、$Y$ 位于 $\\overline{B D}$ 上，且\n\n$\\dfrac{D X}{B D}=\\dfrac{1}{4} \\quad \\text{ 和 } \\quad \\dfrac{B Y}{B D}=\\dfrac{11}{36}$\n\n令 $E$ 为直线 $A X$ 与过 $Y$ 且平行于 $\\overline{A D}$ 的直线的交点。令 $F$ 为直线 $C X$ 与过 $E$ 且平行于 $\\overline{A C}$ 的直线的交点。直线 $C X$ 与圆 $O$ 除 $C$ 外的另一交点为 $G$。求 $X F \\cdot X G?$",
+    "stem": "四边形 $A B C D$ 内接于圆 $O$，其边长为 $A B=3$、$B C=2, C D=6$、$D A=8$。点 $X$、$Y$ 位于 $\\overline{B D}$ 上，且\n\n$\\dfrac{D X}{B D}=\\dfrac{1}{4} \\quad \\text{ 和 } \\quad \\dfrac{B Y}{B D}=\\dfrac{11}{36}$\n\n令 $E$ 为直线 $A X$ 与过 $Y$ 且平行于 $\\overline{A D}$ 的直线的交点。令 $F$ 为直线 $C X$ 与过 $E$ 且平行于 $\\overline{A C}$ 的直线的交点。直线 $C X$ 与圆 $O$ 除 $C$ 外的另一交点为 $G$。求 $X F \\cdot X G$？",
     "options": {
       "A": "$17$",
       "B": "$\\dfrac{59-5 \\sqrt{2}}{3}$",
@@ -8998,7 +8998,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2017 AMC 12A · 第 25 题",
-    "stem": "复平面内一个中心对称六边形的顶点集合 $V$ 为\n\n$V=\\left\\{\\sqrt{2} i,-\\sqrt{2} i, \\dfrac{1}{\\sqrt{8}}(1+i), \\dfrac{1}{\\sqrt{8}}(-1+i), \\dfrac{1}{\\sqrt{8}}(1-i), \\dfrac{1}{\\sqrt{8}}(-1-i)\\right\\} .$\n\n对每个 $j, 1 \\leq j \\leq 12$，从 $V$ 中随机选取一个元素 $z_{j}$，各次选择相互独立。令 $P=\\prod_{j=1}^{12} z_{j}$ 为所选 12 个数的乘积。$P=-1?$ 的概率是多少？",
+    "stem": "复平面内一个中心对称六边形的顶点集合 $V$ 为\n\n$V=\\left\\{\\sqrt{2} i,-\\sqrt{2} i, \\dfrac{1}{\\sqrt{8}}(1+i), \\dfrac{1}{\\sqrt{8}}(-1+i), \\dfrac{1}{\\sqrt{8}}(1-i), \\dfrac{1}{\\sqrt{8}}(-1-i)\\right\\} .$\n\n对每个 $j, 1 \\leq j \\leq 12$，从 $V$ 中随机选取一个元素 $z_{j}$，各次选择相互独立。令 $P=\\prod_{j=1}^{12} z_{j}$ 为所选 12 个数的乘积。$P=-1$ 的概率是多少？",
     "options": {
       "A": "$\\dfrac{5 \\cdot 11}{3^{10}}$",
       "B": "$\\dfrac{5^{2} \\cdot 11}{2 \\cdot 3^{10}}$",
@@ -9418,7 +9418,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2018 AMC 12A · 第 14 题",
-    "stem": "方程 $\\log _{3 x} 4=\\log _{2 x} 8$ 的解可写成 $\\dfrac{p}{q}$，其中 $x$ 是不等于 $\\dfrac{1}{3}$、$\\dfrac{1}{2}$ 的正实数，$p$、$q$ 是互质正整数。求 $p+q?$",
+    "stem": "方程 $\\log _{3 x} 4=\\log _{2 x} 8$ 的解可写成 $\\dfrac{p}{q}$，其中 $x$ 是不等于 $\\dfrac{1}{3}$、$\\dfrac{1}{2}$ 的正实数，$p$、$q$ 是互质正整数。求 $p+q$？",
     "options": {
       "A": "$5$",
       "B": "$13$",
@@ -9439,7 +9439,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2018 AMC 12A · 第 19 题",
-    "stem": "设 $A$ 为除 $2,3$、$5$ 外没有其他质因数的正整数集合。$A$ 中所有元素的倒数之无穷和\n\n$\\dfrac{1}{1}+\\dfrac{1}{2}+\\dfrac{1}{3}+\\dfrac{1}{4}+\\dfrac{1}{5}+\\dfrac{1}{6}+\\dfrac{1}{8}+\\dfrac{1}{9}+\\dfrac{1}{10}+\\dfrac{1}{12}+\\dfrac{1}{15}+\\dfrac{1}{16}+\\dfrac{1}{18}+\\dfrac{1}{20}+\\cdots$\n\n可写成 $\\dfrac{m}{n}$，其中 $m$、$n$ 是互质正整数。求 $m+n?$",
+    "stem": "设 $A$ 为除 $2,3$、$5$ 外没有其他质因数的正整数集合。$A$ 中所有元素的倒数之无穷和\n\n$\\dfrac{1}{1}+\\dfrac{1}{2}+\\dfrac{1}{3}+\\dfrac{1}{4}+\\dfrac{1}{5}+\\dfrac{1}{6}+\\dfrac{1}{8}+\\dfrac{1}{9}+\\dfrac{1}{10}+\\dfrac{1}{12}+\\dfrac{1}{15}+\\dfrac{1}{16}+\\dfrac{1}{18}+\\dfrac{1}{20}+\\cdots$\n\n可写成 $\\dfrac{m}{n}$，其中 $m$、$n$ 是互质正整数。求 $m+n$？",
     "options": {
       "A": "$16$",
       "B": "$17$",
@@ -9460,7 +9460,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2018 AMC 12A · 第 20 题",
-    "stem": "三角形 $A B C$ 是满足 $A B=A C=3$ 的等腰直角三角形。设 $M$ 为斜边 $\\overline{B C}$ 的中点。点 $I$、$E$ 分别位于边 $\\overline{A C}$、$\\overline{A B}$ 上，使 $A I>A E$，且 $A I M E$ 为圆内接四边形。已知三角形 $E M I$ 面积为 $2$，长度 $C I$ 可写成 $\\dfrac{a-\\sqrt{b}}{c}$，其中 $a, b$、$c$ 为正整数，$b$ 不被任何质数的平方整除。求 $a+b+c?$",
+    "stem": "三角形 $A B C$ 是满足 $A B=A C=3$ 的等腰直角三角形。设 $M$ 为斜边 $\\overline{B C}$ 的中点。点 $I$、$E$ 分别位于边 $\\overline{A C}$、$\\overline{A B}$ 上，使 $A I>A E$，且 $A I M E$ 为圆内接四边形。已知三角形 $E M I$ 面积为 $2$，长度 $C I$ 可写成 $\\dfrac{a-\\sqrt{b}}{c}$，其中 $a, b$、$c$ 为正整数，$b$ 不被任何质数的平方整除。求 $a+b+c$？",
     "options": {
       "A": "$9$",
       "B": "$10$",
@@ -9502,7 +9502,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2018 AMC 12A · 第 22 题",
-    "stem": "方程 $z^{2}=4+4 \\sqrt{15} i$、$z^{2}=2+2 \\sqrt{3} i$ 的解（其中 $i=\\sqrt{-1}$）构成复平面内一个平行四边形的顶点。该平行四边形面积可写成 $p \\sqrt{q}-r \\sqrt{s}$，其中 $p, q, r$、$s$ 为正整数，且 $q$、$s$ 均不被任何质数的平方整除。求 $p+q+r+s ?$",
+    "stem": "方程 $z^{2}=4+4 \\sqrt{15} i$、$z^{2}=2+2 \\sqrt{3} i$ 的解（其中 $i=\\sqrt{-1}$）构成复平面内一个平行四边形的顶点。该平行四边形面积可写成 $p \\sqrt{q}-r \\sqrt{s}$，其中 $p, q, r$、$s$ 为正整数，且 $q$、$s$ 均不被任何质数的平方整除。求 $p+q+r+s$？",
     "options": {
       "A": "$20$",
       "B": "$21$",
@@ -9523,7 +9523,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2018 AMC 12A · 第 23 题",
-    "stem": "在 $\\triangle P A T, \\angle P=36^{\\circ}, \\angle A=56^{\\circ}$ 中，$P A=10$。点 $U$、$G$ 分别在边 $\\overline{T P}$、$\\overline{T A}$ 上，且 $P U=A G=1$。设 $M$、$N$ 分别为线段 $\\overline{P A}$、$\\overline{U G}$ 的中点。直线 $M N$ 与 $P A?$ 所成锐角是多少度？",
+    "stem": "在 $\\triangle P A T, \\angle P=36^{\\circ}, \\angle A=56^{\\circ}$ 中，$P A=10$。点 $U$、$G$ 分别在边 $\\overline{T P}$、$\\overline{T A}$ 上，且 $P U=A G=1$。设 $M$、$N$ 分别为线段 $\\overline{P A}$、$\\overline{U G}$ 的中点。直线 $M N$ 与 $P A$ 所成锐角是多少度？",
     "options": {
       "A": "$76$",
       "B": "$77$",
@@ -9628,7 +9628,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2018 AMC 12B · 第 7 题",
-    "stem": "求\n\n$\\log _{3} 7 \\cdot \\log _{5} 9 \\cdot \\log _{7} 11 \\cdot \\log _{9} 13 \\cdots \\log _{21} 25 \\cdot \\log _{23} 27 ?$\n\n的值。",
+    "stem": "求\n\n$\\log _{3} 7 \\cdot \\log _{5} 9 \\cdot \\log _{7} 11 \\cdot \\log _{9} 13 \\cdots \\log _{21} 25 \\cdot \\log _{23} 27$\n\n的值。",
     "options": {
       "A": "$3$",
       "B": "$3 \\log _{7} 23$",
@@ -9649,7 +9649,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2018 AMC 12B · 第 9 题",
-    "stem": "求\n\n$\\sum_{i=1}^{100} \\sum_{j=1}^{100}(i+j) ?$",
+    "stem": "求\n\n$\\sum_{i=1}^{100} \\sum_{j=1}^{100}(i+j)$？",
     "options": {
       "A": "$100,100$",
       "B": "$500,500$",
@@ -9859,7 +9859,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2019 AMC 12A · 第 1 题",
-    "stem": "半径为 $4$ 英寸的披萨面积比半径为 3 英寸的披萨面积大 $N$。与 $N?$ 最接近的整数是多少？",
+    "stem": "半径为 $4$ 英寸的披萨面积比半径为 3 英寸的披萨面积大 $N$。与 $N$ 最接近的整数是多少？",
     "options": {
       "A": "$25$",
       "B": "$33$",
@@ -9880,7 +9880,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2019 AMC 12A · 第 2 题",
-    "stem": "已知 $a$ 是 $b$ 的 $150 \\%$。$3 b?$ 是 $a$ 的百分之多少？",
+    "stem": "已知 $a$ 是 $b$ 的 $150 \\%$。$3 b$ 是 $a$ 的百分之多少？",
     "options": {
       "A": "$50$",
       "B": "$66 \\dfrac{2}{3}$",
@@ -9901,7 +9901,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2019 AMC 12A · 第 12 题",
-    "stem": "正实数 $x \\neq 1$ 和 $y \\neq 1$ 满足 $\\log _{2} x=\\log _{y} 16$ 及 $x y=64$。求 $\\left(\\log _{2} \\dfrac{x}{y}\\right)^{2}?$",
+    "stem": "正实数 $x \\neq 1$ 和 $y \\neq 1$ 满足 $\\log _{2} x=\\log _{y} 16$ 及 $x y=64$。求 $\\left(\\log _{2} \\dfrac{x}{y}\\right)^{2}$？",
     "options": {
       "A": "$\\dfrac{25}{2}$",
       "B": "$20$",
@@ -9943,7 +9943,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2019 AMC 12A · 第 14 题",
-    "stem": "对于某个复数 $c$，多项式\n\n$P(x)=\\left(x^{2}-2 x+2\\right)\\left(x^{2}-c x+4\\right)\\left(x^{2}-4 x+8\\right)$\n\n恰有 4 个不同的根。求 $|c|?$",
+    "stem": "对于某个复数 $c$，多项式\n\n$P(x)=\\left(x^{2}-2 x+2\\right)\\left(x^{2}-c x+4\\right)\\left(x^{2}-4 x+8\\right)$\n\n恰有 4 个不同的根。求 $|c|$？",
     "options": {
       "A": "$2$",
       "B": "$\\sqrt{6}$",
@@ -9964,7 +9964,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2019 AMC 12A · 第 15 题",
-    "stem": "正实数 $a$ 和 $b$ 满足\n\n$\\sqrt{\\log a}+\\sqrt{\\log b}+\\log \\sqrt{a}+\\log \\sqrt{b}=100$，\n\n且左边四项均为正整数，其中 $\\log$ 表示常用对数。求 $a b?$",
+    "stem": "正实数 $a$ 和 $b$ 满足\n\n$\\sqrt{\\log a}+\\sqrt{\\log b}+\\log \\sqrt{a}+\\log \\sqrt{b}=100$，\n\n且左边四项均为正整数，其中 $\\log$ 表示常用对数。求 $a b$？",
     "options": {
       "A": "$10^{52}$",
       "B": "$10^{100}$",
@@ -9985,7 +9985,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2019 AMC 12A · 第 17 题",
-    "stem": "设 $s_{k}$ 表示多项式 $x^{3}-5 x^{2}+8 x-13$ 的所有根的 $k$ 次幂之和。特别地，$s_{0}=3, s_{1}=5$ 且 $s_{2}=9$。设 $a, b$ 和 $c$ 为实数，满足当 $k=2,3, \\ldots$ 时，$s_{k+1}=$ $a s_{k}+b s_{k-1}+c s_{k-2}$。求 $a+b+c?$",
+    "stem": "设 $s_{k}$ 表示多项式 $x^{3}-5 x^{2}+8 x-13$ 的所有根的 $k$ 次幂之和。特别地，$s_{0}=3, s_{1}=5$ 且 $s_{2}=9$。设 $a, b$ 和 $c$ 为实数，满足当 $k=2,3, \\ldots$ 时，$s_{k+1}=$ $a s_{k}+b s_{k-1}+c s_{k-2}$。求 $a+b+c$？",
     "options": {
       "A": "$-6$",
       "B": "$0$",
@@ -10006,7 +10006,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2019 AMC 12A · 第 19 题",
-    "stem": "在边长均为整数的 $\\triangle A B C$ 中，\n\n$\\cos A=\\dfrac{11}{16}, \\quad \\cos B=\\dfrac{7}{8}, \\quad \\text{ 和 } \\quad \\cos C=-\\dfrac{1}{4} .$\n\n求 $\\triangle A B C?$ 的最小周长。",
+    "stem": "在边长均为整数的 $\\triangle A B C$ 中，\n\n$\\cos A=\\dfrac{11}{16}, \\quad \\cos B=\\dfrac{7}{8}, \\quad \\text{ 和 } \\quad \\cos C=-\\dfrac{1}{4} .$\n\n求 $\\triangle A B C$ 的最小周长。",
     "options": {
       "A": "$9$",
       "B": "$12$",
@@ -10027,7 +10027,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2019 AMC 12A · 第 21 题",
-    "stem": "设\n\n$z=\\dfrac{1+i}{\\sqrt{2}}$\n\n求\n\n$\\left(z^{1^{2}}+z^{2^{2}}+z^{3^{2}}+\\cdots+z^{12^{2}}\\right) \\cdot\\left(\\dfrac{1}{z^{1^{2}}}+\\dfrac{1}{z^{2^{2}}}+\\dfrac{1}{z^{3^{2}}}+\\cdots+\\dfrac{1}{z^{12^{2}}}\\right) ?$",
+    "stem": "设\n\n$z=\\dfrac{1+i}{\\sqrt{2}}$\n\n求\n\n$\\left(z^{1^{2}}+z^{2^{2}}+z^{3^{2}}+\\cdots+z^{12^{2}}\\right) \\cdot\\left(\\dfrac{1}{z^{1^{2}}}+\\dfrac{1}{z^{2^{2}}}+\\dfrac{1}{z^{3^{2}}}+\\cdots+\\dfrac{1}{z^{12^{2}}}\\right)$？",
     "options": {
       "A": "$18$",
       "B": "$72-36 \\sqrt{2}$",
@@ -10048,7 +10048,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2019 AMC 12A · 第 22 题",
-    "stem": "圆 $\\omega$ 和 $\\gamma$ 均以 $O$ 为圆心，半径分别为 20 和 17。等边三角形 $A B C$ 的内部位于 $\\omega$ 内部且位于 $\\gamma$ 外部；顶点 $A$ 在 $\\omega$ 上，边 $\\overline{B C}$ 所在直线与 $\\gamma$ 相切。线段 $\\overline{A O}$ 和 $\\overline{B C}$ 交于 $P$，并且 $\\dfrac{B P}{C P}=3$。若 $A B$ 可写成 $\\dfrac{m}{\\sqrt{n}}-\\dfrac{p}{\\sqrt{q}}$，其中 $m, n, p, q$ 为正整数且 $\\operatorname{gcd}(m, n)=\\operatorname{gcd}(p, q)=1$，求 $m+n+p+q?$",
+    "stem": "圆 $\\omega$ 和 $\\gamma$ 均以 $O$ 为圆心，半径分别为 20 和 17。等边三角形 $A B C$ 的内部位于 $\\omega$ 内部且位于 $\\gamma$ 外部；顶点 $A$ 在 $\\omega$ 上，边 $\\overline{B C}$ 所在直线与 $\\gamma$ 相切。线段 $\\overline{A O}$ 和 $\\overline{B C}$ 交于 $P$，并且 $\\dfrac{B P}{C P}=3$。若 $A B$ 可写成 $\\dfrac{m}{\\sqrt{n}}-\\dfrac{p}{\\sqrt{q}}$，其中 $m, n, p, q$ 为正整数且 $\\operatorname{gcd}(m, n)=\\operatorname{gcd}(p, q)=1$，求 $m+n+p+q$？",
     "options": {
       "A": "$42$",
       "B": "$86$",
@@ -10069,7 +10069,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2019 AMC 12A · 第 23 题",
-    "stem": "对所有使表达式有定义的实数 $a$ 和 $b$，定义二元运算 $\\diamond$ 与 $\\heartsuit$ 如下：\n\n$a \\diamond b=a^{\\log _{7}(b)} \\quad \\text{ 和 } \\quad a \\heartsuit b=a^{\\frac{1}{\\log _{7}(b)}}$。\n\n数列 $\\left(a_{n}\\right)$ 由 $a_{3}=3 \\heartsuit 2$ 以及递推关系\n\n$a_{n}=(n \\heartsuit(n-1)) \\diamond a_{n-1}$\n\n定义，其中整数 $n \\geq 4$。将 $\\log _{7}\\left(a_{2019}\\right)?$ 四舍五入到最接近的整数，结果是多少？",
+    "stem": "对所有使表达式有定义的实数 $a$ 和 $b$，定义二元运算 $\\diamond$ 与 $\\heartsuit$ 如下：\n\n$a \\diamond b=a^{\\log _{7}(b)} \\quad \\text{ 和 } \\quad a \\heartsuit b=a^{\\frac{1}{\\log _{7}(b)}}$。\n\n数列 $\\left(a_{n}\\right)$ 由 $a_{3}=3 \\heartsuit 2$ 以及递推关系\n\n$a_{n}=(n \\heartsuit(n-1)) \\diamond a_{n-1}$\n\n定义，其中整数 $n \\geq 4$。将 $\\log _{7}\\left(a_{2019}\\right)$ 四舍五入到最接近的整数，结果是多少？",
     "options": {
       "A": "$8$",
       "B": "$9$",
@@ -10594,7 +10594,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2020 AMC 12A · 第 22 题",
-    "stem": "设实数数列 $(a_n)$ 和 $(b_n)$ 满足：对所有整数 $n \\ge 0,$，其中 $i = \\sqrt{-1}.$，均有 $(2 + i)^n = a_n + b_n i$。求 $\\sum_{n=0}^{\\infty} \\frac{a_n b_n}{7^n}?$",
+    "stem": "设实数数列 $(a_n)$ 和 $(b_n)$ 满足：对所有整数 $n \\ge 0,$，其中 $i = \\sqrt{-1}.$，均有 $(2 + i)^n = a_n + b_n i$。求 $\\sum_{n=0}^{\\infty} \\frac{a_n b_n}{7^n}$？",
     "options": {
       "A": "$\\dfrac{3}{8}$",
       "B": "$\\dfrac{7}{16}$",
@@ -10930,7 +10930,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2021 AMC 12A · 第 1 题",
-    "stem": "求 $ 2^{1+2+3} - \\left(2^1 + 2^2 + 2^3\\right)? $ 的值。",
+    "stem": "求 $ 2^{1+2+3} - \\left(2^1 + 2^2 + 2^3\\right)$ 的值。",
     "options": {
       "A": "$0$",
       "B": "$50$",
@@ -11064,7 +11064,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2021 AMC 12A · 第 14 题",
-    "stem": "求 $\\left(\\sum_{k=1}^{20} \\log_{5^k} 3^{k^2}\\right)\\cdot\\left(\\sum_{k=1}^{100} \\log_{9^k} 25^k\\right)?$ 的值。",
+    "stem": "求 $\\left(\\sum_{k=1}^{20} \\log_{5^k} 3^{k^2}\\right)\\cdot\\left(\\sum_{k=1}^{100} \\log_{9^k} 25^k\\right)$ 的值。",
     "options": {
       "A": "$21$",
       "B": "$100\\log_5 3$",
@@ -11138,7 +11138,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2021 AMC 12A · 第 20 题",
-    "stem": "设一条顶点为 $V$、焦点为 $F$ 的抛物线上存在一点 $A$，满足 $AF=20$ 和 $AV=21$。求长度 $FV?$ 所有可能值之和。",
+    "stem": "设一条顶点为 $V$、焦点为 $F$ 的抛物线上存在一点 $A$，满足 $AF=20$ 和 $AV=21$。求长度 $FV$ 所有可能值之和。",
     "options": {
       "A": "$13$",
       "B": "$\\frac{40}3$",
@@ -11235,7 +11235,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2021 AMC 12A · 第 25 题",
-    "stem": "令 $d(n)$ 表示 $n$ 的正因数个数，包括 $1$ 和 $n$。例如，$d(1)=1,d(2)=2,$ 且 $d(12)=6$。（这个函数称为因数函数。）令 $f(n)=\\frac{d(n)}{\\sqrt [3]n}.$ 存在唯一的正整数 $N$，使得对所有正整数 $n\\ne N$ 都有 $f(N)>f(n)$。求 $N?$ 的各位数字之和。",
+    "stem": "令 $d(n)$ 表示 $n$ 的正因数个数，包括 $1$ 和 $n$。例如，$d(1)=1,d(2)=2,$ 且 $d(12)=6$。（这个函数称为因数函数。）令 $f(n)=\\frac{d(n)}{\\sqrt [3]n}.$ 存在唯一的正整数 $N$，使得对所有正整数 $n\\ne N$ 都有 $f(N)>f(n)$。求 $N$ 的各位数字之和。",
     "options": {
       "A": "$5$",
       "B": "$6$",
@@ -11259,7 +11259,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2021 AMC 12B · 第 3 题",
-    "stem": "已知 $2+\\cfrac{1}{1+\\cfrac{1}{2+\\cfrac{2}{3+x}}}=\\dfrac{144}{53}.$\n\n求 $x?$ 的值。",
+    "stem": "已知 $2+\\cfrac{1}{1+\\cfrac{1}{2+\\cfrac{2}{3+x}}}=\\dfrac{144}{53}.$\n\n求 $x$ 的值。",
     "options": {
       "A": "$\\dfrac{3}{4}$",
       "B": "$\\dfrac{7}{8}$",
@@ -11280,7 +11280,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2021 AMC 12B · 第 9 题",
-    "stem": "求 $\\dfrac{\\log_2 80}{\\log_{40}2}-\\dfrac{\\log_2 160}{\\log_{20}2}?$ 的值。",
+    "stem": "求 $\\dfrac{\\log_2 80}{\\log_{40}2}-\\dfrac{\\log_2 160}{\\log_{20}2}$ 的值。",
     "options": {
       "A": "$0$",
       "B": "$1$",
@@ -11322,7 +11322,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2021 AMC 12B · 第 11 题",
-    "stem": "三角形 $ABC$ 满足 $AB=13, BC=14,$、$AC=15.$。点 $P$ 位于 $\\overline{AC}$ 上，且 $PC=10.$。直线 $BP$ 上恰有两点 $D$ 和 $E$，使四边形 $ABCD$ 和 $ABCE$ 都是梯形。求距离 $DE?$",
+    "stem": "三角形 $ABC$ 满足 $AB=13, BC=14,$、$AC=15.$。点 $P$ 位于 $\\overline{AC}$ 上，且 $PC=10.$。直线 $BP$ 上恰有两点 $D$ 和 $E$，使四边形 $ABCD$ 和 $ABCE$ 都是梯形。求距离 $DE$？",
     "options": {
       "A": "$\\dfrac{42}{5}$",
       "B": "$6\\sqrt2$",
@@ -11343,7 +11343,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2021 AMC 12B · 第 13 题",
-    "stem": "区间 $0\\lt\\theta\\le 2\\pi$ 内有多少个 $\\theta$ 的值满足 $1-3\\sin\\theta+5\\cos 3\\theta=0?$",
+    "stem": "区间 $0\\lt\\theta\\le 2\\pi$ 内有多少个 $\\theta$ 的值满足 $1-3\\sin\\theta+5\\cos 3\\theta=0$？",
     "options": {
       "A": "$2$",
       "B": "$4$",
@@ -11364,7 +11364,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2021 AMC 12B · 第 14 题",
-    "stem": "设 $ABCD$ 为矩形，$\\overline{DM}$ 是垂直于 $ABCD$ 所在平面的线段。已知 $\\overline{DM}$ 的长度是整数，并且 $\\overline{MA},\\overline{MC},$ 与 $\\overline{MB}$ 的长度依此顺序为连续的正奇数。求棱锥 $MABCD?$ 的体积。",
+    "stem": "设 $ABCD$ 为矩形，$\\overline{DM}$ 是垂直于 $ABCD$ 所在平面的线段。已知 $\\overline{DM}$ 的长度是整数，并且 $\\overline{MA},\\overline{MC},$ 与 $\\overline{MB}$ 的长度依此顺序为连续的正奇数。求棱锥 $MABCD$ 的体积。",
     "options": {
       "A": "$24\\sqrt5$",
       "B": "$60$",
@@ -11387,7 +11387,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2021 AMC 12B · 第 16 题",
-    "stem": "设 $g(x)$ 是首项系数为 $1,$ 的多项式，它的三个根分别是 $f(x)=x^3+ax^2+bx+c,$ 的三个根的倒数，其中 $1\\lt a\\lt b\\lt c.$。用 $a, b,$ 和 $c?$ 表示 $g(1)$。",
+    "stem": "设 $g(x)$ 是首项系数为 $1,$ 的多项式，它的三个根分别是 $f(x)=x^3+ax^2+bx+c,$ 的三个根的倒数，其中 $1\\lt a\\lt b\\lt c.$。用 $a, b,$ 和 $c$ 表示 $g(1)$。",
     "options": {
       "A": "$\\dfrac{1+a+b+c}{c}$",
       "B": "$1+a+b+c$",
@@ -11408,7 +11408,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2021 AMC 12B · 第 17 题",
-    "stem": "设 $ABCD$ 为等腰梯形，其平行底边为 $\\overline{AB}$ 和 $\\overline{CD}$，且 $AB\\gt CD.$。从 $ABCD$ 内部一点向各顶点连接线段，将梯形分成四个三角形。从以 $\\overline{CD}$ 为底的三角形开始，按顺时针方向，这四个三角形的面积依次为 $2, 3, 4,$ 和 $5$，如下图所示。求比值 $\\dfrac{AB}{CD}?$\n\n[Figure: /question-assets/source/amc/0523ddc08b9c82a0daa64f8afb4f7b9ab3ee029416b00b9941c98bf8dd81fb38.svg]",
+    "stem": "设 $ABCD$ 为等腰梯形，其平行底边为 $\\overline{AB}$ 和 $\\overline{CD}$，且 $AB\\gt CD.$。从 $ABCD$ 内部一点向各顶点连接线段，将梯形分成四个三角形。从以 $\\overline{CD}$ 为底的三角形开始，按顺时针方向，这四个三角形的面积依次为 $2, 3, 4,$ 和 $5$，如下图所示。求比值 $\\dfrac{AB}{CD}$？\n\n[Figure: /question-assets/source/amc/0523ddc08b9c82a0daa64f8afb4f7b9ab3ee029416b00b9941c98bf8dd81fb38.svg]",
     "options": {
       "A": "$3$",
       "B": "$2+\\sqrt2$",
@@ -11429,7 +11429,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2021 AMC 12B · 第 18 题",
-    "stem": "设复数 $z$ 满足 $12|z|^2$ $=2|z+2|^2+|z^2+1|^2+31.$ 求 $z+\\dfrac{6}{z}?$ 的值。",
+    "stem": "设复数 $z$ 满足 $12|z|^2$ $=2|z+2|^2+|z^2+1|^2+31.$ 求 $z+\\dfrac{6}{z}$ 的值。",
     "options": {
       "A": "$-2$",
       "B": "$-1$",
@@ -11471,7 +11471,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2021 AMC 12B · 第 20 题",
-    "stem": "设 $Q(z)$ 和 $R(z)$ 是满足 $ \\begin{aligned} &z^{2021}+1 \\\\ &\\quad = (z^2+z+1)Q(z)+R(z) \\end{aligned} $ 且 $R$ 的次数小于 $2.$ 的唯一多项式。求 $R(z)?$",
+    "stem": "设 $Q(z)$ 和 $R(z)$ 是满足 $ \\begin{aligned} &z^{2021}+1 \\\\ &\\quad = (z^2+z+1)Q(z)+R(z) \\end{aligned} $ 且 $R$ 的次数小于 $2.$ 的唯一多项式。求 $R(z)$？",
     "options": {
       "A": "$-z$",
       "B": "$-1$",
@@ -11515,7 +11515,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2021 AMC 12B · 第 23 题",
-    "stem": "将三个球随机且相互独立地投入用正整数编号的箱子。对每个球，当 $i=1,2,3,\\ldots.$ 时，它被投入第 $i$ 号箱子的概率为 $2^{-i}$。每个箱子可以容纳多个球。三个球最终落入互不相同且等距的箱子的概率为 $\\dfrac{p}{q},$，其中 $p$ 和 $q$ 是互质正整数。（例如，球投入编号为 $3, 17,$ 和 $10.$ 的箱子时即为等距。）求 $p+q?$",
+    "stem": "将三个球随机且相互独立地投入用正整数编号的箱子。对每个球，当 $i=1,2,3,\\ldots.$ 时，它被投入第 $i$ 号箱子的概率为 $2^{-i}$。每个箱子可以容纳多个球。三个球最终落入互不相同且等距的箱子的概率为 $\\dfrac{p}{q},$，其中 $p$ 和 $q$ 是互质正整数。（例如，球投入编号为 $3, 17,$ 和 $10.$ 的箱子时即为等距。）求 $p+q$？",
     "options": {
       "A": "$55$",
       "B": "$56$",
@@ -11536,7 +11536,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2021 AMC 12B · 第 24 题",
-    "stem": "设 $ABCD$ 是面积为 $15.$ 的平行四边形。点 $P$ 和 $Q$ 分别是 $A$ 和 $C,$ 在直线 $BD;$ 上的投影；点 $R$ 和 $S$ 分别是 $B$ 和 $D,$ 在直线 $AC.$ 上的投影。各点的相对位置如下图所示。\n\n[Figure: /question-assets/source/amc/f6c73f1338cf4c15e50a1de30a68eb2c4e8f7f42c94a2bac8e615eb7b013fd37.svg]\n\n已知 $PQ=6$ 且 $RS=8,$。令 $d$ 表示 $ABCD.$ 较长对角线 $\\overline{BD},$ 的长度。则 $d^2$ 可写成 $m+n\\sqrt p,$，其中 $m, n,$ 和 $p$ 是正整数，且 $p$ 不被任何素数的平方整除。求 $m+n+p?$",
+    "stem": "设 $ABCD$ 是面积为 $15.$ 的平行四边形。点 $P$ 和 $Q$ 分别是 $A$ 和 $C,$ 在直线 $BD;$ 上的投影；点 $R$ 和 $S$ 分别是 $B$ 和 $D,$ 在直线 $AC.$ 上的投影。各点的相对位置如下图所示。\n\n[Figure: /question-assets/source/amc/f6c73f1338cf4c15e50a1de30a68eb2c4e8f7f42c94a2bac8e615eb7b013fd37.svg]\n\n已知 $PQ=6$ 且 $RS=8,$。令 $d$ 表示 $ABCD.$ 较长对角线 $\\overline{BD},$ 的长度。则 $d^2$ 可写成 $m+n\\sqrt p,$，其中 $m, n,$ 和 $p$ 是正整数，且 $p$ 不被任何素数的平方整除。求 $m+n+p$？",
     "options": {
       "A": "$81$",
       "B": "$89$",
@@ -11557,7 +11557,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2021 Fall AMC 12A · 第 8 题",
-    "stem": "令 $M$ 为从 $10$ 到 $30,$（含端点）所有整数的最小公倍数。令 $N$ 为 $M,32,33,34,35,36,37,38,39,$ 和 $40.$ 的最小公倍数。求 $\\frac{N}{M}?$",
+    "stem": "令 $M$ 为从 $10$ 到 $30,$（含端点）所有整数的最小公倍数。令 $N$ 为 $M,32,33,34,35,36,37,38,39,$ 和 $40.$ 的最小公倍数。求 $\\frac{N}{M}$？",
     "options": {
       "A": "$\\ 1$",
       "B": "$\\ 2$",
@@ -11579,7 +11579,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2021 Fall AMC 12A · 第 9 题",
-    "stem": "一个长方体的表面积与体积数值相等，其棱长为 $\\log_{2}x, \\log_{3}x,$ 和 $\\log_{4}x.$。求 $x?$",
+    "stem": "一个长方体的表面积与体积数值相等，其棱长为 $\\log_{2}x, \\log_{3}x,$ 和 $\\log_{4}x.$。求 $x$？",
     "options": {
       "A": "$\\ 2\\sqrt{6}$",
       "B": "$\\ 6\\sqrt{6}$",
@@ -11623,7 +11623,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2021 Fall AMC 12A · 第 12 题",
-    "stem": "在 $\\left(x\\sqrt[3]{2}+y\\sqrt{3}\\right)^{1000}?$ 展开的 $1001$ 项中，有多少项的系数是有理数？",
+    "stem": "在 $\\left(x\\sqrt[3]{2}+y\\sqrt{3}\\right)^{1000}$ 展开的 $1001$ 项中，有多少项的系数是有理数？",
     "options": {
       "A": "$\\ 0$",
       "B": "$\\ 166$",
@@ -11644,7 +11644,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2021 Fall AMC 12A · 第 13 题",
-    "stem": "直线 $y = x$ 与 $y=3x$ 的图像在原点形成一个锐角，该锐角的角平分线方程为 $y=kx.$。求 $k?$",
+    "stem": "直线 $y = x$ 与 $y=3x$ 的图像在原点形成一个锐角，该锐角的角平分线方程为 $y=kx.$。求 $k$？",
     "options": {
       "A": "$\\ \\frac{1+\\sqrt{5}}{2}$",
       "B": "$\\ \\frac{1+\\sqrt{7}}{2}$",
@@ -11694,7 +11694,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2021 Fall AMC 12A · 第 15 题",
-    "stem": "回顾复数 $w = a + bi$ 的共轭复数为 $\\overline{w} = a - bi$，其中 $a$ 和 $b$ 是实数，且 $i = \\sqrt{-1}$。对任意复数 $z$，令 $f(z) = 4i\\hspace{1pt}\\overline{z}$。多项式 $P(z) = z^4 + 4z^3 + 3z^2 + 2z + 1$ 有四个复根：$z_1$、$z_2$、$z_3$ 和 $z_4$。令 $Q(z) = z^4 + Az^3 + Bz^2 + Cz + D$ 为以 $f(z_1)$、$f(z_2)$、$f(z_3)$、$f(z_4)$ 为根的多项式，其中系数 $A,$ $B,$ $C,$ 和 $D$ 均为复数。求 $B + D?$",
+    "stem": "回顾复数 $w = a + bi$ 的共轭复数为 $\\overline{w} = a - bi$，其中 $a$ 和 $b$ 是实数，且 $i = \\sqrt{-1}$。对任意复数 $z$，令 $f(z) = 4i\\hspace{1pt}\\overline{z}$。多项式 $P(z) = z^4 + 4z^3 + 3z^2 + 2z + 1$ 有四个复根：$z_1$、$z_2$、$z_3$ 和 $z_4$。令 $Q(z) = z^4 + Az^3 + Bz^2 + Cz + D$ 为以 $f(z_1)$、$f(z_2)$、$f(z_3)$、$f(z_4)$ 为根的多项式，其中系数 $A,$ $B,$ $C,$ 和 $D$ 均为复数。求 $B + D$？",
     "options": {
       "A": "$\\: {-}304$",
       "B": "$\\: {-}208$",
@@ -11759,7 +11759,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2021 Fall AMC 12A · 第 21 题",
-    "stem": "设 $ABCD$ 为等腰梯形，满足 $\\overline{BC}\\parallel \\overline{AD}$ 且 $AB=CD$。点 $X$ 和 $Y$ 位于对角线 $\\overline{AC}$ 上，且 $X$ 在 $A$ 与 $Y$ 之间，如图所示。已知 $\\angle AXD = \\angle BYC = 90^\\circ$、$AX = 3$、$XY = 1$ 且 $YC = 2$。求 $ABCD?$ 的面积。\n\n[Figure: /question-assets/source/amc/cd31f3abfc72abc251535a5b2c2b9a3423aa931f207425f501e73eb178079c81.png]",
+    "stem": "设 $ABCD$ 为等腰梯形，满足 $\\overline{BC}\\parallel \\overline{AD}$ 且 $AB=CD$。点 $X$ 和 $Y$ 位于对角线 $\\overline{AC}$ 上，且 $X$ 在 $A$ 与 $Y$ 之间，如图所示。已知 $\\angle AXD = \\angle BYC = 90^\\circ$、$AX = 3$、$XY = 1$ 且 $YC = 2$。求 $ABCD$ 的面积。\n\n[Figure: /question-assets/source/amc/cd31f3abfc72abc251535a5b2c2b9a3423aa931f207425f501e73eb178079c81.png]",
     "options": {
       "A": "$\\: 15$",
       "B": "$\\: 5\\sqrt{11}$",
@@ -11826,7 +11826,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2021 Fall AMC 12A · 第 25 题",
-    "stem": "设 $m\\ge 5$ 为奇整数，$D(m)$ 表示满足下列条件的不同整数四元组 $(a_1, a_2, a_3, a_4)$ 的个数：对所有 $i$，均有 $1\\le a_i \\le m$，且 $m$ 整除 $a_1+a_2+a_3+a_4$。存在多项式 $q(x) = c_3x^3+c_2x^2+c_1x+c_0$，使得对所有奇整数 $m\\ge 5$ 都有 $D(m) = q(m)$。求 $c_1?$",
+    "stem": "设 $m\\ge 5$ 为奇整数，$D(m)$ 表示满足下列条件的不同整数四元组 $(a_1, a_2, a_3, a_4)$ 的个数：对所有 $i$，均有 $1\\le a_i \\le m$，且 $m$ 整除 $a_1+a_2+a_3+a_4$。存在多项式 $q(x) = c_3x^3+c_2x^2+c_1x+c_0$，使得对所有奇整数 $m\\ge 5$ 都有 $D(m) = q(m)$。求 $c_1$？",
     "options": {
       "A": "$\\ {-}6$",
       "B": "$\\ {-}1$",
@@ -11918,7 +11918,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2021 Fall AMC 12B · 第 12 题",
-    "stem": "对正整数 $n$，令 $f(n)$ 为 $n$ 的所有正因数之和除以 $n.$ 所得的商。例如，$f(14)=(1+2+7+14)\\div 14=\\frac{12}{7}$。求 $f(768)-f(384)?$",
+    "stem": "对正整数 $n$，令 $f(n)$ 为 $n$ 的所有正因数之和除以 $n.$ 所得的商。例如，$f(14)=(1+2+7+14)\\div 14=\\frac{12}{7}$。求 $f(768)-f(384)$？",
     "options": {
       "A": "$\\ \\frac{1}{768}$",
       "B": "$\\ \\frac{1}{192}$",
@@ -11945,7 +11945,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2021 Fall AMC 12B · 第 13 题",
-    "stem": "令 $c = \\frac{2\\pi}{11}.$。求\n$\\frac{\\sin 3c \\cdot \\sin 6c \\cdot \\sin 9c \\cdot \\sin 12c \\cdot \\sin 15c}{\\sin c \\cdot \\sin 2c \\cdot \\sin 3c \\cdot \\sin 4c \\cdot \\sin 5c}?$\n的值。",
+    "stem": "令 $c = \\frac{2\\pi}{11}.$。求\n$\\frac{\\sin 3c \\cdot \\sin 6c \\cdot \\sin 9c \\cdot \\sin 12c \\cdot \\sin 15c}{\\sin c \\cdot \\sin 2c \\cdot \\sin 3c \\cdot \\sin 4c \\cdot \\sin 5c}$\n的值。",
     "options": {
       "A": "$\\ {-}1$",
       "B": "$\\ {-}\\frac{\\sqrt{11}}{5}$",
@@ -12039,7 +12039,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2021 Fall AMC 12B · 第 18 题",
-    "stem": "令 $u_0 = \\frac{1}{4}$，并对 $k \\ge 0$ 用递推式 $u_{k+1} = 2u_k - 2u_k^2.$ 定义 $u_{k+1}$\n\n该数列趋于某个极限，记为 $L$。使 $|u_k-L| \\le \\frac{1}{2^{1000}}?$ 成立的最小 $k$ 是多少？",
+    "stem": "令 $u_0 = \\frac{1}{4}$，并对 $k \\ge 0$ 用递推式 $u_{k+1} = 2u_k - 2u_k^2.$ 定义 $u_{k+1}$\n\n该数列趋于某个极限，记为 $L$。使 $|u_k-L| \\le \\frac{1}{2^{1000}}$ 成立的最小 $k$ 是多少？",
     "options": {
       "A": "$\\: 10$",
       "B": "$\\: 87$",
@@ -12062,7 +12062,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2021 Fall AMC 12B · 第 21 题",
-    "stem": "对实数 $x$，令\n$P(x)=1+\\cos(x)+i\\sin(x)-\\cos(2x)-i\\sin(2x)+\\cos(3x)+i\\sin(3x)$\n其中 $i = \\sqrt{-1}$。有多少个满足 $0\\leq x<2\\pi$ 的 $x$ 值使 $P(x)=0?$",
+    "stem": "对实数 $x$，令\n$P(x)=1+\\cos(x)+i\\sin(x)-\\cos(2x)-i\\sin(2x)+\\cos(3x)+i\\sin(3x)$\n其中 $i = \\sqrt{-1}$。有多少个满足 $0\\leq x<2\\pi$ 的 $x$ 值使 $P(x)=0$？",
     "options": {
       "A": "$\\ 0$",
       "B": "$\\ 1$",
@@ -12165,7 +12165,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2021 Fall AMC 12B · 第 25 题",
-    "stem": "对正整数 $n$，令 $R(n)$ 为 $n$ 分别除以 $2$、$3$、$4$、$5$、$6$、$7$、$8$、$9$ 和 $10$ 所得余数之和。例如，$R(15) = 1+0+3+0+3+1+7+6+5=26$。有多少个两位正整数 $n$ 满足 $R(n) = R(n+1)\\,?$",
+    "stem": "对正整数 $n$，令 $R(n)$ 为 $n$ 分别除以 $2$、$3$、$4$、$5$、$6$、$7$、$8$、$9$ 和 $10$ 所得余数之和。例如，$R(15) = 1+0+3+0+3+1+7+6+5=26$。有多少个两位正整数 $n$ 满足 $R(n) = R(n+1)\\,$？",
     "options": {
       "A": "$0$",
       "B": "$1$",
@@ -12420,7 +12420,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2022 AMC 12A · 第 23 题",
-    "stem": "设 $h_{n}$ 和 $k_{n}$ 是满足下式的唯一一对互质正整数：\n\n$\\dfrac{1}{1}+\\dfrac{1}{2}+\\dfrac{1}{3}+\\cdots+\\dfrac{1}{n}=\\dfrac{h_{n}}{k_{n}}$\n设 $L_{n}$ 表示各数 $1,2,3, \\ldots, n$ 的最小公倍数。在满足 $1 \\leq n \\leq 22$ 的整数中，有多少个使得 $k_{n}<L_{n}?$",
+    "stem": "设 $h_{n}$ 和 $k_{n}$ 是满足下式的唯一一对互质正整数：\n\n$\\dfrac{1}{1}+\\dfrac{1}{2}+\\dfrac{1}{3}+\\cdots+\\dfrac{1}{n}=\\dfrac{h_{n}}{k_{n}}$\n设 $L_{n}$ 表示各数 $1,2,3, \\ldots, n$ 的最小公倍数。在满足 $1 \\leq n \\leq 22$ 的整数中，有多少个使得 $k_{n}<L_{n}$？",
     "options": {
       "A": "$0$",
       "B": "$3$",
@@ -12777,7 +12777,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2023 AMC 12A · 第 12 题",
-    "stem": "求\n\n$2^{3}-1^{3}+4^{3}-3^{3}+6^{3}-5^{3}+\\cdots+18^{3}-17^{3}?$\n的值。",
+    "stem": "求\n\n$2^{3}-1^{3}+4^{3}-3^{3}+6^{3}-5^{3}+\\cdots+18^{3}-17^{3}$\n的值。",
     "options": {
       "A": "$2023$",
       "B": "$2679$",
@@ -12882,7 +12882,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2023 AMC 12A · 第 19 题",
-    "stem": "方程\n\n$\\log _{7 x} 2023 \\cdot \\log _{289 x} 2023=\\log _{2023 x} 2023?$\n的所有解之积是多少？",
+    "stem": "方程\n\n$\\log _{7 x} 2023 \\cdot \\log _{289 x} 2023=\\log _{2023 x} 2023$\n的所有解之积是多少？",
     "options": {
       "A": "$\\left(\\log _{2023} 7 \\cdot \\log _{2023} 289\\right)^{2}$",
       "B": "$\\log _{2023} 7 \\cdot \\log _{2023} 289$",
@@ -12945,7 +12945,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2023 AMC 12A · 第 23 题",
-    "stem": "有多少个正实数有序对 $(a, b)$ 满足方程\n\n$(1+2 a)(2+2 b)(2 a+b)=32 a b?$",
+    "stem": "有多少个正实数有序对 $(a, b)$ 满足方程\n\n$(1+2 a)(2+2 b)(2 a+b)=32 a b$？",
     "options": {
       "A": "$0$",
       "B": "$1$",
@@ -13018,7 +13018,7 @@
     },
     "answer": "E",
     "solutions": [
-      "先注意，当 $n=1$ 时，根号内的分式等于 0。下面分两种情况：$\\log n>3$ 或 $\\log n<3$。第一种情况下，$\\log n>3$ 得 $n>1000$；又因为当 $\\log n>2$ 时 $2 \\log n<(\\log n)^{2}$，所以分子 $\\log \\left(n^{2}\\right)-(\\log n)^{2}=2 \\log n-(\\log n)^{2}<0$。因此根号内分式为负，此情形无解。\n\n第二种情况下，$\\log n<3$，所以 $n<1000$。要使根号内分式非负，需有 $\\log \\left(n^{2}\\right)-(\\log n)^{2} \\leq 0$。这发生在 $\\log n \\geq 2$ 时，即 $n \\geq 100$。所以范围 $100 \\leq n<1000$ 内的每个整数 $n$ 都使表达式为实数。再加上解 $n=1$，总共有 $(\\text{E})\\boxed{901}$ 个整数。\n\n$\\textbf{或}$\n若表达式为实数，则 $\\log n$ 有定义，所以 $n>0$。由于 $n$ 是整数，$n>0$ 蕴含 $n \\geq 1$。令 $m=\\log n \\geq \\log 1=0$。根号内的分式可写为\n\n$\\frac{2 m-m^{2}}{m-3}=\\frac{m(2-m)}{m-3}$\n如下面的表格所示，该表达式在 $m=0$ 或 $2 \\leq m<3$ 时有意义且非负。若 $m=0$，则 $n=1$。当 $2 \\leq m<3$ 时，得到 $100 \\leq n<1000$，因此另有 900 个整数 $n$ 使原表达式为实数。故 $n$ 共有 $1+900=(\\text{E})\\boxed{901}$ 个可能值。\n\n$\\begin{array}{c|c|c|c|c} & m & 2-m & m-3 & \\frac{m(2-m)}{m-3} \\\\ \\hline m=0 & 0 & + & - & 0 \\\\ \\hline 0<m<2 & + & + & - & - \\\\ \\hline m=2 & + & 0 & - & 0 \\\\ \\hline 2<m<3 & - & - & - & + \\\\ \\hline m=3 & + & - & 0 & undefined \\\\ \\hline m>3 & + & - & + & - \\\\ \\hline \\end{array}$"
+      "先注意，当 $n=1$ 时，根号内的分式等于 0。下面分两种情况：$\\log n>3$ 或 $\\log n<3$。第一种情况下，$\\log n>3$ 得 $n>1000$；又因为当 $\\log n>2$ 时 $2 \\log n<(\\log n)^{2}$，所以分子 $\\log \\left(n^{2}\\right)-(\\log n)^{2}=2 \\log n-(\\log n)^{2}<0$。因此根号内分式为负，此情形无解。\n\n第二种情况下，$\\log n<3$，所以 $n<1000$。要使根号内分式非负，需有 $\\log \\left(n^{2}\\right)-(\\log n)^{2} \\leq 0$。这发生在 $\\log n \\geq 2$ 时，即 $n \\geq 100$。所以范围 $100 \\leq n<1000$ 内的每个整数 $n$ 都使表达式为实数。再加上解 $n=1$，总共有 $(\\text{E})\\boxed{901}$ 个整数。\n\n$\\textbf{或}$\n若表达式为实数，则 $\\log n$ 有定义，所以 $n>0$。由于 $n$ 是整数，$n>0$ 蕴含 $n \\geq 1$。令 $m=\\log n \\geq \\log 1=0$。根号内的分式可写为\n\n$\\frac{2 m-m^{2}}{m-3}=\\frac{m(2-m)}{m-3}$\n如下面的表格所示，该表达式在 $m=0$ 或 $2 \\leq m<3$ 时有意义且非负。若 $m=0$，则 $n=1$。当 $2 \\leq m<3$ 时，得到 $100 \\leq n<1000$，因此另有 900 个整数 $n$ 使原表达式为实数。故 $n$ 共有 $1+900=(\\text{E})\\boxed{901}$ 个可能值。\n\n$\\begin{array}{c|c|c|c|c} & m & 2-m & m-3 & \\frac{m(2-m)}{m-3} \\\\ \\hline m=0 & 0 & + & - & 0 \\\\ \\hline 0<m<2 & + & + & - & - \\\\ \\hline m=2 & + & 0 & - & 0 \\\\ \\hline 2<m<3 & - & - & - & + \\\\ \\hline m=3 & + & - & 0 & \\text{无定义} \\\\ \\hline m>3 & + & - & + & - \\\\ \\hline \\end{array}$"
     ],
     "tags": []
   },
@@ -13323,7 +13323,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2024 AMC 12A · 第 7 题",
-    "stem": "在 $\\triangle A B C, \\angle A B C=90^{\\circ}$ 且 $B A=B C=\\sqrt{2}$。点 $P_{1}, P_{2}, \\ldots, P_{2024}$ 位于斜边 $\\overline{A C}$ 上，并满足 $A P_{1}=P_{1} P_{2}=P_{2} P_{3}=\\cdots=P_{2023} P_{2024}=P_{2024} C$。求向量和\n\n$\\overrightarrow{B P_{1}}+\\overrightarrow{B P_{2}}+\\overrightarrow{B P_{3}}+\\cdots+\\overrightarrow{B P_{2024}} ?$\n的长度。",
+    "stem": "在 $\\triangle A B C, \\angle A B C=90^{\\circ}$ 且 $B A=B C=\\sqrt{2}$。点 $P_{1}, P_{2}, \\ldots, P_{2024}$ 位于斜边 $\\overline{A C}$ 上，并满足 $A P_{1}=P_{1} P_{2}=P_{2} P_{3}=\\cdots=P_{2023} P_{2024}=P_{2024} C$。求向量和\n\n$\\overrightarrow{B P_{1}}+\\overrightarrow{B P_{2}}+\\overrightarrow{B P_{3}}+\\cdots+\\overrightarrow{B P_{2024}}$\n的长度。",
     "options": {
       "A": "$1011$",
       "B": "$1012$",
@@ -13344,7 +13344,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2024 AMC 12A · 第 8 题",
-    "stem": "有多少个满足 $0 \\leq \\theta \\leq 2 \\pi$ 的角 $\\theta$ 使 $\\log (\\sin (3 \\theta))+\\log (\\cos (2 \\theta))=0?$ 成立？",
+    "stem": "有多少个满足 $0 \\leq \\theta \\leq 2 \\pi$ 的角 $\\theta$ 使 $\\log (\\sin (3 \\theta))+\\log (\\cos (2 \\theta))=0$ 成立？",
     "options": {
       "A": "$0$",
       "B": "$1$",
@@ -13407,7 +13407,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2024 AMC 12A · 第 15 题",
-    "stem": "$x^{3}+2 x^{2}-x+3$ 的根为 $p, q$ 和 $r$。求\n\n$\\left(p^{2}+4\\right)\\left(q^{2}+4\\right)\\left(r^{2}+4\\right) ?$\n的值。",
+    "stem": "$x^{3}+2 x^{2}-x+3$ 的根为 $p, q$ 和 $r$。求\n\n$\\left(p^{2}+4\\right)\\left(q^{2}+4\\right)\\left(r^{2}+4\\right)$\n的值。",
     "options": {
       "A": "$64$",
       "B": "$75$",
@@ -13491,7 +13491,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2024 AMC 12A · 第 20 题",
-    "stem": "在等边三角形 $\\triangle A B C$ 的边 $\\overline{A B}$ 和 $\\overline{A C}$ 上分别独立、均匀随机选择点 $P$ 和 $Q$。下列哪个区间包含 $\\triangle A P Q$ 的面积小于 $\\triangle A B C?$ 面积一半的概率？",
+    "stem": "在等边三角形 $\\triangle A B C$ 的边 $\\overline{A B}$ 和 $\\overline{A C}$ 上分别独立、均匀随机选择点 $P$ 和 $Q$。下列哪个区间包含 $\\triangle A P Q$ 的面积小于 $\\triangle A B C$ 面积一半的概率？",
     "options": {
       "A": "$\\left[\\frac{3}{8}, \\frac{1}{2}\\right]$",
       "B": "$\\left(\\frac{1}{2}, \\frac{2}{3}\\right]$",
@@ -13512,7 +13512,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2024 AMC 12A · 第 21 题",
-    "stem": "设 $a_{1}=2$，且数列 $\\left(a_{n}\\right)$ 对所有 $n \\geq 2$ 满足递推关系\n\n$\\frac{a_{n}-1}{n-1}=\\frac{a_{n-1}+1}{(n-1)+1}$\n求不超过\n\n$\\sum_{n=1}^{100} a_{n}^{2} ?$\n的最大整数。",
+    "stem": "设 $a_{1}=2$，且数列 $\\left(a_{n}\\right)$ 对所有 $n \\geq 2$ 满足递推关系\n\n$\\frac{a_{n}-1}{n-1}=\\frac{a_{n-1}+1}{(n-1)+1}$\n求不超过\n\n$\\sum_{n=1}^{100} a_{n}^{2}$\n的最大整数。",
     "options": {
       "A": "$338,550$",
       "B": "$338,551$",
@@ -13533,7 +13533,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2024 AMC 12A · 第 23 题",
-    "stem": "求\n\n$\\tan ^{2} \\frac{\\pi}{16} \\cdot \\tan ^{2} \\frac{3 \\pi}{16}+\\tan ^{2} \\frac{\\pi}{16} \\cdot \\tan ^{2} \\frac{5 \\pi}{16}+\\tan ^{2} \\frac{3 \\pi}{16} \\cdot \\tan ^{2} \\frac{7 \\pi}{16}+\\tan ^{2} \\frac{5 \\pi}{16} \\cdot \\tan ^{2} \\frac{7 \\pi}{16} ?$\n的值。",
+    "stem": "求\n\n$\\tan ^{2} \\frac{\\pi}{16} \\cdot \\tan ^{2} \\frac{3 \\pi}{16}+\\tan ^{2} \\frac{\\pi}{16} \\cdot \\tan ^{2} \\frac{5 \\pi}{16}+\\tan ^{2} \\frac{3 \\pi}{16} \\cdot \\tan ^{2} \\frac{7 \\pi}{16}+\\tan ^{2} \\frac{5 \\pi}{16} \\cdot \\tan ^{2} \\frac{7 \\pi}{16}$\n的值。",
     "options": {
       "A": "$28$",
       "B": "$68$",
@@ -13606,7 +13606,7 @@
     },
     "answer": "B",
     "solutions": [
-      "正整数 $n$ 用 $b$ 进制表示所需位数是 $1+\\log _{b} n$ 向下取整。因此所求值是\n\n$1+\\log _{5}\\left(5 \\cdot 10^{13}\\right)=1+\\log _{5} 5+13 \\log _{5} 10=1+1+13 \\cdot \\frac{1}{\\log _{10} 5} \\approx 2+\\frac{13}{0.7}=20.5 \\ldots$\n的整数部分，即 $(\\text{B})\\boxed{20}$。\n\n$\\textbf{或}$\n可通过反复除以 5 并记录余数，把正整数转成五进制；余数逆序即为所求数码。这里 $5 \\cdot 10^{13}=2^{13} \\cdot 5^{14}$。前 14 次除法余数均为 0，余下 6 次见表：\n\n$\\begin{array}{|r|r|r|} \\hline dividend & quotient & remainder \\\\ \\hline 8192 & 1638 & 2 \\\\ \\hline 1638 & 327 & 3 \\\\ \\hline 327 & 65 & 2 \\\\ \\hline 65 & 13 & 0 \\\\ \\hline 13 & 2 & 3 \\\\ \\hline 2 & 0 & 2 \\\\ \\hline \\end{array}$\n因此 $50,000,000,000,000_{\\text{10 }}=23,023,200,000,000,000,000_{\\text{5 }}$，共有 $(\\text{B})\\boxed{20}$ 位。"
+      "正整数 $n$ 用 $b$ 进制表示所需位数是 $1+\\log _{b} n$ 向下取整。因此所求值是\n\n$1+\\log _{5}\\left(5 \\cdot 10^{13}\\right)=1+\\log _{5} 5+13 \\log _{5} 10=1+1+13 \\cdot \\frac{1}{\\log _{10} 5} \\approx 2+\\frac{13}{0.7}=20.5 \\ldots$\n的整数部分，即 $(\\text{B})\\boxed{20}$。\n\n$\\textbf{或}$\n可通过反复除以 5 并记录余数，把正整数转成五进制；余数逆序即为所求数码。这里 $5 \\cdot 10^{13}=2^{13} \\cdot 5^{14}$。前 14 次除法余数均为 0，余下 6 次见表：\n\n$\\begin{array}{|r|r|r|} \\hline \\text{被除数} & \\text{商} & \\text{余数} \\\\ \\hline 8192 & 1638 & 2 \\\\ \\hline 1638 & 327 & 3 \\\\ \\hline 327 & 65 & 2 \\\\ \\hline 65 & 13 & 0 \\\\ \\hline 13 & 2 & 3 \\\\ \\hline 2 & 0 & 2 \\\\ \\hline \\end{array}$\n因此 $50,000,000,000,000_{\\text{10 }}=23,023,200,000,000,000,000_{\\text{5 }}$，共有 $(\\text{B})\\boxed{20}$ 位。"
     ],
     "tags": []
   },
@@ -13617,7 +13617,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2024 AMC 12B · 第 8 题",
-    "stem": "什么 $x$ 值满足\n\n$\\frac{\\log _{2} x \\cdot \\log _{3} x}{\\log _{2} x+\\log _{3} x}=2 ?$",
+    "stem": "什么 $x$ 值满足\n\n$\\frac{\\log _{2} x \\cdot \\log _{3} x}{\\log _{2} x+\\log _{3} x}=2$？",
     "options": {
       "A": "$25$",
       "B": "$32$",
@@ -13890,7 +13890,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2025 AMC 12A · 第 7 题",
-    "stem": "在某个外星世界，生物的最大奔跑速度 $v$ 取决于脚趾数 $n$ 和眼睛数 $m$。关系为每小时 $v=k n^{a} m^{b}$ 厘米，其中 $k,a,b$ 为整数常数。在所有生物都有 $5$ 个脚趾的种群中，$\\log v=4+2\\log m$；在所有生物都有 $25$ 只眼睛的种群中，$\\log v=4+4\\log n$（底数为 $10$）。求 $k+a+b?$",
+    "stem": "在某个外星世界，生物的最大奔跑速度 $v$ 取决于脚趾数 $n$ 和眼睛数 $m$。关系为每小时 $v=k n^{a} m^{b}$ 厘米，其中 $k,a,b$ 为整数常数。在所有生物都有 $5$ 个脚趾的种群中，$\\log v=4+2\\log m$；在所有生物都有 $25$ 只眼睛的种群中，$\\log v=4+4\\log n$（底数为 $10$）。求 $k+a+b$？",
     "options": {
       "A": "$20$",
       "B": "$21$",
@@ -13911,7 +13911,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2025 AMC 12A · 第 8 题",
-    "stem": "五边形 $ABCDE$ 内接于圆，且 $\\angle BEC=\\angle CED=30^{\\circ}$。线段 $\\overline{AC}$ 与 $\\overline{BD}$ 交于点 $F$，并且 $AB=9$、$AD=24$。求 $BF?$",
+    "stem": "五边形 $ABCDE$ 内接于圆，且 $\\angle BEC=\\angle CED=30^{\\circ}$。线段 $\\overline{AC}$ 与 $\\overline{BD}$ 交于点 $F$，并且 $AB=9$、$AD=24$。求 $BF$？",
     "options": {
       "A": "$\\tfrac{57}{11}$",
       "B": "$\\tfrac{59}{11}$",
@@ -13953,7 +13953,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2025 AMC 12A · 第 10 题",
-    "stem": "下图中，优弧 $\\widehat{AD}$ 与劣弧 $\\widehat{BC}$ 的圆心同为 $O$。此外，$A$ 位于 $O$ 与 $B$ 之间，$D$ 位于 $O$ 与 $C$ 之间。优弧 $\\widehat{AD}$、劣弧 $\\widehat{BC}$ 以及线段 $\\overline{AB}$、$\\overline{CD}$ 的长度均为 $2\\pi$。\n\n[Figure: /question-assets/source/amc/f6c05c50395286f0231a533d41a10b43d3a08228139ea7921f16db5ec0f6644b.jpg]\n\n求 $O$ 到 $A?$ 的距离。",
+    "stem": "下图中，优弧 $\\widehat{AD}$ 与劣弧 $\\widehat{BC}$ 的圆心同为 $O$。此外，$A$ 位于 $O$ 与 $B$ 之间，$D$ 位于 $O$ 与 $C$ 之间。优弧 $\\widehat{AD}$、劣弧 $\\widehat{BC}$ 以及线段 $\\overline{AB}$、$\\overline{CD}$ 的长度均为 $2\\pi$。\n\n[Figure: /question-assets/source/amc/f6c05c50395286f0231a533d41a10b43d3a08228139ea7921f16db5ec0f6644b.jpg]\n\n求 $O$ 到 $A$ 的距离。",
     "options": {
       "A": "$1$",
       "B": "$1-\\pi+\\sqrt{1+\\pi^{2}}$",
@@ -13974,7 +13974,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2025 AMC 12A · 第 11 题",
-    "stem": "三角形的垂心是三条（必要时延长的）高的公共交点。顶点为 $A(2,31)$、$B(8,27)$、$C(18,27)?$ 的三角形，其垂心坐标之和是多少？",
+    "stem": "三角形的垂心是三条（必要时延长的）高的公共交点。顶点为 $A(2,31)$、$B(8,27)$、$C(18,27)$ 的三角形，其垂心坐标之和是多少？",
     "options": {
       "A": "$5$",
       "B": "$17$",
@@ -14016,7 +14016,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2025 AMC 12A · 第 14 题",
-    "stem": "点 $F, G,$ 和 $H$ 共线，且 $G$ 位于 $F$、$H$ 之间。焦点为 $G$、$H$ 的椭圆与焦点为 $F$、$G$ 的椭圆内切，如图。\n\n[Figure: /question-assets/source/amc/88c1dbc9cb45e2127030200f236f792c63d0bf3202945ae1b44de266895f5ad6.jpg]\n\n两椭圆离心率同为 $e$，面积比为 $2025$。求 $e?$",
+    "stem": "点 $F, G,$ 和 $H$ 共线，且 $G$ 位于 $F$、$H$ 之间。焦点为 $G$、$H$ 的椭圆与焦点为 $F$、$G$ 的椭圆内切，如图。\n\n[Figure: /question-assets/source/amc/88c1dbc9cb45e2127030200f236f792c63d0bf3202945ae1b44de266895f5ad6.jpg]\n\n两椭圆离心率同为 $e$，面积比为 $2025$。求 $e$？",
     "options": {
       "A": "$\\tfrac{3}{5}$",
       "B": "$\\tfrac{16}{25}$",
@@ -14058,7 +14058,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2025 AMC 12A · 第 18 题",
-    "stem": "由互不相同且不超过 $\\le 8$ 的非负整数组成的有序三元组 $(x,y,z)$ 中，有多少个满足 $xy>z,$ $zx>y,$ 和 $yz>x?$",
+    "stem": "由互不相同且不超过 $\\le 8$ 的非负整数组成的有序三元组 $(x,y,z)$ 中，有多少个满足 $xy>z,$ $zx>y,$ 和 $yz>x$？",
     "options": {
       "A": "$36$",
       "B": "$84$",
@@ -14079,7 +14079,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2025 AMC 12A · 第 19 题",
-    "stem": "设 $a,b,c$ 为 $x^{3}+kx+1$ 的根。求\n\n$a^{3}b^{2}+a^{2}b^{3}+b^{3}c^{2}+b^{2}c^{3}+c^{3}a^{2}+c^{2}a^{3}\\,?$",
+    "stem": "设 $a,b,c$ 为 $x^{3}+kx+1$ 的根。求\n\n$a^{3}b^{2}+a^{2}b^{3}+b^{3}c^{2}+b^{2}c^{3}+c^{3}a^{2}+c^{2}a^{3}\\,$？",
     "options": {
       "A": "$-k$",
       "B": "$-k+1$",
@@ -14121,7 +14121,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2025 AMC 12A · 第 21 题",
-    "stem": "存在唯一的非负整数有序三元组 $(a,k,m)$ 满足\n\n$\\dfrac{4^{a}+4^{a+k}+4^{a+2k}+\\cdots+4^{a+mk}}{2^{a}+2^{a+k}+2^{a+2k}+\\cdots+2^{a+mk}}=964.$\n求 $a+k+m?$",
+    "stem": "存在唯一的非负整数有序三元组 $(a,k,m)$ 满足\n\n$\\dfrac{4^{a}+4^{a+k}+4^{a+2k}+\\cdots+4^{a+mk}}{2^{a}+2^{a+k}+2^{a+2k}+\\cdots+2^{a+mk}}=964.$\n求 $a+k+m$？",
     "options": {
       "A": "$8$",
       "B": "$9$",
@@ -14163,7 +14163,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2025 AMC 12A · 第 24 题",
-    "stem": "半径为 $r$ 的圆周围环绕 $12$ 个半径为 $1$ 的圆，小圆都与中央圆外切，并依次互相相切，如图。$r$ 可写成 $\\sqrt{a}+\\sqrt{b}+c$，其中 $a,b,c$ 为整数。求 $a+b+c?$\n\n[Figure: /question-assets/source/amc/03ce892a3db35e27eb7e5259bbe8f64ec4532f55004fb211270dc2a66cc813a2.jpg]",
+    "stem": "半径为 $r$ 的圆周围环绕 $12$ 个半径为 $1$ 的圆，小圆都与中央圆外切，并依次互相相切，如图。$r$ 可写成 $\\sqrt{a}+\\sqrt{b}+c$，其中 $a,b,c$ 为整数。求 $a+b+c$？\n\n[Figure: /question-assets/source/amc/03ce892a3db35e27eb7e5259bbe8f64ec4532f55004fb211270dc2a66cc813a2.jpg]",
     "options": {
       "A": "$3$",
       "B": "$5$",
@@ -14207,7 +14207,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2025 AMC 12B · 第 3 题",
-    "stem": "若 $i=\\sqrt{-1}?$，则 $i(i-1)(i-2)(i-3)$ 的值是多少？",
+    "stem": "若 $i=\\sqrt{-1}$，则 $i(i-1)(i-2)(i-3)$ 的值是多少？",
     "options": {
       "A": "$6-5i$",
       "B": "$-10i$",
@@ -14228,7 +14228,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2025 AMC 12B · 第 5 题",
-    "stem": "正整数 $x$ 和 $y$ 满足方程 $57x+22y=400$。求 $x+y?$ 的最小可能值。",
+    "stem": "正整数 $x$ 和 $y$ 满足方程 $57x+22y=400$。求 $x+y$ 的最小可能值。",
     "options": {
       "A": "$10$",
       "B": "$11$",
@@ -14249,7 +14249,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2025 AMC 12B · 第 7 题",
-    "stem": "求下式的值：\n\n$\\sum_{n=2}^{255}\\frac{\\log_{2}\\!\\left(1+\\frac{1}{n}\\right)}{\\left(\\log_{2}n\\right)\\left(\\log_{2}(n+1)\\right)}\\ ?$",
+    "stem": "$\\sum_{n=2}^{255}\\frac{\\log_{2}\\!\\left(1+\\frac{1}{n}\\right)}{\\left(\\log_{2}n\\right)\\left(\\log_{2}(n+1)\\right)}$ 的值是多少？",
     "options": {
       "A": "$\\dfrac{3}{4}$",
       "B": "$1-\\dfrac{1}{\\log_{2}255}$",
@@ -14270,7 +14270,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2025 AMC 12B · 第 8 题",
-    "stem": "存在整数 $a$ 和 $b$，使得多项式 $x^{3}-5x^{2}+ax+b$ 以 $4+\\sqrt{5}$ 为根。求 $a+b?$",
+    "stem": "存在整数 $a$ 和 $b$，使得多项式 $x^{3}-5x^{2}+ax+b$ 以 $4+\\sqrt{5}$ 为根。求 $a+b$？",
     "options": {
       "A": "$13$",
       "B": "$17$",
@@ -14291,7 +14291,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2025 AMC 12B · 第 9 题",
-    "stem": "$6^{6^{6}}?$ 的十位数字是多少？",
+    "stem": "$6^{6^{6}}$ 的十位数字是多少？",
     "options": {
       "A": "$1$",
       "B": "$3$",
@@ -14396,7 +14396,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2025 AMC 12B · 第 22 题",
-    "stem": "在复平面上，以 $2z$、$(1+i)z$ 和 $(1-i)z$ 为顶点的三角形的最大可能面积是多少？其中 $z$ 满足 $|4z-2|=1?$",
+    "stem": "在复平面上，以 $2z$、$(1+i)z$ 和 $(1-i)z$ 为顶点的三角形的最大可能面积是多少？其中 $z$ 满足 $|4z-2|=1$？",
     "options": {
       "A": "$\\dfrac{1}{4}$",
       "B": "$\\dfrac{1}{2}$",
@@ -14417,7 +14417,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2025 AMC 12B · 第 23 题",
-    "stem": "设 $S$ 为所有满足下述条件的整数 $z>1$ 构成的集合：对于每一对满足 $x<y<z$ 的非负整数 $(x,y)$，$2025x$ 除以 $z$ 的余数都小于 $2025y$ 除以 $z$ 的余数。求 $S?$ 中所有元素之和。",
+    "stem": "设 $S$ 为所有满足下述条件的整数 $z>1$ 构成的集合：对于每一对满足 $x<y<z$ 的非负整数 $(x,y)$，$2025x$ 除以 $z$ 的余数都小于 $2025y$ 除以 $z$ 的余数。求 $S$ 中所有元素之和。",
     "options": {
       "A": "$3041$",
       "B": "$3542$",
@@ -14438,7 +14438,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2025 AMC 12B · 第 24 题",
-    "stem": "有多少个实数满足方程 $\\sin(20\\pi x)=\\log_{20}x?$",
+    "stem": "有多少个实数满足方程 $\\sin(20\\pi x)=\\log_{20}x$？",
     "options": {
       "A": "$199$",
       "B": "$200$",
@@ -14459,7 +14459,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2025 AMC 12B · 第 25 题",
-    "stem": "三个同心圆的半径分别为 $1,2,3$。一个边长为 $s$ 的等边三角形在每个圆上各有一个顶点。求 $s^{2}?$",
+    "stem": "三个同心圆的半径分别为 $1,2,3$。一个边长为 $s$ 的等边三角形在每个圆上各有一个顶点。求 $s^{2}$？",
     "options": {
       "A": "$6$",
       "B": "$\\dfrac{25}{4}$",

@@ -63,6 +63,7 @@ test("flags high-confidence source damage", () => {
   assert.ok(contentDamageIssues("$1,qquad 2$").includes("LaTeX command missing backslash"));
   assert.ok(contentDamageIssues("$\\boxed{\\textbf{(E)~$k$}}$").includes("unbalanced braces inside math block"));
   assert.ok(contentDamageIssues("As shown in Image:2021_AMC_12B_sol.png, all vertices").includes("unconverted MediaWiki image reference"));
+  assert.ok(contentDamageIssues("What is $x+y?$").includes("trailing question mark trapped inside inline math"));
   assert.equal(hasBalancedMathBlockBraces("$\\boxed{\\textbf{(E)}~k}$"), true);
   assert.equal(hasBalancedMathBlockBraces("$\\boxed{\\textbf{(E)~$k$}}$"), false);
   assert.equal(hasForbiddenControlCharacter("a\tb"), true);

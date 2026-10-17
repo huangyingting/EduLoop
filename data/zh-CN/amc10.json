@@ -61,7 +61,7 @@
     "solutions": [
       "解决此题最直接的方法是逐一枚举。\n\n为方便起见，不采用通常的幂运算记号，而将式子写成 $2\\uparrow 2\\uparrow 2\\uparrow 2$，其中 $\\uparrow$ 表示幂运算。现在考察给这个式子添加括号的所有方式，共有 5 种：\n\n$2\\uparrow (2\\uparrow (2\\uparrow 2))$\n\n$2\\uparrow ((2\\uparrow 2)\\uparrow 2)$\n\n$((2\\uparrow 2)\\uparrow 2)\\uparrow 2$\n\n$(2\\uparrow (2\\uparrow 2))\\uparrow 2$\n\n$(2\\uparrow 2)\\uparrow (2\\uparrow 2)$\n注意 $2\\uparrow (2\\uparrow 2) = (2\\uparrow 2)\\uparrow 2 =16$。因此第 1、2 种相等，第 3、4 种相等。\n第 1 种就是题目中给出的值，所以只需计算第 3 种和第 5 种。\n\n$((2\\uparrow 2)\\uparrow 2)\\uparrow 2 = 16\\uparrow 2 = 256$\n\n$(2\\uparrow 2)\\uparrow (2\\uparrow 2) = 4 \\uparrow 4 = 256$\n\n所以唯一的另一个结果是 $256$，答案为 $\\boxed{\\textbf{(B) } 1}$。",
       "沿用解法一的记号，用递归的方法处理。最外层只能是 $(2 \\uparrow 2 \\uparrow 2) \\uparrow 2$ 或 $2 \\uparrow (2 \\uparrow 2 \\uparrow 2)$。\n\n括号内的式子则可以是 $(2 \\uparrow 2) \\uparrow 2$ 或 $2 \\uparrow (2 \\uparrow 2)$，两者的值同为 $16$。因此最终只可能得到 $16^2$ 或 $2^{16}$，故答案是 $\\boxed{\\textbf{(B) }1}$。",
-      "无论如何执行乘方运算，$2^{2^{2}}$ 的值总是 16。根据最后执行哪一次乘方运算，有\n\n$\\left(2^{2^{2}}\\right)^{2}=256, \\quad 2^{\\left(2^{2^{2}}\\right)}=65,536, \\quad \\text{ 或 } \\quad\\left(2^{2}\\right)^{\\left(2^{2}\\right)}=256$，\n\n所以还可能得到 $\\boxed{one}$ 个其他的值。"
+      "无论如何执行乘方运算，$2^{2^{2}}$ 的值总是 16。根据最后执行哪一次乘方运算，有\n\n$\\left(2^{2^{2}}\\right)^{2}=256, \\quad 2^{\\left(2^{2^{2}}\\right)}=65,536, \\quad \\text{ 或 } \\quad\\left(2^{2}\\right)^{\\left(2^{2}\\right)}=256$，\n\n所以还可能得到 $\\boxed{\\text{1}}$ 个其他的值。"
     ],
     "tags": []
   },
@@ -312,14 +312,14 @@
       "B": "$\\ 1$",
       "C": "$\\ 2$",
       "D": "$\\ 4$",
-      "E": "$more than 4$"
+      "E": "多于 $4$ 个"
     },
     "answer": "B",
     "solutions": [
       "先考察一个 $x^2$ 项系数为 $1$、两根分别为 $r$ 和 $s$ 的一般二次方程。它可因式分解为 $(x-r)(x-s)$，即 $x^2-(r+s)x+rs$。因此，两根之和等于 $x$ 项系数的相反数，两根之积等于常数项（一般地，这就是韦达定理）。\n\n本题两根之和为 $63$，积为 $k$。由于两根都是质数，其中一个必为 $2$，否则两个奇质数之和应为偶数。于是另一个根只能是 $61$，两根之积为 $122$。故答案为 $\\boxed{\\text{(B)}\\ 1 }$。",
       "将二次式因式分解为 $(x-r)(x-s)$，则 $-r-s=-63$ 且 $rs=k$。已知 $r$、$s$ 都是质数，而除 $2$ 外的质数都是奇数。两个奇数之和必为偶数，但这里两个质数之和为奇数，所以其中一个质数一定是 $2$。另一个根以及它们的积 $k$ 因而都只有一种可能。",
       "由韦达定理，\n$a+b=63$\n$ab=k$\n因为奇数与偶数之和为奇数，所以 $a$、$b$ 中必有一个等于 $2$，另一个等于 $63-2=61.$。两者均为质数，满足条件，因此只有 $\\boxed{(B) 1}$ 种可能。",
-      "设质数 $p$ 和 $q$ 是方程 $x^{2}-63 x+k=0$ 的两个根。则\n\n$x^{2}-63 x+k=(x-p)(x-q)=x^{2}-(p+q) x+p \\cdot q$，\n\n所以 $p+q=63$ 且 $p \\cdot q=k$。因为 63 是奇数，其中一个质数必为 2，另一个为 61。因此，$k$ 恰有 $\\boxed{one}$ 个可能取值，即 $k=p \\cdot q=2 \\cdot 61=122$。"
+      "设质数 $p$ 和 $q$ 是方程 $x^{2}-63 x+k=0$ 的两个根。则\n\n$x^{2}-63 x+k=(x-p)(x-q)=x^{2}-(p+q) x+p \\cdot q$，\n\n所以 $p+q=63$ 且 $p \\cdot q=k$。因为 63 是奇数，其中一个质数必为 2，另一个为 61。因此，$k$ 恰有 $\\boxed{\\text{1}}$ 个可能取值，即 $k=p \\cdot q=2 \\cdot 61=122$。"
     ],
     "tags": []
   },
@@ -689,17 +689,17 @@
     "sourcePaper": "2002 AMC 10B · 第 6 题 | 2002 AMC 12B · 第 3 题",
     "stem": "有多少个正整数 $n$，使 $n^2 - 3n + 2$ 为质数？",
     "options": {
-      "A": "$\\ \\text{0 个}$",
-      "B": "$\\ \\text{1 个}$",
-      "C": "$\\ \\text{2 个}$",
-      "D": "$\\ \\text{多于两个，但有限个}$",
-      "E": "$\\ \\text{无穷多个}$"
+      "A": "0 个",
+      "B": "1 个",
+      "C": "2 个",
+      "D": "多于两个，但有限个",
+      "E": "无穷多个"
     },
     "answer": "B",
     "solutions": [
-      "因式分解得 $n^2 - 3n + 2 = (n-2)(n-1)$。$n-1$ 与 $n-2$ 中一个为奇数、另一个为偶数，所以乘积必为偶数。唯一的偶质数是 $2$，此时 $n$ 为 $3$ 或 $0$。由于 $0$ 不是正数，答案为 $\\boxed{\\mathrm{(B)}\\ \\text{1 个}}$。",
-      "由奇偶性可知 $n^2 - 3n + 2$ 总是偶数。唯一的偶质数是 $2$，所以 $n^2-3n=0$，从而 $n=3\\Rightarrow\\boxed{\\mathrm{(B)}\\ \\text{1 个}}$。",
-      "若 $n \\geq 4$，则\n\n$n^{2}-3 n+2=(n-1)(n-2)$\n\n是两个大于 1 的整数之积，因此不是质数。当 $n=1$、2、3 时，所得结果依次为\n\n$(1-1)(1-2)=0, \\quad(2-1)(2-2)=0, \\quad \\text{ 和 } \\quad(3-1)(3-2)=2$。\n\n所以 $n^{2}-3 n+2$ 仅在 $n=3$ 时为质数。答案为 $\\boxed{one}$。"
+      "因式分解得 $n^2 - 3n + 2 = (n-2)(n-1)$。$n-1$ 与 $n-2$ 中一个为奇数、另一个为偶数，所以乘积必为偶数。唯一的偶质数是 $2$，此时 $n$ 为 $3$ 或 $0$。由于 $0$ 不是正数，答案为 $\\boxed{\\mathrm{(B)}\\ \\text{1}}$。",
+      "由奇偶性可知 $n^2 - 3n + 2$ 总是偶数。唯一的偶质数是 $2$，所以 $n^2-3n=0$，从而 $n=3\\Rightarrow\\boxed{\\mathrm{(B)}\\ \\text{1}}$。",
+      "若 $n \\geq 4$，则\n\n$n^{2}-3 n+2=(n-1)(n-2)$\n\n是两个大于 1 的整数之积，因此不是质数。当 $n=1$、2、3 时，所得结果依次为\n\n$(1-1)(1-2)=0, \\quad(2-1)(2-2)=0, \\quad \\text{ 和 } \\quad(3-1)(3-2)=2$。\n\n所以 $n^{2}-3 n+2$ 仅在 $n=3$ 时为质数。答案为 $\\boxed{\\text{1}}$。"
     ],
     "tags": []
   },
@@ -731,7 +731,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2002 AMC 10B · 第 8 题 | 2002 AMC 12B · 第 8 题",
-    "stem": "假设 $N$ 年的 7 月有五个星期一。该年 $N?$ 的 8 月中，下列哪个星期几一定出现五次？（注意：两个月都有 $31$ 天。）",
+    "stem": "假设 $N$ 年的 7 月有五个星期一。该年 $N$ 的 8 月中，下列哪个星期几一定出现五次？（注意：两个月都有 $31$ 天。）",
     "options": {
       "A": "星期一",
       "B": "星期二",
@@ -819,7 +819,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2002 AMC 10B · 第 12 题",
-    "stem": "当 $k$ 取下列哪个值时，方程 $\\dfrac{x-1}{x-2}=\\dfrac{x-k}{x-6}$ 对 $x?$ 无解？",
+    "stem": "当 $k$ 取下列哪个值时，方程 $\\dfrac{x-1}{x-2}=\\dfrac{x-k}{x-6}$ 对 $x$ 无解？",
     "options": {
       "A": "$1$",
       "B": "$2$",
@@ -843,10 +843,10 @@
     "stem": "求使 $8 x y-12 y+2 x-3=0$ 对 $y$ 的所有取值都成立的 $x$ 值。",
     "options": {
       "A": "$\\dfrac{2}{3}$",
-      "B": "$\\dfrac{3}{2}$ or $-\\dfrac{1}{4}$",
-      "C": "$-\\dfrac{2}{3}$ or $-\\dfrac{1}{4}$",
+      "B": "$\\dfrac{3}{2}$ 或 $-\\dfrac{1}{4}$",
+      "C": "$-\\dfrac{2}{3}$ 或 $-\\dfrac{1}{4}$",
       "D": "$\\dfrac{3}{2}$",
-      "E": "$-\\dfrac{3}{2}$ or $-\\dfrac{1}{4}$"
+      "E": "$-\\dfrac{3}{2}$ 或 $-\\dfrac{1}{4}$"
     },
     "answer": "D",
     "solutions": [
@@ -918,7 +918,7 @@
       "若 $\\frac{n}{20-n} = k^2 \\ge 0$，则必须有 $n \\ge 0$ 且 $20-n > 0$，否则 $\\frac{n}{20-n}$ 为负。因此 $0 \\le n \\le 19$，并且 $0 = \\frac{0}{20-(0)} \\le \\frac{n}{20-n} \\le \\frac{19}{20-(19)} = 19$。检查满足 $0 \\le k^2 \\le 19$ 的所有 $k$，可能值为 $0$、$1$、$2$、$3$，所以答案是 $\\boxed{(D)}$。",
       "对任意整数 x，$x^2$ 都是非负整数。先解 $\\frac{n}{20-n} = 0$ 得 $n=0$，再解 $\\frac{n}{20-n} = 1$ 得 $n =10$。当 n 小于 0 或大于 20 时，$\\frac{n}{20-n}$ 为负，因此再检查 10 到 20 之间的 n。代入可找到 $0$、$10$、$16$、$18$，分别给出 $x=0$、$x=1$、$x=2$、$x=3$。共有 4 个值，即 $\\boxed{(D)}$。",
       "使用 Simon 常用的因式分解技巧。\n\n因为 $\\frac{n}{20-n}$ 是整数 $k$，两边乘以 $20-n$，得到 $n=20k^2$−$nk^2$。两边同时减去 $20k^2$，再同时加上 $nk^2$，为因式分解作准备，可得 $(k^2+1)(n-20)=20$。于是考察 $k^2+1$ 作为 $20$ 的因数时的不同可能，即 $1,2,4,5,10$ 和 $20$。逐一检查后，恰有 $4$ 个 $k$ 值同时使 $n$ 为整数。因此共有 $4$ 个值，正确答案为 $\\boxed{(D)}$。",
-      "若对某个 $k \\geq 0$ 有 $\\dfrac{n}{20-n}=k^{2}$，则 $n=\\dfrac{20 k^{2}}{k^{2}+1}$。因为 $k^{2}$ 与 $k^{2}+1$ 互质，且 $n$ 是整数，所以 $k^{2}+1$ 必为 20 的因数。只有当 $k=0,1,2$ 或 3 时才满足条件，相应的 $n$ 值为 $\\boxed{0,10,16, and 18}$。"
+      "若对某个 $k \\geq 0$ 有 $\\dfrac{n}{20-n}=k^{2}$，则 $n=\\dfrac{20 k^{2}}{k^{2}+1}$。因为 $k^{2}$ 与 $k^{2}+1$ 互质，且 $n$ 是整数，所以 $k^{2}+1$ 必为 20 的因数。只有当 $k=0,1,2$ 或 3 时才满足条件，相应的 $n$ 值为 $\\boxed{0,10,16, \\text{和} 18}$。"
     ],
     "tags": []
   },
@@ -972,7 +972,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2002 AMC 10B · 第 19 题",
-    "stem": "设 $\\{a_{n}\\}$ 为等差数列，满足\n\n$a_{1}+a_{2}+\\cdots+a_{100}=100$\n以及\n\n$a_{101}+a_{102}+\\cdots+a_{200}=200$\n求 $a_{2}-a_{1}?$ 的值。",
+    "stem": "设 $\\{a_{n}\\}$ 为等差数列，满足\n\n$a_{1}+a_{2}+\\cdots+a_{100}=100$\n以及\n\n$a_{101}+a_{102}+\\cdots+a_{200}=200$\n求 $a_{2}-a_{1}$ 的值。",
     "options": {
       "A": "$0.0001$",
       "B": "$0.001$",
@@ -1275,7 +1275,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2002 AMC 10P · 第 8 题",
-    "stem": "有多少个正整数组成的有序三元组 $(x,y,z)$ 满足 $(x^y)^z=64?$",
+    "stem": "有多少个正整数组成的有序三元组 $(x,y,z)$ 满足 $(x^y)^z=64$？",
     "options": {
       "A": "$5$",
       "B": "$6$",
@@ -1360,13 +1360,13 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2002 AMC 10P · 第 12 题",
-    "stem": "对 $f_n(x)=x^n$ 且 $a \\neq 1$，考察\n\n$\\text{I. } (f_{11}(a)f_{13}(a))^{14}$\n\n$\\text{II. } f_{11}(a)f_{13}(a)f_{14}(a)$\n\n$\\text{III. } (f_{11}(f_{13}(a)))^{14}$\n\n$\\text{IV. } f_{11}(f_{13}(f_{14}(a)))$\n\n其中哪些等于 $f_{2002}(a)?$",
+    "stem": "对 $f_n(x)=x^n$ 且 $a \\neq 1$，考察\n\n$\\text{I. } (f_{11}(a)f_{13}(a))^{14}$\n\n$\\text{II. } f_{11}(a)f_{13}(a)f_{14}(a)$\n\n$\\text{III. } (f_{11}(f_{13}(a)))^{14}$\n\n$\\text{IV. } f_{11}(f_{13}(f_{14}(a)))$\n\n其中哪些等于 $f_{2002}(a)$？",
     "options": {
-      "A": "$I and II only$",
-      "B": "$II and III only$",
-      "C": "$III and IV only$",
-      "D": "$II, III, and IV only$",
-      "E": "$all of them$"
+      "A": "仅 I 和 II",
+      "B": "仅 II 和 III",
+      "C": "仅 III 和 IV",
+      "D": "仅 II、III 和 IV",
+      "E": "全部"
     },
     "answer": "C",
     "solutions": [
@@ -1495,7 +1495,7 @@
       "B": "$2$",
       "C": "$3$",
       "D": "$4$",
-      "E": "$more than 4$"
+      "E": "多于 $4$ 个"
     },
     "answer": "C",
     "solutions": [
@@ -1618,7 +1618,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2002 AMC 10P · 第 24 题 | 2002 AMC 12P · 第 13 题",
-    "stem": "满足\n\n$k^2_1 + k^2_2 + ... + k^2_n = 2002?$\n的互不相同正整数集合 $k_1, k_2, ... k_n$ 中，$n$ 的最大值是多少？",
+    "stem": "满足\n\n$k^2_1 + k^2_2 + ... + k^2_n = 2002$\n的互不相同正整数集合 $k_1, k_2, ... k_n$ 中，$n$ 的最大值是多少？",
     "options": {
       "A": "$14$",
       "B": "$15$",
@@ -1750,7 +1750,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2003 AMC 10A · 第 5 题",
-    "stem": "设 $d$、$e$ 是方程 $2 x^{2}+3 x-5=0$ 的两个解。求 $(d-1)(e-1)?$",
+    "stem": "设 $d$、$e$ 是方程 $2 x^{2}+3 x-5=0$ 的两个解。求 $(d-1)(e-1)$？",
     "options": {
       "A": "$-\\dfrac{5}{2}$",
       "B": "$0$",
@@ -1814,7 +1814,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2003 AMC 10A · 第 8 题 | 2003 AMC 12A · 第 8 题",
-    "stem": "从 $60$ 的所有正因数中随机选一个，它小于 $7?$ 的概率是多少？",
+    "stem": "从 $60$ 的所有正因数中随机选一个，它小于 $7$ 的概率是多少？",
     "options": {
       "A": "$\\dfrac{1}{10}$",
       "B": "$\\dfrac{1}{6}$",
@@ -1868,7 +1868,7 @@
     "answer": "E",
     "solutions": [
       "若在接上第五个正方形之前先折叠原多边形，则边 $a$ 必须与 $a^{\\prime}$ 接合，边 $b$ 必须与 $b^{\\prime}$ 接合。正方体的第五个面可以接在其余 $6$ 条边中的任意一条上。\n\n[Figure: /question-assets/source/amc/9edfdd8304c9cb7711e74a08b00e83dc4b686f04459b2af12d7743cf4aeed389.jpg]\n\n答案：$\\boxed{E}$。",
-      "在接上第五个正方形之前折叠原多边形，则边 $a$ 必须与 $a^{\\prime}$ 接合，边 $b$ 必须与 $b^{\\prime}$ 接合。第五个面可接在其余 $\\boxed{six}$ 条边中的任意一条上。\n\n[Figure: /question-assets/source/amc/83fcc17c3152a572027dc01fd041267cf5b4556246f44ca1e757b9916e494aaa.jpg]"
+      "在接上第五个正方形之前折叠原多边形，则边 $a$ 必须与 $a^{\\prime}$ 接合，边 $b$ 必须与 $b^{\\prime}$ 接合。第五个面可接在其余 $\\boxed{\\text{6}}$ 条边中的任意一条上。\n\n[Figure: /question-assets/source/amc/83fcc17c3152a572027dc01fd041267cf5b4556246f44ca1e757b9916e494aaa.jpg]"
     ],
     "tags": []
   },
@@ -1879,7 +1879,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2003 AMC 10A · 第 11 题 | 2003 AMC 12A · 第 5 题",
-    "stem": "两个 $5$ 位数 $A M C 10$ 与 $A M C 12$ 的和为 $123422$。求 $A+M+C?$",
+    "stem": "两个 $5$ 位数 $A M C 10$ 与 $A M C 12$ 的和为 $123422$。求 $A+M+C$？",
     "options": {
       "A": "$10$",
       "B": "$11$",
@@ -1901,7 +1901,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2003 AMC 10A · 第 12 题",
-    "stem": "从顶点为 $(0,0)$、$(4,0),(4,1)$、$(0,1)$ 的长方形内部随机选一点 $(x, y)$。满足 $x<y?$ 的概率是多少？",
+    "stem": "从顶点为 $(0,0)$、$(4,0),(4,1)$、$(0,1)$ 的长方形内部随机选一点 $(x, y)$。满足 $x<y$ 的概率是多少？",
     "options": {
       "A": "$\\dfrac{1}{8}$",
       "B": "$\\dfrac{1}{4}$",
@@ -1945,7 +1945,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2003 AMC 10A · 第 14 题",
-    "stem": "设 $n$ 是可表示为恰好 $3$ 个互不相同质数 $d, e$、$10 d+e$ 之积的最大整数，其中 $d$、$e$ 都是一位数。$n?$ 的各位数字之和是多少？",
+    "stem": "设 $n$ 是可表示为恰好 $3$ 个互不相同质数 $d, e$、$10 d+e$ 之积的最大整数，其中 $d$、$e$ 都是一位数。$n$ 的各位数字之和是多少？",
     "options": {
       "A": "$12$",
       "B": "$15$",
@@ -1966,7 +1966,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2003 AMC 10A · 第 15 题",
-    "stem": "从集合 $\\{1,2,3, \\ldots, 100\\}$ 中随机选一个整数，它能被 $2$ 整除但不能被 $3?$ 整除的概率是多少？",
+    "stem": "从集合 $\\{1,2,3, \\ldots, 100\\}$ 中随机选一个整数，它能被 $2$ 整除但不能被 $3$ 整除的概率是多少？",
     "options": {
       "A": "$\\dfrac{1}{6}$",
       "B": "$\\dfrac{33}{100}$",
@@ -1987,7 +1987,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2003 AMC 10A · 第 16 题",
-    "stem": "$13^{2003}?$ 的个位数字是多少？",
+    "stem": "$13^{2003}$ 的个位数字是多少？",
     "options": {
       "A": "$1$",
       "B": "$3$",
@@ -2029,7 +2029,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2003 AMC 10A · 第 18 题",
-    "stem": "求方程\n\n$\\dfrac{2003}{2004} x+1+\\dfrac{1}{x}=0?$\n各根的倒数之和。",
+    "stem": "求方程\n\n$\\dfrac{2003}{2004} x+1+\\dfrac{1}{x}=0$\n各根的倒数之和。",
     "options": {
       "A": "$-\\dfrac{2004}{2003}$",
       "B": "$-1$",
@@ -2178,7 +2178,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2003 AMC 10A · 第 25 题 | 2003 AMC 12A · 第 18 题",
-    "stem": "设 $n$ 是一个 $5$ 位数，用 $100$ 除 $n$，商和余数分别为 $q$、$r$。有多少个 $n$ 的值使 $q+r$ 能被 $11?$ 整除？",
+    "stem": "设 $n$ 是一个 $5$ 位数，用 $100$ 除 $n$，商和余数分别为 $q$、$r$。有多少个 $n$ 的值使 $q+r$ 能被 $11$ 整除？",
     "options": {
       "A": "$8180$",
       "B": "$8181$",
@@ -2200,7 +2200,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2003 AMC 10B · 第 1 题 | 2003 AMC 12B · 第 1 题",
-    "stem": "下列哪个数等于\n\n$\\dfrac{2-4+6-8+10-12+14}{3-6+9-12+15-18+21}?$",
+    "stem": "下列哪个数等于\n\n$\\dfrac{2-4+6-8+10-12+14}{3-6+9-12+15-18+21}$？",
     "options": {
       "A": "$-1$",
       "B": "$-\\dfrac{2}{3}$",
@@ -2458,7 +2458,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2003 AMC 10B · 第 13 题 | 2003 AMC 12B · 第 8 题",
-    "stem": "令 $\\clubsuit(x)$ 表示正整数 $x$ 的各位数字之和。例如 $\\clubsuit(8)=8$、$\\clubsuit(123)=1+2+3=6$。有多少个两位数 $x$ 满足 $\\clubsuit(\\clubsuit(x))=3?$",
+    "stem": "令 $\\clubsuit(x)$ 表示正整数 $x$ 的各位数字之和。例如 $\\clubsuit(8)=8$、$\\clubsuit(123)=1+2+3=6$。有多少个两位数 $x$ 满足 $\\clubsuit(\\clubsuit(x))=3$？",
     "options": {
       "A": "$3$",
       "B": "$4$",
@@ -2522,7 +2522,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2003 AMC 10B · 第 16 题",
-    "stem": "一家餐厅提供三种甜点，开胃菜数量恰为主菜数量的两倍。一份晚餐由一道开胃菜、一道主菜和一份甜点组成。为了让顾客在 $2003?$ 年的每晚都能吃到不同搭配，餐厅至少应提供多少种主菜？",
+    "stem": "一家餐厅提供三种甜点，开胃菜数量恰为主菜数量的两倍。一份晚餐由一道开胃菜、一道主菜和一份甜点组成。为了让顾客在 $2003$ 年的每晚都能吃到不同搭配，餐厅至少应提供多少种主菜？",
     "options": {
       "A": "$4$",
       "B": "$5$",
@@ -2565,7 +2565,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2003 AMC 10B · 第 18 题 | 2003 AMC 12B · 第 12 题",
-    "stem": "对所有正偶数 $n?$，总能整除\n\n$(n+1)(n+3)(n+5)(n+7)(n+9)$\n的最大整数是多少？",
+    "stem": "对所有正偶数 $n$，总能整除\n\n$(n+1)(n+3)(n+5)(n+7)(n+9)$\n的最大整数是多少？",
     "options": {
       "A": "$3$",
       "B": "$5$",
@@ -2673,7 +2673,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2003 AMC 10B · 第 23 题 | 2003 AMC 12B · 第 15 题",
-    "stem": "正八边形 $A B C D E F G H$ 的面积为 1 平方单位。求长方形 $A B E F?$ 的面积。\n\n[Figure: /question-assets/source/amc/876491355416eb5b336b8897cca9e3fc1b5ac460a81a1a60956687272a227480.jpg]",
+    "stem": "正八边形 $A B C D E F G H$ 的面积为 1 平方单位。求长方形 $A B E F$ 的面积。\n\n[Figure: /question-assets/source/amc/876491355416eb5b336b8897cca9e3fc1b5ac460a81a1a60956687272a227480.jpg]",
     "options": {
       "A": "$1-\\dfrac{\\sqrt{2}}{2}$",
       "B": "$\\dfrac{\\sqrt{2}}{4}$",
@@ -2758,7 +2758,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2004 AMC 10A · 第 2 题",
-    "stem": "对任意实数 $a$、$b$、$c$，其中 $b\\neq c$，定义运算 $\\boldsymbol{\\Psi}$：\n\n$\\boldsymbol{\\Psi}(a,b,c)=\\frac{a}{b-c}.$\n求 $\\boldsymbol{\\Psi} ( \\boldsymbol{\\Psi} (1,2,3), \\boldsymbol{\\Psi} (2,3,1), \\boldsymbol{\\Psi} (3,1,2))?$",
+    "stem": "对任意实数 $a$、$b$、$c$，其中 $b\\neq c$，定义运算 $\\boldsymbol{\\Psi}$：\n\n$\\boldsymbol{\\Psi}(a,b,c)=\\frac{a}{b-c}.$\n求 $\\boldsymbol{\\Psi} ( \\boldsymbol{\\Psi} (1,2,3), \\boldsymbol{\\Psi} (2,3,1), \\boldsymbol{\\Psi} (3,1,2))$？",
     "options": {
       "A": "$-\\dfrac{1}{2}$",
       "B": "$-\\dfrac{1}{4}$",
@@ -2801,7 +2801,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2004 AMC 10A · 第 4 题",
-    "stem": "若 $|x-1|=|x-2|?$，求 $x$ 的值。",
+    "stem": "若 $|x-1|=|x-2|$，求 $x$ 的值。",
     "options": {
       "A": "$-\\dfrac{1}{2}$",
       "B": "$\\dfrac{1}{2}$",
@@ -2908,7 +2908,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2004 AMC 10A · 第 9 题 | 2004 AMC 12A · 第 8 题",
-    "stem": "图中，$\\angle E A B$、$\\angle A B C$ 为直角，$A B=4, B C=6, A E=8$，且 $\\overline{A C}$ 与 $\\overline{B E}$ 交于 $D$。求 $\\triangle A D E$ 与 $\\triangle B D C?$ 面积之差。\n\n[Figure: /question-assets/source/amc/a5166b66ce0cad34af880f35200e0cff383818c6abfbb0c444ac3760b6b288c1.jpg]",
+    "stem": "图中，$\\angle E A B$、$\\angle A B C$ 为直角，$A B=4, B C=6, A E=8$，且 $\\overline{A C}$ 与 $\\overline{B E}$ 交于 $D$。求 $\\triangle A D E$ 与 $\\triangle B D C$ 面积之差。\n\n[Figure: /question-assets/source/amc/a5166b66ce0cad34af880f35200e0cff383818c6abfbb0c444ac3760b6b288c1.jpg]",
     "options": {
       "A": "$2$",
       "B": "$4$",
@@ -3037,7 +3037,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2004 AMC 10A · 第 15 题",
-    "stem": "已知 $-4\\leq x\\leq-2$、$2\\leq y\\leq4$，求 $\\dfrac{x+y}{x}?$ 的最大可能值。",
+    "stem": "已知 $-4\\leq x\\leq-2$、$2\\leq y\\leq4$，求 $\\dfrac{x+y}{x}$ 的最大可能值。",
     "options": {
       "A": "$-1$",
       "B": "$-\\dfrac{1}{2}$",
@@ -3144,7 +3144,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2004 AMC 10A · 第 20 题",
-    "stem": "点 $E$、$F$ 位于正方形 $A B C D$ 上，使 $\\triangle B E F$ 为等边三角形。求 $\\triangle D E F$ 与 $\\triangle A B E?$ 的面积之比。\n\n[Figure: /question-assets/source/amc/37d3a21fd547f5a1bff788bc04f42bda84207b66fc1e87d44f61f77b33be6515.jpg]",
+    "stem": "点 $E$、$F$ 位于正方形 $A B C D$ 上，使 $\\triangle B E F$ 为等边三角形。求 $\\triangle D E F$ 与 $\\triangle A B E$ 的面积之比。\n\n[Figure: /question-assets/source/amc/37d3a21fd547f5a1bff788bc04f42bda84207b66fc1e87d44f61f77b33be6515.jpg]",
     "options": {
       "A": "$\\dfrac{4}{3}$",
       "B": "$\\dfrac{3}{2}$",
@@ -3186,7 +3186,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2004 AMC 10A · 第 22 题 | 2004 AMC 12A · 第 18 题",
-    "stem": "正方形 $A B C D$ 边长为 $2$。在正方形内作以 $\\overline{A B}$ 为直径的半圆，从 $C$ 向半圆作切线，交边 $\\overline{A D}$ 于 $E$。求 $\\overline{C E}?$ 的长度。\n\n[Figure: /question-assets/source/amc/5766af06686c2e129adb6e5815d34c4cf1f07a2a9613a65c743c4501bab167cf.jpg]",
+    "stem": "正方形 $A B C D$ 边长为 $2$。在正方形内作以 $\\overline{A B}$ 为直径的半圆，从 $C$ 向半圆作切线，交边 $\\overline{A D}$ 于 $E$。求 $\\overline{C E}$ 的长度。\n\n[Figure: /question-assets/source/amc/5766af06686c2e129adb6e5815d34c4cf1f07a2a9613a65c743c4501bab167cf.jpg]",
     "options": {
       "A": "$\\dfrac{2+\\sqrt{5}}{2}$",
       "B": "$\\sqrt{5}$",
@@ -3208,7 +3208,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2004 AMC 10A · 第 23 题 | 2004 AMC 12A · 第 19 题",
-    "stem": "圆 $A, B$、$C$ 彼此外切，并都内切于圆 $D$。圆 $B$、$C$ 全等。圆 $A$ 半径为 $1$，且经过 $D$ 的圆心。求圆 $B?$ 的半径。\n\n[Figure: /question-assets/source/amc/987eea359fbea54cd33b089c1de8133eb82cd2d76ecbb460f72e811cd53db840.jpg]",
+    "stem": "圆 $A, B$、$C$ 彼此外切，并都内切于圆 $D$。圆 $B$、$C$ 全等。圆 $A$ 半径为 $1$，且经过 $D$ 的圆心。求圆 $B$ 的半径。\n\n[Figure: /question-assets/source/amc/987eea359fbea54cd33b089c1de8133eb82cd2d76ecbb460f72e811cd53db840.jpg]",
     "options": {
       "A": "$\\dfrac{2}{3}$",
       "B": "$\\dfrac{\\sqrt{3}}{2}$",
@@ -3230,7 +3230,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2004 AMC 10A · 第 24 题",
-    "stem": "设数列 $a_{1}, a_{2}, ..., a_{n}$ 满足：\n\n(i) $a_{1}=1$；\n\n(ii) 对任意正整数 $n$，$a_{2 n}=n \\cdot a_{n}$。\n\n求 $a_{2^{100}}?$",
+    "stem": "设数列 $a_{1}, a_{2}, ..., a_{n}$ 满足：\n\n(i) $a_{1}=1$；\n\n(ii) 对任意正整数 $n$，$a_{2 n}=n \\cdot a_{n}$。\n\n求 $a_{2^{100}}$？",
     "options": {
       "A": "$1$",
       "B": "$2^{99}$",
@@ -3638,7 +3638,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2004 AMC 10B · 第 18 题",
-    "stem": "在直角三角形 $\\triangle A C E$ 中，$A C=12, C E=16$、$E A=20$。点 $B, D$、$F$ 分别位于 $\\overline{A C}, \\overline{C E}$、$\\overline{E A}$ 上，满足 $A B=3$、$C D=4$、$E F=5$。求 $\\triangle B D F$ 与 $\\triangle A C E?$ 的面积之比。\n\n[Figure: /question-assets/source/amc/ed4dc6af47497c5dc4763a4952fea93fd75f3d359944cf5101398126cf1bf87d.jpg]",
+    "stem": "在直角三角形 $\\triangle A C E$ 中，$A C=12, C E=16$、$E A=20$。点 $B, D$、$F$ 分别位于 $\\overline{A C}, \\overline{C E}$、$\\overline{E A}$ 上，满足 $A B=3$、$C D=4$、$E F=5$。求 $\\triangle B D F$ 与 $\\triangle A C E$ 的面积之比。\n\n[Figure: /question-assets/source/amc/ed4dc6af47497c5dc4763a4952fea93fd75f3d359944cf5101398126cf1bf87d.jpg]",
     "options": {
       "A": "$\\dfrac{1}{4}$",
       "B": "$\\dfrac{9}{25}$",
@@ -3681,7 +3681,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2004 AMC 10B · 第 20 题",
-    "stem": "在 $\\triangle A B C$ 中，点 $D$、$E$ 分别位于 $\\overline{B C}$、$\\overline{A C}$ 上。若 $\\overline{A D}$ 与 $\\overline{B E}$ 交于 $T$，且 $A T / D T=3$、$B T / E T=4$，求 $C D / B D?$\n\n[Figure: /question-assets/source/amc/36aa4b41196e77149b0bf7fbbccb344eddb6e89c4dadeb75f4481a8a82cb9f1e.jpg]",
+    "stem": "在 $\\triangle A B C$ 中，点 $D$、$E$ 分别位于 $\\overline{B C}$、$\\overline{A C}$ 上。若 $\\overline{A D}$ 与 $\\overline{B E}$ 交于 $T$，且 $A T / D T=3$、$B T / E T=4$，求 $C D / B D$？\n\n[Figure: /question-assets/source/amc/36aa4b41196e77149b0bf7fbbccb344eddb6e89c4dadeb75f4481a8a82cb9f1e.jpg]",
     "options": {
       "A": "$\\dfrac{1}{8}$",
       "B": "$\\dfrac{2}{9}$",
@@ -3702,7 +3702,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2004 AMC 10B · 第 21 题",
-    "stem": "设 $1,4, \\ldots$、$9,16, \\ldots$ 为两个等差数列。集合 $S$ 是两个数列各自前 $2004$ 项的并集。$S?$ 中有多少个不同的数？",
+    "stem": "设 $1,4, \\ldots$、$9,16, \\ldots$ 为两个等差数列。集合 $S$ 是两个数列各自前 $2004$ 项的并集。$S$ 中有多少个不同的数？",
     "options": {
       "A": "$3722$",
       "B": "$3732$",
@@ -3961,7 +3961,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2005 AMC 10A · 第 8 题 | 2005 AMC 12A · 第 7 题",
-    "stem": "图中正方形 $A B C D$ 的边 $A B$ 长为 $\\sqrt{50}, E$，点 $H$ 与 $B$ 之间有点 E，且 $B E=1$。求内正方形 $E F G H?$ 的面积。\n\n[Figure: /question-assets/source/amc/9580a4cd3e968e0a9ed4bfc0c1fe823e39449aedbf114b33431591a7a801f55d.jpg]",
+    "stem": "图中正方形 $A B C D$ 的边 $A B$ 长为 $\\sqrt{50}, E$，点 $H$ 与 $B$ 之间有点 E，且 $B E=1$。求内正方形 $E F G H$ 的面积。\n\n[Figure: /question-assets/source/amc/9580a4cd3e968e0a9ed4bfc0c1fe823e39449aedbf114b33431591a7a801f55d.jpg]",
     "options": {
       "A": "$25$",
       "B": "$32$",
@@ -4004,7 +4004,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2005 AMC 10A · 第 10 题 | 2005 AMC 12A · 第 9 题",
-    "stem": "有两个 $a$ 值使方程 $4 x^{2}+a x+8 x+9=0$ 对 $x$ 只有一个解。求这两个 $a?$ 值之和。",
+    "stem": "有两个 $a$ 值使方程 $4 x^{2}+a x+8 x+9=0$ 对 $x$ 只有一个解。求这两个 $a$ 值之和。",
     "options": {
       "A": "$-16$",
       "B": "$-8$",
@@ -4048,7 +4048,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2005 AMC 10A · 第 12 题",
-    "stem": "图示图形称为三叶结，由在全等等边三角形边上作圆扇形构成。若其水平底边长为 $2?$，求三叶结面积。\n\n[Figure: /question-assets/source/amc/2351a0996bb641343c3e646169ec3b0c5c3800fcda8d1b845cc76e61b2e3049c.jpg]",
+    "stem": "图示图形称为三叶结，由在全等等边三角形边上作圆扇形构成。若其水平底边长为 $2$，求三叶结面积。\n\n[Figure: /question-assets/source/amc/2351a0996bb641343c3e646169ec3b0c5c3800fcda8d1b845cc76e61b2e3049c.jpg]",
     "options": {
       "A": "$\\dfrac{1}{3} \\pi+\\dfrac{\\sqrt{3}}{2}$",
       "B": "$\\dfrac{2}{3} \\pi$",
@@ -4069,7 +4069,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2005 AMC 10A · 第 13 题",
-    "stem": "有多少个正整数 $n$ 满足：\n\n$(130 n)^{50}>n^{100}>2^{200}?$",
+    "stem": "有多少个正整数 $n$ 满足：\n\n$(130 n)^{50}>n^{100}>2^{200}$？",
     "options": {
       "A": "$0$",
       "B": "$7$",
@@ -4112,7 +4112,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2005 AMC 10A · 第 15 题",
-    "stem": "有多少个正整数立方数能整除 $3 ! \\cdot 5 ! \\cdot 7 ! ?$",
+    "stem": "有多少个正整数立方数能整除 $3 ! \\cdot 5 ! \\cdot 7 !$？",
     "options": {
       "A": "$2$",
       "B": "$3$",
@@ -4282,7 +4282,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2005 AMC 10A · 第 23 题 | 2005 AMC 12A · 第 15 题",
-    "stem": "设 $\\overline{A B}$ 为圆的直径，点 $C$ 位于 $\\overline{A B}$ 上且 $2 \\cdot A C=B C$。点 $D$、$E$ 位于圆上，满足 $\\overline{D C} \\perp \\overline{A B}$，且 $\\overline{D E}$ 是另一条直径。求 $\\triangle D C E$ 与 $\\triangle A B D?$ 的面积之比。\n\n[Figure: /question-assets/source/amc/266ac17e3863d0d473d18ce8b081ed094812fb907c6a2b2c8cec9a589fc6ce80.jpg]",
+    "stem": "设 $\\overline{A B}$ 为圆的直径，点 $C$ 位于 $\\overline{A B}$ 上且 $2 \\cdot A C=B C$。点 $D$、$E$ 位于圆上，满足 $\\overline{D C} \\perp \\overline{A B}$，且 $\\overline{D E}$ 是另一条直径。求 $\\triangle D C E$ 与 $\\triangle A B D$ 的面积之比。\n\n[Figure: /question-assets/source/amc/266ac17e3863d0d473d18ce8b081ed094812fb907c6a2b2c8cec9a589fc6ce80.jpg]",
     "options": {
       "A": "$\\dfrac{1}{6}$",
       "B": "$\\dfrac{1}{4}$",
@@ -4304,7 +4304,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2005 AMC 10A · 第 24 题",
-    "stem": "对每个正整数 $m>1$，令 $P(m)$ 表示 $m$ 的最大质因数。有多少个正整数 $n$ 同时满足 $P(n)=\\sqrt{n}$、$P(n+48)=\\sqrt{n+48}?$？",
+    "stem": "对每个正整数 $m>1$，令 $P(m)$ 表示 $m$ 的最大质因数。有多少个正整数 $n$ 同时满足 $P(n)=\\sqrt{n}$、$P(n+48)=\\sqrt{n+48}$？",
     "options": {
       "A": "$0$",
       "B": "$1$",
@@ -4325,7 +4325,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2005 AMC 10A · 第 25 题",
-    "stem": "在 $\\triangle A B C$ 中，$A B=25, B C=39$、$A C=42$。点 $D$、$E$ 分别位于 $\\overline{A B}$、$\\overline{A C}$ 上，且 $A D=19$、$A E=14$。求三角形 $A D E$ 与四边形 $B C E D?$ 的面积之比。",
+    "stem": "在 $\\triangle A B C$ 中，$A B=25, B C=39$、$A C=42$。点 $D$、$E$ 分别位于 $\\overline{A B}$、$\\overline{A C}$ 上，且 $A D=19$、$A E=14$。求三角形 $A D E$ 与四边形 $B C E D$ 的面积之比。",
     "options": {
       "A": "$\\dfrac{266}{1521}$",
       "B": "$\\dfrac{19}{75}$",
@@ -4368,7 +4368,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2005 AMC 10B · 第 2 题 | 2005 AMC 12B · 第 2 题",
-    "stem": "正数 $x$ 满足：$x$ 的 $x \\%$ 是 $4$。求 $x?$",
+    "stem": "正数 $x$ 满足：$x$ 的 $x \\%$ 是 $4$。求 $x$？",
     "options": {
       "A": "$2$",
       "B": "$4$",
@@ -4411,7 +4411,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2005 AMC 10B · 第 4 题",
-    "stem": "对实数 $a$、$b$，定义 $a \\diamond b=\\sqrt{a^{2}+b^{2}}$。求\n\n$(5 \\diamond 12) \\diamond((-12) \\diamond(-5))?$",
+    "stem": "对实数 $a$、$b$，定义 $a \\diamond b=\\sqrt{a^{2}+b^{2}}$。求\n\n$(5 \\diamond 12) \\diamond((-12) \\diamond(-5))$？",
     "options": {
       "A": "$0$",
       "B": "$\\dfrac{17}{2}$",
@@ -4454,7 +4454,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2005 AMC 10B · 第 6 题 | 2005 AMC 12B · 第 4 题",
-    "stem": "学年开始时，Lisa 的目标是在全年 $50$ 次测验中至少 $80 \\%$ 获得 $\\text{A}$。前 $30$ 次中她有 $22$ 次获得 $\\text{A}$。要达成目标，剩余测验中最多有多少次可以低于 $\\mathrm{A}?$",
+    "stem": "学年开始时，Lisa 的目标是在全年 $50$ 次测验中至少 $80 \\%$ 获得 $\\text{A}$。前 $30$ 次中她有 $22$ 次获得 $\\text{A}$。要达成目标，剩余测验中最多有多少次可以低于 $\\mathrm{A}$？",
     "options": {
       "A": "$1$",
       "B": "$2$",
@@ -4540,7 +4540,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2005 AMC 10B · 第 10 题 | 2005 AMC 12B · 第 6 题",
-    "stem": "在 $\\triangle A B C$ 中，$A C=B C=7$、$A B=2$。点 $D$ 位于直线 $A B$ 上，$B$ 位于 $A$、$D$ 之间，且 $C D=8$。求 $B D?$",
+    "stem": "在 $\\triangle A B C$ 中，$A C=B C=7$、$A B=2$。点 $D$ 位于直线 $A B$ 上，$B$ 位于 $A$、$D$ 之间，且 $C D=8$。求 $B D$？",
     "options": {
       "A": "$3$",
       "B": "$2 \\sqrt{3}$",
@@ -4669,7 +4669,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2005 AMC 10B · 第 16 题 | 2005 AMC 12B · 第 12 题",
-    "stem": "二次方程 $x^{2}+m x+n=0$ 的两个根分别是 $x^{2}+p x+m=0$ 两个根的两倍，且 $m, n$、$p$ 均不为零。求 $n / p?$",
+    "stem": "二次方程 $x^{2}+m x+n=0$ 的两个根分别是 $x^{2}+p x+m=0$ 两个根的两倍，且 $m, n$、$p$ 均不为零。求 $n / p$？",
     "options": {
       "A": "$1$",
       "B": "$2$",
@@ -4776,7 +4776,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2005 AMC 10B · 第 21 题",
-    "stem": "把四十张纸条放入一顶帽子，每张纸条上写着 $1,2,3,4,5,6,7,8, 9$ 或 $10$ 中的一个数，每个数恰好写在四张纸条上。从中随机不放回地抽取四张。设四张纸条上的数都相同的概率为 $p$；设其中两张上的数为 $a$、另外两张上的数为 $b \\neq a$ 的概率为 $q$。求 $q / p?$",
+    "stem": "把四十张纸条放入一顶帽子，每张纸条上写着 $1,2,3,4,5,6,7,8, 9$ 或 $10$ 中的一个数，每个数恰好写在四张纸条上。从中随机不放回地抽取四张。设四张纸条上的数都相同的概率为 $p$；设其中两张上的数为 $a$、另外两张上的数为 $b \\neq a$ 的概率为 $q$。求 $q / p$？",
     "options": {
       "A": "$162$",
       "B": "$180$",
@@ -4839,7 +4839,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2005 AMC 10B · 第 24 题 | 2005 AMC 12B · 第 19 题",
-    "stem": "设 $x$ 和 $y$ 是两位整数，且 $y$ 是将 $x$ 的两个数位倒置后得到的数。对某个正整数 $m$，整数 $x$ 和 $y$ 满足 $x^{2}-y^{2}=m^{2}$。求 $x+y+m?$",
+    "stem": "设 $x$ 和 $y$ 是两位整数，且 $y$ 是将 $x$ 的两个数位倒置后得到的数。对某个正整数 $m$，整数 $x$ 和 $y$ 满足 $x^{2}-y^{2}=m^{2}$。求 $x+y+m$？",
     "options": {
       "A": "$88$",
       "B": "$112$",
@@ -4861,7 +4861,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2005 AMC 10B · 第 25 题",
-    "stem": "整数集 $1$ 到 $100$ 的一个子集 $B$ 满足：$B$ 中任意两个元素之和都不等于 $125$。$B?$ 中最多可以有多少个元素？",
+    "stem": "整数集 $1$ 到 $100$ 的一个子集 $B$ 满足：$B$ 中任意两个元素之和都不等于 $125$。$B$ 中最多可以有多少个元素？",
     "options": {
       "A": "$50$",
       "B": "$51$",
@@ -4904,7 +4904,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2006 AMC 10A · 第 2 题 | 2006 AMC 12A · 第 2 题",
-    "stem": "定义 $x \\otimes y=x^{3}-y$。求 $h \\otimes(h \\otimes h)?$",
+    "stem": "定义 $x \\otimes y=x^{3}-y$。求 $h \\otimes(h \\otimes h)$？",
     "options": {
       "A": "$-h$",
       "B": "$0$",
@@ -4991,7 +4991,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2006 AMC 10A · 第 6 题",
-    "stem": "哪个非零实数 $x$ 满足 $(7 x)^{14}=(14 x)^{7}?$",
+    "stem": "哪个非零实数 $x$ 满足 $(7 x)^{14}=(14 x)^{7}$？",
     "options": {
       "A": "$\\dfrac{1}{7}$",
       "B": "$\\dfrac{2}{7}$",
@@ -5055,7 +5055,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2006 AMC 10A · 第 9 题 | 2006 AMC 12A · 第 8 题",
-    "stem": "和为 $15?$ 的、由两个或更多个连续正整数组成的数集有多少个？",
+    "stem": "和为 $15$ 的、由两个或更多个连续正整数组成的数集有多少个？",
     "options": {
       "A": "$1$",
       "B": "$2$",
@@ -5099,7 +5099,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2006 AMC 10A · 第 11 题 | 2006 AMC 12A · 第 11 题",
-    "stem": "下列哪一项描述了方程 $(x+y)^{2}=x^{2}+y^{2}?$ 的图像？",
+    "stem": "下列哪一项描述了方程 $(x+y)^{2}=x^{2}+y^{2}$ 的图像？",
     "options": {
       "A": "空集",
       "B": "一个点",
@@ -5110,7 +5110,7 @@
     "answer": "C",
     "solutions": [
       "方程 $(x+y)^{2}=x^{2}+y^{2}$ 等价于 $x^{2}+2 x y+y^{2}=x^{2}+y^{2}$，化简得 $x y=0$。因此其图像由作为坐标轴的 $(\\text{C})\\boxed{\\text{两条直线}}$ 组成。",
-      "方程 $(x+y)^{2}=x^{2}+y^{2}$ 等价于 $x^{2}+2 x y+y^{2}=x^{2}+y^{2}$，化简得 $x y=0$。因此其图像由作为坐标轴的 $\\boxed{two \\quad lines}$ 组成。"
+      "方程 $(x+y)^{2}=x^{2}+y^{2}$ 等价于 $x^{2}+2 x y+y^{2}=x^{2}+y^{2}$，化简得 $x y=0$。因此其图像由作为坐标轴的 $\\boxed{\\text{两条直线}}$ 组成。"
     ],
     "tags": []
   },
@@ -5207,7 +5207,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2006 AMC 10A · 第 16 题",
-    "stem": "半径为 $1$ 的圆与半径为 $2$ 的圆相切。$\\triangle A B C$ 的各边如图与两圆相切，且 $\\overline{A B}$ 与 $\\overline{A C}$ 等长。求 $\\triangle A B C?$ 的面积。\n\n[Figure: /question-assets/source/amc/a00525692b898977fb5298f07f085af2d1196ac9c7a427c079da7acae6153400.jpg]",
+    "stem": "半径为 $1$ 的圆与半径为 $2$ 的圆相切。$\\triangle A B C$ 的各边如图与两圆相切，且 $\\overline{A B}$ 与 $\\overline{A C}$ 等长。求 $\\triangle A B C$ 的面积。\n\n[Figure: /question-assets/source/amc/a00525692b898977fb5298f07f085af2d1196ac9c7a427c079da7acae6153400.jpg]",
     "options": {
       "A": "$\\dfrac{35}{2}$",
       "B": "$15 \\sqrt{2}$",
@@ -5291,7 +5291,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2006 AMC 10A · 第 20 题",
-    "stem": "从 $1$ 到 $2006$（含端点）的正整数中随机选取六个不同的数。所选数中存在一对，其差是 $5?$ 的倍数的概率是多少？",
+    "stem": "从 $1$ 到 $2006$（含端点）的正整数中随机选取六个不同的数。所选数中存在一对，其差是 $5$ 的倍数的概率是多少？",
     "options": {
       "A": "$\\dfrac{1}{2}$",
       "B": "$\\dfrac{3}{5}$",
@@ -5355,7 +5355,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2006 AMC 10A · 第 23 题 | 2006 AMC 12A · 第 16 题",
-    "stem": "圆心分别为 $A$、$B$ 的两个圆，半径依次为 $3$、$8$。如图，一条公共内切线分别在 $C$、$D$ 处与两圆相切。直线 $A B$ 与 $C D$ 相交于 $E$，且 $A E=5$。求 $C D?$\n\n[Figure: /question-assets/source/amc/165f67ee492863ba4060f01ccf753285b551bacffeccaae751b24cdf9e3f2573.jpg]",
+    "stem": "圆心分别为 $A$、$B$ 的两个圆，半径依次为 $3$、$8$。如图，一条公共内切线分别在 $C$、$D$ 处与两圆相切。直线 $A B$ 与 $C D$ 相交于 $E$，且 $A E=5$。求 $C D$？\n\n[Figure: /question-assets/source/amc/165f67ee492863ba4060f01ccf753285b551bacffeccaae751b24cdf9e3f2573.jpg]",
     "options": {
       "A": "$13$",
       "B": "$\\dfrac{44}{3}$",
@@ -5499,7 +5499,7 @@
     },
     "answer": "D",
     "solutions": [
-      "红色面积等于小圆面积，蓝色面积等于大圆面积减去小圆面积。\n\n因此\n\n\\begin{align*} A_{red}&=\\pi\\left(\\frac{1}{2}\\right)^2=\\frac{\\pi}{4}\\\\ A_{blue}&=\\pi\\left(\\frac{3}{2}\\right)^2-\\pi\\left(\\frac{1}{2}\\right)^2=2\\pi\\\\ \\end{align*}\n\n所求比为\n\n$\\frac{A_{blue}}{A_{red}}=\\frac{2\\pi}{\\frac{\\pi}{4}}=2\\cancel{\\pi}\\cdot \\frac{4}{\\cancel{\\pi}}=\\boxed{\\textbf{(D) }8}.$"
+      "红色面积等于小圆面积，蓝色面积等于大圆面积减去小圆面积。\n\n因此\n\n\\begin{align*} A_{\\text{红}}&=\\pi\\left(\\frac{1}{2}\\right)^2=\\frac{\\pi}{4}\\\\ A_{\\text{蓝}}&=\\pi\\left(\\frac{3}{2}\\right)^2-\\pi\\left(\\frac{1}{2}\\right)^2=2\\pi\\\\ \\end{align*}\n\n所求比为\n\n$\\frac{A_{\\text{蓝}}}{A_{\\text{红}}}=\\frac{2\\pi}{\\frac{\\pi}{4}}=2\\cancel{\\pi}\\cdot \\frac{4}{\\cancel{\\pi}}=\\boxed{\\textbf{(D) }8}.$"
     ],
     "tags": []
   },
@@ -5963,7 +5963,7 @@
       "另一种看法是：若 Jones 先生有一个 5 岁的孩子，车牌数末位必须是 $0$。由于 $2$ 也是这个数的因数，末位不能是 $5$，而必须为偶数。因此车牌中必须有两个 $0$，其形式只能是 $XX00$ 或 $X0X0$，其中 X 表示另一个数字。$XX00$ 不可能，因为 Jones 先生不可能是 $00$ 岁。把第二种形式 $X0X0$ 分解，可得 $X\\cdot 10\\cdot 101$。$101$ 是质数，不能帮助 $X0X0$ 被孩子们的各年龄整除；$10$ 提供因数 5 和一个因数 2，只剩 $X$，但没有一个一位数能包含其余孩子年龄所需的全部质因数。因此 $5$ $\\boxed{ B }$ 不可能是孩子年龄。",
       "也可用排除法。只需检查各质数在一位数年龄中的最高次幂 $2^3=8$、$3^2=9$、$5^1=5$、$7^1=7$，因为若不能被较低次幂整除，就更不可能被较高次幂整除（例如，不能被 $2^2=4$ 整除就不能被 $2^3=8)$ 整除）。车牌数能被 $9$ 整除，所以 9 不是答案，两个重复数字的和必须满足 $9$ 的整除条件。设两个数字为 $(a,b)$；由 $2\\cdot(a+b) | 9$ 可知 $(a+b)|9$。$(a,b)$ 只可能是 $(0,9)$、$(1,8)$、$(2,7)$、$(3,6)$、$(4,5)$。唯一符合其余条件的数是 $5544$，但它不能被 $5$ 整除。因此答案为 $\\boxed{ B }$。",
       "因为 5 在一位数中有最严格的整除规则，先检查它。要同时被 9 整除，另一个重复数字必须是 4。在由两个 4 和两个 5 组成的数中，5544 是唯一能被其他一位数整除的排列，而它不能被 5 整除，所以答案是 $\\boxed {(B) 5}$。",
-      "车牌号形如 $a a b b$、$a b a b$ 或 $b a a b$，其中 $a$、$b$ 是不同数字。因有 9 岁孩子，数能被 9 整除，故数位和 $2(a+b)$ 被 9 整除；由 $a$、$b$ 的范围得 $a+b=9$。又因孩子中必有 4 岁或 8 岁，车牌能被 4 整除。可能数缩小为 $1188,2772,3636,5544$、6336、7272、9900。9900 末两位不能表示父亲年龄，其余都不能被 5 整除，所以没有 $\\boxed{5 -year-old}$。5544 可被其他八个非零数字整除。"
+      "车牌号形如 $a a b b$、$a b a b$ 或 $b a a b$，其中 $a$、$b$ 是不同数字。因有 9 岁孩子，数能被 9 整除，故数位和 $2(a+b)$ 被 9 整除；由 $a$、$b$ 的范围得 $a+b=9$。又因孩子中必有 4 岁或 8 岁，车牌能被 4 整除。可能数缩小为 $1188,2772,3636,5544$、6336、7272、9900。9900 末两位不能表示父亲年龄，其余都不能被 5 整除，所以没有 $\\boxed{\\text{5 岁的孩子}}$。5544 可被其他八个非零数字整除。"
     ],
     "tags": []
   },
@@ -6319,7 +6319,7 @@
     "answer": "E",
     "solutions": [
       "$ad-bc$ 为偶数，当且仅当 $ad$ 与 $bc$ 奇偶性相同。$ad$ 为奇数的概率是 $\\frac 12 \\cdot \\frac 12 = \\frac 14$，因为 $ad$ 为奇数必须同时有 $a$、$d$ 为奇数。因此 $ad$ 为偶数的概率是 $\\frac 34$。同理，$bc$ 为奇数、偶数的概率分别为 $\\frac 14$、$\\frac34$。所以 $ad-bc$ 为偶数的概率是 $\\left(\\frac 14\\right)^2+\\left(\\frac 34\\right)^2=\\boxed {\\mathrm{(E )} \\frac 58\\ }$。",
-      "也可直接按奇偶情况分类。$ad-bc$ 为偶数，当且仅当 $ad$ 与 $bc$ 奇偶性相同。\n\n情况 1：$odd-odd$，即 $o \\cdot o-o \\cdot o$。每个整数为奇数的概率是 $\\frac 12$，所以该情形概率为 $\\left(\\frac 12\\right)^4 = \\frac 1{16}$。\n\n情况 2：$even-even$，分为四类：$(e \\cdot e-e \\cdot e$、$o \\cdot e-o \\cdot e$、$e \\cdot e-o \\cdot e$ 及其反向情形 $o \\cdot e-e \\cdot e$。\n\n第一类概率为 $\\frac 1{16}$；第二类概率为 $\\frac 14$；第三类概率为 $\\frac 18$；第四类与第三类反向，概率为 $\\frac 18$。\n\n相加得到 $\\frac 1{16} + \\frac 1{16} + \\frac 14 + \\frac 18 + \\frac 18 = \\boxed {\\mathrm{(E )} \\frac 58\\ }.$。",
+      "也可直接按奇偶情况分类。$ad-bc$ 为偶数，当且仅当 $ad$ 与 $bc$ 奇偶性相同。\n\n情况 1：$\\text{奇}-\\text{奇}$，即 $o \\cdot o-o \\cdot o$。每个整数为奇数的概率是 $\\frac 12$，所以该情形概率为 $\\left(\\frac 12\\right)^4 = \\frac 1{16}$。\n\n情况 2：$\\text{偶}-\\text{偶}$，分为四类：$(e \\cdot e-e \\cdot e$、$o \\cdot e-o \\cdot e$、$e \\cdot e-o \\cdot e$ 及其反向情形 $o \\cdot e-e \\cdot e$。\n\n第一类概率为 $\\frac 1{16}$；第二类概率为 $\\frac 14$；第三类概率为 $\\frac 18$；第四类与第三类反向，概率为 $\\frac 18$。\n\n相加得到 $\\frac 1{16} + \\frac 1{16} + \\frac 14 + \\frac 18 + \\frac 18 = \\boxed {\\mathrm{(E )} \\frac 58\\ }.$。",
       "数 $a d-b c$ 为偶数，当且仅当 $a d$ 和 $b c$ 同为奇数或同为偶数。$a d$ 和 $b c$ 各自在两个因数都为奇数时是奇数，否则为偶数。从 0 到 2007 的整数中恰有一半是奇数，所以 $a d$ 和 $b c$ 各自为奇数的概率是 $(1 / 2) \\cdot(1 / 2)=1 / 4$，为偶数的概率是 $3 / 4$。因此 $a d-b c$ 为偶数的概率是\n\n$\\dfrac{1}{4} \\cdot \\dfrac{1}{4}+\\dfrac{3}{4} \\cdot \\dfrac{3}{4}= \\boxed{\\dfrac{5}{8}}$"
     ],
     "tags": []
@@ -6513,7 +6513,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2007 AMC 10A · 第 25 题 | 2007 AMC 12A · 第 22 题",
-    "stem": "对每个正整数 $n$，令 $S(n)$ 表示 $n.$ 的各位数字之和。有多少个 $n$ 满足 $n + S(n) + S(S(n)) = 2007?$",
+    "stem": "对每个正整数 $n$，令 $S(n)$ 表示 $n.$ 的各位数字之和。有多少个 $n$ 满足 $n + S(n) + S(S(n)) = 2007$？",
     "options": {
       "A": "$\\ 1$",
       "B": "$\\ 2$",
@@ -7119,7 +7119,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2008 AMC 10A · 第 3 题",
-    "stem": "对正整数 $n$，令 $\\langle n\\rangle$ 表示 $n$ 除 $n$ 本身外的所有正因数之和。例如 $\\langle 4\\rangle=1+2=3$、$\\langle 12 \\rangle =1+2+3+4+6=16$。求 $\\langle\\langle\\langle 6\\rangle\\rangle\\rangle?$",
+    "stem": "对正整数 $n$，令 $\\langle n\\rangle$ 表示 $n$ 除 $n$ 本身外的所有正因数之和。例如 $\\langle 4\\rangle=1+2=3$、$\\langle 12 \\rangle =1+2+3+4+6=16$。求 $\\langle\\langle\\langle 6\\rangle\\rangle\\rangle$？",
     "options": {
       "A": "$6$",
       "B": "$12$",
@@ -7162,7 +7162,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2008 AMC 10A · 第 5 题 | 2008 AMC 12A · 第 4 题",
-    "stem": "下列哪一项等于乘积\n\n$\\dfrac{8}{4} \\cdot \\dfrac{12}{8} \\cdot \\dfrac{16}{12} \\cdots \\dfrac{4 n+4}{4 n} \\cdots \\dfrac{2008}{2004}?$",
+    "stem": "下列哪一项等于乘积\n\n$\\dfrac{8}{4} \\cdot \\dfrac{12}{8} \\cdot \\dfrac{16}{12} \\cdots \\dfrac{4 n+4}{4 n} \\cdots \\dfrac{2008}{2004}$？",
     "options": {
       "A": "$251$",
       "B": "$502$",
@@ -8095,7 +8095,7 @@
     "answer": "B",
     "solutions": [
       "边框面积占地面一半，所以涂色矩形也占一半。涂色矩形尺寸为 $a-2$×$b-2$ 英尺，因此 $a b=2(a-2)(b-2)$，化简得 $0=a b-4 a-4 b+8$。等式两边各加 $8$，得到\n\n$8=a b-4 a-4 b+16=(a-4)(b-4) .$\n\n$8$ 的整数分解只有\n\n$8=1 \\cdot 8=2 \\cdot 4=(-4) \\cdot(-2)=(-8) \\cdot(-1)$\n\n且 $b>a>0$，所以 $(a-4, b-4)$ 只能是 $(1,8)$ 或 $(2,4)$。因此 $(a, b)$ 只能为 $(5,12)$、$(6,8)$。",
-      "因为边框面积是地板面积的一半，涂色长方形的面积也是地板面积的一半。涂色长方形的尺寸为 $a-2$ 英尺乘 $b-2$ 英尺。因此 $a b=2(a-2)(b-2)$，从而 $0=a b-4 a-4 b+8$。等式两边各加 8，得到\n\n$8=a b-4 a-4 b+16=(a-4)(b-4)$\n因为 8 的整数因式分解只有\n\n$8=1 \\cdot 8=2 \\cdot 4=(-4) \\cdot(-2)=(-8) \\cdot(-1)$\n且 $b>a>0$，所以满足该方程的 $(a-4, b-4)$ 只有 $(1,8)$ 和 $(2,4)$。因此 $(a, b)$ 必须是 $\\boxed{two}$ 个有序数对 $(5,12)$ 或 $(6,8)$ 之一。"
+      "因为边框面积是地板面积的一半，涂色长方形的面积也是地板面积的一半。涂色长方形的尺寸为 $a-2$ 英尺乘 $b-2$ 英尺。因此 $a b=2(a-2)(b-2)$，从而 $0=a b-4 a-4 b+8$。等式两边各加 8，得到\n\n$8=a b-4 a-4 b+16=(a-4)(b-4)$\n因为 8 的整数因式分解只有\n\n$8=1 \\cdot 8=2 \\cdot 4=(-4) \\cdot(-2)=(-8) \\cdot(-1)$\n且 $b>a>0$，所以满足该方程的 $(a-4, b-4)$ 只有 $(1,8)$ 和 $(2,4)$。因此 $(a, b)$ 必须是 $\\boxed{\\text{2}}$ 个有序数对 $(5,12)$ 或 $(6,8)$ 之一。"
     ],
     "tags": []
   },
@@ -8142,7 +8142,7 @@
     "answer": "B",
     "solutions": [
       "把垃圾桶连续编号，使 Michael 当前在 $0$ 号桶，垃圾车在 $1$ 号桶。Michael 在相邻桶间需 $200 / 5=40$ 秒，所以对 $n \\geq 0$，他在 $40 n$ 秒后经过 $n$ 号桶。垃圾车行驶一段需 $20$ 秒，在每桶停 $30$ 秒；所以对 $n \\geq 1$，它在 $50(n-1)$ 秒后离开 $n$ 号桶，对 $n \\geq 2$，在 $50(n-1)-30$ 秒后到达 $n$ 号桶。Michael 在 $n$ 号桶与车相遇，当且仅当\n\n$50(n-1)-30 \\leq 40 n \\leq 50(n-1) \\text{ 即等价于 } 5 \\leq n \\leq 8$\n\n[Figure: /question-assets/source/amc/eb4d80ffe4235e9d35ff5d7885ed20c8800b51e1d2c1e65826a71652beeb62b2.jpg]\n\n所以他在 $200$ 秒后于 $5$ 号桶首次相遇，恰逢车离开；在 $240$ 秒后于 $6$ 号桶越过车，在 $280$ 秒后于 $7$ 号桶再次越过；最后在 $320$ 秒后于 $8$ 号桶与刚到达的车相遇。这说明在 $5$、$6$ 号桶之间车领先，在 $7$、$8$ 号桶之间 Michael 领先。但车还会在 $6$、$7$ 号桶之间追过 Michael，因此总共相遇 $(\\text{B})\\boxed{5}$ 次。",
-      "依次给垃圾桶编号，使 Michael 当前位于 0 号桶，垃圾车位于 1 号桶。Michael 在相邻垃圾桶之间步行需要 $200 / 5=40$ 秒，所以当 $n \\geq 0$ 时，他在 $40 n$ 秒后经过 $n$ 号桶。垃圾车在相邻垃圾桶之间行驶需要 20 秒，并在每个桶处停 30 秒。因此当 $n \\geq 1$ 时，它在 $50(n-1)$ 秒后离开 $n$ 号桶；当 $n \\geq 2$ 时，它在 $50(n-1)-30$ 秒后到达 $n$ 号桶。Michael 在 $n$ 号桶与垃圾车相遇，当且仅当\n\n$50(n-1)-30 \\leq 40 n \\leq 50(n-1) \\quad \\text{ 即等价于 } 5 \\leq n \\leq 8$\n\n[Figure: /question-assets/source/amc/185ffbaef2e5ea9a69b2afc7f90d6f5684d5ca278e3cf75198dd0ac0a01a827c.jpg]\n\n因此 Michael 在 200 秒后首次于 5 号桶遇到垃圾车，恰好是垃圾车离开之时。他在 240 秒后于 6 号桶经过垃圾车，在 280 秒后于 7 号桶再次经过它。最后，他在 320 秒后于 8 号桶恰好遇到到达的垃圾车。这说明垃圾车在 5、6 号桶之间领先 Michael，而 Michael 在 7、8 号桶之间领先垃圾车；但垃圾车必定会在 6、7 号桶之间的某处超过 Michael。因此他们总共相遇 $\\boxed{five}$ 次。"
+      "依次给垃圾桶编号，使 Michael 当前位于 0 号桶，垃圾车位于 1 号桶。Michael 在相邻垃圾桶之间步行需要 $200 / 5=40$ 秒，所以当 $n \\geq 0$ 时，他在 $40 n$ 秒后经过 $n$ 号桶。垃圾车在相邻垃圾桶之间行驶需要 20 秒，并在每个桶处停 30 秒。因此当 $n \\geq 1$ 时，它在 $50(n-1)$ 秒后离开 $n$ 号桶；当 $n \\geq 2$ 时，它在 $50(n-1)-30$ 秒后到达 $n$ 号桶。Michael 在 $n$ 号桶与垃圾车相遇，当且仅当\n\n$50(n-1)-30 \\leq 40 n \\leq 50(n-1) \\quad \\text{ 即等价于 } 5 \\leq n \\leq 8$\n\n[Figure: /question-assets/source/amc/185ffbaef2e5ea9a69b2afc7f90d6f5684d5ca278e3cf75198dd0ac0a01a827c.jpg]\n\n因此 Michael 在 200 秒后首次于 5 号桶遇到垃圾车，恰好是垃圾车离开之时。他在 240 秒后于 6 号桶经过垃圾车，在 280 秒后于 7 号桶再次经过它。最后，他在 320 秒后于 8 号桶恰好遇到到达的垃圾车。这说明垃圾车在 5、6 号桶之间领先 Michael，而 Michael 在 7、8 号桶之间领先垃圾车；但垃圾车必定会在 6、7 号桶之间的某处超过 Michael。因此他们总共相遇 $\\boxed{\\text{5}}$ 次。"
     ],
     "tags": []
   },
@@ -8196,7 +8196,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2009 AMC 10A · 第 3 题 | 2009 AMC 12A · 第 2 题",
-    "stem": "下列哪一项等于\n\n$1+\\dfrac{1}{1+\\dfrac{1}{1+1}} ?$",
+    "stem": "下列哪一项等于\n\n$1+\\dfrac{1}{1+\\dfrac{1}{1+1}}$？",
     "options": {
       "A": "$\\dfrac{5}{4}$",
       "B": "$\\dfrac{3}{2}$",
@@ -8709,7 +8709,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2009 AMC 10B · 第 2 题",
-    "stem": "下列哪一项等于\n\n$\\dfrac{\\dfrac{1}{3}-\\dfrac{1}{4}}{\\dfrac{1}{2}-\\dfrac{1}{3}}?$",
+    "stem": "下列哪一项等于\n\n$\\dfrac{\\dfrac{1}{3}-\\dfrac{1}{4}}{\\dfrac{1}{2}-\\dfrac{1}{3}}$？",
     "options": {
       "A": "$\\dfrac{1}{4}$",
       "B": "$\\dfrac{1}{3}$",
@@ -8829,7 +8829,7 @@
     "answer": "C",
     "solutions": [
       "三个运算可以按 $3 !=6$ 种顺序执行。但若加法最先或最后执行，两次乘法的先后不影响结果，所以至多得到 $(\\text{C})\\boxed{4}$ 个不同值。直接检验以下 $4$ 个表达式：\n\n$\\begin{aligned} (2 \\times 3)+(4 \\times 5) &=26 \\\\ ((2 \\times 3+4) \\times 5) &=50 \\\\ 2 \\times(3+(4 \\times 5)) &=46 \\\\ 2 \\times(3+4) \\times 5 &=70 \\end{aligned}$\n\n它们的值确实互不相同。",
-      "三个运算可以按 $3!=6$ 种顺序执行。但若加法最先或最后执行，两次乘法的先后不影响结果，所以至多得到 $\\boxed{four}$ 个不同值。直接检验四个表达式\n\n$(2 \\times 3)+(4 \\times 5)=26$\n\n$\\begin{aligned} ((2 \\times 3+4) \\times 5) =50 \\\\ 2 \\times(3+(4 \\times 5)) =46 \\\\ 2 \\times(3+4) \\times 5 =70 \\end{aligned}$\n\n可知它们的值互不相同。"
+      "三个运算可以按 $3!=6$ 种顺序执行。但若加法最先或最后执行，两次乘法的先后不影响结果，所以至多得到 $\\boxed{\\text{4}}$ 个不同值。直接检验四个表达式\n\n$(2 \\times 3)+(4 \\times 5)=26$\n\n$\\begin{aligned} ((2 \\times 3+4) \\times 5) =50 \\\\ 2 \\times(3+(4 \\times 5)) =46 \\\\ 2 \\times(3+4) \\times 5 =70 \\end{aligned}$\n\n可知它们的值互不相同。"
     ],
     "tags": []
   },
@@ -10849,7 +10849,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2011 AMC 10B · 第 1 题 | 2011 AMC 12B · 第 1 题",
-    "stem": "求\n\n$\\dfrac{2+4+6}{1+3+5}-\\dfrac{1+3+5}{2+4+6}?$",
+    "stem": "求\n\n$\\dfrac{2+4+6}{1+3+5}-\\dfrac{1+3+5}{2+4+6}$？",
     "options": {
       "A": "$-1$",
       "B": "$\\dfrac{5}{36}$",
@@ -12123,7 +12123,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2012 AMC 10B · 第 10 题",
-    "stem": "有多少个正整数有序对 $(M, N)$ 满足方程 $\\dfrac{M}{6}=\\dfrac{6}{N} ?$",
+    "stem": "有多少个正整数有序对 $(M, N)$ 满足方程 $\\dfrac{M}{6}=\\dfrac{6}{N}$？",
     "options": {
       "A": "$6$",
       "B": "$7$",
@@ -12615,7 +12615,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2013 AMC 10A · 第 8 题 | 2013 AMC 12A · 第 4 题",
-    "stem": "求\n\n$\\dfrac{2^{2014}+2^{2012}}{2^{2014}-2^{2012}}?$",
+    "stem": "求\n\n$\\dfrac{2^{2014}+2^{2012}}{2^{2014}-2^{2012}}$？",
     "options": {
       "A": "$-1$",
       "B": "$1$",
@@ -13408,7 +13408,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2013 AMC 10B · 第 20 题 | 2013 AMC 12B · 第 15 题",
-    "stem": "数 $2013$ 表示为\n\n$2013=\\dfrac{a_{1} ! a_{2} ! \\cdots a_{m} !}{b_{1} ! b_{2} ! \\cdots b_{n} !}$\n其中 $a_{1} \\geq a_{2} \\geq \\cdots \\geq a_{m}$ 和 $b_{1} \\geq b_{2} \\geq \\cdots \\geq b_{n}$ 均为正整数，并且 $a_{1}+b_{1}$ 尽可能小。求 $\\left|a_{1}-b_{1}\\right| ?$",
+    "stem": "数 $2013$ 表示为\n\n$2013=\\dfrac{a_{1} ! a_{2} ! \\cdots a_{m} !}{b_{1} ! b_{2} ! \\cdots b_{n} !}$\n其中 $a_{1} \\geq a_{2} \\geq \\cdots \\geq a_{m}$ 和 $b_{1} \\geq b_{2} \\geq \\cdots \\geq b_{n}$ 均为正整数，并且 $a_{1}+b_{1}$ 尽可能小。求 $\\left|a_{1}-b_{1}\\right|$？",
     "options": {
       "A": "$1$",
       "B": "$2$",
@@ -13541,7 +13541,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2014 AMC 10A · 第 1 题 | 2014 AMC 12A · 第 1 题",
-    "stem": "求 $10\\cdot\\left(\\tfrac{1}{2}+\\tfrac{1}{5}+\\tfrac{1}{10}\\right)^{-1}?$",
+    "stem": "求 $10\\cdot\\left(\\tfrac{1}{2}+\\tfrac{1}{5}+\\tfrac{1}{10}\\right)^{-1}$？",
     "options": {
       "A": "$\\ 3$",
       "B": "$\\ 8$",
@@ -13875,7 +13875,7 @@
     "answer": "C",
     "solutions": [
       "第一小时后，他以每小时 $50$ 英里的速度继续行驶直至到达。\n\n设经过 $1$ 小时后还需行驶 $d$ 英里。则 $\\dfrac{d}{50}+1.5=\\dfrac{d}{35}$，其中 $1.5$ 来自从迟到 $1$ 小时变为提前 $0.5$ 小时。\n\n化简得 $7d+525=10d$，即 $d=175$。\n\n再加上第一小时行驶的 $35$ 英里，总路程为 $\\boxed{\\textbf{(C) } 210}$ 英里。",
-      "也可以直接检验选项。很快可知 $\\textbf{(A)}$ 和 $\\textbf{(B)}$ 均不符合，而 $\\textbf{(C)}$ 符合。验证如下：以 $35 \\text{ mph}$ 行驶 $1$ 小时后，戴维还剩 $175$ 英里；以 $50 \\text{ mph}$ 行驶这段路需要 $3.5$ 小时。而 $210/35 = 6 \\text{ 小时}$。由于 $1+3.5 = 4.5 \\text{ 小时}$ 比 $6$ 少 $1.5$ 小时，所以答案是 $\\boxed{\\textbf{(C)} \\: 210}$。",
+      "也可以直接检验选项。很快可知 $\\textbf{(A)}$ 和 $\\textbf{(B)}$ 均不符合，而 $\\textbf{(C)}$ 符合。验证如下：以 $35 \\text{ 英里/时}$ 行驶 $1$ 小时后，戴维还剩 $175$ 英里；以 $50 \\text{ 英里/时}$ 行驶这段路需要 $3.5$ 小时。而 $210/35 = 6 \\text{ 小时}$。由于 $1+3.5 = 4.5 \\text{ 小时}$ 比 $6$ 少 $1.5$ 小时，所以答案是 $\\boxed{\\textbf{(C)} \\: 210}$。",
       "设总路程为 $d$，变速后所用时间为 $t$。则 $d=35(t+1)$。由于已经过了 1 小时、车速提高了每小时 $15$ 英里且此前已行驶 $35$ 英里，另一个方程为 $d-35=50(t-1-\\frac{1}{2})=50(t-\\frac{3}{2})$。解得 $d=35t+35=50t-40$、$15t=75$、$t=5$，从而 $d=35(5+1)=35\\cdot 6=210 \\Longrightarrow \\boxed{\\textbf{(C) } 210}$。",
       "设驾驶一小时后的剩余路程为 $d$，距飞机起飞的剩余时间为 $t$。则 $d=35(t+1)$，$d=50(t-0.5)$。解得 $t=4$，$d=175$。家到机场的总路程为 $175+35= \\boxed{210}$ 英里。\n\n或\n\n设 David 家到机场的距离为 $d$。全程以 $35 \\mathrm{MPH}$ 行驶需要 $\\dfrac{d}{35}$ 小时。前 35 英里以 $35 \\mathrm{MPH}$ 行驶、余下 $d-35$ 英里以 $50 \\mathrm{MPH}$ 行驶，需要 $1+\\dfrac{d-35}{50}$ 小时。第二种行程比第一种快 1.5 小时，所以\n\n$\\dfrac{d}{35}-\\left(1+\\dfrac{d-35}{50}\\right)=1.5$\n解得 $d= \\boxed{210}$ 英里。"
     ],
@@ -14101,7 +14101,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2014 AMC 10A · 第 25 题 | 2014 AMC 12A · 第 22 题",
-    "stem": "数 $5^{867}$ 介于 $2^{2013}$ 与 $2^{2014}$ 之间。有多少对整数 $(m,n)$ 满足 $1\\leq m\\leq 2012$ 且 $5^n<2^m<2^{m+2}<5^{n+1}?$",
+    "stem": "数 $5^{867}$ 介于 $2^{2013}$ 与 $2^{2014}$ 之间。有多少对整数 $(m,n)$ 满足 $1\\leq m\\leq 2012$ 且 $5^n<2^m<2^{m+2}<5^{n+1}$？",
     "options": {
       "A": "$278$",
       "B": "$279$",
@@ -15144,7 +15144,7 @@
     "answer": "C",
     "solutions": [
       "$f$ 的零点是整数，且它们之和为 $a$，所以 $a$ 是整数。若 $r$ 是一个整数零点，则 $r^{2}-a r+2 a=0$，即\n\n$a=\\dfrac{r^{2}}{r-2}=r+2+\\dfrac{4}{r-2}$\n所以 $\\dfrac{4}{r-2}=a-r-2$ 必须是整数，$r$ 的可能值为 $6,4,3,1,0$ 和 $-2$。由此 $a$ 的可能值为 $9,8,0$ 和 $-1$，它们都使 $f$ 的零点为整数，和为 $(\\text{C})\\boxed{16}$。\n\n$\\textbf{或}$\n另一种方法：同上，$a$ 必须是整数。函数 $f$ 的零点为\n\n$x=\\dfrac{a \\pm \\sqrt{a^{2}-8 a}}{2}$\n这些值是整数，当且仅当对某个整数 $w$ 有 $a^{2}-8 a=w^{2}$。用 $w$ 表示 $a$ 得 $a=4 \\pm \\sqrt{16+w^{2}}$，所以 $16+w^{2}$ 必须是完全平方数。$w$ 的整数解只有 $0$ 和 $\\pm 3$，从而 $a$ 的可能值为 $0,8,9$ 和 $-1$，它们都给出整数 $x$。所求和为 $(\\text{C})\\boxed{16}$。",
-      "$f$ 的零点都是整数，且它们的和为 $a$，所以 $a$ 是整数。若 $r$ 是一个整数零点，则 $r^{2}-a r+2 a=0$，即\n\n$a=\\dfrac{r^{2}}{r-2}=r+2+\\dfrac{4}{r-2} \\text{. }$\n\n所以 $\\dfrac{4}{r-2}=a-r-2$ 必须是整数，$r$ 的可能值为 6、4、$3,1,0$ 和 -2。相应地，$a$ 的可能值为 $9,8,0$ 和 -1；这些值都使 $f$ 的零点为整数，它们的和为 $\\boxed{16}$。\n\n或\n\n如上所述，$a$ 必须是整数。函数 $f$ 的零点为\n\n$x=\\dfrac{a \\pm \\sqrt{a^{2}-8 a}}{2}$\n\n这些值为整数，当且仅当对于某个整数 $w$，有 $a^{2}-8 a=w^{2}$。用 $w$ 表示 $a$，得 $a=4 \\pm \\sqrt{16+w^{2}}$，所以 $16+w^{2}$ 必须是完全平方数。$w$ 的整数解只有 0 和 \\textbackslash pm 3，由此得到 $a$ 的可能值为 $0,8,9$ 和 -1；这些值都使 $x$ 为整数。所求和为 $\\boxed{16}$。"
+      "$f$ 的零点都是整数，且它们的和为 $a$，所以 $a$ 是整数。若 $r$ 是一个整数零点，则 $r^{2}-a r+2 a=0$，即\n\n$a=\\dfrac{r^{2}}{r-2}=r+2+\\dfrac{4}{r-2} \\text{. }$\n\n所以 $\\dfrac{4}{r-2}=a-r-2$ 必须是整数，$r$ 的可能值为 6、4、$3,1,0$ 和 -2。相应地，$a$ 的可能值为 $9,8,0$ 和 -1；这些值都使 $f$ 的零点为整数，它们的和为 $\\boxed{16}$。\n\n或\n\n如上所述，$a$ 必须是整数。函数 $f$ 的零点为\n\n$x=\\dfrac{a \\pm \\sqrt{a^{2}-8 a}}{2}$\n\n这些值为整数，当且仅当对于某个整数 $w$，有 $a^{2}-8 a=w^{2}$。用 $w$ 表示 $a$，得 $a=4 \\pm \\sqrt{16+w^{2}}$，所以 $16+w^{2}$ 必须是完全平方数。$w$ 的整数解只有 0 和 $\\pm 3$，由此得到 $a$ 的可能值为 $0,8,9$ 和 -1；这些值都使 $x$ 为整数。所求和为 $\\boxed{16}$。"
     ],
     "tags": []
   },
@@ -16271,7 +16271,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2016 AMC 10A · 第 25 题 | 2016 AMC 12A · 第 22 题",
-    "stem": "有多少个正整数有序三元组 $(x, y, z)$ 满足 $\\operatorname{lcm}(x, y)=72$、$\\operatorname{lcm}(x, z)=600$ 和 $\\operatorname{lcm}(y, z)=900?$",
+    "stem": "有多少个正整数有序三元组 $(x, y, z)$ 满足 $\\operatorname{lcm}(x, y)=72$、$\\operatorname{lcm}(x, z)=600$ 和 $\\operatorname{lcm}(y, z)=900$？",
     "options": {
       "A": "$15$",
       "B": "$16$",
@@ -16446,7 +16446,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2016 AMC 10B · 第 8 题",
-    "stem": "$2015^{2016}-2017?$ 的十位数字是多少？",
+    "stem": "$2015^{2016}-2017$ 的十位数字是多少？",
     "options": {
       "A": "$\\ 0$",
       "B": "$\\ 1$",
@@ -16580,7 +16580,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2016 AMC 10B · 第 14 题 | 2016 AMC 12B · 第 11 题",
-    "stem": "有多少个边平行于坐标轴、顶点坐标均为整数的正方形，完全位于直线 $y=\\pi x$、直线 $y=-0.1$ 和直线 $x=5.1?$ 所围成的区域内？",
+    "stem": "有多少个边平行于坐标轴、顶点坐标均为整数的正方形，完全位于直线 $y=\\pi x$、直线 $y=-0.1$ 和直线 $x=5.1$ 所围成的区域内？",
     "options": {
       "A": "$\\ 30$",
       "B": "$\\ 41$",
@@ -16626,7 +16626,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2016 AMC 10B · 第 16 题 | 2016 AMC 12B · 第 14 题",
-    "stem": "一个无穷等比级数的和是正数 $S$，且该级数的第二项为 $1$。$S?$ 的最小可能值是多少？",
+    "stem": "一个无穷等比级数的和是正数 $S$，且该级数的第二项为 $1$。$S$ 的最小可能值是多少？",
     "options": {
       "A": "$\\ \\frac{1+\\sqrt{5}}{2}$",
       "B": "$\\ 2$",
@@ -16742,7 +16742,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2016 AMC 10B · 第 21 题 | 2016 AMC 12B · 第 18 题",
-    "stem": "方程\n\n$x^{2} + y^{2} = |x| + |y| ?$\n\n的图像所围区域的面积是多少？",
+    "stem": "方程\n\n$x^{2} + y^{2} = |x| + |y|$\n\n的图像所围区域的面积是多少？",
     "options": {
       "A": "$\\pi+\\sqrt{2}$",
       "B": "$\\pi+2$",
@@ -16764,7 +16764,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2016 AMC 10B · 第 22 题 | 2016 AMC 12B · 第 20 题",
-    "stem": "一些队伍举行单循环赛，每支队伍都恰好与其他每支队伍比赛一次。每支队伍胜 $10$ 场、负 $10$ 场，没有平局。有多少个三队集合 $\\{A, B, C\\}$ 满足 $A$ 战胜 $B$、$B$ 战胜 $C$、且 $C$ 战胜 $A?$？",
+    "stem": "一些队伍举行单循环赛，每支队伍都恰好与其他每支队伍比赛一次。每支队伍胜 $10$ 场、负 $10$ 场，没有平局。有多少个三队集合 $\\{A, B, C\\}$ 满足 $A$ 战胜 $B$、$B$ 战胜 $C$、且 $C$ 战胜 $A$？",
     "options": {
       "A": "$\\ 385$",
       "B": "$\\ 665$",
@@ -17028,7 +17028,7 @@
       "这十个人中的每个人都要与自己不认识的另外 $20$ 人握手，所以有 $10\\cdot20 = 200$ 次。再计算这十个互不认识的人彼此之间的握手次数，即从 $10$ 人中选两人的方法数 $\\binom{10}{2} = 45$。因此答案为 $200 + 45 = \\boxed{\\textbf{(B)}\\ 245}$。",
       "也可用补集计数。所有两人之间总共会发生 $\\dbinom{30}{2}=435$ 次握手或拥抱。求出拥抱次数后，再从 $435$ 中减去它便得到握手次数。只有彼此认识的 $20$ 人会拥抱，所以共有 $\\dbinom{20}{2}=190$ 次拥抱。因此 $435-190= \\boxed{\\textbf{(B)}\\ 245}$。",
       "只考察那 $10$ 个谁也不认识的人参与的握手。\n\n第一个人与除自己外的其他人握手 $29$ 次；第二个人与除自己和第一个人外的其他人握手 $28$ 次；……；第十个人与除自己以及前九个人外的其他人握手 $20$ 次。这是一个等差数列之和：\n\n$\\frac{10(20+29)}{2}\\implies 5(49)\\implies 245.$\n所以答案是 $\\boxed{\\textbf{(B)}\\ 245}$",
-      "先求那 $10$ 个谁也不认识的人与其余 $20$ 人之间的握手次数，即 $10 \\cdot 20 = 200$。再求这 $10$ 人内部的握手次数。可使用公式 $\\frac{n(n-1)}{2}$，其中 $n$ 是所统计的人数。之所以除以 $2$，是因为 $n(n-1)$ 同时把第 $1^{st}$ 个人与第 $2^{nd}$ 个人握手 $and$ 第 $2^{nd}$ 个人与第 $1^{st}$ 个人握手计算在内，而两者其实是同一次握手。代入 $n=10$，得到 $\\frac{10 \\cdot 9}{2} \\implies 45$。两种情况相加为 $200+45=\\boxed{\\textbf{(B)}\\ 245}$",
+      "先求那 $10$ 个谁也不认识的人与其余 $20$ 人之间的握手次数，即 $10 \\cdot 20 = 200$。再求这 $10$ 人内部的握手次数。可使用公式 $\\frac{n(n-1)}{2}$，其中 $n$ 是所统计的人数。之所以除以 $2$，是因为 $n(n-1)$ 同时把第 $1$ 个人与第 $2$ 个人握手 $\\text{和}$ 第 $2$ 个人与第 $1$ 个人握手计算在内，而两者其实是同一次握手。代入 $n=10$，得到 $\\frac{10 \\cdot 9}{2} \\implies 45$。两种情况相加为 $200+45=\\boxed{\\textbf{(B)}\\ 245}$",
       "彼此认识的 20 人中，每人都与 10 人握手；互不认识的 10 人中，每人都与 29 人握手。由于每次握手涉及两个人，握手次数为 $\\dfrac{1}{2}(20 \\cdot 10+10 \\cdot 29)= \\boxed{245}$。"
     ],
     "tags": []
@@ -17108,7 +17108,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2017 AMC 10A · 第 12 题 | 2017 AMC 12A · 第 9 题",
-    "stem": "设 $S$ 是坐标平面内所有点 $(x,y)$ 组成的集合，并满足三个量 $3,~x+2,$、$y-4$ 中有两个相等，第三个不大于这个公共值。下列哪一项正确描述了 $S?$",
+    "stem": "设 $S$ 是坐标平面内所有点 $(x,y)$ 组成的集合，并满足三个量 $3,~x+2,$、$y-4$ 中有两个相等，第三个不大于这个公共值。下列哪一项正确描述了 $S$？",
     "options": {
       "A": "一个点",
       "B": "两条相交直线",
@@ -17131,7 +17131,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2017 AMC 10A · 第 13 题",
-    "stem": "递归定义数列：$F_{0}=0, F_{1}=1$；对所有 $n \\geq 2$，$F_{n}=$ $F_{n-1}+F_{n-2}$ 除以 $3$ 的余数。因此数列开头为 $0,1,1,2,0,2, \\ldots$。求 $F_{2017}+F_{2018}+F_{2019}+$ $F_{2020}+F_{2021}+F_{2022}+F_{2023}+F_{2024}?$",
+    "stem": "递归定义数列：$F_{0}=0, F_{1}=1$；对所有 $n \\geq 2$，$F_{n}=$ $F_{n-1}+F_{n-2}$ 除以 $3$ 的余数。因此数列开头为 $0,1,1,2,0,2, \\ldots$。求 $F_{2017}+F_{2018}+F_{2019}+$ $F_{2020}+F_{2021}+F_{2022}+F_{2023}+F_{2024}$？",
     "options": {
       "A": "$6$",
       "B": "$7$",
@@ -17200,7 +17200,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2017 AMC 10A · 第 16 题 | 2017 AMC 12A · 第 12 题",
-    "stem": "有 $10$ 匹马，依次命名为马 $1$、马 $2$、……、马 $10$。它们的名字来自各自绕圆形赛道跑一圈所需的分钟数：马 $k$ 恰好用 $k$ 分钟跑一圈。时刻 $0$，所有马都在赛道起点。它们沿同一方向出发，并始终以各自的恒定速度绕赛道奔跑。所有 $10$ 匹马再次同时位于起点的最小时刻 $S > 0$（单位：分钟）为 $S=2520$。设 $T > 0$ 是至少 $5$ 匹马再次位于起点的最小时刻（单位：分钟）。$T?$ 的各位数字之和是多少？",
+    "stem": "有 $10$ 匹马，依次命名为马 $1$、马 $2$、……、马 $10$。它们的名字来自各自绕圆形赛道跑一圈所需的分钟数：马 $k$ 恰好用 $k$ 分钟跑一圈。时刻 $0$，所有马都在赛道起点。它们沿同一方向出发，并始终以各自的恒定速度绕赛道奔跑。所有 $10$ 匹马再次同时位于起点的最小时刻 $S > 0$（单位：分钟）为 $S=2520$。设 $T > 0$ 是至少 $5$ 匹马再次位于起点的最小时刻（单位：分钟）。$T$ 的各位数字之和是多少？",
     "options": {
       "A": "$2$",
       "B": "$3$",
@@ -17236,7 +17236,7 @@
     "answer": "D",
     "solutions": [
       "因为 $P$、$Q$、$R$、$S$ 都是格点，满足圆方程的坐标只有少数几种，即 $(\\pm 3,\\pm 4), (\\pm 4, \\pm 3), (0,\\pm 5),$ 和 $(\\pm 5,0).$。我们要使 $PQ$ 最大而使 $RS.$ 最小；又因为两段距离都是无理数，其平方不能是完全平方数。\n\n$PQ$ 的最大值出现在 $P$ 与 $Q$ 几乎相对且位于不同象限时。例如端点可取 $(-4,3)$ 和 $(3,-4)$；另一组可能是 $(-4,3)$ 和 $(5,0)$。要比较哪条线段更长，可比较各端点到直径的距离，因为直径必定最长。最接近的直径从 $(-4,3)$ 连到 $(4,-3)$。$(3,-4)$ 与 $(-4,3)$ 的距离大于 $(5,0)$ 与 $(4,-3)$ 的距离，所以从 $(3,-4)$ 到 $(-4,3)$ 的线段是可取得的最长线段（$P$、$Q$ 的其他可能坐标组合还有 $(4,3)$ 与 $(-3, -4)$、$(3, 4)$ 与 $(-4, -3)$、$(-3, 4)$ 与 $(4, -3)$）。\n\n$RS$ 的最小值出现在两端点位于同一象限且十分接近时。例如可取 $R$ 为 $(3,4)$，$S$ 为 $(4,3).$。它们位于同一象限，并且圆上没有其他整坐标点比 $(4,3)$ 更接近 $(3,4)$，反之亦然。由距离公式，$PQ$ 为 $\\sqrt{98}$，$RS$ 为 $\\sqrt{2}.$。因此 $\\frac{\\sqrt{98}}{\\sqrt{2}}=\\sqrt{49}=\\boxed{\\mathrm{\\textbf{(D)}}\\ 7}$",
-      "可从选项入手。为了得到尽量大的比值，先尝试 $7$（尽管 $5 \\sqrt{2}$ 的数值实际上更大）。仅由题意可知，要使比值最大，应先让具有整数坐标端点的 $RS$ 尽量小。因此 $RS$ 的最小可能值为 $\\sqrt{1^{2}+1^{2}} = \\sqrt{2}$。假设 $\\frac{PQ}{RS} = 7$，代入 $RS = \\sqrt{2}$ 并求 $PQ$，得到 $PQ=7\\sqrt{2}$。此时还不知道能否实现，只是在检验可能性。哪些 $x$、$y$ 能满足 $\\sqrt{x^{2}+y^{2}}=7\\sqrt2$？它很容易构成一个 $45-45-90$ 三角形。与其把 $y=x$ 代入方程再作大量代数运算，不如利用小技巧：在 $45-45-90$ 三角形中，若两条与 $45$ 度角相对的边长为 $s$，则斜边为 $s\\sqrt2$。由此 $s=7$。方程确实产生合理解，所以答案为 $\\boxed{\\mathrm{\\textbf{(D)}}\\ 7}$。\n\nfasterthanlight 质量检查\n\n（Carrot_Karen 注：我们尝试了 $7$，但有人可能疑惑为何验证它可行后便认定是答案，而没有尝试 $\\textbf{(E)}$ 等其他选项。因为题目只能有一个正确答案，所以一个选项既然可行，其他选项就不能成立，故答案为 $\\textbf{(D)}$。\n\n评论：但有些题目的不同选项也可能都看似可行，所以不能仅凭这一点确定。\n\nPinotation 注：上面对未尝试 $\\textbf{(E)}$ 的解释不正确。选项 $\\textbf{(E)}$ 来自没有仔细阅读题意：把直径当作最长距离，再用点 $(-3, -4)$ 和 $(-4,-3)$ 得到最短距离 $ \\sqrt{2} $，从而得到 $ \\frac{PQ}{RS} = \\frac{10}{\\sqrt{2}} = 5\\sqrt{2} $。但这用了长度为 10 的直径，而题目规定 PQ 和 RS 都是无理数。因此答案是 $\\boxed{\\mathrm{\\textbf{(D)}}\\ 7}$ 而不是 $\\textbf{(E)}$。也可观看 Beauty Of Math 链接的视频。）",
+      "将网格视为坐标平面，令 $P=(0,0)$、$Q=(5,2)$。从 $P$ 到 $Q$ 的最短路径每一步只能向右（$+x$）或向上（$+y$），但在有小溪的区间内只能沿着三座桥对应的固定路径通过。\n\n通过第一座桥（位于左侧）的路径需从 $(0,0)$ 走到桥口 $(1,0)$，过桥到达 $(1,1)$，再走到 $(5,2)$，共有 $1 \\times \\binom{5}{1} = 5$ 条；\n通过第二座桥（位于中间）的路径需从 $(0,0)$ 走到桥口 $(2,0)$，过桥并沿岸走到 $(3,2)$，再走到 $(5,2)$，共有 $1 \\times 1 = 1$ 条；\n通过第三座桥（位于右侧）的路径需从 $(0,0)$ 走到桥口 $(4,1)$，过桥到达 $(4,2)$，再走到 $(5,2)$，共有 $\\binom{5}{1} \\times 1 = 5$ 条；\n另外还有 $3$ 条经过中间桥区转向的最短路径，合计共有 $5 + 1 + 5 + 3 = \\boxed{\\textbf{(D)}\\ 14}$ 条最短路径。",
       "观察可知，当 $R$ 位于 $(3, 4)$、$S$ 位于 $(4, 3),$ 时，$RS$ 取得最小值 $\\sqrt{2}$。$PQ$ 的最大长度在 $P$ 位于 $(-3, 4)$、$Q$ 位于 $(4, -3).$ 时取得。由距离公式，$PQ$ 的长度为 $7\\sqrt{2}.$。所求比值为 $\\dfrac{PQ}{RS} = \\dfrac{7\\sqrt{2}}{\\sqrt{2}} = \\boxed{\\mathrm{\\textbf{(D)}}\\ 7}$。"
     ],
     "tags": []
@@ -17496,7 +17496,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2017 AMC 10B · 第 4 题 | 2017 AMC 12B · 第 3 题",
-    "stem": "设 $x$ 和 $y$ 是满足\n\n$\\dfrac{3 x+y}{x-3 y}=-2$\n\n的非零实数。求\n\n$\\dfrac{x+3 y}{3 x-y}?$",
+    "stem": "设 $x$ 和 $y$ 是满足\n\n$\\dfrac{3 x+y}{x-3 y}=-2$\n\n的非零实数。求\n\n$\\dfrac{x+3 y}{3 x-y}$？",
     "options": {
       "A": "$-3$",
       "B": "$-1$",
@@ -17976,7 +17976,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2018 AMC 10A · 第 1 题",
-    "stem": "求下式的值：\n\n$\\left(\\left((2+1)^{-1}+1\\right)^{-1}+1\\right)^{-1}+1?$",
+    "stem": "求下式的值：\n\n$\\left(\\left((2+1)^{-1}+1\\right)^{-1}+1\\right)^{-1}+1$？",
     "options": {
       "A": "$\\dfrac{5}{8}$",
       "B": "$\\dfrac{11}{7}$",
@@ -18255,7 +18255,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2018 AMC 10A · 第 14 题",
-    "stem": "求不超过 $\\frac{3^{100}+2^{100}}{3^{96}+2^{96}}?$ 的最大整数。",
+    "stem": "求不超过 $\\frac{3^{100}+2^{100}}{3^{96}+2^{96}}$ 的最大整数。",
     "options": {
       "A": "$80$",
       "B": "$81$",
@@ -19089,7 +19089,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2019 AMC 10A · 第 1 题",
-    "stem": "求 $2^{\\left(0^{\\left(1^9\\right)}\\right)}+\\left(\\left(2^0\\right)^1\\right)^9?$ 的值。",
+    "stem": "$2^{\\left(0^{\\left(1^9\\right)}\\right)}+\\left(\\left(2^0\\right)^1\\right)^9$ 的值是多少？",
     "options": {
       "A": "$0$",
       "B": "$1$",
@@ -19099,7 +19099,7 @@
     },
     "answer": "C",
     "solutions": [
-      "$2^{\\left(0^{\\left(1^9\\right)}\\right)}+\\left(\\left(2^0\\right)^1\\right)^9= 1+1 = \\boxed{\\textbf{(C) } 2}$。"
+      "计算得 $2^{\\left(0^{\\left(1^9\\right)}\\right)}+\\left(\\left(2^0\\right)^1\\right)^9= 1+1 = \\boxed{\\textbf{(C) } 2}$。"
     ],
     "tags": []
   },
@@ -19110,7 +19110,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2019 AMC 10A · 第 2 题",
-    "stem": "$(20!-15!)?$ 的百位数字是多少？",
+    "stem": "$(20!-15!)$ 的百位数字是多少？",
     "options": {
       "A": "$0$",
       "B": "$1$",
@@ -19134,7 +19134,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2019 AMC 10A · 第 3 题",
-    "stem": "安娜与博妮塔同月同日出生，但相差 $n$ 岁。去年安娜的年龄是博妮塔的 $5$ 倍。今年安娜的年龄是博妮塔年龄的平方。求 $n?$",
+    "stem": "安娜与博妮塔同月同日出生，但相差 $n$ 岁。去年安娜的年龄是博妮塔的 $5$ 倍。今年安娜的年龄是博妮塔年龄的平方。求 $n$？",
     "options": {
       "A": "$3$",
       "B": "$5$",
@@ -20198,7 +20198,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2020 AMC 10A · 第 1 题",
-    "stem": "什么 $x$ 值满足\n$x- \\frac{3}{4} = \\frac{5}{12} - \\frac{1}{3}?$",
+    "stem": "什么 $x$ 值满足\n$x- \\frac{3}{4} = \\frac{5}{12} - \\frac{1}{3}$？",
     "options": {
       "A": "$\\ {-}\\frac{2}{3}$",
       "B": "$\\ \\frac{7}{36}$",
@@ -20287,7 +20287,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2020 AMC 10A · 第 5 题",
-    "stem": "求所有满足\n\n$\\left|x^{2}-12 x+34\\right|=2?$\n的实数 $x$ 之和。",
+    "stem": "求所有满足\n\n$\\left|x^{2}-12 x+34\\right|=2$\n的实数 $x$ 之和。",
     "options": {
       "A": "$12$",
       "B": "$15$",
@@ -20358,7 +20358,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2020 AMC 10A · 第 8 题",
-    "stem": "求\n\n$1+2+3-4+5+6+7-8+\\cdots+197+198+199-200?$\n的值。",
+    "stem": "求\n\n$1+2+3-4+5+6+7-8+\\cdots+197+198+199-200$\n的值。",
     "options": {
       "A": "$9800$",
       "B": "$9,900$",
@@ -20379,7 +20379,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2020 AMC 10A · 第 9 题",
-    "stem": "学校活动中的一段长椅可坐 $7$ 名成人或 $11$ 名儿童。将 $N$ 段长椅首尾相接时，相同人数的成人和儿童共同坐满所有位置。求 $N?$ 的最小正整数值。",
+    "stem": "学校活动中的一段长椅可坐 $7$ 名成人或 $11$ 名儿童。将 $N$ 段长椅首尾相接时，相同人数的成人和儿童共同坐满所有位置。求 $N$ 的最小正整数值。",
     "options": {
       "A": "$9$",
       "B": "$18$",
@@ -20498,7 +20498,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2020 AMC 10A · 第 14 题",
-    "stem": "实数 $x$、$y$ 满足 $x + y = 4$、$x \\cdot y = -2$。求\n\n$x + \\frac{x^3}{y^2} + \\frac{y^3}{x^2} + y?$\n的值。",
+    "stem": "实数 $x$、$y$ 满足 $x + y = 4$、$x \\cdot y = -2$。求\n\n$x + \\frac{x^3}{y^2} + \\frac{y^3}{x^2} + y$\n的值。",
     "options": {
       "A": "$\\ 360$",
       "B": "$\\ 400$",
@@ -20647,7 +20647,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2020 AMC 10A · 第 20 题 | 2020 AMC 12A · 第 18 题",
-    "stem": "四边形 $ABCD$ 满足 $\\angle ABC = \\angle ACD = 90^{\\circ}, AC=20,$、$CD=30.$。对角线 $\\overline{AC}$、$\\overline{BD}$ 交于点 $E,$，且 $AE=5.$。求四边形 $ABCD?$ 的面积。",
+    "stem": "四边形 $ABCD$ 满足 $\\angle ABC = \\angle ACD = 90^{\\circ}, AC=20,$、$CD=30.$。对角线 $\\overline{AC}$、$\\overline{BD}$ 交于点 $E,$，且 $AE=5.$。求四边形 $ABCD$ 的面积。",
     "options": {
       "A": "$330$",
       "B": "$340$",
@@ -20797,7 +20797,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2020 AMC 10B · 第 1 题",
-    "stem": "求\n\n$1-(-2)-3-(-4)-5-(-6)?$\n的值。",
+    "stem": "求\n\n$1-(-2)-3-(-4)-5-(-6)$\n的值。",
     "options": {
       "A": "$-20$",
       "B": "$-3$",
@@ -20968,7 +20968,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2020 AMC 10B · 第 9 题 | 2020 AMC 12B · 第 8 题",
-    "stem": "有多少个整数有序对 $(x, y)$ 满足方程 $x^{2020}+y^2=2y?$",
+    "stem": "有多少个整数有序对 $(x, y)$ 满足方程 $x^{2020}+y^2=2y$？",
     "options": {
       "A": "$1$",
       "B": "$2$",
@@ -21315,7 +21315,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2020 AMC 10B · 第 24 题 | 2020 AMC 12B · 第 21 题",
-    "stem": "有多少个正整数 $n$ 满足 $\\dfrac{n+1000}{70} = \\lfloor \\sqrt{n} \\rfloor?$（其中 $\\lfloor x\\rfloor$ 表示不超过 $x$ 的最大整数。）",
+    "stem": "有多少个正整数 $n$ 满足 $\\dfrac{n+1000}{70} = \\lfloor \\sqrt{n} \\rfloor$？（其中 $\\lfloor x\\rfloor$ 表示不超过 $x$ 的最大整数。）",
     "options": {
       "A": "$2$",
       "B": "$4$",
@@ -21510,11 +21510,11 @@
     "sourcePaper": "2021 AMC 10A · 第 7 题 | 2021 AMC 12A · 第 4 题",
     "stem": "汤姆收集了 $13$ 条蛇，其中 $4$ 条是紫色的，$5$ 条是快乐的。他观察到：\n\n所有快乐的蛇都会做加法；\n所有紫色的蛇都不会做减法；\n所有不会做减法的蛇也不会做加法。\n\n关于汤姆的蛇，可以推出下列哪项结论？",
     "options": {
-      "A": "$Purple snakes can add.$",
-      "B": "$Purple snakes are happy.$",
-      "C": "$Snakes that can add are purple.$",
-      "D": "$Happy snakes are not purple.$",
-      "E": "$Happy snakes can't subtract.$"
+      "A": "紫蛇会做加法。",
+      "B": "紫蛇是快乐的。",
+      "C": "会做加法的蛇是紫色的。",
+      "D": "快乐的蛇不是紫色的。",
+      "E": "快乐的蛇不会做减法。"
     },
     "answer": "D",
     "solutions": [
@@ -21533,7 +21533,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2021 AMC 10A · 第 8 题 | 2021 AMC 12A · 第 5 题",
-    "stem": "一名学生把数 $66$ 与循环小数\n$\\underline{1}.\\underline{a} \\ \\underline{b} \\ \\underline{a} \\ \\underline{b}\\ldots=\\underline{1}.\\overline{\\underline{a} \\ \\underline{b}},$\n相乘，其中 $a$、$b$ 是数字。他没有注意循环记号，误将 $66$ 与 $\\underline{1}.\\underline{a} \\ \\underline{b}.$ 相乘。后来发现他的答案比正确答案少 $0.5$。$2$ 位数 $\\underline{a} \\ \\underline{b}?$ 是多少？",
+    "stem": "一名学生把数 $66$ 与循环小数\n$\\underline{1}.\\underline{a} \\ \\underline{b} \\ \\underline{a} \\ \\underline{b}\\ldots=\\underline{1}.\\overline{\\underline{a} \\ \\underline{b}},$\n相乘，其中 $a$、$b$ 是数字。他没有注意循环记号，误将 $66$ 与 $\\underline{1}.\\underline{a} \\ \\underline{b}.$ 相乘。后来发现他的答案比正确答案少 $0.5$。$2$ 位数 $\\underline{a} \\ \\underline{b}$ 是多少？",
     "options": {
       "A": "$15$",
       "B": "$30$",
@@ -21580,7 +21580,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2021 AMC 10A · 第 10 题 | 2021 AMC 12A · 第 9 题",
-    "stem": "下列哪一项等于\n$(2+3)(2^2+3^2)(2^4+3^4)(2^8+3^8)(2^{16}+3^{16})(2^{32}+3^{32})(2^{64}+3^{64})?$",
+    "stem": "下列哪一项等于\n$(2+3)(2^2+3^2)(2^4+3^4)(2^8+3^8)(2^{16}+3^{16})(2^{32}+3^{32})(2^{64}+3^{64})$？",
     "options": {
       "A": "$~3^{127} + 2^{127}$",
       "B": "$~3^{127} + 2^{127} + 2 \\cdot 3^{63} + 3 \\cdot 2^{63}$",
@@ -22004,7 +22004,7 @@
       "不等式等价于\n$$-3\\pi<x<3\\pi.$$\n因 $3\\pi\\approx9.42$ 且 $x$ 为整数，故\n$$-9\\le x\\le9.$$\n整数个数为 $9-(-9)+1=\\boxed{\\textbf{(D)}\\ 19}$。",
       "若 $x\\ge0$，则 $|x|=x<3\\pi<10$，得到 $x=0,1,\\ldots,9$；若 $x<0$，则 $-x<3\\pi$，得到 $x=-1,-2,\\ldots,-9$。合计\n$$10+9=\\boxed{\\textbf{(D)}\\ 19}.$$",
       "由 $9<3\\pi<10$，绝对值小于 $3\\pi$ 的非零整数正负各有 9 个；0 也满足。因此共有\n$$9+9+1=\\boxed{\\textbf{(D)}\\ 19}$$\n个。",
-      "非零整数解关于 0 成对出现，再加上解 $x=0$，所以答案必为奇数。选项中只有 9 和 19 为奇数，而 $3\\pi>9$，至少已有 $\\pm1,ldots,\\pm9$ 和 0 共 19 个解。故答案为\n$$\\boxed{\\textbf{(D)}\\ 19}.$$",
+      "非零整数解关于 0 成对出现，再加上解 $x=0$，所以答案必为奇数。选项中只有 9 和 19 为奇数，而 $3\\pi>9$，至少已有 $\\pm1,\\ldots,\\pm9$ 和 0 共 19 个解。故答案为\n$$\\boxed{\\textbf{(D)}\\ 19}.$$",
       "由于 $3\\pi \\approx 9.42,$，不等式 $|x| \\lt 3\\pi$ 等价于 $-9.42 \\lt x \\lt 9.42.$\n\n此范围内的整数从 $-9$ 到 $9,$，共有 $19$ 个。\n\n因此正确答案为 D。"
     ],
     "tags": []
@@ -22130,7 +22130,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2021 AMC 10B · 第 7 题",
-    "stem": "在平面内，半径分别为 $1,3,5,$、$7$ 的四个圆都在同一点 $A,$ 与直线 $\\ell$ 相切，但圆可以位于 $\\ell.$ 的任一侧。区域 $S$ 由恰好位于四个圆中的一个圆内部的所有点组成。区域 $S?$ 的最大可能面积是多少？",
+    "stem": "在平面内，半径分别为 $1,3,5,$、$7$ 的四个圆都在同一点 $A,$ 与直线 $\\ell$ 相切，但圆可以位于 $\\ell.$ 的任一侧。区域 $S$ 由恰好位于四个圆中的一个圆内部的所有点组成。区域 $S$ 的最大可能面积是多少？",
     "options": {
       "A": "$ 24\\pi $",
       "B": "$ 32\\pi $",
@@ -22172,7 +22172,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2021 AMC 10B · 第 9 题 | 2021 AMC 12B · 第 5 题",
-    "stem": "$xy$ 平面内的点 $P(a,b)$ 先绕点 $(1,5)$ 逆时针旋转 $90^\\circ$，再关于直线 $y = -x$ 反射。经过这两个变换后，$P$ 的像为 $(-6,3)$。求 $b - a ?$",
+    "stem": "$xy$ 平面内的点 $P(a,b)$ 先绕点 $(1,5)$ 逆时针旋转 $90^\\circ$，再关于直线 $y = -x$ 反射。经过这两个变换后，$P$ 的像为 $(-6,3)$。求 $b - a$？",
     "options": {
       "A": "$~1$",
       "B": "$~3$",
@@ -22268,7 +22268,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2021 AMC 10B · 第 13 题",
-    "stem": "设 $n$ 为正整数，$d$ 为一个数字。$n$ 进制数 $\\underline{32d}$ 的值为 $263$，且 $n$ 进制数 $\\underline{324}$ 的值等于六进制数 $\\underline{11d1}$ 的值。求 $n + d ?$",
+    "stem": "设 $n$ 为正整数，$d$ 为一个数字。$n$ 进制数 $\\underline{32d}$ 的值为 $263$，且 $n$ 进制数 $\\underline{324}$ 的值等于六进制数 $\\underline{11d1}$ 的值。求 $n + d$？",
     "options": {
       "A": "$~10$",
       "B": "$~11$",
@@ -22314,7 +22314,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2021 AMC 10B · 第 15 题",
-    "stem": "实数 $x$ 满足方程 $x+\\frac{1}{x} = \\sqrt{5}$。求 $x^{11}-7x^{7}+x^3?$",
+    "stem": "实数 $x$ 满足方程 $x+\\frac{1}{x} = \\sqrt{5}$。求 $x^{11}-7x^{7}+x^3$？",
     "options": {
       "A": "$~-1$",
       "B": "$~0$",
@@ -22444,7 +22444,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2021 AMC 10B · 第 20 题 | 2021 AMC 12B · 第 15 题",
-    "stem": "下图由 $11$ 条线段构成，每条线段长 $2.$。五边形 $ABCDE$ 的面积可写成 $\\sqrt{m} + \\sqrt{n},$，其中 $m$、$n$ 为正整数。求 $m + n ?$\n\n[Figure: /question-assets/source/amc/9aa5b05f6196c702dbd2407f8a2a834c3435710097b02ea3382cae5d553f2f17.svg]",
+    "stem": "下图由 $11$ 条线段构成，每条线段长 $2.$。五边形 $ABCDE$ 的面积可写成 $\\sqrt{m} + \\sqrt{n},$，其中 $m$、$n$ 为正整数。求 $m + n$？\n\n[Figure: /question-assets/source/amc/9aa5b05f6196c702dbd2407f8a2a834c3435710097b02ea3382cae5d553f2f17.svg]",
     "options": {
       "A": "$ 20 $",
       "B": "$ 21 $",
@@ -22466,7 +22466,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2021 AMC 10B · 第 21 题",
-    "stem": "一张边长为 $1$ 的正方形纸，顶点依次为 $A,B,C,$、$D$。如图折叠，使顶点 $C$ 在点 $C',$ 处落到边 $\\overline{AD}$ 上，并使边 $\\overline{BC}$ 在点 $E.$ 处与边 $\\overline{AB}$ 相交。已知 $C'D = \\frac{1}{3}.$，求三角形 $\\bigtriangleup AEC' ?$ 的周长。\n\n[Figure: /question-assets/source/amc/10a931e734d1050d00b4f7d240faa91f065c65c896777e515cddebc874e3fe6f.svg]",
+    "stem": "一张边长为 $1$ 的正方形纸，顶点依次为 $A,B,C,$、$D$。如图折叠，使顶点 $C$ 在点 $C',$ 处落到边 $\\overline{AD}$ 上，并使边 $\\overline{BC}$ 在点 $E.$ 处与边 $\\overline{AB}$ 相交。已知 $C'D = \\frac{1}{3}.$，求三角形 $\\bigtriangleup AEC'$ 的周长。\n\n[Figure: /question-assets/source/amc/10a931e734d1050d00b4f7d240faa91f065c65c896777e515cddebc874e3fe6f.svg]",
     "options": {
       "A": "$ 2 $",
       "B": "$ 1+\\dfrac{2}{3}\\sqrt{3} $",
@@ -22487,7 +22487,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2021 AMC 10B · 第 22 题",
-    "stem": "安、班和贾斯敏各有 $5$ 块积木，颜色分别为红、蓝、黄、白、绿；另有 $5$ 个空盒。三人彼此独立地随机把自己的每种积木各放入一个盒子，使每个盒子都收到自己的一块积木。至少有一个盒子收到 $3$ 块同色积木的概率为 $\\frac{m}{n}$，其中 $m$、$n$ 为互质正整数。求 $m + n ?$",
+    "stem": "安、班和贾斯敏各有 $5$ 块积木，颜色分别为红、蓝、黄、白、绿；另有 $5$ 个空盒。三人彼此独立地随机把自己的每种积木各放入一个盒子，使每个盒子都收到自己的一块积木。至少有一个盒子收到 $3$ 块同色积木的概率为 $\\frac{m}{n}$，其中 $m$、$n$ 为互质正整数。求 $m + n$？",
     "options": {
       "A": "$~47$",
       "B": "$~94$",
@@ -22511,7 +22511,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2021 AMC 10B · 第 23 题",
-    "stem": "一个边长为 $8$ 的正方形中，除 $4$ 个角各有一个直角边长为 $2$ 的阴影等腰直角三角形，以及中心有一个边长为 $2\\sqrt{2}$ 的阴影菱形外，其余部分均不着色，如图所示。\n\n将一枚直径为 $1$ 的圆形硬币随机落在正方形内，且硬币完全包含在正方形中。硬币覆盖正方形阴影区域一部分的概率可写成 $\\frac{1}{196}\\left(a+b\\sqrt{2}+\\pi\\right),$，其中 $a$、$b$ 为正整数。求 $a+b?$\n\n[Figure: /question-assets/source/amc/c4279fdf36a794c68bd173cc1587184b95bb9cfa9b72e98839169448747e0ff4.svg]",
+    "stem": "一个边长为 $8$ 的正方形中，除 $4$ 个角各有一个直角边长为 $2$ 的阴影等腰直角三角形，以及中心有一个边长为 $2\\sqrt{2}$ 的阴影菱形外，其余部分均不着色，如图所示。\n\n将一枚直径为 $1$ 的圆形硬币随机落在正方形内，且硬币完全包含在正方形中。硬币覆盖正方形阴影区域一部分的概率可写成 $\\frac{1}{196}\\left(a+b\\sqrt{2}+\\pi\\right),$，其中 $a$、$b$ 为正整数。求 $a+b$？\n\n[Figure: /question-assets/source/amc/c4279fdf36a794c68bd173cc1587184b95bb9cfa9b72e98839169448747e0ff4.svg]",
     "options": {
       "A": "$ 64 $",
       "B": "$ 66 $",
@@ -22554,7 +22554,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2021 AMC 10B · 第 25 题 | 2021 AMC 12B · 第 25 题",
-    "stem": "设 $S$ 为坐标平面中横、纵坐标均为 $1$ 到 $30,$ 之间整数的格点集合。$S$ 中恰有 $300$ 个点位于直线 $y=mx.$ 上或其下方。$m$ 的所有可能值构成一个长度为 $\\frac ab,$ 的区间，其中 $a$、$b$ 为互质正整数。求 $a+b?$",
+    "stem": "设 $S$ 为坐标平面中横、纵坐标均为 $1$ 到 $30,$ 之间整数的格点集合。$S$ 中恰有 $300$ 个点位于直线 $y=mx.$ 上或其下方。$m$ 的所有可能值构成一个长度为 $\\frac ab,$ 的区间，其中 $a$、$b$ 为互质正整数。求 $a+b$？",
     "options": {
       "A": "$~31$",
       "B": "$~47$",
@@ -23147,7 +23147,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2021 Fall AMC 10B · 第 1 题 | 2021 Fall AMC 12B · 第 1 题",
-    "stem": "下式的值是多少？\n\n$1234+2341+3412+4123?$",
+    "stem": "下式的值是多少？\n\n$1234+2341+3412+4123$？",
     "options": {
       "A": "$10,000$",
       "B": "$10,010$",
@@ -23228,7 +23228,7 @@
     },
     "answer": "C",
     "solutions": [
-      "设该日中午明尼阿波利斯和圣路易斯的气温（单位：度）分别为 $M$ 和 $L$。\n\n于是 $M = L + N$\n\n到 4:00 时，有\n\n$|(M − 5) − (L + 3)| = 2 \\\\ |M − L − 8| = 2\\\\ |N − 8| = 2.$\n分两种情况：\n\n$Case 1$：若 $N − 8 = 2$，则 $N = 10$。\n\n$Case 2$：若 $N − 8 = −2$，则 $N = 6$。\n\n综上，$N$ 的所有可能值之积为 $10 \\cdot 6 = \\boxed{(C) 60}$。",
+      "设该日中午明尼阿波利斯和圣路易斯的气温（单位：度）分别为 $M$ 和 $L$。\n\n于是 $M = L + N$\n\n到 4:00 时，有\n\n$|(M − 5) − (L + 3)| = 2 \\\\ |M − L − 8| = 2\\\\ |N − 8| = 2.$\n分两种情况：\n\n$\\textbf{情形 1}$：若 $N − 8 = 2$，则 $N = 10$。\n\n$\\textbf{情形 2}$：若 $N − 8 = −2$，则 $N = 6$。\n\n综上，$N$ 的所有可能值之积为 $10 \\cdot 6 = \\boxed{(C) 60}$。",
       "设中午明尼阿波利斯与圣路易斯的气温分别为 $M$ 和 $L$，则 $M=L+N.$\n\n到 $4{:}00,$ 时，\n\\begin{align*} |(M-5)-(L+3)| &= 2 \\\\ |M-L-8| &= 2 \\\\ |N-8| &= 2. \\end{align*}\n分两种情形：\n\n若 $N-8=2,$，则 $N=10.$\n\n若 $N-8=-2,$，则 $N=6.$\n\n所以 $N$ 所有可能值的乘积为 $10\\cdot6=\\boxed{\\textbf{(C)} \\: 60}.$",
       "中午两座城市的温差为 $N$ 度。\n\n到 $4{:}00,$ 时，两座城市的温差为 $N-8$ 度。\n\n因此 $|N-8|=2.$ 再按解法 1 分类讨论，答案为 $\\boxed{\\textbf{(C)} \\: 60}.$"
     ],
@@ -23396,7 +23396,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2021 Fall AMC 10B · 第 12 题 | 2021 Fall AMC 12B · 第 7 题",
-    "stem": "下列哪个条件足以保证整数 $x, y$ 和 $z$ 满足方程\n\n$x(x-y)+y(y-z)+z(z-x)=1?$",
+    "stem": "下列哪个条件足以保证整数 $x, y$ 和 $z$ 满足方程\n\n$x(x-y)+y(y-z)+z(z-x)=1$？",
     "options": {
       "A": "$x>y$ 且 $y=z$",
       "B": "$x=y-1$ 且 $y=z-1$",
@@ -23551,7 +23551,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2021 Fall AMC 10B · 第 19 题",
-    "stem": "设正整数 $N$ 为 $7777 \\ldots 777$，这是一个每一位都是 $7$ 的 $313$ 位数。令 $f(r)$ 表示 $N$ 的 $r$ 次方根的首位数字。求\n\n$f(2)+f(3)+f(4)+f(5)+f(6) ?$",
+    "stem": "设正整数 $N$ 为 $7777 \\ldots 777$，这是一个每一位都是 $7$ 的 $313$ 位数。令 $f(r)$ 表示 $N$ 的 $r$ 次方根的首位数字。求\n\n$f(2)+f(3)+f(4)+f(5)+f(6)$？",
     "options": {
       "A": "$8$",
       "B": "$9$",
@@ -23615,7 +23615,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2021 Fall AMC 10B · 第 22 题",
-    "stem": "对每个整数 $n \\geq 2$，令 $S_{n}$ 为所有乘积 $j k$ 之和，其中 $j$、$k$ 为整数且 $1 \\leq j<k \\leq n$。使 $S_{n}$ 能被 $3?$ 整除的 $n$ 的最小 $10$ 个值之和是多少？",
+    "stem": "对每个整数 $n \\geq 2$，令 $S_{n}$ 为所有乘积 $j k$ 之和，其中 $j$、$k$ 为整数且 $1 \\leq j<k \\leq n$。使 $S_{n}$ 能被 $3$ 整除的 $n$ 的最小 $10$ 个值之和是多少？",
     "options": {
       "A": "$196$",
       "B": "$197$",
@@ -23683,7 +23683,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2021 Fall AMC 10B · 第 25 题",
-    "stem": "一个边长为 $1$ 和 $3$ 的矩形、一个边长为 $1$ 的正方形以及一个矩形 $R$ 如图内接于一个较大的正方形。$R$ 面积的所有可能值之和可以写成 $\\dfrac{m}{n}$，其中 $m$、$n$ 为互质的正整数。$m+n?$\n\n[Figure: /question-assets/source/amc/e7071744c547f594c589021895ff7d2c09625d0146f00a7f58087a3788008c69.jpg]",
+    "stem": "一个边长为 $1$ 和 $3$ 的矩形、一个边长为 $1$ 的正方形以及一个矩形 $R$ 如图内接于一个较大的正方形。$R$ 面积的所有可能值之和可以写成 $\\dfrac{m}{n}$，其中 $m$、$n$ 为互质的正整数。$m+n$？\n\n[Figure: /question-assets/source/amc/e7071744c547f594c589021895ff7d2c09625d0146f00a7f58087a3788008c69.jpg]",
     "options": {
       "A": "$14$",
       "B": "$23$",
@@ -23704,7 +23704,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2022 AMC 10A · 第 1 题 | 2022 AMC 12A · 第 1 题",
-    "stem": "下式的值是多少？\n\n$3+\\frac{1}{3+\\frac{1}{3+\\frac13}}?$",
+    "stem": "下式的值是多少？\n\n$3+\\frac{1}{3+\\frac{1}{3+\\frac13}}$？",
     "options": {
       "A": "$\\ \\frac{31}{10}$",
       "B": "$\\ \\frac{49}{15}$",
@@ -23821,7 +23821,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2022 AMC 10A · 第 6 题",
-    "stem": "当 $a<0?$ 时，下列哪个表达式等于 $\\left|a-2-\\sqrt{(a-1)^2}\\right|$？",
+    "stem": "当 $a<0$ 时，下列哪个表达式等于 $\\left|a-2-\\sqrt{(a-1)^2}\\right|$？",
     "options": {
       "A": "$3-2a$",
       "B": "$1-a$",
@@ -24072,7 +24072,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2022 AMC 10A · 第 17 题",
-    "stem": "有多少个三位正整数 $\\underline{a} \\ \\underline{b} \\ \\underline{c}$，其非零数字 $a,b,$、$c$ 满足\n\n$0.\\overline{\\underline{a}~\\underline{b}~\\underline{c}} = \\frac{1}{3} (0.\\overline{a} + 0.\\overline{b} + 0.\\overline{c})?$\n\n（横线表示循环，例如 $0.\\overline{\\underline{a}~\\underline{b}~\\underline{c}}$ 表示无限循环小数 $0.\\underline{a}~\\underline{b}~\\underline{c}~\\underline{a}~\\underline{b}~\\underline{c}~\\cdots$。）",
+    "stem": "有多少个三位正整数 $\\underline{a} \\ \\underline{b} \\ \\underline{c}$，其非零数字 $a,b,$、$c$ 满足\n\n$0.\\overline{\\underline{a}~\\underline{b}~\\underline{c}} = \\frac{1}{3} (0.\\overline{a} + 0.\\overline{b} + 0.\\overline{c})$？\n\n（横线表示循环，例如 $0.\\overline{\\underline{a}~\\underline{b}~\\underline{c}}$ 表示无限循环小数 $0.\\underline{a}~\\underline{b}~\\underline{c}~\\underline{a}~\\underline{b}~\\underline{c}~\\cdots$。）",
     "options": {
       "A": "$9$",
       "B": "$10$",
@@ -24273,7 +24273,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2022 AMC 10B · 第 1 题 | 2022 AMC 12B · 第 1 题",
-    "stem": "对所有实数 $x$ 和 $y.$，定义 $x\\diamond y$ 为 $|x-y|$。$(1\\diamond(2\\diamond3))-((1\\diamond2)\\diamond3)?$ 的值是多少？",
+    "stem": "对所有实数 $x$ 和 $y.$，定义 $x\\diamond y$ 为 $|x-y|$。$(1\\diamond(2\\diamond3))-((1\\diamond2)\\diamond3)$ 的值是多少？",
     "options": {
       "A": "$\\ {-}2$",
       "B": "$\\ {-}1$",
@@ -24296,7 +24296,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2022 AMC 10B · 第 2 题 | 2022 AMC 12B · 第 2 题",
-    "stem": "在菱形 $A B C D$ 中，点 $P$ 位于线段 $\\overline{A D}$ 上，且 $\\overline{B P} \\perp \\overline{A D}, A P=3$、$P D=2$。$A B C D?$\n\n[Figure: /question-assets/source/amc/aa809dffdf80eba884d35f119582ad2a770f1e6922eb6c6fa414e6b6210e8482.jpg]",
+    "stem": "在菱形 $A B C D$ 中，点 $P$ 位于线段 $\\overline{A D}$ 上，且 $\\overline{B P} \\perp \\overline{A D}, A P=3$、$P D=2$。$A B C D$？\n\n[Figure: /question-assets/source/amc/aa809dffdf80eba884d35f119582ad2a770f1e6922eb6c6fa414e6b6210e8482.jpg]",
     "options": {
       "A": "$3 \\sqrt{5}$",
       "B": "$10$",
@@ -24348,7 +24348,7 @@
     },
     "answer": "A",
     "solutions": [
-      "第 1 次与第 700 次打嗝之间有 699 个五秒间隔，共需 $699 \\cdot 5=3495$ 秒。一小时有 $60 \\cdot 60=3600$ 秒，所以第 700 次发生在 5:00 前 $3600-3495=105$ 秒，也就是 $4: 59$ 前 $105-60=45$ 秒，即 $(\\text{A})\\boxed{15 seconds after 4:58}$。"
+      "第 1 次与第 700 次打嗝之间有 699 个五秒间隔，共需 $699 \\cdot 5=3495$ 秒。一小时有 $60 \\cdot 60=3600$ 秒，所以第 700 次发生在 5:00 前 $3600-3495=105$ 秒，也就是 $4: 59$ 前 $105-60=45$ 秒，即 $(\\text{A})\\boxed{\\text{4:58 过 15 秒}}$。"
     ],
     "tags": []
   },
@@ -24359,7 +24359,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2022 AMC 10B · 第 5 题",
-    "stem": "下式的值是多少？\n\n$\\dfrac{\\left(1+\\dfrac{1}{3}\\right)\\left(1+\\dfrac{1}{5}\\right)\\left(1+\\dfrac{1}{7}\\right)}{\\sqrt{\\left(1-\\dfrac{1}{3^{2}}\\right)\\left(1-\\dfrac{1}{5^{2}}\\right)\\left(1-\\dfrac{1}{7^{2}}\\right)}}?$",
+    "stem": "下式的值是多少？\n\n$\\dfrac{\\left(1+\\dfrac{1}{3}\\right)\\left(1+\\dfrac{1}{5}\\right)\\left(1+\\dfrac{1}{7}\\right)}{\\sqrt{\\left(1-\\dfrac{1}{3^{2}}\\right)\\left(1-\\dfrac{1}{5^{2}}\\right)\\left(1-\\dfrac{1}{7^{2}}\\right)}}$？",
     "options": {
       "A": "$\\sqrt{3}$",
       "B": "$2$",
@@ -24515,7 +24515,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2022 AMC 10B · 第 12 题",
-    "stem": "将一对公平的 $6$ 面骰子掷 $n$ 次。至少有一次掷出的朝上点数之和为 $7$ 的概率大于 $\\dfrac{1}{2}?$。满足条件的 $n$ 的最小值是多少？",
+    "stem": "将一对公平的 $6$ 面骰子掷 $n$ 次。至少有一次掷出的朝上点数之和为 $7$ 的概率大于 $\\dfrac{1}{2}$。满足条件的 $n$ 的最小值是多少？",
     "options": {
       "A": "$2$",
       "B": "$3$",
@@ -24789,7 +24789,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2022 AMC 10B · 第 24 题",
-    "stem": "考虑所有对任意实数 $x$、$y$ 都满足\n\n$|f(x)-f(y)| \\leq \\dfrac{1}{2}|x-y|$\n\n的函数 $f$。在还满足 $f(300)=f(900)$ 的这些函数中，$f(f(800))-f(f(400))?$ 的最大可能值是多少？",
+    "stem": "考虑所有对任意实数 $x$、$y$ 都满足\n\n$|f(x)-f(y)| \\leq \\dfrac{1}{2}|x-y|$\n\n的函数 $f$。在还满足 $f(300)=f(900)$ 的这些函数中，$f(f(800))-f(f(400))$ 的最大可能值是多少？",
     "options": {
       "A": "$25$",
       "B": "$50$",
@@ -24810,7 +24810,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2022 AMC 10B · 第 25 题 | 2022 AMC 12B · 第 23 题",
-    "stem": "设 $x_0,x_1,x_2,\\dotsc$ 是一个数列，其中每个 $x_k$ 都等于 $0$ 或 $1$。对每个正整数 $n$，定义\n\n$S_n = \\sum_{k=0}^{n-1} x_k 2^k$\n\n并设对所有 $n \\geq 1$ 都有 $7S_n \\equiv 1 \\pmod{2^n}$。求和\n\n$x_{2019} + 2x_{2020} + 4x_{2021} + 8x_{2022}?$\n\n的值。",
+    "stem": "设 $x_0,x_1,x_2,\\dotsc$ 是一个数列，其中每个 $x_k$ 都等于 $0$ 或 $1$。对每个正整数 $n$，定义\n\n$S_n = \\sum_{k=0}^{n-1} x_k 2^k$\n\n并设对所有 $n \\geq 1$ 都有 $7S_n \\equiv 1 \\pmod{2^n}$。求和\n\n$x_{2019} + 2x_{2020} + 4x_{2021} + 8x_{2022}$\n\n的值。",
     "options": {
       "A": "$6$",
       "B": "$7$",
@@ -25214,7 +25214,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2023 AMC 10A · 第 18 题",
-    "stem": "菱形十二面体是一种凸多面体，其 $12$ 个面都是菱形且彼此全等。每个顶点处相交的棱数为 $3 or 4$，具体取决于顶点。恰有 $3$ 条棱相交的顶点有多少个？",
+    "stem": "菱形十二面体是一种凸多面体，其 $12$ 个面都是菱形且彼此全等。每个顶点处相交的棱数为 $3$ 或 $4$，具体取决于顶点。恰有 $3$ 条棱相交的顶点有多少个？",
     "options": {
       "A": "$5$",
       "B": "$6$",
@@ -25806,7 +25806,7 @@
     },
     "answer": "E",
     "solutions": [
-      "注意 14 与 15 互质，且 $210=14 \\cdot 15$。设 $q$ 与 $r$ 是任意两个互质正整数。方程 $\\frac{a}{q}+\\frac{b}{r}=\\frac{c}{q r}$ 等价于 $a r+b q=c$，所以\n\n$\\operatorname{gcd}(c, q)=\\operatorname{gcd}(a r+b q, q)=\\operatorname{gcd}(a r, q)=\\operatorname{gcd}(a, q)$\n\n同理，$\\operatorname{gcd}(c, r)=\\operatorname{gcd}(b, r)$。而 $\\operatorname{gcd}(c, q r)=1$ 当且仅当 $\\operatorname{gcd}(c, q)=1$ 与 $\\operatorname{gcd}(c, r)=1$ 同时成立。因此命题 III 成立，并且 III 蕴含 II。命题 I 不一定成立：取 $a=1, b=3$ 和 $c=57$ 时，其前提成立而结论不成立。故必然成立的只有 $(\\text{E})\\boxed{II and III}$。"
+      "注意 14 与 15 互质，且 $210=14 \\cdot 15$。设 $q$ 与 $r$ 是任意两个互质正整数。方程 $\\frac{a}{q}+\\frac{b}{r}=\\frac{c}{q r}$ 等价于 $a r+b q=c$，所以\n\n$\\operatorname{gcd}(c, q)=\\operatorname{gcd}(a r+b q, q)=\\operatorname{gcd}(a r, q)=\\operatorname{gcd}(a, q)$\n\n同理，$\\operatorname{gcd}(c, r)=\\operatorname{gcd}(b, r)$。而 $\\operatorname{gcd}(c, q r)=1$ 当且仅当 $\\operatorname{gcd}(c, q)=1$ 与 $\\operatorname{gcd}(c, r)=1$ 同时成立。因此命题 III 成立，并且 III 蕴含 II。命题 I 不一定成立：取 $a=1, b=3$ 和 $c=57$ 时，其前提成立而结论不成立。故必然成立的只有 $(\\text{E})\\boxed{\\text{II 和 III}}$。"
     ],
     "tags": []
   },
@@ -26379,7 +26379,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2024 AMC 10A · 第 19 题 | 2024 AMC 12A · 第 12 题",
-    "stem": "等比数列的前三项依次为整数 $a,\\,720,$ 和 $b,$，其中 $a<720<b.$。$b?$ 的最小可能值的各位数字之和是多少？",
+    "stem": "等比数列的前三项依次为整数 $a,\\,720,$ 和 $b,$，其中 $a<720<b.$。$b$ 的最小可能值的各位数字之和是多少？",
     "options": {
       "A": "$9$",
       "B": "$12$",
@@ -26422,7 +26422,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2024 AMC 10A · 第 21 题 | 2024 AMC 12A · 第 14 题",
-    "stem": "一个 $5 \\times 5$ 整数阵列的每一行从左到右、每一列从上到下都分别构成长度为 $5$ 的等差数列。位置 $(5, 5), \\,(2,4),\\,(4,3),$ 与 $(3, 1)$ 上的数分别是 $0, 48, 16,$ 和 $12$。位置 $(1, 2)?$ 上的数是多少？\n\n$\\begin{bmatrix} . & ? &.&.&. \\\\ .&.&.&48&.\\\\ 12&.&.&.&.\\\\ .&.&16&.&.\\\\ .&.&.&.&0\\end{bmatrix}$",
+    "stem": "一个 $5 \\times 5$ 整数阵列的每一行从左到右、每一列从上到下都分别构成长度为 $5$ 的等差数列。位置 $(5, 5), \\,(2,4),\\,(4,3),$ 与 $(3, 1)$ 上的数分别是 $0, 48, 16,$ 和 $12$。位置 $(1, 2)$ 上的数是多少？\n\n$\\begin{bmatrix} . & ? &.&.&. \\\\ .&.&.&48&.\\\\ 12&.&.&.&.\\\\ .&.&16&.&.\\\\ .&.&.&.&0\\end{bmatrix}$",
     "options": {
       "A": "$19$",
       "B": "$24$",
@@ -27003,7 +27003,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2024 AMC 10B · 第 23 题 | 2024 AMC 12B · 第 18 题",
-    "stem": "Fibonacci 数列定义为 $F_{1}=1, F_{2}=1$，并且当 $n \\geq 3$ 时 $F_{n}=F_{n-1}+F_{n-2}$。求\n\n$\\frac{F_{2}}{F_{1}}+\\frac{F_{4}}{F_{2}}+\\frac{F_{6}}{F_{3}}+\\cdots+\\frac{F_{20}}{F_{10}} ?$",
+    "stem": "Fibonacci 数列定义为 $F_{1}=1, F_{2}=1$，并且当 $n \\geq 3$ 时 $F_{n}=F_{n-1}+F_{n-2}$。求\n\n$\\frac{F_{2}}{F_{1}}+\\frac{F_{4}}{F_{2}}+\\frac{F_{6}}{F_{3}}+\\cdots+\\frac{F_{20}}{F_{10}}$？",
     "options": {
       "A": "$318$",
       "B": "$319$",
@@ -27235,7 +27235,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2025 AMC 10A · 第 9 题",
-    "stem": "设 $f(x)=100x^{3}-300x^{2}+200x.$。有多少个实数 $a$ 使得 $y=f(x-a)$ 的图像经过点 $(1,25)?$？",
+    "stem": "设 $f(x)=100x^{3}-300x^{2}+200x.$。有多少个实数 $a$ 使得 $y=f(x-a)$ 的图像经过点 $(1,25)$？",
     "options": {
       "A": "$1$",
       "B": "$2$",
@@ -27319,7 +27319,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2025 AMC 10A · 第 13 题 | 2025 AMC 12A · 第 5 题",
-    "stem": "下图外层正方形内包含无穷多个同心、边互相平行的正方形。每个正方形边长与其内侧下一个正方形边长之比为 $k$，其中 $0<k<1$。相邻环带交替着色，如图（不一定按比例绘制）。\n\n[Figure: /question-assets/source/amc/26d962d8b4250a5c796c789d5ad96e19a349f2920b088965ccbf5aef35e19976.png]\n\n阴影部分面积是原正方形面积的 $64\\%$。求 $k?$。",
+    "stem": "下图外层正方形内包含无穷多个同心、边互相平行的正方形。每个正方形边长与其内侧下一个正方形边长之比为 $k$，其中 $0<k<1$。相邻环带交替着色，如图（不一定按比例绘制）。\n\n[Figure: /question-assets/source/amc/26d962d8b4250a5c796c789d5ad96e19a349f2920b088965ccbf5aef35e19976.png]\n\n阴影部分面积是原正方形面积的 $64\\%$。求 $k$。",
     "options": {
       "A": "$\\dfrac{3}{5}$",
       "B": "$\\dfrac{16}{25}$",
@@ -27361,7 +27361,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2025 AMC 10A · 第 15 题",
-    "stem": "下图中，$ABEF$ 是长方形，$\\overline{AD} \\perp \\overline{DE}$、$AF=7$、$AB=1$ 且 $AD=5.$\n\n[Figure: /question-assets/source/amc/fbea10a74c474a1bfef035ac9a122757ea1d7df12c399034976be8326f3e5551.jpg]\n\n求 $\\triangle ABC?$ 的面积。",
+    "stem": "下图中，$ABEF$ 是长方形，$\\overline{AD} \\perp \\overline{DE}$、$AF=7$、$AB=1$ 且 $AD=5.$\n\n[Figure: /question-assets/source/amc/fbea10a74c474a1bfef035ac9a122757ea1d7df12c399034976be8326f3e5551.jpg]\n\n求 $\\triangle ABC$ 的面积。",
     "options": {
       "A": "$\\dfrac{3}{8}$",
       "B": "$\\dfrac{4}{9}$",
@@ -27424,7 +27424,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2025 AMC 10A · 第 18 题 | 2025 AMC 12A · 第 12 题",
-    "stem": "一组数的调和平均数定义为这些数倒数的算术平均数的倒数。例如，$4,4,$ 和 $5$ 的调和平均数为\n\n$\\frac{1}{\\frac{1}{3}(\\frac{1}{4}+\\frac{1}{4}+\\frac{1}{5})}=\\frac{30}{7}.$\n\n求 $4050$ 次多项式\n\n$\\prod_{k=1}^{2025} (kx^2-4x-3)=(x^2-4x-3)(2x^2-4x-3)(3x^2-4x-3)...(2025x^2-4x-3)?$\n\n的所有实根的调和平均数。",
+    "stem": "一组数的调和平均数定义为这些数倒数的算术平均数的倒数。例如，$4,4,$ 和 $5$ 的调和平均数为\n\n$\\frac{1}{\\frac{1}{3}(\\frac{1}{4}+\\frac{1}{4}+\\frac{1}{5})}=\\frac{30}{7}.$\n\n求 $4050$ 次多项式\n\n$\\prod_{k=1}^{2025} (kx^2-4x-3)=(x^2-4x-3)(2x^2-4x-3)(3x^2-4x-3)...(2025x^2-4x-3)$\n\n的所有实根的调和平均数。",
     "options": {
       "A": "$~-\\frac{5}{3}$",
       "B": "$~-\\frac{3}{2}$",
@@ -27488,7 +27488,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2025 AMC 10A · 第 21 题 | 2025 AMC 12A · 第 15 题",
-    "stem": "若一个数集满足：任取其中（不必不同的）$x$ 与 $y$，$x+y$ 都不在该集中，就称它为无和集。例如，$\\left\\{1,4,6\\right\\}$ 和空集是无和集，而 $\\left\\{2,4,5\\right\\}$ 不是。$\\left\\{1,2,3,\\ldots,20\\right\\}?$ 的无和子集最多可有多少个元素？",
+    "stem": "若一个数集满足：任取其中（不必不同的）$x$ 与 $y$，$x+y$ 都不在该集中，就称它为无和集。例如，$\\left\\{1,4,6\\right\\}$ 和空集是无和集，而 $\\left\\{2,4,5\\right\\}$ 不是。$\\left\\{1,2,3,\\ldots,20\\right\\}$ 的无和子集最多可有多少个元素？",
     "options": {
       "A": "$8$",
       "B": "$9$",
@@ -27509,7 +27509,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2025 AMC 10A · 第 22 题",
-    "stem": "半径为 $r$ 的圆被三个半径分别为 $1,2,$ 和 $3,$ 的圆包围；四圆彼此外切，如图。\n\n[Figure: /question-assets/source/amc/c30e0df0fb141b2dbe547e2d14c41cc900d6b61a1ffb6f156ece8c6860d0a7e2.png]\n\n求 $r?$。",
+    "stem": "半径为 $r$ 的圆被三个半径分别为 $1,2,$ 和 $3,$ 的圆包围；四圆彼此外切，如图。\n\n[Figure: /question-assets/source/amc/c30e0df0fb141b2dbe547e2d14c41cc900d6b61a1ffb6f156ece8c6860d0a7e2.png]\n\n求 $r$。",
     "options": {
       "A": "$\\tfrac{1}{4}$",
       "B": "$\\tfrac{6}{23}$",
@@ -27658,7 +27658,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2025 AMC 10B · 第 4 题 | 2025 AMC 12B · 第 4 题",
-    "stem": "七进制两位数 $\\underline{a}~\\underline{b}$ 的值等于九进制两位数 $\\underline{b}~\\underline{a}$ 的值。求 $a+b?$。",
+    "stem": "七进制两位数 $\\underline{a}~\\underline{b}$ 的值等于九进制两位数 $\\underline{b}~\\underline{a}$ 的值。求 $a+b$。",
     "options": {
       "A": "$~7$",
       "B": "$~9$",
@@ -27680,7 +27680,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2025 AMC 10B · 第 5 题",
-    "stem": "在 $\\triangle ABC$ 中，$AB=10$、$AC=18$ 且 $\\angle B=130^\\circ$。设 $O$ 为经过 $A,B,C$ 的圆的圆心。求 $\\angle CAO?$ 的度数。",
+    "stem": "在 $\\triangle ABC$ 中，$AB=10$、$AC=18$ 且 $\\angle B=130^\\circ$。设 $O$ 为经过 $A,B,C$ 的圆的圆心。求 $\\angle CAO$ 的度数。",
     "options": {
       "A": "$20$",
       "B": "$30$",
@@ -27701,7 +27701,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2025 AMC 10B · 第 6 题",
-    "stem": "直线 $y=\\tfrac{1}{3}x+1$ 把由 $0\\le x\\le 2$、$0\\le y\\le 2$ 定义的正方形区域分成上、下两部分。直线 $x=a$ 把下部区域分成面积相等的两部分。若 $a$ 可写成 $\\sqrt{s}-t$，其中 $s$、$t$ 为正整数，求 $s+t?$。",
+    "stem": "直线 $y=\\tfrac{1}{3}x+1$ 把由 $0\\le x\\le 2$、$0\\le y\\le 2$ 定义的正方形区域分成上、下两部分。直线 $x=a$ 把下部区域分成面积相等的两部分。若 $a$ 可写成 $\\sqrt{s}-t$，其中 $s$、$t$ 为正整数，求 $s+t$。",
     "options": {
       "A": "$18$",
       "B": "$19$",
@@ -27743,7 +27743,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2025 AMC 10B · 第 8 题 | 2025 AMC 12B · 第 6 题",
-    "stem": "Emmy 对 Max 说：“我今天订了 $36$ 件数学俱乐部卫衣。”Max 问：“每件多少钱？”Emmy 回答：“给你一个提示：总价是 $\\$A B B.B A$，其中 $A$ 和 $B$ 是数字，且 $A\\ne 0$。”停顿片刻后，Max 说：“价格不错。”求 $A+B?$。",
+    "stem": "Emmy 对 Max 说：“我今天订了 $36$ 件数学俱乐部卫衣。”Max 问：“每件多少钱？”Emmy 回答：“给你一个提示：总价是 $\\$A B B.B A$，其中 $A$ 和 $B$ 是数字，且 $A\\ne 0$。”停顿片刻后，Max 说：“价格不错。”求 $A+B$。",
     "options": {
       "A": "$7$",
       "B": "$8$",
@@ -27957,7 +27957,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2025 AMC 10B · 第 18 题",
-    "stem": "下列和的个位数字是多少？\n$\\lfloor \\sqrt{1} \\rfloor + \\lfloor \\sqrt{2} \\rfloor + \\lfloor \\sqrt{3} \\rfloor + \\dots + \\lfloor \\sqrt{2025} \\rfloor?$（$\\lfloor x \\rfloor$ 表示不大于 $x$ 的最大整数。）",
+    "stem": "下列和的个位数字是多少？\n$\\lfloor \\sqrt{1} \\rfloor + \\lfloor \\sqrt{2} \\rfloor + \\lfloor \\sqrt{3} \\rfloor + \\dots + \\lfloor \\sqrt{2025} \\rfloor$？（$\\lfloor x \\rfloor$ 表示不大于 $x$ 的最大整数。）",
     "options": {
       "A": "$1$",
       "B": "$2$",
@@ -27999,7 +27999,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2025 AMC 10B · 第 20 题",
-    "stem": "在边长为 $1$ 的正方形内放置四个全等半圆，它们的直径位于正方形四边上，每条直径的一个端点是正方形顶点，且相邻半圆相切。一个以正方形中心为圆心的小圆与四个半圆都相切，如图。\n\n[Figure: /question-assets/source/amc/f2d2e70ba6bc49e6f7ce073eebd28d219922c53524341f51c05c4f0e6b83f5e9.png]\n\n小圆直径可写成 $(\\sqrt{a}+b)(\\sqrt{c}+d)$，其中 $a, b, c,$、$d$ 为整数。求 $a+b+c+d?$。",
+    "stem": "在边长为 $1$ 的正方形内放置四个全等半圆，它们的直径位于正方形四边上，每条直径的一个端点是正方形顶点，且相邻半圆相切。一个以正方形中心为圆心的小圆与四个半圆都相切，如图。\n\n[Figure: /question-assets/source/amc/f2d2e70ba6bc49e6f7ce073eebd28d219922c53524341f51c05c4f0e6b83f5e9.png]\n\n小圆直径可写成 $(\\sqrt{a}+b)(\\sqrt{c}+d)$，其中 $a, b, c,$、$d$ 为整数。求 $a+b+c+d$。",
     "options": {
       "A": "$3$",
       "B": "$5$",
@@ -28041,7 +28041,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2025 AMC 10B · 第 22 题",
-    "stem": "随机选择一个七位正整数。在其各位数字之和为 $61?$ 的条件下，该数能被 $11$ 整除的概率是多少？",
+    "stem": "随机选择一个七位正整数。在其各位数字之和为 $61$ 的条件下，该数能被 $11$ 整除的概率是多少？",
     "options": {
       "A": "$\\dfrac{3}{14}$",
       "B": "$\\dfrac{3}{11}$",
@@ -28084,7 +28084,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2025 AMC 10B · 第 24 题 | 2025 AMC 12B · 第 20 题",
-    "stem": "一只青蛙按以下规则在数轴上跳跃：\n\n从 $0$ 开始；\n\n若位于 $0$，以 $\\frac 12$ 的概率跳到 $1$，以 $\\frac 12$ 的概率消失；\n\n对 $n=1,2,3,$，若位于 $n$，以 $\\frac 14,$ 的概率跳到 $n+1$，以 $\\frac 14,$ 的概率跳到 $n-1$，以 $\\frac 12$ 的概率消失。\n\n青蛙到达 $4?$ 的概率是多少？",
+    "stem": "一只青蛙按以下规则在数轴上跳跃：\n\n从 $0$ 开始；\n\n若位于 $0$，以 $\\frac 12$ 的概率跳到 $1$，以 $\\frac 12$ 的概率消失；\n\n对 $n=1,2,3,$，若位于 $n$，以 $\\frac 14,$ 的概率跳到 $n+1$，以 $\\frac 14,$ 的概率跳到 $n-1$，以 $\\frac 12$ 的概率消失。\n\n青蛙到达 $4$ 的概率是多少？",
     "options": {
       "A": "$\\frac1{101}$",
       "B": "$\\frac 1{100}$",

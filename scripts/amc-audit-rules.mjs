@@ -57,6 +57,15 @@ export function hasBalancedMathBlockBraces(value) {
   return true;
 }
 
+function hasTrailingQuestionMarkInMath(value) {
+  const masked = String(value).replace(/\\\$/gu, "__ESC_DOLLAR__");
+  for (const match of masked.matchAll(/\$\$[\s\S]*?\$\$|\$[^$]*?\$/gu)) {
+    const body = (match[0].startsWith("$$") ? match[0].slice(2, -2) : match[0].slice(1, -1)).trim();
+    if (body.length > 1 && /[?？]$/u.test(body)) return true;
+  }
+  return false;
+}
+
 export function hasBalancedEnvironments(value) {
   const text = String(value);
   const begins = [...text.matchAll(/\\begin\{([^{}]+)\}/g)].map((match) => match[1]).sort();
@@ -158,6 +167,9 @@ export function contentDamageIssues(value, { solution = false } = {}) {
   if (!hasBalancedEnvironments(text)) issues.push("unbalanced environment");
   if (/\b(?:Image|File):[^\s]+\.(?:png|jpg|jpeg|gif|svg)/iu.test(text)) {
     issues.push("unconverted MediaWiki image reference");
+  }
+  if (hasTrailingQuestionMarkInMath(text)) {
+    issues.push("trailing question mark trapped inside inline math");
   }
   if (OBVIOUS_TEXT_CORRUPTION.some((pattern) => pattern.test(text))) {
     issues.push("obvious text corruption");

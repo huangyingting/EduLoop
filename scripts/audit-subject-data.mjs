@@ -263,6 +263,39 @@ for (const { filename, question } of records) {
       if (mathBlocks.some((b) => /[。]/u.test(b))) {
         issues.push(`${field}: Chinese period inside math block`);
       }
+      if (
+        mathBlocks.some(
+          (b) =>
+            /\(\s*(?:\\(?:quad|qquad|,|;|:|\s))*\s*\)\s*$/u.test(b) &&
+            !/\\(?:d|t)?frac\{[^{}]*\}\{\(\s*(?:\\(?:quad|qquad|,|;|:|\s))*\s*\)\}/u.test(b),
+        )
+      ) {
+        issues.push(`${field}: choice bracket trapped inside math block`);
+      }
+      if (mathBlocks.some((b) => /(?<!\{\}|\})[_^]\{\s*\}|\\(?:text|mathrm|rm)\{\s*\}/u.test(b))) {
+        issues.push(`${field}: empty script or text group inside math block`);
+      }
+      if (mathBlocks.some((b) => /\\(?:d|t)?frac\{[^{}]+\}\{\s*\}/u.test(b))) {
+        issues.push(`${field}: empty-denominator fraction arrow inside math block`);
+      }
+      if (
+        isChoice &&
+        solution &&
+        /(?:故选|故答案选|答案选|应选|故选择|易错(?:点|选项)(?:为|是))[:：]?\s*\$\$(?:\\(?:rm|mathrm|text)\{\s*[A-F]{1,4}\s*\}|[A-F]{1,4})\$\$|(?:^|[解：:\n。．；;，,\s])\$\$(?:\\(?:rm|mathrm|text)\{\s*[A-F]{1,4}\s*\}|[A-F]{1,4})\$\$\s*(?:选项|项|说法正确|说法错误|说法不正确|正确|不正确|错误|符合题意|不符合题意)/u.test(
+          String(value),
+        )
+      ) {
+        issues.push(`${field}: wrapped option label inside choice solution`);
+      }
+      if (mathBlocks.some((b) => /^\s*(?:\\rm\{\s*)?[（(]\s*[Ⅰ-Ⅻⅰ-ⅻ]+\s*[)）]/u.test(b))) {
+        issues.push(`${field}: Roman subquestion marker trapped inside math block`);
+      }
+      if (mathBlocks.some((b) => /\\sqrt\[\s*\]|[²³⁴₀₁₂₃₄]|\u2550|={2,}/u.test(b))) {
+        issues.push(`${field}: malformed sqrt/super/subscript or box-drawing/doubled equals inside math block`);
+      }
+      if (mathBlocks.some((b) => /^\s*\{\}\s*\^\s*\{[^{}]+\}\s*$/u.test(b))) {
+        issues.push(`${field}: detached standalone exponent math block`);
+      }
       if (solution && /\n\d{1,2}\.\s*[（(]\d{4}[•·．.][^)）]+[)）]\s*$/u.test(String(value))) {
         issues.push(`${field}: trailing leaked next-question header in solution`);
       }
@@ -278,10 +311,30 @@ for (const { filename, question } of records) {
       if (field === "answer" && /^答[:：]/u.test(String(value))) {
         issues.push(`${field}: redundant 答： prefix`);
       }
+      if (field === "stem" && question.type === "填空题" && !String(value).includes("______")) {
+        issues.push(`${field}: 填空题 stem missing explicit ______ blank marker`);
+      }
+      if (filename === "chinese-high-school.json" && field === "stem" && /[（(]\s*[）)]\s*[A-D]\s*$/u.test(String(value))) {
+        issues.push(`${field}: leaked answer letter at end of choice stem`);
+      }
       const noSvg = String(value).replace(/<svg[\s\S]*?<\/svg>/giu, "");
       const noMath = noSvg.replace(/\$\$[\s\S]*?\$\$/gu, "MATH").replace(/\$[^$]+\$/gu, "MATH");
       if (/[０-９Ａ-Ｚａ-ｚ]/u.test(noSvg)) {
         issues.push(`${field}: fullwidth alphanumeric character`);
+      }
+      if (/\u2022/u.test(noSvg)) {
+        issues.push(`${field}: bullet character • instead of middle dot ·`);
+      }
+      const sQuotes = noSvg.match(/[‘’]/gu) ?? [];
+      if (sQuotes.length % 2 !== 0) {
+        issues.push(`${field}: unbalanced Chinese single quotes`);
+      } else {
+        for (let i = 0; i < sQuotes.length; i += 2) {
+          if (sQuotes[i] !== "‘" || sQuotes[i + 1] !== "’") {
+            issues.push(`${field}: inverted Chinese single quotes`);
+            break;
+          }
+        }
       }
       if (/(?:[，。；：、！？][,.;:!?]|[,.;:!?][，。；：、！？])/u.test(noMath)) {
         issues.push(`${field}: mixed adjacent CJK/ASCII punctuation`);

@@ -11,7 +11,6 @@
     <!-- Substrate C -->
     <path d="M 35 55 H 115 V 95 L 90 120 L 65 95 L 45 115 L 35 95 Z" fill="#fde68a" stroke="#c2410c" stroke-width="3"/>
     <text x="75" y="82" text-anchor="middle" font-family="sans-serif" font-size="20" font-weight="700" fill="#9a3412">C</text>
-    <text x="75" y="42" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#9a3412">底物（丙酮酸）</text>
     <!-- Enzyme D -->
     <path d="M 20 155 L 35 155 L 45 175 L 65 155 L 90 180 L 115 155 L 130 155 C 142 155 148 165 148 180 V 230 C 148 245 138 255 122 255 H 28 C 12 255 2 245 2 230 V 180 C 2 165 8 155 20 155 Z" fill="#ccfbf1" stroke="#0f766e" stroke-width="3.5"/>
     <text x="75" y="220" text-anchor="middle" font-family="sans-serif" font-size="22" font-weight="700" fill="#163a35">D</text>
@@ -25,7 +24,7 @@
 
   <!-- Stage 2: Enzyme-substrate complex -->
   <g transform="translate(285, 95)">
-    <text x="75" y="15" text-anchor="middle" font-family="sans-serif" font-size="16" font-weight="600" fill="#5b6b67">酶与底物结合</text>
+    <text x="75" y="15" text-anchor="middle" font-family="sans-serif" font-size="16" font-weight="600" fill="#5b6b67">反应中</text>
     <!-- Substrate C docked -->
     <path d="M 35 115 H 115 V 155 L 90 180 L 65 155 L 45 175 L 35 155 Z" fill="#fde68a" stroke="#c2410c" stroke-width="3"/>
     <text x="75" y="143" text-anchor="middle" font-family="sans-serif" font-size="20" font-weight="700" fill="#9a3412">C</text>
@@ -49,7 +48,6 @@
     <!-- Product F -->
     <path d="M 78 55 H 128 V 92 L 103 117 L 78 92 Z" fill="#fed7aa" stroke="#c2410c" stroke-width="3"/>
     <text x="103" y="84" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="700" fill="#9a3412">F</text>
-    <text x="75" y="42" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#9a3412">产物</text>
     <!-- Unchanged Enzyme D -->
     <path d="M 20 155 L 35 155 L 45 175 L 65 155 L 90 180 L 115 155 L 130 155 C 142 155 148 165 148 180 V 230 C 148 245 138 255 122 255 H 28 C 12 255 2 245 2 230 V 180 C 2 165 8 155 20 155 Z" fill="#ccfbf1" stroke="#0f766e" stroke-width="3.5"/>
     <text x="75" y="220" text-anchor="middle" font-family="sans-serif" font-size="22" font-weight="700" fill="#163a35">D</text>

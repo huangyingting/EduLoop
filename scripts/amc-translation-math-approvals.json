@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "algorithm": "sha256",
-  "approvedFieldCount": 1557,
-  "digest": "75b0d99d4f81d0fa10fde51c014c6fccbfefa075bd79f8e0f097eb9e913dc742",
+  "approvedFieldCount": 1520,
+  "digest": "df59935f4f9806efafc1d4252a09de179a2e5e9402f59b4411d1697199fa94c3",
   "description": "Pins the exact source and Simplified Chinese values of reviewed AMC fields whose math structure changed during controlled OCR repair or equivalent rewriting."
 }

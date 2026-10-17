@@ -300,7 +300,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "1985 AJHSME · 第 15 题",
-    "stem": "$100$ 与 $400$ 之间，有多少个整数含有数字 $2?$",
+    "stem": "$100$ 与 $400$ 之间，有多少个整数含有数字 $2$？",
     "options": {
       "A": "$100$",
       "B": "$120$",
@@ -447,7 +447,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "1985 AJHSME · 第 22 题",
-    "stem": "假设除首位为 $0 or 1$ 的号码外，每一个 $7$ 位整数都可作为电话号码。首位为 $9$ 且末位为 $0?$ 的电话号码占全部电话号码的几分之几？",
+    "stem": "假设除首位为 $0$ 或 $1$ 的号码外，每一个 $7$ 位整数都可作为电话号码。首位为 $9$ 且末位为 $0$ 的电话号码占全部电话号码的几分之几？",
     "options": {
       "A": "$\\dfrac{1}{63}$",
       "B": "$\\dfrac{1}{80}$",
@@ -657,7 +657,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "1986 AJHSME · 第 7 题",
-    "stem": "$\\sqrt{8}$ 与 $\\sqrt{80}?$ 之间有多少个整数？",
+    "stem": "$\\sqrt{8}$ 与 $\\sqrt{80}$ 之间有多少个整数？",
     "options": {
       "A": "$5$",
       "B": "$6$",
@@ -825,7 +825,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "1986 AJHSME · 第 15 题",
-    "stem": "Ajax 折扣店的售价比原价低 $50 \\%$。星期六还会在售价基础上再打 $20 \\%$ 的折扣。一件原价为 $\\$ 180?$ 的外套，星期六售价是多少？",
+    "stem": "Ajax 折扣店的售价比原价低 $50 \\%$。星期六还会在售价基础上再打 $20 \\%$ 的折扣。一件原价为 $\\$ 180$ 的外套，星期六售价是多少？",
     "options": {
       "A": "$\\$ 54$",
       "B": "$\\$ 72$",
@@ -1434,7 +1434,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "1987 AJHSME · 第 19 题",
-    "stem": "计算器有一个平方键 $\\boxed{x^{2}}$，按下后会用当前显示数的平方替换该数。例如，显示屏为 $\\boxed{000003}$ 时按下 $\\boxed{x^{2}}$，显示会变成 $\\boxed{000009}$。若显示屏当前为 $\\boxed{000002}$，至少按多少次 $\\boxed{x^{2}}$ 键，显示数才会大于 $500?$",
+    "stem": "计算器有一个平方键 $\\boxed{x^{2}}$，按下后会用当前显示数的平方替换该数。例如，显示屏为 $\\boxed{000003}$ 时按下 $\\boxed{x^{2}}$，显示会变成 $\\boxed{000009}$。若显示屏当前为 $\\boxed{000002}$，至少按多少次 $\\boxed{x^{2}}$ 键，显示数才会大于 $500$？",
     "options": {
       "A": "$4$",
       "B": "$5$",
@@ -1959,7 +1959,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "1988 AJHSME · 第 19 题",
-    "stem": "等差数列 $1,5,9,13,17,21,25, \\ldots?$ 的第 $100$ 项是多少？",
+    "stem": "等差数列 $1,5,9,13,17,21,25, \\ldots$ 的第 $100$ 项是多少？",
     "options": {
       "A": "$397$",
       "B": "$399$",
@@ -2043,7 +2043,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "1988 AJHSME · 第 23 题",
-    "stem": "玛丽亚按 $4$ 张 $\\$ 5$ 的价格买入电脑磁盘，再按 $3$ 张 $\\$ 5$ 的价格卖出。她需卖出多少张磁盘才能获利 $\\$ 100?$",
+    "stem": "玛丽亚按 $4$ 张 $\\$ 5$ 的价格买入电脑磁盘，再按 $3$ 张 $\\$ 5$ 的价格卖出。她需卖出多少张磁盘才能获利 $\\$ 100$？",
     "options": {
       "A": "$100$",
       "B": "$120$",
@@ -2064,7 +2064,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "1988 AJHSME · 第 24 题",
-    "stem": "第一幅图中的正方形沿固定正六边形顺时针“滚动”到底部。在图 $4?$ 中，实心三角形将位于何处？\n\n[Figure: /question-assets/source/amc/2253ee48e3825a6adaee884db0b9e8cc3de7446cb5dc63517c90d55882391387.jpg]",
+    "stem": "第一幅图中的正方形沿固定正六边形顺时针“滚动”到底部。在图 $4$ 中，实心三角形将位于何处？\n\n[Figure: /question-assets/source/amc/2253ee48e3825a6adaee884db0b9e8cc3de7446cb5dc63517c90d55882391387.jpg]",
     "options": {
       "A": "[Figure: /question-assets/source/amc/1a97012ba6e2a0d99397bcf28d3b572798a7b3dbe5ee1b49e0d81a4dbfe1d579.jpg]",
       "B": "[Figure: /question-assets/source/amc/f5a46f92c654fc401bbaeebbc92b418e36a4728b675a12afd04e7f41e093e93a.jpg]",
@@ -3103,7 +3103,7 @@
     },
     "answer": "B",
     "solutions": [
-      "图像最“陡”时速度最大。第 2 小时内飞行距离约 $500$ 英里，所以平均速度约为 $500 \\text{ mph}$；其余各小时速度都小于 $350 \\text{ mph}$。\n\n答案：$\\boxed{B}$。"
+      "图像最“陡”时速度最大。第 2 小时内飞行距离约 $500$ 英里，所以平均速度约为 $500 \\text{ 英里/时}$；其余各小时速度都小于 $350 \\text{ 英里/时}$。\n\n答案：$\\boxed{B}$。"
     ],
     "tags": []
   },
@@ -3166,7 +3166,7 @@
     },
     "answer": "B",
     "solutions": [
-      "竖式计算如下：\n\n$\\begin{array}{r} 1,000,000,000,000 \\\\ - \\quad 777,777,777,777 \\\\ \\hline 222,222,222,223 \\end{array}$\n$\\textbf{或}$\n要给 $777,777,777,777$ 加上什么才能得到 $1,000,000,000,000?$？从右向左看，末位加 $3$，前面再加十一个 $2's$。\n\n答案：$\\boxed{B}$。"
+      "竖式计算如下：\n\n$\\begin{array}{r} 1,000,000,000,000 \\\\ - \\quad 777,777,777,777 \\\\ \\hline 222,222,222,223 \\end{array}$\n$\\textbf{或}$\n要给 $777,777,777,777$ 加上什么才能得到 $1,000,000,000,000$？从右向左看，末位加 $3$，前面再加十一个 $2's$。\n\n答案：$\\boxed{B}$。"
     ],
     "tags": []
   },
@@ -4636,7 +4636,7 @@
     },
     "answer": "D",
     "solutions": [
-      "一般结论可用任一具体例子验证。设原长方形为 $10$ 乘 $10$，面积 $100$。新长为 $10+2=12$，新宽为 $10+5=15$，新面积 $12 \\times 15=180$，增幅 $80 \\%$。\n\n$\\textbf{或}$\n长变为原来的 $120 \\%, or 1.2$ 倍，宽变为 $150 \\%$，即 $1.5$ 倍，所以面积变为原来的 $1.2 \\times 1.5=1.8$ 倍，增加 $80 \\%$。\n\n答案：$\\boxed{D}$。"
+      "一般结论可用任一具体例子验证。设原长方形为 $10$ 乘 $10$，面积 $100$。新长为 $10+2=12$，新宽为 $10+5=15$，新面积 $12 \\times 15=180$，增幅 $80 \\%$。\n\n$\\textbf{或}$\n长变为原来的 $120\\%$（即 $1.2$） 倍，宽变为 $150 \\%$，即 $1.5$ 倍，所以面积变为原来的 $1.2 \\times 1.5=1.8$ 倍，增加 $80 \\%$。\n\n答案：$\\boxed{D}$。"
     ],
     "tags": []
   },
@@ -5224,7 +5224,7 @@
     },
     "answer": "B",
     "solutions": [
-      "若某格为绿色，则它上方或右方的所有格也必须为绿色，因此可能图案为\n\n$\\begin{array}{ccc} \\left[\\begin{array}{ll} R & R \\\\ R & R \\\\ \\end{array}\\right] & \\left[\\begin{array}{ll} R & G \\\\ R & R \\\\ \\end{array}\\right] & \\left[\\begin{array}{ll} G & G \\\\ R & R \\\\ \\end{array}\\right] \\\\ \\\\ \\left[\\begin{array}{ll} R & G \\\\ R & G \\\\ \\end{array}\\right] & \\left[\\begin{array}{ll} G & G \\\\ R & G \\\\ \\end{array}\\right] & \\left[\\begin{array}{ll} G & G \\\\ G & G \\\\ \\end{array}\\right] \\end{array}$\n共有 $6$ 种。\n\n$\\textbf{或}$\n每行绿色格必须靠右，且上行绿色格数不少于下行。令绿色格总数为 $n$，就是计算满足 $2 \\geq a \\geq b \\geq 0$ 的和 $a+b=n$。$n$ 可从 $0$ 到 $4$，共有 $6$ 种：\n\n$\\begin{array}{lll} 0+0=0 & 1+0=1 & 2+0=2 \\\\ 1+1=2 & 2+1=3 & 2+2=4 \\\\ \\end{array}$\n所以 $2$ 乘 $2$ 方格共有 $6$ 种合法涂法。\n\n思考：若原正方形为 $3$ 乘 $3?$，或 $4$ 乘 $4?$ 呢？\n\n答案：$\\boxed{B}$。"
+      "若某格为绿色，则它上方或右方的所有格也必须为绿色，因此可能图案为\n\n$\\begin{array}{ccc} \\left[\\begin{array}{ll} R & R \\\\ R & R \\\\ \\end{array}\\right] & \\left[\\begin{array}{ll} R & G \\\\ R & R \\\\ \\end{array}\\right] & \\left[\\begin{array}{ll} G & G \\\\ R & R \\\\ \\end{array}\\right] \\\\ \\\\ \\left[\\begin{array}{ll} R & G \\\\ R & G \\\\ \\end{array}\\right] & \\left[\\begin{array}{ll} G & G \\\\ R & G \\\\ \\end{array}\\right] & \\left[\\begin{array}{ll} G & G \\\\ G & G \\\\ \\end{array}\\right] \\end{array}$\n共有 $6$ 种。\n\n$\\textbf{或}$\n每行绿色格必须靠右，且上行绿色格数不少于下行。令绿色格总数为 $n$，就是计算满足 $2 \\geq a \\geq b \\geq 0$ 的和 $a+b=n$。$n$ 可从 $0$ 到 $4$，共有 $6$ 种：\n\n$\\begin{array}{lll} 0+0=0 & 1+0=1 & 2+0=2 \\\\ 1+1=2 & 2+1=3 & 2+2=4 \\\\ \\end{array}$\n所以 $2$ 乘 $2$ 方格共有 $6$ 种合法涂法。\n\n思考：若原正方形为 $3$ 乘 $3$，或 $4$ 乘 $4$ 呢？\n\n答案：$\\boxed{B}$。"
     ],
     "tags": []
   },
@@ -5371,7 +5371,7 @@
     },
     "answer": "C",
     "solutions": [
-      "$I$ 周长为 $12$，边长为 $3$；同理，$I I$ 边长为 $6$。因此 $I I I$ 边长为 $3+6=9$，周长为 $4 \\times 9=36$。\n\n[Figure: /question-assets/source/amc/064855c9d3648deb2f7f4944599de79e130719bc516965bb0bea158ccb11d3b5.jpg]\n\n思考：$I I I$ 的周长恰等于 $I$ 与 $I I?$ 的周长之和，是巧合吗？\n\n答案：$\\boxed{C}$。"
+      "$I$ 周长为 $12$，边长为 $3$；同理，$I I$ 边长为 $6$。因此 $I I I$ 边长为 $3+6=9$，周长为 $4 \\times 9=36$。\n\n[Figure: /question-assets/source/amc/064855c9d3648deb2f7f4944599de79e130719bc516965bb0bea158ccb11d3b5.jpg]\n\n思考：$I I I$ 的周长恰等于 $I$ 与 $I I$ 的周长之和，是巧合吗？\n\n答案：$\\boxed{C}$。"
     ],
     "tags": []
   },
@@ -6117,7 +6117,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "1996 AJHSME · 第 17 题",
-    "stem": "图形 $O P Q R$ 是正方形，$O$ 为原点，$Q$ 坐标为 $(2,2)$。点 $T$ 坐标为何值时，三角形 $P Q T$ 面积等于正方形 $O P Q R?$ 面积？\n\n[Figure: /question-assets/source/amc/d2bef87d95d35a5c6d6a89f56b8458b189ed65c7ff724bd1a2454d6ecfaf3f3f.jpg]",
+    "stem": "图形 $O P Q R$ 是正方形，$O$ 为原点，$Q$ 坐标为 $(2,2)$。点 $T$ 坐标为何值时，三角形 $P Q T$ 面积等于正方形 $O P Q R$ 面积？\n\n[Figure: /question-assets/source/amc/d2bef87d95d35a5c6d6a89f56b8458b189ed65c7ff724bd1a2454d6ecfaf3f3f.jpg]",
     "options": {
       "A": "$(-6,0)$",
       "B": "$(-4,0)$",
@@ -6852,7 +6852,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "1998 AJHSME · 第 2 题",
-    "stem": "若 $\\begin{matrix} a \\mid b \\\\ \\hline c \\mid d \\end{matrix} = a \\cdot d - b \\cdot c$，求 $\\begin{matrix} 3 \\mid 4 \\\\ \\hline 1 \\mid 2 \\end{matrix}?$ 的值。",
+    "stem": "若 $\\begin{matrix} a \\mid b \\\\ \\hline c \\mid d \\end{matrix} = a \\cdot d - b \\cdot c$，求 $\\begin{matrix} 3 \\mid 4 \\\\ \\hline 1 \\mid 2 \\end{matrix}$ 的值。",
     "options": {
       "A": "$-2$",
       "B": "$-1$",
@@ -7041,7 +7041,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "1998 AJHSME · 第 11 题",
-    "stem": "哈里有 $3$ 个姐妹、$5$ 个兄弟。他的姐妹哈丽特有 $S$ 个姐妹和 $B$ 个兄弟。$S$ 与 $B?$ 的乘积是多少？",
+    "stem": "哈里有 $3$ 个姐妹、$5$ 个兄弟。他的姐妹哈丽特有 $S$ 个姐妹和 $B$ 个兄弟。$S$ 与 $B$ 的乘积是多少？",
     "options": {
       "A": "$8$",
       "B": "$10$",
@@ -8763,7 +8763,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2001 AMC 8 · 第 18 题",
-    "stem": "掷两枚骰子，两数之积为 $5?$ 的倍数的概率是多少？",
+    "stem": "掷两枚骰子，两数之积为 $5$ 的倍数的概率是多少？",
     "options": {
       "A": "$\\dfrac{1}{36}$",
       "B": "$\\dfrac{1}{18}$",
@@ -8878,7 +8878,7 @@
     },
     "answer": "D",
     "solutions": [
-      "共有四类互不全等三角形。\n\n[Figure: /question-assets/source/amc/dc4673b3bbd021571177f8beb1801358b9e4f121963fe93e29f0dc8273a9f68d.jpg]\n\n$\\textbf{或}$\n17 个可能三角形可分为四个全等类别：\n\n$\\{first\\}; \\{RXY, XTZ, YZS, XYZ\\}; \\{RXS, TXS, RZS, RZT, TYR, TYS\\}; \\{RXZ, RYZ, TXY, TZY, XYS, XZS\\}$\n答案：$\\boxed{D}$。"
+      "共有四类互不全等三角形。\n\n[Figure: /question-assets/source/amc/dc4673b3bbd021571177f8beb1801358b9e4f121963fe93e29f0dc8273a9f68d.jpg]\n\n$\\textbf{或}$\n17 个可能三角形可分为四个全等类别：\n\n$\\{RST\\}; \\{RXY, XTZ, YZS, XYZ\\}; \\{RXS, TXS, RZS, RZT, TYR, TYS\\}; \\{RXZ, RYZ, TXY, TZY, XYS, XZS\\}$\n答案：$\\boxed{D}$。"
     ],
     "tags": []
   },
@@ -10002,7 +10002,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2004 AMC 8 · 第 2 题",
-    "stem": "用 $2004?$ 的四个数字重新排列，能组成多少个不同的四位数？",
+    "stem": "用 $2004$ 的四个数字重新排列，能组成多少个不同的四位数？",
     "options": {
       "A": "$4$",
       "B": "$6$",
@@ -10464,7 +10464,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2004 AMC 8 · 第 24 题",
-    "stem": "图中，$A B C D$ 是矩形，$E F G H$ 是平行四边形。根据图中测量，求垂直于 $\\overline{H E}$ 和 $\\overline{F G}?$ 的线段 $d$ 的长度。\n\n[Figure: /question-assets/source/amc/c6568e70b91a7aa4a31e540d9e08610ffb8f98f7a08e7b337190d7ec9436076a.jpg]",
+    "stem": "图中，$A B C D$ 是矩形，$E F G H$ 是平行四边形。根据图中测量，求垂直于 $\\overline{H E}$ 和 $\\overline{F G}$ 的线段 $d$ 的长度。\n\n[Figure: /question-assets/source/amc/c6568e70b91a7aa4a31e540d9e08610ffb8f98f7a08e7b337190d7ec9436076a.jpg]",
     "options": {
       "A": "$6.8$",
       "B": "$7.1$",
@@ -10548,7 +10548,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2005 AMC 8 · 第 3 题",
-    "stem": "正方形$A B C D?$的对角线$\\overline{B D}$要成为对称轴，最少需要将多少个小正方形涂黑？\n\n[Figure: /question-assets/source/amc/eac4676aff98b62a6655d34ba9b7239c941a2855c6dd4aaaaddd932ba1f13477.jpg]",
+    "stem": "正方形$A B C D$的对角线$\\overline{B D}$要成为对称轴，最少需要将多少个小正方形涂黑？\n\n[Figure: /question-assets/source/amc/eac4676aff98b62a6655d34ba9b7239c941a2855c6dd4aaaaddd932ba1f13477.jpg]",
     "options": {
       "A": "$1$",
       "B": "$2$",
@@ -10611,7 +10611,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2005 AMC 8 · 第 6 题",
-    "stem": "假设$d$是一个数字。对于多少个$d$的值，满足$2.00 d 5>2.005?$",
+    "stem": "假设$d$是一个数字。对于多少个$d$的值，满足$2.00 d 5>2.005$？",
     "options": {
       "A": "$0$",
       "B": "$4$",
@@ -10674,7 +10674,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2005 AMC 8 · 第 9 题",
-    "stem": "在四边形$A B C D$中，边$\\overline{A B}$和$\\overline{B C}$的长度都是$10$，边$\\overline{C D}$和$\\overline{D A}$的长度都是$17$，角$A D C$的度数是$60^{\\circ}$。对角线$\\overline{A C}?$的长度是多少？\n\n[Figure: /question-assets/source/amc/84d60a7d52f2ee950815151b82dce32f19b7a10fa3e1938421911d820b6eeafa.jpg]",
+    "stem": "在四边形$A B C D$中，边$\\overline{A B}$和$\\overline{B C}$的长度都是$10$，边$\\overline{C D}$和$\\overline{D A}$的长度都是$17$，角$A D C$的度数是$60^{\\circ}$。对角线$\\overline{A C}$的长度是多少？\n\n[Figure: /question-assets/source/amc/84d60a7d52f2ee950815151b82dce32f19b7a10fa3e1938421911d820b6eeafa.jpg]",
     "options": {
       "A": "$13.5$",
       "B": "$14$",
@@ -10737,7 +10737,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2005 AMC 8 · 第 12 题",
-    "stem": "大个子艾尔这只猿从5月$1$日到5月$5$日吃了$100$根香蕉。他每天吃的香蕉数比前一天多六根。大个子艾尔在5月$5?$日吃了多少根香蕉？\n\n[Figure: /question-assets/source/amc/d7f1b6b240ecb1de8fe6289cde17deb83ddb1591a877870529245db7b5afcd0a.jpg]",
+    "stem": "大个子艾尔这只猿从5月$1$日到5月$5$日吃了$100$根香蕉。他每天吃的香蕉数比前一天多六根。大个子艾尔在5月$5$日吃了多少根香蕉？\n\n[Figure: /question-assets/source/amc/d7f1b6b240ecb1de8fe6289cde17deb83ddb1591a877870529245db7b5afcd0a.jpg]",
     "options": {
       "A": "$20$",
       "B": "$22$",
@@ -10758,7 +10758,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2005 AMC 8 · 第 13 题",
-    "stem": "多边形$A B C D E F$的面积是$52$，其中$A B=8, B C=9$和$F A=5$。$D E+E F?$是多少？\n\n[Figure: /question-assets/source/amc/2fec1e6aadff9ec24598f4ba78a7da4b5813c01769f13fcafb38e372c150a1d6.jpg]",
+    "stem": "多边形$A B C D E F$的面积是$52$，其中$A B=8, B C=9$和$F A=5$。$D E+E F$是多少？\n\n[Figure: /question-assets/source/amc/2fec1e6aadff9ec24598f4ba78a7da4b5813c01769f13fcafb38e372c150a1d6.jpg]",
     "options": {
       "A": "$7$",
       "B": "$8$",
@@ -10800,7 +10800,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2005 AMC 8 · 第 15 题",
-    "stem": "有多少个不同的等腰三角形，其边长为整数且周长为$23?$？",
+    "stem": "有多少个不同的等腰三角形，其边长为整数且周长为$23$？",
     "options": {
       "A": "$2$",
       "B": "$4$",
@@ -10863,7 +10863,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2005 AMC 8 · 第 18 题",
-    "stem": "有多少个三位数能被$13?$整除？",
+    "stem": "有多少个三位数能被$13$整除？",
     "options": {
       "A": "$7$",
       "B": "$67$",
@@ -10884,7 +10884,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2005 AMC 8 · 第 19 题",
-    "stem": "梯形$A B C D?$的周长是多少？\n\n[Figure: /question-assets/source/amc/2d143ff604ee701b67a5fc39e308195adff9e6f81840ce04c7417ce14a07ad1a.jpg]",
+    "stem": "梯形$A B C D$的周长是多少？\n\n[Figure: /question-assets/source/amc/2d143ff604ee701b67a5fc39e308195adff9e6f81840ce04c7417ce14a07ad1a.jpg]",
     "options": {
       "A": "$180$",
       "B": "$188$",
@@ -10968,7 +10968,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2005 AMC 8 · 第 23 题",
-    "stem": "等腰直角三角形$A B C$围含一个面积为$2 \\pi$的半圆。该圆心$O$在斜边$\\overline{A B}$上，与边$\\overline{A C}$和$\\overline{B C}$相切。三角形$A B C?$的面积是多少？\n\n[Figure: /question-assets/source/amc/7912726c9efa26943cb66ee129b48f66b45860db856985c758a5532b47a574e3.jpg]",
+    "stem": "等腰直角三角形$A B C$围含一个面积为$2 \\pi$的半圆。该圆心$O$在斜边$\\overline{A B}$上，与边$\\overline{A C}$和$\\overline{B C}$相切。三角形$A B C$的面积是多少？\n\n[Figure: /question-assets/source/amc/7912726c9efa26943cb66ee129b48f66b45860db856985c758a5532b47a574e3.jpg]",
     "options": {
       "A": "$6$",
       "B": "$8$",
@@ -11199,7 +11199,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2006 AMC 8 · 第 9 题",
-    "stem": "$\\dfrac{3}{2} \\times \\dfrac{4}{3} \\times \\dfrac{5}{4} \\ldots \\times \\dfrac{2006}{2005}?$的乘积是多少？",
+    "stem": "$\\dfrac{3}{2} \\times \\dfrac{4}{3} \\times \\dfrac{5}{4} \\ldots \\times \\dfrac{2006}{2005}$的乘积是多少？",
     "options": {
       "A": "$1$",
       "B": "$1002$",
@@ -11409,7 +11409,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2006 AMC 8 · 第 19 题",
-    "stem": "三角形$A B C$是一个等腰三角形，其中$A B=B C$。点$D$是$\\overline{B C}$和$\\overline{A E}$的中点，$\\overline{C E}$的长度为$11$个单位。三角形$A B D$与三角形$E C D$全等。$\\overline{B D}?$的长度是多少？\n\n[Figure: /question-assets/source/amc/295e75607d28a91b3fcd9c930437cb6843c71279b611fbaf0ac566aefe60b5f7.jpg]",
+    "stem": "三角形$A B C$是一个等腰三角形，其中$A B=B C$。点$D$是$\\overline{B C}$和$\\overline{A E}$的中点，$\\overline{C E}$的长度为$11$个单位。三角形$A B D$与三角形$E C D$全等。$\\overline{B D}$的长度是多少？\n\n[Figure: /question-assets/source/amc/295e75607d28a91b3fcd9c930437cb6843c71279b611fbaf0ac566aefe60b5f7.jpg]",
     "options": {
       "A": "$4$",
       "B": "$4.5$",
@@ -11514,7 +11514,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2006 AMC 8 · 第 24 题",
-    "stem": "在下面的乘法问题中，$A, B, C$和$D$是不同的数字。$A+B?$是多少？\n\n$\\begin{array}{cccc} & A & B & A \\\\ \\times & & C & D \\\\ \\hline C & D & C & D \\\\ \\end{array}$",
+    "stem": "在下面的乘法问题中，$A, B, C$和$D$是不同的数字。$A+B$是多少？\n\n$\\begin{array}{cccc} & A & B & A \\\\ \\times & & C & D \\\\ \\hline C & D & C & D \\\\ \\end{array}$",
     "options": {
       "A": "$1$",
       "B": "$2$",
@@ -11598,7 +11598,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2007 AMC 8 · 第 3 题",
-    "stem": "$250?$的两个最小质因数之和是多少？",
+    "stem": "$250$的两个最小质因数之和是多少？",
     "options": {
       "A": "$2$",
       "B": "$5$",
@@ -11766,7 +11766,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2007 AMC 8 · 第 11 题",
-    "stem": "瓷砖$I, II, III$和$IV$被平移，使得每个瓷砖与矩形$A, B, C$和$D$重合。在最终排列中，任何两个相邻瓷砖的公共边上的两个数字必须相同。哪块瓷砖被平移到矩形$C?$？\n\n[Figure: /question-assets/source/amc/dac8c59c1f2b9b7ff817fe3ba40160ef8b311911642c83e4cdd7e9d27b9700cd.jpg]",
+    "stem": "瓷砖$I, II, III$和$IV$被平移，使得每个瓷砖与矩形$A, B, C$和$D$重合。在最终排列中，任何两个相邻瓷砖的公共边上的两个数字必须相同。哪块瓷砖被平移到矩形$C$？\n\n[Figure: /question-assets/source/amc/dac8c59c1f2b9b7ff817fe3ba40160ef8b311911642c83e4cdd7e9d27b9700cd.jpg]",
     "options": {
       "A": "$I$",
       "B": "$II$",
@@ -11913,7 +11913,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2007 AMC 8 · 第 18 题",
-    "stem": "两个$99$位数的乘积\n\n$303,030,303, \\ldots, 030,303 \\text{ 和 } 505,050,505, \\ldots, 050,505$\n有千位数字$A$和个位数字$B$。$A$和$B?$的和是多少？",
+    "stem": "两个$99$位数的乘积\n\n$303,030,303, \\ldots, 030,303 \\text{ 和 } 505,050,505, \\ldots, 050,505$\n有千位数字$A$和个位数字$B$。$A$和$B$的和是多少？",
     "options": {
       "A": "$3$",
       "B": "$5$",
@@ -12123,7 +12123,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2008 AMC 8 · 第 3 题",
-    "stem": "如果二月是一个包含星期五$13^{\\text{th }}$的月份，那么二月$1?$是星期几？\n\n[Figure: /question-assets/source/amc/75db67ed0408f40fc897c06ff6ba732e4ed2496cc1018e069fc387576de312c3.jpg]",
+    "stem": "如果二月是一个包含星期五$13^{\\text{th }}$的月份，那么二月$1$是星期几？\n\n[Figure: /question-assets/source/amc/75db67ed0408f40fc897c06ff6ba732e4ed2496cc1018e069fc387576de312c3.jpg]",
     "options": {
       "A": "星期日",
       "B": "星期一",
@@ -12207,7 +12207,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2008 AMC 8 · 第 7 题",
-    "stem": "如果$\\dfrac{3}{5}=\\dfrac{M}{45}=\\dfrac{60}{N}$，那么$M+N?$是多少？",
+    "stem": "如果$\\dfrac{3}{5}=\\dfrac{M}{45}=\\dfrac{60}{N}$，那么$M+N$是多少？",
     "options": {
       "A": "$27$",
       "B": "$29$",
@@ -12543,7 +12543,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2008 AMC 8 · 第 23 题",
-    "stem": "在正方形$A B C E, A F=2 F E$和$C D=2 D E$中。$\\triangle B F D$与正方形$A B C E?$面积的比是多少？\n\n[Figure: /question-assets/source/amc/a8a063620eeef9532d39ab2072db58724427da2766fda3b10bc120decff7abf9.jpg]",
+    "stem": "在正方形$A B C E, A F=2 F E$和$C D=2 D E$中。$\\triangle B F D$与正方形$A B C E$面积的比是多少？\n\n[Figure: /question-assets/source/amc/a8a063620eeef9532d39ab2072db58724427da2766fda3b10bc120decff7abf9.jpg]",
     "options": {
       "A": "$\\dfrac{1}{6}$",
       "B": "$\\dfrac{2}{9}$",
@@ -12732,7 +12732,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2009 AMC 8 · 第 7 题",
-    "stem": "三角形地块$A C D$位于紫杉路、布朗路和一条铁路之间。主街从东向西延伸，铁路从南向北延伸。图表中的数字表示以英里为单位的距离。铁道轨道的宽度可忽略不计。地块$A C D?$有多少平方英里？\n\n[Figure: /question-assets/source/amc/3b05ef28a23e1ba322cc1cc5ed22ec8fb18d463168e05f494db7c3cc464b0bfc.jpg]",
+    "stem": "三角形地块$A C D$位于紫杉路、布朗路和一条铁路之间。主街从东向西延伸，铁路从南向北延伸。图表中的数字表示以英里为单位的距离。铁道轨道的宽度可忽略不计。地块$A C D$有多少平方英里？\n\n[Figure: /question-assets/source/amc/3b05ef28a23e1ba322cc1cc5ed22ec8fb18d463168e05f494db7c3cc464b0bfc.jpg]",
     "options": {
       "A": "$2$",
       "B": "$3$",
@@ -12921,7 +12921,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2009 AMC 8 · 第 16 题",
-    "stem": "有多少个$3$位正整数的各位数字的乘积等于$24?$？",
+    "stem": "有多少个$3$位正整数的各位数字的乘积等于$24$？",
     "options": {
       "A": "$12$",
       "B": "$15$",
@@ -12942,7 +12942,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2009 AMC 8 · 第 17 题",
-    "stem": "正整数$x$和$y$是使得$360$和$x$的乘积是完全平方数，且$360$和$y$的乘积是完全立方数的两个最小正整数。$x$和$y?$的和是多少？",
+    "stem": "正整数$x$和$y$是使得$360$和$x$的乘积是完全平方数，且$360$和$y$的乘积是完全立方数的两个最小正整数。$x$和$y$的和是多少？",
     "options": {
       "A": "$80$",
       "B": "$85$",
@@ -12984,7 +12984,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2009 AMC 8 · 第 19 题",
-    "stem": "等腰三角形的两个角分别为$70^{\\circ}$和$x^{\\circ}$。$x?$的三个可能值的和是多少？",
+    "stem": "等腰三角形的两个角分别为$70^{\\circ}$和$x^{\\circ}$。$x$的三个可能值的和是多少？",
     "options": {
       "A": "$95$",
       "B": "$125$",
@@ -13026,7 +13026,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2009 AMC 8 · 第 21 题",
-    "stem": "安迪和贝瑟妮有一个$40$行$75$列的矩形数字阵列。安迪计算每一行的数字和。他的$40$个和的平均数是$A$。贝瑟妮计算每一列的数字和。她的$75$个和的平均数是$B$。$\\dfrac{A}{B}?$的值是多少？",
+    "stem": "安迪和贝瑟妮有一个$40$行$75$列的矩形数字阵列。安迪计算每一行的数字和。他的$40$个和的平均数是$A$。贝瑟妮计算每一列的数字和。她的$75$个和的平均数是$B$。$\\dfrac{A}{B}$的值是多少？",
     "options": {
       "A": "$\\dfrac{64}{225}$",
       "B": "$\\dfrac{8}{15}$",
@@ -13047,7 +13047,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2009 AMC 8 · 第 22 题",
-    "stem": "在$1$到$1000$之间，有多少个整数不包含数字$1?$？",
+    "stem": "在$1$到$1000$之间，有多少个整数不包含数字$1$？",
     "options": {
       "A": "$512$",
       "B": "$648$",
@@ -13152,7 +13152,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2010 AMC 8 · 第 2 题",
-    "stem": "如果对于$a, b$正整数，$a * b=\\dfrac{a \\times b}{a+b}$，那么$5 * 10?$是多少？",
+    "stem": "如果对于$a, b$正整数，$a * b=\\dfrac{a \\times b}{a+b}$，那么$5 * 10$是多少？",
     "options": {
       "A": "$\\dfrac{3}{10}$",
       "B": "$1$",
@@ -13194,7 +13194,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2010 AMC 8 · 第 4 题",
-    "stem": "数字$2,3,0,3,1,4,0,3?$的平均数、中位数和众数之和是多少？",
+    "stem": "数字$2,3,0,3,1,4,0,3$的平均数、中位数和众数之和是多少？",
     "options": {
       "A": "$6.5$",
       "B": "$7$",
@@ -13404,7 +13404,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2010 AMC 8 · 第 14 题",
-    "stem": "$2010?$的质因数之和是多少？",
+    "stem": "$2010$的质因数之和是多少？",
     "options": {
       "A": "$67$",
       "B": "$75$",
@@ -13593,7 +13593,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2010 AMC 8 · 第 23 题",
-    "stem": "半圆$P O Q$和$R O S$经过圆$O$的中心。半圆与圆的总面积的比例是$O?$的什么倍？\n\n[Figure: /question-assets/source/amc/079567927a0d094f6c380ace9559613675138ad173da697bfd6ac17ac42b6002.jpg]",
+    "stem": "半圆$P O Q$和$R O S$经过圆$O$的中心。半圆与圆的总面积的比例是$O$的什么倍？\n\n[Figure: /question-assets/source/amc/079567927a0d094f6c380ace9559613675138ad173da697bfd6ac17ac42b6002.jpg]",
     "options": {
       "A": "$\\dfrac{\\sqrt{2}}{4}$",
       "B": "$\\dfrac{1}{2}$",
@@ -13614,7 +13614,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2010 AMC 8 · 第 24 题",
-    "stem": "三个数字$10^{8}, 5^{12}$、和$2^{24}?$的正确排序是什么？",
+    "stem": "三个数字$10^{8}, 5^{12}$、和$2^{24}$的正确排序是什么？",
     "options": {
       "A": "$2^{24}<10^{8}<5^{12}$",
       "B": "$2^{24}<5^{12}<10^{8}$",
@@ -13845,7 +13845,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2011 AMC 8 · 第 10 题",
-    "stem": "哥谭市出租车前 $\\dfrac{1}{2}$ 英里的车费为 $\\$ 2.40$，之后每增加 $0.1$ 英里收费 $\\$ 0.20$。你打算给司机 $\\$ 2$ 小费。用 $\\$ 10?$ 最远能乘坐多少英里？\n\n[Figure: /question-assets/source/amc/680d50597563170db3b161d4a234be510205d61e084d1445694801a65b95e2e2.jpg]",
+    "stem": "哥谭市出租车前 $\\dfrac{1}{2}$ 英里的车费为 $\\$ 2.40$，之后每增加 $0.1$ 英里收费 $\\$ 0.20$。你打算给司机 $\\$ 2$ 小费。用 $\\$ 10$ 最远能乘坐多少英里？\n\n[Figure: /question-assets/source/amc/680d50597563170db3b161d4a234be510205d61e084d1445694801a65b95e2e2.jpg]",
     "options": {
       "A": "$3.0$",
       "B": "$3.25$",
@@ -13950,7 +13950,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2011 AMC 8 · 第 15 题",
-    "stem": "乘积$4^{5} \\cdot 5^{10}?$中有多少位数字？",
+    "stem": "乘积$4^{5} \\cdot 5^{10}$中有多少位数字？",
     "options": {
       "A": "$8$",
       "B": "$9$",
@@ -13971,7 +13971,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2011 AMC 8 · 第 16 题",
-    "stem": "设$A$为边长为$25,25$和$30$的三角形的面积。设$B$为边长为$25,25$和$40$的三角形的面积。$A$和$B?$之间的关系是什么？",
+    "stem": "设$A$为边长为$25,25$和$30$的三角形的面积。设$B$为边长为$25,25$和$40$的三角形的面积。$A$和$B$之间的关系是什么？",
     "options": {
       "A": "$A=\\dfrac{9}{16} B$",
       "B": "$A=\\dfrac{3}{4} B$",
@@ -14097,7 +14097,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2011 AMC 8 · 第 22 题",
-    "stem": "$7^{2011}?$的十位数字是什么？",
+    "stem": "$7^{2011}$的十位数字是什么？",
     "options": {
       "A": "$0$",
       "B": "$1$",
@@ -14370,7 +14370,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2012 AMC 8 · 第 10 题",
-    "stem": "有多少个 $4$ 位数的数字大于 $1000$ 并使用 $2012?$ 的四个数字？",
+    "stem": "有多少个 $4$ 位数的数字大于 $1000$ 并使用 $2012$ 的四个数字？",
     "options": {
       "A": "$6$",
       "B": "$7$",
@@ -14391,7 +14391,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2012 AMC 8 · 第 11 题",
-    "stem": "正整数 $3,4,5,6,6,7, x$ 的平均值、中位数和唯一众数都相等。$x?$ 的值是多少？",
+    "stem": "正整数 $3,4,5,6,6,7, x$ 的平均值、中位数和唯一众数都相等。$x$ 的值是多少？",
     "options": {
       "A": "$5$",
       "B": "$6$",
@@ -14538,7 +14538,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2012 AMC 8 · 第 18 题",
-    "stem": "既不是质数也不是完全平方数的最小正整数是什么，并且没有小于 $50?$ 的质因子？",
+    "stem": "既不是质数也不是完全平方数的最小正整数是什么，并且没有小于 $50$ 的质因子？",
     "options": {
       "A": "$3127$",
       "B": "$3133$",
@@ -14622,7 +14622,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2012 AMC 8 · 第 22 题",
-    "stem": "设 $R$ 为九个不同整数的集合。该集合的六个元素是 $2,3 ,4,6,9$ 和 $14$。$R?$ 的中位数有多少个可能值？",
+    "stem": "设 $R$ 为九个不同整数的集合。该集合的六个元素是 $2,3 ,4,6,9$ 和 $14$。$R$ 的中位数有多少个可能值？",
     "options": {
       "A": "$4$",
       "B": "$5$",
@@ -14685,7 +14685,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2012 AMC 8 · 第 25 题",
-    "stem": "一个面积为 $4$ 的正方形被内接于一个面积为 $5$ 的正方形中，较小正方形的一个顶点在较大正方形的每条边上。较小正方形的一个顶点将较大正方形的一条边分成两条线段，一条长度为 $a$，另一条长度为 $b$。$a b?$ 的值是多少？\n\n[Figure: /question-assets/source/amc/b21437ed96114f8a6f278f70a7f66e6bb60f8a82aa679c9bd016f40358aa9dc6.jpg]",
+    "stem": "一个面积为 $4$ 的正方形被内接于一个面积为 $5$ 的正方形中，较小正方形的一个顶点在较大正方形的每条边上。较小正方形的一个顶点将较大正方形的一条边分成两条线段，一条长度为 $a$，另一条长度为 $b$。$a b$ 的值是多少？\n\n[Figure: /question-assets/source/amc/b21437ed96114f8a6f278f70a7f66e6bb60f8a82aa679c9bd016f40358aa9dc6.jpg]",
     "options": {
       "A": "$\\dfrac{1}{5}$",
       "B": "$\\dfrac{2}{5}$",
@@ -14748,7 +14748,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2013 AMC 8 · 第 3 题",
-    "stem": "计算 $4 \\cdot(-1+2-3+4-5+6-7+\\cdots+1000)?$ 的值。",
+    "stem": "计算 $4 \\cdot(-1+2-3+4-5+6-7+\\cdots+1000)$ 的值。",
     "options": {
       "A": "$-10$",
       "B": "$0$",
@@ -15002,7 +15002,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2013 AMC 8 · 第 15 题",
-    "stem": "如果 $3^{p}+3^{4}=90,2^{r}+44=76$、$5^{3}+6^{s}=1421$ 和 $p, r$，$s?$ 的乘积是多少？",
+    "stem": "如果 $3^{p}+3^{4}=90,2^{r}+44=76$、$5^{3}+6^{s}=1421$ 和 $p, r$，$s$ 的乘积是多少？",
     "options": {
       "A": "$27$",
       "B": "$40$",
@@ -15170,7 +15170,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2013 AMC 8 · 第 23 题",
-    "stem": "三角形 $A B C$ 的角 $\\triangle A B C$ 是直角。三角形 $\\triangle A B C$ 的边是半圆的直径如图所示。边 $\\overline{A B}$ 上的半圆面积等于 $8 \\pi$，边 $\\overline{A C}$ 上的半圆的弧长为 $8.5 \\pi$。边 $\\overline{B C}?$ 上的半圆的半径是多少？\n\n[Figure: /question-assets/source/amc/426e770cd7ba5b7f74c3b3bd43e01fc0e1c96b31fda6085618d5901c92afe927.jpg]",
+    "stem": "三角形 $A B C$ 的角 $\\triangle A B C$ 是直角。三角形 $\\triangle A B C$ 的边是半圆的直径如图所示。边 $\\overline{A B}$ 上的半圆面积等于 $8 \\pi$，边 $\\overline{A C}$ 上的半圆的弧长为 $8.5 \\pi$。边 $\\overline{B C}$ 上的半圆的半径是多少？\n\n[Figure: /question-assets/source/amc/426e770cd7ba5b7f74c3b3bd43e01fc0e1c96b31fda6085618d5901c92afe927.jpg]",
     "options": {
       "A": "$7$",
       "B": "$7.5$",
@@ -15212,7 +15212,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2013 AMC 8 · 第 25 题",
-    "stem": "直径为 $4$ 英寸的球从点 $A$ 开始沿轨道滚动。轨道由 $3$ 条半圆弧组成，其半径分别为 $R_{1}=100$ 英寸、$R_{2}=60$ 英寸和 $R_{3}=80$ 英寸。球始终与轨道保持接触且不滑动。球的中心从 $A$ 到 $B?$ 的行程距离是多少英寸？\n\n[Figure: /question-assets/source/amc/3c6c0d07d465cc13cbe5d384c8528b97886a9b0e78538b621bbb5ed21d21f53f.jpg]",
+    "stem": "直径为 $4$ 英寸的球从点 $A$ 开始沿轨道滚动。轨道由 $3$ 条半圆弧组成，其半径分别为 $R_{1}=100$ 英寸、$R_{2}=60$ 英寸和 $R_{3}=80$ 英寸。球始终与轨道保持接触且不滑动。球的中心从 $A$ 到 $B$ 的行程距离是多少英寸？\n\n[Figure: /question-assets/source/amc/3c6c0d07d465cc13cbe5d384c8528b97886a9b0e78538b621bbb5ed21d21f53f.jpg]",
     "options": {
       "A": "$238 \\pi$",
       "B": "$240 \\pi$",
@@ -15233,7 +15233,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2014 AMC 8 · 第 1 题",
-    "stem": "哈里和特里都被要求计算$8-(2+5)$。哈里得到了正确的答案。特里忽略了括号，计算了$8-2+5$。如果哈里的答案是$H$，特里的答案是$T$，那么$H-T?$是多少",
+    "stem": "哈里和特里都被要求计算$8-(2+5)$。哈里得到了正确的答案。特里忽略了括号，计算了$8-2+5$。如果哈里的答案是$H$，特里的答案是$T$，那么$H-T$是多少",
     "options": {
       "A": "$-10$",
       "B": "$-6$",
@@ -15506,7 +15506,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2014 AMC 8 · 第 14 题",
-    "stem": "矩形$A B C D$和直角三角形$D C E$有相同的面积。如图所示，它们连接成一个梯形。$D E?$是多少\n\n[Figure: /question-assets/source/amc/39e30db87362ce54e0377b72da3c35c54f46f92c008e0deb3c7384952d75be5a.jpg]",
+    "stem": "矩形$A B C D$和直角三角形$D C E$有相同的面积。如图所示，它们连接成一个梯形。$D E$是多少\n\n[Figure: /question-assets/source/amc/39e30db87362ce54e0377b72da3c35c54f46f92c008e0deb3c7384952d75be5a.jpg]",
     "options": {
       "A": "$12$",
       "B": "$13$",
@@ -15863,7 +15863,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2015 AMC 8 · 第 6 题",
-    "stem": "在$\\triangle A B C, A B=B C=29$中，$A C=42$。$\\triangle A B C?$的面积是多少？",
+    "stem": "在$\\triangle A B C, A B=B C=29$中，$A C=42$。$\\triangle A B C$的面积是多少？",
     "options": {
       "A": "$100$",
       "B": "$420$",
@@ -15968,7 +15968,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2015 AMC 8 · 第 11 题",
-    "stem": "在数学小国，所有汽车牌照都有四个符号。第一个必须是元音$(A, E, I, O$或$U)$，第二和第三个必须是$21$个辅音中的两个不同字母，第四个必须是数字$(0$到$9)$。如果符号是在这些条件下随机选择的，牌照读\"$\"\\text{AMC}8\"?$\"的概率是多少？",
+    "stem": "在数学小国，所有汽车牌照都有四个符号。第一个必须是元音$(A, E, I, O$或$U)$，第二和第三个必须是$21$个辅音中的两个不同字母，第四个必须是数字$(0$到$9)$。如果符号是在这些条件下随机选择的，牌照读\"$\"\\text{AMC}8\"$？\"的概率是多少？",
     "options": {
       "A": "$\\dfrac{1}{22,050}$",
       "B": "$\\dfrac{1}{21,000}$",
@@ -16010,7 +16010,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2015 AMC 8 · 第 13 题",
-    "stem": "可以从集合\n\n$\\{1,2,3,4,5,6,7,8,9,10,11\\}$\n中删除多少个两元子集，使得剩余的九个数的平均值（平均数）为$6?$？",
+    "stem": "可以从集合\n\n$\\{1,2,3,4,5,6,7,8,9,10,11\\}$\n中删除多少个两元子集，使得剩余的九个数的平均值（平均数）为$6$？",
     "options": {
       "A": "$1$",
       "B": "$2$",
@@ -16115,7 +16115,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2015 AMC 8 · 第 18 题",
-    "stem": "等差数列是一个数列，其中第一项之后的每一项都通过给前一项加上一个常数得到。例如，$2, 5, 8, 11, 14$是一个有五项的等差数列，第一项是$2$，常数是$3$。在这个$5 \\times 5$的数组中，每行和每列都是五项的等差数列。$X?$的值是多少？\n\n$\\begin{array}{|l|l|l|l|l|} \\hline 1 & \\quad & & \\quad & 25 \\\\ \\hline & & & & \\\\ \\hline & & X & & \\\\ \\hline & & & & \\\\ \\hline 17 & & & & 81 \\\\ \\hline \\end{array}$",
+    "stem": "等差数列是一个数列，其中第一项之后的每一项都通过给前一项加上一个常数得到。例如，$2, 5, 8, 11, 14$是一个有五项的等差数列，第一项是$2$，常数是$3$。在这个$5 \\times 5$的数组中，每行和每列都是五项的等差数列。$X$的值是多少？\n\n$\\begin{array}{|l|l|l|l|l|} \\hline 1 & \\quad & & \\quad & 25 \\\\ \\hline & & & & \\\\ \\hline & & X & & \\\\ \\hline & & & & \\\\ \\hline 17 & & & & 81 \\\\ \\hline \\end{array}$",
     "options": {
       "A": "$21$",
       "B": "$31$",
@@ -16178,7 +16178,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2015 AMC 8 · 第 21 题",
-    "stem": "在给定的图中，六边形$A B C D E F$是等角的，$A B J I$和$F E H G$是面积分别为$18$和$32$的正方形，$\\triangle J B K$是等边的，$F E=B C$。$\\triangle K B C?$的面积是多少？\n\n[Figure: /question-assets/source/amc/3fa491eb9de998fa3811f0bf5e72f219ba66402281eaeaa70a14993f96d03856.jpg]",
+    "stem": "在给定的图中，六边形$A B C D E F$是等角的，$A B J I$和$F E H G$是面积分别为$18$和$32$的正方形，$\\triangle J B K$是等边的，$F E=B C$。$\\triangle K B C$的面积是多少？\n\n[Figure: /question-assets/source/amc/3fa491eb9de998fa3811f0bf5e72f219ba66402281eaeaa70a14993f96d03856.jpg]",
     "options": {
       "A": "$6 \\sqrt{2}$",
       "B": "$9$",
@@ -16304,7 +16304,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2016 AMC 8 · 第 2 题",
-    "stem": "在矩形$A B C D, A B=6$中，$A D=8$。点$M$是$\\overline{A D}$的中点。求$\\triangle A M C?$的面积。",
+    "stem": "在矩形$A B C D, A B=6$中，$A D=8$。点$M$是$\\overline{A D}$的中点。求$\\triangle A M C$的面积。",
     "options": {
       "A": "$12$",
       "B": "$15$",
@@ -16367,7 +16367,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2016 AMC 8 · 第 5 题",
-    "stem": "$N$是一个两位数。\n\n当$N$除以$9$时，余数是$1$。\n\n当$N$除以$10$时，余数是$3$。\n\n当$N$除以$11?$时的余数是多少？",
+    "stem": "$N$是一个两位数。\n\n当$N$除以$9$时，余数是$1$。\n\n当$N$除以$10$时，余数是$3$。\n\n当$N$除以$11$时的余数是多少？",
     "options": {
       "A": "$0$",
       "B": "$2$",
@@ -16451,7 +16451,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2016 AMC 8 · 第 9 题",
-    "stem": "求$2016?$的不同质因数之和。",
+    "stem": "求$2016$的不同质因数之和。",
     "options": {
       "A": "$9$",
       "B": "$12$",
@@ -16535,7 +16535,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2016 AMC 8 · 第 13 题",
-    "stem": "从集合$\\{-2,-1,0,3,4,5\\}$中随机选取两个不同的数，将其相乘。该乘积为$0?$的概率是多少？",
+    "stem": "从集合$\\{-2,-1,0,3,4,5\\}$中随机选取两个不同的数，将其相乘。该乘积为$0$的概率是多少？",
     "options": {
       "A": "$\\dfrac{1}{6}$",
       "B": "$\\dfrac{1}{5}$",
@@ -16745,7 +16745,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2016 AMC 8 · 第 23 题",
-    "stem": "两个相等的圆分别以$A$和$B$为圆心，每个圆都通过另一个圆的圆心。包含$A$和$B$的直线延伸与两圆相交于点$C$和$D$。两圆交于两点，其中一点是$E$。$\\angle C E D?$的度数是多少？",
+    "stem": "两个相等的圆分别以$A$和$B$为圆心，每个圆都通过另一个圆的圆心。包含$A$和$B$的直线延伸与两圆相交于点$C$和$D$。两圆交于两点，其中一点是$E$。$\\angle C E D$的度数是多少？",
     "options": {
       "A": "$90$",
       "B": "$105$",
@@ -16766,7 +16766,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2016 AMC 8 · 第 24 题",
-    "stem": "数字$1,2,3,4$和$5$各使用一次来写一个五位数$P Q R S T$。三位数$P Q R$能被$4$整除，三位数$Q R S$能被$5$整除，三位数$R S T$能被$3$整除。求$P?$。",
+    "stem": "数字$1,2,3,4$和$5$各使用一次来写一个五位数$P Q R S T$。三位数$P Q R$能被$4$整除，三位数$Q R S$能被$5$整除，三位数$R S T$能被$3$整除。求$P$。",
     "options": {
       "A": "$1$",
       "B": "$2$",
@@ -16850,7 +16850,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2017 AMC 8 · 第 3 题",
-    "stem": "表达式$\\sqrt{16 \\sqrt{8 \\sqrt{4}}}?$的值是多少？",
+    "stem": "表达式$\\sqrt{16 \\sqrt{8 \\sqrt{4}}}$的值是多少？",
     "options": {
       "A": "$4$",
       "B": "$4 \\sqrt{2}$",
@@ -16892,7 +16892,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2017 AMC 8 · 第 5 题",
-    "stem": "表达式$\\dfrac{1 \\cdot 2 \\cdot 3 \\cdot 4 \\cdot 5 \\cdot 6 \\cdot 7 \\cdot 8}{1+2+3+4+5+6+7+8}?$的值是多少？",
+    "stem": "表达式$\\dfrac{1 \\cdot 2 \\cdot 3 \\cdot 4 \\cdot 5 \\cdot 6 \\cdot 7 \\cdot 8}{1+2+3+4+5+6+7+8}$的值是多少？",
     "options": {
       "A": "$1020$",
       "B": "$1120$",
@@ -16934,7 +16934,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2017 AMC 8 · 第 7 题",
-    "stem": "设$Z$是一个$6$位正整数，比如$247247$，它的前三位数字与后三位数字的顺序相同。以下哪个数必定是$Z?$的因数？",
+    "stem": "设$Z$是一个$6$位正整数，比如$247247$，它的前三位数字与后三位数字的顺序相同。以下哪个数必定是$Z$的因数？",
     "options": {
       "A": "$11$",
       "B": "$19$",
@@ -17102,7 +17102,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2017 AMC 8 · 第 15 题",
-    "stem": "在下面的字母和数字排列中，有多少条不同的路径可以拼出$\\text{AMC} 8?$？从中间的$A$开始，路径只能向相邻的（上、下、左或右，不能是对角线）字母移动。下图中标出了一条这样的路径作为示例。\n\n[Figure: /question-assets/source/amc/eb7688115d5d5a3e265d87edd0579dde7287423f8b7de28432a22445502552e4.jpg]",
+    "stem": "在下面的字母和数字排列中，有多少条不同的路径可以拼出$\\text{AMC} 8$？从中间的$A$开始，路径只能向相邻的（上、下、左或右，不能是对角线）字母移动。下图中标出了一条这样的路径作为示例。\n\n[Figure: /question-assets/source/amc/eb7688115d5d5a3e265d87edd0579dde7287423f8b7de28432a22445502552e4.jpg]",
     "options": {
       "A": "$8$",
       "B": "$9$",
@@ -17123,7 +17123,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2017 AMC 8 · 第 16 题",
-    "stem": "在下面的图形中，选择边$\\overline{B C}$上的点$D$，使得$\\triangle A C D$和$\\triangle A B D$的周长相等。$\\triangle A B D?$的面积是多少？\n\n[Figure: /question-assets/source/amc/cc56eaa40f74b8f0b3f04c4099353b99b1c203cf270fbb8cafecaaa87e00f910.jpg]",
+    "stem": "在下面的图形中，选择边$\\overline{B C}$上的点$D$，使得$\\triangle A C D$和$\\triangle A B D$的周长相等。$\\triangle A B D$的面积是多少？\n\n[Figure: /question-assets/source/amc/cc56eaa40f74b8f0b3f04c4099353b99b1c203cf270fbb8cafecaaa87e00f910.jpg]",
     "options": {
       "A": "$\\dfrac{3}{4}$",
       "B": "$\\dfrac{3}{2}$",
@@ -17165,7 +17165,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2017 AMC 8 · 第 18 题",
-    "stem": "在下面所示的非凸四边形$A B C D$中，$\\angle B C D$是直角，$A B=12, B C=4, C D=3$和$A D=13$。四边形$A B C D?$的面积是多少？\n\n[Figure: /question-assets/source/amc/d75c04d016850818f68382bbbf8b68edc8be05d482d309c2c04b0835da7a0015.jpg]",
+    "stem": "在下面所示的非凸四边形$A B C D$中，$\\angle B C D$是直角，$A B=12, B C=4, C D=3$和$A D=13$。四边形$A B C D$的面积是多少？\n\n[Figure: /question-assets/source/amc/d75c04d016850818f68382bbbf8b68edc8be05d482d309c2c04b0835da7a0015.jpg]",
     "options": {
       "A": "$12$",
       "B": "$24$",
@@ -17186,7 +17186,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2017 AMC 8 · 第 19 题",
-    "stem": "对于任何正整数$M$，符号$M!$表示从$1$到$M$的整数的乘积。最大的整数$n$是多少，使得$5^{n}$是和$98!+99!+100!?$的因数？",
+    "stem": "对于任何正整数$M$，符号$M!$表示从$1$到$M$的整数的乘积。最大的整数$n$是多少，使得$5^{n}$是和$98!+99!+100!$的因数？",
     "options": {
       "A": "$23$",
       "B": "$24$",
@@ -17354,7 +17354,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2018 AMC 8 · 第 2 题",
-    "stem": "求下列乘积的值：\n\n$\\left( 1+\\dfrac{1}{1} \\right).\\left( 1+\\dfrac{1}{2} \\right).\\left( 1+\\dfrac{1}{3} \\right).\\left( 1+\\dfrac{1}{4} \\right).\\left( 1+\\dfrac{1}{5} \\right).\\left( 1+\\dfrac{1}{6} \\right)?$",
+    "stem": "求下列乘积的值：\n\n$\\left( 1+\\dfrac{1}{1} \\right).\\left( 1+\\dfrac{1}{2} \\right).\\left( 1+\\dfrac{1}{3} \\right).\\left( 1+\\dfrac{1}{4} \\right).\\left( 1+\\dfrac{1}{5} \\right).\\left( 1+\\dfrac{1}{6} \\right)$？",
     "options": {
       "A": "$\\dfrac{7}{6}$",
       "B": "$\\dfrac{4}{3}$",
@@ -17396,7 +17396,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2018 AMC 8 · 第 4 题",
-    "stem": "一个十二边形被画在 $1 \\ cm\\times 1 \\ cm$ 的方格纸上。该图形的面积是多少 $cm^2?$？\n\n[Figure: /question-assets/source/amc/8762b930510824fbbeb064f09f622b3dab9274b545ab80ca4b919f7568b25968.jpg]",
+    "stem": "一个十二边形被画在 $1 \\ cm\\times 1 \\ cm$ 的方格纸上。该图形的面积是多少 $cm^2$？\n\n[Figure: /question-assets/source/amc/8762b930510824fbbeb064f09f622b3dab9274b545ab80ca4b919f7568b25968.jpg]",
     "options": {
       "A": "$12$",
       "B": "$12.5$",
@@ -17417,7 +17417,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2018 AMC 8 · 第 5 题",
-    "stem": "求 $1+3+5+...+2017+2019-2-4-6-...2016-2018?$ 的值。",
+    "stem": "求 $1+3+5+...+2017+2019-2-4-6-...2016-2018$ 的值。",
     "options": {
       "A": "$-1010$",
       "B": "$-1009$",
@@ -17448,7 +17448,7 @@
     },
     "answer": "C",
     "solutions": [
-      "Anh 在海滨道路上的速度是每小时 20 英里，因为他在半小时内行驶了 10 英里。这说明 Anh 在高速公路上的速度是每小时 60 英里，所以行驶 50 英里需要 50 分钟。Anh 整个旅程花费 30 + 50 = 80 分钟。\n\n$OR$\n因为 Anh 在高速公路上的速度是海滨道路速度的三倍，他只需 $\\dfrac{30}{3}$ = 10 分钟就能在高速公路上行驶 10 英里，5 个 10 分钟可以行驶 50 英里。因此总时间是 30 + 5(10) = 80 分钟。\n\n答案：$\\boxed{C}$。"
+      "Anh 在海滨道路上的速度是每小时 20 英里，因为他在半小时内行驶了 10 英里。这说明 Anh 在高速公路上的速度是每小时 60 英里，所以行驶 50 英里需要 50 分钟。Anh 整个旅程花费 30 + 50 = 80 分钟。\n\n$\\textbf{或}$\n因为 Anh 在高速公路上的速度是海滨道路速度的三倍，他只需 $\\dfrac{30}{3}$ = 10 分钟就能在高速公路上行驶 10 英里，5 个 10 分钟可以行驶 50 英里。因此总时间是 30 + 5(10) = 80 分钟。\n\n答案：$\\boxed{C}$。"
     ],
     "tags": []
   },
@@ -17511,7 +17511,7 @@
     },
     "answer": "B",
     "solutions": [
-      "房间的周长是 $2(12 + 16) = 56$ 英尺。$4$ 个角瓷砖各占周长的 $2$ 英尺，所以 Tyler 需要这 $4$ 块加上另外的 $56$ - $4\\cdot2 = 48$ 块 1 英尺见方的瓷砖来形成边框。房间内剩余的空间是一个 $10$ 英尺乘以 $14$ 英尺的矩形，所以 Tyler 需要 $\\dfrac{10}{2}\\cdot\\dfrac{14}{2} = 35$ 块 2 英尺见方的瓷砖来覆盖。因此他总共需要 $4 + 48 + 35 = 87$ 块瓷砖。\n\n$OR$\n如果 Tyler 只用 1 英尺见方的瓷砖，总共需要 $12\\cdot16 = 192$ 块。如上所述，房间减去边框是一个 $10$ 英尺乘以 $14$ 英尺的矩形，用 2 英尺见方的瓷砖覆盖，每块的面积与 $4$ 块 1 英尺见方瓷砖相同。因此覆盖该部分所需的瓷砖数不是 $10\\cdot14 = 140$ 而是 $\\dfrac{140}{4} = 35$，总瓷砖数为 $(192-140)+35 = 87$。\n\n答案：$\\boxed{B}$。"
+      "房间的周长是 $2(12 + 16) = 56$ 英尺。$4$ 个角瓷砖各占周长的 $2$ 英尺，所以 Tyler 需要这 $4$ 块加上另外的 $56$ - $4\\cdot2 = 48$ 块 1 英尺见方的瓷砖来形成边框。房间内剩余的空间是一个 $10$ 英尺乘以 $14$ 英尺的矩形，所以 Tyler 需要 $\\dfrac{10}{2}\\cdot\\dfrac{14}{2} = 35$ 块 2 英尺见方的瓷砖来覆盖。因此他总共需要 $4 + 48 + 35 = 87$ 块瓷砖。\n\n$\\textbf{或}$\n如果 Tyler 只用 1 英尺见方的瓷砖，总共需要 $12\\cdot16 = 192$ 块。如上所述，房间减去边框是一个 $10$ 英尺乘以 $14$ 英尺的矩形，用 2 英尺见方的瓷砖覆盖，每块的面积与 $4$ 块 1 英尺见方瓷砖相同。因此覆盖该部分所需的瓷砖数不是 $10\\cdot14 = 140$ 而是 $\\dfrac{140}{4} = 35$，总瓷砖数为 $(192-140)+35 = 87$。\n\n答案：$\\boxed{B}$。"
     ],
     "tags": []
   },
@@ -17553,7 +17553,7 @@
     },
     "answer": "C",
     "solutions": [
-      "Abby 有 $6$ 个可能的位置，Bridget 就有 $5$ 个可能的位置。因为她们的顺序无关，两个女孩可以被放置在任何 $\\dfrac{6\\cdot5}{2}=15$ 对位置中。有 $2$ 对位置相邻在上排，$2$ 对位置相邻在下排，$3$ 对位置在同一列相邻。所以她们占据相邻位置的概率是 $\\dfrac{2+2+3}{15}$ = $\\dfrac{7}{15}$。\n\n$OR$\nAbby 被分配到角位置的概率是 $\\dfrac{2}{3}$，被分配到中间位置的概率是 $\\dfrac{1}{3}$。如果 Abby 被分配到角位置，Bridget 与 Abby 相邻的概率是 $\\dfrac{2}{5}$。如果 Abby 被分配到中间位置，Bridget 与 Abby 相邻的概率是 $\\dfrac{3}{5}$。因此，Abby 和 Bridget 在同一行或同一列中相邻的概率是 $\\dfrac{2}{3}\\cdot\\dfrac{2}{5}$ + $\\dfrac{1}{3}\\cdot\\dfrac{3}{5}$ = $\\dfrac{7}{15}$。\n\n答案：$\\boxed{C}$。"
+      "Abby 有 $6$ 个可能的位置，Bridget 就有 $5$ 个可能的位置。因为她们的顺序无关，两个女孩可以被放置在任何 $\\dfrac{6\\cdot5}{2}=15$ 对位置中。有 $2$ 对位置相邻在上排，$2$ 对位置相邻在下排，$3$ 对位置在同一列相邻。所以她们占据相邻位置的概率是 $\\dfrac{2+2+3}{15}$ = $\\dfrac{7}{15}$。\n\n$\\textbf{或}$\nAbby 被分配到角位置的概率是 $\\dfrac{2}{3}$，被分配到中间位置的概率是 $\\dfrac{1}{3}$。如果 Abby 被分配到角位置，Bridget 与 Abby 相邻的概率是 $\\dfrac{2}{5}$。如果 Abby 被分配到中间位置，Bridget 与 Abby 相邻的概率是 $\\dfrac{3}{5}$。因此，Abby 和 Bridget 在同一行或同一列中相邻的概率是 $\\dfrac{2}{3}\\cdot\\dfrac{2}{5}$ + $\\dfrac{1}{3}\\cdot\\dfrac{3}{5}$ = $\\dfrac{7}{15}$。\n\n答案：$\\boxed{C}$。"
     ],
     "tags": []
   },
@@ -17574,7 +17574,7 @@
     },
     "answer": "B",
     "solutions": [
-      "Sri 汽车时钟与实际时间的比例是 $\\dfrac{35}{30}$ = $\\dfrac{7}{6}$。因此，当时钟显示从中午开始经过了 $7$ 小时，实际经过的时间只有 $6$ 小时，所以实际时间是 $6:00$。\n\n$OR$\n每半小时快速 $5$ 分钟相当于每 $6$ 小时快速 $1$ 小时。因此，当汽车时钟读取 $7:00$ 时，实际时间是 $6:00$。\n\n答案：$\\boxed{B}$。"
+      "Sri 汽车时钟与实际时间的比例是 $\\dfrac{35}{30}$ = $\\dfrac{7}{6}$。因此，当时钟显示从中午开始经过了 $7$ 小时，实际经过的时间只有 $6$ 小时，所以实际时间是 $6:00$。\n\n$\\textbf{或}$\n每半小时快速 $5$ 分钟相当于每 $6$ 小时快速 $1$ 小时。因此，当汽车时钟读取 $7:00$ 时，实际时间是 $6:00$。\n\n答案：$\\boxed{B}$。"
     ],
     "tags": []
   },
@@ -17637,7 +17637,7 @@
     },
     "answer": "D",
     "solutions": [
-      "如果一个较小的圆的半径是 $r$，则其面积是 $\\pi{r^2}$，较大圆的面积是 $\\pi{(2r)^2}$ = 4$\\pi{r^2}$。因此，大圆的面积是小圆面积的 $4$ 倍。所以阴影区域的面积等于两个较小圆的面积之和，即 $1$ 平方单位。\n\n$OR$\n两个相似图形的面积比等于对应长度比的平方。因为较大圆的直径是每个较小圆直径的两倍，所以较大圆的面积是每个较小圆面积的四倍。因此，阴影面积等于两个较小圆的面积之和。\n\n答案：$\\boxed{D}$。"
+      "如果一个较小的圆的半径是 $r$，则其面积是 $\\pi{r^2}$，较大圆的面积是 $\\pi{(2r)^2}$ = 4$\\pi{r^2}$。因此，大圆的面积是小圆面积的 $4$ 倍。所以阴影区域的面积等于两个较小圆的面积之和，即 $1$ 平方单位。\n\n$\\textbf{或}$\n两个相似图形的面积比等于对应长度比的平方。因为较大圆的直径是每个较小圆直径的两倍，所以较大圆的面积是每个较小圆面积的四倍。因此，阴影面积等于两个较小圆的面积之和。\n\n答案：$\\boxed{D}$。"
     ],
     "tags": []
   },
@@ -17679,7 +17679,7 @@
     },
     "answer": "A",
     "solutions": [
-      "到两个女孩相遇时，Ella 骑行的距离是 Bella 步行距离的 $5$ 倍，所以 Ella 骑行 $\\dfrac{5}{6}$ 的总距离，Bella 步行 $\\dfrac{1}{6}$ 的总距离，即 $\\dfrac{1}{6}(10,560) = 1760$ 英尺。她的每一步覆盖 $2\\dfrac{1}{2}$ = $\\dfrac{5}{2}$ 英尺，所以她走的步数是 $1760\\div\\dfrac{5}{2}$ = $1760\\cdot\\dfrac{2}{5} = 704$。\n\n$OR$\nBella 的速率是 $2.5$ 英尺每步，而 Ella 每走 Bella 的一步行驶 $12.5$ 英尺。所以他们每走 Bella 的一步总共行驶 15 英尺。因此，Bella 遇见 Ella 时走的步数是 $\\dfrac{10,560}{15} = 704$。\n\n答案：$\\boxed{A}$。"
+      "到两个女孩相遇时，Ella 骑行的距离是 Bella 步行距离的 $5$ 倍，所以 Ella 骑行 $\\dfrac{5}{6}$ 的总距离，Bella 步行 $\\dfrac{1}{6}$ 的总距离，即 $\\dfrac{1}{6}(10,560) = 1760$ 英尺。她的每一步覆盖 $2\\dfrac{1}{2}$ = $\\dfrac{5}{2}$ 英尺，所以她走的步数是 $1760\\div\\dfrac{5}{2}$ = $1760\\cdot\\dfrac{2}{5} = 704$。\n\n$\\textbf{或}$\nBella 的速率是 $2.5$ 英尺每步，而 Ella 每走 Bella 的一步行驶 $12.5$ 英尺。所以他们每走 Bella 的一步总共行驶 15 英尺。因此，Bella 遇见 Ella 时走的步数是 $\\dfrac{10,560}{15} = 704$。\n\n答案：$\\boxed{A}$。"
     ],
     "tags": []
   },
@@ -17721,7 +17721,7 @@
     },
     "answer": "C",
     "solutions": [
-      "将 $+$ 符号视为 $+1$，将 $-$ 符号视为 $-1$。设 a、b、c、d 分别表示金字塔底部四个单元格的值。那么倒数第二行的单元格的值分别为 $a\\cdot b$、$b\\cdot c$ 和 $c\\cdot d$，上面的单元格分别为 $a\\cdot b\\cdot b\\cdot c$ = $a\\cdot c$ 和 $b\\cdot c\\cdot c\\cdot d$ = $b\\cdot d$（因为 $1$ 和 $-1$ 的平方都是 $1$）。最后，顶部单元格的值为 $a\\cdot b\\cdot c\\cdot d$。当所有四个变量都是 $+1$ 或都是 $+1$ 时，这个值为 $-1$，产生两种方式；或者，当两个变量为 $+1$，两个为 $-1$ 时，产生 6 种额外的方式（$++--$、$+-+-$、$+--+$、$-++-$、$-+-+$ 和 $--++$）。因此总共有 8 种方式填充第四行。\n\n$OR$\n为在金字塔顶部产生 $+$，第二行必须包含 $++$ 或 $--$ 之一。每个都导致第三行的两种可能的排列。考虑以下情况。\n\n[Figure: /question-assets/source/amc/39521cc70ecafc2fd935ca86e7f00541a6269548bea48cf8ff12822e26901211.jpg]\n\n因此，有八种可能的方式来填充第四行。\n\n答案：$\\boxed{C}$。"
+      "将 $+$ 符号视为 $+1$，将 $-$ 符号视为 $-1$。设 a、b、c、d 分别表示金字塔底部四个单元格的值。那么倒数第二行的单元格的值分别为 $a\\cdot b$、$b\\cdot c$ 和 $c\\cdot d$，上面的单元格分别为 $a\\cdot b\\cdot b\\cdot c$ = $a\\cdot c$ 和 $b\\cdot c\\cdot c\\cdot d$ = $b\\cdot d$（因为 $1$ 和 $-1$ 的平方都是 $1$）。最后，顶部单元格的值为 $a\\cdot b\\cdot c\\cdot d$。当所有四个变量都是 $+1$ 或都是 $+1$ 时，这个值为 $-1$，产生两种方式；或者，当两个变量为 $+1$，两个为 $-1$ 时，产生 6 种额外的方式（$++--$、$+-+-$、$+--+$、$-++-$、$-+-+$ 和 $--++$）。因此总共有 8 种方式填充第四行。\n\n$\\textbf{或}$\n为在金字塔顶部产生 $+$，第二行必须包含 $++$ 或 $--$ 之一。每个都导致第三行的两种可能的排列。考虑以下情况。\n\n[Figure: /question-assets/source/amc/39521cc70ecafc2fd935ca86e7f00541a6269548bea48cf8ff12822e26901211.jpg]\n\n因此，有八种可能的方式来填充第四行。\n\n答案：$\\boxed{C}$。"
     ],
     "tags": []
   },
@@ -17742,7 +17742,7 @@
     },
     "answer": "A",
     "solutions": [
-      "三角形 $AED, EBF$ 与 $ABC$ 相似，对应边之比为 $1:2:3$，所以面积之比为 $1:4:9$。$\\triangle AED$ 与 $\\triangle EBF$ 的面积之和占 $\\triangle ABC$ 面积的 $\\dfrac{5}{9}$，因此 $CDEF$ 的面积是 $\\triangle ABC$ 面积的 $\\dfrac{4}{9}$。\n\n$OR$\n通过连接三角形三条边的对应三等分点，如下图所示，得到九个全等三角形，其中四个构成 $CDEF$。\n\n[Figure: /question-assets/source/amc/b94a743e2d61c85e13b7939ae64815263e420410eb4b6b36f3b54f2b44185028.jpg]\n\n答案：$\\boxed{A}$。"
+      "三角形 $AED, EBF$ 与 $ABC$ 相似，对应边之比为 $1:2:3$，所以面积之比为 $1:4:9$。$\\triangle AED$ 与 $\\triangle EBF$ 的面积之和占 $\\triangle ABC$ 面积的 $\\dfrac{5}{9}$，因此 $CDEF$ 的面积是 $\\triangle ABC$ 面积的 $\\dfrac{4}{9}$。\n\n$\\textbf{或}$\n通过连接三角形三条边的对应三等分点，如下图所示，得到九个全等三角形，其中四个构成 $CDEF$。\n\n[Figure: /question-assets/source/amc/b94a743e2d61c85e13b7939ae64815263e420410eb4b6b36f3b54f2b44185028.jpg]\n\n答案：$\\boxed{A}$。"
     ],
     "tags": []
   },
@@ -17774,7 +17774,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2018 AMC 8 · 第 22 题",
-    "stem": "点 $E$ 是正方形 $\\overline{CD}$ 中边 $ABCD$ 的中点，$\\overline{BE}$ 与对角线 $\\overline{AC}$ 相交于 $F$。四边形 $AFED$ 的面积是 $45$。$ABCD?$ 的面积是多少？\n\n[Figure: /question-assets/source/amc/e420a1019af70bba66c684af9fd7713bd8d4dd68a3e8425004c8d5e18a6f94b2.png]",
+    "stem": "点 $E$ 是正方形 $\\overline{CD}$ 中边 $ABCD$ 的中点，$\\overline{BE}$ 与对角线 $\\overline{AC}$ 相交于 $F$。四边形 $AFED$ 的面积是 $45$。$ABCD$ 的面积是多少？\n\n[Figure: /question-assets/source/amc/e420a1019af70bba66c684af9fd7713bd8d4dd68a3e8425004c8d5e18a6f94b2.png]",
     "options": {
       "A": "$100$",
       "B": "$108$",
@@ -17784,7 +17784,7 @@
     },
     "answer": "B",
     "solutions": [
-      "要看四边形占正方形的什么比例，首先注意 $AFED$ 占面积的一半。接下来注意因为 $\\triangle ADC$ 和 $\\overline{AB}$ 是平行的，所以 $\\overline{CD}$ 和 $\\triangle ABF$ 相似，$\\triangle CEF$。通过 $CE = \\dfrac{1}{2} AB$ 画 $\\overline {PQ}$，使得 $F$ 和 $\\overline {PF}$ 分别是 $\\overline {FQ}$ 和 $\\triangle ABF$ 的高度。然后 $\\triangle CEF$ = $FQ$，所以 $\\dfrac{1}{2}PF$ = $FQ = \\dfrac{1}{3}PQ$。因此 $\\dfrac{1}{3} BC$ 的面积是 $\\triangle CEF$ = $\\dfrac{1}{2}(CE)(FQ)$ = $\\dfrac{1}{2}(\\dfrac {1}{2} AB)(\\dfrac {1}{3} BC)$，它是正方形面积的 $\\dfrac{1}{12}(AB)(BC)$。因为四边形 $\\dfrac {1}{12}$ 的面积等于 $AFED$ 的面积减去 $\\triangle ADC$ 的面积，四边形 $\\triangle CEF$ 占正方形的比例是 $AFED$。因为 $\\dfrac{1}{2}- \\dfrac{1}{12} = \\dfrac{5}{12}$ 的面积是 45，$AFED$ 的面积是（$ABCD$）。\n\n$\\dfrac{12}{5})(45)= 108$\n\n[Figure: /question-assets/source/amc/6d3759a5c155a0fa0ded8432ebe420f9ebace309791dbbe40bda0becf4c17c32.jpg]\n设 $OR$ 表示 $a$ 的面积。注意 $\\triangle CEF$ 与 $\\triangle ABF$ 相似，相似比为 $\\triangle CEF$。因此 $AB : CE = 2 : 1$ 的面积为 $\\triangle ABF$。因为 $4a$ 和 $\\triangle DEF$ 有相等的底边并有来自 $\\triangle CEF$ 的公共高，$F$ 的面积为 $\\triangle DEF$。因为 $a$，因为 $BF = 2FE$ 和 $\\triangle CBF$ 有来自 $\\triangle CEF$ 的公共高，所以 $C$ 的面积为 $\\triangle CBF$。类似地，$2a$ 的面积是 $\\triangle DAF$ 的两倍，所以 $\\triangle DCF$ 的面积为 $\\triangle DAF$。最后，四边形 $4a$ 的面积为 $AFED$，所以 $45 = 5a$，因此正方形 $a = 9$ 的面积为 $ABCD$。\n\n$12a = 108$\n\n[Figure: /question-assets/source/amc/fa7b0d087c1f02cc24fddcec60fcd37eadecd8bc5045e9f99e776a35be32f4ff.jpg]\n\n答案：$\\boxed{B}$。"
+      "要看四边形占正方形的什么比例，首先注意 $AFED$ 占面积的一半。接下来注意因为 $\\triangle ADC$ 和 $\\overline{AB}$ 是平行的，所以 $\\overline{CD}$ 和 $\\triangle ABF$ 相似，$\\triangle CEF$。通过 $CE = \\dfrac{1}{2} AB$ 画 $\\overline {PQ}$，使得 $F$ 和 $\\overline {PF}$ 分别是 $\\overline {FQ}$ 和 $\\triangle ABF$ 的高度。然后 $\\triangle CEF$ = $FQ$，所以 $\\dfrac{1}{2}PF$ = $FQ = \\dfrac{1}{3}PQ$。因此 $\\dfrac{1}{3} BC$ 的面积是 $\\triangle CEF$ = $\\dfrac{1}{2}(CE)(FQ)$ = $\\dfrac{1}{2}(\\dfrac {1}{2} AB)(\\dfrac {1}{3} BC)$，它是正方形面积的 $\\dfrac{1}{12}(AB)(BC)$。因为四边形 $\\dfrac {1}{12}$ 的面积等于 $AFED$ 的面积减去 $\\triangle ADC$ 的面积，四边形 $\\triangle CEF$ 占正方形的比例是 $AFED$。因为 $\\dfrac{1}{2}- \\dfrac{1}{12} = \\dfrac{5}{12}$ 的面积是 45，$AFED$ 的面积是（$ABCD$）。\n\n$\\dfrac{12}{5})(45)= 108$\n\n[Figure: /question-assets/source/amc/6d3759a5c155a0fa0ded8432ebe420f9ebace309791dbbe40bda0becf4c17c32.jpg]\n设 $\\textbf{或}$ 表示 $a$ 的面积。注意 $\\triangle CEF$ 与 $\\triangle ABF$ 相似，相似比为 $\\triangle CEF$。因此 $AB : CE = 2 : 1$ 的面积为 $\\triangle ABF$。因为 $4a$ 和 $\\triangle DEF$ 有相等的底边并有来自 $\\triangle CEF$ 的公共高，$F$ 的面积为 $\\triangle DEF$。因为 $a$，因为 $BF = 2FE$ 和 $\\triangle CBF$ 有来自 $\\triangle CEF$ 的公共高，所以 $C$ 的面积为 $\\triangle CBF$。类似地，$2a$ 的面积是 $\\triangle DAF$ 的两倍，所以 $\\triangle DCF$ 的面积为 $\\triangle DAF$。最后，四边形 $4a$ 的面积为 $AFED$，所以 $45 = 5a$，因此正方形 $a = 9$ 的面积为 $ABCD$。\n\n$12a = 108$\n\n[Figure: /question-assets/source/amc/fa7b0d087c1f02cc24fddcec60fcd37eadecd8bc5045e9f99e776a35be32f4ff.jpg]\n\n答案：$\\boxed{B}$。"
     ],
     "tags": []
   },
@@ -17816,7 +17816,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2018 AMC 8 · 第 24 题",
-    "stem": "在具有对面顶点 $ABCDEFGH$ 和 $C$ 的立方体 $E$ 中，$J$ 和 $I$ 分别是线段 $\\overline{FB}$ 和 $\\overline{HD}$ 的中点。设 $R$ 是截面 $EJCI$ 的面积与立方体一个面的面积的比值。$R^2?$ 是多少？\n\n[Figure: /question-assets/source/amc/921cdae7b641c28e598f465fc703c7c56c249f3828db2828e0656fdd1166d42b.png]",
+    "stem": "在具有对面顶点 $ABCDEFGH$ 和 $C$ 的立方体 $E$ 中，$J$ 和 $I$ 分别是线段 $\\overline{FB}$ 和 $\\overline{HD}$ 的中点。设 $R$ 是截面 $EJCI$ 的面积与立方体一个面的面积的比值。$R^2$ 是多少？\n\n[Figure: /question-assets/source/amc/921cdae7b641c28e598f465fc703c7c56c249f3828db2828e0656fdd1166d42b.png]",
     "options": {
       "A": "$\\dfrac{5}{4}$",
       "B": "$\\dfrac{4}{3}$",
@@ -17879,7 +17879,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2019 AMC 8 · 第 2 题",
-    "stem": "三个完全相同的矩形并排组成矩形$ABCD$，如下图所示。已知每个小矩形的短边长度为$5$英尺，矩形$ABCD?$的面积是多少平方英尺？\n\n[Figure: /question-assets/source/amc/8c831e31544300794c3f6848c2c2bad4ff1b18a366c5333bec9f7845eb4f1dbc.png]",
+    "stem": "三个完全相同的矩形并排组成矩形$ABCD$，如下图所示。已知每个小矩形的短边长度为$5$英尺，矩形$ABCD$的面积是多少平方英尺？\n\n[Figure: /question-assets/source/amc/8c831e31544300794c3f6848c2c2bad4ff1b18a366c5333bec9f7845eb4f1dbc.png]",
     "options": {
       "A": "$45$",
       "B": "$75$",
@@ -17921,7 +17921,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2019 AMC 8 · 第 4 题",
-    "stem": "四边形$ABCD$是一个周长为$52$米的菱形。对角线$\\overline{AC}$的长度为$24$米。菱形$ABCD?$的面积是多少平方米？\n\n[Figure: /question-assets/source/amc/60c805c999cc05c6fb923a94aa3229931287716e38768a365e463ee8d0e6cc69.jpg]",
+    "stem": "四边形$ABCD$是一个周长为$52$米的菱形。对角线$\\overline{AC}$的长度为$24$米。菱形$ABCD$的面积是多少平方米？\n\n[Figure: /question-assets/source/amc/60c805c999cc05c6fb923a94aa3229931287716e38768a365e463ee8d0e6cc69.jpg]",
     "options": {
       "A": "$60$",
       "B": "$90$",
@@ -17931,7 +17931,7 @@
     },
     "answer": "D",
     "solutions": [
-      "设$M$为$\\overline{AC}$的中点。则$AM = 12$。因为菱形的对角线相互垂直且互相平分，$\\overline{BM}$垂直于$\\overline{AC}$。因为菱形的四条边长度都相等，所以$AB = \\dfrac{52}{4} = 13$。由勾股定理，$BM = \\sqrt{13^2 - 12^2}$ = 5。$\\triangle{ABM}$的面积是$\\dfrac{1}{2} \\cdot 12 \\cdot 5 = 30$平方米。因此菱形$ABCD$的面积是$4 \\cdot 30 = 120$平方米。\n\n[Figure: /question-assets/source/amc/9e87764c4df2d30da5e24c3e701f48e361d269cf6f4f05ae4f363292bc03916d.jpg]\n\n$OR$\n如上所述，$BM = 5$，因此$BD = 10$。菱形的面积是两条对角线长度乘积的一半。因此$ABCD$的面积是$\\dfrac{1}{2}\\cdot24\\cdot10= 120$平方米。\n\n答案：$\\boxed{D}$。"
+      "设$M$为$\\overline{AC}$的中点。则$AM = 12$。因为菱形的对角线相互垂直且互相平分，$\\overline{BM}$垂直于$\\overline{AC}$。因为菱形的四条边长度都相等，所以$AB = \\dfrac{52}{4} = 13$。由勾股定理，$BM = \\sqrt{13^2 - 12^2}$ = 5。$\\triangle{ABM}$的面积是$\\dfrac{1}{2} \\cdot 12 \\cdot 5 = 30$平方米。因此菱形$ABCD$的面积是$4 \\cdot 30 = 120$平方米。\n\n[Figure: /question-assets/source/amc/9e87764c4df2d30da5e24c3e701f48e361d269cf6f4f05ae4f363292bc03916d.jpg]\n\n$\\textbf{或}$\n如上所述，$BM = 5$，因此$BD = 10$。菱形的面积是两条对角线长度乘积的一半。因此$ABCD$的面积是$\\dfrac{1}{2}\\cdot24\\cdot10= 120$平方米。\n\n答案：$\\boxed{D}$。"
     ],
     "tags": []
   },
@@ -18015,7 +18015,7 @@
     },
     "answer": "E",
     "solutions": [
-      "假设吉尔达一开始有$100$个弹珠。她首先把$20\\%$的$100$给佩德罗，剩下$80$个。然后她把$10\\%$的$80$给埃博尼，剩下$80-8 = 72$个。最后吉尔达把$25\\%$的$72$给吉米，剩下$\\dfrac{3}{4}\\cdot72= 54$个。因此吉尔达最后剩下$\\dfrac{54}{100}$，这是弹珠的$54\\%$。\n\n$OR$\n经过三次赠送后，吉尔达剩下的是她开始时拥有的弹珠的四分之三乘以十分之九乘以五分之四，即$\\dfrac{3}{4}\\cdot\\dfrac{9}{10}\\cdot\\dfrac{4}{5} = \\dfrac{27}{50}$，这是$54\\%$。\n\n答案：$\\boxed{E}$。"
+      "假设吉尔达一开始有$100$个弹珠。她首先把$20\\%$的$100$给佩德罗，剩下$80$个。然后她把$10\\%$的$80$给埃博尼，剩下$80-8 = 72$个。最后吉尔达把$25\\%$的$72$给吉米，剩下$\\dfrac{3}{4}\\cdot72= 54$个。因此吉尔达最后剩下$\\dfrac{54}{100}$，这是弹珠的$54\\%$。\n\n$\\textbf{或}$\n经过三次赠送后，吉尔达剩下的是她开始时拥有的弹珠的四分之三乘以十分之九乘以五分之四，即$\\dfrac{3}{4}\\cdot\\dfrac{9}{10}\\cdot\\dfrac{4}{5} = \\dfrac{27}{50}$，这是$54\\%$。\n\n答案：$\\boxed{E}$。"
     ],
     "tags": []
   },
@@ -18036,7 +18036,7 @@
     },
     "answer": "B",
     "solutions": [
-      "圆柱体的体积（其中半径为$r$，高为$h$）为$V = πr²h$。艾利克斯的罐头半径为$3 cm$，高为$12 cm$，所以他的一个罐头的体积为$π\\cdot3^2\\cdot12$ = $108 π cm^3$。费莉西亚的罐头半径为$6 cm$，高为$6 cm$，所以她的一个罐头的体积为$π\\cdot6^2\\cdot6$ = $216 π cm^3$。因此，艾利克斯的一个罐头的体积与费莉西亚的一个罐头的体积的比率为$108π: 216π = 1:2$。\n\n$OR$\n因为圆柱罐头的体积取决于高度和半径的平方，当高度加倍时，体积乘以2，当半径除以$2$时，体积除以$4$。因此高度加倍和半径减半导致艾利克斯的罐头体积是费莉西亚罐头体积的一半。所以要求的比率是$1 : 2$。\n\n答案：$\\boxed{B}$。"
+      "圆柱体的体积（其中半径为$r$，高为$h$）为$V = πr²h$。艾利克斯的罐头半径为$3 cm$，高为$12 cm$，所以他的一个罐头的体积为$π\\cdot3^2\\cdot12$ = $108 π cm^3$。费莉西亚的罐头半径为$6 cm$，高为$6 cm$，所以她的一个罐头的体积为$π\\cdot6^2\\cdot6$ = $216 π cm^3$。因此，艾利克斯的一个罐头的体积与费莉西亚的一个罐头的体积的比率为$108π: 216π = 1:2$。\n\n$\\textbf{或}$\n因为圆柱罐头的体积取决于高度和半径的平方，当高度加倍时，体积乘以2，当半径除以$2$时，体积除以$4$。因此高度加倍和半径减半导致艾利克斯的罐头体积是费莉西亚罐头体积的一半。所以要求的比率是$1 : 2$。\n\n答案：$\\boxed{B}$。"
     ],
     "tags": []
   },
@@ -18057,7 +18057,7 @@
     },
     "answer": "B",
     "solutions": [
-      "按从小到大顺序排列的原始值是$16, 16, 20, 22, and 26$，因此中位数（中间值）是$20$。将其中一个$16s$替换为$21$后，新值为$16, 20, 21, 22, and 26$，中位数为$21$。因此中位数增加$1$。\n\n一天参加人数增加$5$相当于每天平均增加$1$人。因此平均值增加$1$。（也可以直接计算平均值。原始数据集的平均值为$20$，更正错误后为$21$。）\n\n答案：$\\boxed{B}$。"
+      "按从小到大顺序排列的原始值是$16, 16, 20, 22, \\text{ 和 } 26$，因此中位数（中间值）是$20$。将其中一个$16s$替换为$21$后，新值为$16, 20, 21, 22, \\text{ 和 } 26$，中位数为$21$。因此中位数增加$1$。\n\n一天参加人数增加$5$相当于每天平均增加$1$人。因此平均值增加$1$。（也可以直接计算平均值。原始数据集的平均值为$20$，更正错误后为$21$。）\n\n答案：$\\boxed{B}$。"
     ],
     "tags": []
   },
@@ -18078,7 +18078,7 @@
     },
     "answer": "D",
     "solutions": [
-      "数学课和外语课的总注册人数是$70+54= 124$名学生。有$93$名学生，所以必须有$124-93 = 31$名学生被计算了两次，因为他们同时参加数学课和外语课。因此有$70-31= 39$名学生只参加数学课而不参加外语课。\n\n$OR$\n下面的文氏图中，左边的圆表示参加数学课的学生，右边的圆表示参加外语课的学生。设$x$表示同时参加数学课和外语课的学生人数。那么$70-x$名学生只参加数学课，$54-x$名学生只参加外语课。因为$(70-x)+ x + (54-x) = 93$，所以$x = 31$。因此有$70 - 31 = 39$名学生只参加数学课而不参加外语课。\n\n[Figure: /question-assets/source/amc/4c95d61743cad1b4aa14556bdfe4fe195b5ff0c7d42b4342bd58f8d3b4b7dbce.jpg]\n\n答案：$\\boxed{D}$。"
+      "数学课和外语课的总注册人数是$70+54= 124$名学生。有$93$名学生，所以必须有$124-93 = 31$名学生被计算了两次，因为他们同时参加数学课和外语课。因此有$70-31= 39$名学生只参加数学课而不参加外语课。\n\n$\\textbf{或}$\n下面的文氏图中，左边的圆表示参加数学课的学生，右边的圆表示参加外语课的学生。设$x$表示同时参加数学课和外语课的学生人数。那么$70-x$名学生只参加数学课，$54-x$名学生只参加外语课。因为$(70-x)+ x + (54-x) = 93$，所以$x = 31$。因此有$70 - 31 = 39$名学生只参加数学课而不参加外语课。\n\n[Figure: /question-assets/source/amc/4c95d61743cad1b4aa14556bdfe4fe195b5ff0c7d42b4342bd58f8d3b4b7dbce.jpg]\n\n答案：$\\boxed{D}$。"
     ],
     "tags": []
   },
@@ -18089,7 +18089,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2019 AMC 8 · 第 12 题",
-    "stem": "一个立方体的六个面分别涂成$red(R)$、$white(W)$、$green(G)$、$brown(B)$、$aqua(A)$和$purple(P)$六种不同的颜色。下面显示了立方体的三个视图。黄色面的对面是什么颜色？\n\n[Figure: /question-assets/source/amc/6f48dbc43c640aca1d97eb172aefa7ff19b07990ca2f3fd08f2f2379bd08427e.jpg]",
+    "stem": "一个立方体的六个面分别涂成红色（$R$）、白色（$W$）、绿色（$G$）、棕色（$B$）、青色（$A$）和紫色（$P$）六种不同的颜色。下面显示了立方体的三个视图。青色面的对面是什么颜色？\n\n[Figure: /question-assets/source/amc/6f48dbc43c640aca1d97eb172aefa7ff19b07990ca2f3fd08f2f2379bd08427e.jpg]",
     "options": {
       "A": "红色",
       "B": "白色",
@@ -18099,7 +18099,7 @@
     },
     "answer": "A",
     "solutions": [
-      "第二个视图是第一个视图围绕通过棕色面的轴的$90^0$旋转，意味着绿色和白色面相对。第三个视图是第一个视图围绕通过绿色和白色面的轴的$90^0$旋转。因此紫色面与棕色面相对。那么唯一不可见的面是青色面，是第一个视图中的背面和第三个视图中的底面。因此红色面与青色面相对。\n\n$OR$\n使用问题中图表中的信息，立方体的展开图如下图所示。展开图中未标记的唯一面必须是青色。将展开图折叠成立方体，红色面将与青色面相对。\n\n[Figure: /question-assets/source/amc/d3b9d963089431c22b868cdf150e930547d45b5d6bb9b1904a238afa288abb7f.jpg]\n\n$OR$\n使用问题中图表中的信息，有四种颜色（棕色、绿色、白色和紫色）与红色面相邻。剩余的颜色青色必须与红色面相对。\n\n答案：$\\boxed{A}$。"
+      "第二个视图是第一个视图围绕通过棕色面的轴的$90^0$旋转，意味着绿色和白色面相对。第三个视图是第一个视图围绕通过绿色和白色面的轴的$90^0$旋转。因此紫色面与棕色面相对。那么唯一不可见的面是青色面，是第一个视图中的背面和第三个视图中的底面。因此红色面与青色面相对。\n\n$\\textbf{或}$\n使用问题中图表中的信息，立方体的展开图如下图所示。展开图中未标记的唯一面必须是青色。将展开图折叠成立方体，红色面将与青色面相对。\n\n[Figure: /question-assets/source/amc/d3b9d963089431c22b868cdf150e930547d45b5d6bb9b1904a238afa288abb7f.jpg]\n\n$\\textbf{或}$\n使用问题中图表中的信息，有四种颜色（棕色、绿色、白色和紫色）与红色面相邻。剩余的颜色青色必须与红色面相对。\n\n答案：$\\boxed{A}$。"
     ],
     "tags": []
   },
@@ -18110,7 +18110,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2019 AMC 8 · 第 13 题",
-    "stem": "回文数是从左到右读和从右到左读的值相同的数。（例如，$12321$是回文数。）设$N$是不是回文数但是三个不同的两位回文数之和的最小三位整数。$N?$的数字之和是多少？",
+    "stem": "回文数是从左到右读和从右到左读的值相同的数。（例如，$12321$是回文数。）设$N$是不是回文数但是三个不同的两位回文数之和的最小三位整数。$N$的数字之和是多少？",
     "options": {
       "A": "$2$",
       "B": "$3$",
@@ -18141,7 +18141,7 @@
     },
     "answer": "C",
     "solutions": [
-      "因为$10$天等于$1$周加3天，伊莎贝拉在第一个日期之后的每个圈出的日期都比前一个日期晚$3$天。如果她在第$x$天赎回第一张优惠券，那么她将依次在第$x + 3, x + 6, x + 9$天赎回其他的（这与第$x + 2$天的日期相同），$x + 5$和$x + 8$天赎回（这与第$x + 1$天的日期相同）。她唯一不会赎回优惠券的日期是$x + 4$，所以$x + 4$必须代表星期日。因此她在星期日前$4$天赎回她的第一张优惠券，那是星期三。\n\n$OR$\n如果优惠券在星期日赎回，那么赎回优惠券的日期按顺序为：星期三、星期六、星期二、星期五、星期一、星期四、星期日，这个7天的周期重复（假设优惠券数量无限）。请注意星期日每七天出现一次在这个列表中。伊莎贝拉赎回优惠券的日期也遵循这个列表的顺序，从她赎回第一张优惠券的日期开始。因为星期日不是她赎回优惠券的日期，她赎回六张优惠券的日期是从星期三开始的六个日期。\n\n答案：$\\boxed{C}$。"
+      "因为$10$天等于$1$周加3天，伊莎贝拉在第一个日期之后的每个圈出的日期都比前一个日期晚$3$天。如果她在第$x$天赎回第一张优惠券，那么她将依次在第$x + 3, x + 6, x + 9$天赎回其他的（这与第$x + 2$天的日期相同），$x + 5$和$x + 8$天赎回（这与第$x + 1$天的日期相同）。她唯一不会赎回优惠券的日期是$x + 4$，所以$x + 4$必须代表星期日。因此她在星期日前$4$天赎回她的第一张优惠券，那是星期三。\n\n$\\textbf{或}$\n如果优惠券在星期日赎回，那么赎回优惠券的日期按顺序为：星期三、星期六、星期二、星期五、星期一、星期四、星期日，这个7天的周期重复（假设优惠券数量无限）。请注意星期日每七天出现一次在这个列表中。伊莎贝拉赎回优惠券的日期也遵循这个列表的顺序，从她赎回第一张优惠券的日期开始。因为星期日不是她赎回优惠券的日期，她赎回六张优惠券的日期是从星期三开始的六个日期。\n\n答案：$\\boxed{C}$。"
     ],
     "tags": []
   },
@@ -18183,7 +18183,7 @@
     },
     "answer": "D",
     "solutions": [
-      "以 $30$ 英里/小时的速度，强行驶前 $15$ 英里所需时间为 $\\dfrac{15 miles}{30mph}$ = $\\dfrac{1}{2}$ 小时。若前半小时按 $50$ 英里/小时行驶，他本应行驶 $25$ 英里，因此第二段需要弥补多出的 $25-15 = 10$ 英里，而第二段速度比全程平均速度快 $5$ 英里/小时。弥补这 $10$ 英里需要 $\\dfrac {10 miles}{5mph}$ = $2$ 小时，在此期间他将行驶 $55\\cdot2 = 110$ 英里。\n\n$OR$\n设$t$表示行程第二部分的时间（小时）。第一部分的距离是$15$英里，第二部分的距离是平均速度$55$英里/小时乘以$t$。整个行程的距离是平均速度$50$英里/小时乘以总时间$\\dfrac{1}{2}+ t$。因此\n\n$15 + 55t = 50(\\dfrac{1}{2}+ t)$\n所以$t$ = 2小时。在$2$小时以$55$英里/小时的速度行驶的距离是$110$英里。\n\n答案：$\\boxed{D}$。"
+      "以 $30$ 英里/小时的速度，强行驶前 $15$ 英里所需时间为 $\\dfrac{15\\ \\text{英里}}{30\\ \\text{英里/时}}$ = $\\dfrac{1}{2}$ 小时。若前半小时按 $50$ 英里/小时行驶，他本应行驶 $25$ 英里，因此第二段需要弥补多出的 $25-15 = 10$ 英里，而第二段速度比全程平均速度快 $5$ 英里/小时。弥补这 $10$ 英里需要 $\\dfrac {10\\ \\text{英里}}{5\\ \\text{英里/时}}$ = $2$ 小时，在此期间他将行驶 $55\\cdot2 = 110$ 英里。\n\n$\\textbf{或}$\n设$t$表示行程第二部分的时间（小时）。第一部分的距离是$15$英里，第二部分的距离是平均速度$55$英里/小时乘以$t$。整个行程的距离是平均速度$50$英里/小时乘以总时间$\\dfrac{1}{2}+ t$。因此\n\n$15 + 55t = 50(\\dfrac{1}{2}+ t)$\n所以$t$ = 2小时。在$2$小时以$55$英里/小时的速度行驶的距离是$110$英里。\n\n答案：$\\boxed{D}$。"
     ],
     "tags": []
   },
@@ -18225,7 +18225,7 @@
     },
     "answer": "C",
     "solutions": [
-      "下面的表格显示了$20$个$36$的和将是偶数。\n\n[Figure: /question-assets/source/amc/c61fcb47f19c282f6b02f3064e2085aaefb53d36150fe88548dc465fda92b940.jpg]\n\n因此和是偶数的概率是$\\dfrac{20}{36}= \\dfrac{5}{9}$。\n\n$OR$\n和是偶数当且仅当两个骰子都是偶数或都是奇数。因为一个骰子是偶数的$\\dfrac{1}{3}$，所以两个都是偶数的$\\dfrac{1}{9}$。一个是奇数的$\\dfrac{2}{3}$，因此两个都是奇数的$\\dfrac{4}{9}$。因此和是偶数的总概率是$\\dfrac{1}{9} + \\dfrac{4}{9} = \\dfrac{5}{9}$。\n\n答案：$\\boxed{C}$。"
+      "下面的表格显示了$20$个$36$的和将是偶数。\n\n[Figure: /question-assets/source/amc/c61fcb47f19c282f6b02f3064e2085aaefb53d36150fe88548dc465fda92b940.jpg]\n\n因此和是偶数的概率是$\\dfrac{20}{36}= \\dfrac{5}{9}$。\n\n$\\textbf{或}$\n和是偶数当且仅当两个骰子都是偶数或都是奇数。因为一个骰子是偶数的$\\dfrac{1}{3}$，所以两个都是偶数的$\\dfrac{1}{9}$。一个是奇数的$\\dfrac{2}{3}$，因此两个都是奇数的$\\dfrac{4}{9}$。因此和是偶数的总概率是$\\dfrac{1}{9} + \\dfrac{4}{9} = \\dfrac{5}{9}$。\n\n答案：$\\boxed{C}$。"
     ],
     "tags": []
   },
@@ -18257,7 +18257,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2019 AMC 8 · 第 20 题",
-    "stem": "有多少个不同的实数$x$满足方程\n\n$(x^2 - 5)^2 = 16?$",
+    "stem": "有多少个不同的实数$x$满足方程\n\n$(x^2 - 5)^2 = 16$？",
     "options": {
       "A": "$0$",
       "B": "$1$",
@@ -18278,7 +18278,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2019 AMC 8 · 第 21 题",
-    "stem": "直线\n\n$y = 5, \\quad y = 1 + x, \\quad \\text{和} \\quad y = 1 - x?$",
+    "stem": "由方程 $y = 5$、$y = 1 + x$ 和 $y = 1 - x$ 的图像所围成的三角形区域的面积是多少？",
     "options": {
       "A": "$4$",
       "B": "$8$",
@@ -18288,7 +18288,7 @@
     },
     "answer": "E",
     "solutions": [
-      "这三条直线围成的三角形的顶点是$(0, 1), (4,5), and (-4,5)$。这个三角形在直线$y = 5$上的底边长为$8$，它在$y-axis$上的高为$4$。因此三角形的面积为$\\dfrac{1}{2}\\cdot8\\cdot4 = 16$。\n\n[Figure: /question-assets/source/amc/059367b2f735f8ee2f951b310770319c47c012467cf3c223a770df80ecb88686.jpg]\n\n答案：$\\boxed{E}$。"
+      "这三条直线围成的三角形的顶点是$(0, 1), (4,5) \\text{ 和 } (-4,5)$。这个三角形在直线$y = 5$上的底边长为$8$，它在$y-axis$上的高为$4$。因此三角形的面积为$\\dfrac{1}{2}\\cdot8\\cdot4 = 16$。\n\n[Figure: /question-assets/source/amc/059367b2f735f8ee2f951b310770319c47c012467cf3c223a770df80ecb88686.jpg]\n\n答案：$\\boxed{E}$。"
     ],
     "tags": []
   },
@@ -18330,7 +18330,7 @@
     },
     "answer": "B",
     "solutions": [
-      "答案（B）：除艾莉克萨和布里塔尼外的球员得分总数至少为15，最多为$15+7\\cdot2=29$。这些球员得分的团队分数比例为$1-\\dfrac{1}{4}-\\dfrac{2}{7}=\\dfrac{13}{28}$，所以他们得分的分数是$13$的倍数。$15$到$29$之间$13$的唯一倍数是$26$，所以除艾莉克萨、布里塔尼和切尔西外的$7$名球员得分的总数是$26-15 = 11$。\n\n$OR$\n球队总得分同时是 $4$ 和 $7$ 的倍数，因此是 $28$ 的倍数。若总分为 $28$，则艾莉克萨得 $7$ 分、布里塔尼得 $8$ 分，切尔西便不可能得到 $15$ 分。若总分为 $28n$，其中 $n≥3$，则艾莉克萨得 $7n$ 分、布里塔尼得 $8n$ 分。扣除切尔西的 $15$ 分后，剩余 $7$ 名队员共得 $13n-15≥ 24$ 分，但这样至少一人会超过 $2$ 分。因此唯一可能的总分是 $28\\cdot2=56$。此时艾莉克萨得 $14$ 分，布里塔尼得 $16$ 分，切尔西得 $15$ 分，其余 $7$ 名队员共得 $11$ 分。\n\n答案：$\\boxed{B}$。"
+      "答案（B）：除艾莉克萨和布里塔尼外的球员得分总数至少为15，最多为$15+7\\cdot2=29$。这些球员得分的团队分数比例为$1-\\dfrac{1}{4}-\\dfrac{2}{7}=\\dfrac{13}{28}$，所以他们得分的分数是$13$的倍数。$15$到$29$之间$13$的唯一倍数是$26$，所以除艾莉克萨、布里塔尼和切尔西外的$7$名球员得分的总数是$26-15 = 11$。\n\n$\\textbf{或}$\n球队总得分同时是 $4$ 和 $7$ 的倍数，因此是 $28$ 的倍数。若总分为 $28$，则艾莉克萨得 $7$ 分、布里塔尼得 $8$ 分，切尔西便不可能得到 $15$ 分。若总分为 $28n$，其中 $n≥3$，则艾莉克萨得 $7n$ 分、布里塔尼得 $8n$ 分。扣除切尔西的 $15$ 分后，剩余 $7$ 名队员共得 $13n-15≥ 24$ 分，但这样至少一人会超过 $2$ 分。因此唯一可能的总分是 $28\\cdot2=56$。此时艾莉克萨得 $14$ 分，布里塔尼得 $16$ 分，切尔西得 $15$ 分，其余 $7$ 名队员共得 $11$ 分。\n\n答案：$\\boxed{B}$。"
     ],
     "tags": []
   },
@@ -18341,7 +18341,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2019 AMC 8 · 第 24 题",
-    "stem": "在三角形$ABC,$中，点$D$分$\\overline{AC}$的方式使$AD:DC=1:2.$设$E$为$\\overline{BD}$的中点，$F$是直线$BC$和直线$AE.$的交点。已知$\\triangle ABC$的面积为$360,$，$\\triangle EBF?$的面积是多少？\n\n[Figure: /question-assets/source/amc/b2b91d469a0e689093cf01b5be4f201a29c17c238dcd5335c0355ad44bb76730.svg]",
+    "stem": "在三角形$ABC,$中，点$D$分$\\overline{AC}$的方式使$AD:DC=1:2.$设$E$为$\\overline{BD}$的中点，$F$是直线$BC$和直线$AE.$的交点。已知$\\triangle ABC$的面积为$360,$，$\\triangle EBF$的面积是多少？\n\n[Figure: /question-assets/source/amc/b2b91d469a0e689093cf01b5be4f201a29c17c238dcd5335c0355ad44bb76730.svg]",
     "options": {
       "A": "$24$",
       "B": "$30$",
@@ -18372,7 +18372,7 @@
     },
     "answer": "C",
     "solutions": [
-      "制作一个关注艾丽丝的可能性表。\n\n[Figure: /question-assets/source/amc/3c373294076ef76020103366a44615fa93b47a8ee3737a91faf2fc64768dc86d.jpg]\n\n艾丽丝分享苹果的方式有$1 + 2 + · · · + 18 + 19 = (19)(20)/2 = 190$种。\n\n$OR$\n使用星条计数方法。想象$24$块石头排成一行来代表苹果，$23$根棍子将它们分开。\n\n$◯ | ◯ | ◯ | ◯ | ◯ | ◯ | ◯ | ◯ | ◯ | ◯ | ◯ | ◯ | ◯ | ◯ | ◯ | ◯ | ◯ | ◯ | ◯ | ◯ | ◯ | ◯ | ◯ | ◯$\n要将苹果分成三组，必须选择两根棍子。两端的棍子不能被选中，因为每个人必须至少收到两个苹果。从剩余$21$根棍子中选择$2$根的方法数记作${}_{21}C_{2}$为$\\dfrac{21\\cdot20}{2} = 210$。我们也不能选择两根相邻的棍子出于同样的原因。排除第一根和最后一根棍子后，有$20$对相邻的棍子。因此，有${}_{21}C_{2} — 20 = 210 — 20 = 190$种方式来选择棍子，从而分配苹果。\n\n$OR$\n首先想象给每个女孩两个苹果。现在还有$18$个苹果剩余。每种分配这些苹果到三个女孩的方法都可以用$18$块石头和$2$根棍子的排列来表示。例如，\n\n$◯ ◯ ◯ ◯ ◯ ◯ ◯ | | ◯ ◯ ◯ ◯ ◯ ◯ ◯ ◯ ◯ ◯ ◯$\n对应给艾丽丝$7$个额外的苹果，贝姬零个，克里斯$11$个。$18$块石头和$2$根棍子的排列数是${}_{20}C_{2} = \\dfrac{20!}{18!2!} = 190$。\n\n答案：$\\boxed{C}$。"
+      "制作一个关注艾丽丝的可能性表。\n\n[Figure: /question-assets/source/amc/3c373294076ef76020103366a44615fa93b47a8ee3737a91faf2fc64768dc86d.jpg]\n\n艾丽丝分享苹果的方式有$1 + 2 + · · · + 18 + 19 = (19)(20)/2 = 190$种。\n\n$\\textbf{或}$\n使用星条计数方法。想象$24$块石头排成一行来代表苹果，$23$根棍子将它们分开。\n\n$◯ | ◯ | ◯ | ◯ | ◯ | ◯ | ◯ | ◯ | ◯ | ◯ | ◯ | ◯ | ◯ | ◯ | ◯ | ◯ | ◯ | ◯ | ◯ | ◯ | ◯ | ◯ | ◯ | ◯$\n要将苹果分成三组，必须选择两根棍子。两端的棍子不能被选中，因为每个人必须至少收到两个苹果。从剩余$21$根棍子中选择$2$根的方法数记作${}_{21}C_{2}$为$\\dfrac{21\\cdot20}{2} = 210$。我们也不能选择两根相邻的棍子出于同样的原因。排除第一根和最后一根棍子后，有$20$对相邻的棍子。因此，有${}_{21}C_{2} — 20 = 210 — 20 = 190$种方式来选择棍子，从而分配苹果。\n\n$\\textbf{或}$\n首先想象给每个女孩两个苹果。现在还有$18$个苹果剩余。每种分配这些苹果到三个女孩的方法都可以用$18$块石头和$2$根棍子的排列来表示。例如，\n\n$◯ ◯ ◯ ◯ ◯ ◯ ◯ | | ◯ ◯ ◯ ◯ ◯ ◯ ◯ ◯ ◯ ◯ ◯$\n对应给艾丽丝$7$个额外的苹果，贝姬零个，克里斯$11$个。$18$块石头和$2$根棍子的排列数是${}_{20}C_{2} = \\dfrac{20!}{18!2!} = 190$。\n\n答案：$\\boxed{C}$。"
     ],
     "tags": []
   },
@@ -18393,7 +18393,7 @@
     },
     "answer": "E",
     "solutions": [
-      "配方需要的糖是柠檬汁的两倍，所以卢卡需要$2\\cdot3 = 6$杯糖。配方需要的水是糖的$4$倍，所以卢卡需要$4\\cdot6 = 24$杯水。\n\n$OR$\n配方需要水的量是糖的$4$倍，糖的量是柠檬汁的两倍。这意味着卢卡需要的水是柠檬汁的$4\\cdot2 = 8$倍。他需要的水量是$8\\cdot3 = 24$杯。\n\n答案：$\\boxed{E}$"
+      "配方需要的糖是柠檬汁的两倍，所以卢卡需要$2\\cdot3 = 6$杯糖。配方需要的水是糖的$4$倍，所以卢卡需要$4\\cdot6 = 24$杯水。\n\n$\\textbf{或}$\n配方需要水的量是糖的$4$倍，糖的量是柠檬汁的两倍。这意味着卢卡需要的水是柠檬汁的$4\\cdot2 = 8$倍。他需要的水量是$8\\cdot3 = 24$杯。\n\n答案：$\\boxed{E}$"
     ],
     "tags": []
   },
@@ -18456,7 +18456,7 @@
     },
     "answer": "B",
     "solutions": [
-      "第四个六边形有$3$个点的带状围绕中心点，如下所示。最内层的带有$6\\cdot1 = 6$个点，中间层有$6\\cdot2 = 12$个点，最外层有$6\\cdot3 = 18$个点。因此第四个六边形的总点数是$1 + 6 + 12 + 18 = 37$\n\n[Figure: /question-assets/source/amc/075a032bfda32cf5b47c408b3c92b12f01df22d48d589bca86fcbd00c5828a98.jpg]\n\n$OR$\n除了中心点外，每个六边形可以分成六个全等的三角形区域，如下图所示。在第四个六边形中，每个三角形区域包含$1 + 2 + 3 = 6$个点，所以第四个六边形的总点数是$1+6\\cdot6 = 37$。\n\n[Figure: /question-assets/source/amc/e4bed9b7ee8fe89c37a16b7ce870379077ebd52a27e096204fa11f470a9a693d.jpg]\n\n$OR$\n在每个六边形中，沿对角线的点形成对称轴，如下图所示。第四个六边形在对角线上有$7$个点，两侧各有$6 + 5 + 4 = 15$个点，总共$7 + 2\\cdot 15 = 37$个点。\n\n[Figure: /question-assets/source/amc/113a43634a74da56a8d65785fe7cbceed44283d14178bca4bd9d2f583511c66d.jpg]\n\n$Note$：每个六边形中的点数称为$hex$数。从第一个和第二个解法推广，第$nth$个$hex$数可以计算为\n\n$1+6\\cdot(1+2+3+...+(n-1))= 1 + 6 \\cdot\\dfrac {(n(n - 1))}{2} = 1 + 3n(n - 1).$\n从第三个解法推广，第n个六边形数等于\n\n$(2n-1)+2\\cdot( (2n - 2) + (2n - 3) +...+n)=1+3n(n-1).$\n可以证明前n个六边形数的和是$n^3$。例如，前$2$个六边形数的和是$1 + 7 = 8 = 2^3$，前$3$个六边形数的和是$1 + 7 + 19 = 27 = 3^3$，前$4$个六边形数的和是$1 + 7 + 19 + 37 = 64 = 4^3$。\n\n答案：$\\boxed{B}$"
+      "第四个六边形有$3$个点的带状围绕中心点，如下所示。最内层的带有$6\\cdot1 = 6$个点，中间层有$6\\cdot2 = 12$个点，最外层有$6\\cdot3 = 18$个点。因此第四个六边形的总点数是$1 + 6 + 12 + 18 = 37$\n\n[Figure: /question-assets/source/amc/075a032bfda32cf5b47c408b3c92b12f01df22d48d589bca86fcbd00c5828a98.jpg]\n\n$\\textbf{或}$\n除了中心点外，每个六边形可以分成六个全等的三角形区域，如下图所示。在第四个六边形中，每个三角形区域包含$1 + 2 + 3 = 6$个点，所以第四个六边形的总点数是$1+6\\cdot6 = 37$。\n\n[Figure: /question-assets/source/amc/e4bed9b7ee8fe89c37a16b7ce870379077ebd52a27e096204fa11f470a9a693d.jpg]\n\n$\\textbf{或}$\n在每个六边形中，沿对角线的点形成对称轴，如下图所示。第四个六边形在对角线上有$7$个点，两侧各有$6 + 5 + 4 = 15$个点，总共$7 + 2\\cdot 15 = 37$个点。\n\n[Figure: /question-assets/source/amc/113a43634a74da56a8d65785fe7cbceed44283d14178bca4bd9d2f583511c66d.jpg]\n\n注意：：每个六边形中的点数称为$hex$数。从第一个和第二个解法推广，第$nth$个$hex$数可以计算为\n\n$1+6\\cdot(1+2+3+...+(n-1))= 1 + 6 \\cdot\\dfrac {(n(n - 1))}{2} = 1 + 3n(n - 1).$\n从第三个解法推广，第n个六边形数等于\n\n$(2n-1)+2\\cdot( (2n - 2) + (2n - 3) +...+n)=1+3n(n-1).$\n可以证明前n个六边形数的和是$n^3$。例如，前$2$个六边形数的和是$1 + 7 = 8 = 2^3$，前$3$个六边形数的和是$1 + 7 + 19 = 27 = 3^3$，前$4$个六边形数的和是$1 + 7 + 19 + 37 = 64 = 4^3$。\n\n答案：$\\boxed{B}$"
     ],
     "tags": []
   },
@@ -18477,7 +18477,7 @@
     },
     "answer": "C",
     "solutions": [
-      "每杯接收到四分之三水罐容量的五分之一。这对应的百分比是\n\n$\\dfrac{1}{5}\\cdot\\dfrac{3}{4} = \\dfrac{3}{20} =\\dfrac{15}{100}= 15\\%.$\n$OR$\n果汁充满了$75\\%$的水罐，所以$5$杯中的每一杯都接收了\n\n$\\dfrac{1}{5}\\cdot 75\\% = 15\\%.$\n答案：$\\boxed{C}$"
+      "每杯接收到四分之三水罐容量的五分之一。这对应的百分比是\n\n$\\dfrac{1}{5}\\cdot\\dfrac{3}{4} = \\dfrac{3}{20} =\\dfrac{15}{100}= 15\\%.$\n$\\textbf{或}$\n果汁充满了$75\\%$的水罐，所以$5$杯中的每一杯都接收了\n\n$\\dfrac{1}{5}\\cdot 75\\% = 15\\%.$\n答案：$\\boxed{C}$"
     ],
     "tags": []
   },
@@ -18519,7 +18519,7 @@
     },
     "answer": "C",
     "solutions": [
-      "因为数字按递增顺序排列，第一位必须是$2$，第二位必须是$3$，第三位必须是$4, 5, 6, 7, or 8$。下面列出了所有可能的整数。\n\n[Figure: /question-assets/source/amc/a42e434f47318dfef733cc1f331ba7e87ea1bb621a585bdfa9b49143fff97e93.jpg]\n\n总共是$5+4+3+2+1 = 15$个整数。\n\n$OR$\n第一位必须是$2$，第二位必须是$3$，剩下两位必须从这六个数字$4, 5, 6, 7, 8, and 9$中选择。有${}_{6}C_{2} = \\binom{6}{2} = \\dfrac{6!}{4!2!} = \\dfrac{6\\cdot5}{2} = 15$对这样的数字，每对只有一种可能的顺序，所以有$15$个这样的整数。\n\n答案：$\\boxed{C}$"
+      "因为数字按递增顺序排列，第一位必须是$2$，第二位必须是$3$，第三位必须是$4, 5, 6, 7, or 8$。下面列出了所有可能的整数。\n\n[Figure: /question-assets/source/amc/a42e434f47318dfef733cc1f331ba7e87ea1bb621a585bdfa9b49143fff97e93.jpg]\n\n总共是$5+4+3+2+1 = 15$个整数。\n\n$\\textbf{或}$\n第一位必须是$2$，第二位必须是$3$，剩下两位必须从这六个数字$4, 5, 6, 7, 8, \\text{ 和 } 9$中选择。有${}_{6}C_{2} = \\binom{6}{2} = \\dfrac{6!}{4!2!} = \\dfrac{6\\cdot5}{2} = 15$对这样的数字，每对只有一种可能的顺序，所以有$15$个这样的整数。\n\n答案：$\\boxed{C}$"
     ],
     "tags": []
   },
@@ -18540,7 +18540,7 @@
     },
     "answer": "C",
     "solutions": [
-      "要获得最多的钱，尽可能使用镍币：$2019$枚镍币和$1$枚便士。这给出$2019\\cdot5 +1\\cdot1 = 10,096$分。同样地，要获得最少的钱，尽可能使用便士：$1$枚镍币和$2019$枚便士。这给出$1\\cdot5+ 2019\\cdot1 = 2024$分。因此最多和最少的钱数之间的差异是$10,096-2024 = 8072$分。\n\n$OR$\n无论哪种情况都会使用一枚便士和一枚镍币，所以可以删除它们，剩下$2018$枚硬币。最多的和会通过有$2018$枚镍币得到，最少的和会通过有$2018$枚便士得到。金额的差异是$2018\\cdot5-2018\\cdot1 = 2018\\cdot4 = 8072$分。\n\n答案：$\\boxed{C}$"
+      "要获得最多的钱，尽可能使用镍币：$2019$枚镍币和$1$枚便士。这给出$2019\\cdot5 +1\\cdot1 = 10,096$分。同样地，要获得最少的钱，尽可能使用便士：$1$枚镍币和$2019$枚便士。这给出$1\\cdot5+ 2019\\cdot1 = 2024$分。因此最多和最少的钱数之间的差异是$10,096-2024 = 8072$分。\n\n$\\textbf{或}$\n无论哪种情况都会使用一枚便士和一枚镍币，所以可以删除它们，剩下$2018$枚硬币。最多的和会通过有$2018$枚镍币得到，最少的和会通过有$2018$枚便士得到。金额的差异是$2018\\cdot5-2018\\cdot1 = 2018\\cdot4 = 8072$分。\n\n答案：$\\boxed{C}$"
     ],
     "tags": []
   },
@@ -18561,7 +18561,7 @@
     },
     "answer": "D",
     "solutions": [
-      "[Figure: /question-assets/source/amc/10e56d57b3f242d5c5af630dfed7a6f575b2a26f3e1588c17d3ab27ccf3880ea.jpg]\n\n切割将蛋糕分成四个$4 × 4 × 1$英寸的水平层。在顶层中有$8$个恰好两侧有糖衣的块，即那些既在顶面又在侧面上的非角块。在接下来的$3$层中，$4$个角块是仅有的恰好两侧有糖衣的块。总共有$8 + 3\\cdot4 = 20$个小块恰好在两侧有糖衣。\n\n$OR$\n首先考虑蛋糕$8$条不沿底面的边。这些边中的每一条都有$2$个中间块恰好在两侧有糖衣。除了这些块，底层的$4$个角块也有两侧有糖衣。总共有$8\\cdot2 + 4 = 20$个小块恰好在两侧有糖衣。\n\n答案：$\\boxed{D}$"
+      "[Figure: /question-assets/source/amc/10e56d57b3f242d5c5af630dfed7a6f575b2a26f3e1588c17d3ab27ccf3880ea.jpg]\n\n切割将蛋糕分成四个$4 × 4 × 1$英寸的水平层。在顶层中有$8$个恰好两侧有糖衣的块，即那些既在顶面又在侧面上的非角块。在接下来的$3$层中，$4$个角块是仅有的恰好两侧有糖衣的块。总共有$8 + 3\\cdot4 = 20$个小块恰好在两侧有糖衣。\n\n$\\textbf{或}$\n首先考虑蛋糕$8$条不沿底面的边。这些边中的每一条都有$2$个中间块恰好在两侧有糖衣。除了这些块，底层的$4$个角块也有两侧有糖衣。总共有$8\\cdot2 + 4 = 20$个小块恰好在两侧有糖衣。\n\n答案：$\\boxed{D}$"
     ],
     "tags": []
   },
@@ -18582,7 +18582,7 @@
     },
     "answer": "C",
     "solutions": [
-      "有$6$种方式让扎拉放置钢珠和虎纹球使它们不相邻。这些安排如下所示。\n\n[Figure: /question-assets/source/amc/2b5412107a84551d90cf255f6f9c0b590430285f638687e86f32b10bd98f1fe0.jpg]\n\n对于每种安排，有$2$种方式放置剩余的弹珠：玛瑙要么出现在大黄蜂的左边，要么出现在右边。这样就有$6\\cdot2 = 12$种不相邻的安排。\n\n$OR$\n排列数可以用补集计数法确定。也就是说，从所有可能的排列总数$4!= 4\\cdot3\\cdot2\\cdot1 = 24$开始，然后减去钢珠和虎纹球相邻的方式数。如果钢珠和虎纹球被视为一个单独的对象，那么有$3$个对象要排列，有$3!= 3\\cdot2\\cdot1 = 6$种方式。钢珠和虎纹球有$2$种排列方式，所以有$6\\cdot2 = 12$种排列使钢珠和虎纹球相邻。因此有$24-12 = 12$种排列使钢珠和虎纹球不相邻。\n\n答案：$\\boxed{C}$"
+      "有$6$种方式让扎拉放置钢珠和虎纹球使它们不相邻。这些安排如下所示。\n\n[Figure: /question-assets/source/amc/2b5412107a84551d90cf255f6f9c0b590430285f638687e86f32b10bd98f1fe0.jpg]\n\n对于每种安排，有$2$种方式放置剩余的弹珠：玛瑙要么出现在大黄蜂的左边，要么出现在右边。这样就有$6\\cdot2 = 12$种不相邻的安排。\n\n$\\textbf{或}$\n排列数可以用补集计数法确定。也就是说，从所有可能的排列总数$4!= 4\\cdot3\\cdot2\\cdot1 = 24$开始，然后减去钢珠和虎纹球相邻的方式数。如果钢珠和虎纹球被视为一个单独的对象，那么有$3$个对象要排列，有$3!= 3\\cdot2\\cdot1 = 6$种方式。钢珠和虎纹球有$2$种排列方式，所以有$6\\cdot2 = 12$种排列使钢珠和虎纹球相邻。因此有$24-12 = 12$种排列使钢珠和虎纹球不相邻。\n\n答案：$\\boxed{C}$"
     ],
     "tags": []
   },
@@ -18645,7 +18645,7 @@
     },
     "answer": "B",
     "solutions": [
-      "$60\\%$的概率意味着选中绿色或橙色袜子的概率是$40\\%$。因此$6+12 =18$只非紫色袜子代表所有袜子的$40\\%$。这意味着$9$只袜子代表总数的$20\\%$，$27$只袜子代表总数的$60\\%$。因此杰马尔向抽屉里加入了$27-18 = 9$只紫袜子。\n\n$OR$\n设$x$等于额外紫袜子的数量，使紫袜子的数量增加到$18 + x$，总袜子数增加到$36 + x$。因为紫袜子的比例必须等于$60\\%$，必须满足以下方程：\n\n$\\dfrac{18 + x}{36 + x} = \\dfrac{60}{100} = \\dfrac{3}{5}.$\n求解$x$得到\n\n$5(18 + x) = 3(36 + x)$\n$90 + 5x = 108 + 3x$\n$2x = 18$\n$x = 9$\n杰马尔向抽屉里加入了$9$只紫袜子。\n\n答案：$\\boxed{B}$"
+      "$60\\%$的概率意味着选中绿色或橙色袜子的概率是$40\\%$。因此$6+12 =18$只非紫色袜子代表所有袜子的$40\\%$。这意味着$9$只袜子代表总数的$20\\%$，$27$只袜子代表总数的$60\\%$。因此杰马尔向抽屉里加入了$27-18 = 9$只紫袜子。\n\n$\\textbf{或}$\n设$x$等于额外紫袜子的数量，使紫袜子的数量增加到$18 + x$，总袜子数增加到$36 + x$。因为紫袜子的比例必须等于$60\\%$，必须满足以下方程：\n\n$\\dfrac{18 + x}{36 + x} = \\dfrac{60}{100} = \\dfrac{3}{5}.$\n求解$x$得到\n\n$5(18 + x) = 3(36 + x)$\n$90 + 5x = 108 + 3x$\n$2x = 18$\n$x = 9$\n杰马尔向抽屉里加入了$9$只紫袜子。\n\n答案：$\\boxed{B}$"
     ],
     "tags": []
   },
@@ -18677,7 +18677,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2020 AMC 8 · 第 15 题",
-    "stem": "假设$15\\%$的$x$等于$20\\%$的$y$。$x$的百分之几是$y?$",
+    "stem": "假设$15\\%$的$x$等于$20\\%$的$y$。$x$的百分之几是$y$？",
     "options": {
       "A": "$5$",
       "B": "$35$",
@@ -18687,7 +18687,7 @@
     },
     "answer": "C",
     "solutions": [
-      "首先注意$15\\% = 0.15$，和$20\\% = 0.2$。已知$15\\%$的$x$等于$20\\%$的$y$，所以\n\n$0.15x = 0.20y$\n求解$y$得到\n\n$y = \\dfrac{0.15}{0.20}x = \\dfrac{15}{20}x = \\dfrac{75}{100}x.$\n因此$y$是$75\\%$的$x$。\n\n$OR$\n设$x = 100$。然后$15\\%$的$x$是$15$。这等于$20\\%$的$y$，相同$\\dfrac{1}{5}y$。求解方程$15 = \\dfrac{1}{5}y$得到$y = 5 \\cdot 15 = 75$。因此y是$75\\%$的$x$。\n\n答案：$\\boxed{C}$"
+      "首先注意$15\\% = 0.15$，和$20\\% = 0.2$。已知$15\\%$的$x$等于$20\\%$的$y$，所以\n\n$0.15x = 0.20y$\n求解$y$得到\n\n$y = \\dfrac{0.15}{0.20}x = \\dfrac{15}{20}x = \\dfrac{75}{100}x.$\n因此$y$是$75\\%$的$x$。\n\n$\\textbf{或}$\n设$x = 100$。然后$15\\%$的$x$是$15$。这等于$20\\%$的$y$，相同$\\dfrac{1}{5}y$。求解方程$15 = \\dfrac{1}{5}y$得到$y = 5 \\cdot 15 = 75$。因此y是$75\\%$的$x$。\n\n答案：$\\boxed{C}$"
     ],
     "tags": []
   },
@@ -18698,7 +18698,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2020 AMC 8 · 第 16 题",
-    "stem": "假设下图中的每个点$A,B,C,D,E,$和$F$代表从$1$到$6$的不同数字。下面显示的五条线中的每一条都经过这些点中的一些。沿着每条线的数字相加产生五个和，每条线一个。五个和的总和是$47$。$B?$代表的数字是什么？\n\n[Figure: /question-assets/source/amc/5c3c6c746d5a06f229ccdcea2a0d9cf53dded895c3f73d057f6f757b8062871b.png]",
+    "stem": "假设下图中的每个点$A,B,C,D,E,$和$F$代表从$1$到$6$的不同数字。下面显示的五条线中的每一条都经过这些点中的一些。沿着每条线的数字相加产生五个和，每条线一个。五个和的总和是$47$。$B$代表的数字是什么？\n\n[Figure: /question-assets/source/amc/5c3c6c746d5a06f229ccdcea2a0d9cf53dded895c3f73d057f6f757b8062871b.png]",
     "options": {
       "A": "$1$",
       "B": "$2$",
@@ -18708,7 +18708,7 @@
     },
     "answer": "E",
     "solutions": [
-      "五个和的总和是\n\n$(A+B+C) + (A + F + E) + (B + D) + (B + F) + (C + D + E) = 2A + 3B + 2C + 2D + 2E + 2F$\n$= 2(A + B + C + D + E + F) + B,$\n等于$47$。表达式$A+B+C+D+E+F$等于$21$，从$1$到$6$的数字之和，所以$2\\cdot21 + B = 47$。因此$B = 47-42 = 5$。\n\n$OR$\n注意除了$B$之外，每个点恰好在两条线上，它在三条线上。因为从$1$到$6$的数字之和是$21$，这给出总和$2\\cdot21 + B = 47$。因此$B = 47-42 = 5$。\n\n答案：$\\boxed{E}$"
+      "五个和的总和是\n\n$(A+B+C) + (A + F + E) + (B + D) + (B + F) + (C + D + E) = 2A + 3B + 2C + 2D + 2E + 2F$\n$= 2(A + B + C + D + E + F) + B,$\n等于$47$。表达式$A+B+C+D+E+F$等于$21$，从$1$到$6$的数字之和，所以$2\\cdot21 + B = 47$。因此$B = 47-42 = 5$。\n\n$\\textbf{或}$\n注意除了$B$之外，每个点恰好在两条线上，它在三条线上。因为从$1$到$6$的数字之和是$21$，这给出总和$2\\cdot21 + B = 47$。因此$B = 47-42 = 5$。\n\n答案：$\\boxed{E}$"
     ],
     "tags": []
   },
@@ -18729,7 +18729,7 @@
     },
     "answer": "B",
     "solutions": [
-      "2020这个数字有12个因数。\n\n$2020 = 1\\cdot2020$\n$= 2\\cdot1010$\n$= 4\\cdot505$\n$= 5\\cdot404$\n$= 10\\cdot202$\n$= 20\\cdot101$\n这些因数可以分类如下：\n\n$\\bullet$数字$1$有确切$1$个因数。\n\n$\\bullet$数字$2, 5$、和$101$是质数，所以每个都有确切$2$个因数。\n\n$\\bullet$数字$4$有确切$3$个因数，即$1, 2$和$4$。\n\n$\\bullet$剩余的$7$个数字，$10, 20, 202, 404, 505, 1010$和$2020$，每个都有超过$3$个因数。\n\n因此，$2020$ 的 $7$ 个因数各自拥有超过 $3$ 个因数。\n\n$OR$\n为了确定 $2020$ 的因数个数，注意 $2020$ 的质因数分解为\n\n$2020 = 2^2 \\cdot5^1\\cdot101^1.$\n这说明 $2020$ 的每个因数都可写成 $2^a\\cdot5^b \\cdot101^c$，其中 $a = 0,1$ 或 $2$；$b = 0$ 或 $1$；$c=0$ 或 $1$。因此 $2020$ 的因数个数是 $3\\cdot2\\cdot2 = 12$。\n\n同理，任何至少有 $2$ 个不同质因数（例如 $p$ 和 $q$）的正整数，至少有 $4$ 个因数，即 $1, p, q,$ 和 $pq$。\n\n$2020$ 的因数中，至多含 $1$ 个不同质因数的是 $1, 2, 4, 5,$ 和 $101$；它们各自至多有 $3$ 个因数。其余 $7$ 个因数，即 $10, 20, 202, 404, 505, 1010,$ 和 $2020$，各至少含 $2$ 个不同质因数。因此，$2020$ 的 $7$ 个因数各自拥有超过 $3$ 个因数。\n\n答案：$\\boxed{B}$。"
+      "2020这个数字有12个因数。\n\n$2020 = 1\\cdot2020$\n$= 2\\cdot1010$\n$= 4\\cdot505$\n$= 5\\cdot404$\n$= 10\\cdot202$\n$= 20\\cdot101$\n这些因数可以分类如下：\n\n$\\bullet$数字$1$有确切$1$个因数。\n\n$\\bullet$数字$2, 5$、和$101$是质数，所以每个都有确切$2$个因数。\n\n$\\bullet$数字$4$有确切$3$个因数，即$1, 2$和$4$。\n\n$\\bullet$剩余的$7$个数字，$10, 20, 202, 404, 505, 1010$和$2020$，每个都有超过$3$个因数。\n\n因此，$2020$ 的 $7$ 个因数各自拥有超过 $3$ 个因数。\n\n$\\textbf{或}$\n为了确定 $2020$ 的因数个数，注意 $2020$ 的质因数分解为\n\n$2020 = 2^2 \\cdot5^1\\cdot101^1.$\n这说明 $2020$ 的每个因数都可写成 $2^a\\cdot5^b \\cdot101^c$，其中 $a = 0,1$ 或 $2$；$b = 0$ 或 $1$；$c=0$ 或 $1$。因此 $2020$ 的因数个数是 $3\\cdot2\\cdot2 = 12$。\n\n同理，任何至少有 $2$ 个不同质因数（例如 $p$ 和 $q$）的正整数，至少有 $4$ 个因数，即 $1, p, q,$ 和 $pq$。\n\n$2020$ 的因数中，至多含 $1$ 个不同质因数的是 $1, 2, 4, 5,$ 和 $101$；它们各自至多有 $3$ 个因数。其余 $7$ 个因数，即 $10, 20, 202, 404, 505, 1010,$ 和 $2020$，各至少含 $2$ 个不同质因数。因此，$2020$ 的 $7$ 个因数各自拥有超过 $3$ 个因数。\n\n答案：$\\boxed{B}$。"
     ],
     "tags": []
   },
@@ -18740,7 +18740,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2020 AMC 8 · 第 18 题",
-    "stem": "矩形$ABCD$内接于一个直径为$\\overline{FE}$的半圆，如下图所示。设$DA = 16$和$\\overline{FD} = \\overline{AE} = 9$。矩形$ABCD?$的面积是多少？\n\n[Figure: /question-assets/source/amc/5343af8329c4c35656bf6592b6de16b0a9730ff26df542d395f7025526b8995a.png]",
+    "stem": "矩形$ABCD$内接于一个直径为$\\overline{FE}$的半圆，如下图所示。设$DA = 16$和$\\overline{FD} = \\overline{AE} = 9$。矩形$ABCD$的面积是多少？\n\n[Figure: /question-assets/source/amc/5343af8329c4c35656bf6592b6de16b0a9730ff26df542d395f7025526b8995a.png]",
     "options": {
       "A": "$240$",
       "B": "$248$",
@@ -18761,7 +18761,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2020 AMC 8 · 第 19 题",
-    "stem": "一个数字被称为\"翻转数\"，如果它的数字在两个不同的数字之间交替。例如，$2020$和$37373$是翻转数，但$3883$和$123123$不是。有多少个五位翻转数能被$15?$整除？",
+    "stem": "一个数字被称为\"翻转数\"，如果它的数字在两个不同的数字之间交替。例如，$2020$和$37373$是翻转数，但$3883$和$123123$不是。有多少个五位翻转数能被$15$整除？",
     "options": {
       "A": "$3$",
       "B": "$4$",
@@ -18792,7 +18792,7 @@
     },
     "answer": "B",
     "solutions": [
-      "笔记本显示第二棵树是$11$米高。第一和第三棵树必须高$22$米，否则如果它们高一半，它们的高度就不是整数。这意味着前$3$棵树的总高度是$22 + 11 +22 = 55$米。因为第三棵树是$22$米高，最后$2$棵树高度的唯一可能性是\n\n$\\bullet$$11$和$22$米，平均为$\\dfrac{55+11+22}{5} = 17\\cdot6$米，\n\n$\\bullet$$44$和$22$米，平均为$\\dfrac{55+44+22}{5} = 24\\cdot2$米，或\n\n$\\bullet$$44$和$88$米，平均为$\\dfrac{55+44+88}{5} = 37\\cdot4$米。\n\n平均数以$\".2\"$结尾，所以第二个选项必须是正确的。因此树的高度必须是$22, 11, 22, 44$、和$22$米，所有树的平均高度是$24\\cdot2$米。\n\n$OR$\n平均树高等于树高总和除以$5$。因为平均数以$\".2\"$结尾，等于$\\dfrac{2}{10} =\\dfrac{1}{5}$，所以树高总和必须是$5$的倍数加一。\n\n如上所示，前$3$棵树的高度是$22, 11$、和$22$米，产生总高度$55$米，能被$5$整除。最后$2$棵树高度的总和必须是$5$的倍数加一。因为第三棵树是$22$米高，最后$2$棵树高度的唯一可能性是\n\n$\\bullet$$11$和$22$米，总和为$33$米，\n\n$\\bullet$$44$和$22$米，总和为$66$米，或\n\n$\\bullet$$44$和$88$米，总和为$132$米。\n\n只有第二个选项是$5$的倍数加一。因此树的高度必须是$22, 11, 22, 44$、和$22$米，平均高度是$\\dfrac{55+44+22}{5} = 24\\cdot2$米。\n\n答案：$\\boxed{B}$"
+      "笔记本显示第二棵树是$11$米高。第一和第三棵树必须高$22$米，否则如果它们高一半，它们的高度就不是整数。这意味着前$3$棵树的总高度是$22 + 11 +22 = 55$米。因为第三棵树是$22$米高，最后$2$棵树高度的唯一可能性是\n\n$\\bullet$$11$和$22$米，平均为$\\dfrac{55+11+22}{5} = 17\\cdot6$米，\n\n$\\bullet$$44$和$22$米，平均为$\\dfrac{55+44+22}{5} = 24\\cdot2$米，或\n\n$\\bullet$$44$和$88$米，平均为$\\dfrac{55+44+88}{5} = 37\\cdot4$米。\n\n平均数以$\".2\"$结尾，所以第二个选项必须是正确的。因此树的高度必须是$22, 11, 22, 44$、和$22$米，所有树的平均高度是$24\\cdot2$米。\n\n$\\textbf{或}$\n平均树高等于树高总和除以$5$。因为平均数以$\".2\"$结尾，等于$\\dfrac{2}{10} =\\dfrac{1}{5}$，所以树高总和必须是$5$的倍数加一。\n\n如上所示，前$3$棵树的高度是$22, 11$、和$22$米，产生总高度$55$米，能被$5$整除。最后$2$棵树高度的总和必须是$5$的倍数加一。因为第三棵树是$22$米高，最后$2$棵树高度的唯一可能性是\n\n$\\bullet$$11$和$22$米，总和为$33$米，\n\n$\\bullet$$44$和$22$米，总和为$66$米，或\n\n$\\bullet$$44$和$88$米，总和为$132$米。\n\n只有第二个选项是$5$的倍数加一。因此树的高度必须是$22, 11, 22, 44$、和$22$米，平均高度是$\\dfrac{55+44+22}{5} = 24\\cdot2$米。\n\n答案：$\\boxed{B}$"
     ],
     "tags": []
   },
@@ -18803,7 +18803,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2020 AMC 8 · 第 21 题",
-    "stem": "游戏板由$64$个方格组成，这些方格在空白和彩色之间交替。下面的图显示了下面一行的方格$P$和上面一行的方格$Q$。标记被放置在$P$。一个步骤包括将标记移动到上一行的相邻空白方格中之一。从$P$到$Q?$有多少条$7$步路径？\n\n[Figure: /question-assets/source/amc/61d985f0240ae7650d892901aa93a31471dfa7b336f666afa64cd3766dac4f6e.jpg]",
+    "stem": "游戏板由$64$个方格组成，这些方格在空白和彩色之间交替。下面的图显示了下面一行的方格$P$和上面一行的方格$Q$。标记被放置在$P$。一个步骤包括将标记移动到上一行的相邻空白方格中之一。从$P$到$Q$有多少条$7$步路径？\n\n[Figure: /question-assets/source/amc/61d985f0240ae7650d892901aa93a31471dfa7b336f666afa64cd3766dac4f6e.jpg]",
     "options": {
       "A": "$28$",
       "B": "$30$",
@@ -18824,7 +18824,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2020 AMC 8 · 第 22 题",
-    "stem": "当正整数$N$输入一台机器时，输出是根据下面显示的规则计算的一个数字：\n\n[Figure: /question-assets/source/amc/6a3864534866e892e9323f3305caf58c45370822793b7960e4ac602abd6c06e3.jpg]\n\n例如，从$N = 7$的输入开始，机器将输出$3 \\cdot 7 + 1 = 22$。然后，如果输出被重复输入机器五次，最后的输出是$26$。\n\n$7 \\to 22 \\to 11 \\to 34 \\to 17 \\to 52 \\to 26.$\n当对不同的起始值$N$应用相同的$6$步过程时，最后的输出是$1$。所有这样的整数$N?$的和是多少？\n\n$N \\to \\text{\\_\\_} \\to \\text{\\_\\_} \\to \\text{\\_\\_} \\to \\text{\\_\\_} \\to \\text{\\_\\_} \\to 1$",
+    "stem": "当正整数$N$输入一台机器时，输出是根据下面显示的规则计算的一个数字：\n\n[Figure: /question-assets/source/amc/6a3864534866e892e9323f3305caf58c45370822793b7960e4ac602abd6c06e3.jpg]\n\n例如，从$N = 7$的输入开始，机器将输出$3 \\cdot 7 + 1 = 22$。然后，如果输出被重复输入机器五次，最后的输出是$26$。\n\n$7 \\to 22 \\to 11 \\to 34 \\to 17 \\to 52 \\to 26.$\n当对不同的起始值$N$应用相同的$6$步过程时，最后的输出是$1$。所有这样的整数$N$的和是多少？\n\n$N \\to \\text{\\_\\_} \\to \\text{\\_\\_} \\to \\text{\\_\\_} \\to \\text{\\_\\_} \\to \\text{\\_\\_} \\to 1$",
     "options": {
       "A": "$73$",
       "B": "$74$",
@@ -18834,7 +18834,7 @@
     },
     "answer": "E",
     "solutions": [
-      "从数字$1$开始反向工作，如下所示，有$4$个可能的$N: 1,8,10$起始值，即$64$。这些值的和是$1+8+10+64 = 83$。\n\n[Figure: /question-assets/source/amc/df8ae720084aef98647623c8498c48e0a6c3be32c8b15f9f9c7550a1d32b10eb.jpg]\n\n$Note$：科拉茨猜想指出，无论选择哪个正整数$1$作为起始值，数字$N$最终都会出现。例如，如果$N = 7$序列扩展到$26$之后，输出将是\n\n$26→13 →40 →20 →10 →5 →16 →8 →4 →2 →1.$\n还不知道这个猜想是否正确。\n\n答案：$\\boxed{E}$"
+      "从数字$1$开始反向工作，如下所示，有$4$个可能的$N: 1,8,10$起始值，即$64$。这些值的和是$1+8+10+64 = 83$。\n\n[Figure: /question-assets/source/amc/df8ae720084aef98647623c8498c48e0a6c3be32c8b15f9f9c7550a1d32b10eb.jpg]\n\n注意：：科拉茨猜想指出，无论选择哪个正整数$1$作为起始值，数字$N$最终都会出现。例如，如果$N = 7$序列扩展到$26$之后，输出将是\n\n$26→13 →40 →20 →10 →5 →16 →8 →4 →2 →1.$\n还不知道这个猜想是否正确。\n\n答案：$\\boxed{E}$"
     ],
     "tags": []
   },
@@ -18855,7 +18855,7 @@
     },
     "answer": "B",
     "solutions": [
-      "有两种情况要考虑。\n\n$Case 1$：一个学生获得$1$个奖项，另外两个学生各获得$2$个奖项。有$3$种方式选择获得$1$个奖项的学生，有$5$种选择该学生的奖项。这样还剩$4$个奖项要平均分配。对于下一个学生，有${}_{4}{C}_2 = \\binom{4}{2}=\\dfrac{4\\cdot3}{2} = 6$种方式选择该学生的$2$个奖项，还剩$2$个奖项给第三个学生。因此给一个学生$1$个奖项，给另外两个学生各$2$个奖项的方式数是$3\\cdot5\\cdot6 = 90$。\n\n$Case 2$：一个学生获得$3$个奖项，另外两个学生各获得$1$个奖项。有$3$种方式选择获得$3$个奖项的学生，有${}_{5}C_{3} = \\binom{5}{3} = \\dfrac{5\\cdot4\\cdot3}{3\\cdot2\\cdot1} = 10$种方式选择该学生的奖项。剩余的$2$个奖项可以以$2$种方式分配给另外两个学生。因此给一个学生$3$个奖项，给另外两个学生各$1$个奖项的方式数是$3\\cdot10\\cdot2 = 60$。\n\n总共有$90+60= 150$种方式分配$5$个奖项。\n\n答案：$\\boxed{B}$"
+      "有两种情况要考虑。\n\n$\\textbf{情形 1}$：一个学生获得$1$个奖项，另外两个学生各获得$2$个奖项。有$3$种方式选择获得$1$个奖项的学生，有$5$种选择该学生的奖项。这样还剩$4$个奖项要平均分配。对于下一个学生，有${}_{4}{C}_2 = \\binom{4}{2}=\\dfrac{4\\cdot3}{2} = 6$种方式选择该学生的$2$个奖项，还剩$2$个奖项给第三个学生。因此给一个学生$1$个奖项，给另外两个学生各$2$个奖项的方式数是$3\\cdot5\\cdot6 = 90$。\n\n$\\textbf{情形 2}$：一个学生获得$3$个奖项，另外两个学生各获得$1$个奖项。有$3$种方式选择获得$3$个奖项的学生，有${}_{5}C_{3} = \\binom{5}{3} = \\dfrac{5\\cdot4\\cdot3}{3\\cdot2\\cdot1} = 10$种方式选择该学生的奖项。剩余的$2$个奖项可以以$2$种方式分配给另外两个学生。因此给一个学生$3$个奖项，给另外两个学生各$1$个奖项的方式数是$3\\cdot10\\cdot2 = 60$。\n\n总共有$90+60= 150$种方式分配$5$个奖项。\n\n答案：$\\boxed{B}$"
     ],
     "tags": []
   },
@@ -18897,7 +18897,7 @@
     },
     "answer": "A",
     "solutions": [
-      "设$x_{1}, x_{2}$和$x_{3}$分别代表正方形$S_{1}, S_{2}$和$S_{3}$的边长。然后大矩形的宽度等于\n\n$x_{1} + x_{2} + x_{3} = 3322$\n大矩形的高度等于\n\n$x_{1} - x_{2} + x_{3} = 2020.$\n两个方程相减得到$2x_{2} = 1302$，所以$x_{2} = 651.$。$S_{2}$的边长因此是$651$单位。\n\n$Note$：虽然正方形$S_{2}$的大小是固定的，但$S_{1}$和$S_{3}$的大小可以变化，只要它们的边长之和是$x_{1} + x_{3} = 3322 - x_{2} = 2671$。\n\n答案：$\\boxed{A}$"
+      "设$x_{1}, x_{2}$和$x_{3}$分别代表正方形$S_{1}, S_{2}$和$S_{3}$的边长。然后大矩形的宽度等于\n\n$x_{1} + x_{2} + x_{3} = 3322$\n大矩形的高度等于\n\n$x_{1} - x_{2} + x_{3} = 2020.$\n两个方程相减得到$2x_{2} = 1302$，所以$x_{2} = 651.$。$S_{2}$的边长因此是$651$单位。\n\n注意：：虽然正方形$S_{2}$的大小是固定的，但$S_{1}$和$S_{3}$的大小可以变化，只要它们的边长之和是$x_{1} + x_{3} = 3322 - x_{2} = 2671$。\n\n答案：$\\boxed{A}$"
     ],
     "tags": []
   },
@@ -19023,7 +19023,7 @@
     },
     "answer": "C",
     "solutions": [
-      "令$a$和$b$分别代表最小和最大的整数，$15$在它们之间。三个整数等距分布，所以$a$和$b$必须与$15$等距。因为$b$大于$15$且是$4$的倍数，$b$的最小可能值是$16$，因此$a$的最小可能值是$4$。如果$a = 4$且$b = 16$，数字a距$15$的距离会比$b$更远。如果$a = 5$且$b = 20$也是如此。如果$a = 6$且$b = 24$，然而，$a$和$b$都将是$9$距$15$的单位。对于$a$的更大值，数字$a$会更接近$15$而不是$b$。因此$a = 6$且$b = 24$是唯一的解，$6$是这三个数中最小的。\n\n[Figure: /question-assets/source/amc/23376e8df05b360458fc3e704e795e5c081808f7bbcc5959235058756de13362.jpg]\n\n$OR$\n令$x$和$4x$分别代表最小和最大的数。最小数和中间数之间的距离是$15 - x$。最大数和中间数之间的距离是$4x -15$。三个整数等距分布，所以两个距离必须相等。因此\n\n$15 − x = 4x − 15$\n$30 = 5x$\n$x = 6.$\n最小的数是$6$。\n\n$OR$\n令$d$表示前两个数之间的差。三个数等距分布，所以三个数可以表示为$15 -d$、$15$和$15 + d$。已知最大数是最小数的四倍，所以\n\n$15 + d = 4(15 − d).$\n求解$d$得到\n\n$15 + d = 60 − 4d$\n$5d = 45$\n$d = 9.$\n因此最小的数是$15 − d = 15 − 9 = 6$。\n\n答案：$\\boxed{C}$。"
+      "令$a$和$b$分别代表最小和最大的整数，$15$在它们之间。三个整数等距分布，所以$a$和$b$必须与$15$等距。因为$b$大于$15$且是$4$的倍数，$b$的最小可能值是$16$，因此$a$的最小可能值是$4$。如果$a = 4$且$b = 16$，数字a距$15$的距离会比$b$更远。如果$a = 5$且$b = 20$也是如此。如果$a = 6$且$b = 24$，然而，$a$和$b$都将是$9$距$15$的单位。对于$a$的更大值，数字$a$会更接近$15$而不是$b$。因此$a = 6$且$b = 24$是唯一的解，$6$是这三个数中最小的。\n\n[Figure: /question-assets/source/amc/23376e8df05b360458fc3e704e795e5c081808f7bbcc5959235058756de13362.jpg]\n\n$\\textbf{或}$\n令$x$和$4x$分别代表最小和最大的数。最小数和中间数之间的距离是$15 - x$。最大数和中间数之间的距离是$4x -15$。三个整数等距分布，所以两个距离必须相等。因此\n\n$15 − x = 4x − 15$\n$30 = 5x$\n$x = 6.$\n最小的数是$6$。\n\n$\\textbf{或}$\n令$d$表示前两个数之间的差。三个数等距分布，所以三个数可以表示为$15 -d$、$15$和$15 + d$。已知最大数是最小数的四倍，所以\n\n$15 + d = 4(15 − d).$\n求解$d$得到\n\n$15 + d = 60 − 4d$\n$5d = 45$\n$d = 9.$\n因此最小的数是$15 − d = 15 − 9 = 6$。\n\n答案：$\\boxed{C}$。"
     ],
     "tags": []
   },
@@ -19055,7 +19055,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2022 AMC 8 · 第 8 题",
-    "stem": "求下式的值：\n\n$\\dfrac{1}{3} \\cdot \\dfrac{2}{4} \\cdot \\dfrac{3}{5} \\cdots \\dfrac{18}{20} \\cdot \\dfrac{19}{21} \\cdot \\dfrac{20}{22}?$",
+    "stem": "求下式的值：\n\n$\\dfrac{1}{3} \\cdot \\dfrac{2}{4} \\cdot \\dfrac{3}{5} \\cdots \\dfrac{18}{20} \\cdot \\dfrac{19}{21} \\cdot \\dfrac{20}{22}$？",
     "options": {
       "A": "$\\dfrac{1}{462}$",
       "B": "$\\dfrac{1}{231}$",
@@ -19170,7 +19170,7 @@
     },
     "answer": "D",
     "solutions": [
-      "令$n$是缺失的数字，令$a$和$b$是求和至$28$的两个数字，其中$a < b$。因为$b$比$a$多，$a$不能超过$\\dfrac{1}{3}$的$28$。因此$a$的可能值是从$1$到$9$的整数。下表显示了对应的$b$值，等于$28$和$a$之间的差，以及$n$值，等于$b$和$2a$之间的差\n\n[Figure: /question-assets/source/amc/8a3940dc61c8eb466a197b2120ff4d3aa0e955aaacea0e1cedfaf394ed15471c.jpg]\n\n$a$的每个值产生不同的$n$值，所以有$9$个$n$值可以填空句子中的空白。\n\n$OR$\n令$n$是缺失的数字，令a是问题中较小数字。然后较大的数是$2a + n$，它们的和是\n\n$28 = a + (2a + n) = 3a + n.$\n$a$和$n$都是正整数，所以$a$的可能值是从$1$到$9$的整数，每个都对应一个不同的正整数$n$。因此有$9$个$n$值可以填空句子中的空白\n\n答案：$\\boxed{D}$。"
+      "令$n$是缺失的数字，令$a$和$b$是求和至$28$的两个数字，其中$a < b$。因为$b$比$a$多，$a$不能超过$\\dfrac{1}{3}$的$28$。因此$a$的可能值是从$1$到$9$的整数。下表显示了对应的$b$值，等于$28$和$a$之间的差，以及$n$值，等于$b$和$2a$之间的差\n\n[Figure: /question-assets/source/amc/8a3940dc61c8eb466a197b2120ff4d3aa0e955aaacea0e1cedfaf394ed15471c.jpg]\n\n$a$的每个值产生不同的$n$值，所以有$9$个$n$值可以填空句子中的空白。\n\n$\\textbf{或}$\n令$n$是缺失的数字，令a是问题中较小数字。然后较大的数是$2a + n$，它们的和是\n\n$28 = a + (2a + n) = 3a + n.$\n$a$和$n$都是正整数，所以$a$的可能值是从$1$到$9$的整数，每个都对应一个不同的正整数$n$。因此有$9$个$n$值可以填空句子中的空白\n\n答案：$\\boxed{D}$。"
     ],
     "tags": []
   },
@@ -19212,7 +19212,7 @@
     },
     "answer": "C",
     "solutions": [
-      "[Figure: /question-assets/source/amc/8d5e9989e480129c034cedd704b7c1106dcee63d3d6c67790a4fcdc69549d499.jpg]\n\n图中的虚线通过每盎司成本恰好$\\$1$的胡椒。虚线上方的胡椒更昂贵。每盎司成本少于$\\$1$的仅有的胡椒是虚线下方标记为$A, B$和$C$的三种胡椒。胡椒$A$成本约$\\$2.50$$3$盎司，即$\\$0.83$每盎司；胡椒$B$成本略少于$\\$1$每盎司；胡椒$C$成本约$\\$4.50$$5$盎司，即$\\$0.90$每盎司。因此每盎司最低价格由胡椒$A$提供，其重量为$3$盎司。\n\n$OR$\n\n[Figure: /question-assets/source/amc/6075b3cbade3c831908c58bb3dfc904ec4f1ee6feeccac7e5f78d40a2d5c582e.jpg]\n\n如果从原点到任何胡椒画一条线，线的斜率对应于该胡椒的每盎司价格。最小斜率的线，如上所示，是连接原点到胡椒$A$的线，其重量为$3$盎司。\n\n答案：$\\boxed{C}$。"
+      "[Figure: /question-assets/source/amc/8d5e9989e480129c034cedd704b7c1106dcee63d3d6c67790a4fcdc69549d499.jpg]\n\n图中的虚线通过每盎司成本恰好$\\$1$的胡椒。虚线上方的胡椒更昂贵。每盎司成本少于$\\$1$的仅有的胡椒是虚线下方标记为$A, B$和$C$的三种胡椒。胡椒$A$成本约$\\$2.50$$3$盎司，即$\\$0.83$每盎司；胡椒$B$成本略少于$\\$1$每盎司；胡椒$C$成本约$\\$4.50$$5$盎司，即$\\$0.90$每盎司。因此每盎司最低价格由胡椒$A$提供，其重量为$3$盎司。\n\n$\\textbf{或}$\n\n[Figure: /question-assets/source/amc/6075b3cbade3c831908c58bb3dfc904ec4f1ee6feeccac7e5f78d40a2d5c582e.jpg]\n\n如果从原点到任何胡椒画一条线，线的斜率对应于该胡椒的每盎司价格。最小斜率的线，如上所示，是连接原点到胡椒$A$的线，其重量为$3$盎司。\n\n答案：$\\boxed{C}$。"
     ],
     "tags": []
   },
@@ -19233,7 +19233,7 @@
     },
     "answer": "B",
     "solutions": [
-      "前两个数字的和是$2\\cdot21 = 42$，最后两个数字的和是$2\\cdot30 = 60$，所以所有四个数字的和是$42 + 60 = 102$。中间两个数字的和是$2\\cdot26 = 52$，所以第一个和最后一个数字的和是$102 − 52 = 50$，它们的平均值是$\\dfrac{50}{2} = 25$。\n\n$OR$\n令四个数字为$a, b, c$和$d$。已知\n\n$\\dfrac{a + b}{2} =21,\\ \\dfrac{b+c}{2} =26,\\ and \\ \\dfrac{c+d}{2}=30,$\n这意味着$a + b=42$、$b + c = 52$和$c + d = 60$。将三个方程相加得出$a + 2(b + c) + d = 154$，代入$b + c = 52$得到$a + d = 154-2\\cdot 52 = 50$。因此第一个和最后一个数字的平均值是\n\n$\\dfrac{a+d}{2} = \\dfrac{50}{2} = 25.$\n答案：$\\boxed{B}$。"
+      "前两个数字的和是$2\\cdot21 = 42$，最后两个数字的和是$2\\cdot30 = 60$，所以所有四个数字的和是$42 + 60 = 102$。中间两个数字的和是$2\\cdot26 = 52$，所以第一个和最后一个数字的和是$102 − 52 = 50$，它们的平均值是$\\dfrac{50}{2} = 25$。\n\n$\\textbf{或}$\n令四个数字为$a, b, c$和$d$。已知\n\n$\\dfrac{a + b}{2} =21,\\ \\dfrac{b+c}{2} =26,\\ \\text{和}\\ \\dfrac{c+d}{2}=30,$\n这意味着$a + b=42$、$b + c = 52$和$c + d = 60$。将三个方程相加得出$a + 2(b + c) + d = 154$，代入$b + c = 52$得到$a + d = 154-2\\cdot 52 = 50$。因此第一个和最后一个数字的平均值是\n\n$\\dfrac{a+d}{2} = \\dfrac{50}{2} = 25.$\n答案：$\\boxed{B}$。"
     ],
     "tags": []
   },
@@ -19254,7 +19254,7 @@
     },
     "answer": "B",
     "solutions": [
-      "前几项的$n!!$值如下表所示：\n\n[Figure: /question-assets/source/amc/7c7c35a0c4bad6c7c5cb35fcfead0da874c24259c3b54a5aa351270d9fcd1131.jpg]\n\n表的最后两行显示了对于偶数$n\\geq10$，数字$10$将作为$n!!$中的一个因子出现，因此$n!!$的个位数将是$0$。因此问题中给出的和的个位数与$2 + 8 + 8 + 4 = 22$的个位数相同，所以答案是$2$。\n\n$Note:$如果$n$是奇正整数，则$n!!$代表所有从$1 to n$的奇数的乘积。例如，$9!! = 1 · 3 · 5 · 7 · 9$。\n\n答案：$\\boxed{B}$。"
+      "前几项的$n!!$值如下表所示：\n\n[Figure: /question-assets/source/amc/7c7c35a0c4bad6c7c5cb35fcfead0da874c24259c3b54a5aa351270d9fcd1131.jpg]\n\n表的最后两行显示了对于偶数$n\\geq10$，数字$10$将作为$n!!$中的一个因子出现，因此$n!!$的个位数将是$0$。因此问题中给出的和的个位数与$2 + 8 + 8 + 4 = 22$的个位数相同，所以答案是$2$。\n\n注意：如果$n$是奇正整数，则$n!!$代表所有从$1 to n$的奇数的乘积。例如，$9!! = 1 · 3 · 5 · 7 · 9$。\n\n答案：$\\boxed{B}$。"
     ],
     "tags": []
   },
@@ -19275,7 +19275,7 @@
     },
     "answer": "C",
     "solutions": [
-      "[Figure: /question-assets/source/amc/aa33123a88eb36c5976b99529798b2860015e6cb2ffe29fefd8f6e2ea2f85d35.jpg]\n\n矩形的宽$w$对应于相对中点$(−3, 0)$和$(5, 4)$之间的距离。根据勾股定理，该距离等于$\\sqrt{(5 − (−3))^2 + 4^2}$ = $\\sqrt{8^2 + 4^2} = \\sqrt{80}$。类似地，矩形的高$h$对应于中点$(2,0)$和$(0, 4)$之间的距离，等于$\\sqrt{2^2 + 4^2} = \\sqrt{20}$。因此矩形的面积是$w·h = \\sqrt{80}\\cdot\\sqrt{20} = \\sqrt{1600} = 40$。\n\n$OR$\n\n[Figure: /question-assets/source/amc/9d731f96416dc55bbc4cfdb0745833dd63fd82875fc92b1c7773be9fe1b1a1b9.jpg]\n\n四个中点形成一个菱形，其面积等于矩形面积的一半。菱形是一个以$5$为底、$4$为高的平行四边形，所以其面积是$5\\cdot4 = 20$。因此矩形的面积是$2\\cdot20 = 40$。\n\n答案：$\\boxed{C}$。"
+      "[Figure: /question-assets/source/amc/aa33123a88eb36c5976b99529798b2860015e6cb2ffe29fefd8f6e2ea2f85d35.jpg]\n\n矩形的宽$w$对应于相对中点$(−3, 0)$和$(5, 4)$之间的距离。根据勾股定理，该距离等于$\\sqrt{(5 − (−3))^2 + 4^2}$ = $\\sqrt{8^2 + 4^2} = \\sqrt{80}$。类似地，矩形的高$h$对应于中点$(2,0)$和$(0, 4)$之间的距离，等于$\\sqrt{2^2 + 4^2} = \\sqrt{20}$。因此矩形的面积是$w·h = \\sqrt{80}\\cdot\\sqrt{20} = \\sqrt{1600} = 40$。\n\n$\\textbf{或}$\n\n[Figure: /question-assets/source/amc/9d731f96416dc55bbc4cfdb0745833dd63fd82875fc92b1c7773be9fe1b1a1b9.jpg]\n\n四个中点形成一个菱形，其面积等于矩形面积的一半。菱形是一个以$5$为底、$4$为高的平行四边形，所以其面积是$5\\cdot4 = 20$。因此矩形的面积是$2\\cdot20 = 40$。\n\n答案：$\\boxed{C}$。"
     ],
     "tags": []
   },
@@ -19296,7 +19296,7 @@
     },
     "answer": "C",
     "solutions": [
-      "如果$20$个分数按升序排列，中位数将等于$2$位置和$10th$位置中$11th$个数字的平均值。点图显示在初始评分之后，中间$8$个分数是\n\n$. . . 75\\ 75\\ 80\\ 80\\ |\\ 80\\ 80\\ 80\\ 85 . . . ,$\n所以中位数是$80$。重新评分后，中位数增加到$85$，所以$10th$和$11th$位置的分数必须增加$5$分，以及下一个$2$位置中$80$的$2$个分数：\n\n$. . . 75\\ 75\\ 80\\ 85\\ |\\ 85\\ 85\\ 85\\ 85 . . . .$\n其他分数也可能增加，但那些变化不会影响中位数。因此最少$4$名学生获得了额外分数。\n\n$OR$\n在第一轮评分后，有$7$个分数为$85$或更高。作为重新评分的结果，中位数增加到$85$，所以中间$2$个数字必须是$85$，右边的$9$个分数必须相同或更高。因此最少$11−7 = 4$名学生获得了额外分数。\n\n答案：$\\boxed{C}$。"
+      "如果$20$个分数按升序排列，中位数将等于$2$位置和$10th$位置中$11th$个数字的平均值。点图显示在初始评分之后，中间$8$个分数是\n\n$. . . 75\\ 75\\ 80\\ 80\\ |\\ 80\\ 80\\ 80\\ 85 . . . ,$\n所以中位数是$80$。重新评分后，中位数增加到$85$，所以$10th$和$11th$位置的分数必须增加$5$分，以及下一个$2$位置中$80$的$2$个分数：\n\n$. . . 75\\ 75\\ 80\\ 85\\ |\\ 85\\ 85\\ 85\\ 85 . . . .$\n其他分数也可能增加，但那些变化不会影响中位数。因此最少$4$名学生获得了额外分数。\n\n$\\textbf{或}$\n在第一轮评分后，有$7$个分数为$85$或更高。作为重新评分的结果，中位数增加到$85$，所以中间$2$个数字必须是$85$，右边的$9$个分数必须相同或更高。因此最少$11−7 = 4$名学生获得了额外分数。\n\n答案：$\\boxed{C}$。"
     ],
     "tags": []
   },
@@ -19307,7 +19307,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2022 AMC 8 · 第 20 题",
-    "stem": "下面的网格要用整数填充，以便每行中数字的和与每列中数字的和相同。缺少四个数字。左下角的数字$x$比其他三个缺失的数字大。$x?$的最小可能值是多少？\n\n$\\begin{array}{|c|c|c|} \\hline -2 & 9 & 5 \\\\ \\hline & & -1 \\\\ \\hline x & & 8 \\\\ \\hline \\end{array}$",
+    "stem": "下面的网格要用整数填充，以便每行中数字的和与每列中数字的和相同。缺少四个数字。左下角的数字$x$比其他三个缺失的数字大。$x$的最小可能值是多少？\n\n$\\begin{array}{|c|c|c|} \\hline -2 & 9 & 5 \\\\ \\hline & & -1 \\\\ \\hline x & & 8 \\\\ \\hline \\end{array}$",
     "options": {
       "A": "$-1$",
       "B": "$5$",
@@ -19317,7 +19317,7 @@
     },
     "answer": "D",
     "solutions": [
-      "令$y, z$和$w$为其他缺失的数字，如下图所示。\n\n[Figure: /question-assets/source/amc/c17ac869ac87f676bc5062c96c93ce94205ef21fab1c4fa08192d2fb3a2f9aae.jpg]\n\n每行和每列中数字的和是$12$。因此$x + y = 14$、$y + z = 13$、$z + w = 3$和$x + w = 4$。已知$x$比其他缺失的数字大。$x + y$总和等于$14$，所以$x\\geq8$。如果$x\\ equals\\ 8$，则$y = 6$、$z = 7$和$w = -4$值满足问题的要求。因此$x = 8$是可以放在左下角的最小整数。\n\n$OR$\n令$x$为左下角的数字。每行和每列中数字的和是$12$，所以其余项可以用$x$表示，如下所示。\n\n[Figure: /question-assets/source/amc/d4a3888280100c1ffc161ffb9fe3f74392e4b7dc740fc5dab1b8401c0c853f61.jpg]\n\n请注意$x>x-1\\ and \\ 14-x>4-x$总是成立。这意味着必须满足的唯一条件是$x > 14-x$，这意味着$2x > 14$，因此$x > 7$。因此$x = 8$是可以放在左下角的最小整数。\n\n答案：$\\boxed{D}$。"
+      "令$y, z$和$w$为其他缺失的数字，如下图所示。\n\n[Figure: /question-assets/source/amc/c17ac869ac87f676bc5062c96c93ce94205ef21fab1c4fa08192d2fb3a2f9aae.jpg]\n\n每行和每列中数字的和是$12$。因此$x + y = 14$、$y + z = 13$、$z + w = 3$和$x + w = 4$。已知$x$比其他缺失的数字大。$x + y$总和等于$14$，所以$x\\geq8$。如果$x\\ equals\\ 8$，则$y = 6$、$z = 7$和$w = -4$值满足问题的要求。因此$x = 8$是可以放在左下角的最小整数。\n\n$\\textbf{或}$\n令$x$为左下角的数字。每行和每列中数字的和是$12$，所以其余项可以用$x$表示，如下所示。\n\n[Figure: /question-assets/source/amc/d4a3888280100c1ffc161ffb9fe3f74392e4b7dc740fc5dab1b8401c0c853f61.jpg]\n\n请注意$x>x-1\\ \\text{和}\\ 14-x>4-x$总是成立。这意味着必须满足的唯一条件是$x > 14-x$，这意味着$2x > 14$，因此$x > 7$。因此$x = 8$是可以放在左下角的最小整数。\n\n答案：$\\boxed{D}$。"
     ],
     "tags": []
   },
@@ -19338,7 +19338,7 @@
     },
     "answer": "C",
     "solutions": [
-      "斯蒂芬和坎达丝各进行了$30$次尝试。斯蒂芬总共进了$15+10 = 25$个篮子，两名球员以相同的投篮成功率结束，所以坎达丝也进了$25$个篮子。在比赛的上半场，斯蒂芬在他的$\\dfrac{15}{20} = \\dfrac{3}{4}$次尝试中成功。坎达丝不那么成功，所以她在她的$\\dfrac{3}{4}$次$12$尝试中进的篮子少于$9$。在下半场，斯蒂芬在所有尝试中都成功，但坎达丝至少错过了一次投篮，所以她进的篮子少于$18$。因为坎达丝总共以$25$个篮子结束，她必须在两个半场中分别进了$8$和$17$个篮子，在下半场比上半场多进了$9$个篮子。\n\n[Figure: /question-assets/source/amc/c0eedb2dbf469272778c7a0f63b2f61cf2ba6e2f0ec8564977ef3834aa635a6c.jpg]\n\n$Note:$这个结果是辛普森悖论的一个例子。虽然一名球员在每个半场的投篮成功率更高，但两名球员以相同的整体成功率结束是可能的。\n\n答案：$\\boxed{C}$。"
+      "斯蒂芬和坎达丝各进行了$30$次尝试。斯蒂芬总共进了$15+10 = 25$个篮子，两名球员以相同的投篮成功率结束，所以坎达丝也进了$25$个篮子。在比赛的上半场，斯蒂芬在他的$\\dfrac{15}{20} = \\dfrac{3}{4}$次尝试中成功。坎达丝不那么成功，所以她在她的$\\dfrac{3}{4}$次$12$尝试中进的篮子少于$9$。在下半场，斯蒂芬在所有尝试中都成功，但坎达丝至少错过了一次投篮，所以她进的篮子少于$18$。因为坎达丝总共以$25$个篮子结束，她必须在两个半场中分别进了$8$和$17$个篮子，在下半场比上半场多进了$9$个篮子。\n\n[Figure: /question-assets/source/amc/c0eedb2dbf469272778c7a0f63b2f61cf2ba6e2f0ec8564977ef3834aa635a6c.jpg]\n\n注意：这个结果是辛普森悖论的一个例子。虽然一名球员在每个半场的投篮成功率更高，但两名球员以相同的整体成功率结束是可能的。\n\n答案：$\\boxed{C}$。"
     ],
     "tags": []
   },
@@ -19359,7 +19359,7 @@
     },
     "answer": "A",
     "solutions": [
-      "请参阅下面的图表。线条上方的数字显示了公交车到达和离开每个站点的时间（分钟）。线条下方的数字显示了子拉到达每个站点的时间（分钟）。\n\n[Figure: /question-assets/source/amc/35ed9031ac044d41e6e457fb066d0720273eda84aae5e31f2631390cd5307d59.jpg]\n\n当子拉在公交站点$S$后$15$分钟到达时，她注意到公交车正好离开前一个站点，所以她将等待公交车。她将在公交车到达$S$时立即上车，在$17$分钟后。\n\n$OR$\n公交车和子拉开始相距$3$个站点，公交车在$1$分钟内走$3$个站点，子拉在$1$分钟内走$5$个站点。当公交车离她$1$个站点距离时她才会等待，所以公交车需要赶上$2$个站点的距离。在子拉在$1$分钟内走$5$个站点的时间内，公交车走了$\\dfrac{5}{3} = 1\\dfrac{2}{3}$个站点，减少了他们之间$\\dfrac{2}{3}$个站点的距离。在子拉走$\\dfrac{2}{2/3} = 3$个站点之前公交车会足够近让她等待。这将在$3\\cdot5 = 15$分钟后发生，此时她在第三个站点，公交车正在离开前一个站点。子拉将再等$2$分钟让公交车到达。她将在总共$15 + 2 = 17$分钟后上车。\n\n答案：$\\boxed{A}$。"
+      "请参阅下面的图表。线条上方的数字显示了公交车到达和离开每个站点的时间（分钟）。线条下方的数字显示了子拉到达每个站点的时间（分钟）。\n\n[Figure: /question-assets/source/amc/35ed9031ac044d41e6e457fb066d0720273eda84aae5e31f2631390cd5307d59.jpg]\n\n当子拉在公交站点$S$后$15$分钟到达时，她注意到公交车正好离开前一个站点，所以她将等待公交车。她将在公交车到达$S$时立即上车，在$17$分钟后。\n\n$\\textbf{或}$\n公交车和子拉开始相距$3$个站点，公交车在$1$分钟内走$3$个站点，子拉在$1$分钟内走$5$个站点。当公交车离她$1$个站点距离时她才会等待，所以公交车需要赶上$2$个站点的距离。在子拉在$1$分钟内走$5$个站点的时间内，公交车走了$\\dfrac{5}{3} = 1\\dfrac{2}{3}$个站点，减少了他们之间$\\dfrac{2}{3}$个站点的距离。在子拉走$\\dfrac{2}{2/3} = 3$个站点之前公交车会足够近让她等待。这将在$3\\cdot5 = 15$分钟后发生，此时她在第三个站点，公交车正在离开前一个站点。子拉将再等$2$分钟让公交车到达。她将在总共$15 + 2 = 17$分钟后上车。\n\n答案：$\\boxed{A}$。"
     ],
     "tags": []
   },
@@ -19380,7 +19380,7 @@
     },
     "answer": "D",
     "solutions": [
-      "$\\triangle \\triangle \\triangle$和$\\bigcirc \\bigcirc \\bigcirc$线条必须有相同的方向：它们在行或列中。首先假设线条在行中；列的情况给出相同数量的配置。需要考虑两种情况：要么每种类型恰好有一行，要么一种类型有两行，另一种类型有一行。\n\n$Case 1:$恰好有一个$\\triangle \\triangle \\triangle$行和一个$\\bigcirc \\bigcirc \\bigcirc$行。有$3\\cdot2 = 6$种方式选择两行的位置。对于剩余的行，有$2^3 = 8$个总体排列，但符号不能都是$\\triangle$或都是$\\bigcirc$，留下$6$种可能的排列。因此配置数是$6\\cdot6 = 36$。\n\n$Case 2:$一种类型有两行，另一种类型有一行。有$3$种方式选择相同行的位置和$2$种方式选择它们的符号。第三行随后确定。配置数是$3\\cdot2 = 6$。\n\n总共有$36 + 6 = 42$个配置在行中具有$\\triangle \\triangle \\triangle$和$\\bigcirc \\bigcirc \\bigcirc$。加倍以说明列方向得到总共$2\\cdot42 = 84$个具有三个$\\triangle$排成一行和三个$\\bigcirc$排成一行的配置。\n\n答案：$\\boxed{D}$。"
+      "$\\triangle \\triangle \\triangle$和$\\bigcirc \\bigcirc \\bigcirc$线条必须有相同的方向：它们在行或列中。首先假设线条在行中；列的情况给出相同数量的配置。需要考虑两种情况：要么每种类型恰好有一行，要么一种类型有两行，另一种类型有一行。\n\n$\\textbf{情形 1:}$恰好有一个$\\triangle \\triangle \\triangle$行和一个$\\bigcirc \\bigcirc \\bigcirc$行。有$3\\cdot2 = 6$种方式选择两行的位置。对于剩余的行，有$2^3 = 8$个总体排列，但符号不能都是$\\triangle$或都是$\\bigcirc$，留下$6$种可能的排列。因此配置数是$6\\cdot6 = 36$。\n\n$\\textbf{情形 2:}$一种类型有两行，另一种类型有一行。有$3$种方式选择相同行的位置和$2$种方式选择它们的符号。第三行随后确定。配置数是$3\\cdot2 = 6$。\n\n总共有$36 + 6 = 42$个配置在行中具有$\\triangle \\triangle \\triangle$和$\\bigcirc \\bigcirc \\bigcirc$。加倍以说明列方向得到总共$2\\cdot42 = 84$个具有三个$\\triangle$排成一行和三个$\\bigcirc$排成一行的配置。\n\n答案：$\\boxed{D}$。"
     ],
     "tags": []
   },
@@ -19433,7 +19433,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2023 AMC 8 · 第 1 题",
-    "stem": "下列表达式的值是多少？\n\n$(8 \\times 4 + 2) - (8 + 4 \\times 2)?$",
+    "stem": "下列表达式的值是多少？\n\n$(8 \\times 4 + 2) - (8 + 4 \\times 2)$？",
     "options": {
       "A": "$0$",
       "B": "$6$",
@@ -19506,7 +19506,7 @@
     },
     "answer": "D",
     "solutions": [
-      "如果使用螺旋图案填入剩余的数字，阴影方块将对应数字 $19, 23, 39$ 和 $47$。在这四个数字中，$39$ 是唯一的合数，所以 $3$ 个阴影方块中的数字是质数。\n\n[Figure: /question-assets/source/amc/c752cc3bca4d3d336b28901915c1eac5b0a6b6524100eb6e0124d6d536d4e7a2.jpg]\n\n$OR$\n通过使用完全平方数作为参考点，可以在不填充整个网格的情况下确定任何方块中的数字。注意，当正整数按螺旋图案排列在 $n \\times n$ 网格上时，最大的数字 $n^2$ 将出现在左上角（如果 $n$ 是偶数）或右下角（如果 $n$ 是奇数），如下所示 $n=2$ 和 $3$。\n\n[Figure: /question-assets/source/amc/3632fd429ef81f8bf5cc816bf399687ea91a686a6f13cad16a6311021a144d38.jpg]\n\n如果填入剩余的完全平方数 $(9, 16, 25, 36,\\ and\\ 49)$，可以确定阴影方块对应数字 $19, 23, 39, and\\ 47$。在这四个数字中，$39$ 是唯一的合数，所以 $3$ 个阴影方块中的数字是质数。\n\n[Figure: /question-assets/source/amc/a69cb102333ae0c544dffa4b997b8a4c9cb2f2cae974e676b6338bd79056393e.jpg]\n\n$Note:$ 这个 $prime spiral$，或 $Ulam spiral$，是以 Stanislaw Ulam $(1909–1984)$ 的名字命名的，他发现当正整数按这种模式排列时，质数经常沿对角线排列。这些对角线模式可以在下面的图中看到，其中 $1$ 到 $2500$ 之间的质数显示为黑点。\n\n[Figure: /question-assets/source/amc/afa5b576821b51fcd6cd049d295893e6fdfeb81db9590c3b535848ee9610c944.jpg]\n\n答案：$\\boxed{D}$。"
+      "如果使用螺旋图案填入剩余的数字，阴影方块将对应数字 $19, 23, 39$ 和 $47$。在这四个数字中，$39$ 是唯一的合数，所以 $3$ 个阴影方块中的数字是质数。\n\n[Figure: /question-assets/source/amc/c752cc3bca4d3d336b28901915c1eac5b0a6b6524100eb6e0124d6d536d4e7a2.jpg]\n\n$\\textbf{或}$\n通过使用完全平方数作为参考点，可以在不填充整个网格的情况下确定任何方块中的数字。注意，当正整数按螺旋图案排列在 $n \\times n$ 网格上时，最大的数字 $n^2$ 将出现在左上角（如果 $n$ 是偶数）或右下角（如果 $n$ 是奇数），如下所示 $n=2$ 和 $3$。\n\n[Figure: /question-assets/source/amc/3632fd429ef81f8bf5cc816bf399687ea91a686a6f13cad16a6311021a144d38.jpg]\n\n如果填入剩余的完全平方数 $(9, 16, 25, 36,\\ \\text{和}\\ 49)$，可以确定阴影方块对应数字 $19, 23, 39, \\text{和}\\ 47$。在这四个数字中，$39$ 是唯一的合数，所以 $3$ 个阴影方块中的数字是质数。\n\n[Figure: /question-assets/source/amc/a69cb102333ae0c544dffa4b997b8a4c9cb2f2cae974e676b6338bd79056393e.jpg]\n\n注意： 这个 质数螺旋（prime spiral），或 $Ulam spiral$，是以 Stanislaw Ulam $(1909–1984)$ 的名字命名的，他发现当正整数按这种模式排列时，质数经常沿对角线排列。这些对角线模式可以在下面的图中看到，其中 $1$ 到 $2500$ 之间的质数显示为黑点。\n\n[Figure: /question-assets/source/amc/afa5b576821b51fcd6cd049d295893e6fdfeb81db9590c3b535848ee9610c944.jpg]\n\n答案：$\\boxed{D}$。"
     ],
     "tags": []
   },
@@ -19569,7 +19569,7 @@
     },
     "answer": "B",
     "solutions": [
-      "直线 $AB$ 的斜率为 $\\dfrac{1}{3}$，每向右移动 $3$ 个单位就向上移动 $1$ 个单位。它在矩形的左上角与 $(15, 5)$ 相交。直线 $CD$ 的斜率为 $-\\dfrac{1}{2}$，每向右移动 $2$ 个单位就向下移动 $1$ 个单位。它通过点 $(15, 2\\cdot5)$ 和 $(16, 2)$，位于矩形下方。因此 $(15, 5)$ 是矩形上唯一位于直线上的点。\n\n[Figure: /question-assets/source/amc/80613ef14a970ed798391fafb81edb66122baa95e64eae93fa1bf856598c740c.png]\n\n$OR$\n直线 $AB$ 的方程为 $y = \\dfrac{x}{3}$。它在矩形的左上角与 $(15, 5)$ 相交。直线 $CD$ 的方程为 $y = -\\dfrac{x}{2} + 10$，它通过点 $(15, 2\\cdot5)$，位于矩形下方。因此 $(15, 5)$ 是矩形上唯一位于直线上的点。\n\n答案：$\\boxed{B}$。"
+      "直线 $AB$ 的斜率为 $\\dfrac{1}{3}$，每向右移动 $3$ 个单位就向上移动 $1$ 个单位。它在矩形的左上角与 $(15, 5)$ 相交。直线 $CD$ 的斜率为 $-\\dfrac{1}{2}$，每向右移动 $2$ 个单位就向下移动 $1$ 个单位。它通过点 $(15, 2\\cdot5)$ 和 $(16, 2)$，位于矩形下方。因此 $(15, 5)$ 是矩形上唯一位于直线上的点。\n\n[Figure: /question-assets/source/amc/80613ef14a970ed798391fafb81edb66122baa95e64eae93fa1bf856598c740c.png]\n\n$\\textbf{或}$\n直线 $AB$ 的方程为 $y = \\dfrac{x}{3}$。它在矩形的左上角与 $(15, 5)$ 相交。直线 $CD$ 的方程为 $y = -\\dfrac{x}{2} + 10$，它通过点 $(15, 2\\cdot5)$，位于矩形下方。因此 $(15, 5)$ 是矩形上唯一位于直线上的点。\n\n答案：$\\boxed{B}$。"
     ],
     "tags": []
   },
@@ -19632,7 +19632,7 @@
     },
     "answer": "D",
     "solutions": [
-      "Harold 吃了派的 $\\dfrac{1}{4}$，所以他剩下派的 $\\dfrac{3}{4}$。驼鹿吃了剩余的 $\\dfrac{1}{3}$，所以它吃了派的 $\\dfrac{1}{3}\\cdot\\dfrac{3}{4} =\\dfrac{1}{4}$，留下派的 $\\dfrac{3}{4}-\\dfrac{1}{4} = \\dfrac{1}{2}$。最后，豪猪吃了剩余的 $\\dfrac{1}{3}$，所以它吃了派的 $\\dfrac{1}{3}\\cdot\\dfrac{1}{2} =\\dfrac{1}{6}$，留下原始派的 $\\dfrac{1}{2}-\\dfrac{1}{6} = \\dfrac{1}{3}$。\n\n$OR$\nHarold 剩下派的 $\\dfrac{3}{4}$，驼鹿剩下剩余的 $\\dfrac{2}{3}$，豪猪剩下那个剩余的 $\\dfrac{2}{3}$。所以豪猪离开后原始派剩下的总分数是\n\n$\\dfrac{3}{4}\\cdot\\dfrac{2}{3}\\cdot\\dfrac{2}{3} = \\dfrac{3\\cdot4}{4\\cdot3\\cdot3} = \\dfrac{1}{3}.$\n$OR$\n假设梅子派被切成 $12$ 个相等的切片。Harold 吃了 $\\dfrac{12}{4} = 3$ 切片，剩下 $9$ 切片。然后驼鹿吃了 $\\dfrac{9}{3} = 3$ 切片，剩下 $6$ 切片。然后豪猪吃了 $\\dfrac{6}{3} = 2$ 切片，剩下 $4$ 切片。因此原始派的 $\\dfrac{4}{12} = \\dfrac{1}{3}$ 在豪猪离开后仍然存在。\n\n答案：$\\boxed{D}$。"
+      "Harold 吃了派的 $\\dfrac{1}{4}$，所以他剩下派的 $\\dfrac{3}{4}$。驼鹿吃了剩余的 $\\dfrac{1}{3}$，所以它吃了派的 $\\dfrac{1}{3}\\cdot\\dfrac{3}{4} =\\dfrac{1}{4}$，留下派的 $\\dfrac{3}{4}-\\dfrac{1}{4} = \\dfrac{1}{2}$。最后，豪猪吃了剩余的 $\\dfrac{1}{3}$，所以它吃了派的 $\\dfrac{1}{3}\\cdot\\dfrac{1}{2} =\\dfrac{1}{6}$，留下原始派的 $\\dfrac{1}{2}-\\dfrac{1}{6} = \\dfrac{1}{3}$。\n\n$\\textbf{或}$\nHarold 剩下派的 $\\dfrac{3}{4}$，驼鹿剩下剩余的 $\\dfrac{2}{3}$，豪猪剩下那个剩余的 $\\dfrac{2}{3}$。所以豪猪离开后原始派剩下的总分数是\n\n$\\dfrac{3}{4}\\cdot\\dfrac{2}{3}\\cdot\\dfrac{2}{3} = \\dfrac{3\\cdot4}{4\\cdot3\\cdot3} = \\dfrac{1}{3}.$\n$\\textbf{或}$\n假设梅子派被切成 $12$ 个相等的切片。Harold 吃了 $\\dfrac{12}{4} = 3$ 切片，剩下 $9$ 切片。然后驼鹿吃了 $\\dfrac{9}{3} = 3$ 切片，剩下 $6$ 切片。然后豪猪吃了 $\\dfrac{6}{3} = 2$ 切片，剩下 $4$ 切片。因此原始派的 $\\dfrac{4}{12} = \\dfrac{1}{3}$ 在豪猪离开后仍然存在。\n\n答案：$\\boxed{D}$。"
     ],
     "tags": []
   },
@@ -19653,7 +19653,7 @@
     },
     "answer": "C",
     "solutions": [
-      "火星车的平均速度等于总路程除以飞行小时数。火星车在约 $6\\cdot5$ 个月内行进了近 $300,000,000$ 英里。按每月约 $30$ 天估算，旅程持续约 $6\\cdot5 \\times 30 = 195$ 天，即接近 $200$ 天。因此其平均星际速度约为\n\n$\\dfrac{300,000,000\\ miles}{200\\ days}\\cdot\\dfrac{1\\ day}{24\\ hours} \\approx \\dfrac{300,000,000\\ miles}{5000\\ hours} = 60,000 mph.$\n答案：$\\boxed{C}$。"
+      "火星车的平均速度等于总路程除以飞行小时数。火星车在约 $6\\cdot5$ 个月内行进了近 $300,000,000$ 英里。按每月约 $30$ 天估算，旅程持续约 $6\\cdot5 \\times 30 = 195$ 天，即接近 $200$ 天。因此其平均星际速度约为\n\n$\\dfrac{300,000,000\\ \\text{英里}}{200\\ \\text{天}}\\cdot\\dfrac{1\\ \\text{天}}{24\\ \\text{小时}} \\approx \\dfrac{300,000,000\\ \\text{英里}}{5000\\ \\text{小时}} = 60,000\\ \\text{英里/时}.$\n答案：$\\boxed{C}$。"
     ],
     "tags": []
   },
@@ -19695,7 +19695,7 @@
     },
     "answer": "D",
     "solutions": [
-      "$2$ 个维修站均匀分布，所以它们将总比赛距离分成三份。类似地，$7$ 个补水站均匀分布，所以它们将距离分成八份。第 1 个维修站距离起点至终点的 $\\dfrac{1}{3}$ 处，第 $3rd$ 个补水站再往前 $2$ 英里，距离 $\\dfrac{3}{8}$ 处。$\\dfrac{3}{8}$ 和 $\\dfrac{1}{3}$ 之间的差是 $\\dfrac{9}{24} - \\dfrac{8}{24} = \\dfrac{1}{24}$，因为 $\\dfrac{1}{24}$ 的总距离是 $2$ 英里，比赛必须是 $48$ 英里长。\n\n[Figure: /question-assets/source/amc/c2b71375c4f9dac715ba3a90af33122a4d365ad11252605613dce2589ffba208.jpg]\n\n$OR$\n设总距离为 $x$ 英里。那么补水站相隔 $\\dfrac{x}{8}$ 英里，维修站相隔 $\\dfrac{x}{3}$ 英里。根据题意，第 $3rd$ 个补水站位于第 $1st$ 个维修站之后 $2$ 英里，所以\n\n$\\dfrac{3x}{8} = \\dfrac{x}{3} + 2.$\n将方程两边乘以 $24$ 并化简得到\n\n$9x = 8x + 48$\n$x = 48.$\n因此比赛的长度是 $48$ 英里。\n\n$OR$\n设 $w$ 代表补水站之间的距离，$r$ 代表维修站之间的距离，单位为英里。这些站点沿着公路均匀分布，第 $3rd$ 个补水站位于第 $1st$ 个维修站之后 $2$ 英里，所以\n\n$8w = 3r\\ and\\ 3w = r + 2.$\n求解第二个方程中的 $r$ 得到 $r=3$ $w - 2$ 并代入第一个方程得到\n\n$8w = 3(3w — 2) = 9w — 6,$\n因此\n\n$w = 6.$\n比赛的长度是 $8w = 8 \\cdot 6 = 48\\ miles$。\n\n答案：$\\boxed{D}$。"
+      "$2$ 个维修站均匀分布，所以它们将总比赛距离分成三份。类似地，$7$ 个补水站均匀分布，所以它们将距离分成八份。第 1 个维修站距离起点至终点的 $\\dfrac{1}{3}$ 处，第 $3rd$ 个补水站再往前 $2$ 英里，距离 $\\dfrac{3}{8}$ 处。$\\dfrac{3}{8}$ 和 $\\dfrac{1}{3}$ 之间的差是 $\\dfrac{9}{24} - \\dfrac{8}{24} = \\dfrac{1}{24}$，因为 $\\dfrac{1}{24}$ 的总距离是 $2$ 英里，比赛必须是 $48$ 英里长。\n\n[Figure: /question-assets/source/amc/c2b71375c4f9dac715ba3a90af33122a4d365ad11252605613dce2589ffba208.jpg]\n\n$\\textbf{或}$\n设总距离为 $x$ 英里。那么补水站相隔 $\\dfrac{x}{8}$ 英里，维修站相隔 $\\dfrac{x}{3}$ 英里。根据题意，第 $3rd$ 个补水站位于第 $1st$ 个维修站之后 $2$ 英里，所以\n\n$\\dfrac{3x}{8} = \\dfrac{x}{3} + 2.$\n将方程两边乘以 $24$ 并化简得到\n\n$9x = 8x + 48$\n$x = 48.$\n因此比赛的长度是 $48$ 英里。\n\n$\\textbf{或}$\n设 $w$ 代表补水站之间的距离，$r$ 代表维修站之间的距离，单位为英里。这些站点沿着公路均匀分布，第 $3rd$ 个补水站位于第 $1st$ 个维修站之后 $2$ 英里，所以\n\n$8w = 3r\\ \\text{和}\\ 3w = r + 2.$\n求解第二个方程中的 $r$ 得到 $r=3$ $w - 2$ 并代入第一个方程得到\n\n$8w = 3(3w — 2) = 9w — 6,$\n因此\n\n$w = 6.$\n比赛的长度是 $8w = 8 \\cdot 6 = 48\\ \\text{英里}$。\n\n答案：$\\boxed{D}$。"
     ],
     "tags": []
   },
@@ -19716,7 +19716,7 @@
     },
     "answer": "E",
     "solutions": [
-      "通过最大化小面额邮票的数量并最小化大面额邮票的数量，可以找到最多的邮票。如果 Nicolas 使用所有 $20$ 张 $5-cent$ 邮票和所有 $20$ 张 $10-cent$ 邮票，它们的价值总和为 $\\$1.00$ + $\\$2.00$ = $\\$3.00$。为了准确支付 $\\$7.10$ 的邮资，Nicolas 必须至少包括 $17$ 张 $25-cent$ 邮票，价值为 $\\$4.25$，并用更小的面额弥补差额。差额 $\\$7.10$ - $\\$4.25$ = $\\$2.85$ 不能被 $10$ 美分整除，所以 Nicolas 必须选择奇数张 $5-cent$ 邮票。选择 $19$ 张 $5-cent$ 邮票将留下 $\\$2.85$ - $\\$0.95$ = $\\$1.90$ 的余数，可以用 $19$ 张 $10-cent$ 邮票组成。因此可以通过使用 $17$ 张 $25-cent$ 邮票、$19$ 张 $10-cent$ 邮票和 $19$ 张 $5-cent$ 邮票来获得最多的邮票，总共 $17 + 19 + 19 = 55$ 张。\n\n$OR$\nNicolas 的集邮共有 $3\\cdot20 = 60$ 张邮票，价值 $\\$8.00 = \\$1.00 + \\$2.00 + \\$5.00$。为了最大化能支付 $\\$7.10$ 的邮票数量，他首先可以最小化能组成 $\\$8.00$ - $\\$7.10$ = $\\$0.90$ 的余数的邮票数量，然后从总数中减去最小值。$\\$0.90$ 可以用 $5$ 张邮票组成：$3$ 张 $25-$ 美分邮票、$1$ 张 $10-cent stamps$，和 $1$ 张 $5-cent$ 邮票。从总数中减去这个最小值 $5$ 张，剩下 $60 - 5 = 55$ 张，这是 Nicolas 能用来支付 $\\$7.10$ 的最多邮票数。\n\n答案：$\\boxed{E}$。"
+      "通过最大化小面额邮票的数量并最小化大面额邮票的数量，可以找到最多的邮票。如果 Nicolas 使用所有 $20$ 张 $5-cent$ 邮票和所有 $20$ 张 $10-cent$ 邮票，它们的价值总和为 $\\$1.00$ + $\\$2.00$ = $\\$3.00$。为了准确支付 $\\$7.10$ 的邮资，Nicolas 必须至少包括 $17$ 张 $25-cent$ 邮票，价值为 $\\$4.25$，并用更小的面额弥补差额。差额 $\\$7.10$ - $\\$4.25$ = $\\$2.85$ 不能被 $10$ 美分整除，所以 Nicolas 必须选择奇数张 $5-cent$ 邮票。选择 $19$ 张 $5-cent$ 邮票将留下 $\\$2.85$ - $\\$0.95$ = $\\$1.90$ 的余数，可以用 $19$ 张 $10-cent$ 邮票组成。因此可以通过使用 $17$ 张 $25-cent$ 邮票、$19$ 张 $10-cent$ 邮票和 $19$ 张 $5-cent$ 邮票来获得最多的邮票，总共 $17 + 19 + 19 = 55$ 张。\n\n$\\textbf{或}$\nNicolas 的集邮共有 $3\\cdot20 = 60$ 张邮票，价值 $\\$8.00 = \\$1.00 + \\$2.00 + \\$5.00$。为了最大化能支付 $\\$7.10$ 的邮票数量，他首先可以最小化能组成 $\\$8.00$ - $\\$7.10$ = $\\$0.90$ 的余数的邮票数量，然后从总数中减去最小值。$\\$0.90$ 可以用 $5$ 张邮票组成：$3$ 张 $25-$ 美分邮票、$1$ 张 $10-cent stamps$，和 $1$ 张 $5-cent$ 邮票。从总数中减去这个最小值 $5$ 张，剩下 $60 - 5 = 55$ 张，这是 Nicolas 能用来支付 $\\$7.10$ 的最多邮票数。\n\n答案：$\\boxed{E}$。"
     ],
     "tags": []
   },
@@ -19737,7 +19737,7 @@
     },
     "answer": "B",
     "solutions": [
-      "Visvam 通常在 $10$ 分钟内走 $\\dfrac{1}{2}$ 英里，等于 $\\dfrac{1}{6}$ 小时，所以他通常的速度是 $\\dfrac{1}{2}\\div\\dfrac{1}{6} = 3$ 英里/小时。当他开始绕道时，他通常还有 $10\\ — 5 = 5$ 条街区要走。由于绕道，他实际上有 $5 + (3\\ — 1) = 7$ 条街区要走，所以 Visvam 的速度必须是 $\\dfrac{7}{5}\\cdot3 = \\dfrac{21}{5} = 4\\cdot2$ 英里/小时，才能在通常时间到达学校。\n\n$OR$\nVisvam 通常花费 $10$ 分钟到达学校。他的绕道从他到达学校中途时开始，所以从那时起他有 $5\\ minutes = \\dfrac{1}{12}$ 小时到达。他必须走 $5 + (3 — 1) = 7$ 条街区，因为 $10$ 条街区等于 $\\dfrac{1}{2}$ 英里，$7$ 条街区等于 $\\dfrac{7}{10}\\cdot\\dfrac{1}{2} = \\dfrac{7}{20}$ 英里。\n\n因此，为了在通常时间到达学校，Visvam 的速度必须是 $\\dfrac{7}{20}\\div\\dfrac{1}{12} = \\dfrac{84}{20} = 4\\cdot2$ 英里/小时。\n\n答案：$\\boxed{B}$。"
+      "Visvam 通常在 $10$ 分钟内走 $\\dfrac{1}{2}$ 英里，等于 $\\dfrac{1}{6}$ 小时，所以他通常的速度是 $\\dfrac{1}{2}\\div\\dfrac{1}{6} = 3$ 英里/小时。当他开始绕道时，他通常还有 $10\\ — 5 = 5$ 条街区要走。由于绕道，他实际上有 $5 + (3\\ — 1) = 7$ 条街区要走，所以 Visvam 的速度必须是 $\\dfrac{7}{5}\\cdot3 = \\dfrac{21}{5} = 4\\cdot2$ 英里/小时，才能在通常时间到达学校。\n\n$\\textbf{或}$\nVisvam 通常花费 $10$ 分钟到达学校。他的绕道从他到达学校中途时开始，所以从那时起他有 $5\\ \\text{分钟} = \\dfrac{1}{12}$ 小时到达。他必须走 $5 + (3 — 1) = 7$ 条街区，因为 $10$ 条街区等于 $\\dfrac{1}{2}$ 英里，$7$ 条街区等于 $\\dfrac{7}{10}\\cdot\\dfrac{1}{2} = \\dfrac{7}{20}$ 英里。\n\n因此，为了在通常时间到达学校，Visvam 的速度必须是 $\\dfrac{7}{20}\\div\\dfrac{1}{12} = \\dfrac{84}{20} = 4\\cdot2$ 英里/小时。\n\n答案：$\\boxed{B}$。"
     ],
     "tags": []
   },
@@ -19769,7 +19769,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2023 AMC 8 · 第 17 题",
-    "stem": "正八面体有八个面是等边三角形，每个顶点处有四个面相交。Jun 将通过折叠下面的纸张来制作如下所示的正八面体。阴影区域 $Q?$ 右边将是哪个编号的面？\n\n[Figure: /question-assets/source/amc/a81f0fae5ade76f08ee249fba4fa742333bbd59ef65753db2da1883c8ece9c11.png]",
+    "stem": "正八面体有八个面是等边三角形，每个顶点处有四个面相交。Jun 将通过折叠下面的纸张来制作如下所示的正八面体。阴影区域 $Q$ 右边将是哪个编号的面？\n\n[Figure: /question-assets/source/amc/a81f0fae5ade76f08ee249fba4fa742333bbd59ef65753db2da1883c8ece9c11.png]",
     "options": {
       "A": "$1$",
       "B": "$2$",
@@ -19779,7 +19779,7 @@
     },
     "answer": "A",
     "solutions": [
-      "左图显示八面体上半部分的四个面必为 $Q, 6, 7$ 和一个未知面。注意八面体的每个顶点恰属于四个面。图中四个面 $2, 3, 4$ 和 $5$ 相交于同一顶点。由于该顶点不可能属于 $Q, 6, 7$ 或未知面，它就是八面体底部的顶点，因此 $2, 3, 4$ 和 $5$ 是下半部分的四个面。由排除法，剩余的面 $1$ 位于上半部分，且必在 $Q$ 的右侧。折叠后八面体的正面与背面如下图所示。\n\n[Figure: /question-assets/source/amc/1f5654934be94b0da2958a6c176e573a37fb8aad2a9a0c002ed0b5b2dadf58a6.jpg]\n\n$OR$\n\n[Figure: /question-assets/source/amc/d2570b96bd4be344ec8d0cf393655780478955bf3bbbb40f6e1b049c4e34b316.jpg]\n\n面 $4$ 的顶边将与面 $7$ 的左边相交，面 $1$ 的顶边将与面 $7$ 的右边相交，面 $1$ 的左边将与 $Q$ 的右边相交，所以面 $1$ 将位于 $Q$ 的右边。\n\n为了完成八面体，面 $2$ 的右边将与面 $5$ 的底边相交，面 $2$ 的左边将与面 $Q$ 的底边相交。\n\n答案：$\\boxed{A}$。"
+      "左图显示八面体上半部分的四个面必为 $Q, 6, 7$ 和一个未知面。注意八面体的每个顶点恰属于四个面。图中四个面 $2, 3, 4$ 和 $5$ 相交于同一顶点。由于该顶点不可能属于 $Q, 6, 7$ 或未知面，它就是八面体底部的顶点，因此 $2, 3, 4$ 和 $5$ 是下半部分的四个面。由排除法，剩余的面 $1$ 位于上半部分，且必在 $Q$ 的右侧。折叠后八面体的正面与背面如下图所示。\n\n[Figure: /question-assets/source/amc/1f5654934be94b0da2958a6c176e573a37fb8aad2a9a0c002ed0b5b2dadf58a6.jpg]\n\n$\\textbf{或}$\n\n[Figure: /question-assets/source/amc/d2570b96bd4be344ec8d0cf393655780478955bf3bbbb40f6e1b049c4e34b316.jpg]\n\n面 $4$ 的顶边将与面 $7$ 的左边相交，面 $1$ 的顶边将与面 $7$ 的右边相交，面 $1$ 的左边将与 $Q$ 的右边相交，所以面 $1$ 将位于 $Q$ 的右边。\n\n为了完成八面体，面 $2$ 的右边将与面 $5$ 的底边相交，面 $2$ 的左边将与面 $Q$ 的底边相交。\n\n答案：$\\boxed{A}$。"
     ],
     "tags": []
   },
@@ -19800,7 +19800,7 @@
     },
     "answer": "D",
     "solutions": [
-      "假设睡莲垫标记为在数轴上，Greta Grasshopper 从垫子 $0$ 开始，在垫子 $2023$ 结束。\n\n首先注意 Greta 跳跃的顺序不会影响她的最终目的地。只有向右或向左跳跃的次数重要。例如，向右、向左、向右跳，最后在垫子 $5 - 3 + 5 = 7$ 上，与向右跳两次、再向左跳的目的地相同。\n\n因此可以假设 Greta 首先向右跳一些次数，然后向左跳一些次数。向右的跳跃必须使 Greta 到达大于 $2023$ 的 $5$ 的倍数，距离 $2023$ 的距离是 $3$ 的倍数。\n\n大于 $2023$ 的 $5$ 的第一个倍数是 $2025$，但其与 $2023$ 的距离 $2$ 不能被 $3$ 整除。$5$ 的下一个倍数是 $2030$，它与 $2023$ 的距离 $7$ 仍不能被 $3$ 整除。然而，$5$ 的下一个倍数是 $2035$，其与 $2023$ 的距离为 $12$，可以被 3 整除。因此，到达 $2023$ 的最短路径需要 $\\dfrac{2035}{5}= 407$ 次向右跳和 $\\dfrac{12}{3} = 4$ 次向左跳，共 $407 + 4 = 411$ 次，抵达第 $2023rd$ 个垫子。\n\n[Figure: /question-assets/source/amc/58d5ebdcad14f4b70167b6936d7e0d893c30a62e03ea9abe70d4894b3d2b4c20.jpg]\n\n$OR$\n设 $R$ 和 $L$ 分别代表 Greta 向右和向左跳跃的次数。目标是在给定条件 $5R - 3L = 2023$ 下最小化和 $R + L$。首先检查 $R = 405$，这是满足 $5R\\geq 2023$ 的 $R$ 的最小值，将 Greta 放置在第 $2023rd$ 个垫子的右边。该 $R$ 值不会导致 $L$ 的整数值，$R = 406$ 也不会。下一个值 $R = 407$ 对应于整数值 $L = 4$，所以 Greta 到达第 $2023rd$ 个垫子必须进行的最少跳跃次数是 $R+L = 407+4 = 411$。\n\n$OR$\n为了使用最少的跳跃次数到达第 $2023rd$ 个垫子，Greta 将进行比左跳更多的右跳。假设每个左跳与一个右跳配对，产生 $P$ 对，留下 $Q$ 个不配对的右跳。然后总跳跃次数是 $2P + Q$。\n\n每个右跳将 Greta 向右移动 $5$ 个垫子，每对左右跳将向右移动 $5 - 3 = 2$ 个垫子。因此，使用 P 的最小值求解方程 $2P + 5Q = 2023$ 将最小化总跳跃次数。\n\n鉴于数量 $2023 — 2P = 5Q$ 是 $5$ 的倍数，$P$ 的最小可能值是 $4$。相应的 $Q$ 值是 $\\dfrac{2023—2\\cdot4}{5} = 403$。因此 Greta 到达第 $2023rd$ 个垫子必须进行的最少跳跃次数是 $2P + Q = 2\\cdot4 + 403 = 411$。\n\n答案：$\\boxed{D}$。"
+      "假设睡莲垫标记为在数轴上，Greta Grasshopper 从垫子 $0$ 开始，在垫子 $2023$ 结束。\n\n首先注意 Greta 跳跃的顺序不会影响她的最终目的地。只有向右或向左跳跃的次数重要。例如，向右、向左、向右跳，最后在垫子 $5 - 3 + 5 = 7$ 上，与向右跳两次、再向左跳的目的地相同。\n\n因此可以假设 Greta 首先向右跳一些次数，然后向左跳一些次数。向右的跳跃必须使 Greta 到达大于 $2023$ 的 $5$ 的倍数，距离 $2023$ 的距离是 $3$ 的倍数。\n\n大于 $2023$ 的 $5$ 的第一个倍数是 $2025$，但其与 $2023$ 的距离 $2$ 不能被 $3$ 整除。$5$ 的下一个倍数是 $2030$，它与 $2023$ 的距离 $7$ 仍不能被 $3$ 整除。然而，$5$ 的下一个倍数是 $2035$，其与 $2023$ 的距离为 $12$，可以被 3 整除。因此，到达 $2023$ 的最短路径需要 $\\dfrac{2035}{5}= 407$ 次向右跳和 $\\dfrac{12}{3} = 4$ 次向左跳，共 $407 + 4 = 411$ 次，抵达第 $2023rd$ 个垫子。\n\n[Figure: /question-assets/source/amc/58d5ebdcad14f4b70167b6936d7e0d893c30a62e03ea9abe70d4894b3d2b4c20.jpg]\n\n$\\textbf{或}$\n设 $R$ 和 $L$ 分别代表 Greta 向右和向左跳跃的次数。目标是在给定条件 $5R - 3L = 2023$ 下最小化和 $R + L$。首先检查 $R = 405$，这是满足 $5R\\geq 2023$ 的 $R$ 的最小值，将 Greta 放置在第 $2023rd$ 个垫子的右边。该 $R$ 值不会导致 $L$ 的整数值，$R = 406$ 也不会。下一个值 $R = 407$ 对应于整数值 $L = 4$，所以 Greta 到达第 $2023rd$ 个垫子必须进行的最少跳跃次数是 $R+L = 407+4 = 411$。\n\n$\\textbf{或}$\n为了使用最少的跳跃次数到达第 $2023rd$ 个垫子，Greta 将进行比左跳更多的右跳。假设每个左跳与一个右跳配对，产生 $P$ 对，留下 $Q$ 个不配对的右跳。然后总跳跃次数是 $2P + Q$。\n\n每个右跳将 Greta 向右移动 $5$ 个垫子，每对左右跳将向右移动 $5 - 3 = 2$ 个垫子。因此，使用 P 的最小值求解方程 $2P + 5Q = 2023$ 将最小化总跳跃次数。\n\n鉴于数量 $2023 — 2P = 5Q$ 是 $5$ 的倍数，$P$ 的最小可能值是 $4$。相应的 $Q$ 值是 $\\dfrac{2023—2\\cdot4}{5} = 403$。因此 Greta 到达第 $2023rd$ 个垫子必须进行的最少跳跃次数是 $2P + Q = 2\\cdot4 + 403 = 411$。\n\n答案：$\\boxed{D}$。"
     ],
     "tags": []
   },
@@ -19821,7 +19821,7 @@
     },
     "answer": "C",
     "solutions": [
-      "设内部三角形的面积等于 $1$。因为三角形边长的比率是 $2 : 3$，它们面积的比率是 $2^2 : 3^2 = 4 : 9$。因此外部三角形的面积是 $\\dfrac{9}{4}$，三角形之间区域的面积是 $\\dfrac{9}{4} — 1 = \\dfrac{5}{4}$。每个梯形的面积等于该区域的三分之一：$\\dfrac{1}{3}\\cdot\\dfrac{5}{4} = \\dfrac{5}{12}$。因此一个梯形的面积与内部三角形面积的比率是 $\\dfrac{5}{12} : 1$，等于 $5 : 12$。\n\n$OR$\n设 $A$ 为内部三角形的面积。因为外部三角形边长与内部三角形边长的比率是 $3 : 2$，它们面积的比率是 $3^2 : 2^2 = 9 : 4$。因此外部三角形的面积是 $\\dfrac{9}{4}A$。设 $X$ 为梯形的面积。那么\n\n$A + 3X =\\dfrac{9}{4}A,$\n化简为\n\n$3X =\\dfrac{5}{4}A,$\n得到比例\n\n$\\dfrac{X}{A} = \\dfrac{5}{12}.$\n因此一个梯形的面积与内部三角形面积的比率是 $X : A = 5 : 12$。\n\n$OR$\n下面是阴影梯形的放大视图。\n\n[Figure: /question-assets/source/amc/8c5a79cfa0b2a02c5bd04fc92ab405b0d8e3e5cbb69904841b3d2b0e6f2e3225.jpg]\n\n设 $s$ 和 $S$ 分别表示内外三角形的边长。两条边的比率是 $2 : 3$，所以 $S =\\dfrac{3}{2}s$。内等边三角形的面积 $A$ 等于其底的一半乘以高。\n\n$A=\\dfrac{s}{2}\\cdot\\dfrac{\\sqrt3}{2}s =\\dfrac{\\sqrt3}{4}s^2$\n阴影梯形的面积 $T$ 等于其高 $h$ 乘以其底的平均值。\n\n$T = h\\cdot\\dfrac{s + S}{2} = h\\cdot\\dfrac{s +\\dfrac{3}{2}s}{2} = \\dfrac{5}{4}hs$\n注意梯形的底角为 $30^o$。从内部三角形的底边顶点到梯形底边绘制垂直线将形成 $30 – 60 – 90^o$ 个三角形。每个三角形的底长为 $\\dfrac{1}{2} (S — s) = \\dfrac{s}{4}$，高为 $h = \\dfrac{s}{4\\sqrt3}$。因此梯形的面积是\n\n$T=\\dfrac{5}{4}hs =\\dfrac{5}{4}\\cdot\\dfrac{s}{4\\sqrt3}\\cdot s = \\dfrac{5}{16\\sqrt3}s^2.$\n将 $T$ 除以 $A$ 得出\n\n$\\dfrac{T}{A}= \\dfrac{\\dfrac{5}{16\\sqrt3}s^2}{\\dfrac{\\sqrt3}{4}s^2}=\\dfrac{5}{16\\sqrt3}\\cdot\\dfrac{4}{\\sqrt3} = \\dfrac{5}{12}.$\n因此梯形的面积与内部三角形面积的比率是 $5 : 12$。\n\n答案：$\\boxed{C}$。"
+      "设内部三角形的面积等于 $1$。因为三角形边长的比率是 $2 : 3$，它们面积的比率是 $2^2 : 3^2 = 4 : 9$。因此外部三角形的面积是 $\\dfrac{9}{4}$，三角形之间区域的面积是 $\\dfrac{9}{4} — 1 = \\dfrac{5}{4}$。每个梯形的面积等于该区域的三分之一：$\\dfrac{1}{3}\\cdot\\dfrac{5}{4} = \\dfrac{5}{12}$。因此一个梯形的面积与内部三角形面积的比率是 $\\dfrac{5}{12} : 1$，等于 $5 : 12$。\n\n$\\textbf{或}$\n设 $A$ 为内部三角形的面积。因为外部三角形边长与内部三角形边长的比率是 $3 : 2$，它们面积的比率是 $3^2 : 2^2 = 9 : 4$。因此外部三角形的面积是 $\\dfrac{9}{4}A$。设 $X$ 为梯形的面积。那么\n\n$A + 3X =\\dfrac{9}{4}A,$\n化简为\n\n$3X =\\dfrac{5}{4}A,$\n得到比例\n\n$\\dfrac{X}{A} = \\dfrac{5}{12}.$\n因此一个梯形的面积与内部三角形面积的比率是 $X : A = 5 : 12$。\n\n$\\textbf{或}$\n下面是阴影梯形的放大视图。\n\n[Figure: /question-assets/source/amc/8c5a79cfa0b2a02c5bd04fc92ab405b0d8e3e5cbb69904841b3d2b0e6f2e3225.jpg]\n\n设 $s$ 和 $S$ 分别表示内外三角形的边长。两条边的比率是 $2 : 3$，所以 $S =\\dfrac{3}{2}s$。内等边三角形的面积 $A$ 等于其底的一半乘以高。\n\n$A=\\dfrac{s}{2}\\cdot\\dfrac{\\sqrt3}{2}s =\\dfrac{\\sqrt3}{4}s^2$\n阴影梯形的面积 $T$ 等于其高 $h$ 乘以其底的平均值。\n\n$T = h\\cdot\\dfrac{s + S}{2} = h\\cdot\\dfrac{s +\\dfrac{3}{2}s}{2} = \\dfrac{5}{4}hs$\n注意梯形的底角为 $30^o$。从内部三角形的底边顶点到梯形底边绘制垂直线将形成 $30 – 60 – 90^o$ 个三角形。每个三角形的底长为 $\\dfrac{1}{2} (S — s) = \\dfrac{s}{4}$，高为 $h = \\dfrac{s}{4\\sqrt3}$。因此梯形的面积是\n\n$T=\\dfrac{5}{4}hs =\\dfrac{5}{4}\\cdot\\dfrac{s}{4\\sqrt3}\\cdot s = \\dfrac{5}{16\\sqrt3}s^2.$\n将 $T$ 除以 $A$ 得出\n\n$\\dfrac{T}{A}= \\dfrac{\\dfrac{5}{16\\sqrt3}s^2}{\\dfrac{\\sqrt3}{4}s^2}=\\dfrac{5}{16\\sqrt3}\\cdot\\dfrac{4}{\\sqrt3} = \\dfrac{5}{12}.$\n因此梯形的面积与内部三角形面积的比率是 $5 : 12$。\n\n答案：$\\boxed{C}$。"
     ],
     "tags": []
   },
@@ -19905,7 +19905,7 @@
     },
     "answer": "C",
     "solutions": [
-      "观察到最多一个大型灰色菱形可以出现在一个平铺中。因为每个 $9$ 个方块都用 $1$ 个可能瓷砖中的 $4$ 个填充，总共有 $4^9$ 个平铺是可能的。如果平铺有一个 $2 \\times 2$ 灰色菱形，那么菱形中心有 $4$ 个可能的位置：中心方块的任何一个 $4$ 个角。一旦确定了该位置，其余 $5$ 个方块中的每一个都可以填充任何 $4$ 个可能的瓷砖，总共 $4 \\cdot 4^5 = 4^6$ 个平铺。因此包含一个 $2 \\times 2$ 灰色菱形的平铺的概率是\n\n$\\dfrac{4^6}{4^9} = \\dfrac{1}{4^3} = \\dfrac{1}{64}.$\n$OR$\n如果平铺有一个 $2 \\times 2$ 灰色菱形，菱形必须包括中心瓷砖，该瓷砖将有一个角都是灰色。与该角相邻的 $3$ 个瓷砖必须定向以匹配中心瓷砖的灰色颜色。其他 $5$ 个方块的方向没有限制。因为每个 $3$ 个相邻瓷砖有 $\\dfrac{1}{4}$ 的概率具有正确的方向，包含大型灰色菱形的平铺的概率是 $(\\dfrac{1}{4})^3 = \\dfrac{1}{64}$。\n\n注意：这些瓷砖被称为 $Truchet tiles$，以 Sébastien Truchet（1657–1729）的名字命名，他研究了这些瓷砖形成的可能图案。下面是可以在 $2 \\times 2$ 网格上制作的一些图案。\n\n[Figure: /question-assets/source/amc/51a2db8b1847a1dbb11008175b56c4e67ccb43e09175c7c5802e0bb5fbdd2864.jpg]\n\n答案：$\\boxed{C}$。"
+      "观察到最多一个大型灰色菱形可以出现在一个平铺中。因为每个 $9$ 个方块都用 $1$ 个可能瓷砖中的 $4$ 个填充，总共有 $4^9$ 个平铺是可能的。如果平铺有一个 $2 \\times 2$ 灰色菱形，那么菱形中心有 $4$ 个可能的位置：中心方块的任何一个 $4$ 个角。一旦确定了该位置，其余 $5$ 个方块中的每一个都可以填充任何 $4$ 个可能的瓷砖，总共 $4 \\cdot 4^5 = 4^6$ 个平铺。因此包含一个 $2 \\times 2$ 灰色菱形的平铺的概率是\n\n$\\dfrac{4^6}{4^9} = \\dfrac{1}{4^3} = \\dfrac{1}{64}.$\n$\\textbf{或}$\n如果平铺有一个 $2 \\times 2$ 灰色菱形，菱形必须包括中心瓷砖，该瓷砖将有一个角都是灰色。与该角相邻的 $3$ 个瓷砖必须定向以匹配中心瓷砖的灰色颜色。其他 $5$ 个方块的方向没有限制。因为每个 $3$ 个相邻瓷砖有 $\\dfrac{1}{4}$ 的概率具有正确的方向，包含大型灰色菱形的平铺的概率是 $(\\dfrac{1}{4})^3 = \\dfrac{1}{64}$。\n\n注意：这些瓷砖被称为 $Truchet tiles$，以 Sébastien Truchet（1657–1729）的名字命名，他研究了这些瓷砖形成的可能图案。下面是可以在 $2 \\times 2$ 网格上制作的一些图案。\n\n[Figure: /question-assets/source/amc/51a2db8b1847a1dbb11008175b56c4e67ccb43e09175c7c5802e0bb5fbdd2864.jpg]\n\n答案：$\\boxed{C}$。"
     ],
     "tags": []
   },
@@ -19916,7 +19916,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2023 AMC 8 · 第 24 题",
-    "stem": "等腰三角形 $\\triangle ABC$ 的相等边长为 $AB$ 和 $BC$。在下面的图中，平行于 $\\overline{AC}$ 的线段被绘制，使得 $\\triangle ABC$ 的阴影部分面积相同。两个无阴影部分的高度分别为 $11$ 和 $5$ 个单位。三角形 $\\triangle ABC?$ 的高度 $h$ 是多少？\n\n[Figure: /question-assets/source/amc/09c63ae5cf5526e90994a6d91c5e47d3fc924319759119e23d8656911fcdaa56.png]",
+    "stem": "等腰三角形 $\\triangle ABC$ 的相等边长为 $AB$ 和 $BC$。在下面的图中，平行于 $\\overline{AC}$ 的线段被绘制，使得 $\\triangle ABC$ 的阴影部分面积相同。两个无阴影部分的高度分别为 $11$ 和 $5$ 个单位。三角形 $\\triangle ABC$ 的高度 $h$ 是多少？\n\n[Figure: /question-assets/source/amc/09c63ae5cf5526e90994a6d91c5e47d3fc924319759119e23d8656911fcdaa56.png]",
     "options": {
       "A": "$14.6$",
       "B": "$14.8$",
@@ -19926,7 +19926,7 @@
     },
     "answer": "A",
     "solutions": [
-      "给定两个相似三角形，它们面积的比率等于对应高度比率的平方。因此，在左图中，无阴影三角形与 $\\triangle{ABC}$ 的面积比率是 $\\dfrac{11^2}{h^2}$。因此 $\\triangle{ABC}$ 被阴影覆盖的分数是 $1-\\dfrac{11^2}{h^2}$。\n\n类似地，在右图中，阴影三角形的高为 $h-5$，填充了 $\\dfrac{(h-5)^2}{h^2}$ 的 $\\triangle{ABC}$。因此。两个图中的阴影部分面积相等，所以\n\n$1-\\dfrac{11^2}{h^2} = \\dfrac{(h-5)^2}{h^2}$\n两边乘以 $h^2$ 并展开右侧得到\n\n$h^2 - 11^2 = h^2 - 10h +25.$\n化简为\n\n$10h = 121+25 = 146\\\\ h = \\dfrac{146}{10} = 14.6.$\n因此三角形 $\\triangle{ABC}$ 的高度 $h$ 是 $14.6$。\n\n$OR$\n设 $\\triangle{ABC}$ 的底边为 $b=AC$。那么三角形的面积是 $K = \\dfrac{1}{2} bh.$\n\n在左图中，设上三角形的底为 $b_{1}$，面积为 $K_{1} = \\dfrac{1}{2} \\cdot 11 \\cdot b_{1}$。\n\n上三角形与 $\\triangle{ABC}$ 相似，因为它们的底边平行，所以 $\\dfrac{11}{b_{1}} = \\dfrac{h}{b}$ 和 $b_{1} = 11 \\dfrac{b}{h}$。因此 $K_{1} = \\dfrac{11^2}{2} \\dfrac{b}{h}$。\n\n在右图中，上三角形的高为 $h-5$。设其底为 $b_{2}$，其面积为 $K_{2} = \\dfrac{1}{2}b_{2}(h-5)$。上三角形与 $\\triangle{ABC}$ 相似，所以 $\\dfrac{h-5}{b_{2}} = \\dfrac{h}{b}$ 和 $b_{2} = (h-5) \\dfrac{b}{h}$。因此 $K_{2} = \\dfrac{(h-5)^2}{2} \\dfrac{b}{h}$。\n\n两个阴影区域相等。\n\n$K - K_{1} = K_{2}\\\\ \\dfrac{1}{2}bh - \\dfrac{11^2}{2} \\dfrac{b}{h} = \\dfrac{(h-5)^2}{2} \\dfrac{b}{h}$\n上面的方程可以通过首先将方程两边乘以 $h$ 来求解 $\\dfrac{2h}{b}$，消除 $b$。\n\n$h^2 - 11^2 = (h-5)^2$\n然后展开表达式并化简得到\n\n$h^2 - 121 = h^2 -10h+25\\\\ 10h = 146\\\\ h = 14.6$\n三角形 $\\triangle{ABC}$ 的高度 $h$ 等于 $14A6$。\n\n答案：$\\boxed{A}$。"
+      "给定两个相似三角形，它们面积的比率等于对应高度比率的平方。因此，在左图中，无阴影三角形与 $\\triangle{ABC}$ 的面积比率是 $\\dfrac{11^2}{h^2}$。因此 $\\triangle{ABC}$ 被阴影覆盖的分数是 $1-\\dfrac{11^2}{h^2}$。\n\n类似地，在右图中，阴影三角形的高为 $h-5$，填充了 $\\dfrac{(h-5)^2}{h^2}$ 的 $\\triangle{ABC}$。因此。两个图中的阴影部分面积相等，所以\n\n$1-\\dfrac{11^2}{h^2} = \\dfrac{(h-5)^2}{h^2}$\n两边乘以 $h^2$ 并展开右侧得到\n\n$h^2 - 11^2 = h^2 - 10h +25.$\n化简为\n\n$10h = 121+25 = 146\\\\ h = \\dfrac{146}{10} = 14.6.$\n因此三角形 $\\triangle{ABC}$ 的高度 $h$ 是 $14.6$。\n\n$\\textbf{或}$\n设 $\\triangle{ABC}$ 的底边为 $b=AC$。那么三角形的面积是 $K = \\dfrac{1}{2} bh.$\n\n在左图中，设上三角形的底为 $b_{1}$，面积为 $K_{1} = \\dfrac{1}{2} \\cdot 11 \\cdot b_{1}$。\n\n上三角形与 $\\triangle{ABC}$ 相似，因为它们的底边平行，所以 $\\dfrac{11}{b_{1}} = \\dfrac{h}{b}$ 和 $b_{1} = 11 \\dfrac{b}{h}$。因此 $K_{1} = \\dfrac{11^2}{2} \\dfrac{b}{h}$。\n\n在右图中，上三角形的高为 $h-5$。设其底为 $b_{2}$，其面积为 $K_{2} = \\dfrac{1}{2}b_{2}(h-5)$。上三角形与 $\\triangle{ABC}$ 相似，所以 $\\dfrac{h-5}{b_{2}} = \\dfrac{h}{b}$ 和 $b_{2} = (h-5) \\dfrac{b}{h}$。因此 $K_{2} = \\dfrac{(h-5)^2}{2} \\dfrac{b}{h}$。\n\n两个阴影区域相等。\n\n$K - K_{1} = K_{2}\\\\ \\dfrac{1}{2}bh - \\dfrac{11^2}{2} \\dfrac{b}{h} = \\dfrac{(h-5)^2}{2} \\dfrac{b}{h}$\n上面的方程可以通过首先将方程两边乘以 $h$ 来求解 $\\dfrac{2h}{b}$，消除 $b$。\n\n$h^2 - 11^2 = (h-5)^2$\n然后展开表达式并化简得到\n\n$h^2 - 121 = h^2 -10h+25\\\\ 10h = 146\\\\ h = 14.6$\n三角形 $\\triangle{ABC}$ 的高度 $h$ 等于 $14A6$。\n\n答案：$\\boxed{A}$。"
     ],
     "tags": []
   },
@@ -19937,7 +19937,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2023 AMC 8 · 第 25 题",
-    "stem": "十五个整数 $a_1, a_2, a_3, \\dots, a_{15}$ 按顺序排列在数轴上。这些整数等间距排列，并且具有以下属性\n\n$1 \\leq a_1 \\leq 10, \\quad 13 \\leq a_2 \\leq 20, \\quad \\text{和} \\quad 241 \\leq a_{15} \\leq 250.$\n什么是 $a_{14}?$ 的位数之和？",
+    "stem": "十五个整数 $a_1, a_2, a_3, \\dots, a_{15}$ 按顺序排列在数轴上。这些整数等间距排列，并且具有以下属性\n\n$1 \\leq a_1 \\leq 10, \\quad 13 \\leq a_2 \\leq 20, \\quad \\text{和} \\quad 241 \\leq a_{15} \\leq 250.$\n什么是 $a_{14}$ 的位数之和？",
     "options": {
       "A": "$8$",
       "B": "$9$",
@@ -19958,7 +19958,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2024 AMC 8 · 第 1 题",
-    "stem": "$222,222 - 22,222 - 2,222 - 222 - 22 - 2?$的个位数字是多少?",
+    "stem": "$222,222 - 22,222 - 2,222 - 222 - 22 - 2$的个位数字是多少?",
     "options": {
       "A": "$0$",
       "B": "$2$",
@@ -20168,7 +20168,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2024 AMC 8 · 第 11 题",
-    "stem": "$\\triangle ABC$的坐标为$A(5, 7)$、$B(11, 7)$和$C(3, y)$，其中$y > 7$。$\\triangle ABC$的面积为12。$y?$的值是多少？\n\n[Figure: /question-assets/source/amc/cc668433be499fa60ca9d4edbc6959c6349618e2c2263315baa2ae5645a2ff9a.png]",
+    "stem": "$\\triangle ABC$的坐标为$A(5, 7)$、$B(11, 7)$和$C(3, y)$，其中$y > 7$。$\\triangle ABC$的面积为12。$y$的值是多少？\n\n[Figure: /question-assets/source/amc/cc668433be499fa60ca9d4edbc6959c6349618e2c2263315baa2ae5645a2ff9a.png]",
     "options": {
       "A": "$8$",
       "B": "$9$",
@@ -20252,7 +20252,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2024 AMC 8 · 第 15 题",
-    "stem": "设字母$F$、$L$、$Y$、$B$、$U$、$G$代表不同的数字。假设$FLYFLY$是满足以下方程的最大数\n\n$8 \\cdot FLYFLY = BUGBUG.$\n$FLY + BUG?$的值是多少?",
+    "stem": "设字母$F$、$L$、$Y$、$B$、$U$、$G$代表不同的数字。假设$FLYFLY$是满足以下方程的最大数\n\n$8 \\cdot FLYFLY = BUGBUG.$\n$FLY + BUG$的值是多少?",
     "options": {
       "A": "$1089$",
       "B": "$1098$",
@@ -20273,7 +20273,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2024 AMC 8 · 第 16 题",
-    "stem": "明将数字$1$到$81$输入到一个$9 \\times 9$网格的单元格中。她计算每一行和每一列中数字的乘积。最少有多少行和列的乘积能被$3?$整除？",
+    "stem": "明将数字$1$到$81$输入到一个$9 \\times 9$网格的单元格中。她计算每一行和每一列中数字的乘积。最少有多少行和列的乘积能被$3$整除？",
     "options": {
       "A": "$8$",
       "B": "$9$",
@@ -20784,7 +20784,7 @@
     "solutions": [
       "好的，我们看到中位数（或列表的中间数字）是$7$。双倍的$7$是$14$，所以我们的平均值必须等于$14$。我们把我们拥有的数字相加得到$50$。所以我们的方程是：$50$+N/$6$=$14$。我们将两边乘以$6$，得到$50$+N=$84$。现在我们做$84$-$50$得到我们的答案$\\boxed{\\text{(E)\\ 34}}$\n\n新列表的中位数是$7$，因此新列表的平均值将是$7 \\cdot 2 = 14$。由于新列表中有$6$个数字，$6$个数字的和将是$14 \\cdot 6 = 84$。因此，$2+6+7+7+28+N = 84 \\implies N = \\boxed{\\text{(E)\\ 34}}$",
       "由于现在的平均值是$10$，中位数是$7$，我们看到$N$必须大于$10$，这意味着6个数字的中位数应该是$7$，使这些的平均值$14$。我们可以$2 + 6 + 7 + 7 + 28 + N = 14 * 6 = 84$。$50 + N = 84$，所以$N$=$\\boxed{\\text{(E)\\ 34}}$",
-      "我们通过将每个数字插入列表中来尝试每个选项。在尝试了每个数字后，我们得到$\\boxed{\\text{(E)\\ 34}}$\n\n注意这非常耗时，这不是最实用的解决方案。\n\n$~$",
+      "我们通过将每个数字插入列表中来尝试每个选项。在尝试了每个数字后，我们得到$\\boxed{\\text{(E)\\ 34}}$\n\n注意这非常耗时，这不是最实用的解决方案。",
       "$5$个数字的和是$50$。如果您将$7$添加到列表中，$57$不能被$6$整除，因此它不会起作用。同样的情况也适用于$14$和$20$。剩下的唯一可能的选择是$28$和$34$。现在检查$28$。您会看到$28$不起作用，因为$(28+50) \\div 6 = 13$而$13$不是中位数的两倍，中位数仍然是$7$。因此，剩下的唯一选择是$\\boxed{\\text{(E)\\ 34}}$",
       "我们看到在列表中，两个$7$都是$3$rd和$4$th。所以，无论我们代入什么数字，我们将在$3$rd和$4$th中有两个$7$。所以，中位数总是$7$。这意味着我们必须找到使平均值$14$的选项。如果平均值是$14$，所有六个数字的和是$84$。我们给定的五个数字的和是$50$，所以答案必须是$\\boxed{\\text{(E)\\ 34}}$"
     ],
@@ -20797,7 +20797,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2025 AMC 8 · 第 15 题",
-    "stem": "Kei绘制$6$×$6$网格。他将$13$个单位正方形涂成银色，其余涂成金色。Kei然后将网格垂直对折，形成重叠单位正方形的对。设$m$和$M$分别等于金-金对的最少和最多可能数量。$m+M?$的值是多少？\n\n[Figure: /question-assets/source/amc/fe5f34659d0ab3cf8ae260866a4896309257d4cfc2866454d27a945fdd824482.svg]",
+    "stem": "Kei绘制$6$×$6$网格。他将$13$个单位正方形涂成银色，其余涂成金色。Kei然后将网格垂直对折，形成重叠单位正方形的对。设$m$和$M$分别等于金-金对的最少和最多可能数量。$m+M$的值是多少？\n\n[Figure: /question-assets/source/amc/fe5f34659d0ab3cf8ae260866a4896309257d4cfc2866454d27a945fdd824482.svg]",
     "options": {
       "A": "$12$",
       "B": "$14$",
@@ -20841,7 +20841,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2025 AMC 8 · 第 17 题",
-    "stem": "在Markovia国有三个城市：$A,$$B,$和$C.$。有$100$人住在$A,$，$120$人住在$B,$，$160$人住在$C.$。每个人都在三个城市之一工作，一个人可能在他们住的城市工作。在下面的图中，从一个城市指向另一个城市的箭头标有住在第一个城市的人中在第二个城市工作的比例。（例如，$\\frac{1}{4}$的住在$A$的人在$B.$工作）有多少人在$A?$工作？\n\n[Figure: /question-assets/source/amc/7fe4e9c03b6a8d2bde3ef377d111b146f7348016225e05fca22b0d2dc77b3b31.svg]",
+    "stem": "在Markovia国有三个城市：$A,$$B,$和$C.$。有$100$人住在$A,$，$120$人住在$B,$，$160$人住在$C.$。每个人都在三个城市之一工作，一个人可能在他们住的城市工作。在下面的图中，从一个城市指向另一个城市的箭头标有住在第一个城市的人中在第二个城市工作的比例。（例如，$\\frac{1}{4}$的住在$A$的人在$B.$工作）有多少人在$A$工作？\n\n[Figure: /question-assets/source/amc/7fe4e9c03b6a8d2bde3ef377d111b146f7348016225e05fca22b0d2dc77b3b31.svg]",
     "options": {
       "A": "$55$",
       "B": "$60$",
@@ -20927,7 +20927,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2025 AMC 8 · 第 21 题",
-    "stem": "Konigsberg学校已将成绩$1$到$7$分配给豆荚$A$到$G,$，每个豆荚一个成绩。一些豆荚由走廊连接，如下图所示。学校注意到每对连接的豆荚都被分配了相差$2$或更多个年级的成绩。（例如，成绩$1$和$2$不会在直接由走廊连接的豆荚中。）分配给豆荚$C,$$E,$和$F?$的成绩总和是多少？\n\n[Figure: /question-assets/source/amc/623eed1d1be9934eae75795b4c8b619464ebf9b8184c3e7522038f1b28e16f37.svg]",
+    "stem": "Konigsberg学校已将成绩$1$到$7$分配给豆荚$A$到$G,$，每个豆荚一个成绩。一些豆荚由走廊连接，如下图所示。学校注意到每对连接的豆荚都被分配了相差$2$或更多个年级的成绩。（例如，成绩$1$和$2$不会在直接由走廊连接的豆荚中。）分配给豆荚$C,$$E,$和$F$的成绩总和是多少？\n\n[Figure: /question-assets/source/amc/623eed1d1be9934eae75795b4c8b619464ebf9b8184c3e7522038f1b28e16f37.svg]",
     "options": {
       "A": "$12$",
       "B": "$13$",
@@ -21478,7 +21478,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2026 AMC 8 · 第 22 题",
-    "stem": "$1$到$25$的整数被任意分为五个各$5$个数的组。找到每个组的中位数。设$M$等于这五个中位数的中位数。$M?$的最小可能值是多少？",
+    "stem": "$1$到$25$的整数被任意分为五个各$5$个数的组。找到每个组的中位数。设$M$等于这五个中位数的中位数。$M$的最小可能值是多少？",
     "options": {
       "A": "$9$",
       "B": "$10$",
@@ -21520,7 +21520,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2026 AMC 8 · 第 24 题",
-    "stem": "$n!$（读\"$n$ 阶乘\"）被定义为前$n$个正整数的乘积。（例如，$3!=1\\cdot 2\\cdot 3=6$。）定义一个正整数的超阶乘，记为$n^{!}$，是前$n$个整数的阶乘的乘积。（例如，$3^{!}=1!\\cdot 2!\\cdot 3!=12$。）$7$的素因数分解中出现多少个$51^{!}$因子，其中$51?$是超阶乘？",
+    "stem": "$n!$（读\"$n$ 阶乘\"）被定义为前$n$个正整数的乘积。（例如，$3!=1\\cdot 2\\cdot 3=6$。）定义一个正整数的超阶乘，记为$n^{!}$，是前$n$个整数的阶乘的乘积。（例如，$3^{!}=1!\\cdot 2!\\cdot 3!=12$。）$7$的素因数分解中出现多少个$51^{!}$因子，其中$51$是超阶乘？",
     "options": {
       "A": "$147$",
       "B": "$150$",

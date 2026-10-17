@@ -533,11 +533,11 @@
     "sourcePaper": "2002 AMC 12P · Problem 5",
     "stem": "For how many positive integers $m$ is\n\n$\\frac{2002}{m^2 -2}$\n\na positive integer?",
     "options": {
-      "A": "$one$",
-      "B": "$two$",
-      "C": "$three$",
-      "D": "$four$",
-      "E": "$more than four$"
+      "A": "one",
+      "B": "two",
+      "C": "three",
+      "D": "four",
+      "E": "more than four"
     },
     "answer": "C",
     "solutions": [
@@ -573,7 +573,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2002 AMC 12P · Problem 10",
-    "stem": "Let $f_n (x) = \\text{sin}^n x + \\text{cos}^n x.$ For how many $x$ in $[0,\\pi]$ is it true that\n\n$6f_{4}(x)-4f_{6}(x)=2f_{2}(x)?$",
+    "stem": "Let $f_n (x) = \\text{sin}^n x + \\text{cos}^n x.$ For how many $x$ in $[0,\\pi]$ is it true that\n\n$6f_{4}(x)-4f_{6}(x)=2f_{2}(x)$?",
     "options": {
       "A": "$2$",
       "B": "$4$",
@@ -787,7 +787,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2003 AMC 12A · Problem 9",
-    "stem": "A set $S$ of points in the $x y$-plane is symmetric about the origin, both coordinate axes, and the line $y=x$. If $(2,3)$ is in $S$, what is the smallest number of points in $S ?$",
+    "stem": "A set $S$ of points in the $x y$-plane is symmetric about the origin, both coordinate axes, and the line $y=x$. If $(2,3)$ is in $S$, what is the smallest number of points in $S$?",
     "options": {
       "A": "$1$",
       "B": "$2$",
@@ -1049,7 +1049,7 @@
     },
     "answer": "C",
     "solutions": [
-      "The domain of $f$ is $\\left\\{x \\mid a x^{2}+b x \\geq 0\\right\\}$. If $a=0$, then for every positive value of $b$, the domain and range of $f$ are each equal to the interval $[0, \\infty)$, so 0 is a possible value of $a$.\n\nIf $a \\neq 0$, the graph of $y=a x^{2}+b x$ is a parabola with $x$-intercepts at $x=0$ and $x=-b / a$. If $a>0$, the domain of $f$ is $(-\\infty,-b / a] \\cup[0, \\infty)$, but the range of $f$ cannot contain negative numbers. If $a<0$, the domain of $f$ is $[0,-b / a]$. The maximum value of $f$ occurs halfway between the $x$-intercepts, at $x=-b / 2 a$, and\n\n$f\\left(-\\dfrac{b}{2 a}\\right)=\\sqrt{a\\left(\\dfrac{b^{2}}{4 a^{2}}\\right)+b\\left(-\\dfrac{b}{2 a}\\right)}=\\dfrac{b}{2 \\sqrt{-a}}$\nHence, the range of $f$ is $[0, b / 2 \\sqrt{-a}]$. For the domain and range to be equal, we must have\n\n$-\\dfrac{b}{a}=\\dfrac{b}{2 \\sqrt{-a}} \\quad \\text { so } \\quad 2 \\sqrt{-a}=-a$\nThe only solution is $a=-4$. Thus there are $\\boxed{two}$ possible values of $a$, and they are $a=0$ and $a=-4$."
+      "The domain of $f$ is $\\left\\{x \\mid a x^{2}+b x \\geq 0\\right\\}$. If $a=0$, then for every positive value of $b$, the domain and range of $f$ are each equal to the interval $[0, \\infty)$, so 0 is a possible value of $a$.\n\nIf $a \\neq 0$, the graph of $y=a x^{2}+b x$ is a parabola with $x$-intercepts at $x=0$ and $x=-b / a$. If $a>0$, the domain of $f$ is $(-\\infty,-b / a] \\cup[0, \\infty)$, but the range of $f$ cannot contain negative numbers. If $a<0$, the domain of $f$ is $[0,-b / a]$. The maximum value of $f$ occurs halfway between the $x$-intercepts, at $x=-b / 2 a$, and\n\n$f\\left(-\\dfrac{b}{2 a}\\right)=\\sqrt{a\\left(\\dfrac{b^{2}}{4 a^{2}}\\right)+b\\left(-\\dfrac{b}{2 a}\\right)}=\\dfrac{b}{2 \\sqrt{-a}}$\nHence, the range of $f$ is $[0, b / 2 \\sqrt{-a}]$. For the domain and range to be equal, we must have\n\n$-\\dfrac{b}{a}=\\dfrac{b}{2 \\sqrt{-a}} \\quad \\text { so } \\quad 2 \\sqrt{-a}=-a$\nThe only solution is $a=-4$. Thus there are $\\boxed{\\text{two}}$ possible values of $a$, and they are $a=0$ and $a=-4$."
     ],
     "tags": []
   },
@@ -1249,7 +1249,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2003 AMC 12B · Problem 22",
-    "stem": "Let $A B C D$ be a rhombus with $A C=16$ and $B D=30$. Let $N$ be a point on $\\overline{A B}$, and let $P$ and $Q$ be the feet of the perpendiculars from $N$ to $\\overline{A C}$ and $\\overline{B D}$, respectively. Which of the following is closest to the minimum possible value of $P Q ?$\n\n[Figure: /question-assets/source/amc/beb811c5f312c232aefdf3dce0c8dc445dae25a4f1db8e369410d10af5359e36.jpg]",
+    "stem": "Let $A B C D$ be a rhombus with $A C=16$ and $B D=30$. Let $N$ be a point on $\\overline{A B}$, and let $P$ and $Q$ be the feet of the perpendiculars from $N$ to $\\overline{A C}$ and $\\overline{B D}$, respectively. Which of the following is closest to the minimum possible value of $P Q$?\n\n[Figure: /question-assets/source/amc/beb811c5f312c232aefdf3dce0c8dc445dae25a4f1db8e369410d10af5359e36.jpg]",
     "options": {
       "A": "$6.5$",
       "B": "$6.75$",
@@ -1711,7 +1711,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2004 AMC 12B · Problem 13",
-    "stem": "If $f(x)=a x+b$ and $f^{-1}(x)=b x+a$ with $a$ and $b$ real, what is the value of $a+b ?$",
+    "stem": "If $f(x)=a x+b$ and $f^{-1}(x)=b x+a$ with $a$ and $b$ real, what is the value of $a+b$?",
     "options": {
       "A": "$-2$",
       "B": "$-1$",
@@ -1763,7 +1763,7 @@
     },
     "answer": "C",
     "solutions": [
-      "From the definition of $f$,\n\n$f(x+i y)=i(x-i y)=y+i x$\nfor all real numbers $x$ and $y$, so the numbers that satisfy $f(z)=z$ are the numbers of the form $x+i x$. The set of all such numbers is a line through the origin in the complex plane. The set of all numbers that satisfy $|z|=5$ is a circle centered at the origin of the complex plane. The numbers satisfying both equations correspond to the points of intersection of the line and circle, of which there are $\\boxed{two}$."
+      "From the definition of $f$,\n\n$f(x+i y)=i(x-i y)=y+i x$\nfor all real numbers $x$ and $y$, so the numbers that satisfy $f(z)=z$ are the numbers of the form $x+i x$. The set of all such numbers is a line through the origin in the complex plane. The set of all numbers that satisfy $|z|=5$ is a circle centered at the origin of the complex plane. The numbers satisfying both equations correspond to the points of intersection of the line and circle, of which there are $\\boxed{\\text{two}}$."
     ],
     "tags": []
   },
@@ -1942,7 +1942,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2005 AMC 12A · Problem 1",
-    "stem": "Two is $10 \\%$ of $x$ and $20 \\%$ of $y$. What is $x-y?$",
+    "stem": "Two is $10 \\%$ of $x$ and $20 \\%$ of $y$. What is $x-y$?",
     "options": {
       "A": "$1$",
       "B": "$2$",
@@ -1963,7 +1963,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2005 AMC 12A · Problem 8",
-    "stem": "Let $A, M$, and $C$ be digits with\n\n$(100 A+10 M+C)(A+M+C)=2005$\nWhat is $A?$",
+    "stem": "Let $A, M$, and $C$ be digits with\n\n$(100 A+10 M+C)(A+M+C)=2005$\nWhat is $A$?",
     "options": {
       "A": "$1$",
       "B": "$2$",
@@ -1984,7 +1984,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2005 AMC 12A · Problem 12",
-    "stem": "A line passes through $A(1,1)$ and $B(100,1000)$. How many other points with integer coordinates are on the line and strictly between $A$ and $B?$",
+    "stem": "A line passes through $A(1,1)$ and $B(100,1000)$. How many other points with integer coordinates are on the line and strictly between $A$ and $B$?",
     "options": {
       "A": "$0$",
       "B": "$2$",
@@ -2026,7 +2026,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2005 AMC 12A · Problem 16",
-    "stem": "Three circles of radius $s$ are drawn in the first quadrant of the $x y$-plane. The first circle is tangent to both axes, the second is tangent to the first circle and the $x$-axis, and the third is tangent to the first circle and the $y$-axis. A circle of radius $r>s$ is tangent to both axes and to the second and third circles. What is $r / s?$\n\n[Figure: /question-assets/source/amc/401724aabc247ad412ec1a29f7061598fc63ceb1145ec6d4fedc3b97fd21d0e1.jpg]",
+    "stem": "Three circles of radius $s$ are drawn in the first quadrant of the $x y$-plane. The first circle is tangent to both axes, the second is tangent to the first circle and the $x$-axis, and the third is tangent to the first circle and the $y$-axis. A circle of radius $r>s$ is tangent to both axes and to the second and third circles. What is $r / s$?\n\n[Figure: /question-assets/source/amc/401724aabc247ad412ec1a29f7061598fc63ceb1145ec6d4fedc3b97fd21d0e1.jpg]",
     "options": {
       "A": "$5$",
       "B": "$6$",
@@ -2047,7 +2047,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2005 AMC 12A · Problem 17",
-    "stem": "A unit cube is cut twice to form three triangular prisms, two of which are congruent, as shown in Figure $1$. The cube is then cut in the same manner along the dashed lines shown in Figure $2$. This creates nine pieces. What is the volume of the piece that contains vertex $W?$\n\n[Figure: /question-assets/source/amc/a343fbdd758c10ead3296aec7f704bf38bcb3b0f1c78b1263b6e2a5fd31be593.jpg]\n\n[Figure: /question-assets/source/amc/d0a17b5903cf56f8f584a0e12d7c45442f4723157dcbe478e92c5f6803c64b2f.jpg]\n\n$\\quad \\quad \\quad \\quad \\quad \\quad \\quad \\quad \\quad \\quad \\quad \\quad \\quad \\quad \\quad$ Figure 1 $\\quad \\quad \\quad \\quad \\quad \\quad \\quad \\quad \\quad \\quad$ Figure 2",
+    "stem": "A unit cube is cut twice to form three triangular prisms, two of which are congruent, as shown in Figure $1$. The cube is then cut in the same manner along the dashed lines shown in Figure $2$. This creates nine pieces. What is the volume of the piece that contains vertex $W$?\n\n[Figure: /question-assets/source/amc/a343fbdd758c10ead3296aec7f704bf38bcb3b0f1c78b1263b6e2a5fd31be593.jpg]\n\n[Figure: /question-assets/source/amc/d0a17b5903cf56f8f584a0e12d7c45442f4723157dcbe478e92c5f6803c64b2f.jpg]\n\n$\\quad \\quad \\quad \\quad \\quad \\quad \\quad \\quad \\quad \\quad \\quad \\quad \\quad \\quad \\quad$ Figure 1 $\\quad \\quad \\quad \\quad \\quad \\quad \\quad \\quad \\quad \\quad$ Figure 2",
     "options": {
       "A": "$\\dfrac{1}{12}$",
       "B": "$\\dfrac{1}{9}$",
@@ -2068,7 +2068,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2005 AMC 12A · Problem 18",
-    "stem": "Call a number \"prime-looking\" if it is composite but not divisible by 2,3 , or 5. The three smallest prime-looking numbers are 49, 77, and 91 . There are 168 prime numbers less than 1000 . How many prime-looking numbers are there less than $1000?$",
+    "stem": "Call a number \"prime-looking\" if it is composite but not divisible by 2,3 , or 5. The three smallest prime-looking numbers are 49, 77, and 91 . There are 168 prime numbers less than 1000 . How many prime-looking numbers are there less than $1000$?",
     "options": {
       "A": "$100$",
       "B": "$102$",
@@ -2110,7 +2110,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2005 AMC 12A · Problem 20",
-    "stem": "For each $x$ in $[0,1]$, define\n\n$f(x)= \\begin{cases}2 x, \\text { if } 0 \\leq x \\leq \\dfrac{1}{2} \\\\ 2-2 x, \\text { if } \\dfrac{1}{2}<x \\leq 1\\end{cases}$\nLet $f^{[2]}(x)=f(f(x))$, and $f^{[n+1]}(x)=f^{[n]}(f(x))$ for each integer $n \\geq 2$. For how many values of $x$ in $[0,1]$ is $f^{[2005]}(x)=1 / 2?$",
+    "stem": "For each $x$ in $[0,1]$, define\n\n$f(x)= \\begin{cases}2 x, \\text { if } 0 \\leq x \\leq \\dfrac{1}{2} \\\\ 2-2 x, \\text { if } \\dfrac{1}{2}<x \\leq 1\\end{cases}$\nLet $f^{[2]}(x)=f(f(x))$, and $f^{[n+1]}(x)=f^{[n]}(f(x))$ for each integer $n \\geq 2$. For how many values of $x$ in $[0,1]$ is $f^{[2005]}(x)=1 / 2$?",
     "options": {
       "A": "$0$",
       "B": "$2005$",
@@ -2131,7 +2131,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2005 AMC 12A · Problem 21",
-    "stem": "How many ordered triples of integers $(a, b, c)$, with $a \\geq 2, b \\geq 1$, and $c \\geq 0$, satisfy both $\\log _{a} b=c^{2005}$ and $a+b+c=2005?$",
+    "stem": "How many ordered triples of integers $(a, b, c)$, with $a \\geq 2, b \\geq 1$, and $c \\geq 0$, satisfy both $\\log _{a} b=c^{2005}$ and $a+b+c=2005$?",
     "options": {
       "A": "$0$",
       "B": "$1$",
@@ -2152,7 +2152,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2005 AMC 12A · Problem 22",
-    "stem": "A rectangular box $P$ is inscribed in a sphere of radius $r$. The surface area of $P$ is 384 , and the sum of the lengths of its 12 edges is 112 . What is $r?$",
+    "stem": "A rectangular box $P$ is inscribed in a sphere of radius $r$. The surface area of $P$ is 384 , and the sum of the lengths of its 12 edges is 112 . What is $r$?",
     "options": {
       "A": "$8$",
       "B": "$10$",
@@ -2194,7 +2194,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2005 AMC 12A · Problem 24",
-    "stem": "Let $P(x)=(x-1)(x-2)(x-3)$. For how many polynomials $Q(x)$ does there exist a polynomial $R(x)$ of degree 3 such that $P(Q(x))=P(x) \\cdot R(x)?$",
+    "stem": "Let $P(x)=(x-1)(x-2)(x-3)$. For how many polynomials $Q(x)$ does there exist a polynomial $R(x)$ of degree 3 such that $P(Q(x))=P(x) \\cdot R(x)$?",
     "options": {
       "A": "$19$",
       "B": "$22$",
@@ -2215,7 +2215,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2005 AMC 12A · Problem 25",
-    "stem": "Let $S$ be the set of all points with coordinates $(x, y, z)$, where $x, y$, and $z$ are each chosen from the set $\\{0,1,2\\}$. How many equilateral triangles have all their vertices in $S?$",
+    "stem": "Let $S$ be the set of all points with coordinates $(x, y, z)$, where $x, y$, and $z$ are each chosen from the set $\\{0,1,2\\}$. How many equilateral triangles have all their vertices in $S$?",
     "options": {
       "A": "$72$",
       "B": "$76$",
@@ -2267,7 +2267,7 @@
     },
     "answer": "C",
     "solutions": [
-      "The vertex of the parabola is $\\left(0, a^{2}\\right)$. The line passes through the vertex if and only if $a^{2}=0+a$. There are $\\boxed{two}$ solutions to this equation, namely $a=0$ and $a=1$."
+      "The vertex of the parabola is $\\left(0, a^{2}\\right)$. The line passes through the vertex if and only if $a^{2}=0+a$. There are $\\boxed{\\text{two}}$ solutions to this equation, namely $a=0$ and $a=1$."
     ],
     "tags": []
   },
@@ -2362,7 +2362,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2005 AMC 12B · Problem 17",
-    "stem": "How many distinct four-tuples $(a, b, c, d)$ of rational numbers are there with\n\n$a \\log _{10} 2+b \\log _{10} 3+c \\log _{10} 5+d \\log _{10} 7=2005 ?$",
+    "stem": "How many distinct four-tuples $(a, b, c, d)$ of rational numbers are there with\n\n$a \\log _{10} 2+b \\log _{10} 3+c \\log _{10} 5+d \\log _{10} 7=2005$?",
     "options": {
       "A": "$0$",
       "B": "$1$",
@@ -2404,7 +2404,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2005 AMC 12B · Problem 20",
-    "stem": "Let $a, b, c, d, e, f, g$ and $h$ be distinct elements in the set\n\n$\\{-7,-5,-3,-2,2,4,6,13\\}$\nWhat is the minimum possible value of\n\n$(a+b+c+d)^{2}+(e+f+g+h)^{2} ?$",
+    "stem": "Let $a, b, c, d, e, f, g$ and $h$ be distinct elements in the set\n\n$\\{-7,-5,-3,-2,2,4,6,13\\}$\nWhat is the minimum possible value of\n\n$(a+b+c+d)^{2}+(e+f+g+h)^{2}$?",
     "options": {
       "A": "$30$",
       "B": "$32$",
@@ -2593,7 +2593,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2006 AMC 12A · Problem 15",
-    "stem": "Suppose $\\cos x=0$ and $\\cos (x+z)=1 / 2$. What is the smallest possible positive value of $z?$",
+    "stem": "Suppose $\\cos x=0$ and $\\cos (x+z)=1 / 2$. What is the smallest possible positive value of $z$?",
     "options": {
       "A": "$\\dfrac{\\pi}{6}$",
       "B": "$\\dfrac{\\pi}{3}$",
@@ -2614,7 +2614,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2006 AMC 12A · Problem 17",
-    "stem": "Square $A B C D$ has side length $s$, a circle centered at $E$ has radius $r$, and $r$ and $s$ are both rational. The circle passes through $D$, and $D$ lies on $\\overline{B E}$. Point $F$ lies on the circle, on the same side of $\\overline{B E}$ as $A$. Segment $A F$ is tangent to the circle, and $A F=\\sqrt{9+5 \\sqrt{2}}$. What is $r / s?$\n\n[Figure: /question-assets/source/amc/fa8b18e546b9bd480989c5e71a76ddc4776b76ec526d9ef77756e7f363a8c680.jpg]",
+    "stem": "Square $A B C D$ has side length $s$, a circle centered at $E$ has radius $r$, and $r$ and $s$ are both rational. The circle passes through $D$, and $D$ lies on $\\overline{B E}$. Point $F$ lies on the circle, on the same side of $\\overline{B E}$ as $A$. Segment $A F$ is tangent to the circle, and $A F=\\sqrt{9+5 \\sqrt{2}}$. What is $r / s$?\n\n[Figure: /question-assets/source/amc/fa8b18e546b9bd480989c5e71a76ddc4776b76ec526d9ef77756e7f363a8c680.jpg]",
     "options": {
       "A": "$\\dfrac{1}{2}$",
       "B": "$\\dfrac{5}{9}$",
@@ -2635,7 +2635,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2006 AMC 12A · Problem 18",
-    "stem": "The function $f$ has the property that for each real number $x$ in its domain, $1 / x$ is also in its domain and\n\n$f(x)+f\\left(\\dfrac{1}{x}\\right)=x$\nWhat is the largest set of real numbers that can be in the domain of $f?$",
+    "stem": "The function $f$ has the property that for each real number $x$ in its domain, $1 / x$ is also in its domain and\n\n$f(x)+f\\left(\\dfrac{1}{x}\\right)=x$\nWhat is the largest set of real numbers that can be in the domain of $f$?",
     "options": {
       "A": "$\\{x \\mid x \\neq 0\\}$",
       "B": "$\\{x \\mid x<0\\}$",
@@ -2656,7 +2656,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2006 AMC 12A · Problem 19",
-    "stem": "Circles with centers $(2,4)$ and $(14,9)$ have radii 4 and 9 , respectively. The equation of a common external tangent to the circles can be written in the form $y=m x+b$ with $m>0$. What is $b?$\n\n[Figure: /question-assets/source/amc/b31b7a5e681341c7bae64daba89fa09509053a5c8a8b4dcd58dcdb9095f90181.jpg]",
+    "stem": "Circles with centers $(2,4)$ and $(14,9)$ have radii 4 and 9 , respectively. The equation of a common external tangent to the circles can be written in the form $y=m x+b$ with $m>0$. What is $b$?\n\n[Figure: /question-assets/source/amc/b31b7a5e681341c7bae64daba89fa09509053a5c8a8b4dcd58dcdb9095f90181.jpg]",
     "options": {
       "A": "$\\dfrac{908}{119}$",
       "B": "$\\dfrac{909}{119}$",
@@ -2677,7 +2677,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2006 AMC 12A · Problem 21",
-    "stem": "Let\n\n$S_{1}=\\left\\{(x, y) \\mid \\log _{10}\\left(1+x^{2}+y^{2}\\right) \\leq 1+\\log _{10}(x+y)\\right\\}$\nand\n\n$S_{2}=\\left\\{(x, y) \\mid \\log _{10}\\left(2+x^{2}+y^{2}\\right) \\leq 2+\\log _{10}(x+y)\\right\\}$\nWhat is the ratio of the area of $S_{2}$ to the area of $S_{1}?$",
+    "stem": "Let\n\n$S_{1}=\\left\\{(x, y) \\mid \\log _{10}\\left(1+x^{2}+y^{2}\\right) \\leq 1+\\log _{10}(x+y)\\right\\}$\nand\n\n$S_{2}=\\left\\{(x, y) \\mid \\log _{10}\\left(2+x^{2}+y^{2}\\right) \\leq 2+\\log _{10}(x+y)\\right\\}$\nWhat is the ratio of the area of $S_{2}$ to the area of $S_{1}$?",
     "options": {
       "A": "$98$",
       "B": "$99$",
@@ -2698,7 +2698,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2006 AMC 12A · Problem 22",
-    "stem": "A circle of radius $r$ is concentric with and outside a regular hexagon of side length 2. The probability that three entire sides of the hexagon are visible from a randomly chosen point on the circle is $1 / 2$. What is $r?$",
+    "stem": "A circle of radius $r$ is concentric with and outside a regular hexagon of side length 2. The probability that three entire sides of the hexagon are visible from a randomly chosen point on the circle is $1 / 2$. What is $r$?",
     "options": {
       "A": "$2 \\sqrt{2}+2 \\sqrt{3}$",
       "B": "$3 \\sqrt{3}+\\sqrt{2}$",
@@ -2719,7 +2719,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2006 AMC 12A · Problem 23",
-    "stem": "Given a finite sequence $S=\\left(a_{1}, a_{2}, \\ldots, a_{n}\\right)$ of $n$ real numbers, let $A(S)$ be the sequence\n\n$\\left(\\dfrac{a_{1}+a_{2}}{2}, \\dfrac{a_{2}+a_{3}}{2}, \\ldots, \\dfrac{a_{n-1}+a_{n}}{2}\\right)$\nof $n-1$ real numbers. Define $A^{1}(S)=A(S)$ and, for each integer $m, 2 \\leq m \\leq n-$ 1 , define $A^{m}(S)=A\\left(A^{m-1}(S)\\right)$. Suppose $x>0$, and let $S=\\left(1, x, x^{2}, \\ldots, x^{100}\\right)$. If $A^{100}(S)=\\left(1 / 2^{50}\\right)$, then what is $x?$",
+    "stem": "Given a finite sequence $S=\\left(a_{1}, a_{2}, \\ldots, a_{n}\\right)$ of $n$ real numbers, let $A(S)$ be the sequence\n\n$\\left(\\dfrac{a_{1}+a_{2}}{2}, \\dfrac{a_{2}+a_{3}}{2}, \\ldots, \\dfrac{a_{n-1}+a_{n}}{2}\\right)$\nof $n-1$ real numbers. Define $A^{1}(S)=A(S)$ and, for each integer $m, 2 \\leq m \\leq n-$ 1 , define $A^{m}(S)=A\\left(A^{m-1}(S)\\right)$. Suppose $x>0$, and let $S=\\left(1, x, x^{2}, \\ldots, x^{100}\\right)$. If $A^{100}(S)=\\left(1 / 2^{50}\\right)$, then what is $x$?",
     "options": {
       "A": "$1-\\dfrac{\\sqrt{2}}{2}$",
       "B": "$\\sqrt{2}-1$",
@@ -2929,7 +2929,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2006 AMC 12B · Problem 20",
-    "stem": "Let $x$ be chosen at random from the interval $(0,1)$. What is the probability that\n\n$\\left\\lfloor\\log _{10} 4 x\\right\\rfloor-\\left\\lfloor\\log _{10} x\\right\\rfloor=0 ?$\nHere $\\lfloor x\\rfloor$ denotes the greatest integer that is less than or equal to $x$.",
+    "stem": "Let $x$ be chosen at random from the interval $(0,1)$. What is the probability that\n\n$\\left\\lfloor\\log _{10} 4 x\\right\\rfloor-\\left\\lfloor\\log _{10} x\\right\\rfloor=0$?\nHere $\\lfloor x\\rfloor$ denotes the greatest integer that is less than or equal to $x$.",
     "options": {
       "A": "$\\dfrac{1}{8}$",
       "B": "$\\dfrac{3}{20}$",
@@ -3013,7 +3013,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2006 AMC 12B · Problem 24",
-    "stem": "Let $S$ be the set of all points $(x, y)$ in the coordinate plane such that $0 \\leq x \\leq \\dfrac{\\pi}{2}$ and $0 \\leq y \\leq \\dfrac{\\pi}{2}$. What is the area of the subset of $S$ for which\n\n$\\sin ^{2} x-\\sin x \\sin y+\\sin ^{2} y \\leq \\dfrac{3}{4} ?$",
+    "stem": "Let $S$ be the set of all points $(x, y)$ in the coordinate plane such that $0 \\leq x \\leq \\dfrac{\\pi}{2}$ and $0 \\leq y \\leq \\dfrac{\\pi}{2}$. What is the area of the subset of $S$ for which\n\n$\\sin ^{2} x-\\sin x \\sin y+\\sin ^{2} y \\leq \\dfrac{3}{4}$?",
     "options": {
       "A": "$\\dfrac{\\pi^{2}}{9}$",
       "B": "$\\dfrac{\\pi^{2}}{8}$",
@@ -3118,7 +3118,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2007 AMC 12A · Problem 13",
-    "stem": "A piece of cheese is located at $(12,10)$ in a coordinate plane. A mouse is at $(4,-2)$ and is running up the line $y=-5 x+18$. At the point $(a, b)$ the mouse starts getting farther from the cheese rather than closer to it. What is $a+b?$",
+    "stem": "A piece of cheese is located at $(12,10)$ in a coordinate plane. A mouse is at $(4,-2)$ and is running up the line $y=-5 x+18$. At the point $(a, b)$ the mouse starts getting farther from the cheese rather than closer to it. What is $a+b$?",
     "options": {
       "A": "$6$",
       "B": "$10$",
@@ -3139,7 +3139,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2007 AMC 12A · Problem 14",
-    "stem": "Let $a, b, c, d$, and $e$ be distinct integers such that\n\n$(6-a)(6-b)(6-c)(6-d)(6-e)=45$\nWhat is $a+b+c+d+e ?$",
+    "stem": "Let $a, b, c, d$, and $e$ be distinct integers such that\n\n$(6-a)(6-b)(6-c)(6-d)(6-e)=45$\nWhat is $a+b+c+d+e$?",
     "options": {
       "A": "$5$",
       "B": "$17$",
@@ -3160,7 +3160,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2007 AMC 12A · Problem 15",
-    "stem": "The set $\\{3,6,9,10\\}$ is augmented by a fifth element $n$, not equal to any of the other four. The median of the resulting set is equal to its mean. What is the sum of all possible values of $n?$",
+    "stem": "The set $\\{3,6,9,10\\}$ is augmented by a fifth element $n$, not equal to any of the other four. The median of the resulting set is equal to its mean. What is the sum of all possible values of $n$?",
     "options": {
       "A": "$7$",
       "B": "$9$",
@@ -3202,7 +3202,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2007 AMC 12A · Problem 17",
-    "stem": "Suppose that $\\sin a+\\sin b=\\sqrt{5 / 3}$ and $\\cos a+\\cos b=1$. What is $\\cos (a-b)?$",
+    "stem": "Suppose that $\\sin a+\\sin b=\\sqrt{5 / 3}$ and $\\cos a+\\cos b=1$. What is $\\cos (a-b)$?",
     "options": {
       "A": "$\\sqrt{\\dfrac{5}{3}}-1$",
       "B": "$\\dfrac{1}{3}$",
@@ -3223,7 +3223,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2007 AMC 12A · Problem 18",
-    "stem": "The polynomial $f(x)=x^{4}+a x^{3}+b x^{2}+c x+d$ has real coefficients, and $f(2 i)=$ $f(2+i)=0$. What is $a+b+c+d?$",
+    "stem": "The polynomial $f(x)=x^{4}+a x^{3}+b x^{2}+c x+d$ has real coefficients, and $f(2 i)=$ $f(2+i)=0$. What is $a+b+c+d$?",
     "options": {
       "A": "$0$",
       "B": "$1$",
@@ -3244,7 +3244,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2007 AMC 12A · Problem 19",
-    "stem": "Triangles $A B C$ and $A D E$ have areas 2007 and 7002 , respectively, with $B=$ $(0,0), C=(223,0), D=(680,380)$, and $E=(689,389)$. What is the sum of all possible $x$-coordinates of $A?$",
+    "stem": "Triangles $A B C$ and $A D E$ have areas 2007 and 7002 , respectively, with $B=$ $(0,0), C=(223,0), D=(680,380)$, and $E=(689,389)$. What is the sum of all possible $x$-coordinates of $A$?",
     "options": {
       "A": "$282$",
       "B": "$300$",
@@ -3288,11 +3288,11 @@
     "sourcePaper": "2007 AMC 12A · Problem 21",
     "stem": "The sum of the zeros, the product of the zeros, and the sum of the coefficients of the function $f(x)=a x^{2}+b x+c$ are equal. Their common value must also be which of the following?",
     "options": {
-      "A": "$the coefficient of $x^{2}$$",
-      "B": "$the coefficient of $x$$",
-      "C": "$the $y$-intercept of the graph of $y=f(x)$$",
-      "D": "$one of the $x$-intercepts of the graph of $y=f(x)$$",
-      "E": "$the mean of the $x$-intercepts of the graph of $y=f(x)$$"
+      "A": "the coefficient of $x^{2}$",
+      "B": "the coefficient of $x$",
+      "C": "the $y$-intercept of the graph of $y=f(x)$",
+      "D": "one of the $x$-intercepts of the graph of $y=f(x)$",
+      "E": "the mean of the $x$-intercepts of the graph of $y=f(x)$"
     },
     "answer": "A",
     "solutions": [
@@ -3307,7 +3307,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2007 AMC 12A · Problem 23",
-    "stem": "Square $A B C D$ has area 36 , and $\\overline{A B}$ is parallel to the $x$-axis. Vertices $A, B$, and $C$ are on the graphs of $y=\\log _{a} x, y=2 \\log _{a} x$, and $y=3 \\log _{a} x$, respectively. What is $a?$",
+    "stem": "Square $A B C D$ has area 36 , and $\\overline{A B}$ is parallel to the $x$-axis. Vertices $A, B$, and $C$ are on the graphs of $y=\\log _{a} x, y=2 \\log _{a} x$, and $y=3 \\log _{a} x$, respectively. What is $a$?",
     "options": {
       "A": "$\\sqrt[6]{3}$",
       "B": "$\\sqrt{3}$",
@@ -3328,7 +3328,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2007 AMC 12A · Problem 24",
-    "stem": "For each integer $n>1$, let $F(n)$ be the number of solutions of the equation $\\sin x=\\sin n x$ on the interval $[0, \\pi]$. What is $\\sum_{n=2}^{2007} F(n)?$",
+    "stem": "For each integer $n>1$, let $F(n)$ be the number of solutions of the equation $\\sin x=\\sin n x$ on the interval $[0, \\pi]$. What is $\\sum_{n=2}^{2007} F(n)$?",
     "options": {
       "A": "$2,014,524$",
       "B": "$2,015,028$",
@@ -3632,7 +3632,7 @@
     },
     "answer": "A",
     "solutions": [
-      "Let the triangle have leg lengths $a$ and $b$, with $a \\leq b$. The given condition implies that\n\n$\\dfrac{1}{2} a b=3\\left(a+b+\\sqrt{a^{2}+b^{2}}\\right)$\nso\n\n$a b-6 a-6 b=6 \\sqrt{a^{2}+b^{2}}$\nSquaring both sides and simplifying yields\n\n$a b(a b-12 a-12 b+72)=0$\nfrom which\n\n$(a-12)(b-12)=72$\nThe positive integer solutions of the last equation are $(a, b)=(3,4),(13,84)$, $(14,48),(15,36),(16,30),(18,24)$, and $(20,21)$. However, the solution $(3,4)$ is extraneous, and there are $\\boxed{six}$ right triangles with the required property."
+      "Let the triangle have leg lengths $a$ and $b$, with $a \\leq b$. The given condition implies that\n\n$\\dfrac{1}{2} a b=3\\left(a+b+\\sqrt{a^{2}+b^{2}}\\right)$\nso\n\n$a b-6 a-6 b=6 \\sqrt{a^{2}+b^{2}}$\nSquaring both sides and simplifying yields\n\n$a b(a b-12 a-12 b+72)=0$\nfrom which\n\n$(a-12)(b-12)=72$\nThe positive integer solutions of the last equation are $(a, b)=(3,4),(13,84)$, $(14,48),(15,36),(16,30),(18,24)$, and $(20,21)$. However, the solution $(3,4)$ is extraneous, and there are $\\boxed{\\text{six}}$ right triangles with the required property."
     ],
     "tags": []
   },
@@ -3664,7 +3664,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2008 AMC 12A · Problem 2",
-    "stem": "What is the reciprocal of $\\dfrac{1}{2}+\\dfrac{2}{3}?$",
+    "stem": "What is the reciprocal of $\\dfrac{1}{2}+\\dfrac{2}{3}$?",
     "options": {
       "A": "$\\dfrac{6}{7}$",
       "B": "$\\dfrac{7}{6}$",
@@ -3685,7 +3685,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2008 AMC 12A · Problem 8",
-    "stem": "What is the volume of a cube whose surface area is twice that of a cube with volume $1?$",
+    "stem": "What is the volume of a cube whose surface area is twice that of a cube with volume $1$?",
     "options": {
       "A": "$\\sqrt{2}$",
       "B": "$2$",
@@ -3727,7 +3727,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2008 AMC 12A · Problem 12",
-    "stem": "A function $f$ has domain $[0,2]$ and range $[0,1]$. (The notation $[a, b]$ denotes $\\{x: a \\leq x \\leq b\\}$.) What are the domain and range, respectively, of the function $g$ defined by $g(x)=1-f(x+1)?$",
+    "stem": "A function $f$ has domain $[0,2]$ and range $[0,1]$. (The notation $[a, b]$ denotes $\\{x: a \\leq x \\leq b\\}$.) What are the domain and range, respectively, of the function $g$ defined by $g(x)=1-f(x+1)$?",
     "options": {
       "A": "$[-1,1],[-1,0]$",
       "B": "$[-1,1],[0,1]$",
@@ -3748,7 +3748,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2008 AMC 12A · Problem 14",
-    "stem": "What is the area of the region defined by the inequality $|3 x-18|+|2 y+7| \\leq 3?$",
+    "stem": "What is the area of the region defined by the inequality $|3 x-18|+|2 y+7| \\leq 3$?",
     "options": {
       "A": "$3$",
       "B": "$\\dfrac{7}{2}$",
@@ -3769,7 +3769,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2008 AMC 12A · Problem 16",
-    "stem": "The numbers $\\log \\left(a^{3} b^{7}\\right), \\log \\left(a^{5} b^{12}\\right)$, and $\\log \\left(a^{8} b^{15}\\right)$ are the first three terms of an arithmetic sequence, and the $12^{\\text {th }}$ term of the sequence is $\\log \\left(b^{n}\\right)$. What is $n?$",
+    "stem": "The numbers $\\log \\left(a^{3} b^{7}\\right), \\log \\left(a^{5} b^{12}\\right)$, and $\\log \\left(a^{8} b^{15}\\right)$ are the first three terms of an arithmetic sequence, and the $12^{\\text {th }}$ term of the sequence is $\\log \\left(b^{n}\\right)$. What is $n$?",
     "options": {
       "A": "$40$",
       "B": "$56$",
@@ -3790,7 +3790,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2008 AMC 12A · Problem 17",
-    "stem": "Let $a_{1}, a_{2}, \\ldots$ be a sequence of integers determined by the rule $a_{n}=a_{n-1} / 2$ if $a_{n-1}$ is even and $a_{n}=3 a_{n-1}+1$ if $a_{n-1}$ is odd. For how many positive integers $a_{1} \\leq 2008$ is it true that $a_{1}$ is less than each of $a_{2}, a_{3}$, and $a_{4}?$",
+    "stem": "Let $a_{1}, a_{2}, \\ldots$ be a sequence of integers determined by the rule $a_{n}=a_{n-1} / 2$ if $a_{n-1}$ is even and $a_{n}=3 a_{n-1}+1$ if $a_{n-1}$ is odd. For how many positive integers $a_{1} \\leq 2008$ is it true that $a_{1}$ is less than each of $a_{2}, a_{3}$, and $a_{4}$?",
     "options": {
       "A": "$250$",
       "B": "$251$",
@@ -3811,7 +3811,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2008 AMC 12A · Problem 18",
-    "stem": "Triangle $A B C$, with sides of length 5,6 , and 7 , has one vertex on the positive $x$-axis, one on the positive $y$-axis, and one on the positive $z$-axis. Let $O$ be the origin. What is the volume of tetrahedron $O A B C?$",
+    "stem": "Triangle $A B C$, with sides of length 5,6 , and 7 , has one vertex on the positive $x$-axis, one on the positive $y$-axis, and one on the positive $z$-axis. Let $O$ be the origin. What is the volume of tetrahedron $O A B C$?",
     "options": {
       "A": "$\\sqrt{85}$",
       "B": "$\\sqrt{90}$",
@@ -3832,7 +3832,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2008 AMC 12A · Problem 19",
-    "stem": "In the expansion of\n\n$\\left(1+x+x^{2}+\\cdots+x^{27}\\right)\\left(1+x+x^{2}+\\cdots+x^{14}\\right)^{2}$\nwhat is the coefficient of $x^{28}?$",
+    "stem": "In the expansion of\n\n$\\left(1+x+x^{2}+\\cdots+x^{27}\\right)\\left(1+x+x^{2}+\\cdots+x^{14}\\right)^{2}$\nwhat is the coefficient of $x^{28}$?",
     "options": {
       "A": "$195$",
       "B": "$196$",
@@ -3853,7 +3853,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2008 AMC 12A · Problem 20",
-    "stem": "Triangle $A B C$ has $A C=3, B C=4$, and $A B=5$. Point $D$ is on $\\overline{A B}$, and $\\overline{C D}$ bisects the right angle. The inscribed circles of $\\triangle A D C$ and $\\triangle B C D$ have radii $r_{a}$ and $r_{b}$, respectively. What is $r_{a} / r_{b}?$",
+    "stem": "Triangle $A B C$ has $A C=3, B C=4$, and $A B=5$. Point $D$ is on $\\overline{A B}$, and $\\overline{C D}$ bisects the right angle. The inscribed circles of $\\triangle A D C$ and $\\triangle B C D$ have radii $r_{a}$ and $r_{b}$, respectively. What is $r_{a} / r_{b}$?",
     "options": {
       "A": "$\\dfrac{1}{28}(10-\\sqrt{2})$",
       "B": "$\\dfrac{3}{56}(10-\\sqrt{2})$",
@@ -3916,7 +3916,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2008 AMC 12A · Problem 24",
-    "stem": "Triangle $A B C$ has $\\angle C=60^{\\circ}$ and $B C=4$. Point $D$ is the midpoint of $\\overline{B C}$. What is the largest possible value of $\\tan (\\angle B A D)?$",
+    "stem": "Triangle $A B C$ has $\\angle C=60^{\\circ}$ and $B C=4$. Point $D$ is the midpoint of $\\overline{B C}$. What is the largest possible value of $\\tan (\\angle B A D)$?",
     "options": {
       "A": "$\\dfrac{\\sqrt{3}}{6}$",
       "B": "$\\dfrac{\\sqrt{3}}{3}$",
@@ -3937,7 +3937,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2008 AMC 12A · Problem 25",
-    "stem": "A sequence $\\left(a_{1}, b_{1}\\right),\\left(a_{2}, b_{2}\\right),\\left(a_{3}, b_{3}\\right), \\ldots$ of points in the coordinate plane satisfies\n\n$\\left(a_{n+1}, b_{n+1}\\right)=\\left(\\sqrt{3} a_{n}-b_{n}, \\sqrt{3} b_{n}+a_{n}\\right) \\quad \\text { for } \\quad n=1,2,3, \\ldots$\nSuppose that $\\left(a_{100}, b_{100}\\right)=(2,4)$. What is $a_{1}+b_{1}?$",
+    "stem": "A sequence $\\left(a_{1}, b_{1}\\right),\\left(a_{2}, b_{2}\\right),\\left(a_{3}, b_{3}\\right), \\ldots$ of points in the coordinate plane satisfies\n\n$\\left(a_{n+1}, b_{n+1}\\right)=\\left(\\sqrt{3} a_{n}-b_{n}, \\sqrt{3} b_{n}+a_{n}\\right) \\quad \\text { for } \\quad n=1,2,3, \\ldots$\nSuppose that $\\left(a_{100}, b_{100}\\right)=(2,4)$. What is $a_{1}+b_{1}$?",
     "options": {
       "A": "$-\\dfrac{1}{2^{97}}$",
       "B": "$-\\dfrac{1}{2^{99}}$",
@@ -3958,7 +3958,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2008 AMC 12B · Problem 4",
-    "stem": "On circle $O$, points $C$ and $D$ are on the same side of diameter $\\overline{A B}, \\angle A O C=30^{\\circ}$, and $\\angle D O B=45^{\\circ}$. What is the ratio of the area of the smaller sector $C O D$ to the area of the circle? $B$\n\n[Figure: /question-assets/source/amc/22b67170d56f004dd20e084f1f8508381f2326aa3768b02336846642cd8c0a5d.jpg]",
+    "stem": "On circle $O$, points $C$ and $D$ are on the same side of diameter $\\overline{A B}, \\angle A O C=30^{\\circ}$, and $\\angle D O B=45^{\\circ}$. What is the ratio of the area of the smaller sector $C O D$ to the area of the circle?\n\n[Figure: /question-assets/source/amc/22b67170d56f004dd20e084f1f8508381f2326aa3768b02336846642cd8c0a5d.jpg]",
     "options": {
       "A": "$\\dfrac{2}{9}$",
       "B": "$\\dfrac{1}{4}$",
@@ -4021,7 +4021,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2008 AMC 12B · Problem 14",
-    "stem": "A circle has a radius of $\\log _{10}\\left(a^{2}\\right)$ and a circumference of $\\log _{10}\\left(b^{4}\\right)$. What is $\\log _{a} b ?$",
+    "stem": "A circle has a radius of $\\log _{10}\\left(a^{2}\\right)$ and a circumference of $\\log _{10}\\left(b^{4}\\right)$. What is $\\log _{a} b$?",
     "options": {
       "A": "$\\dfrac{1}{4 \\pi}$",
       "B": "$\\dfrac{1}{\\pi}$",
@@ -4231,7 +4231,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2009 AMC 12A · Problem 1",
-    "stem": "Kim's flight took off from Newark at $10:34 AM$ and landed in Miami at $1:18 PM$. Both cites are in the same time zone. If her flight took $h$ hours and $m$ minutes, with $0 \\leq m<60$, what is $h+m?$",
+    "stem": "Kim's flight took off from Newark at $10:34 AM$ and landed in Miami at $1:18 PM$. Both cites are in the same time zone. If her flight took $h$ hours and $m$ minutes, with $0 \\leq m<60$, what is $h+m$?",
     "options": {
       "A": "$46$",
       "B": "$47$",
@@ -4252,7 +4252,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2009 AMC 12A · Problem 3",
-    "stem": "What number is one third of the way from $\\dfrac{1}{4}$ to $\\dfrac{3}{4}?$",
+    "stem": "What number is one third of the way from $\\dfrac{1}{4}$ to $\\dfrac{3}{4}$?",
     "options": {
       "A": "$\\dfrac{1}{3}$",
       "B": "$\\dfrac{5}{12}$",
@@ -4273,7 +4273,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2009 AMC 12A · Problem 7",
-    "stem": "The first three terms of an arithmetic sequence are $2 x-3,5 x-11$, and $3 x+1$ respectively. The $n$th term of the sequence is 2009. What is $n?$",
+    "stem": "The first three terms of an arithmetic sequence are $2 x-3,5 x-11$, and $3 x+1$ respectively. The $n$th term of the sequence is 2009. What is $n$?",
     "options": {
       "A": "$255$",
       "B": "$502$",
@@ -4294,7 +4294,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2009 AMC 12A · Problem 9",
-    "stem": "Suppose that $f(x+3)=3 x^{2}+7 x+4$ and $f(x)=a x^{2}+b x+c$. What is $a+b+c?$",
+    "stem": "Suppose that $f(x+3)=3 x^{2}+7 x+4$ and $f(x)=a x^{2}+b x+c$. What is $a+b+c$?",
     "options": {
       "A": "$-1$",
       "B": "$0$",
@@ -4304,7 +4304,7 @@
     },
     "answer": "D",
     "solutions": [
-      "Expanding, we have $f(x+3)=a\\left(x^{2}+6 x+9\\right)+b(x+3)+c=$ $a x^{2}+(6 a+b) x+(9 a+3 b+c)$. Equating coefficients implies that $a=3,6 \\cdot 3+b=7$, whence $b=-11$, and then $9 \\cdot 3+3 \\cdot(-11)+c=4$, and so $c=10$. Therefore $a+b+c=3-11+10= \\boxed{2}$.\n\nOR\n\nNote that\n\n$\\begin{aligned} f(x)=f((x-3)+3) =3(x-3)^{2}+7(x-3)+4 \\\\ =3\\left(x^{2}-6 x+9\\right)+7 x-21+4 \\\\ =3 x^{2}-11 x+10 \\end{aligned}$\nTherefore $a=3, b=-11$, and $c=10$, giving $a+b+c=2$.\n\n$OR$\nThe sum $a+b+c$ is $f(1)=f(-2+3)=3(-2)^{2}+7(-2)+4= \\boxed{2}$."
+      "Expanding, we have $f(x+3)=a\\left(x^{2}+6 x+9\\right)+b(x+3)+c=$ $a x^{2}+(6 a+b) x+(9 a+3 b+c)$. Equating coefficients implies that $a=3,6 \\cdot 3+b=7$, whence $b=-11$, and then $9 \\cdot 3+3 \\cdot(-11)+c=4$, and so $c=10$. Therefore $a+b+c=3-11+10= \\boxed{2}$.\n\nOR\n\nNote that\n\n$\\begin{aligned} f(x)=f((x-3)+3) =3(x-3)^{2}+7(x-3)+4 \\\\ =3\\left(x^{2}-6 x+9\\right)+7 x-21+4 \\\\ =3 x^{2}-11 x+10 \\end{aligned}$\nTherefore $a=3, b=-11$, and $c=10$, giving $a+b+c=2$.\n\n$\\textbf{OR}$\nThe sum $a+b+c$ is $f(1)=f(-2+3)=3(-2)^{2}+7(-2)+4= \\boxed{2}$."
     ],
     "tags": []
   },
@@ -4336,7 +4336,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2009 AMC 12A · Problem 13",
-    "stem": "A ship sails 10 miles in a straight line from $A$ to $B$, turns through an angle between $45^{\\circ}$ and $60^{\\circ}$, and then sails another 20 miles to $C$. Let $A C$ be measured in miles. Which of the following intervals contains $A C^{2}?$\n\n[Figure: /question-assets/source/amc/e84a7c87b4c0df9b2ba66c764cceccf417ddcde48fa6cafb7ae641474c5f0a0c.jpg]",
+    "stem": "A ship sails 10 miles in a straight line from $A$ to $B$, turns through an angle between $45^{\\circ}$ and $60^{\\circ}$, and then sails another 20 miles to $C$. Let $A C$ be measured in miles. Which of the following intervals contains $A C^{2}$?\n\n[Figure: /question-assets/source/amc/e84a7c87b4c0df9b2ba66c764cceccf417ddcde48fa6cafb7ae641474c5f0a0c.jpg]",
     "options": {
       "A": "$[400,500]$",
       "B": "$[500,600]$",
@@ -4357,7 +4357,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2009 AMC 12A · Problem 14",
-    "stem": "A triangle has vertices $(0,0),(1,1)$, and $(6 m, 0)$, and the line $y=m x$ divides the triangle into two triangles of equal area. What is the sum of all possible values of $m?$",
+    "stem": "A triangle has vertices $(0,0),(1,1)$, and $(6 m, 0)$, and the line $y=m x$ divides the triangle into two triangles of equal area. What is the sum of all possible values of $m$?",
     "options": {
       "A": "$-\\dfrac{1}{3}$",
       "B": "$-\\dfrac{1}{6}$",
@@ -4399,7 +4399,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2009 AMC 12A · Problem 16",
-    "stem": "A circle with center $C$ is tangent to the positive $x$ - and $y$-axes and externally tangent to the circle centered at $(3,0)$ with radius 1 . What is the sum of all possible radii of the circle with center $C?$",
+    "stem": "A circle with center $C$ is tangent to the positive $x$ - and $y$-axes and externally tangent to the circle centered at $(3,0)$ with radius 1 . What is the sum of all possible radii of the circle with center $C$?",
     "options": {
       "A": "$3$",
       "B": "$4$",
@@ -4420,7 +4420,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2009 AMC 12A · Problem 17",
-    "stem": "Let $a+a r_{1}+a r_{1}^{2}+a r_{1}^{3}+\\cdots$ and $a+a r_{2}+a r_{2}^{2}+a r_{2}^{3}+\\cdots$ be two different infinite geometric series of positive numbers with the same first term. The sum of the first series is $r_{1}$, and the sum of the second series is $r_{2}$. What is $r_{1}+r_{2}?$",
+    "stem": "Let $a+a r_{1}+a r_{1}^{2}+a r_{1}^{3}+\\cdots$ and $a+a r_{2}+a r_{2}^{2}+a r_{2}^{3}+\\cdots$ be two different infinite geometric series of positive numbers with the same first term. The sum of the first series is $r_{1}$, and the sum of the second series is $r_{2}$. What is $r_{1}+r_{2}$?",
     "options": {
       "A": "$0$",
       "B": "$\\dfrac{1}{2}$",
@@ -4462,7 +4462,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2009 AMC 12A · Problem 21",
-    "stem": "Let $p(x)=x^{3}+a x^{2}+b x+c$, where $a, b$, and $c$ are complex numbers. Suppose that\n\n$p(2009+9002 \\pi i)=p(2009)=p(9002)=0 \\text {. }$\nWhat is the number of nonreal zeros of $x^{12}+a x^{8}+b x^{4}+c?$",
+    "stem": "Let $p(x)=x^{3}+a x^{2}+b x+c$, where $a, b$, and $c$ are complex numbers. Suppose that\n\n$p(2009+9002 \\pi i)=p(2009)=p(9002)=0 \\text {. }$\nWhat is the number of nonreal zeros of $x^{12}+a x^{8}+b x^{4}+c$?",
     "options": {
       "A": "$4$",
       "B": "$6$",
@@ -4483,7 +4483,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2009 AMC 12A · Problem 22",
-    "stem": "A regular octahedron has side length 1. A plane parallel to two of its opposite faces cuts the octahedron into two congruent solids. The polygon formed by the intersection of the plane and the octahedron has area $\\dfrac{a \\sqrt{b}}{c}$, where $a, b$, and $c$ are positive integers, $a$ and $c$ are relatively prime, and $b$ is not divisible by the square of any prime. What is $a+b+c?$",
+    "stem": "A regular octahedron has side length 1. A plane parallel to two of its opposite faces cuts the octahedron into two congruent solids. The polygon formed by the intersection of the plane and the octahedron has area $\\dfrac{a \\sqrt{b}}{c}$, where $a, b$, and $c$ are positive integers, $a$ and $c$ are relatively prime, and $b$ is not divisible by the square of any prime. What is $a+b+c$?",
     "options": {
       "A": "$10$",
       "B": "$11$",
@@ -4504,7 +4504,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2009 AMC 12A · Problem 23",
-    "stem": "Functions $f$ and $g$ are quadratic, $g(x)=-f(100-x)$, and the graph of $g$ contains the vertex of the graph of $f$. The four $x$-intercepts on the two graphs have $x$-coordinates $x_{1}, x_{2}, x_{3}$, and $x_{4}$, in increasing order, and $x_{3}-x_{2}=150$. The value of $x_{4}-x_{1}$ is $m+n \\sqrt{p}$, where $m, n$, and $p$ are positive integers, and $p$ is not divisible by the square of any prime. What is $m+n+p?$",
+    "stem": "Functions $f$ and $g$ are quadratic, $g(x)=-f(100-x)$, and the graph of $g$ contains the vertex of the graph of $f$. The four $x$-intercepts on the two graphs have $x$-coordinates $x_{1}, x_{2}, x_{3}$, and $x_{4}$, in increasing order, and $x_{3}-x_{2}=150$. The value of $x_{4}-x_{1}$ is $m+n \\sqrt{p}$, where $m, n$, and $p$ are positive integers, and $p$ is not divisible by the square of any prime. What is $m+n+p$?",
     "options": {
       "A": "$602$",
       "B": "$652$",
@@ -4546,7 +4546,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2009 AMC 12A · Problem 25",
-    "stem": "The first two terms of a sequence are $a_{1}=1$ and $a_{2}=\\dfrac{1}{\\sqrt{3}}$. For $n \\geq 1$,\n\n$a_{n+2}=\\dfrac{a_{n}+a_{n+1}}{1-a_{n} a_{n+1}} \\text {. }$\nWhat is $\\left|a_{2009}\\right|?$",
+    "stem": "The first two terms of a sequence are $a_{1}=1$ and $a_{2}=\\dfrac{1}{\\sqrt{3}}$. For $n \\geq 1$,\n\n$a_{n+2}=\\dfrac{a_{n}+a_{n+1}}{1-a_{n} a_{n+1}} \\text {. }$\nWhat is $\\left|a_{2009}\\right|$?",
     "options": {
       "A": "$0$",
       "B": "$2-\\sqrt{3}$",
@@ -4819,7 +4819,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2010 AMC 12A · Problem 1",
-    "stem": "What is $(20-(2010-201))+(2010-(201-20))?$",
+    "stem": "What is $(20-(2010-201))+(2010-(201-20))$?",
     "options": {
       "A": "$-4020$",
       "B": "$0$",
@@ -4861,7 +4861,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2010 AMC 12A · Problem 3",
-    "stem": "Rectangle $A B C D$, pictured below, shares $50 \\%$ of its area with square $E F G H$. Square $E F G H$ shares $20 \\%$ of its area with rectangle $A B C D$. What is $\\dfrac{A B}{A D}?$\n\n[Figure: /question-assets/source/amc/30f7da14a51b005c72f46d738f12db55d7f2524c3863e8d6f69c3e60834a2cc6.jpg]",
+    "stem": "Rectangle $A B C D$, pictured below, shares $50 \\%$ of its area with square $E F G H$. Square $E F G H$ shares $20 \\%$ of its area with rectangle $A B C D$. What is $\\dfrac{A B}{A D}$?\n\n[Figure: /question-assets/source/amc/30f7da14a51b005c72f46d738f12db55d7f2524c3863e8d6f69c3e60834a2cc6.jpg]",
     "options": {
       "A": "$4$",
       "B": "$5$",
@@ -4903,7 +4903,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2010 AMC 12A · Problem 5",
-    "stem": "Halfway through a 100-shot archery tournament, Chelsea leads by 50 points. For each shot a bullseye scores 10 points, with other possible scores being 8 , 4,2 , and 0 points. Chelsea always scores at least 4 points on each shot. If Chelsea's next $n$ shots are bulleyes she will be guaranteed victory. What is the minimum value for $n?$",
+    "stem": "Halfway through a 100-shot archery tournament, Chelsea leads by 50 points. For each shot a bullseye scores 10 points, with other possible scores being 8 , 4,2 , and 0 points. Chelsea always scores at least 4 points on each shot. If Chelsea's next $n$ shots are bulleyes she will be guaranteed victory. What is the minimum value for $n$?",
     "options": {
       "A": "$38$",
       "B": "$40$",
@@ -4913,7 +4913,7 @@
     },
     "answer": "C",
     "solutions": [
-      "The second place archer could score a maximum of $50 \\cdot 10=500$ points with the remaining shots. Therefore Chelsea needs to score more than $500-50=450$ points to guarantee victory. If Chelsea's next $n$ shots will score $10 n$ points, her remaining $50-n$ shots will score at least $4(50-n)$ points. To guarantee victory,\n\n$10 \\cdot n+4 \\cdot(50-n)>450$\n$\\begin{aligned} 6 n+200 >450 \\\\ n >41 \\dfrac{2}{3} \\end{aligned}$\nTherefore Chelsea needs at least 42 bullseyes to guarantee victory.\n\n$OR$\nIf Chelsea does not make a bullseye, the maximum number of points her opponents could gain per shot would be $10-4=6$. Chelsea must make enough bullseyes to prevent her opponents from gaining 50 points. Because $8 \\cdot 6<50<$ $9 \\cdot 6$, the most non-bullseyes she can afford to score is 8 , leaving $50-8= \\boxed{42}$ bullseyes needed to guarantee her victory."
+      "The second place archer could score a maximum of $50 \\cdot 10=500$ points with the remaining shots. Therefore Chelsea needs to score more than $500-50=450$ points to guarantee victory. If Chelsea's next $n$ shots will score $10 n$ points, her remaining $50-n$ shots will score at least $4(50-n)$ points. To guarantee victory,\n\n$10 \\cdot n+4 \\cdot(50-n)>450$\n$\\begin{aligned} 6 n+200 >450 \\\\ n >41 \\dfrac{2}{3} \\end{aligned}$\nTherefore Chelsea needs at least 42 bullseyes to guarantee victory.\n\n$\\textbf{OR}$\nIf Chelsea does not make a bullseye, the maximum number of points her opponents could gain per shot would be $10-4=6$. Chelsea must make enough bullseyes to prevent her opponents from gaining 50 points. Because $8 \\cdot 6<50<$ $9 \\cdot 6$, the most non-bullseyes she can afford to score is 8 , leaving $50-8= \\boxed{42}$ bullseyes needed to guarantee her victory."
     ],
     "tags": []
   },
@@ -4945,7 +4945,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2010 AMC 12A · Problem 11",
-    "stem": "The solution of the equation $7^{x+7}=8^{x}$ can be expressed in the form $x=\\log _{b} 7^{7}$. What is $b?$",
+    "stem": "The solution of the equation $7^{x+7}=8^{x}$ can be expressed in the form $x=\\log _{b} 7^{7}$. What is $b$?",
     "options": {
       "A": "$\\dfrac{7}{15}$",
       "B": "$\\dfrac{7}{8}$",
@@ -5029,7 +5029,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2010 AMC 12A · Problem 20",
-    "stem": "Arithmetic sequences $\\left(a_{n}\\right)$ and $\\left(b_{n}\\right)$ have integer terms with $a_{1}=b_{1}=1<a_{2} \\leq$ $b_{2}$ and $a_{n} b_{n}=2010$ for some $n$. What is the largest possible value of $n?$",
+    "stem": "Arithmetic sequences $\\left(a_{n}\\right)$ and $\\left(b_{n}\\right)$ have integer terms with $a_{1}=b_{1}=1<a_{2} \\leq$ $b_{2}$ and $a_{n} b_{n}=2010$ for some $n$. What is the largest possible value of $n$?",
     "options": {
       "A": "$2$",
       "B": "$3$",
@@ -5071,7 +5071,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2010 AMC 12A · Problem 22",
-    "stem": "What is the minimum value of $f(x)=|x-1|+|2 x-1|+|3 x-1|+\\cdots+|119 x-1|?$",
+    "stem": "What is the minimum value of $f(x)=|x-1|+|2 x-1|+|3 x-1|+\\cdots+|119 x-1|$?",
     "options": {
       "A": "$49$",
       "B": "$50$",
@@ -5092,7 +5092,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2010 AMC 12A · Problem 24",
-    "stem": "Let $f(x)=\\log _{10}(\\sin (\\pi x) \\cdot \\sin (2 \\pi x) \\cdot \\sin (3 \\pi x) \\cdots \\sin (8 \\pi x))$. The intersection of the domain of $f(x)$ with the interval $[0,1]$ is a union of $n$ disjoint open intervals. What is $n?$",
+    "stem": "Let $f(x)=\\log _{10}(\\sin (\\pi x) \\cdot \\sin (2 \\pi x) \\cdot \\sin (3 \\pi x) \\cdots \\sin (8 \\pi x))$. The intersection of the domain of $f(x)$ with the interval $[0,1]$ is a union of $n$ disjoint open intervals. What is $n$?",
     "options": {
       "A": "$2$",
       "B": "$12$",
@@ -5113,7 +5113,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2010 AMC 12A · Problem 25",
-    "stem": "Two quadrilaterals are considered the same if one can be obtained from the other by a rotation and a translation. How many different convex cyclic quadrilaterals are there with integer sides and perimeter equal to $32?$",
+    "stem": "Two quadrilaterals are considered the same if one can be obtained from the other by a rotation and a translation. How many different convex cyclic quadrilaterals are there with integer sides and perimeter equal to $32$?",
     "options": {
       "A": "$560$",
       "B": "$564$",
@@ -5176,7 +5176,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2010 AMC 12B · Problem 12",
-    "stem": "For what value of $x$ does\n\n$\\log _{\\sqrt{2}} \\sqrt{x}+\\log _{2} x+\\log _{4}\\left(x^{2}\\right)+\\log _{8}\\left(x^{3}\\right)+\\log _{16}\\left(x^{4}\\right)=40 ?$",
+    "stem": "For what value of $x$ does\n\n$\\log _{\\sqrt{2}} \\sqrt{x}+\\log _{2} x+\\log _{4}\\left(x^{2}\\right)+\\log _{8}\\left(x^{3}\\right)+\\log _{16}\\left(x^{4}\\right)=40$?",
     "options": {
       "A": "$8$",
       "B": "$16$",
@@ -5365,7 +5365,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2010 AMC 12B · Problem 25",
-    "stem": "For every integer $n \\geq 2$, let pow $(n)$ be the largest power of the largest prime that divides $n$. For example pow $(144)=\\operatorname{pow}\\left(2^{4} \\cdot 3^{2}\\right)=3^{2}$. What is the largest integer $m$ such that $2010^{m}$ divides\n\n$\\prod_{n=2}^{5300} \\operatorname{pow}(n) ?$",
+    "stem": "For every integer $n \\geq 2$, let pow $(n)$ be the largest power of the largest prime that divides $n$. For example pow $(144)=\\operatorname{pow}\\left(2^{4} \\cdot 3^{2}\\right)=3^{2}$. What is the largest integer $m$ such that $2010^{m}$ divides\n\n$\\prod_{n=2}^{5300} \\operatorname{pow}(n)$?",
     "options": {
       "A": "$74$",
       "B": "$75$",
@@ -5533,7 +5533,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2011 AMC 12A · Problem 18",
-    "stem": "Suppose that $|x+y|+|x-y|=2$. What is the maximum possible value of $x^{2}-6 x+y^{2} ?$",
+    "stem": "Suppose that $|x+y|+|x-y|=2$. What is the maximum possible value of $x^{2}-6 x+y^{2}$?",
     "options": {
       "A": "$5$",
       "B": "$6$",
@@ -5764,7 +5764,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2011 AMC 12B · Problem 14",
-    "stem": "A segment through the focus $F$ of a parabola with vertex $V$ is perpendicular to $\\overline{F V}$ and intersects the parabola in points $A$ and $B$. What is $\\cos (\\angle A V B) ?$",
+    "stem": "A segment through the focus $F$ of a parabola with vertex $V$ is perpendicular to $\\overline{F V}$ and intersects the parabola in points $A$ and $B$. What is $\\cos (\\angle A V B)$?",
     "options": {
       "A": "$-\\dfrac{3 \\sqrt{5}}{7}$",
       "B": "$-\\dfrac{2 \\sqrt{5}}{5}$",
@@ -5827,7 +5827,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2011 AMC 12B · Problem 20",
-    "stem": "Triangle $A B C$ has $A B=13, B C=14$, and $A C=15$. The points $D, E$, and $F$ are the midpoints of $\\overline{A B}, \\overline{B C}$, and $\\overline{A C}$ respectively. Let $X \\neq E$ be the intersection of the circumcircles of $\\triangle B D E$ and $\\triangle C E F$. What is $X A+X B+$ $X C ?$",
+    "stem": "Triangle $A B C$ has $A B=13, B C=14$, and $A C=15$. The points $D, E$, and $F$ are the midpoints of $\\overline{A B}, \\overline{B C}$, and $\\overline{A C}$ respectively. Let $X \\neq E$ be the intersection of the circumcircles of $\\triangle B D E$ and $\\triangle C E F$. What is $X A+X B+$ $X C$?",
     "options": {
       "A": "$24$",
       "B": "$14 \\sqrt{3}$",
@@ -5911,7 +5911,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2011 AMC 12B · Problem 25",
-    "stem": "For every $m$ and $k$ integers with $k$ odd, denote by $\\left[\\dfrac{m}{k}\\right]$ the integer closest to $\\dfrac{m}{k}$. For every odd integer $k$, let $P(k)$ be the probability that\n\n$\\left[\\dfrac{n}{k}\\right]+\\left[\\dfrac{100-n}{k}\\right]=\\left[\\dfrac{100}{k}\\right]$\nfor an integer $n$ randomly chosen from the interval $1 \\leq n \\leq 99$ !. What is the minimum possible value of $P(k)$ over the odd integers $k$ in the interval $1 \\leq k \\leq 99 ?$",
+    "stem": "For every $m$ and $k$ integers with $k$ odd, denote by $\\left[\\dfrac{m}{k}\\right]$ the integer closest to $\\dfrac{m}{k}$. For every odd integer $k$, let $P(k)$ be the probability that\n\n$\\left[\\dfrac{n}{k}\\right]+\\left[\\dfrac{100-n}{k}\\right]=\\left[\\dfrac{100}{k}\\right]$\nfor an integer $n$ randomly chosen from the interval $1 \\leq n \\leq 99$ !. What is the minimum possible value of $P(k)$ over the odd integers $k$ in the interval $1 \\leq k \\leq 99$?",
     "options": {
       "A": "$\\dfrac{1}{2}$",
       "B": "$\\dfrac{50}{99}$",
@@ -6373,7 +6373,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2012 AMC 12B · Problem 20",
-    "stem": "A trapezoid has side lengths $3,5,7$, and 11 . The sum of all the possible areas of the trapezoid can be written in the form of $r_{1} \\sqrt{n_{1}}+r_{2} \\sqrt{n_{2}}+r_{3}$, where $r_{1}, r_{2}$, and $r_{3}$ are rational numbers and $n_{1}$ and $n_{2}$ are positive integers not divisible by the square of a prime. What is the greatest integer less than or equal to\n\n$r_{1}+r_{2}+r_{3}+n_{1}+n_{2} ?$",
+    "stem": "A trapezoid has side lengths $3,5,7$, and 11 . The sum of all the possible areas of the trapezoid can be written in the form of $r_{1} \\sqrt{n_{1}}+r_{2} \\sqrt{n_{2}}+r_{3}$, where $r_{1}, r_{2}$, and $r_{3}$ are rational numbers and $n_{1}$ and $n_{2}$ are positive integers not divisible by the square of a prime. What is the greatest integer less than or equal to\n\n$r_{1}+r_{2}+r_{3}+n_{1}+n_{2}$?",
     "options": {
       "A": "$57$",
       "B": "$59$",
@@ -6457,7 +6457,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2012 AMC 12B · Problem 25",
-    "stem": "Let $S=\\{(x, y): x \\in\\{0,1,2,3,4\\}, y \\in\\{0,1,2,3,4,5\\}$, and $(x, y) \\neq(0,0)\\}$. Let $T$ be the set of all right triangles whose vertices are in $S$. For every right triangle $t=\\triangle A B C$ with vertices $A, B$, and $C$ in counter-clockwise order and right angle at $A$, let $f(t)=\\tan (\\angle C B A)$. What is\n\n$\\prod_{t \\in T} f(t) ?$\n\n[Figure: /question-assets/source/amc/e6a506400f475d0307a9d5bf1defaa6b8da296299421036b5eb9dcf692ba6629.jpg]",
+    "stem": "Let $S=\\{(x, y): x \\in\\{0,1,2,3,4\\}, y \\in\\{0,1,2,3,4,5\\}$, and $(x, y) \\neq(0,0)\\}$. Let $T$ be the set of all right triangles whose vertices are in $S$. For every right triangle $t=\\triangle A B C$ with vertices $A, B$, and $C$ in counter-clockwise order and right angle at $A$, let $f(t)=\\tan (\\angle C B A)$. What is\n\n$\\prod_{t \\in T} f(t)$?\n\n[Figure: /question-assets/source/amc/e6a506400f475d0307a9d5bf1defaa6b8da296299421036b5eb9dcf692ba6629.jpg]",
     "options": {
       "A": "$1$",
       "B": "$\\dfrac{625}{144}$",
@@ -6940,7 +6940,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2013 AMC 12B · Problem 20",
-    "stem": "For $135^{\\circ}<x<180^{\\circ}$, points $P=\\left(\\cos x, \\cos ^{2} x\\right), Q=\\left(\\cot x, \\cot ^{2} x\\right), R=$ $\\left(\\sin x, \\sin ^{2} x\\right)$, and $S=\\left(\\tan x, \\tan ^{2} x\\right)$ are the vertices of a trapezoid. What is $\\sin (2 x) ?$",
+    "stem": "For $135^{\\circ}<x<180^{\\circ}$, points $P=\\left(\\cos x, \\cos ^{2} x\\right), Q=\\left(\\cot x, \\cot ^{2} x\\right), R=$ $\\left(\\sin x, \\sin ^{2} x\\right)$, and $S=\\left(\\tan x, \\tan ^{2} x\\right)$ are the vertices of a trapezoid. What is $\\sin (2 x)$?",
     "options": {
       "A": "$2-2 \\sqrt{2}$",
       "B": "$3 \\sqrt{3}-6$",
@@ -7234,7 +7234,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2014 AMC 12A · Problem 18",
-    "stem": "The domain of the function $f(x)=\\log _{\\frac{1}{2}}\\left(\\log _{4}\\left(\\log _{\\frac{1}{4}}\\left(\\log _{16}\\left(\\log _{\\frac{1}{16}} x\\right)\\right)\\right)\\right)$ is an interval of length $\\frac{m}{n}$, where $m$ and $n$ are relatively prime positive integers. What is $m+n ?$",
+    "stem": "The domain of the function $f(x)=\\log _{\\frac{1}{2}}\\left(\\log _{4}\\left(\\log _{\\frac{1}{4}}\\left(\\log _{16}\\left(\\log _{\\frac{1}{16}} x\\right)\\right)\\right)\\right)$ is an interval of length $\\frac{m}{n}$, where $m$ and $n$ are relatively prime positive integers. What is $m+n$?",
     "options": {
       "A": "$19$",
       "B": "$31$",
@@ -7360,7 +7360,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2014 AMC 12A · Problem 25",
-    "stem": "The parabola $P$ has focus $(0,0)$ and goes through the points $(4,3)$ and $(-4,-3)$. For how many points $(x, y) \\in P$ with integer coordinates is it true that $\\mid 4 x+$ $3 y \\mid \\leq 1000 ?$",
+    "stem": "The parabola $P$ has focus $(0,0)$ and goes through the points $(4,3)$ and $(-4,-3)$. For how many points $(x, y) \\in P$ with integer coordinates is it true that $\\mid 4 x+$ $3 y \\mid \\leq 1000$?",
     "options": {
       "A": "$38$",
       "B": "$40$",
@@ -7576,7 +7576,7 @@
       "B": "$18$",
       "C": "$19$",
       "D": "$20$",
-      "E": "$infinitely many$"
+      "E": "infinitely many"
     },
     "answer": "B",
     "solutions": [
@@ -7654,7 +7654,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2014 AMC 12B · Problem 25",
-    "stem": "What is the sum of all positive real solutions $x$ to the equation\n\n$2 \\cos (2 x)\\left(\\cos (2 x)-\\cos \\left(\\dfrac{2014 \\pi^{2}}{x}\\right)\\right)=\\cos (4 x)-1 ?$",
+    "stem": "What is the sum of all positive real solutions $x$ to the equation\n\n$2 \\cos (2 x)\\left(\\cos (2 x)-\\cos \\left(\\dfrac{2014 \\pi^{2}}{x}\\right)\\right)=\\cos (4 x)-1$?",
     "options": {
       "A": "$\\pi$",
       "B": "$810 \\pi$",
@@ -7948,7 +7948,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2015 AMC 12A · Problem 25",
-    "stem": "A collection of circles in the upper half-plane, all tangent to the $x$-axis, is constructed in layers as follows. Layer $L_{0}$ consists of two circles of radii $70^{2}$ and $73^{2}$ that are externally tangent. For $k \\geq 1$, the circles in $\\bigcup_{j=0}^{k-1} L_{j}$ are ordered according to their points of tangency with the $x$-axis. For every pair of consecutive circles in this order, a new circle is constructed externally tangent to each of the two circles in the pair. Laver $L_{k}$ consists of the $2^{k-1}$ circles constructed in this way. Let $S=\\bigcup_{j=0}^{6} L_{j}$, and for every circle $C$ denote by $r(C)$ its radius. What is\n\n$\\sum_{C \\in S} \\dfrac{1}{\\sqrt{r(C)}} ?$\n\n[Figure: /question-assets/source/amc/266066837184de893b6897ac4ea390d98a38ec66c4a36ecc72a3c8fba6a830d2.jpg]",
+    "stem": "A collection of circles in the upper half-plane, all tangent to the $x$-axis, is constructed in layers as follows. Layer $L_{0}$ consists of two circles of radii $70^{2}$ and $73^{2}$ that are externally tangent. For $k \\geq 1$, the circles in $\\bigcup_{j=0}^{k-1} L_{j}$ are ordered according to their points of tangency with the $x$-axis. For every pair of consecutive circles in this order, a new circle is constructed externally tangent to each of the two circles in the pair. Laver $L_{k}$ consists of the $2^{k-1}$ circles constructed in this way. Let $S=\\bigcup_{j=0}^{6} L_{j}$, and for every circle $C$ denote by $r(C)$ its radius. What is\n\n$\\sum_{C \\in S} \\dfrac{1}{\\sqrt{r(C)}}$?\n\n[Figure: /question-assets/source/amc/266066837184de893b6897ac4ea390d98a38ec66c4a36ecc72a3c8fba6a830d2.jpg]",
     "options": {
       "A": "$\\dfrac{286}{35}$",
       "B": "$\\dfrac{583}{70}$",
@@ -8326,7 +8326,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2016 AMC 12A · Problem 7",
-    "stem": "Which of these describes the graph of $x^{2}(x+y+1)=y^{2}(x+y+1)?$",
+    "stem": "Which of these describes the graph of $x^{2}(x+y+1)=y^{2}(x+y+1)$?",
     "options": {
       "A": "two parallel lines",
       "B": "two intersecting lines",
@@ -8347,7 +8347,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2016 AMC 12A · Problem 9",
-    "stem": "The five small shaded squares inside this unit square are congruent and have disjoint interiors. The midpoint of each side of the middle square coincides with one of the vertices of the other four small squares as shown. The common side length is $\\dfrac{a-\\sqrt{2}}{b}$, where $a$ and $b$ are positive integers. What is $a+b?$\n\n[Figure: /question-assets/source/amc/e53de29d5fc3b7217b4376d3b36298b18c365bac3db247afa90d5ad13a62b17b.jpg]",
+    "stem": "The five small shaded squares inside this unit square are congruent and have disjoint interiors. The midpoint of each side of the middle square coincides with one of the vertices of the other four small squares as shown. The common side length is $\\dfrac{a-\\sqrt{2}}{b}$, where $a$ and $b$ are positive integers. What is $a+b$?\n\n[Figure: /question-assets/source/amc/e53de29d5fc3b7217b4376d3b36298b18c365bac3db247afa90d5ad13a62b17b.jpg]",
     "options": {
       "A": "$7$",
       "B": "$8$",
@@ -8389,7 +8389,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2016 AMC 12A · Problem 12",
-    "stem": "In $\\triangle A B C, A B=6, B C=7$, and $C A=8$. Point $D$ lies on $\\overline{B C}$, and $\\overline{A D}$ bisects $\\angle B A C$. Point $E$ lies on $\\overline{A C}$, and $\\overline{B E}$ bisects $\\angle A B C$. The bisectors intersect at $F$. What is the ratio $A F: F D?$\n\n[Figure: /question-assets/source/amc/e28a0a231d6e2362568a1fc3397f304e5b5371c354d93bfa507b33372d2d041b.jpg]",
+    "stem": "In $\\triangle A B C, A B=6, B C=7$, and $C A=8$. Point $D$ lies on $\\overline{B C}$, and $\\overline{A D}$ bisects $\\angle B A C$. Point $E$ lies on $\\overline{A C}$, and $\\overline{B E}$ bisects $\\angle A B C$. The bisectors intersect at $F$. What is the ratio $A F: F D$?\n\n[Figure: /question-assets/source/amc/e28a0a231d6e2362568a1fc3397f304e5b5371c354d93bfa507b33372d2d041b.jpg]",
     "options": {
       "A": "$3: 2$",
       "B": "$5: 3$",
@@ -8431,7 +8431,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2016 AMC 12A · Problem 17",
-    "stem": "Let $A B C D$ be a square. Let $E, F, G$, and $H$ be the centers, respectively, of equilateral triangles with bases $\\overline{A B}, \\overline{B C}, \\overline{C D}$, and $\\overline{D A}$, each exterior to the square. What is the ratio of the area of square $E F G H$ to the area of square $A B C D?$",
+    "stem": "Let $A B C D$ be a square. Let $E, F, G$, and $H$ be the centers, respectively, of equilateral triangles with bases $\\overline{A B}, \\overline{B C}, \\overline{C D}$, and $\\overline{D A}$, each exterior to the square. What is the ratio of the area of square $E F G H$ to the area of square $A B C D$?",
     "options": {
       "A": "$1$",
       "B": "$\\dfrac{2+\\sqrt{3}}{3}$",
@@ -8452,7 +8452,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2016 AMC 12A · Problem 19",
-    "stem": "Jerry starts at $0$ on the real number line. He tosses a fair coin $8$ times. When he gets heads, he moves $1$ unit in the positive direction; when he gets tails, he moves $1$ unit in the negative direction. The probability that he reaches $4$ at some time during this process is $\\dfrac{a}{b}$, where $a$ and $b$ are relatively prime positive integers. What is $a+b?$ (For example, he succeeds if his sequence of tosses is HTHHHHHH.)",
+    "stem": "Jerry starts at $0$ on the real number line. He tosses a fair coin $8$ times. When he gets heads, he moves $1$ unit in the positive direction; when he gets tails, he moves $1$ unit in the negative direction. The probability that he reaches $4$ at some time during this process is $\\dfrac{a}{b}$, where $a$ and $b$ are relatively prime positive integers. What is $a+b$? (For example, he succeeds if his sequence of tosses is HTHHHHHH.)",
     "options": {
       "A": "$69$",
       "B": "$151$",
@@ -8494,7 +8494,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2016 AMC 12A · Problem 24",
-    "stem": "There is a smallest positive real number $a$ such that there exists a positive real number $b$ such that all the roots of the polynomial $x^{3}-a x^{2}+b x-a$ are real. In fact, for this value of $a$ the value of $b$ is unique. What is this value of $b?$",
+    "stem": "There is a smallest positive real number $a$ such that there exists a positive real number $b$ such that all the roots of the polynomial $x^{3}-a x^{2}+b x-a$ are real. In fact, for this value of $a$ the value of $b$ is unique. What is this value of $b$?",
     "options": {
       "A": "$8$",
       "B": "$9$",
@@ -8515,7 +8515,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2016 AMC 12A · Problem 25",
-    "stem": "Let $k$ be a positive integer. Bernardo and Silvia take turns writing and erasing numbers on a blackboard as follows: Bernardo starts by writing the smallest perfect square with $k+1$ digits. Every time Bernardo writes a number, Silvia erases the last $k$ digits of it. Bernardo then writes the next perfect square, Silvia erases the last $k$ digits of it, and this process continues until the last two numbers that remain on the board differ by at least $2$. Let $f(k)$ be the smallest positive integer not written on the board. For example, if $k=1$, then the numbers that Bernardo writes are $16,25,36,49$, and $64$, and the numbers showing on the board after Silvia erases are $1,2,3,4$, and $6$, and thus $f(1)=5$. What is the sum of the digits of $f(2)+f(4)+f(6)+\\cdots+f(2016)?$",
+    "stem": "Let $k$ be a positive integer. Bernardo and Silvia take turns writing and erasing numbers on a blackboard as follows: Bernardo starts by writing the smallest perfect square with $k+1$ digits. Every time Bernardo writes a number, Silvia erases the last $k$ digits of it. Bernardo then writes the next perfect square, Silvia erases the last $k$ digits of it, and this process continues until the last two numbers that remain on the board differ by at least $2$. Let $f(k)$ be the smallest positive integer not written on the board. For example, if $k=1$, then the numbers that Bernardo writes are $16,25,36,49$, and $64$, and the numbers showing on the board after Silvia erases are $1,2,3,4$, and $6$, and thus $f(1)=5$. What is the sum of the digits of $f(2)+f(4)+f(6)+\\cdots+f(2016)$?",
     "options": {
       "A": "$7986$",
       "B": "$8002$",
@@ -8641,7 +8641,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2016 AMC 12B · Problem 17",
-    "stem": "In $\\triangle A B C$ shown in the figure, $A B=7, B C=8, C A=9$, and $\\overline{A H}$ is an altitude. Points $D$ and $E$ lie on sides $\\overline{A C}$ and $\\overline{A B}$, respectively, so that $\\overline{B D}$ and $\\overline{C E}$ are angle bisectors, intersecting $\\overline{A H}$ at $Q$ and $P$, respectively. What is $P Q ?$\n\n[Figure: /question-assets/source/amc/a5f063779f6844a88adbe11bc6e81f7bcf29114c35c8022b587dd68fddac091f.jpg]",
+    "stem": "In $\\triangle A B C$ shown in the figure, $A B=7, B C=8, C A=9$, and $\\overline{A H}$ is an altitude. Points $D$ and $E$ lie on sides $\\overline{A C}$ and $\\overline{A B}$, respectively, so that $\\overline{B D}$ and $\\overline{C E}$ are angle bisectors, intersecting $\\overline{A H}$ at $Q$ and $P$, respectively. What is $P Q$?\n\n[Figure: /question-assets/source/amc/a5f063779f6844a88adbe11bc6e81f7bcf29114c35c8022b587dd68fddac091f.jpg]",
     "options": {
       "A": "$1$",
       "B": "$\\dfrac{5}{8} \\sqrt{3}$",
@@ -8683,7 +8683,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2016 AMC 12B · Problem 21",
-    "stem": "Let $A B C D$ be a unit square. Let $Q_{1}$ be the midpoint of $\\overline{C D}$. For $i=1,2, \\ldots$, let $P_{i}$ be the intersection of $\\overline{A Q_{i}}$ and $\\overline{B D}$, and let $Q_{i+1}$ be the foot of the perpendicular from $P_{i}$ to $\\overline{C D}$. What is\n\n$\\sum_{i=1}^{\\infty} \\text { Area of } \\triangle D Q_{i} P_{i} ?$",
+    "stem": "Let $A B C D$ be a unit square. Let $Q_{1}$ be the midpoint of $\\overline{C D}$. For $i=1,2, \\ldots$, let $P_{i}$ be the intersection of $\\overline{A Q_{i}}$ and $\\overline{B D}$, and let $Q_{i+1}$ be the foot of the perpendicular from $P_{i}$ to $\\overline{C D}$. What is\n\n$\\sum_{i=1}^{\\infty} \\text { Area of } \\triangle D Q_{i} P_{i}$?",
     "options": {
       "A": "$\\dfrac{1}{6}$",
       "B": "$\\dfrac{1}{4}$",
@@ -8788,7 +8788,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2017 AMC 12A · Problem 7",
-    "stem": "Define a function on the positive integers recursively by $f(1)=2$, $f(n)=f(n-1)+1$ if $n$ is even, and $f(n)=f(n-2)+2$ if $n$ is odd and greater than 1 . What is $f(2017)?$",
+    "stem": "Define a function on the positive integers recursively by $f(1)=2$, $f(n)=f(n-1)+1$ if $n$ is even, and $f(n)=f(n-2)+2$ if $n$ is odd and greater than 1 . What is $f(2017)$?",
     "options": {
       "A": "$2017$",
       "B": "$2018$",
@@ -8872,7 +8872,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2017 AMC 12A · Problem 16",
-    "stem": "In the figure below, semicircles with centers at $A$ and $B$ and with radii 2 and 1, respectively, are drawn in the interior of, and sharing bases with, a semicircle with diameter $\\overline{J K}$. The two smaller semicircles are externally tangent to each other and internally tangent to the largest semicircle. A circle centered at $P$ is drawn externally tangent to the two smaller semicircles and internally tangent to the largest semicircle. What is the radius of the circle centered at $P?$\n\n[Figure: /question-assets/source/amc/d5cb050f671f6bae5ff2cc8208835fdea9d50058f6ffd4ae57484707ed93036f.jpg]",
+    "stem": "In the figure below, semicircles with centers at $A$ and $B$ and with radii 2 and 1, respectively, are drawn in the interior of, and sharing bases with, a semicircle with diameter $\\overline{J K}$. The two smaller semicircles are externally tangent to each other and internally tangent to the largest semicircle. A circle centered at $P$ is drawn externally tangent to the two smaller semicircles and internally tangent to the largest semicircle. What is the radius of the circle centered at $P$?\n\n[Figure: /question-assets/source/amc/d5cb050f671f6bae5ff2cc8208835fdea9d50058f6ffd4ae57484707ed93036f.jpg]",
     "options": {
       "A": "$\\dfrac{3}{4}$",
       "B": "$\\dfrac{6}{7}$",
@@ -8914,7 +8914,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2017 AMC 12A · Problem 20",
-    "stem": "How many ordered pairs $(a, b)$ such that $a$ is a positive real number and $b$ is an integer between 2 and 200, inclusive, satisfy the equation $\\left(\\log _{b} a\\right)^{2017}=\\log _{b}\\left(a^{2017}\\right)?$",
+    "stem": "How many ordered pairs $(a, b)$ such that $a$ is a positive real number and $b$ is an integer between 2 and 200, inclusive, satisfy the equation $\\left(\\log _{b} a\\right)^{2017}=\\log _{b}\\left(a^{2017}\\right)$?",
     "options": {
       "A": "$198$",
       "B": "$199$",
@@ -8956,7 +8956,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2017 AMC 12A · Problem 22",
-    "stem": "A square is drawn in the Cartesian coordinate plane with vertices at $(2,2),(-2,2),(-2,-2)$, and $(2,-2)$. A particle starts at $(0,0)$. Every second it moves with equal probability to one of the eight lattice points (points with integer coordinates) closest to its current position, independently of its previous moves. In other words, the probability is $\\dfrac{1}{8}$ that the particle will move from $(x, y)$ to each of $(x, y+1)$, $(x+1, y+1),(x+1, y),(x+1, y-1),(x, y-1),(x-1, y-1)$, $(x-1, y)$, or $(x-1, y+1)$. The particle will eventually hit the square for the first time, either at one of the 4 corners of the square or at one of the 12 lattice points in the interior of one of the sides of the square. The probability that it will hit at a corner rather than at an interior point of a side is $\\dfrac{m}{n}$, where $m$ and $n$ are relatively prime positive integers. What is $m+n?$",
+    "stem": "A square is drawn in the Cartesian coordinate plane with vertices at $(2,2),(-2,2),(-2,-2)$, and $(2,-2)$. A particle starts at $(0,0)$. Every second it moves with equal probability to one of the eight lattice points (points with integer coordinates) closest to its current position, independently of its previous moves. In other words, the probability is $\\dfrac{1}{8}$ that the particle will move from $(x, y)$ to each of $(x, y+1)$, $(x+1, y+1),(x+1, y),(x+1, y-1),(x, y-1),(x-1, y-1)$, $(x-1, y)$, or $(x-1, y+1)$. The particle will eventually hit the square for the first time, either at one of the 4 corners of the square or at one of the 12 lattice points in the interior of one of the sides of the square. The probability that it will hit at a corner rather than at an interior point of a side is $\\dfrac{m}{n}$, where $m$ and $n$ are relatively prime positive integers. What is $m+n$?",
     "options": {
       "A": "$4$",
       "B": "$5$",
@@ -8977,7 +8977,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2017 AMC 12A · Problem 24",
-    "stem": "Quadrilateral $A B C D$ is inscribed in circle $O$ and has sides $A B=3$, $B C=2, C D=6$, and $D A=8$. Let $X$ and $Y$ be points on $\\overline{B D}$ such that\n\n$\\dfrac{D X}{B D}=\\dfrac{1}{4} \\quad \\text { and } \\quad \\dfrac{B Y}{B D}=\\dfrac{11}{36}$\nLet $E$ be the intersection of line $A X$ and the line through $Y$ parallel to $\\overline{A D}$. Let $F$ be the intersection of line $C X$ and the line through $E$ parallel to $\\overline{A C}$. Let $G$ be the point on circle $O$ other than $C$ that lies on line $C X$. What is $X F \\cdot X G?$",
+    "stem": "Quadrilateral $A B C D$ is inscribed in circle $O$ and has sides $A B=3$, $B C=2, C D=6$, and $D A=8$. Let $X$ and $Y$ be points on $\\overline{B D}$ such that\n\n$\\dfrac{D X}{B D}=\\dfrac{1}{4} \\quad \\text { and } \\quad \\dfrac{B Y}{B D}=\\dfrac{11}{36}$\nLet $E$ be the intersection of line $A X$ and the line through $Y$ parallel to $\\overline{A D}$. Let $F$ be the intersection of line $C X$ and the line through $E$ parallel to $\\overline{A C}$. Let $G$ be the point on circle $O$ other than $C$ that lies on line $C X$. What is $X F \\cdot X G$?",
     "options": {
       "A": "$17$",
       "B": "$\\dfrac{59-5 \\sqrt{2}}{3}$",
@@ -8998,7 +8998,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2017 AMC 12A · Problem 25",
-    "stem": "The vertices $V$ of a centrally symmetric hexagon in the complex plane are given by\n\n$V=\\left\\{\\sqrt{2} i,-\\sqrt{2} i, \\dfrac{1}{\\sqrt{8}}(1+i), \\dfrac{1}{\\sqrt{8}}(-1+i), \\dfrac{1}{\\sqrt{8}}(1-i), \\dfrac{1}{\\sqrt{8}}(-1-i)\\right\\} .$\nFor each $j, 1 \\leq j \\leq 12$, an element $z_{j}$ is chosen from $V$ at random, independently of the other choices. Let $P=\\prod_{j=1}^{12} z_{j}$ be the product of the 12 numbers selected. What is the probability that $P=-1?$",
+    "stem": "The vertices $V$ of a centrally symmetric hexagon in the complex plane are given by\n\n$V=\\left\\{\\sqrt{2} i,-\\sqrt{2} i, \\dfrac{1}{\\sqrt{8}}(1+i), \\dfrac{1}{\\sqrt{8}}(-1+i), \\dfrac{1}{\\sqrt{8}}(1-i), \\dfrac{1}{\\sqrt{8}}(-1-i)\\right\\} .$\nFor each $j, 1 \\leq j \\leq 12$, an element $z_{j}$ is chosen from $V$ at random, independently of the other choices. Let $P=\\prod_{j=1}^{12} z_{j}$ be the product of the 12 numbers selected. What is the probability that $P=-1$?",
     "options": {
       "A": "$\\dfrac{5 \\cdot 11}{3^{10}}$",
       "B": "$\\dfrac{5^{2} \\cdot 11}{2 \\cdot 3^{10}}$",
@@ -9418,7 +9418,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2018 AMC 12A · Problem 14",
-    "stem": "The solution to the equation $\\log _{3 x} 4=\\log _{2 x} 8$, where $x$ is a positive real number other than $\\dfrac{1}{3}$ or $\\dfrac{1}{2}$, can be written as $\\dfrac{p}{q}$, where $p$ and $q$ are relatively prime positive integers. What is $p+q?$",
+    "stem": "The solution to the equation $\\log _{3 x} 4=\\log _{2 x} 8$, where $x$ is a positive real number other than $\\dfrac{1}{3}$ or $\\dfrac{1}{2}$, can be written as $\\dfrac{p}{q}$, where $p$ and $q$ are relatively prime positive integers. What is $p+q$?",
     "options": {
       "A": "$5$",
       "B": "$13$",
@@ -9439,7 +9439,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2018 AMC 12A · Problem 19",
-    "stem": "Let $A$ be the set of positive integers that have no prime factors other than $2,3$, or $5$. The infinite sum\n\n$\\dfrac{1}{1}+\\dfrac{1}{2}+\\dfrac{1}{3}+\\dfrac{1}{4}+\\dfrac{1}{5}+\\dfrac{1}{6}+\\dfrac{1}{8}+\\dfrac{1}{9}+\\dfrac{1}{10}+\\dfrac{1}{12}+\\dfrac{1}{15}+\\dfrac{1}{16}+\\dfrac{1}{18}+\\dfrac{1}{20}+\\cdots$\nof the reciprocals of all the elements of $A$ can be expressed as $\\dfrac{m}{n}$, where $m$ and $n$ are relatively prime positive integers. What is $m+n?$",
+    "stem": "Let $A$ be the set of positive integers that have no prime factors other than $2,3$, or $5$. The infinite sum\n\n$\\dfrac{1}{1}+\\dfrac{1}{2}+\\dfrac{1}{3}+\\dfrac{1}{4}+\\dfrac{1}{5}+\\dfrac{1}{6}+\\dfrac{1}{8}+\\dfrac{1}{9}+\\dfrac{1}{10}+\\dfrac{1}{12}+\\dfrac{1}{15}+\\dfrac{1}{16}+\\dfrac{1}{18}+\\dfrac{1}{20}+\\cdots$\nof the reciprocals of all the elements of $A$ can be expressed as $\\dfrac{m}{n}$, where $m$ and $n$ are relatively prime positive integers. What is $m+n$?",
     "options": {
       "A": "$16$",
       "B": "$17$",
@@ -9460,7 +9460,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2018 AMC 12A · Problem 20",
-    "stem": "Triangle $A B C$ is an isosceles right triangle with $A B=A C=3$. Let $M$ be the midpoint of hypotenuse $\\overline{B C}$. Points $I$ and $E$ lie on sides $\\overline{A C}$ and $\\overline{A B}$, respectively, so that $A I>A E$ and $A I M E$ is a cyclic quadrilateral. Given that triangle $E M I$ has area $2$, the length $C I$ can be written as $\\dfrac{a-\\sqrt{b}}{c}$, where $a, b$, and $c$ are positive integers and $b$ is not divisible by the square of any prime. What is the value of $a+b+c?$",
+    "stem": "Triangle $A B C$ is an isosceles right triangle with $A B=A C=3$. Let $M$ be the midpoint of hypotenuse $\\overline{B C}$. Points $I$ and $E$ lie on sides $\\overline{A C}$ and $\\overline{A B}$, respectively, so that $A I>A E$ and $A I M E$ is a cyclic quadrilateral. Given that triangle $E M I$ has area $2$, the length $C I$ can be written as $\\dfrac{a-\\sqrt{b}}{c}$, where $a, b$, and $c$ are positive integers and $b$ is not divisible by the square of any prime. What is the value of $a+b+c$?",
     "options": {
       "A": "$9$",
       "B": "$10$",
@@ -9502,7 +9502,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2018 AMC 12A · Problem 22",
-    "stem": "The solutions to the equations $z^{2}=4+4 \\sqrt{15} i$ and $z^{2}=2+2 \\sqrt{3} i$, where $i=\\sqrt{-1}$, form the vertices of a parallelogram in the complex plane. The area of this parallelogram can be written in the form $p \\sqrt{q}-r \\sqrt{s}$, where $p, q, r$, and $s$ are positive integers and neither $q$ nor $s$ is divisible by the square of any prime number. What is $p+q+r+s ?$",
+    "stem": "The solutions to the equations $z^{2}=4+4 \\sqrt{15} i$ and $z^{2}=2+2 \\sqrt{3} i$, where $i=\\sqrt{-1}$, form the vertices of a parallelogram in the complex plane. The area of this parallelogram can be written in the form $p \\sqrt{q}-r \\sqrt{s}$, where $p, q, r$, and $s$ are positive integers and neither $q$ nor $s$ is divisible by the square of any prime number. What is $p+q+r+s$?",
     "options": {
       "A": "$20$",
       "B": "$21$",
@@ -9523,7 +9523,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2018 AMC 12A · Problem 23",
-    "stem": "In $\\triangle P A T, \\angle P=36^{\\circ}, \\angle A=56^{\\circ}$, and $P A=10$. Points $U$ and $G$ lie on sides $\\overline{T P}$ and $\\overline{T A}$, respectively, so that $P U=A G=1$. Let $M$ and $N$ be the midpoints of segments $\\overline{P A}$ and $\\overline{U G}$, respectively. What is the degree measure of the acute angle formed by lines $M N$ and $P A?$",
+    "stem": "In $\\triangle P A T, \\angle P=36^{\\circ}, \\angle A=56^{\\circ}$, and $P A=10$. Points $U$ and $G$ lie on sides $\\overline{T P}$ and $\\overline{T A}$, respectively, so that $P U=A G=1$. Let $M$ and $N$ be the midpoints of segments $\\overline{P A}$ and $\\overline{U G}$, respectively. What is the degree measure of the acute angle formed by lines $M N$ and $P A$?",
     "options": {
       "A": "$76$",
       "B": "$77$",
@@ -9628,7 +9628,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2018 AMC 12B · Problem 7",
-    "stem": "What is the value of\n\n$\\log _{3} 7 \\cdot \\log _{5} 9 \\cdot \\log _{7} 11 \\cdot \\log _{9} 13 \\cdots \\log _{21} 25 \\cdot \\log _{23} 27 ?$",
+    "stem": "What is the value of\n\n$\\log _{3} 7 \\cdot \\log _{5} 9 \\cdot \\log _{7} 11 \\cdot \\log _{9} 13 \\cdots \\log _{21} 25 \\cdot \\log _{23} 27$?",
     "options": {
       "A": "$3$",
       "B": "$3 \\log _{7} 23$",
@@ -9649,7 +9649,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2018 AMC 12B · Problem 9",
-    "stem": "What is\n\n$\\sum_{i=1}^{100} \\sum_{j=1}^{100}(i+j) ?$",
+    "stem": "What is\n\n$\\sum_{i=1}^{100} \\sum_{j=1}^{100}(i+j)$?",
     "options": {
       "A": "$100,100$",
       "B": "$500,500$",
@@ -9859,7 +9859,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2019 AMC 12A · Problem 1",
-    "stem": "The area of a pizza with radius $4$ inches is $N$ percent larger than the area of a pizza with radius 3 inches. What is the integer closest to $N?$",
+    "stem": "The area of a pizza with radius $4$ inches is $N$ percent larger than the area of a pizza with radius 3 inches. What is the integer closest to $N$?",
     "options": {
       "A": "$25$",
       "B": "$33$",
@@ -9880,7 +9880,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2019 AMC 12A · Problem 2",
-    "stem": "Suppose $a$ is $150 \\%$ of $b$. What percent of $a$ is $3 b?$",
+    "stem": "Suppose $a$ is $150 \\%$ of $b$. What percent of $a$ is $3 b$?",
     "options": {
       "A": "$50$",
       "B": "$66 \\dfrac{2}{3}$",
@@ -9901,7 +9901,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2019 AMC 12A · Problem 12",
-    "stem": "Positive real numbers $x \\neq 1$ and $y \\neq 1$ satisfy $\\log _{2} x=\\log _{y} 16$ and $x y=64$. What is $\\left(\\log _{2} \\dfrac{x}{y}\\right)^{2}?$",
+    "stem": "Positive real numbers $x \\neq 1$ and $y \\neq 1$ satisfy $\\log _{2} x=\\log _{y} 16$ and $x y=64$. What is $\\left(\\log _{2} \\dfrac{x}{y}\\right)^{2}$?",
     "options": {
       "A": "$\\dfrac{25}{2}$",
       "B": "$20$",
@@ -9932,7 +9932,7 @@
     },
     "answer": "E",
     "solutions": [
-      "The $5$ and $7$ can be painted with no restrictions because the set of integers does not contain a multiple or proper factor of $5$ or $7$ . There are $3$ ways to paint each, giving us $\\underline{9}$ ways to paint both. The $2$ is the most restrictive number. There are $\\underline{3}$ ways to paint $2$ , but without loss of generality, let it be painted red. $4$ cannot be the same color as $2 or 8$ , so there are $\\underline{2}$ ways to paint $4$ , which automatically determines the color for $8$ . $6$ cannot be painted red, so there are $\\underline{2}$ ways to paint 6 , but WLOG, let it be painted blue. There are $\\underline{2}$ choices for the color for $3$ , which is either red or green in this case. Lastly, there are $\\underline{2}$ ways to choose the color for $9$ .\n\n$9 \\cdot 3 \\cdot 2 \\cdot 2 \\cdot 2 \\cdot 2=$ $\\boxed{(E)432}$ .\n\n$OR$\nWe note that the primes can be colored any of the $3$ colors since they don't have any proper divisors other than $1$ , which is not in the list. Furthermore, $6$ is the only number in the list that has $2$ distinct prime factors (namely, $2$ and $3$), so we do casework on $6$ .\n\nCase $1$: $2$ and $3$ are the same color\n\nIn this case, we have $3$ primes to choose the color for ($2,5$, and $7$). Afterwards, $4,6$ , and $9$ have two possible colors, which will determine the color of $8$ . Thus, there are $3^{3} \\cdot 2^{3}=216$ possibilities here.\n\nCase $2$: $2$ and $3$ are different colors\n\nIn this case, we have $4$ primes to color. Without loss of generality, we'll color the $2$ first, then the $3$ . Then there are $3$ color choices for $2,5,7$, and $2$ color choices for $3$ . This will determine the color of $6$ as well. After that, we only need to choose the color for $4$ and $9$ , which each have $2$ choices. Thus, there are $3^{3} \\cdot 2^{3}=216$ possibilities here as well.\n\nAdding up gives $216+216=\\boxed{(E)432}$."
+      "The $5$ and $7$ can be painted with no restrictions because the set of integers does not contain a multiple or proper factor of $5$ or $7$ . There are $3$ ways to paint each, giving us $\\underline{9}$ ways to paint both. The $2$ is the most restrictive number. There are $\\underline{3}$ ways to paint $2$ , but without loss of generality, let it be painted red. $4$ cannot be the same color as $2 or 8$ , so there are $\\underline{2}$ ways to paint $4$ , which automatically determines the color for $8$ . $6$ cannot be painted red, so there are $\\underline{2}$ ways to paint 6 , but WLOG, let it be painted blue. There are $\\underline{2}$ choices for the color for $3$ , which is either red or green in this case. Lastly, there are $\\underline{2}$ ways to choose the color for $9$ .\n\n$9 \\cdot 3 \\cdot 2 \\cdot 2 \\cdot 2 \\cdot 2=$ $\\boxed{(E)432}$ .\n\n$\\textbf{OR}$\nWe note that the primes can be colored any of the $3$ colors since they don't have any proper divisors other than $1$ , which is not in the list. Furthermore, $6$ is the only number in the list that has $2$ distinct prime factors (namely, $2$ and $3$), so we do casework on $6$ .\n\nCase $1$: $2$ and $3$ are the same color\n\nIn this case, we have $3$ primes to choose the color for ($2,5$, and $7$). Afterwards, $4,6$ , and $9$ have two possible colors, which will determine the color of $8$ . Thus, there are $3^{3} \\cdot 2^{3}=216$ possibilities here.\n\nCase $2$: $2$ and $3$ are different colors\n\nIn this case, we have $4$ primes to color. Without loss of generality, we'll color the $2$ first, then the $3$ . Then there are $3$ color choices for $2,5,7$, and $2$ color choices for $3$ . This will determine the color of $6$ as well. After that, we only need to choose the color for $4$ and $9$ , which each have $2$ choices. Thus, there are $3^{3} \\cdot 2^{3}=216$ possibilities here as well.\n\nAdding up gives $216+216=\\boxed{(E)432}$."
     ],
     "tags": []
   },
@@ -9943,7 +9943,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2019 AMC 12A · Problem 14",
-    "stem": "For a certain complex number $c$, the polynomial\n\n$P(x)=\\left(x^{2}-2 x+2\\right)\\left(x^{2}-c x+4\\right)\\left(x^{2}-4 x+8\\right)$\nhas exactly 4 distinct roots. What is $|c|?$",
+    "stem": "For a certain complex number $c$, the polynomial\n\n$P(x)=\\left(x^{2}-2 x+2\\right)\\left(x^{2}-c x+4\\right)\\left(x^{2}-4 x+8\\right)$\nhas exactly 4 distinct roots. What is $|c|$?",
     "options": {
       "A": "$2$",
       "B": "$\\sqrt{6}$",
@@ -9964,7 +9964,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2019 AMC 12A · Problem 15",
-    "stem": "Positive real numbers $a$ and $b$ have the property that\n\n$\\sqrt{\\log a}+\\sqrt{\\log b}+\\log \\sqrt{a}+\\log \\sqrt{b}=100$\nand all four terms on the left are positive integers, where log denotes the base 10 logarithm. What is $a b?$",
+    "stem": "Positive real numbers $a$ and $b$ have the property that\n\n$\\sqrt{\\log a}+\\sqrt{\\log b}+\\log \\sqrt{a}+\\log \\sqrt{b}=100$\nand all four terms on the left are positive integers, where log denotes the base 10 logarithm. What is $a b$?",
     "options": {
       "A": "$10^{52}$",
       "B": "$10^{100}$",
@@ -9974,7 +9974,7 @@
     },
     "answer": "D",
     "solutions": [
-      "Since $\\sqrt{\\log a}$ is a positive integer, we get $\\log a=x^{2}$ for some integer $x$; since $\\log \\sqrt{a}=\\dfrac{1}{2} \\log a$ is a positive integer, we get $x=2 m$. Thus $a=10^{4 m^{2}}$; similarly $b=10^{4 n^{2}}$. Substituting, we get $2\\left(m+n+m^{2}+n^{2}\\right)=100$, i.e. $m(m+1)+n(n+1)=50$. It follows that $m, n \\leq 6$. The values of $m(m+1)$ for $m=1, \\ldots, 6$ are\n\n$\\begin{array}{llllllllll}m 1 2 3 4 5 6 m(m+1) 261220 3042 \\text { Two of those values }\\end{array}$ must add up to 50 and we see that $20+30=50$, so $m=4, n=5$ and $a b=10^{4\\left(m^{2}+n^{2}\\right)}=10^{4\\left(4^{2}+5^{2}\\right)}$, and our answer is $\\boxed{(D) 10^{164}}$.\n\n$OR$\nSince all four terms on the left are positive integers, from $\\sqrt{\\log a}$, we know that both $\\log a$ has to be a perfect square and $a$ has to be a power of ten. The same applies to $b$ for the same reason. Setting $a$ and $b$ to $10^{x}$ and $10^{y}$, where $x$ and $y$ are the perfect squares, $a b=10^{x+y}$. By listing all the perfect squares up to $14^{2}$ (as $15^{2}$ is larger than the largest possible sum of $x$ and $y$ of 200 from answer choice $\\mathrm{E}$ ), two of those perfect squares must add up to one of the possible sums of $x$ and $y$ given from the answer choices ($52, 100, 144, 164$, or $200$).\n\nOnly a few possible sums are seen: $16+36=52,36+64=100,64+100=164,100+100=200$, and $4+196=200$. By testing each of these (seeing whether $\\sqrt{x}+\\sqrt{y}+\\dfrac{x}{2}+\\dfrac{y}{2}=100$ ), only the pair $x=64$ and $y=100$ work. Therefore, $a$ and $b$ are $10^{64}$ and $10^{100}$, and our answer is $\\boxed{(D) 10^{164}}$."
+      "Since $\\sqrt{\\log a}$ is a positive integer, we get $\\log a=x^{2}$ for some integer $x$; since $\\log \\sqrt{a}=\\dfrac{1}{2} \\log a$ is a positive integer, we get $x=2 m$. Thus $a=10^{4 m^{2}}$; similarly $b=10^{4 n^{2}}$. Substituting, we get $2\\left(m+n+m^{2}+n^{2}\\right)=100$, i.e. $m(m+1)+n(n+1)=50$. It follows that $m, n \\leq 6$. The values of $m(m+1)$ for $m=1, \\ldots, 6$ are\n\n$\\begin{array}{llllllllll}m 1 2 3 4 5 6 m(m+1) 261220 3042 \\text { Two of those values }\\end{array}$ must add up to 50 and we see that $20+30=50$, so $m=4, n=5$ and $a b=10^{4\\left(m^{2}+n^{2}\\right)}=10^{4\\left(4^{2}+5^{2}\\right)}$, and our answer is $\\boxed{(D) 10^{164}}$.\n\n$\\textbf{OR}$\nSince all four terms on the left are positive integers, from $\\sqrt{\\log a}$, we know that both $\\log a$ has to be a perfect square and $a$ has to be a power of ten. The same applies to $b$ for the same reason. Setting $a$ and $b$ to $10^{x}$ and $10^{y}$, where $x$ and $y$ are the perfect squares, $a b=10^{x+y}$. By listing all the perfect squares up to $14^{2}$ (as $15^{2}$ is larger than the largest possible sum of $x$ and $y$ of 200 from answer choice $\\mathrm{E}$ ), two of those perfect squares must add up to one of the possible sums of $x$ and $y$ given from the answer choices ($52, 100, 144, 164$, or $200$).\n\nOnly a few possible sums are seen: $16+36=52,36+64=100,64+100=164,100+100=200$, and $4+196=200$. By testing each of these (seeing whether $\\sqrt{x}+\\sqrt{y}+\\dfrac{x}{2}+\\dfrac{y}{2}=100$ ), only the pair $x=64$ and $y=100$ work. Therefore, $a$ and $b$ are $10^{64}$ and $10^{100}$, and our answer is $\\boxed{(D) 10^{164}}$."
     ],
     "tags": []
   },
@@ -9985,7 +9985,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2019 AMC 12A · Problem 17",
-    "stem": "Let $s_{k}$ denote the sum of the $k$ th powers of the roots of the polynomial $x^{3}-5 x^{2}+8 x-13$. In particular, $s_{0}=3, s_{1}=5$, and $s_{2}=9$. Let $a, b$, and $c$ be real numbers such that $s_{k+1}=$ $a s_{k}+b s_{k-1}+c s_{k-2}$ for $k=2,3, \\ldots$ What is $a+b+c?$",
+    "stem": "Let $s_{k}$ denote the sum of the $k$ th powers of the roots of the polynomial $x^{3}-5 x^{2}+8 x-13$. In particular, $s_{0}=3, s_{1}=5$, and $s_{2}=9$. Let $a, b$, and $c$ be real numbers such that $s_{k+1}=$ $a s_{k}+b s_{k-1}+c s_{k-2}$ for $k=2,3, \\ldots$ What is $a+b+c$?",
     "options": {
       "A": "$-6$",
       "B": "$0$",
@@ -10006,7 +10006,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2019 AMC 12A · Problem 19",
-    "stem": "In $\\triangle A B C$ with integer side lengths,\n\n$\\cos A=\\dfrac{11}{16}, \\quad \\cos B=\\dfrac{7}{8}, \\quad \\text { and } \\quad \\cos C=-\\dfrac{1}{4} .$\nWhat is the least possible perimeter for $\\triangle A B C?$",
+    "stem": "In $\\triangle A B C$ with integer side lengths,\n\n$\\cos A=\\dfrac{11}{16}, \\quad \\cos B=\\dfrac{7}{8}, \\quad \\text { and } \\quad \\cos C=-\\dfrac{1}{4} .$\nWhat is the least possible perimeter for $\\triangle A B C$?",
     "options": {
       "A": "$9$",
       "B": "$12$",
@@ -10027,7 +10027,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2019 AMC 12A · Problem 21",
-    "stem": "Let\n\n$z=\\dfrac{1+i}{\\sqrt{2}}$\nWhat is\n\n$\\left(z^{1^{2}}+z^{2^{2}}+z^{3^{2}}+\\cdots+z^{12^{2}}\\right) \\cdot\\left(\\dfrac{1}{z^{1^{2}}}+\\dfrac{1}{z^{2^{2}}}+\\dfrac{1}{z^{3^{2}}}+\\cdots+\\dfrac{1}{z^{12^{2}}}\\right) ?$",
+    "stem": "Let\n\n$z=\\dfrac{1+i}{\\sqrt{2}}$\nWhat is\n\n$\\left(z^{1^{2}}+z^{2^{2}}+z^{3^{2}}+\\cdots+z^{12^{2}}\\right) \\cdot\\left(\\dfrac{1}{z^{1^{2}}}+\\dfrac{1}{z^{2^{2}}}+\\dfrac{1}{z^{3^{2}}}+\\cdots+\\dfrac{1}{z^{12^{2}}}\\right)$?",
     "options": {
       "A": "$18$",
       "B": "$72-36 \\sqrt{2}$",
@@ -10048,7 +10048,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2019 AMC 12A · Problem 22",
-    "stem": "Circles $\\omega$ and $\\gamma$, both centered at $O$, have radii 20 and 17 , respectively. Equilateral triangle $A B C$, whose interior lies in the interior of $\\omega$ but in the exterior of $\\gamma$, has vertex $A$ on $\\omega$, and the line containing side $\\overline{B C}$ is tangent to $\\gamma$. Segments $\\overline{A O}$ and $\\overline{B C}$ intersect at $P$, and $\\dfrac{B P}{C P}=3$. Then $A B$ can be written in the form $\\dfrac{m}{\\sqrt{n}}-\\dfrac{p}{\\sqrt{q}}$ for positive integers $m, n, p, q$ with $\\operatorname{gcd}(m, n)=\\operatorname{gcd}(p, q)=1$. What is $m+n+p+q?$",
+    "stem": "Circles $\\omega$ and $\\gamma$, both centered at $O$, have radii 20 and 17 , respectively. Equilateral triangle $A B C$, whose interior lies in the interior of $\\omega$ but in the exterior of $\\gamma$, has vertex $A$ on $\\omega$, and the line containing side $\\overline{B C}$ is tangent to $\\gamma$. Segments $\\overline{A O}$ and $\\overline{B C}$ intersect at $P$, and $\\dfrac{B P}{C P}=3$. Then $A B$ can be written in the form $\\dfrac{m}{\\sqrt{n}}-\\dfrac{p}{\\sqrt{q}}$ for positive integers $m, n, p, q$ with $\\operatorname{gcd}(m, n)=\\operatorname{gcd}(p, q)=1$. What is $m+n+p+q$?",
     "options": {
       "A": "$42$",
       "B": "$86$",
@@ -10069,7 +10069,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2019 AMC 12A · Problem 23",
-    "stem": "Define binary operations $\\diamond$ and $\\heartsuit$ by\n\n$a \\diamond b=a^{\\log _{7}(b)} \\quad \\text { and } \\quad a \\heartsuit b=a^{\\frac{1}{\\log _{7}(b)}}$\nfor all real numbers $a$ and $b$ for which these expressions are defined. The sequence $\\left(a_{n}\\right)$ is defined recursively by $a_{3}=3 \\heartsuit 2$ and\n\n$a_{n}=(n \\heartsuit(n-1)) \\diamond a_{n-1}$\nfor all integers $n \\geq 4$. To the nearest integer, what is $\\log _{7}\\left(a_{2019}\\right)?$",
+    "stem": "Define binary operations $\\diamond$ and $\\heartsuit$ by\n\n$a \\diamond b=a^{\\log _{7}(b)} \\quad \\text { and } \\quad a \\heartsuit b=a^{\\frac{1}{\\log _{7}(b)}}$\nfor all real numbers $a$ and $b$ for which these expressions are defined. The sequence $\\left(a_{n}\\right)$ is defined recursively by $a_{3}=3 \\heartsuit 2$ and\n\n$a_{n}=(n \\heartsuit(n-1)) \\diamond a_{n-1}$\nfor all integers $n \\geq 4$. To the nearest integer, what is $\\log _{7}\\left(a_{2019}\\right)$?",
     "options": {
       "A": "$8$",
       "B": "$9$",
@@ -10594,7 +10594,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2020 AMC 12A · Problem 22",
-    "stem": "Let $(a_n)$ and $(b_n)$ be the sequences of real numbers such that $(2 + i)^n = a_n + b_n i$ for all integers $n \\ge 0,$ where $i = \\sqrt{-1}.$ What is $\\sum_{n=0}^{\\infty} \\frac{a_n b_n}{7^n}?$",
+    "stem": "Let $(a_n)$ and $(b_n)$ be the sequences of real numbers such that $(2 + i)^n = a_n + b_n i$ for all integers $n \\ge 0,$ where $i = \\sqrt{-1}.$ What is $\\sum_{n=0}^{\\infty} \\frac{a_n b_n}{7^n}$?",
     "options": {
       "A": "$\\dfrac{3}{8}$",
       "B": "$\\dfrac{7}{16}$",
@@ -10930,7 +10930,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2021 AMC 12A · Problem 1",
-    "stem": "What is the value of $ 2^{1+2+3} - \\left(2^1 + 2^2 + 2^3\\right)? $",
+    "stem": "What is the value of $ 2^{1+2+3} - \\left(2^1 + 2^2 + 2^3\\right)$?",
     "options": {
       "A": "$0$",
       "B": "$50$",
@@ -11064,7 +11064,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2021 AMC 12A · Problem 14",
-    "stem": "What is the value of $\\left(\\sum_{k=1}^{20} \\log_{5^k} 3^{k^2}\\right)\\cdot\\left(\\sum_{k=1}^{100} \\log_{9^k} 25^k\\right)?$",
+    "stem": "What is the value of $\\left(\\sum_{k=1}^{20} \\log_{5^k} 3^{k^2}\\right)\\cdot\\left(\\sum_{k=1}^{100} \\log_{9^k} 25^k\\right)$?",
     "options": {
       "A": "$21$",
       "B": "$100\\log_5 3$",
@@ -11138,7 +11138,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2021 AMC 12A · Problem 20",
-    "stem": "Suppose that on a parabola with vertex $V$ and a focus $F$ there exists a point $A$ such that $AF=20$ and $AV=21$. What is the sum of all possible values of the length $FV?$",
+    "stem": "Suppose that on a parabola with vertex $V$ and a focus $F$ there exists a point $A$ such that $AF=20$ and $AV=21$. What is the sum of all possible values of the length $FV$?",
     "options": {
       "A": "$13$",
       "B": "$\\frac{40}3$",
@@ -11235,7 +11235,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2021 AMC 12A · Problem 25",
-    "stem": "Let $d(n)$ denote the number of positive integers that divide $n$, including $1$ and $n$. For example, $d(1)=1,d(2)=2,$ and $d(12)=6$. (This function is known as the divisor function.) Let$f(n)=\\frac{d(n)}{\\sqrt [3]n}.$There is a unique positive integer $N$ such that $f(N)>f(n)$ for all positive integers $n\\ne N$. What is the sum of the digits of $N?$",
+    "stem": "Let $d(n)$ denote the number of positive integers that divide $n$, including $1$ and $n$. For example, $d(1)=1,d(2)=2,$ and $d(12)=6$. (This function is known as the divisor function.) Let$f(n)=\\frac{d(n)}{\\sqrt [3]n}.$There is a unique positive integer $N$ such that $f(N)>f(n)$ for all positive integers $n\\ne N$. What is the sum of the digits of $N$?",
     "options": {
       "A": "$5$",
       "B": "$6$",
@@ -11259,7 +11259,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2021 AMC 12B · Problem 3",
-    "stem": "Suppose $2+\\cfrac{1}{1+\\cfrac{1}{2+\\cfrac{2}{3+x}}}=\\dfrac{144}{53}.$\n\nWhat is the value of $x?$",
+    "stem": "Suppose $2+\\cfrac{1}{1+\\cfrac{1}{2+\\cfrac{2}{3+x}}}=\\dfrac{144}{53}.$\n\nWhat is the value of $x$?",
     "options": {
       "A": "$\\dfrac{3}{4}$",
       "B": "$\\dfrac{7}{8}$",
@@ -11280,7 +11280,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2021 AMC 12B · Problem 9",
-    "stem": "What is the value of $\\dfrac{\\log_2 80}{\\log_{40}2}-\\dfrac{\\log_2 160}{\\log_{20}2}?$",
+    "stem": "What is the value of $\\dfrac{\\log_2 80}{\\log_{40}2}-\\dfrac{\\log_2 160}{\\log_{20}2}$?",
     "options": {
       "A": "$0$",
       "B": "$1$",
@@ -11322,7 +11322,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2021 AMC 12B · Problem 11",
-    "stem": "Triangle $ABC$ has $AB=13, BC=14,$ and $AC=15.$ Let $P$ be the point on $\\overline{AC}$ such that $PC=10.$ There are exactly two points $D$ and $E$ on line $BP$ such that quadrilaterals $ABCD$ and $ABCE$ are trapezoids. What is the distance $DE?$",
+    "stem": "Triangle $ABC$ has $AB=13, BC=14,$ and $AC=15.$ Let $P$ be the point on $\\overline{AC}$ such that $PC=10.$ There are exactly two points $D$ and $E$ on line $BP$ such that quadrilaterals $ABCD$ and $ABCE$ are trapezoids. What is the distance $DE$?",
     "options": {
       "A": "$\\dfrac{42}{5}$",
       "B": "$6\\sqrt2$",
@@ -11343,7 +11343,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2021 AMC 12B · Problem 13",
-    "stem": "How many values of $\\theta$ in the interval $0\\lt\\theta\\le 2\\pi$ satisfy $1-3\\sin\\theta+5\\cos 3\\theta=0?$",
+    "stem": "How many values of $\\theta$ in the interval $0\\lt\\theta\\le 2\\pi$ satisfy $1-3\\sin\\theta+5\\cos 3\\theta=0$?",
     "options": {
       "A": "$2$",
       "B": "$4$",
@@ -11364,7 +11364,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2021 AMC 12B · Problem 14",
-    "stem": "Let $ABCD$ be a rectangle and let $\\overline{DM}$ be a segment perpendicular to the plane of $ABCD$. Suppose that $\\overline{DM}$ has integer length, and the lengths of $\\overline{MA},\\overline{MC},$ and $\\overline{MB}$ are consecutive odd positive integers (in this order). What is the volume of pyramid $MABCD?$",
+    "stem": "Let $ABCD$ be a rectangle and let $\\overline{DM}$ be a segment perpendicular to the plane of $ABCD$. Suppose that $\\overline{DM}$ has integer length, and the lengths of $\\overline{MA},\\overline{MC},$ and $\\overline{MB}$ are consecutive odd positive integers (in this order). What is the volume of pyramid $MABCD$?",
     "options": {
       "A": "$24\\sqrt5$",
       "B": "$60$",
@@ -11387,7 +11387,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2021 AMC 12B · Problem 16",
-    "stem": "Let $g(x)$ be a polynomial with leading coefficient $1,$ whose three roots are the reciprocals of the three roots of $f(x)=x^3+ax^2+bx+c,$ where $1\\lt a\\lt b\\lt c.$ What is $g(1)$ in terms of $a, b,$ and $c?$",
+    "stem": "Let $g(x)$ be a polynomial with leading coefficient $1,$ whose three roots are the reciprocals of the three roots of $f(x)=x^3+ax^2+bx+c,$ where $1\\lt a\\lt b\\lt c.$ What is $g(1)$ in terms of $a, b,$ and $c$?",
     "options": {
       "A": "$\\dfrac{1+a+b+c}{c}$",
       "B": "$1+a+b+c$",
@@ -11408,7 +11408,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2021 AMC 12B · Problem 17",
-    "stem": "Let $ABCD$ be an isosceles trapezoid having parallel bases $\\overline{AB}$ and $\\overline{CD}$ with $AB\\gt CD.$ Line segments from a point inside $ABCD$ to the vertices divide the trapezoid into four triangles whose areas are $2, 3, 4,$ and $5$ starting with the triangle with base $\\overline{CD}$ and moving clockwise as shown in the diagram below. What is the ratio $\\dfrac{AB}{CD}?$\n\n[Figure: /question-assets/source/amc/0523ddc08b9c82a0daa64f8afb4f7b9ab3ee029416b00b9941c98bf8dd81fb38.svg]",
+    "stem": "Let $ABCD$ be an isosceles trapezoid having parallel bases $\\overline{AB}$ and $\\overline{CD}$ with $AB\\gt CD.$ Line segments from a point inside $ABCD$ to the vertices divide the trapezoid into four triangles whose areas are $2, 3, 4,$ and $5$ starting with the triangle with base $\\overline{CD}$ and moving clockwise as shown in the diagram below. What is the ratio $\\dfrac{AB}{CD}$?\n\n[Figure: /question-assets/source/amc/0523ddc08b9c82a0daa64f8afb4f7b9ab3ee029416b00b9941c98bf8dd81fb38.svg]",
     "options": {
       "A": "$3$",
       "B": "$2+\\sqrt2$",
@@ -11429,7 +11429,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2021 AMC 12B · Problem 18",
-    "stem": "Let $z$ be a complex number satisfying $12|z|^2$ $=2|z+2|^2+|z^2+1|^2+31.$ What is the value of $z+\\dfrac{6}{z}?$",
+    "stem": "Let $z$ be a complex number satisfying $12|z|^2$ $=2|z+2|^2+|z^2+1|^2+31.$ What is the value of $z+\\dfrac{6}{z}$?",
     "options": {
       "A": "$-2$",
       "B": "$-1$",
@@ -11471,7 +11471,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2021 AMC 12B · Problem 20",
-    "stem": "Let $Q(z)$ and $R(z)$ be the unique polynomials such that $ \\begin{aligned} &z^{2021}+1 \\\\ &\\quad = (z^2+z+1)Q(z)+R(z) \\end{aligned} $ and the degree of $R$ is less than $2.$ What is $R(z)?$",
+    "stem": "Let $Q(z)$ and $R(z)$ be the unique polynomials such that $ \\begin{aligned} &z^{2021}+1 \\\\ &\\quad = (z^2+z+1)Q(z)+R(z) \\end{aligned} $ and the degree of $R$ is less than $2.$ What is $R(z)$?",
     "options": {
       "A": "$-z$",
       "B": "$-1$",
@@ -11515,7 +11515,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2021 AMC 12B · Problem 23",
-    "stem": "Three balls are randomly and independently tossed into bins numbered with the positive integers so that for each ball, the probability that it is tossed into bin $i$ is $2^{-i}$ for $i=1,2,3,\\ldots.$ More than one ball is allowed in each bin. The probability that the balls end up evenly spaced in distinct bins is $\\dfrac{p}{q},$ where $p$ and $q$ are relatively prime positive integers. (For example, the balls are evenly spaced if they are tossed into bins $3, 17,$ and $10.$) What is $p+q?$",
+    "stem": "Three balls are randomly and independently tossed into bins numbered with the positive integers so that for each ball, the probability that it is tossed into bin $i$ is $2^{-i}$ for $i=1,2,3,\\ldots.$ More than one ball is allowed in each bin. The probability that the balls end up evenly spaced in distinct bins is $\\dfrac{p}{q},$ where $p$ and $q$ are relatively prime positive integers. (For example, the balls are evenly spaced if they are tossed into bins $3, 17,$ and $10.$) What is $p+q$?",
     "options": {
       "A": "$55$",
       "B": "$56$",
@@ -11536,7 +11536,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2021 AMC 12B · Problem 24",
-    "stem": "Let $ABCD$ be a parallelogram with area $15.$ Points $P$ and $Q$ are the projections of $A$ and $C,$ respectively, onto the line $BD;$ and points $R$ and $S$ are the projections of $B$ and $D,$ respectively, onto the line $AC.$ See the figure, which also shows the relative locations of these points.\n\n[Figure: /question-assets/source/amc/f6c73f1338cf4c15e50a1de30a68eb2c4e8f7f42c94a2bac8e615eb7b013fd37.svg]\n\nSuppose $PQ=6$ and $RS=8,$ and let $d$ denote the length of $\\overline{BD},$ the longer diagonal of $ABCD.$ Then $d^2$ can be written in the form $m+n\\sqrt p,$ where $m, n,$ and $p$ are positive integers and $p$ is not divisible by the square of any prime. What is $m+n+p?$",
+    "stem": "Let $ABCD$ be a parallelogram with area $15.$ Points $P$ and $Q$ are the projections of $A$ and $C,$ respectively, onto the line $BD;$ and points $R$ and $S$ are the projections of $B$ and $D,$ respectively, onto the line $AC.$ See the figure, which also shows the relative locations of these points.\n\n[Figure: /question-assets/source/amc/f6c73f1338cf4c15e50a1de30a68eb2c4e8f7f42c94a2bac8e615eb7b013fd37.svg]\n\nSuppose $PQ=6$ and $RS=8,$ and let $d$ denote the length of $\\overline{BD},$ the longer diagonal of $ABCD.$ Then $d^2$ can be written in the form $m+n\\sqrt p,$ where $m, n,$ and $p$ are positive integers and $p$ is not divisible by the square of any prime. What is $m+n+p$?",
     "options": {
       "A": "$81$",
       "B": "$89$",
@@ -11557,7 +11557,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2021 Fall AMC 12A · Problem 8",
-    "stem": "Let $M$ be the least common multiple of all the integers $10$ through $30,$ inclusive. Let $N$ be the least common multiple of $M,32,33,34,35,36,37,38,39,$ and $40.$ What is the value of $\\frac{N}{M}?$",
+    "stem": "Let $M$ be the least common multiple of all the integers $10$ through $30,$ inclusive. Let $N$ be the least common multiple of $M,32,33,34,35,36,37,38,39,$ and $40.$ What is the value of $\\frac{N}{M}$?",
     "options": {
       "A": "$\\ 1$",
       "B": "$\\ 2$",
@@ -11579,7 +11579,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2021 Fall AMC 12A · Problem 9",
-    "stem": "A right rectangular prism whose surface area and volume are numerically equal has edge lengths $\\log_{2}x, \\log_{3}x,$ and $\\log_{4}x.$ What is $x?$",
+    "stem": "A right rectangular prism whose surface area and volume are numerically equal has edge lengths $\\log_{2}x, \\log_{3}x,$ and $\\log_{4}x.$ What is $x$?",
     "options": {
       "A": "$\\ 2\\sqrt{6}$",
       "B": "$\\ 6\\sqrt{6}$",
@@ -11623,7 +11623,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2021 Fall AMC 12A · Problem 12",
-    "stem": "What is the number of terms with rational coefficients among the $1001$ terms in the expansion of $\\left(x\\sqrt[3]{2}+y\\sqrt{3}\\right)^{1000}?$",
+    "stem": "What is the number of terms with rational coefficients among the $1001$ terms in the expansion of $\\left(x\\sqrt[3]{2}+y\\sqrt{3}\\right)^{1000}$?",
     "options": {
       "A": "$\\ 0$",
       "B": "$\\ 166$",
@@ -11644,7 +11644,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2021 Fall AMC 12A · Problem 13",
-    "stem": "The angle bisector of the acute angle formed at the origin by the graphs of the lines $y = x$ and $y=3x$ has equation $y=kx.$ What is $k?$",
+    "stem": "The angle bisector of the acute angle formed at the origin by the graphs of the lines $y = x$ and $y=3x$ has equation $y=kx.$ What is $k$?",
     "options": {
       "A": "$\\ \\frac{1+\\sqrt{5}}{2}$",
       "B": "$\\ \\frac{1+\\sqrt{7}}{2}$",
@@ -11694,7 +11694,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2021 Fall AMC 12A · Problem 15",
-    "stem": "Recall that the conjugate of the complex number $w = a + bi$, where $a$ and $b$ are real numbers and $i = \\sqrt{-1}$, is the complex number $\\overline{w} = a - bi$. For any complex number $z$, let $f(z) = 4i\\hspace{1pt}\\overline{z}$. The polynomial $P(z) = z^4 + 4z^3 + 3z^2 + 2z + 1$ has four complex roots: $z_1$, $z_2$, $z_3$, and $z_4$. Let $Q(z) = z^4 + Az^3 + Bz^2 + Cz + D$ be the polynomial whose roots are $f(z_1)$, $f(z_2)$, $f(z_3)$, and $f(z_4)$, where the coefficients $A,$ $B,$ $C,$ and $D$ are complex numbers. What is $B + D?$",
+    "stem": "Recall that the conjugate of the complex number $w = a + bi$, where $a$ and $b$ are real numbers and $i = \\sqrt{-1}$, is the complex number $\\overline{w} = a - bi$. For any complex number $z$, let $f(z) = 4i\\hspace{1pt}\\overline{z}$. The polynomial $P(z) = z^4 + 4z^3 + 3z^2 + 2z + 1$ has four complex roots: $z_1$, $z_2$, $z_3$, and $z_4$. Let $Q(z) = z^4 + Az^3 + Bz^2 + Cz + D$ be the polynomial whose roots are $f(z_1)$, $f(z_2)$, $f(z_3)$, and $f(z_4)$, where the coefficients $A,$ $B,$ $C,$ and $D$ are complex numbers. What is $B + D$?",
     "options": {
       "A": "$\\: {-}304$",
       "B": "$\\: {-}208$",
@@ -11759,7 +11759,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2021 Fall AMC 12A · Problem 21",
-    "stem": "Let $ABCD$ be an isosceles trapezoid with $\\overline{BC}\\parallel \\overline{AD}$ and $AB=CD$. Points $X$ and $Y$ lie on diagonal $\\overline{AC}$ with $X$ between $A$ and $Y$, as shown in the figure. Suppose $\\angle AXD = \\angle BYC = 90^\\circ$, $AX = 3$, $XY = 1$, and $YC = 2$. What is the area of $ABCD?$\n\n[Figure: /question-assets/source/amc/cd31f3abfc72abc251535a5b2c2b9a3423aa931f207425f501e73eb178079c81.png]",
+    "stem": "Let $ABCD$ be an isosceles trapezoid with $\\overline{BC}\\parallel \\overline{AD}$ and $AB=CD$. Points $X$ and $Y$ lie on diagonal $\\overline{AC}$ with $X$ between $A$ and $Y$, as shown in the figure. Suppose $\\angle AXD = \\angle BYC = 90^\\circ$, $AX = 3$, $XY = 1$, and $YC = 2$. What is the area of $ABCD$?\n\n[Figure: /question-assets/source/amc/cd31f3abfc72abc251535a5b2c2b9a3423aa931f207425f501e73eb178079c81.png]",
     "options": {
       "A": "$\\: 15$",
       "B": "$\\: 5\\sqrt{11}$",
@@ -11826,7 +11826,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2021 Fall AMC 12A · Problem 25",
-    "stem": "Let $m\\ge 5$ be an odd integer, and let $D(m)$ denote the number of quadruples $(a_1, a_2, a_3, a_4)$ of distinct integers with $1\\le a_i \\le m$ for all $i$ such that $m$ divides $a_1+a_2+a_3+a_4$. There is a polynomial\n$q(x) = c_3x^3+c_2x^2+c_1x+c_0$such that $D(m) = q(m)$ for all odd integers $m\\ge 5$. What is $c_1?$",
+    "stem": "Let $m\\ge 5$ be an odd integer, and let $D(m)$ denote the number of quadruples $(a_1, a_2, a_3, a_4)$ of distinct integers with $1\\le a_i \\le m$ for all $i$ such that $m$ divides $a_1+a_2+a_3+a_4$. There is a polynomial\n$q(x) = c_3x^3+c_2x^2+c_1x+c_0$such that $D(m) = q(m)$ for all odd integers $m\\ge 5$. What is $c_1$?",
     "options": {
       "A": "$\\ {-}6$",
       "B": "$\\ {-}1$",
@@ -11918,7 +11918,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2021 Fall AMC 12B · Problem 12",
-    "stem": "For $n$ a positive integer, let $f(n)$ be the quotient obtained when the sum of all positive divisors of $n$ is divided by $n.$ For example, $f(14)=(1+2+7+14)\\div 14=\\frac{12}{7}$\nWhat is $f(768)-f(384)?$",
+    "stem": "For $n$ a positive integer, let $f(n)$ be the quotient obtained when the sum of all positive divisors of $n$ is divided by $n.$ For example, $f(14)=(1+2+7+14)\\div 14=\\frac{12}{7}$\nWhat is $f(768)-f(384)$?",
     "options": {
       "A": "$\\ \\frac{1}{768}$",
       "B": "$\\ \\frac{1}{192}$",
@@ -11945,7 +11945,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2021 Fall AMC 12B · Problem 13",
-    "stem": "Let $c = \\frac{2\\pi}{11}.$ What is the value of\n$\\frac{\\sin 3c \\cdot \\sin 6c \\cdot \\sin 9c \\cdot \\sin 12c \\cdot \\sin 15c}{\\sin c \\cdot \\sin 2c \\cdot \\sin 3c \\cdot \\sin 4c \\cdot \\sin 5c}?$",
+    "stem": "Let $c = \\frac{2\\pi}{11}.$ What is the value of\n$\\frac{\\sin 3c \\cdot \\sin 6c \\cdot \\sin 9c \\cdot \\sin 12c \\cdot \\sin 15c}{\\sin c \\cdot \\sin 2c \\cdot \\sin 3c \\cdot \\sin 4c \\cdot \\sin 5c}$?",
     "options": {
       "A": "$\\ {-}1$",
       "B": "$\\ {-}\\frac{\\sqrt{11}}{5}$",
@@ -12039,7 +12039,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2021 Fall AMC 12B · Problem 18",
-    "stem": "Set $u_0 = \\frac{1}{4}$, and for $k \\ge 0$ let $u_{k+1}$ be determined by the recurrence $u_{k+1} = 2u_k - 2u_k^2.$\n\nThis sequence tends to a limit; call it $L$. What is the least value of $k$ such that $|u_k-L| \\le \\frac{1}{2^{1000}}?$",
+    "stem": "Set $u_0 = \\frac{1}{4}$, and for $k \\ge 0$ let $u_{k+1}$ be determined by the recurrence $u_{k+1} = 2u_k - 2u_k^2.$\n\nThis sequence tends to a limit; call it $L$. What is the least value of $k$ such that $|u_k-L| \\le \\frac{1}{2^{1000}}$?",
     "options": {
       "A": "$\\: 10$",
       "B": "$\\: 87$",
@@ -12062,7 +12062,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2021 Fall AMC 12B · Problem 21",
-    "stem": "For real numbers $x$, let\n$P(x)=1+\\cos(x)+i\\sin(x)-\\cos(2x)-i\\sin(2x)+\\cos(3x)+i\\sin(3x)$\nwhere $i = \\sqrt{-1}$. For how many values of $x$ with $0\\leq x<2\\pi$ does\n$P(x)=0?$",
+    "stem": "For real numbers $x$, let\n$P(x)=1+\\cos(x)+i\\sin(x)-\\cos(2x)-i\\sin(2x)+\\cos(3x)+i\\sin(3x)$\nwhere $i = \\sqrt{-1}$. For how many values of $x$ with $0\\leq x<2\\pi$ does\n$P(x)=0$?",
     "options": {
       "A": "$\\ 0$",
       "B": "$\\ 1$",
@@ -12165,7 +12165,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2021 Fall AMC 12B · Problem 25",
-    "stem": "For $n$ a positive integer, let $R(n)$ be the sum of the remainders when $n$ is divided by $2$, $3$, $4$, $5$, $6$, $7$, $8$, $9$, and $10$. For example, $R(15) = 1+0+3+0+3+1+7+6+5=26$. How many two-digit positive integers $n$ satisfy $R(n) = R(n+1)\\,?$",
+    "stem": "For $n$ a positive integer, let $R(n)$ be the sum of the remainders when $n$ is divided by $2$, $3$, $4$, $5$, $6$, $7$, $8$, $9$, and $10$. For example, $R(15) = 1+0+3+0+3+1+7+6+5=26$. How many two-digit positive integers $n$ satisfy $R(n) = R(n+1)\\,$?",
     "options": {
       "A": "$0$",
       "B": "$1$",
@@ -12420,7 +12420,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2022 AMC 12A · Problem 23",
-    "stem": "Let $h_{n}$ and $k_{n}$ be the unique relatively prime positive integers such that\n\n$\\dfrac{1}{1}+\\dfrac{1}{2}+\\dfrac{1}{3}+\\cdots+\\dfrac{1}{n}=\\dfrac{h_{n}}{k_{n}}$\nLet $L_{n}$ denote the least common multiple of the numbers $1,2,3, \\ldots, n$. For how many integers with $1 \\leq n \\leq 22$ is $k_{n}<L_{n}?$",
+    "stem": "Let $h_{n}$ and $k_{n}$ be the unique relatively prime positive integers such that\n\n$\\dfrac{1}{1}+\\dfrac{1}{2}+\\dfrac{1}{3}+\\cdots+\\dfrac{1}{n}=\\dfrac{h_{n}}{k_{n}}$\nLet $L_{n}$ denote the least common multiple of the numbers $1,2,3, \\ldots, n$. For how many integers with $1 \\leq n \\leq 22$ is $k_{n}<L_{n}$?",
     "options": {
       "A": "$0$",
       "B": "$3$",
@@ -12777,7 +12777,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2023 AMC 12A · Problem 12",
-    "stem": "What is the value of\n\n$2^{3}-1^{3}+4^{3}-3^{3}+6^{3}-5^{3}+\\cdots+18^{3}-17^{3}?$",
+    "stem": "What is the value of\n\n$2^{3}-1^{3}+4^{3}-3^{3}+6^{3}-5^{3}+\\cdots+18^{3}-17^{3}$?",
     "options": {
       "A": "$2023$",
       "B": "$2679$",
@@ -12882,7 +12882,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2023 AMC 12A · Problem 19",
-    "stem": "What is the product of all solutions to the equation\n\n$\\log _{7 x} 2023 \\cdot \\log _{289 x} 2023=\\log _{2023 x} 2023?$",
+    "stem": "What is the product of all solutions to the equation\n\n$\\log _{7 x} 2023 \\cdot \\log _{289 x} 2023=\\log _{2023 x} 2023$?",
     "options": {
       "A": "$\\left(\\log _{2023} 7 \\cdot \\log _{2023} 289\\right)^{2}$",
       "B": "$\\log _{2023} 7 \\cdot \\log _{2023} 289$",
@@ -12945,7 +12945,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2023 AMC 12A · Problem 23",
-    "stem": "How many ordered pairs of positive real numbers $(a, b)$ satisfy the equation\n\n$(1+2 a)(2+2 b)(2 a+b)=32 a b?$",
+    "stem": "How many ordered pairs of positive real numbers $(a, b)$ satisfy the equation\n\n$(1+2 a)(2+2 b)(2 a+b)=32 a b$?",
     "options": {
       "A": "$0$",
       "B": "$1$",
@@ -13018,7 +13018,7 @@
     },
     "answer": "E",
     "solutions": [
-      "First note that the fraction under the square root will equal 0 when $n=1$. There are now 2 cases to consider: Either $\\log n>3$ or $\\log n<3$. In the first case, $\\log n>3$ gives $n>1000$, so the numerator $\\log \\left(n^{2}\\right)-(\\log n)^{2}=2 \\log n-(\\log n)^{2}<0$ because $2 \\log n<(\\log n)^{2}$ whenever $\\log n>2$. Thus the fraction under the square root will be negative and there are no solutions in this case.\n\nFor the second case, $\\log n<3$, so $n<1000$. The fraction under the square root will be nonnegative provided $\\log \\left(n^{2}\\right)-(\\log n)^{2} \\leq 0$. This will occur when $\\log n \\geq 2$, i.e., when $n \\geq 100$. Thus the given expression will evaluate to a real number for any integer $n$ in the range $100 \\leq n<1000$. Together with the $n=1$ solution, this gives a total of $(\\text{E})\\boxed{901}$ integers for which the expression evaluates to a real number.\n\n$\\textbf{OR}$\nIf the expression represents a real number, then $\\log n$ is defined, so $n>0$. Because $n$ is an integer, $n>0$ implies $n \\geq 1$. Let $m=\\log n \\geq \\log 1=0$. The fraction under the square root can be expressed as\n\n$\\frac{2 m-m^{2}}{m-3}=\\frac{m(2-m)}{m-3}$\nThis expression is meaningful and nonnegative when $m=0$ or $2 \\leq m<3$, as shown in the table below. If $m=0$, then $n=1$. When $2 \\leq m<3$, it follows that $100 \\leq n<1000$ and hence another 900 integral values of $n$ make the expression represent a real number. This gives a total of $1+900=(\\text{E})\\boxed{901}$ possible values of $n$.\n\n$\\begin{array}{c|c|c|c|c} & m & 2-m & m-3 & \\frac{m(2-m)}{m-3} \\\\ \\hline m=0 & 0 & + & - & 0 \\\\ \\hline 0<m<2 & + & + & - & - \\\\ \\hline m=2 & + & 0 & - & 0 \\\\ \\hline 2<m<3 & - & - & - & + \\\\ \\hline m=3 & + & - & 0 & undefined \\\\ \\hline m>3 & + & - & + & - \\\\ \\hline \\end{array}$"
+      "First note that the fraction under the square root will equal 0 when $n=1$. There are now 2 cases to consider: Either $\\log n>3$ or $\\log n<3$. In the first case, $\\log n>3$ gives $n>1000$, so the numerator $\\log \\left(n^{2}\\right)-(\\log n)^{2}=2 \\log n-(\\log n)^{2}<0$ because $2 \\log n<(\\log n)^{2}$ whenever $\\log n>2$. Thus the fraction under the square root will be negative and there are no solutions in this case.\n\nFor the second case, $\\log n<3$, so $n<1000$. The fraction under the square root will be nonnegative provided $\\log \\left(n^{2}\\right)-(\\log n)^{2} \\leq 0$. This will occur when $\\log n \\geq 2$, i.e., when $n \\geq 100$. Thus the given expression will evaluate to a real number for any integer $n$ in the range $100 \\leq n<1000$. Together with the $n=1$ solution, this gives a total of $(\\text{E})\\boxed{901}$ integers for which the expression evaluates to a real number.\n\n$\\textbf{OR}$\nIf the expression represents a real number, then $\\log n$ is defined, so $n>0$. Because $n$ is an integer, $n>0$ implies $n \\geq 1$. Let $m=\\log n \\geq \\log 1=0$. The fraction under the square root can be expressed as\n\n$\\frac{2 m-m^{2}}{m-3}=\\frac{m(2-m)}{m-3}$\nThis expression is meaningful and nonnegative when $m=0$ or $2 \\leq m<3$, as shown in the table below. If $m=0$, then $n=1$. When $2 \\leq m<3$, it follows that $100 \\leq n<1000$ and hence another 900 integral values of $n$ make the expression represent a real number. This gives a total of $1+900=(\\text{E})\\boxed{901}$ possible values of $n$.\n\n$\\begin{array}{c|c|c|c|c} & m & 2-m & m-3 & \\frac{m(2-m)}{m-3} \\\\ \\hline m=0 & 0 & + & - & 0 \\\\ \\hline 0<m<2 & + & + & - & - \\\\ \\hline m=2 & + & 0 & - & 0 \\\\ \\hline 2<m<3 & - & - & - & + \\\\ \\hline m=3 & + & - & 0 & \\text{undefined} \\\\ \\hline m>3 & + & - & + & - \\\\ \\hline \\end{array}$"
     ],
     "tags": []
   },
@@ -13323,7 +13323,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2024 AMC 12A · Problem 7",
-    "stem": "In $\\triangle A B C, \\angle A B C=90^{\\circ}$ and $B A=B C=\\sqrt{2}$. Points $P_{1}, P_{2}, \\ldots, P_{2024}$ lie on hypotenuse $\\overline{A C}$ so that $A P_{1}=P_{1} P_{2}=P_{2} P_{3}=\\cdots=P_{2023} P_{2024}=P_{2024} C$. What is the length of the vector sum\n\n$\\overrightarrow{B P_{1}}+\\overrightarrow{B P_{2}}+\\overrightarrow{B P_{3}}+\\cdots+\\overrightarrow{B P_{2024}} ?$",
+    "stem": "In $\\triangle A B C, \\angle A B C=90^{\\circ}$ and $B A=B C=\\sqrt{2}$. Points $P_{1}, P_{2}, \\ldots, P_{2024}$ lie on hypotenuse $\\overline{A C}$ so that $A P_{1}=P_{1} P_{2}=P_{2} P_{3}=\\cdots=P_{2023} P_{2024}=P_{2024} C$. What is the length of the vector sum\n\n$\\overrightarrow{B P_{1}}+\\overrightarrow{B P_{2}}+\\overrightarrow{B P_{3}}+\\cdots+\\overrightarrow{B P_{2024}}$?",
     "options": {
       "A": "$1011$",
       "B": "$1012$",
@@ -13344,7 +13344,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2024 AMC 12A · Problem 8",
-    "stem": "How many angles $\\theta$ with $0 \\leq \\theta \\leq 2 \\pi$ satisfy $\\log (\\sin (3 \\theta))+\\log (\\cos (2 \\theta))=0?$",
+    "stem": "How many angles $\\theta$ with $0 \\leq \\theta \\leq 2 \\pi$ satisfy $\\log (\\sin (3 \\theta))+\\log (\\cos (2 \\theta))=0$?",
     "options": {
       "A": "$0$",
       "B": "$1$",
@@ -13407,7 +13407,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2024 AMC 12A · Problem 15",
-    "stem": "The roots of $x^{3}+2 x^{2}-x+3$ are $p, q$, and $r$. What is the value of\n\n$\\left(p^{2}+4\\right)\\left(q^{2}+4\\right)\\left(r^{2}+4\\right) ?$",
+    "stem": "The roots of $x^{3}+2 x^{2}-x+3$ are $p, q$, and $r$. What is the value of\n\n$\\left(p^{2}+4\\right)\\left(q^{2}+4\\right)\\left(r^{2}+4\\right)$?",
     "options": {
       "A": "$64$",
       "B": "$75$",
@@ -13491,7 +13491,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2024 AMC 12A · Problem 20",
-    "stem": "Points $P$ and $Q$ are chosen uniformly and independently at random on sides $\\overline{A B}$ and $\\overline{A C}$, respectively, of equilateral triangle $\\triangle A B C$. Which of the following intervals contains the probability that the area of $\\triangle A P Q$ is less than half the area of $\\triangle A B C?$",
+    "stem": "Points $P$ and $Q$ are chosen uniformly and independently at random on sides $\\overline{A B}$ and $\\overline{A C}$, respectively, of equilateral triangle $\\triangle A B C$. Which of the following intervals contains the probability that the area of $\\triangle A P Q$ is less than half the area of $\\triangle A B C$?",
     "options": {
       "A": "$\\left[\\frac{3}{8}, \\frac{1}{2}\\right]$",
       "B": "$\\left(\\frac{1}{2}, \\frac{2}{3}\\right]$",
@@ -13512,7 +13512,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2024 AMC 12A · Problem 21",
-    "stem": "Suppose that $a_{1}=2$ and the sequence $\\left(a_{n}\\right)$ satisfies the recurrence relation\n\n$\\frac{a_{n}-1}{n-1}=\\frac{a_{n-1}+1}{(n-1)+1}$\nfor all $n \\geq 2$. What is the greatest integer less than or equal to\n\n$\\sum_{n=1}^{100} a_{n}^{2} ?$",
+    "stem": "Suppose that $a_{1}=2$ and the sequence $\\left(a_{n}\\right)$ satisfies the recurrence relation\n\n$\\frac{a_{n}-1}{n-1}=\\frac{a_{n-1}+1}{(n-1)+1}$\nfor all $n \\geq 2$. What is the greatest integer less than or equal to\n\n$\\sum_{n=1}^{100} a_{n}^{2}$?",
     "options": {
       "A": "$338,550$",
       "B": "$338,551$",
@@ -13533,7 +13533,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2024 AMC 12A · Problem 23",
-    "stem": "What is the value of\n\n$\\tan ^{2} \\frac{\\pi}{16} \\cdot \\tan ^{2} \\frac{3 \\pi}{16}+\\tan ^{2} \\frac{\\pi}{16} \\cdot \\tan ^{2} \\frac{5 \\pi}{16}+\\tan ^{2} \\frac{3 \\pi}{16} \\cdot \\tan ^{2} \\frac{7 \\pi}{16}+\\tan ^{2} \\frac{5 \\pi}{16} \\cdot \\tan ^{2} \\frac{7 \\pi}{16} ?$",
+    "stem": "What is the value of\n\n$\\tan ^{2} \\frac{\\pi}{16} \\cdot \\tan ^{2} \\frac{3 \\pi}{16}+\\tan ^{2} \\frac{\\pi}{16} \\cdot \\tan ^{2} \\frac{5 \\pi}{16}+\\tan ^{2} \\frac{3 \\pi}{16} \\cdot \\tan ^{2} \\frac{7 \\pi}{16}+\\tan ^{2} \\frac{5 \\pi}{16} \\cdot \\tan ^{2} \\frac{7 \\pi}{16}$?",
     "options": {
       "A": "$28$",
       "B": "$68$",
@@ -13606,7 +13606,7 @@
     },
     "answer": "B",
     "solutions": [
-      "The number of digits required to write the positive integer $n$ in base $b$ is $1+\\log _{b} n$, rounded down to an integer. Therefore the required value is the floor of\n\n$1+\\log _{5}\\left(5 \\cdot 10^{13}\\right)=1+\\log _{5} 5+13 \\log _{5} 10=1+1+13 \\cdot \\frac{1}{\\log _{10} 5} \\approx 2+\\frac{13}{0.7}=20.5 \\ldots$\nwhich is $(\\text{B})\\boxed{20}$.\n\n$\\textbf{OR}$\nIt is possible to convert a positive integer to base 5 by repeatedly dividing by 5 and recording the remainders. This list of remainders in reverse order is the required numeral. Here $5 \\cdot 10^{13}=2^{13} \\cdot 5^{14}$. Performing this calculation gives a remainder of 0 for the first 14 iterations. The following table gives the remaining 6 iterations:\n\n$\\begin{array}{|r|r|r|} \\hline dividend & quotient & remainder \\\\ \\hline 8192 & 1638 & 2 \\\\ \\hline 1638 & 327 & 3 \\\\ \\hline 327 & 65 & 2 \\\\ \\hline 65 & 13 & 0 \\\\ \\hline 13 & 2 & 3 \\\\ \\hline 2 & 0 & 2 \\\\ \\hline \\end{array}$\nTherefore $50,000,000,000,000_{\\text {ten }}=23,023,200,000,000,000,000_{\\text {five }}$, a numeral with $(\\text{B})\\boxed{20}$ digits."
+      "The number of digits required to write the positive integer $n$ in base $b$ is $1+\\log _{b} n$, rounded down to an integer. Therefore the required value is the floor of\n\n$1+\\log _{5}\\left(5 \\cdot 10^{13}\\right)=1+\\log _{5} 5+13 \\log _{5} 10=1+1+13 \\cdot \\frac{1}{\\log _{10} 5} \\approx 2+\\frac{13}{0.7}=20.5 \\ldots$\nwhich is $(\\text{B})\\boxed{20}$.\n\n$\\textbf{OR}$\nIt is possible to convert a positive integer to base 5 by repeatedly dividing by 5 and recording the remainders. This list of remainders in reverse order is the required numeral. Here $5 \\cdot 10^{13}=2^{13} \\cdot 5^{14}$. Performing this calculation gives a remainder of 0 for the first 14 iterations. The following table gives the remaining 6 iterations:\n\n$\\begin{array}{|r|r|r|} \\hline \\text{dividend} & \\text{quotient} & \\text{remainder} \\\\ \\hline 8192 & 1638 & 2 \\\\ \\hline 1638 & 327 & 3 \\\\ \\hline 327 & 65 & 2 \\\\ \\hline 65 & 13 & 0 \\\\ \\hline 13 & 2 & 3 \\\\ \\hline 2 & 0 & 2 \\\\ \\hline \\end{array}$\nTherefore $50,000,000,000,000_{\\text {ten }}=23,023,200,000,000,000,000_{\\text {five }}$, a numeral with $(\\text{B})\\boxed{20}$ digits."
     ],
     "tags": []
   },
@@ -13617,7 +13617,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2024 AMC 12B · Problem 8",
-    "stem": "What value of $x$ satisfies\n\n$\\frac{\\log _{2} x \\cdot \\log _{3} x}{\\log _{2} x+\\log _{3} x}=2 ?$",
+    "stem": "What value of $x$ satisfies\n\n$\\frac{\\log _{2} x \\cdot \\log _{3} x}{\\log _{2} x+\\log _{3} x}=2$?",
     "options": {
       "A": "$25$",
       "B": "$32$",
@@ -13890,7 +13890,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2025 AMC 12A · Problem 7",
-    "stem": "In a certain alien world, the maximum running speed $v$ of an organism is dependent on its number of toes $n$ and number of eyes $m$. The relationship can be expressed as $v=k n^{a} m^{b}$ centimeters per hour, where $k,a,b$ are integer constants. In a population where all organisms have $5$ toes, $\\log v=4+2\\log m$; and in a population where all organisms have $25$ eyes, $\\log v=4+4\\log n$ (base $10$). What is $k+a+b?$",
+    "stem": "In a certain alien world, the maximum running speed $v$ of an organism is dependent on its number of toes $n$ and number of eyes $m$. The relationship can be expressed as $v=k n^{a} m^{b}$ centimeters per hour, where $k,a,b$ are integer constants. In a population where all organisms have $5$ toes, $\\log v=4+2\\log m$; and in a population where all organisms have $25$ eyes, $\\log v=4+4\\log n$ (base $10$). What is $k+a+b$?",
     "options": {
       "A": "$20$",
       "B": "$21$",
@@ -13911,7 +13911,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2025 AMC 12A · Problem 8",
-    "stem": "Pentagon $ABCDE$ is inscribed in a circle, and $\\angle BEC=\\angle CED=30^{\\circ}$. Let $\\overline{AC}$ and $\\overline{BD}$ intersect at point $F$, and suppose that $AB=9$ and $AD=24$. What is $BF?$",
+    "stem": "Pentagon $ABCDE$ is inscribed in a circle, and $\\angle BEC=\\angle CED=30^{\\circ}$. Let $\\overline{AC}$ and $\\overline{BD}$ intersect at point $F$, and suppose that $AB=9$ and $AD=24$. What is $BF$?",
     "options": {
       "A": "$\\tfrac{57}{11}$",
       "B": "$\\tfrac{59}{11}$",
@@ -13953,7 +13953,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2025 AMC 12A · Problem 10",
-    "stem": "In the figure shown below, major arc $\\widehat{AD}$ and minor arc $\\widehat{BC}$ have the same center $O$. Also, $A$ lies between $O$ and $B$, and $D$ lies between $O$ and $C$. Major arc $\\widehat{AD}$, minor arc $\\widehat{BC}$, and each of the two segments $\\overline{AB}$ and $\\overline{CD}$ have length $2\\pi$.\n\n[Figure: /question-assets/source/amc/f6c05c50395286f0231a533d41a10b43d3a08228139ea7921f16db5ec0f6644b.jpg]\n\nWhat is the distance from $O$ to $A?$",
+    "stem": "In the figure shown below, major arc $\\widehat{AD}$ and minor arc $\\widehat{BC}$ have the same center $O$. Also, $A$ lies between $O$ and $B$, and $D$ lies between $O$ and $C$. Major arc $\\widehat{AD}$, minor arc $\\widehat{BC}$, and each of the two segments $\\overline{AB}$ and $\\overline{CD}$ have length $2\\pi$.\n\n[Figure: /question-assets/source/amc/f6c05c50395286f0231a533d41a10b43d3a08228139ea7921f16db5ec0f6644b.jpg]\n\nWhat is the distance from $O$ to $A$?",
     "options": {
       "A": "$1$",
       "B": "$1-\\pi+\\sqrt{1+\\pi^{2}}$",
@@ -13974,7 +13974,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2025 AMC 12A · Problem 11",
-    "stem": "The orthocenter of a triangle is the concurrent intersection of the three (possibly extended) altitudes. What is the sum of the coordinates of the orthocenter of the triangle whose vertices are $A(2,31)$, $B(8,27)$, and $C(18,27)?$",
+    "stem": "The orthocenter of a triangle is the concurrent intersection of the three (possibly extended) altitudes. What is the sum of the coordinates of the orthocenter of the triangle whose vertices are $A(2,31)$, $B(8,27)$, and $C(18,27)$?",
     "options": {
       "A": "$5$",
       "B": "$17$",
@@ -14016,7 +14016,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2025 AMC 12A · Problem 14",
-    "stem": "Points $F, G,$ and $H$ are collinear with $G$ between $F$ and $H$. The ellipse with foci at $G$ and $H$ is internally tangent to the ellipse with foci at $F$ and $G$, as shown below.\n\n[Figure: /question-assets/source/amc/88c1dbc9cb45e2127030200f236f792c63d0bf3202945ae1b44de266895f5ad6.jpg]\n\nThe two ellipses have the same eccentricity $e$, and the ratio of their areas is $2025$. What is $e?$",
+    "stem": "Points $F, G,$ and $H$ are collinear with $G$ between $F$ and $H$. The ellipse with foci at $G$ and $H$ is internally tangent to the ellipse with foci at $F$ and $G$, as shown below.\n\n[Figure: /question-assets/source/amc/88c1dbc9cb45e2127030200f236f792c63d0bf3202945ae1b44de266895f5ad6.jpg]\n\nThe two ellipses have the same eccentricity $e$, and the ratio of their areas is $2025$. What is $e$?",
     "options": {
       "A": "$\\tfrac{3}{5}$",
       "B": "$\\tfrac{16}{25}$",
@@ -14058,7 +14058,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2025 AMC 12A · Problem 18",
-    "stem": "How many ordered triples $(x,y,z)$ of distinct nonnegative integers $\\le 8$ satisfy $xy>z,$ $zx>y,$ and $yz>x?$",
+    "stem": "How many ordered triples $(x,y,z)$ of distinct nonnegative integers $\\le 8$ satisfy $xy>z,$ $zx>y,$ and $yz>x$?",
     "options": {
       "A": "$36$",
       "B": "$84$",
@@ -14079,7 +14079,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2025 AMC 12A · Problem 19",
-    "stem": "Let $a,b,c$ be the roots of $x^{3}+kx+1$. What is\n\n$a^{3}b^{2}+a^{2}b^{3}+b^{3}c^{2}+b^{2}c^{3}+c^{3}a^{2}+c^{2}a^{3}\\,?$",
+    "stem": "Let $a,b,c$ be the roots of $x^{3}+kx+1$. What is\n\n$a^{3}b^{2}+a^{2}b^{3}+b^{3}c^{2}+b^{2}c^{3}+c^{3}a^{2}+c^{2}a^{3}\\,$?",
     "options": {
       "A": "$-k$",
       "B": "$-k+1$",
@@ -14121,7 +14121,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2025 AMC 12A · Problem 21",
-    "stem": "There is a unique ordered triple $(a,k,m)$ of nonnegative integers such that\n\n$\\dfrac{4^{a}+4^{a+k}+4^{a+2k}+\\cdots+4^{a+mk}}{2^{a}+2^{a+k}+2^{a+2k}+\\cdots+2^{a+mk}}=964.$\nWhat is $a+k+m?$",
+    "stem": "There is a unique ordered triple $(a,k,m)$ of nonnegative integers such that\n\n$\\dfrac{4^{a}+4^{a+k}+4^{a+2k}+\\cdots+4^{a+mk}}{2^{a}+2^{a+k}+2^{a+2k}+\\cdots+2^{a+mk}}=964.$\nWhat is $a+k+m$?",
     "options": {
       "A": "$8$",
       "B": "$9$",
@@ -14163,7 +14163,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2025 AMC 12A · Problem 24",
-    "stem": "A circle of radius $r$ is surrounded by $12$ circles of radius $1$, externally tangent to the central circle and sequentially tangent to each other, as shown. Then $r$ can be written as $\\sqrt{a}+\\sqrt{b}+c$, where $a,b,c$ are integers. What is $a+b+c?$\n\n[Figure: /question-assets/source/amc/03ce892a3db35e27eb7e5259bbe8f64ec4532f55004fb211270dc2a66cc813a2.jpg]",
+    "stem": "A circle of radius $r$ is surrounded by $12$ circles of radius $1$, externally tangent to the central circle and sequentially tangent to each other, as shown. Then $r$ can be written as $\\sqrt{a}+\\sqrt{b}+c$, where $a,b,c$ are integers. What is $a+b+c$?\n\n[Figure: /question-assets/source/amc/03ce892a3db35e27eb7e5259bbe8f64ec4532f55004fb211270dc2a66cc813a2.jpg]",
     "options": {
       "A": "$3$",
       "B": "$5$",
@@ -14207,7 +14207,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2025 AMC 12B · Problem 3",
-    "stem": "What is the value of $i(i-1)(i-2)(i-3)$, where $i=\\sqrt{-1}?$",
+    "stem": "What is the value of $i(i-1)(i-2)(i-3)$, where $i=\\sqrt{-1}$?",
     "options": {
       "A": "$6-5i$",
       "B": "$-10i$",
@@ -14228,7 +14228,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2025 AMC 12B · Problem 5",
-    "stem": "Positive integers $x$ and $y$ satisfy the equation $57x+22y=400$. What is the least possible value of $x+y?$",
+    "stem": "Positive integers $x$ and $y$ satisfy the equation $57x+22y=400$. What is the least possible value of $x+y$?",
     "options": {
       "A": "$10$",
       "B": "$11$",
@@ -14249,7 +14249,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2025 AMC 12B · Problem 7",
-    "stem": "What is the value of\n\n$\\sum_{n=2}^{255}\\frac{\\log_{2}\\!\\left(1+\\frac{1}{n}\\right)}{\\left(\\log_{2}n\\right)\\left(\\log_{2}(n+1)\\right)}\\ ?$",
+    "stem": "What is the value of $\\sum_{n=2}^{255}\\frac{\\log_{2}\\!\\left(1+\\frac{1}{n}\\right)}{\\left(\\log_{2}n\\right)\\left(\\log_{2}(n+1)\\right)}$?",
     "options": {
       "A": "$\\dfrac{3}{4}$",
       "B": "$1-\\dfrac{1}{\\log_{2}255}$",
@@ -14270,7 +14270,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2025 AMC 12B · Problem 8",
-    "stem": "There are integers $a$ and $b$ such that the polynomial $x^{3}-5x^{2}+ax+b$ has $4+\\sqrt{5}$ as a root. What is $a+b?$",
+    "stem": "There are integers $a$ and $b$ such that the polynomial $x^{3}-5x^{2}+ax+b$ has $4+\\sqrt{5}$ as a root. What is $a+b$?",
     "options": {
       "A": "$13$",
       "B": "$17$",
@@ -14291,7 +14291,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2025 AMC 12B · Problem 9",
-    "stem": "What is the tens digit of $6^{6^{6}}?$",
+    "stem": "What is the tens digit of $6^{6^{6}}$?",
     "options": {
       "A": "$1$",
       "B": "$3$",
@@ -14396,7 +14396,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2025 AMC 12B · Problem 22",
-    "stem": "What is the greatest possible area of the triangle in the complex plane with vertices $2z$, $(1+i)z$, and $(1-i)z$, where $z$ satisfies $|4z-2|=1?$",
+    "stem": "What is the greatest possible area of the triangle in the complex plane with vertices $2z$, $(1+i)z$, and $(1-i)z$, where $z$ satisfies $|4z-2|=1$?",
     "options": {
       "A": "$\\dfrac{1}{4}$",
       "B": "$\\dfrac{1}{2}$",
@@ -14417,7 +14417,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2025 AMC 12B · Problem 23",
-    "stem": "Let $S$ be the set of all integers $z>1$ such that for all pairs of nonnegative integers $(x,y)$ with $x<y<z$, the remainder when $2025x$ is divided by $z$ is less than the remainder when $2025y$ is divided by $z$. What is the sum of the elements of $S?$",
+    "stem": "Let $S$ be the set of all integers $z>1$ such that for all pairs of nonnegative integers $(x,y)$ with $x<y<z$, the remainder when $2025x$ is divided by $z$ is less than the remainder when $2025y$ is divided by $z$. What is the sum of the elements of $S$?",
     "options": {
       "A": "$3041$",
       "B": "$3542$",
@@ -14438,7 +14438,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2025 AMC 12B · Problem 24",
-    "stem": "How many real numbers satisfy the equation $\\sin(20\\pi x)=\\log_{20}x?$",
+    "stem": "How many real numbers satisfy the equation $\\sin(20\\pi x)=\\log_{20}x$?",
     "options": {
       "A": "$199$",
       "B": "$200$",
@@ -14459,7 +14459,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2025 AMC 12B · Problem 25",
-    "stem": "Three concentric circles have radii $1,2,3$. An equilateral triangle with side length $s$ has one vertex on each circle. What is $s^{2}?$",
+    "stem": "Three concentric circles have radii $1,2,3$. An equilateral triangle with side length $s$ has one vertex on each circle. What is $s^{2}$?",
     "options": {
       "A": "$6$",
       "B": "$\\dfrac{25}{4}$",

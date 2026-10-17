@@ -61,7 +61,7 @@
     "solutions": [
       "The best way to solve this problem is by simple brute force.\n\nIt is convenient to drop the usual way how exponentiation is denoted, and to write the formula as $2\\uparrow 2\\uparrow 2\\uparrow 2$, where $\\uparrow$ denotes exponentiation. We are now examining all ways to add parentheses to this expression. There are 5 ways to do so:\n\n$2\\uparrow (2\\uparrow (2\\uparrow 2))$\n\n$2\\uparrow ((2\\uparrow 2)\\uparrow 2)$\n\n$((2\\uparrow 2)\\uparrow 2)\\uparrow 2$\n\n$(2\\uparrow (2\\uparrow 2))\\uparrow 2$\n\n$(2\\uparrow 2)\\uparrow (2\\uparrow 2)$\nWe can note that $2\\uparrow (2\\uparrow 2) = (2\\uparrow 2)\\uparrow 2 =16$. Therefore options 1 and 2 are equal, and options 3 and 4 are equal.\nOption 1 is the one given in the problem statement. Thus we only need to evaluate options 3 and 5.\n\n$((2\\uparrow 2)\\uparrow 2)\\uparrow 2 = 16\\uparrow 2 = 256$\n\n$(2\\uparrow 2)\\uparrow (2\\uparrow 2) = 4 \\uparrow 4 = 256$\n\nThus the only other result is $256$, and our answer is $\\boxed{\\textbf{(B) } 1}$.",
       "We will proceed by recursion using the same notation as Solution 1. Note that we can either have $(2 \\uparrow 2 \\uparrow 2) \\uparrow 2$ or $2 \\uparrow (2 \\uparrow 2 \\uparrow 2)$.\n\nHowever, the expression in the parentheses can either be $(2 \\uparrow 2) \\uparrow 2$ or $2 \\uparrow (2 \\uparrow 2)$, which correspond to the same value of $16$. Therefore, we can either have $16^2$ or $2^{16}$, so our answer is $\\boxed{\\textbf{(B) }1}$.",
-      "No matter how the exponentiations are performed, $2^{2^{2}}$ always gives 16 . Depending on which exponentiation is done last, we have\n\n$\\left(2^{2^{2}}\\right)^{2}=256, \\quad 2^{\\left(2^{2^{2}}\\right)}=65,536, \\quad \\text { or } \\quad\\left(2^{2}\\right)^{\\left(2^{2}\\right)}=256$\nso there is $\\boxed{one}$ other possible value."
+      "No matter how the exponentiations are performed, $2^{2^{2}}$ always gives 16 . Depending on which exponentiation is done last, we have\n\n$\\left(2^{2^{2}}\\right)^{2}=256, \\quad 2^{\\left(2^{2^{2}}\\right)}=65,536, \\quad \\text { or } \\quad\\left(2^{2}\\right)^{\\left(2^{2}\\right)}=256$\nso there is $\\boxed{\\text{one}}$ other possible value."
     ],
     "tags": []
   },
@@ -312,14 +312,14 @@
       "B": "$\\ 1$",
       "C": "$\\ 2$",
       "D": "$\\ 4$",
-      "E": "$more than 4$"
+      "E": "more than $4$"
     },
     "answer": "B",
     "solutions": [
       "Consider a general quadratic with the coefficient of $x^2$ being $1$ and the roots being $r$ and $s$. It can be factored as $(x-r)(x-s)$ which is just $x^2-(r+s)x+rs$. Thus, the sum of the roots is the negative of the coefficient of $x$ and the product is the constant term. (In general, this leads to Vieta's Formulas).\n\nWe now have that the sum of the two roots is $63$ while the product is $k$. Since both roots are primes, one must be $2$, otherwise, the sum would be even. That means the other root is $61$ and the product must be $122$. Hence, our answer is $\\boxed{\\text{(B)}\\ 1 }$.",
       "Let the quadratic be factored as $(x-r)(x-s)$. Then $-r-s=-63$ and $rs=k$. We know that both $r$ and $s$ are prime, and all primes but $2$ are odd. The sum of two odd numbers is also always even, but in this case the sum of two primes is odd, which means that one of the primes is $2$. This leaves only one possible value for the other root and one possible value for their product $k$.",
       "By Vieta's you have\n$a+b=63$\n$ab=k$\nSince we know odd + even = odd, we must have either $a$ or $b$ equal to $2$ and the other equal to $63-2=61.$ Both of these are prime so they satisfy the restraints. Thus there is $\\boxed{(B) 1}$ solution.",
-      "Let $p$ and $q$ be two primes that are roots of $x^{2}-63 x+k=0$. Then\n\n$x^{2}-63 x+k=(x-p)(x-q)=x^{2}-(p+q) x+p \\cdot q$\nso $p+q=63$ and $p \\cdot q=k$. Since 63 is odd, one of the primes must be 2 and the other 61 . Thus, there is exactly $\\boxed{one}$ possible value for $k$, namely $k=p \\cdot q=2 \\cdot 61=122$."
+      "Let $p$ and $q$ be two primes that are roots of $x^{2}-63 x+k=0$. Then\n\n$x^{2}-63 x+k=(x-p)(x-q)=x^{2}-(p+q) x+p \\cdot q$\nso $p+q=63$ and $p \\cdot q=k$. Since 63 is odd, one of the primes must be 2 and the other 61 . Thus, there is exactly $\\boxed{\\text{one}}$ possible value for $k$, namely $k=p \\cdot q=2 \\cdot 61=122$."
     ],
     "tags": []
   },
@@ -689,17 +689,17 @@
     "sourcePaper": "2002 AMC 10B · Problem 6 | 2002 AMC 12B · Problem 3",
     "stem": "For how many positive integers $n$ is $n^2 - 3n + 2$ a prime number?",
     "options": {
-      "A": "$\\ \\text{none}$",
-      "B": "$\\ \\text{one}$",
-      "C": "$\\ \\text{two}$",
-      "D": "$\\ \\text{more\\ than\\ two,\\ but\\ finitely\\ many}$",
-      "E": "$\\ \\text{infinitely\\ many}$"
+      "A": "none",
+      "B": "one",
+      "C": "two",
+      "D": "more than two, but finitely many",
+      "E": "infinitely many"
     },
     "answer": "B",
     "solutions": [
       "Factoring, we get $n^2 - 3n + 2 = (n-2)(n-1)$. Either $n-1$ or $n-2$ is odd, and the other is even. Their product must yield an even number. The only prime that is even is $2$, which is when $n$ is $3$ or $0$. Since $0$ is not a positive number, the answer is $\\boxed{\\mathrm{(B)}\\ \\text{one}}$.",
       "Considering parity, we see that $n^2 - 3n + 2$ is always even. The only even prime is $2$, and so $n^2-3n=0$ whence $n=3\\Rightarrow\\boxed{\\mathrm{(B)}\\ \\text{one}}$.",
-      "If $n \\geq 4$, then\n\n$n^{2}-3 n+2=(n-1)(n-2)$\nis the product of two integers greater than 1 , and thus is not prime. For $n=1$, 2 , and 3 we have, respectively,\n\n$(1-1)(1-2)=0, \\quad(2-1)(2-2)=0, \\quad \\text { and } \\quad(3-1)(3-2)=2$\nTherefore, $n^{2}-3 n+2$ is prime only when $n=3$. The answer is $\\boxed{one}$."
+      "If $n \\geq 4$, then\n\n$n^{2}-3 n+2=(n-1)(n-2)$\nis the product of two integers greater than 1 , and thus is not prime. For $n=1$, 2 , and 3 we have, respectively,\n\n$(1-1)(1-2)=0, \\quad(2-1)(2-2)=0, \\quad \\text { and } \\quad(3-1)(3-2)=2$\nTherefore, $n^{2}-3 n+2$ is prime only when $n=3$. The answer is $\\boxed{\\text{one}}$."
     ],
     "tags": []
   },
@@ -731,7 +731,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2002 AMC 10B · Problem 8 | 2002 AMC 12B · Problem 8",
-    "stem": "Suppose July of year $N$ has five Mondays. Which of the following must occur five times in August of year $N?$ (Note: Both months have $31$ days.)",
+    "stem": "Suppose July of year $N$ has five Mondays. Which of the following must occur five times in August of year $N$? (Note: Both months have $31$ days.)",
     "options": {
       "A": "Monday",
       "B": "Tuesday",
@@ -819,7 +819,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2002 AMC 10B · Problem 12",
-    "stem": "For which of the following values of $k$ does the equation $\\dfrac{x-1}{x-2}=\\dfrac{x-k}{x-6}$ have no solution for $x?$",
+    "stem": "For which of the following values of $k$ does the equation $\\dfrac{x-1}{x-2}=\\dfrac{x-k}{x-6}$ have no solution for $x$?",
     "options": {
       "A": "$1$",
       "B": "$2$",
@@ -918,7 +918,7 @@
       "If $\\frac{n}{20-n} = k^2 \\ge 0$, then $n \\ge 0$ and $20-n > 0$, otherwise $\\frac{n}{20-n}$ will be negative. Thus $0 \\le n \\le 19$ and $0 = \\frac{0}{20-(0)} \\le \\frac{n}{20-n} \\le \\frac{19}{20-(19)} = 19$ Checking all $k$ for which $0 \\le k^2 \\le 19$, we have $0$, $1$, $2$, $3$ as the possibilities. $\\boxed{(D)}$",
       "For all integers x, $x^2$ is always a positive integer. So solve for $\\frac{n}{20-n} = 0$, getting $n=0$ and $\\frac{n}{20-n} = 1$, getting $n =10$. For all values n less than 0 and greater than 20, the value $\\frac{n}{20-n}$ is negative, so now try values of n between 10 and 20. Quick substitution finds $0$, $10$, $16$, and $18$ which yields $x=0$, $x=1$, $x=2$, and $x=3$ respectively. 4 values, or $\\boxed{(D)}$",
       "Simon's Favourite Factoring Trick.\n\nSince $\\frac{n}{20-n}$ is an integer $k$, we multiply both sides by $20-n$. This gives us $n=20k^2$-$nk^2$. We subtract $20k^2$ on both sides, then add $nk^2$ on both sides as a prerequisite for using Simon's Favorite Factoring Trick. We have $(k^2+1)(n-20)=20$. We then consider the different factors of $20$ that $k^2+1$ can be. It could be $1,2,4,5,10$, and $20$. After checking case by case, we then are able to identify that there are $4$ such $k$ values that also yield an integer $n$ value, meaning that there are $4$ values, so the correct answer is $\\boxed{(D)}$",
-      "If $\\dfrac{n}{20-n}=k^{2}$, for some $k \\geq 0$, then $n=\\dfrac{20 k^{2}}{k^{2}+1}$. Since $k^{2}$ and $k^{2}+1$ have no common factors and $n$ is an integer, $k^{2}+1$ must be a factor of 20 . This occurs only when $k=0,1,2$, or 3 . The corresponding values of $n$ are $\\boxed{0,10,16, and 18}$ ."
+      "If $\\dfrac{n}{20-n}=k^{2}$, for some $k \\geq 0$, then $n=\\dfrac{20 k^{2}}{k^{2}+1}$. Since $k^{2}$ and $k^{2}+1$ have no common factors and $n$ is an integer, $k^{2}+1$ must be a factor of 20 . This occurs only when $k=0,1,2$, or 3 . The corresponding values of $n$ are $\\boxed{0,10,16, \\text{and} 18}$ ."
     ],
     "tags": []
   },
@@ -972,7 +972,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2002 AMC 10B · Problem 19",
-    "stem": "Suppose that $\\{a_{n}\\}$ is an arithmetic sequence with\n\n$a_{1}+a_{2}+\\cdots+a_{100}=100$\nand\n\n$a_{101}+a_{102}+\\cdots+a_{200}=200$\nWhat is the value of $a_{2}-a_{1}?$",
+    "stem": "Suppose that $\\{a_{n}\\}$ is an arithmetic sequence with\n\n$a_{1}+a_{2}+\\cdots+a_{100}=100$\nand\n\n$a_{101}+a_{102}+\\cdots+a_{200}=200$\nWhat is the value of $a_{2}-a_{1}$?",
     "options": {
       "A": "$0.0001$",
       "B": "$0.001$",
@@ -1275,7 +1275,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2002 AMC 10P · Problem 8",
-    "stem": "How many ordered triples of positive integers $(x,y,z)$ satisfy $(x^y)^z=64?$",
+    "stem": "How many ordered triples of positive integers $(x,y,z)$ satisfy $(x^y)^z=64$?",
     "options": {
       "A": "$5$",
       "B": "$6$",
@@ -1360,13 +1360,13 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2002 AMC 10P · Problem 12",
-    "stem": "For $f_n(x)=x^n$ and $a \\neq 1$ consider\n\n$\\text{I. } (f_{11}(a)f_{13}(a))^{14}$\n\n$\\text{II. } f_{11}(a)f_{13}(a)f_{14}(a)$\n\n$\\text{III. } (f_{11}(f_{13}(a)))^{14}$\n\n$\\text{IV. } f_{11}(f_{13}(f_{14}(a)))$\n\nWhich of these equal $f_{2002}(a)?$",
+    "stem": "For $f_n(x)=x^n$ and $a \\neq 1$ consider\n\n$\\text{I. } (f_{11}(a)f_{13}(a))^{14}$\n\n$\\text{II. } f_{11}(a)f_{13}(a)f_{14}(a)$\n\n$\\text{III. } (f_{11}(f_{13}(a)))^{14}$\n\n$\\text{IV. } f_{11}(f_{13}(f_{14}(a)))$\n\nWhich of these equal $f_{2002}(a)$?",
     "options": {
-      "A": "$I and II only$",
-      "B": "$II and III only$",
-      "C": "$III and IV only$",
-      "D": "$II, III, and IV only$",
-      "E": "$all of them$"
+      "A": "I and II only",
+      "B": "II and III only",
+      "C": "III and IV only",
+      "D": "II, III, and IV only",
+      "E": "all of them"
     },
     "answer": "C",
     "solutions": [
@@ -1495,7 +1495,7 @@
       "B": "$2$",
       "C": "$3$",
       "D": "$4$",
-      "E": "$more than 4$"
+      "E": "more than $4$"
     },
     "answer": "C",
     "solutions": [
@@ -1618,7 +1618,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2002 AMC 10P · Problem 24 | 2002 AMC 12P · Problem 13",
-    "stem": "What is the maximum value of $n$ for which there is a set of distinct positive integers $k_1, k_2, ... k_n$ for which\n\n$k^2_1 + k^2_2 + ... + k^2_n = 2002?$",
+    "stem": "What is the maximum value of $n$ for which there is a set of distinct positive integers $k_1, k_2, ... k_n$ for which\n\n$k^2_1 + k^2_2 + ... + k^2_n = 2002$?",
     "options": {
       "A": "$14$",
       "B": "$15$",
@@ -1750,7 +1750,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2003 AMC 10A · Problem 5",
-    "stem": "Let $d$ and $e$ denote the solutions of $2 x^{2}+3 x-5=0$. What is the value of $(d-1)(e-1)?$",
+    "stem": "Let $d$ and $e$ denote the solutions of $2 x^{2}+3 x-5=0$. What is the value of $(d-1)(e-1)$?",
     "options": {
       "A": "$-\\dfrac{5}{2}$",
       "B": "$0$",
@@ -1814,7 +1814,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2003 AMC 10A · Problem 8 | 2003 AMC 12A · Problem 8",
-    "stem": "What is the probability that a randomly drawn positive factor of $60$ is less than $7?$",
+    "stem": "What is the probability that a randomly drawn positive factor of $60$ is less than $7$?",
     "options": {
       "A": "$\\dfrac{1}{10}$",
       "B": "$\\dfrac{1}{6}$",
@@ -1868,7 +1868,7 @@
     "answer": "E",
     "solutions": [
       "If the polygon is folded before the fifth square is attached, then edges $a$ and $a^{\\prime}$ must be joined, as must $b$ and $b^{\\prime}$. The fifth face of the cube can be attached at any of the $6$ remaining edges.\n\n[Figure: /question-assets/source/amc/9edfdd8304c9cb7711e74a08b00e83dc4b686f04459b2af12d7743cf4aeed389.jpg]\n\nAnswer: $\\boxed{E}$.",
-      "If the polygon is folded before the fifth square is attached, then edges $a$ and $a^{\\prime}$ must be joined, as must $b$ and $b^{\\prime}$. The fifth face of the cube can be attached at any of the $\\boxed{six}$ remaining edges.\\\n\n[Figure: /question-assets/source/amc/83fcc17c3152a572027dc01fd041267cf5b4556246f44ca1e757b9916e494aaa.jpg]"
+      "If the polygon is folded before the fifth square is attached, then edges $a$ and $a^{\\prime}$ must be joined, as must $b$ and $b^{\\prime}$. The fifth face of the cube can be attached at any of the $\\boxed{\\text{six}}$ remaining edges.\\\n\n[Figure: /question-assets/source/amc/83fcc17c3152a572027dc01fd041267cf5b4556246f44ca1e757b9916e494aaa.jpg]"
     ],
     "tags": []
   },
@@ -1879,7 +1879,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2003 AMC 10A · Problem 11 | 2003 AMC 12A · Problem 5",
-    "stem": "The sum of the two $5$-digit numbers $A M C 10$ and $A M C 12$ is $123422$. What is $A+M+C?$",
+    "stem": "The sum of the two $5$-digit numbers $A M C 10$ and $A M C 12$ is $123422$. What is $A+M+C$?",
     "options": {
       "A": "$10$",
       "B": "$11$",
@@ -1901,7 +1901,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2003 AMC 10A · Problem 12",
-    "stem": "A point $(x, y)$ is randomly picked from inside the rectangle with vertices $(0,0)$, $(4,0),(4,1)$, and $(0,1)$. What is the probability that $x<y?$",
+    "stem": "A point $(x, y)$ is randomly picked from inside the rectangle with vertices $(0,0)$, $(4,0),(4,1)$, and $(0,1)$. What is the probability that $x<y$?",
     "options": {
       "A": "$\\dfrac{1}{8}$",
       "B": "$\\dfrac{1}{4}$",
@@ -1945,7 +1945,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2003 AMC 10A · Problem 14",
-    "stem": "Let $n$ be the largest integer that is the product of exactly $3$ distinct prime numbers, $d, e$ and $10 d+e$, where $d$ and $e$ are single digits. What is the sum of the digits of $n?$",
+    "stem": "Let $n$ be the largest integer that is the product of exactly $3$ distinct prime numbers, $d, e$ and $10 d+e$, where $d$ and $e$ are single digits. What is the sum of the digits of $n$?",
     "options": {
       "A": "$12$",
       "B": "$15$",
@@ -1966,7 +1966,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2003 AMC 10A · Problem 15",
-    "stem": "What is the probability that an integer in the set $\\{1,2,3, \\ldots, 100\\}$ is divisible by $2$ and not divisible by $3?$",
+    "stem": "What is the probability that an integer in the set $\\{1,2,3, \\ldots, 100\\}$ is divisible by $2$ and not divisible by $3$?",
     "options": {
       "A": "$\\dfrac{1}{6}$",
       "B": "$\\dfrac{33}{100}$",
@@ -1987,7 +1987,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2003 AMC 10A · Problem 16",
-    "stem": "What is the units digit of $13^{2003}?$",
+    "stem": "What is the units digit of $13^{2003}$?",
     "options": {
       "A": "$1$",
       "B": "$3$",
@@ -2029,7 +2029,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2003 AMC 10A · Problem 18",
-    "stem": "What is the sum of the reciprocals of the roots of the equation\n\n$\\dfrac{2003}{2004} x+1+\\dfrac{1}{x}=0?$",
+    "stem": "What is the sum of the reciprocals of the roots of the equation\n\n$\\dfrac{2003}{2004} x+1+\\dfrac{1}{x}=0$?",
     "options": {
       "A": "$-\\dfrac{2004}{2003}$",
       "B": "$-1$",
@@ -2178,7 +2178,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2003 AMC 10A · Problem 25 | 2003 AMC 12A · Problem 18",
-    "stem": "Let $n$ be a $5$-digit number, and let $q$ and $r$ be the quotient and remainder, respectively, when $n$ is divided by $100$. For how many values of $n$ is $q+r$ divisible by $11?$",
+    "stem": "Let $n$ be a $5$-digit number, and let $q$ and $r$ be the quotient and remainder, respectively, when $n$ is divided by $100$. For how many values of $n$ is $q+r$ divisible by $11$?",
     "options": {
       "A": "$8180$",
       "B": "$8181$",
@@ -2200,7 +2200,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2003 AMC 10B · Problem 1 | 2003 AMC 12B · Problem 1",
-    "stem": "Which of the following is the same as\n\n$\\dfrac{2-4+6-8+10-12+14}{3-6+9-12+15-18+21}?$",
+    "stem": "Which of the following is the same as\n\n$\\dfrac{2-4+6-8+10-12+14}{3-6+9-12+15-18+21}$?",
     "options": {
       "A": "$-1$",
       "B": "$-\\dfrac{2}{3}$",
@@ -2458,7 +2458,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2003 AMC 10B · Problem 13 | 2003 AMC 12B · Problem 8",
-    "stem": "Let $\\clubsuit(x)$ denote the sum of the digits of the positive integer $x$. For example, $\\clubsuit(8)=8$ and $\\clubsuit(123)=1+2+3=6$. For how many two-digit values of $x$ is $\\clubsuit(\\clubsuit(x))=3?$",
+    "stem": "Let $\\clubsuit(x)$ denote the sum of the digits of the positive integer $x$. For example, $\\clubsuit(8)=8$ and $\\clubsuit(123)=1+2+3=6$. For how many two-digit values of $x$ is $\\clubsuit(\\clubsuit(x))=3$?",
     "options": {
       "A": "$3$",
       "B": "$4$",
@@ -2522,7 +2522,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2003 AMC 10B · Problem 16",
-    "stem": "A restaurant offers three desserts, and exactly twice as many appetizers as main courses. A dinner consists of an appetizer, a main course, and a dessert. What is the least number of main courses that the restaurant should offer so that a customer could have a different dinner each night in the year $2003?$",
+    "stem": "A restaurant offers three desserts, and exactly twice as many appetizers as main courses. A dinner consists of an appetizer, a main course, and a dessert. What is the least number of main courses that the restaurant should offer so that a customer could have a different dinner each night in the year $2003$?",
     "options": {
       "A": "$4$",
       "B": "$5$",
@@ -2565,7 +2565,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2003 AMC 10B · Problem 18 | 2003 AMC 12B · Problem 12",
-    "stem": "What is the largest integer that is a divisor of\n\n$(n+1)(n+3)(n+5)(n+7)(n+9)$\nfor all positive even integers $n?$",
+    "stem": "What is the largest integer that is a divisor of\n\n$(n+1)(n+3)(n+5)(n+7)(n+9)$\nfor all positive even integers $n$?",
     "options": {
       "A": "$3$",
       "B": "$5$",
@@ -2673,7 +2673,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2003 AMC 10B · Problem 23 | 2003 AMC 12B · Problem 15",
-    "stem": "A regular octagon $A B C D E F G H$ has an area of one square unit. What is the area of the rectangle $A B E F?$\n\n[Figure: /question-assets/source/amc/876491355416eb5b336b8897cca9e3fc1b5ac460a81a1a60956687272a227480.jpg]",
+    "stem": "A regular octagon $A B C D E F G H$ has an area of one square unit. What is the area of the rectangle $A B E F$?\n\n[Figure: /question-assets/source/amc/876491355416eb5b336b8897cca9e3fc1b5ac460a81a1a60956687272a227480.jpg]",
     "options": {
       "A": "$1-\\dfrac{\\sqrt{2}}{2}$",
       "B": "$\\dfrac{\\sqrt{2}}{4}$",
@@ -2758,7 +2758,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2004 AMC 10A · Problem 2",
-    "stem": "For any three real numbers $a$, $b$, and $c$, with $b\\neq c$, the operation $\\boldsymbol{\\Psi}$ is defined by:\n\n$\\boldsymbol{\\Psi}(a,b,c)=\\frac{a}{b-c}.$\nWhat is $\\boldsymbol{\\Psi} ( \\boldsymbol{\\Psi} (1,2,3), \\boldsymbol{\\Psi} (2,3,1), \\boldsymbol{\\Psi} (3,1,2))?$",
+    "stem": "For any three real numbers $a$, $b$, and $c$, with $b\\neq c$, the operation $\\boldsymbol{\\Psi}$ is defined by:\n\n$\\boldsymbol{\\Psi}(a,b,c)=\\frac{a}{b-c}.$\nWhat is $\\boldsymbol{\\Psi} ( \\boldsymbol{\\Psi} (1,2,3), \\boldsymbol{\\Psi} (2,3,1), \\boldsymbol{\\Psi} (3,1,2))$?",
     "options": {
       "A": "$-\\dfrac{1}{2}$",
       "B": "$-\\dfrac{1}{4}$",
@@ -2801,7 +2801,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2004 AMC 10A · Problem 4",
-    "stem": "What is the value of $x$ if $|x-1|=|x-2|?$",
+    "stem": "What is the value of $x$ if $|x-1|=|x-2|$?",
     "options": {
       "A": "$-\\dfrac{1}{2}$",
       "B": "$\\dfrac{1}{2}$",
@@ -2908,7 +2908,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2004 AMC 10A · Problem 9 | 2004 AMC 12A · Problem 8",
-    "stem": "In the Figure, $\\angle E A B$ and $\\angle A B C$ are right angles, $A B=4, B C=6, A E=8$, and $\\overline{A C}$ and $\\overline{B E}$ intersect at $D$. What is the difference between the areas of $\\triangle A D E$ and $\\triangle B D C?$\n\n[Figure: /question-assets/source/amc/a5166b66ce0cad34af880f35200e0cff383818c6abfbb0c444ac3760b6b288c1.jpg]",
+    "stem": "In the Figure, $\\angle E A B$ and $\\angle A B C$ are right angles, $A B=4, B C=6, A E=8$, and $\\overline{A C}$ and $\\overline{B E}$ intersect at $D$. What is the difference between the areas of $\\triangle A D E$ and $\\triangle B D C$?\n\n[Figure: /question-assets/source/amc/a5166b66ce0cad34af880f35200e0cff383818c6abfbb0c444ac3760b6b288c1.jpg]",
     "options": {
       "A": "$2$",
       "B": "$4$",
@@ -3037,7 +3037,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2004 AMC 10A · Problem 15",
-    "stem": "Given that $-4\\leq x\\leq-2$ and $2\\leq y\\leq4$, what is the largest possible value of $\\dfrac{x+y}{x}?$",
+    "stem": "Given that $-4\\leq x\\leq-2$ and $2\\leq y\\leq4$, what is the largest possible value of $\\dfrac{x+y}{x}$?",
     "options": {
       "A": "$-1$",
       "B": "$-\\dfrac{1}{2}$",
@@ -3144,7 +3144,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2004 AMC 10A · Problem 20",
-    "stem": "Points $E$ and $F$ are located on square $A B C D$ so that $\\triangle B E F$ is equilateral. What is the ratio of the area of $\\triangle D E F$ to that of $\\triangle A B E?$\n\n[Figure: /question-assets/source/amc/37d3a21fd547f5a1bff788bc04f42bda84207b66fc1e87d44f61f77b33be6515.jpg]",
+    "stem": "Points $E$ and $F$ are located on square $A B C D$ so that $\\triangle B E F$ is equilateral. What is the ratio of the area of $\\triangle D E F$ to that of $\\triangle A B E$?\n\n[Figure: /question-assets/source/amc/37d3a21fd547f5a1bff788bc04f42bda84207b66fc1e87d44f61f77b33be6515.jpg]",
     "options": {
       "A": "$\\dfrac{4}{3}$",
       "B": "$\\dfrac{3}{2}$",
@@ -3186,7 +3186,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2004 AMC 10A · Problem 22 | 2004 AMC 12A · Problem 18",
-    "stem": "Square $A B C D$ has side length $2$. A semicircle with diameter $\\overline{A B}$ is constructed inside the square, and the tangent to the semicircle from $C$ intersects side $\\overline{A D}$ at $E$. What is the length of $\\overline{C E}?$\n\n[Figure: /question-assets/source/amc/5766af06686c2e129adb6e5815d34c4cf1f07a2a9613a65c743c4501bab167cf.jpg]",
+    "stem": "Square $A B C D$ has side length $2$. A semicircle with diameter $\\overline{A B}$ is constructed inside the square, and the tangent to the semicircle from $C$ intersects side $\\overline{A D}$ at $E$. What is the length of $\\overline{C E}$?\n\n[Figure: /question-assets/source/amc/5766af06686c2e129adb6e5815d34c4cf1f07a2a9613a65c743c4501bab167cf.jpg]",
     "options": {
       "A": "$\\dfrac{2+\\sqrt{5}}{2}$",
       "B": "$\\sqrt{5}$",
@@ -3208,7 +3208,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2004 AMC 10A · Problem 23 | 2004 AMC 12A · Problem 19",
-    "stem": "Circles $A, B$, and $C$ are externally tangent to each other and internally tangent to circle $D$. Circles $B$ and $C$ are congruent. Circle $A$ has radius $1$ and passes through the center of $D$. What is the radius of circle $B?$\n\n[Figure: /question-assets/source/amc/987eea359fbea54cd33b089c1de8133eb82cd2d76ecbb460f72e811cd53db840.jpg]",
+    "stem": "Circles $A, B$, and $C$ are externally tangent to each other and internally tangent to circle $D$. Circles $B$ and $C$ are congruent. Circle $A$ has radius $1$ and passes through the center of $D$. What is the radius of circle $B$?\n\n[Figure: /question-assets/source/amc/987eea359fbea54cd33b089c1de8133eb82cd2d76ecbb460f72e811cd53db840.jpg]",
     "options": {
       "A": "$\\dfrac{2}{3}$",
       "B": "$\\dfrac{\\sqrt{3}}{2}$",
@@ -3230,7 +3230,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2004 AMC 10A · Problem 24",
-    "stem": "Let $a_{1}, a_{2}, ..., a_{n}$, be a sequence with the following properties.\n\n(i) $a_{1}=1$, and\n\n(ii) $a_{2 n}=n \\cdot a_{n}$ for any positive integer $n$.\n\nWhat is the value of $a_{2^{100}}?$",
+    "stem": "Let $a_{1}, a_{2}, ..., a_{n}$, be a sequence with the following properties.\n\n(i) $a_{1}=1$, and\n\n(ii) $a_{2 n}=n \\cdot a_{n}$ for any positive integer $n$.\n\nWhat is the value of $a_{2^{100}}$?",
     "options": {
       "A": "$1$",
       "B": "$2^{99}$",
@@ -3638,7 +3638,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2004 AMC 10B · Problem 18",
-    "stem": "In right triangle $\\triangle A C E$, we have $A C=12, C E=16$, and $E A=20$. Points $B, D$, and $F$ are located on $\\overline{A C}, \\overline{C E}$, and $\\overline{E A}$, respectively, so that $A B=3$, $C D=4$, and $E F=5$. What is the ratio of the area of $\\triangle B D F$ to that of $\\triangle A C E?$\n\n[Figure: /question-assets/source/amc/ed4dc6af47497c5dc4763a4952fea93fd75f3d359944cf5101398126cf1bf87d.jpg]",
+    "stem": "In right triangle $\\triangle A C E$, we have $A C=12, C E=16$, and $E A=20$. Points $B, D$, and $F$ are located on $\\overline{A C}, \\overline{C E}$, and $\\overline{E A}$, respectively, so that $A B=3$, $C D=4$, and $E F=5$. What is the ratio of the area of $\\triangle B D F$ to that of $\\triangle A C E$?\n\n[Figure: /question-assets/source/amc/ed4dc6af47497c5dc4763a4952fea93fd75f3d359944cf5101398126cf1bf87d.jpg]",
     "options": {
       "A": "$\\dfrac{1}{4}$",
       "B": "$\\dfrac{9}{25}$",
@@ -3681,7 +3681,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2004 AMC 10B · Problem 20",
-    "stem": "In $\\triangle A B C$ points $D$ and $E$ lie on $\\overline{B C}$ and $\\overline{A C}$, respectively. If $\\overline{A D}$ and $\\overline{B E}$ intersect at $T$ so that $A T / D T=3$ and $B T / E T=4$, what is $C D / B D?$\n\n[Figure: /question-assets/source/amc/36aa4b41196e77149b0bf7fbbccb344eddb6e89c4dadeb75f4481a8a82cb9f1e.jpg]",
+    "stem": "In $\\triangle A B C$ points $D$ and $E$ lie on $\\overline{B C}$ and $\\overline{A C}$, respectively. If $\\overline{A D}$ and $\\overline{B E}$ intersect at $T$ so that $A T / D T=3$ and $B T / E T=4$, what is $C D / B D$?\n\n[Figure: /question-assets/source/amc/36aa4b41196e77149b0bf7fbbccb344eddb6e89c4dadeb75f4481a8a82cb9f1e.jpg]",
     "options": {
       "A": "$\\dfrac{1}{8}$",
       "B": "$\\dfrac{2}{9}$",
@@ -3702,7 +3702,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2004 AMC 10B · Problem 21",
-    "stem": "Let $1,4, \\ldots$ and $9,16, \\ldots$ be two arithmetic progressions. The set $S$ is the union of the first $2004$ terms of each sequence. How many distinct numbers are in $S?$",
+    "stem": "Let $1,4, \\ldots$ and $9,16, \\ldots$ be two arithmetic progressions. The set $S$ is the union of the first $2004$ terms of each sequence. How many distinct numbers are in $S$?",
     "options": {
       "A": "$3722$",
       "B": "$3732$",
@@ -3961,7 +3961,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2005 AMC 10A · Problem 8 | 2005 AMC 12A · Problem 7",
-    "stem": "In the figure, the length of side $A B$ of square $A B C D$ is $\\sqrt{50}, E$ is between $B$ and $H$, and $B E=1$. What is the area of the inner square $E F G H?$\n\n[Figure: /question-assets/source/amc/9580a4cd3e968e0a9ed4bfc0c1fe823e39449aedbf114b33431591a7a801f55d.jpg]",
+    "stem": "In the figure, the length of side $A B$ of square $A B C D$ is $\\sqrt{50}, E$ is between $B$ and $H$, and $B E=1$. What is the area of the inner square $E F G H$?\n\n[Figure: /question-assets/source/amc/9580a4cd3e968e0a9ed4bfc0c1fe823e39449aedbf114b33431591a7a801f55d.jpg]",
     "options": {
       "A": "$25$",
       "B": "$32$",
@@ -4004,7 +4004,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2005 AMC 10A · Problem 10 | 2005 AMC 12A · Problem 9",
-    "stem": "There are two values of $a$ for which the equation $4 x^{2}+a x+8 x+9=0$ has only one solution for $x$. What is the sum of those values of $a?$",
+    "stem": "There are two values of $a$ for which the equation $4 x^{2}+a x+8 x+9=0$ has only one solution for $x$. What is the sum of those values of $a$?",
     "options": {
       "A": "$-16$",
       "B": "$-8$",
@@ -4048,7 +4048,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2005 AMC 10A · Problem 12",
-    "stem": "The figure shown is called a trefoil and is constructed by drawing circular sectors about sides of the congruent equilateral triangles. What is the area of a trefoil whose horizontal base has length $2?$\n\n[Figure: /question-assets/source/amc/2351a0996bb641343c3e646169ec3b0c5c3800fcda8d1b845cc76e61b2e3049c.jpg]",
+    "stem": "The figure shown is called a trefoil and is constructed by drawing circular sectors about sides of the congruent equilateral triangles. What is the area of a trefoil whose horizontal base has length $2$?\n\n[Figure: /question-assets/source/amc/2351a0996bb641343c3e646169ec3b0c5c3800fcda8d1b845cc76e61b2e3049c.jpg]",
     "options": {
       "A": "$\\dfrac{1}{3} \\pi+\\dfrac{\\sqrt{3}}{2}$",
       "B": "$\\dfrac{2}{3} \\pi$",
@@ -4069,7 +4069,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2005 AMC 10A · Problem 13",
-    "stem": "How many positive integers $n$ satisfy the following condition:\n\n$(130 n)^{50}>n^{100}>2^{200}?$",
+    "stem": "How many positive integers $n$ satisfy the following condition:\n\n$(130 n)^{50}>n^{100}>2^{200}$?",
     "options": {
       "A": "$0$",
       "B": "$7$",
@@ -4112,7 +4112,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2005 AMC 10A · Problem 15",
-    "stem": "How many positive cubes divide $3 ! \\cdot 5 ! \\cdot 7 ! ?$",
+    "stem": "How many positive cubes divide $3 ! \\cdot 5 ! \\cdot 7 !$?",
     "options": {
       "A": "$2$",
       "B": "$3$",
@@ -4282,7 +4282,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2005 AMC 10A · Problem 23 | 2005 AMC 12A · Problem 15",
-    "stem": "Let $\\overline{A B}$ be a diameter of a circle and $C$ be a point on $\\overline{A B}$ with $2 \\cdot A C=B C$. Let $D$ and $E$ be points on the circle such that $\\overline{D C} \\perp \\overline{A B}$ and $\\overline{D E}$ is a second diameter. What is the ratio of the area of $\\triangle D C E$ to the area of $\\triangle A B D?$\n\n[Figure: /question-assets/source/amc/266ac17e3863d0d473d18ce8b081ed094812fb907c6a2b2c8cec9a589fc6ce80.jpg]",
+    "stem": "Let $\\overline{A B}$ be a diameter of a circle and $C$ be a point on $\\overline{A B}$ with $2 \\cdot A C=B C$. Let $D$ and $E$ be points on the circle such that $\\overline{D C} \\perp \\overline{A B}$ and $\\overline{D E}$ is a second diameter. What is the ratio of the area of $\\triangle D C E$ to the area of $\\triangle A B D$?\n\n[Figure: /question-assets/source/amc/266ac17e3863d0d473d18ce8b081ed094812fb907c6a2b2c8cec9a589fc6ce80.jpg]",
     "options": {
       "A": "$\\dfrac{1}{6}$",
       "B": "$\\dfrac{1}{4}$",
@@ -4304,7 +4304,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2005 AMC 10A · Problem 24",
-    "stem": "For each positive integer $m>1$, let $P(m)$ denote the greatest prime factor of $m$. For how many positive integers $n$ is it true that both $P(n)=\\sqrt{n}$ and $P(n+48)=\\sqrt{n+48}?$",
+    "stem": "For each positive integer $m>1$, let $P(m)$ denote the greatest prime factor of $m$. For how many positive integers $n$ is it true that both $P(n)=\\sqrt{n}$ and $P(n+48)=\\sqrt{n+48}$?",
     "options": {
       "A": "$0$",
       "B": "$1$",
@@ -4325,7 +4325,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2005 AMC 10A · Problem 25",
-    "stem": "In $\\triangle A B C$ we have $A B=25, B C=39$, and $A C=42$. Points $D$ and $E$ are on $\\overline{A B}$ and $\\overline{A C}$ respectively, with $A D=19$ and $A E=14$. What is the ratio of the area of triangle $A D E$ to the area of the quadrilateral $B C E D?$",
+    "stem": "In $\\triangle A B C$ we have $A B=25, B C=39$, and $A C=42$. Points $D$ and $E$ are on $\\overline{A B}$ and $\\overline{A C}$ respectively, with $A D=19$ and $A E=14$. What is the ratio of the area of triangle $A D E$ to the area of the quadrilateral $B C E D$?",
     "options": {
       "A": "$\\dfrac{266}{1521}$",
       "B": "$\\dfrac{19}{75}$",
@@ -4368,7 +4368,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2005 AMC 10B · Problem 2 | 2005 AMC 12B · Problem 2",
-    "stem": "A positive number $x$ has the property that $x \\%$ of $x$ is $4$. What is $x?$",
+    "stem": "A positive number $x$ has the property that $x \\%$ of $x$ is $4$. What is $x$?",
     "options": {
       "A": "$2$",
       "B": "$4$",
@@ -4411,7 +4411,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2005 AMC 10B · Problem 4",
-    "stem": "For real numbers $a$ and $b$, define $a \\diamond b=\\sqrt{a^{2}+b^{2}}$. What is the value of\n\n$(5 \\diamond 12) \\diamond((-12) \\diamond(-5))?$",
+    "stem": "For real numbers $a$ and $b$, define $a \\diamond b=\\sqrt{a^{2}+b^{2}}$. What is the value of\n\n$(5 \\diamond 12) \\diamond((-12) \\diamond(-5))$?",
     "options": {
       "A": "$0$",
       "B": "$\\dfrac{17}{2}$",
@@ -4454,7 +4454,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2005 AMC 10B · Problem 6 | 2005 AMC 12B · Problem 4",
-    "stem": "At the beginning of the school year, Lisa's goal was to earn an $\\text{A}$ on at least $80 \\%$ of her $50$ quizzes for the year. She earned an $\\text{A}$ on $22$ of the first $30$ quizzes. If she is to achieve her goal, on at most how many of the remaining quizzes can she earn a grade lower than an $\\mathrm{A}?$",
+    "stem": "At the beginning of the school year, Lisa's goal was to earn an $\\text{A}$ on at least $80 \\%$ of her $50$ quizzes for the year. She earned an $\\text{A}$ on $22$ of the first $30$ quizzes. If she is to achieve her goal, on at most how many of the remaining quizzes can she earn a grade lower than an $\\mathrm{A}$?",
     "options": {
       "A": "$1$",
       "B": "$2$",
@@ -4540,7 +4540,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2005 AMC 10B · Problem 10 | 2005 AMC 12B · Problem 6",
-    "stem": "In $\\triangle A B C$, we have $A C=B C=7$ and $A B=2$. Suppose that $D$ is a point on line $A B$ such that $B$ lies between $A$ and $D$ and $C D=8$. What is $B D?$",
+    "stem": "In $\\triangle A B C$, we have $A C=B C=7$ and $A B=2$. Suppose that $D$ is a point on line $A B$ such that $B$ lies between $A$ and $D$ and $C D=8$. What is $B D$?",
     "options": {
       "A": "$3$",
       "B": "$2 \\sqrt{3}$",
@@ -4626,7 +4626,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2005 AMC 10B · Problem 14",
-    "stem": "Equilateral $\\triangle A B C$ has side length $2, M$ is the midpoint of $\\overline{A C}$, and $C$ is the midpoint of $\\overline{B D}$. What is the area of $\\triangle C D M?$\n\n[Figure: /question-assets/source/amc/2fba3fff5f6f15eb5be8e7f1ee49c423676d991c95550b57afa5a68ebf32cd80.jpg]",
+    "stem": "Equilateral $\\triangle A B C$ has side length $2, M$ is the midpoint of $\\overline{A C}$, and $C$ is the midpoint of $\\overline{B D}$. What is the area of $\\triangle C D M$?\n\n[Figure: /question-assets/source/amc/2fba3fff5f6f15eb5be8e7f1ee49c423676d991c95550b57afa5a68ebf32cd80.jpg]",
     "options": {
       "A": "$\\dfrac{\\sqrt{2}}{2}$",
       "B": "$\\dfrac{3}{4}$",
@@ -4669,7 +4669,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2005 AMC 10B · Problem 16 | 2005 AMC 12B · Problem 12",
-    "stem": "The quadratic equation $x^{2}+m x+n=0$ has roots that are twice those of $x^{2}+p x+m=0$, and none of $m, n$, and $p$ is zero. What is the value of $n / p?$",
+    "stem": "The quadratic equation $x^{2}+m x+n=0$ has roots that are twice those of $x^{2}+p x+m=0$, and none of $m, n$, and $p$ is zero. What is the value of $n / p$?",
     "options": {
       "A": "$1$",
       "B": "$2$",
@@ -4776,7 +4776,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2005 AMC 10B · Problem 21",
-    "stem": "Forty slips are placed into a hat, each bearing a number $1,2,3,4,5,6,7,8, 9$, or $10$, with each number entered on four slips. Four slips are drawn from the hat at random and without replacement. Let $p$ be the probability that all four slips bear the same number. Let $q$ be the probability that two of the slips bear a number $a$ and the other two bear a number $b \\neq a$. What is the value of $q / p?$",
+    "stem": "Forty slips are placed into a hat, each bearing a number $1,2,3,4,5,6,7,8, 9$, or $10$, with each number entered on four slips. Four slips are drawn from the hat at random and without replacement. Let $p$ be the probability that all four slips bear the same number. Let $q$ be the probability that two of the slips bear a number $a$ and the other two bear a number $b \\neq a$. What is the value of $q / p$?",
     "options": {
       "A": "$162$",
       "B": "$180$",
@@ -4818,7 +4818,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2005 AMC 10B · Problem 23",
-    "stem": "In trapezoid $A B C D$ we have $\\overline{A B}$ parallel to $\\overline{D C}, E$ as the midpoint of $\\overline{B C}$, and $F$ as the midpoint of $\\overline{D A}$. The area of $A B E F$ is twice the area of $F E C D$. What is $A B / D C?$",
+    "stem": "In trapezoid $A B C D$ we have $\\overline{A B}$ parallel to $\\overline{D C}, E$ as the midpoint of $\\overline{B C}$, and $F$ as the midpoint of $\\overline{D A}$. The area of $A B E F$ is twice the area of $F E C D$. What is $A B / D C$?",
     "options": {
       "A": "$2$",
       "B": "$3$",
@@ -4839,7 +4839,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2005 AMC 10B · Problem 24 | 2005 AMC 12B · Problem 19",
-    "stem": "Let $x$ and $y$ be two-digit integers such that $y$ is obtained by reversing the digits of $x$. The integers $x$ and $y$ satisfy $x^{2}-y^{2}=m^{2}$ for some positive integer $m$. What is $x+y+m?$",
+    "stem": "Let $x$ and $y$ be two-digit integers such that $y$ is obtained by reversing the digits of $x$. The integers $x$ and $y$ satisfy $x^{2}-y^{2}=m^{2}$ for some positive integer $m$. What is $x+y+m$?",
     "options": {
       "A": "$88$",
       "B": "$112$",
@@ -4861,7 +4861,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2005 AMC 10B · Problem 25",
-    "stem": "A subset $B$ of the set of integers from $1$ to $100$, inclusive, has the property that no two elements of $B$ sum to $125$. What is the maximum possible number of elements in $B?$",
+    "stem": "A subset $B$ of the set of integers from $1$ to $100$, inclusive, has the property that no two elements of $B$ sum to $125$. What is the maximum possible number of elements in $B$?",
     "options": {
       "A": "$50$",
       "B": "$51$",
@@ -4904,7 +4904,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2006 AMC 10A · Problem 2 | 2006 AMC 12A · Problem 2",
-    "stem": "Define $x \\otimes y=x^{3}-y$. What is $h \\otimes(h \\otimes h)?$",
+    "stem": "Define $x \\otimes y=x^{3}-y$. What is $h \\otimes(h \\otimes h)$?",
     "options": {
       "A": "$-h$",
       "B": "$0$",
@@ -4991,7 +4991,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2006 AMC 10A · Problem 6",
-    "stem": "What non-zero real value for $x$ satisfies $(7 x)^{14}=(14 x)^{7}?$",
+    "stem": "What non-zero real value for $x$ satisfies $(7 x)^{14}=(14 x)^{7}$?",
     "options": {
       "A": "$\\dfrac{1}{7}$",
       "B": "$\\dfrac{2}{7}$",
@@ -5055,7 +5055,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2006 AMC 10A · Problem 9 | 2006 AMC 12A · Problem 8",
-    "stem": "How many sets of two or more consecutive positive integers have a sum of $15?$",
+    "stem": "How many sets of two or more consecutive positive integers have a sum of $15$?",
     "options": {
       "A": "$1$",
       "B": "$2$",
@@ -5099,7 +5099,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2006 AMC 10A · Problem 11 | 2006 AMC 12A · Problem 11",
-    "stem": "Which of the following describes the graph of the equation $(x+y)^{2}=x^{2}+y^{2}?$",
+    "stem": "Which of the following describes the graph of the equation $(x+y)^{2}=x^{2}+y^{2}$?",
     "options": {
       "A": "the empty set",
       "B": "one point",
@@ -5110,7 +5110,7 @@
     "answer": "C",
     "solutions": [
       "The equation $(x+y)^{2}=x^{2}+y^{2}$ is equivalent to $x^{2}+2 x y+y^{2}=x^{2}+y^{2}$, which reduces to $x y=0$. Thus the graph of the equation consists of the $(\\text{C})\\boxed{\\text{two lines}}$ that are the coordinate axes.",
-      "The equation $(x+y)^{2}=x^{2}+y^{2}$ is equivalent to $x^{2}+2 x y+y^{2}=x^{2}+y^{2}$, which reduces to $x y=0$. Thus the graph of the equation consists of the $\\boxed{two \\quad lines}$ that are the coordinate axes."
+      "The equation $(x+y)^{2}=x^{2}+y^{2}$ is equivalent to $x^{2}+2 x y+y^{2}=x^{2}+y^{2}$, which reduces to $x y=0$. Thus the graph of the equation consists of the $\\boxed{\\text{two lines}}$ that are the coordinate axes."
     ],
     "tags": []
   },
@@ -5207,7 +5207,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2006 AMC 10A · Problem 16",
-    "stem": "A circle of radius $1$ is tangent to a circle of radius $2$. The sides of $\\triangle A B C$ are tangent to the circles as shown, and the sides $\\overline{A B}$ and $\\overline{A C}$ are congruent. What is the area of $\\triangle A B C?$\n\n[Figure: /question-assets/source/amc/a00525692b898977fb5298f07f085af2d1196ac9c7a427c079da7acae6153400.jpg]",
+    "stem": "A circle of radius $1$ is tangent to a circle of radius $2$. The sides of $\\triangle A B C$ are tangent to the circles as shown, and the sides $\\overline{A B}$ and $\\overline{A C}$ are congruent. What is the area of $\\triangle A B C$?\n\n[Figure: /question-assets/source/amc/a00525692b898977fb5298f07f085af2d1196ac9c7a427c079da7acae6153400.jpg]",
     "options": {
       "A": "$\\dfrac{35}{2}$",
       "B": "$15 \\sqrt{2}$",
@@ -5291,7 +5291,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2006 AMC 10A · Problem 20",
-    "stem": "Six distinct positive integers are randomly chosen between $1$ and $2006$, inclusive. What is the probability that some pair of these integers has a difference that is a multiple of $5?$",
+    "stem": "Six distinct positive integers are randomly chosen between $1$ and $2006$, inclusive. What is the probability that some pair of these integers has a difference that is a multiple of $5$?",
     "options": {
       "A": "$\\dfrac{1}{2}$",
       "B": "$\\dfrac{3}{5}$",
@@ -5355,7 +5355,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2006 AMC 10A · Problem 23 | 2006 AMC 12A · Problem 16",
-    "stem": "Circles with centers $A$ and $B$ have radii $3$ and $8$, respectively. A common internal tangent touches the circles at $C$ and $D$, as shown. Lines $A B$ and $C D$ intersect at $E$, and $A E=5$. What is $C D?$\n\n[Figure: /question-assets/source/amc/165f67ee492863ba4060f01ccf753285b551bacffeccaae751b24cdf9e3f2573.jpg]",
+    "stem": "Circles with centers $A$ and $B$ have radii $3$ and $8$, respectively. A common internal tangent touches the circles at $C$ and $D$, as shown. Lines $A B$ and $C D$ intersect at $E$, and $A E=5$. What is $C D$?\n\n[Figure: /question-assets/source/amc/165f67ee492863ba4060f01ccf753285b551bacffeccaae751b24cdf9e3f2573.jpg]",
     "options": {
       "A": "$13$",
       "B": "$\\dfrac{44}{3}$",
@@ -5499,7 +5499,7 @@
     },
     "answer": "D",
     "solutions": [
-      "The area painted red is equal to the area of the smaller circle and the area painted blue is equal to the area of the larger circle minus the area of the smaller circle.\n\nSo we have:\n\n\\begin{align*} A_{red}&=\\pi\\left(\\frac{1}{2}\\right)^2=\\frac{\\pi}{4}\\\\ A_{blue}&=\\pi\\left(\\frac{3}{2}\\right)^2-\\pi\\left(\\frac{1}{2}\\right)^2=2\\pi\\\\ \\end{align*}\n\nSo the desired ratio is:\n\n$\\frac{A_{blue}}{A_{red}}=\\frac{2\\pi}{\\frac{\\pi}{4}}=2\\cancel{\\pi}\\cdot \\frac{4}{\\cancel{\\pi}}=\\boxed{\\textbf{(D) }8}.$"
+      "The area painted red is equal to the area of the smaller circle and the area painted blue is equal to the area of the larger circle minus the area of the smaller circle.\n\nSo we have:\n\n\\begin{align*} A_{\\text{red}}&=\\pi\\left(\\frac{1}{2}\\right)^2=\\frac{\\pi}{4}\\\\ A_{\\text{blue}}&=\\pi\\left(\\frac{3}{2}\\right)^2-\\pi\\left(\\frac{1}{2}\\right)^2=2\\pi\\\\ \\end{align*}\n\nSo the desired ratio is:\n\n$\\frac{A_{\\text{blue}}}{A_{\\text{red}}}=\\frac{2\\pi}{\\frac{\\pi}{4}}=2\\cancel{\\pi}\\cdot \\frac{4}{\\cancel{\\pi}}=\\boxed{\\textbf{(D) }8}.$"
     ],
     "tags": []
   },
@@ -5963,7 +5963,7 @@
       "Alternatively, we can see that if one of Mr. Jones' children is of the age 5, then the license plate will have to end in the digit $0$ . The license plate cannot end in the digit $5$ as $2$ is a factor of the number, so it must be even. This means that the license plate would have to have two $0$ digits, and would either be of the form $XX00$ or $X0X0$ (X being the other digit in the license plate) . The condition $XX00$ is impossible as Mr. Jones can't be $00$ years old. If we separate the second condition, $X0X0$ into its prime factors, we get $X\\cdot 10\\cdot 101$. $101$ is prime, and therefore can't account for allowing $X0X0$ being evenly divisible by the childrens' ages. The $10$ accounts for the 5 and one factor of 2. This leaves $X$, but no single digit number contains all the prime factors besides 5 and 2 of the childrens' ages, thus $5$ $\\boxed{ B }$ can't be one of the childrens' ages.",
       "Another way to do the problem is by the process of elimination. The only possible correct choices are the highest powers of each prime, $2^3=8$, $3^2=9$, $5^1=5$, and $7^1=7$, since indivisibility by any powers lower than these means indivisibility by a higher power of the prime (for example, indivisibility by $2^2=4$ means indivisibility by $2^3=8)$. Since the number is divisible by $9$, it is not the answer, and the digits have to add up to $9$. Let $(a,b)$ be the digits: since $2\\cdot(a+b) | 9$, $(a+b)|9$. The only possible choices for $(a,b)$ are $(0,9)$, $(1,8)$, $(2,7)$, $(3,6)$, and $(4,5)$. The only number that works is $5544$, but it is not divisible by $5$. $\\boxed{ B }$",
       "Since 5 has the \"strictest\" divisibility rules of the single digit numbers, we check that case first. To be divisible by 9, the other repeating digit must be 4. Seeing that 5544 is the only arrangement of 2 4's and 2 5's that is divisible by the other single digit numbers and itself is not divisible by 5, the answer is $\\boxed {(B) 5}$.",
-      "The 4-digit number on the license plate has the form $a a b b$ or $a b a b$ or $b a a b$, where $a$ and $b$ are distinct integers from 0 to 9 . Because Mr. Jones has a child of age 9 , the number on the license plate is divisible by 9 . Hence the sum of the digits, $2(a+b)$, is also divisible by 9 . Because of the restriction on the digits $a$ and $b$, this implies that $a+b=9$. Moreover, since Mr. Jones must have either a 4 -year-old or an 8 -year-old, the license plate number is divisible by 4 . These conditions narrow the possibilities for the number to $1188,2772,3636,5544$, 6336, 7272, and 9900. The last two digits of 9900 could not yield Mr. Jones's age, and none of the others is divisible by 5 , so he does not have a $\\boxed{5 -year-old}$.\n\nNote that 5544 is divisible by each of the other eight non-zero digits."
+      "The 4-digit number on the license plate has the form $a a b b$ or $a b a b$ or $b a a b$, where $a$ and $b$ are distinct integers from 0 to 9 . Because Mr. Jones has a child of age 9 , the number on the license plate is divisible by 9 . Hence the sum of the digits, $2(a+b)$, is also divisible by 9 . Because of the restriction on the digits $a$ and $b$, this implies that $a+b=9$. Moreover, since Mr. Jones must have either a 4 -year-old or an 8 -year-old, the license plate number is divisible by 4 . These conditions narrow the possibilities for the number to $1188,2772,3636,5544$, 6336, 7272, and 9900. The last two digits of 9900 could not yield Mr. Jones's age, and none of the others is divisible by 5 , so he does not have a $\\boxed{\\text{5-year-old}}$.\n\nNote that 5544 is divisible by each of the other eight non-zero digits."
     ],
     "tags": []
   },
@@ -6319,7 +6319,7 @@
     "answer": "E",
     "solutions": [
       "The only time when $ad-bc$ is even is when $ad$ and $bc$ are of the same parity. The chance of $ad$ being odd is $\\frac 12 \\cdot \\frac 12 = \\frac 14$, since the only way to have $ad$ be odd is to have both $a$ and $d$ be odd. As a result, $ad$ has a $\\frac 34$ probability of being even. $bc$ also has a $\\frac 14$ chance of being odd and a $\\frac34$ chance of being even. Therefore, the probability that $ad-bc$ will be even is $\\left(\\frac 14\\right)^2+\\left(\\frac 34\\right)^2=\\boxed {\\mathrm{(E )} \\frac 58\\ }$.",
-      "If we don't know our parity rules, we can check and see that $ad-bc$ is only even when $ad$ and $bc$ are of the same parity (as stated above). From here, we have two cases.\n\nCase 1: $odd-odd$ (which must be $o \\cdot o-o \\cdot o$). The probability for this to occur is $\\left(\\frac 12\\right)^4 = \\frac 1{16}$, because each integer has a $\\frac 12$ chance of being odd.\n\nCase 2: $even-even$ (which occurs in 4 cases: $(e \\cdot e-e \\cdot e$), ($o \\cdot e-o \\cdot e$) (alternating of any kind), and ($e \\cdot e-o \\cdot e$) with its reverse, ($o \\cdot e-e \\cdot e$).\n\nOur first subcase of case 2 has a chance of $\\frac 1{16}$ (same reasoning as above).\n\nOur second subcase of case 2 has a $\\frac 14$ chance, since only the 2nd and 4th flip matter (or 1st and 3rd).\n\nOur third subcase of case 2 has a $\\frac 18$ chance, because the 1st, 2nd, and either 3rd or 4th flip matter.\n\nOur fourth subcase of case 2 has a $\\frac 18$ chance, because it's the same, just reversed.\n\nWe sum these, and get our answer of $\\frac 1{16} + \\frac 1{16} + \\frac 14 + \\frac 18 + \\frac 18 = \\boxed {\\mathrm{(E )} \\frac 58\\ }.$",
+      "If we don't know our parity rules, we can check and see that $ad-bc$ is only even when $ad$ and $bc$ are of the same parity (as stated above). From here, we have two cases.\n\nCase 1: $\\text{odd}-\\text{odd}$ (which must be $o \\cdot o-o \\cdot o$). The probability for this to occur is $\\left(\\frac 12\\right)^4 = \\frac 1{16}$, because each integer has a $\\frac 12$ chance of being odd.\n\nCase 2: $\\text{even}-\\text{even}$ (which occurs in 4 cases: $(e \\cdot e-e \\cdot e$), ($o \\cdot e-o \\cdot e$) (alternating of any kind), and ($e \\cdot e-o \\cdot e$) with its reverse, ($o \\cdot e-e \\cdot e$).\n\nOur first subcase of case 2 has a chance of $\\frac 1{16}$ (same reasoning as above).\n\nOur second subcase of case 2 has a $\\frac 14$ chance, since only the 2nd and 4th flip matter (or 1st and 3rd).\n\nOur third subcase of case 2 has a $\\frac 18$ chance, because the 1st, 2nd, and either 3rd or 4th flip matter.\n\nOur fourth subcase of case 2 has a $\\frac 18$ chance, because it's the same, just reversed.\n\nWe sum these, and get our answer of $\\frac 1{16} + \\frac 1{16} + \\frac 14 + \\frac 18 + \\frac 18 = \\boxed {\\mathrm{(E )} \\frac 58\\ }.$",
       "The number $a d-b c$ is even if and only if $a d$ and $b c$ are both odd or are both even. Each of $a d$ and $b c$ is odd if both of its factors are odd, and even otherwise. Exactly half of the integers from 0 to 2007 are odd, so each of $a d$ and $b c$ is odd with probability $(1 / 2) \\cdot(1 / 2)=1 / 4$ and are even with probability $3 / 4$. Hence the probability that $a d-b c$ is even is\n\n$\\dfrac{1}{4} \\cdot \\dfrac{1}{4}+\\dfrac{3}{4} \\cdot \\dfrac{3}{4}= \\boxed{\\dfrac{5}{8}}$"
     ],
     "tags": []
@@ -6513,7 +6513,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2007 AMC 10A · Problem 25 | 2007 AMC 12A · Problem 22",
-    "stem": "For each positive integer $n$, let $S(n)$ denote the sum of the digits of $n.$ For how many values of $n$ is $n + S(n) + S(S(n)) = 2007?$",
+    "stem": "For each positive integer $n$, let $S(n)$ denote the sum of the digits of $n.$ For how many values of $n$ is $n + S(n) + S(S(n)) = 2007$?",
     "options": {
       "A": "$\\ 1$",
       "B": "$\\ 2$",
@@ -7119,7 +7119,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2008 AMC 10A · Problem 3",
-    "stem": "For the positive integer $n$, let $\\langle n\\rangle$ denote the sum of all the positive divisors of $n$ with the exception of $n$ itself. For example, $\\langle 4\\rangle=1+2=3$ and $\\langle 12 \\rangle =1+2+3+4+6=16$. What is $\\langle\\langle\\langle 6\\rangle\\rangle\\rangle?$",
+    "stem": "For the positive integer $n$, let $\\langle n\\rangle$ denote the sum of all the positive divisors of $n$ with the exception of $n$ itself. For example, $\\langle 4\\rangle=1+2=3$ and $\\langle 12 \\rangle =1+2+3+4+6=16$. What is $\\langle\\langle\\langle 6\\rangle\\rangle\\rangle$?",
     "options": {
       "A": "$6$",
       "B": "$12$",
@@ -7162,7 +7162,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2008 AMC 10A · Problem 5 | 2008 AMC 12A · Problem 4",
-    "stem": "Which of the following is equal to the product\n\n$\\dfrac{8}{4} \\cdot \\dfrac{12}{8} \\cdot \\dfrac{16}{12} \\cdots \\dfrac{4 n+4}{4 n} \\cdots \\dfrac{2008}{2004}?$",
+    "stem": "Which of the following is equal to the product\n\n$\\dfrac{8}{4} \\cdot \\dfrac{12}{8} \\cdot \\dfrac{16}{12} \\cdots \\dfrac{4 n+4}{4 n} \\cdots \\dfrac{2008}{2004}$?",
     "options": {
       "A": "$251$",
       "B": "$502$",
@@ -8095,7 +8095,7 @@
     "answer": "B",
     "solutions": [
       "Because the area of the border is half the area of the floor, the same is true of the painted rectangle. The painted rectangle measures $a-2$ by $b-2$ feet. Hence $a b=2(a-2)(b-2)$, from which $0=a b-4 a-4 b+8$. Add $8$ to each side of the equation to produce\n\n$8=a b-4 a-4 b+16=(a-4)(b-4) .$\nBecause the only integer factorizations of $8$ are\n\n$8=1 \\cdot 8=2 \\cdot 4=(-4) \\cdot(-2)=(-8) \\cdot(-1)$\nand because $b>a>0$, the only possible ordered pairs satisfying this equation for $(a-4, b-4)$ are $(1,8)$ and $(2,4)$. Hence $(a, b)$ must be one of the two ordered pairs $(5,12)$, or $(6,8)$.",
-      "Because the area of the border is half the area of the floor, the same is true of the painted rectangle. The painted rectangle measures $a-2$ by $b-2$ feet. Hence $a b=2(a-2)(b-2)$, from which $0=a b-4 a-4 b+8$. Add 8 to each side of the equation to produce\n\n$8=a b-4 a-4 b+16=(a-4)(b-4)$\nBecause the only integer factorizations of 8 are\n\n$8=1 \\cdot 8=2 \\cdot 4=(-4) \\cdot(-2)=(-8) \\cdot(-1)$\nand because $b>a>0$, the only possible ordered pairs satisfying this equation for $(a-4, b-4)$ are $(1,8)$ and $(2,4)$. Hence $(a, b)$ must be one of the $\\boxed{two}$ ordered pairs $(5,12)$, or $(6,8)$."
+      "Because the area of the border is half the area of the floor, the same is true of the painted rectangle. The painted rectangle measures $a-2$ by $b-2$ feet. Hence $a b=2(a-2)(b-2)$, from which $0=a b-4 a-4 b+8$. Add 8 to each side of the equation to produce\n\n$8=a b-4 a-4 b+16=(a-4)(b-4)$\nBecause the only integer factorizations of 8 are\n\n$8=1 \\cdot 8=2 \\cdot 4=(-4) \\cdot(-2)=(-8) \\cdot(-1)$\nand because $b>a>0$, the only possible ordered pairs satisfying this equation for $(a-4, b-4)$ are $(1,8)$ and $(2,4)$. Hence $(a, b)$ must be one of the $\\boxed{\\text{two}}$ ordered pairs $(5,12)$, or $(6,8)$."
     ],
     "tags": []
   },
@@ -8142,7 +8142,7 @@
     "answer": "B",
     "solutions": [
       "Number the pails consecutively so that Michael is presently at pail $0$ and the garbage truck is at pail $1$. Michael takes $200 / 5=40$ seconds to walk between pails, so for $n \\geq 0$ he passes pail $n$ after $40 n$ seconds. The truck takes $20$ seconds to travel between pails and stops for $30$ seconds at each pail. Thus for $n \\geq 1$ it leaves pail $n$ after $50(n-1)$ seconds, and for $n \\geq 2$ it arrives at pail $n$ after $50(n-1)-30$ seconds. Michael will meet the truck at pail $n$ if and only if\n\n$50(n-1)-30 \\leq 40 n \\leq 50(n-1) \\text { or, equivalently, } 5 \\leq n \\leq 8$\n\n[Figure: /question-assets/source/amc/eb4d80ffe4235e9d35ff5d7885ed20c8800b51e1d2c1e65826a71652beeb62b2.jpg]\n\nHence Michael first meets the truck at pail $5$ after $200$ seconds, just as the truck leaves the pail. He passes the truck at pail $6$ after $240$ seconds and at pail $7$ after $280$ seconds. Finally, Michael meets the truck just as it arrives at pail $8$ after $320$ seconds. These conditions imply that the truck is ahead of Michael between pails $5$ and $6$ and that Michael is ahead of the truck between pails $7$ and $8$. However, the truck must pass Michael at some point between pails $6$ and $7$, so they meet a total of $(\\text{B})\\boxed{5}$ times.",
-      "Number the pails consecutively so that Michael is presently at pail 0 and the garbage truck is at pail 1 . Michael takes $200 / 5=40$ seconds to walk between pails, so for $n \\geq 0$ he passes pail $n$ after $40 n$ seconds. The truck takes 20 seconds to travel between pails and stops for 30 seconds at each pail. Thus for $n \\geq 1$ it leaves pail $n$ after $50(n-1)$ seconds, and for $n \\geq 2$ it arrives at pail $n$ after $50(n-1)-30$ seconds. Michael will meet the truck at pail $n$ if and only if\n\n$50(n-1)-30 \\leq 40 n \\leq 50(n-1) \\quad \\text { or, equivalently, } 5 \\leq n \\leq 8$\n\n[Figure: /question-assets/source/amc/185ffbaef2e5ea9a69b2afc7f90d6f5684d5ca278e3cf75198dd0ac0a01a827c.jpg]\n\nHence Michael first meets the truck at pail 5 after 200 seconds, just as the truck leaves the pail. He passes the truck at pail 6 after 240 seconds and at pail 7 after 280 seconds. Finally, Michael meets the truck just as it arrives at pail 8 after 320 seconds. These conditions imply that the truck is ahead of Michael between pails 5 and 6 and that Michael is ahead of the truck between pails 7 and 8. However, the truck must pass Michael at some point between pails 6 and 7 , so they meet a total of $\\boxed{five}$ times."
+      "Number the pails consecutively so that Michael is presently at pail 0 and the garbage truck is at pail 1 . Michael takes $200 / 5=40$ seconds to walk between pails, so for $n \\geq 0$ he passes pail $n$ after $40 n$ seconds. The truck takes 20 seconds to travel between pails and stops for 30 seconds at each pail. Thus for $n \\geq 1$ it leaves pail $n$ after $50(n-1)$ seconds, and for $n \\geq 2$ it arrives at pail $n$ after $50(n-1)-30$ seconds. Michael will meet the truck at pail $n$ if and only if\n\n$50(n-1)-30 \\leq 40 n \\leq 50(n-1) \\quad \\text { or, equivalently, } 5 \\leq n \\leq 8$\n\n[Figure: /question-assets/source/amc/185ffbaef2e5ea9a69b2afc7f90d6f5684d5ca278e3cf75198dd0ac0a01a827c.jpg]\n\nHence Michael first meets the truck at pail 5 after 200 seconds, just as the truck leaves the pail. He passes the truck at pail 6 after 240 seconds and at pail 7 after 280 seconds. Finally, Michael meets the truck just as it arrives at pail 8 after 320 seconds. These conditions imply that the truck is ahead of Michael between pails 5 and 6 and that Michael is ahead of the truck between pails 7 and 8. However, the truck must pass Michael at some point between pails 6 and 7 , so they meet a total of $\\boxed{\\text{five}}$ times."
     ],
     "tags": []
   },
@@ -8196,7 +8196,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2009 AMC 10A · Problem 3 | 2009 AMC 12A · Problem 2",
-    "stem": "Which of the following is equal to\n\n$1+\\dfrac{1}{1+\\dfrac{1}{1+1}} ?$",
+    "stem": "Which of the following is equal to\n\n$1+\\dfrac{1}{1+\\dfrac{1}{1+1}}$?",
     "options": {
       "A": "$\\dfrac{5}{4}$",
       "B": "$\\dfrac{3}{2}$",
@@ -8709,7 +8709,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2009 AMC 10B · Problem 2",
-    "stem": "Which of the following is equal to\n\n$\\dfrac{\\dfrac{1}{3}-\\dfrac{1}{4}}{\\dfrac{1}{2}-\\dfrac{1}{3}}?$",
+    "stem": "Which of the following is equal to\n\n$\\dfrac{\\dfrac{1}{3}-\\dfrac{1}{4}}{\\dfrac{1}{2}-\\dfrac{1}{3}}$?",
     "options": {
       "A": "$\\dfrac{1}{4}$",
       "B": "$\\dfrac{1}{3}$",
@@ -8829,7 +8829,7 @@
     "answer": "C",
     "solutions": [
       "The three operations can be performed in any of $3 !=6$ orders. However, if the addition is performed either first or last, then multiplying in either order produces the same result. Thus at most $(\\text{C})\\boxed{4}$ distinct values can be obtained. It is easily checked that the values of the $4$ expressions\n\n$\\begin{aligned} (2 \\times 3)+(4 \\times 5) &=26 \\\\ ((2 \\times 3+4) \\times 5) &=50 \\\\ 2 \\times(3+(4 \\times 5)) &=46 \\\\ 2 \\times(3+4) \\times 5 &=70 \\end{aligned}$\nare in fact all distinct.",
-      "The three operations can be performed in any of $3!=6$ orders. However, if the addition is performed either first or last, then multiplying in either order produces the same result. Thus at most $\\boxed{four}$ distinct values can be obtained. It is easily checked that the values of the four expressions\n\n$(2 \\times 3)+(4 \\times 5)=26$\n$\\begin{aligned} ((2 \\times 3+4) \\times 5) =50 \\\\ 2 \\times(3+(4 \\times 5)) =46 \\\\ 2 \\times(3+4) \\times 5 =70 \\end{aligned}$\nare in fact all distinct."
+      "The three operations can be performed in any of $3!=6$ orders. However, if the addition is performed either first or last, then multiplying in either order produces the same result. Thus at most $\\boxed{\\text{four}}$ distinct values can be obtained. It is easily checked that the values of the four expressions\n\n$(2 \\times 3)+(4 \\times 5)=26$\n$\\begin{aligned} ((2 \\times 3+4) \\times 5) =50 \\\\ 2 \\times(3+(4 \\times 5)) =46 \\\\ 2 \\times(3+4) \\times 5 =70 \\end{aligned}$\nare in fact all distinct."
     ],
     "tags": []
   },
@@ -10849,7 +10849,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2011 AMC 10B · Problem 1 | 2011 AMC 12B · Problem 1",
-    "stem": "What is\n\n$\\dfrac{2+4+6}{1+3+5}-\\dfrac{1+3+5}{2+4+6}?$",
+    "stem": "What is\n\n$\\dfrac{2+4+6}{1+3+5}-\\dfrac{1+3+5}{2+4+6}$?",
     "options": {
       "A": "$-1$",
       "B": "$\\dfrac{5}{36}$",
@@ -12123,7 +12123,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2012 AMC 10B · Problem 10",
-    "stem": "How many ordered pairs of positive integers $(M, N)$ satisfy the equation $\\dfrac{M}{6}=\\dfrac{6}{N} ?$",
+    "stem": "How many ordered pairs of positive integers $(M, N)$ satisfy the equation $\\dfrac{M}{6}=\\dfrac{6}{N}$?",
     "options": {
       "A": "$6$",
       "B": "$7$",
@@ -12615,7 +12615,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2013 AMC 10A · Problem 8 | 2013 AMC 12A · Problem 4",
-    "stem": "What is the value of\n\n$\\dfrac{2^{2014}+2^{2012}}{2^{2014}-2^{2012}}?$",
+    "stem": "What is the value of\n\n$\\dfrac{2^{2014}+2^{2012}}{2^{2014}-2^{2012}}$?",
     "options": {
       "A": "$-1$",
       "B": "$1$",
@@ -13408,7 +13408,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2013 AMC 10B · Problem 20 | 2013 AMC 12B · Problem 15",
-    "stem": "The number $2013$ is expressed in the form\n\n$2013=\\dfrac{a_{1} ! a_{2} ! \\cdots a_{m} !}{b_{1} ! b_{2} ! \\cdots b_{n} !}$\nwhere $a_{1} \\geq a_{2} \\geq \\cdots \\geq a_{m}$ and $b_{1} \\geq b_{2} \\geq \\cdots \\geq b_{n}$ are positive integers and $a_{1}+b_{1}$ is as small as possible. What is $\\left|a_{1}-b_{1}\\right| ?$",
+    "stem": "The number $2013$ is expressed in the form\n\n$2013=\\dfrac{a_{1} ! a_{2} ! \\cdots a_{m} !}{b_{1} ! b_{2} ! \\cdots b_{n} !}$\nwhere $a_{1} \\geq a_{2} \\geq \\cdots \\geq a_{m}$ and $b_{1} \\geq b_{2} \\geq \\cdots \\geq b_{n}$ are positive integers and $a_{1}+b_{1}$ is as small as possible. What is $\\left|a_{1}-b_{1}\\right|$?",
     "options": {
       "A": "$1$",
       "B": "$2$",
@@ -13541,7 +13541,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2014 AMC 10A · Problem 1 | 2014 AMC 12A · Problem 1",
-    "stem": "What is $10\\cdot\\left(\\tfrac{1}{2}+\\tfrac{1}{5}+\\tfrac{1}{10}\\right)^{-1}?$",
+    "stem": "What is $10\\cdot\\left(\\tfrac{1}{2}+\\tfrac{1}{5}+\\tfrac{1}{10}\\right)^{-1}$?",
     "options": {
       "A": "$\\ 3$",
       "B": "$\\ 8$",
@@ -14101,7 +14101,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2014 AMC 10A · Problem 25 | 2014 AMC 12A · Problem 22",
-    "stem": "The number $5^{867}$ is between $2^{2013}$ and $2^{2014}$. How many pairs of integers $(m,n)$ are there such that $1\\leq m\\leq 2012$ and $5^n<2^m<2^{m+2}<5^{n+1}?$",
+    "stem": "The number $5^{867}$ is between $2^{2013}$ and $2^{2014}$. How many pairs of integers $(m,n)$ are there such that $1\\leq m\\leq 2012$ and $5^n<2^m<2^{m+2}<5^{n+1}$?",
     "options": {
       "A": "$278$",
       "B": "$279$",
@@ -15144,7 +15144,7 @@
     "answer": "C",
     "solutions": [
       "The zeros of $f$ are integers and their sum is $a$, so $a$ is an integer. If $r$ is an integer zero, then $r^{2}-a r+2 a=0$ or\n\n$a=\\dfrac{r^{2}}{r-2}=r+2+\\dfrac{4}{r-2}$\nSo $\\dfrac{4}{r-2}=a-r-2$ must be an integer, and the possible values of $r$ are $6,4,3,1,0$, and $-2$. The possible values of $a$ are $9,8,0$, and $-1$, all of which yield integer zeros of $f$, and their sum is $(\\text{C})\\boxed{16}$.\n\n$\\textbf{OR}$\nAs above, $a$ must be an integer. The function $f$ has zeros at\n\n$x=\\dfrac{a \\pm \\sqrt{a^{2}-8 a}}{2}$\nThese values are integers only if $a^{2}-8 a=w^{2}$ for some integer $w$. Solving for $a$ in terms of $w$ gives $a=4 \\pm \\sqrt{16+w^{2}}$, so $16+w^{2}$ must be a perfect square. The only integer solutions for $w$ are $0$ and $\\pm 3$, from which it follows that the values of $a$ are $0,8,9$, and $-1$, all of which yield integer values of $x$. The requested sum is $(\\text{C})\\boxed{16}$.",
-      "The zeros of $f$ are integers and their sum is $a$, so $a$ is an integer. If $r$ is an integer zero, then $r^{2}-a r+2 a=0$ or\n\n$a=\\dfrac{r^{2}}{r-2}=r+2+\\dfrac{4}{r-2} \\text {. }$\nSo $\\dfrac{4}{r-2}=a-r-2$ must be an integer, and the possible values of $r$ are 6,4 , $3,1,0$, and -2 . The possible values of $a$ are $9,8,0$, and -1 , all of which yield integer zeros of $f$, and their sum is $\\boxed{16}$ .\n\nOR\n\nAs above, $a$ must be an integer. The function $f$ has zeros at\n\n$x=\\dfrac{a \\pm \\sqrt{a^{2}-8 a}}{2}$\nThese values are integers only if $a^{2}-8 a=w^{2}$ for some integer $w$. Solving for $a$ in terms of $w$ gives $a=4 \\pm \\sqrt{16+w^{2}}$, so $16+w^{2}$ must be a perfect square. The only integer solutions for $w$ are 0 and \\textbackslash pm 3 , from which it follows that the values of $a$ are $0,8,9$, and -1 , all of which yield integer values of $x$. The requested sum is $\\boxed{16}$ ."
+      "The zeros of $f$ are integers and their sum is $a$, so $a$ is an integer. If $r$ is an integer zero, then $r^{2}-a r+2 a=0$ or\n\n$a=\\dfrac{r^{2}}{r-2}=r+2+\\dfrac{4}{r-2} \\text {. }$\nSo $\\dfrac{4}{r-2}=a-r-2$ must be an integer, and the possible values of $r$ are 6,4 , $3,1,0$, and -2 . The possible values of $a$ are $9,8,0$, and -1 , all of which yield integer zeros of $f$, and their sum is $\\boxed{16}$ .\n\nOR\n\nAs above, $a$ must be an integer. The function $f$ has zeros at\n\n$x=\\dfrac{a \\pm \\sqrt{a^{2}-8 a}}{2}$\nThese values are integers only if $a^{2}-8 a=w^{2}$ for some integer $w$. Solving for $a$ in terms of $w$ gives $a=4 \\pm \\sqrt{16+w^{2}}$, so $16+w^{2}$ must be a perfect square. The only integer solutions for $w$ are 0 and $\\pm 3$ , from which it follows that the values of $a$ are $0,8,9$, and -1 , all of which yield integer values of $x$. The requested sum is $\\boxed{16}$ ."
     ],
     "tags": []
   },
@@ -16271,7 +16271,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2016 AMC 10A · Problem 25 | 2016 AMC 12A · Problem 22",
-    "stem": "How many ordered triples $(x, y, z)$ of positive integers satisfy $\\operatorname{lcm}(x, y)=72$, $\\operatorname{lcm}(x, z)=600$, and $\\operatorname{lcm}(y, z)=900?$",
+    "stem": "How many ordered triples $(x, y, z)$ of positive integers satisfy $\\operatorname{lcm}(x, y)=72$, $\\operatorname{lcm}(x, z)=600$, and $\\operatorname{lcm}(y, z)=900$?",
     "options": {
       "A": "$15$",
       "B": "$16$",
@@ -16446,7 +16446,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2016 AMC 10B · Problem 8",
-    "stem": "What is the tens digit of $2015^{2016}-2017?$",
+    "stem": "What is the tens digit of $2015^{2016}-2017$?",
     "options": {
       "A": "$\\ 0$",
       "B": "$\\ 1$",
@@ -16580,7 +16580,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2016 AMC 10B · Problem 14 | 2016 AMC 12B · Problem 11",
-    "stem": "How many squares whose sides are parallel to the axes and whose vertices have coordinates that are integers lie entirely within the region bounded by the line $y=\\pi x$, the line $y=-0.1$ and the line $x=5.1?$",
+    "stem": "How many squares whose sides are parallel to the axes and whose vertices have coordinates that are integers lie entirely within the region bounded by the line $y=\\pi x$, the line $y=-0.1$ and the line $x=5.1$?",
     "options": {
       "A": "$\\ 30$",
       "B": "$\\ 41$",
@@ -16626,7 +16626,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2016 AMC 10B · Problem 16 | 2016 AMC 12B · Problem 14",
-    "stem": "The sum of an infinite geometric series is a positive number $S$, and the second term in the series is $1$. What is the smallest possible value of $S?$",
+    "stem": "The sum of an infinite geometric series is a positive number $S$, and the second term in the series is $1$. What is the smallest possible value of $S$?",
     "options": {
       "A": "$\\ \\frac{1+\\sqrt{5}}{2}$",
       "B": "$\\ 2$",
@@ -16742,7 +16742,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2016 AMC 10B · Problem 21 | 2016 AMC 12B · Problem 18",
-    "stem": "What is the area of the region enclosed by the graph of the equation\n\n$x^{2} + y^{2} = |x| + |y| ?$",
+    "stem": "What is the area of the region enclosed by the graph of the equation\n\n$x^{2} + y^{2} = |x| + |y|$?",
     "options": {
       "A": "$\\pi+\\sqrt{2}$",
       "B": "$\\pi+2$",
@@ -16764,7 +16764,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2016 AMC 10B · Problem 22 | 2016 AMC 12B · Problem 20",
-    "stem": "A set of teams held a round-robin tournament in which every team played every other team exactly once. Every team won $10$ games and lost $10$ games; there were no ties. How many sets of three teams $\\{A, B, C\\}$ were there in which $A$ beat $B$, $B$ beat $C$, and $C$ beat $A?$",
+    "stem": "A set of teams held a round-robin tournament in which every team played every other team exactly once. Every team won $10$ games and lost $10$ games; there were no ties. How many sets of three teams $\\{A, B, C\\}$ were there in which $A$ beat $B$, $B$ beat $C$, and $C$ beat $A$?",
     "options": {
       "A": "$\\ 385$",
       "B": "$\\ 665$",
@@ -17028,7 +17028,7 @@
       "Each one of the ten people has to shake hands with all the $20$ other people they don’t know. So $10\\cdot20 = 200$. From there, we calculate how many handshakes occurred between the people who don’t know each other. This is simply counting how many ways to choose two people to shake hands from $10$, or $\\binom{10}{2} = 45$. Thus the answer is $200 + 45 = \\boxed{\\textbf{(B)}\\ 245}$.",
       "We can also use complementary counting. First of all, $\\dbinom{30}{2}=435$ handshakes or hugs occur. Then, if we can find the number of hugs, then we can subtract it from $435$ to find the handshakes. Hugs only happen between the $20$ people who know each other, so there are $\\dbinom{20}{2}=190$ hugs. $435-190= \\boxed{\\textbf{(B)}\\ 245}$.",
       "We can focus on how many handshakes the $10$ people who don't know anybody get.\n\nThe first person gets $29$ handshakes with other people not him/herself, the second person gets $28$ handshakes with other people not him/herself and not the first person, ..., and the tenth receives $20$ handshakes with other people not him/herself and not the first, second, ..., ninth person. We can write this as the sum of an arithmetic sequence:\n\n$\\frac{10(20+29)}{2}\\implies 5(49)\\implies 245.$\nTherefore, the answer is $\\boxed{\\textbf{(B)}\\ 245}$",
-      "First, we can find out the number of handshakes that the $10$ people who don't know anybody share with the $20$ other people. This is simply $10 \\cdot 20 = 200$. Next, we need to find out the number of handshakes that are shared within the $10$ people who don't know anybody. Here, we can use the formula $\\frac{n(n-1)}{2}$, where $n$ is the number of people being counted. The reason we divide by $2$ is because $n(n-1)$ counts the case where the $1^{st}$ person shakes hands with the $2^{nd}$ person $and$ the case where the $2^{nd}$ shakes hands with the $1^{st}$ (and these 2 cases are the same). Thus, plugging $n=10$ gives us $\\frac{10 \\cdot 9}{2} \\implies 45$. Adding up the 2 cases gives us $200+45=\\boxed{\\textbf{(B)}\\ 245}$",
+      "First, we can find out the number of handshakes that the $10$ people who don't know anybody share with the $20$ other people. This is simply $10 \\cdot 20 = 200$. Next, we need to find out the number of handshakes that are shared within the $10$ people who don't know anybody. Here, we can use the formula $\\frac{n(n-1)}{2}$, where $n$ is the number of people being counted. The reason we divide by $2$ is because $n(n-1)$ counts the case where the $1$st person shakes hands with the $2$nd person $\\text{and}$ the case where the $2$nd shakes hands with the $1$st (and these 2 cases are the same). Thus, plugging $n=10$ gives us $\\frac{10 \\cdot 9}{2} \\implies 45$. Adding up the 2 cases gives us $200+45=\\boxed{\\textbf{(B)}\\ 245}$",
       "Each of the 20 people who know each other shakes hands with 10 people. Each of the 10 people who know no one shakes hands with 29 people. Because each handshake involves two people, the number of handshakes is $\\dfrac{1}{2}(20 \\cdot 10+10 \\cdot 29)= \\boxed{245}$."
     ],
     "tags": []
@@ -17108,7 +17108,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2017 AMC 10A · Problem 12 | 2017 AMC 12A · Problem 9",
-    "stem": "Let $S$ be a set of points $(x,y)$ in the coordinate plane such that two of the three quantities $3,~x+2,$ and $y-4$ are equal and the third of the three quantities is no greater than this common value. Which of the following is a correct description for $S?$",
+    "stem": "Let $S$ be a set of points $(x,y)$ in the coordinate plane such that two of the three quantities $3,~x+2,$ and $y-4$ are equal and the third of the three quantities is no greater than this common value. Which of the following is a correct description for $S$?",
     "options": {
       "A": "$\\ \\text{a single point}$",
       "B": "$\\ \\text{two intersecting lines}$",
@@ -17131,7 +17131,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2017 AMC 10A · Problem 13",
-    "stem": "Define a sequence recursively by $F_{0}=0, F_{1}=1$, and $F_{n}=$ the remainder when $F_{n-1}+F_{n-2}$ is divided by $3$, for all $n \\geq 2$. Thus the sequence starts $0,1,1,2,0,2, \\ldots$. What is $F_{2017}+F_{2018}+F_{2019}+$ $F_{2020}+F_{2021}+F_{2022}+F_{2023}+F_{2024}?$",
+    "stem": "Define a sequence recursively by $F_{0}=0, F_{1}=1$, and $F_{n}=$ the remainder when $F_{n-1}+F_{n-2}$ is divided by $3$, for all $n \\geq 2$. Thus the sequence starts $0,1,1,2,0,2, \\ldots$. What is $F_{2017}+F_{2018}+F_{2019}+$ $F_{2020}+F_{2021}+F_{2022}+F_{2023}+F_{2024}$?",
     "options": {
       "A": "$6$",
       "B": "$7$",
@@ -17200,7 +17200,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2017 AMC 10A · Problem 16 | 2017 AMC 12A · Problem 12",
-    "stem": "There are $10$ horses, named Horse $1$, Horse $2$, . . . , Horse $10$. They get their names from how many minutes it takes them to run one lap around a circular race track: Horse $k$ runs one lap in exactly $k$ minutes. At time $0$ all the horses are together at the starting point on the track. The horses start running in the same direction, and they keep running around the circular track at their constant speeds. The least time $S > 0$, in minutes, at which all $10$ horses will again simultaneously be at the starting point is $S=2520$. Let $T > 0$ be the least time, in minutes, such that at least $5$ of the horses are again at the starting point. What is the sum of the digits of $T?$",
+    "stem": "There are $10$ horses, named Horse $1$, Horse $2$, . . . , Horse $10$. They get their names from how many minutes it takes them to run one lap around a circular race track: Horse $k$ runs one lap in exactly $k$ minutes. At time $0$ all the horses are together at the starting point on the track. The horses start running in the same direction, and they keep running around the circular track at their constant speeds. The least time $S > 0$, in minutes, at which all $10$ horses will again simultaneously be at the starting point is $S=2520$. Let $T > 0$ be the least time, in minutes, such that at least $5$ of the horses are again at the starting point. What is the sum of the digits of $T$?",
     "options": {
       "A": "$2$",
       "B": "$3$",
@@ -17496,7 +17496,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2017 AMC 10B · Problem 4 | 2017 AMC 12B · Problem 3",
-    "stem": "Suppose that $x$ and $y$ are nonzero real numbers such that\n\n$\\dfrac{3 x+y}{x-3 y}=-2$\nWhat is the value of\n\n$\\dfrac{x+3 y}{3 x-y}?$",
+    "stem": "Suppose that $x$ and $y$ are nonzero real numbers such that\n\n$\\dfrac{3 x+y}{x-3 y}=-2$\nWhat is the value of\n\n$\\dfrac{x+3 y}{3 x-y}$?",
     "options": {
       "A": "$-3$",
       "B": "$-1$",
@@ -17976,7 +17976,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2018 AMC 10A · Problem 1",
-    "stem": "What is the value of\n\n$\\left(\\left((2+1)^{-1}+1\\right)^{-1}+1\\right)^{-1}+1?$",
+    "stem": "What is the value of\n\n$\\left(\\left((2+1)^{-1}+1\\right)^{-1}+1\\right)^{-1}+1$?",
     "options": {
       "A": "$\\dfrac{5}{8}$",
       "B": "$\\dfrac{11}{7}$",
@@ -18255,7 +18255,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2018 AMC 10A · Problem 14",
-    "stem": "What is the greatest integer less than or equal to $\\frac{3^{100}+2^{100}}{3^{96}+2^{96}}?$",
+    "stem": "What is the greatest integer less than or equal to $\\frac{3^{100}+2^{100}}{3^{96}+2^{96}}$?",
     "options": {
       "A": "$80$",
       "B": "$81$",
@@ -19089,7 +19089,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2019 AMC 10A · Problem 1",
-    "stem": "What is the value of $2^{\\left(0^{\\left(1^9\\right)}\\right)}+\\left(\\left(2^0\\right)^1\\right)^9?$",
+    "stem": "What is the value of $2^{\\left(0^{\\left(1^9\\right)}\\right)}+\\left(\\left(2^0\\right)^1\\right)^9$?",
     "options": {
       "A": "$0$",
       "B": "$1$",
@@ -19110,7 +19110,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2019 AMC 10A · Problem 2",
-    "stem": "What is the hundreds digit of $(20!-15!)?$",
+    "stem": "What is the hundreds digit of $(20!-15!)$?",
     "options": {
       "A": "$0$",
       "B": "$1$",
@@ -19134,7 +19134,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2019 AMC 10A · Problem 3",
-    "stem": "Ana and Bonita were born on the same date in different years, $n$ years apart. Last year Ana was $5$ times as old as Bonita. This year Ana's age is the square of Bonita's age. What is $n?$",
+    "stem": "Ana and Bonita were born on the same date in different years, $n$ years apart. Last year Ana was $5$ times as old as Bonita. This year Ana's age is the square of Bonita's age. What is $n$?",
     "options": {
       "A": "$3$",
       "B": "$5$",
@@ -19190,7 +19190,7 @@
     "answer": "D",
     "solutions": [
       "The sum $(-44)+(-43)+\\cdots+43+44+45=45$. This sum has $(\\text{D})\\boxed{90}$ consecutive integers. There is no longer list because for the sum of consecutive integers to be positive, there must be more positive integers than negative integers. Further, if there are more than $90$ consecutive integers as part of a list that sums to a positive number, then there must be a positive integer greater than $45$ that is not cancelled out by its additive inverse.\n\n$\\textbf{OR}$\nSuppose that the consecutive integers are $a, a+1, \\ldots, a+n-1$; their sum then equals $n a+\\dfrac{n(n-1)}{2}$. Therefore\n\n$n a+\\dfrac{n(n-1)}{2}=45$\nso $n(2 a+n-1)=(\\text{D})\\boxed{90}$, which implies that $n \\leq 90$. A sequence of $90$ consecutive integers with sum equal to $45$ indeed exists, as observed in the first solution.",
-      "We might at first think that the answer would be $9$ , because $1+2+3 \\cdots+n=45$ when $n=9$. But note that the problem says that they can be integers, not necessarily positive. Observe also that every term in the sequence $-44,-43, \\cdots, 44,45$ cancels out except $45$ . Thus, the answer is, intuitively,$\\boxed{(D)90}$ integers.\n\nThough impractical, a proof of maximality can proceed as follows: Let the desired sequence of consecutive integers be $a, a+1, \\cdots, a+(N-1)$, where there are $N$ terms, and we want to maximize $N$. Then the sum of the terms in this sequence is $a N+\\dfrac{(N-1)(N)}{2}=45$. Rearranging and factoring, this reduces to $N(2 a+N-1)=90$. Since $N$ must divide $90$ , and we know that $90$ is an attainable value of the sum, 90 must be the maximum.\n\n$OR$\nTo maximize the number of integers, we need to make the average of them as low as possible while still being positive. The average can be $\\dfrac{1}{2}$ if the middle two numbers are $0$ and $1$ , so the answer is $\\dfrac{45}{\\dfrac{1}{2}}$= $\\boxed{(D)90}$."
+      "We might at first think that the answer would be $9$ , because $1+2+3 \\cdots+n=45$ when $n=9$. But note that the problem says that they can be integers, not necessarily positive. Observe also that every term in the sequence $-44,-43, \\cdots, 44,45$ cancels out except $45$ . Thus, the answer is, intuitively,$\\boxed{(D)90}$ integers.\n\nThough impractical, a proof of maximality can proceed as follows: Let the desired sequence of consecutive integers be $a, a+1, \\cdots, a+(N-1)$, where there are $N$ terms, and we want to maximize $N$. Then the sum of the terms in this sequence is $a N+\\dfrac{(N-1)(N)}{2}=45$. Rearranging and factoring, this reduces to $N(2 a+N-1)=90$. Since $N$ must divide $90$ , and we know that $90$ is an attainable value of the sum, 90 must be the maximum.\n\n$\\textbf{OR}$\nTo maximize the number of integers, we need to make the average of them as low as possible while still being positive. The average can be $\\dfrac{1}{2}$ if the middle two numbers are $0$ and $1$ , so the answer is $\\dfrac{45}{\\dfrac{1}{2}}$= $\\boxed{(D)90}$."
     ],
     "tags": []
   },
@@ -19343,7 +19343,7 @@
       "As in Solution 1, we find that the median is $16$. Then, looking at the modes $(1-28)$, we realize that even if we were to have $12$ of each, their median would remain the same, being $14.5$. As for the mean, we note that the mean of the first $28$ is simply the same as the median of them, which is $14.5$. Hence, since we in fact have $29$'s, $30$'s, and $31$'s, the mean has to be higher than $14.5$. On the other hand, since there are fewer $29$'s, $30$'s, and $31$'s than the rest of the numbers, the mean has to be lower than $16$ (the median). By comparing these values, the answer is $\\boxed{\\textbf{(E) } d < \\mu < M}$.",
       "We can solve this problem simply by carefully calculating each of the values, which turn out to be $M=16$, $d=14.5$, and $\\mu = \\frac{\\sum_{n=1}^{30} 12n - 29 - 30 +31*7}{365} \\approx 15.7$. Thus the answer is $\\boxed{\\textbf{(E) } d < \\mu < M}$.",
       "We learned that a mean is more accurate than a median, but when in the face of a list with greater size and almost no variety, $ \\mu < M $. We can quite easily calculate $ d = 14.5 $, and can see that the median will obviously be greater than the median of the mode, and the mean of the entire list will obviously be greater than the median of the modes as it is more accurate. Therefore our answer is $\\boxed{\\textbf{(E) } d < \\mu < M}$.",
-      "First of all, $d$ obviously has to be smaller than $M$, since when calculating $M$, we must take into account the $29$ s, $30$ s, and $31 \\mathrm{~s}$. So we can eliminate choices $B$ and $C$. Since there are $365$ total entries, the median, $M$, must be the $183$ rd one, at which point we note that $12 \\cdot 15$ is $180$ , so $16$ has to be the median (because $183$ is between $12 \\cdot 15+1=181$ and $12 \\cdot 16=192$ ). Now, the mean, $\\mu$, must be smaller than $16$ , since there are many fewer $29 \\mathrm{~s}$, $30$ s, and $31$ s. $d$ is less than $\\mu$, because when calculating $\\mu$, we would include $29,30$ , and $31$ . Thus the answer is\n\n$\\boxed{(E)d<\\mu<M}$.\n\nOR\n\nAs in Solution $1$, we find that the median is $16$ . Then, looking at the modes $(1-28)$, we realize that even if we were to have $12$ of each, their median would remain the same, being $14.5$. As for the mean, we note that the mean of the first $28$ is simply the same as the median of them, which is $14.5$ . Hence, since we in fact have $29$'s, $30$ 's, and $31$ 's, the mean has to be higher than $14.5$. On the other hand, since there are fewer $29$ 's, $30$ 's, and $31$ 's than the rest of the numbers, the mean has to be lower than 16 (the median). By comparing these values, the answer is $\\boxed{(E)d<\\mu<M}$.\n\n$OR$\nWe can solve this problem simply by carefully calculating each of the values, which turn out to be $M=16$, $d=14.5$, and $\\mu \\approx 15.7$. Thus the answer is $\\boxed{(E)d<\\mu<M}$."
+      "First of all, $d$ obviously has to be smaller than $M$, since when calculating $M$, we must take into account the $29$ s, $30$ s, and $31 \\mathrm{~s}$. So we can eliminate choices $B$ and $C$. Since there are $365$ total entries, the median, $M$, must be the $183$ rd one, at which point we note that $12 \\cdot 15$ is $180$ , so $16$ has to be the median (because $183$ is between $12 \\cdot 15+1=181$ and $12 \\cdot 16=192$ ). Now, the mean, $\\mu$, must be smaller than $16$ , since there are many fewer $29 \\mathrm{~s}$, $30$ s, and $31$ s. $d$ is less than $\\mu$, because when calculating $\\mu$, we would include $29,30$ , and $31$ . Thus the answer is\n\n$\\boxed{(E)d<\\mu<M}$.\n\nOR\n\nAs in Solution $1$, we find that the median is $16$ . Then, looking at the modes $(1-28)$, we realize that even if we were to have $12$ of each, their median would remain the same, being $14.5$. As for the mean, we note that the mean of the first $28$ is simply the same as the median of them, which is $14.5$ . Hence, since we in fact have $29$'s, $30$ 's, and $31$ 's, the mean has to be higher than $14.5$. On the other hand, since there are fewer $29$ 's, $30$ 's, and $31$ 's than the rest of the numbers, the mean has to be lower than 16 (the median). By comparing these values, the answer is $\\boxed{(E)d<\\mu<M}$.\n\n$\\textbf{OR}$\nWe can solve this problem simply by carefully calculating each of the values, which turn out to be $M=16$, $d=14.5$, and $\\mu \\approx 15.7$. Thus the answer is $\\boxed{(E)d<\\mu<M}$."
     ],
     "tags": []
   },
@@ -19430,7 +19430,7 @@
     "answer": "A",
     "solutions": [
       "Let $A, B, C$, and $D$ be the centers of four of the circles as shown below, and let $P$ be the intersection of the diagonals of rhombus $A B D C$. Then $P C=1$ and $A C=2$, so $A P=\\sqrt{3}$; similarly $P D=\\sqrt{3}$. The radius of the large circle is therefore $1+2 \\sqrt{3}$. The requested area is\n\n$\\pi(1+2 \\sqrt{3})^{2}-13 \\pi= (\\text{A})\\boxed{4 \\pi \\sqrt{3}}$\n\n[Figure: /question-assets/source/amc/7287181615bb8c55bd986742228202792dd81c157d30dd55e3fe01bef8a76b26.jpg]\n\nNote: This problem is related to the question of how densely the plane can be packed with congruent circles - how much wasted space there is with the most efficient packing. It has been proved that the best arrangement is the one shown in this problem, with each circle surrounded by six others. The fraction of the plane covered by the circles is $\\dfrac{\\pi}{6} \\sqrt{3} \\approx 0.9069$.",
-      "[Figure: /question-assets/source/amc/8db63ae59023185fe5a3e59a2861602b26f68e8962d3f46860cba024c60c2f5a.jpg]\n\nIn the diagram above, notice that triangle $O A B$ and triangle $A B C$ are congruent and equilateral with side length 2. We can see the radius of the larger circle is two times the altitude of $O A B$ plus 1 (the distance from point $C$ to the edge of the circle). Using $30^{\\circ}-60^{\\circ}-90^{\\circ}$ triangles, we know the altitude is $\\sqrt{3}$. Therefore, the radius of the larger circle is $2 \\sqrt{3}+1$.\n\nThe area of the larger circle is thus $(2 \\sqrt{3}+1)^{2} \\pi=(13+4 \\sqrt{3}) \\pi$, and the sum of the areas of the smaller circles is $13 \\pi$, so the area of the dark region is $(13+4 \\sqrt{3}) \\pi-13 \\pi=$ $\\boxed{(A) 4 \\pi \\sqrt{3}}$.\n\n$OR$\nWe can form an equilateral triangle with side length 6 from the centers of three of the unit circles tangent to the outer circle. The radius of the outer circle is the circumradius of the triangle plus $1$ . By using $R=\\dfrac{a b c}{4 K}$ or $R=\\dfrac{a}{2 \\sin A}$, we get the radius as $\\dfrac{6}{\\sqrt{3}}+1$.\n\nThe shaded area is thus $\\pi\\left(\\left(\\dfrac{6}{\\sqrt{3}}+1\\right)^{2}-13\\right)=\\boxed{(A)4\\pi \\sqrt{3}}$.\n\n$OR$\nLike in Solution $2$, we can form an equilateral triangle with side length 6 from the centers of three of the unit circles tangent to the outer circle. We can find the height of this triangle to be $3 \\sqrt{3}$. Then, we can form another equilateral triangle from the centers of the second and third circles in the third row and the center of the bottom circle with side length $2$ . The height of this triangle is clearly $\\sqrt{3}$. Therefore the diameter of the large circle is $4 \\sqrt{3}+2$ and the radius is $\\dfrac{4 \\sqrt{3}+2}{2}=2 \\sqrt{3}+1$. The area of the large circle is thus $\\pi(2 \\sqrt{3}+1)^{2}=\\pi \\cdot(13+4 \\sqrt{3})=$ $13 \\pi+4 \\pi \\sqrt{3}$. The total area of the $13$ smaller circles is $13 \\pi$, so the shaded area is $(13 \\pi+4 \\pi \\sqrt{3})-13 \\pi=$ $\\boxed{(A) 4 \\pi \\sqrt{3}}$."
+      "[Figure: /question-assets/source/amc/8db63ae59023185fe5a3e59a2861602b26f68e8962d3f46860cba024c60c2f5a.jpg]\n\nIn the diagram above, notice that triangle $O A B$ and triangle $A B C$ are congruent and equilateral with side length 2. We can see the radius of the larger circle is two times the altitude of $O A B$ plus 1 (the distance from point $C$ to the edge of the circle). Using $30^{\\circ}-60^{\\circ}-90^{\\circ}$ triangles, we know the altitude is $\\sqrt{3}$. Therefore, the radius of the larger circle is $2 \\sqrt{3}+1$.\n\nThe area of the larger circle is thus $(2 \\sqrt{3}+1)^{2} \\pi=(13+4 \\sqrt{3}) \\pi$, and the sum of the areas of the smaller circles is $13 \\pi$, so the area of the dark region is $(13+4 \\sqrt{3}) \\pi-13 \\pi=$ $\\boxed{(A) 4 \\pi \\sqrt{3}}$.\n\n$\\textbf{OR}$\nWe can form an equilateral triangle with side length 6 from the centers of three of the unit circles tangent to the outer circle. The radius of the outer circle is the circumradius of the triangle plus $1$ . By using $R=\\dfrac{a b c}{4 K}$ or $R=\\dfrac{a}{2 \\sin A}$, we get the radius as $\\dfrac{6}{\\sqrt{3}}+1$.\n\nThe shaded area is thus $\\pi\\left(\\left(\\dfrac{6}{\\sqrt{3}}+1\\right)^{2}-13\\right)=\\boxed{(A)4\\pi \\sqrt{3}}$.\n\n$\\textbf{OR}$\nLike in Solution $2$, we can form an equilateral triangle with side length 6 from the centers of three of the unit circles tangent to the outer circle. We can find the height of this triangle to be $3 \\sqrt{3}$. Then, we can form another equilateral triangle from the centers of the second and third circles in the third row and the center of the bottom circle with side length $2$ . The height of this triangle is clearly $\\sqrt{3}$. Therefore the diameter of the large circle is $4 \\sqrt{3}+2$ and the radius is $\\dfrac{4 \\sqrt{3}+2}{2}=2 \\sqrt{3}+1$. The area of the large circle is thus $\\pi(2 \\sqrt{3}+1)^{2}=\\pi \\cdot(13+4 \\sqrt{3})=$ $13 \\pi+4 \\pi \\sqrt{3}$. The total area of the $13$ smaller circles is $13 \\pi$, so the shaded area is $(13 \\pi+4 \\pi \\sqrt{3})-13 \\pi=$ $\\boxed{(A) 4 \\pi \\sqrt{3}}$."
     ],
     "tags": []
   },
@@ -19473,7 +19473,7 @@
     "answer": "D",
     "solutions": [
       "The number $0 . \\overline{23}_{k}$ is the sum of an infinite geometric series with first term $\\dfrac{2}{k}+\\dfrac{3}{k^{2}}$ and common ratio $\\dfrac{1}{k^{2}}$. Therefore the sum is\n\n$\\dfrac{\\dfrac{2}{k}+\\dfrac{3}{k^{2}}}{1-\\dfrac{1}{k^{2}}}=\\dfrac{2 k+3}{k^{2}-1}=\\dfrac{7}{51}$\nThen $0=7 k^{2}-102 k-160=(k-16)(7 k+10)$, and therefore $k=(\\text{D})\\boxed{16}$.\n\n$\\textbf{OR}$\nLet $x=0. \\overline{23}_{k}$. Then $\\left(k^{2}-1\\right) x=23. \\overline{0}_{k}=2 k+3$, so $\\dfrac{2 k+3}{k^{2}-1}=\\dfrac{7}{51}$ and the solution proceeds as above.\n\nNote: If $0<a<q, \\operatorname{gcd}(a, q)=1$, and $\\operatorname{gcd}(k, q)=1$, then the base- $k$ representation of the fraction $\\dfrac{a}{q}$ has least period equal to the order of $k$ modulo $q$. In the case at hand, $k=16$ and $q=51=3 \\cdot 17$. Then $\\phi(q)=2 \\cdot 16=32$ and $k^{2}=256=5 \\cdot 51+1$, so $k$ has order $2$ modulo $51$.",
-      "We can expand the fraction $0 . \\overline{23}_{k}$ as follows: $0 . \\overline{23}_{k}=2 \\cdot k^{-1}+3 \\cdot k^{-2}+2 \\cdot k^{-3}+3 \\cdot k^{-4}+\\cdots$ Notice that this is equivalent to\n\n$2\\left(k^{-1}+k^{-3}+k^{-5}+\\ldots\\right)+3\\left(k^{-2}+k^{-4}+k^{-6}+\\cdots\\right)$\n\nBy summing the geometric series and simplifying, we have $\\dfrac{2 k+3}{k^{2}-1}=\\dfrac{7}{51}$. Solving this quadratic equation (or simply testing the answer choices) yields the answer $k=$ $\\boxed{(D)16}$ .\n\n$OR$\nLet $a=0.2323 \\ldots k$. Therefore, $k^{2} a=23.2323 \\ldots k$.\n\nFrom this, we see that $k^{2} a-a=23_{k}$, so $a=\\dfrac{23_{k}}{k^{2}-1}=\\dfrac{2 k+3}{k^{2}-1}=\\dfrac{7}{51}$.\n\nNow, similar to in Solution $1$, we can either test if $2 k+3$ is a multiple of $7$ with the answer choices, or actually solve the quadratic, so that the answer is $\\boxed{(D)16}$ ."
+      "We can expand the fraction $0 . \\overline{23}_{k}$ as follows: $0 . \\overline{23}_{k}=2 \\cdot k^{-1}+3 \\cdot k^{-2}+2 \\cdot k^{-3}+3 \\cdot k^{-4}+\\cdots$ Notice that this is equivalent to\n\n$2\\left(k^{-1}+k^{-3}+k^{-5}+\\ldots\\right)+3\\left(k^{-2}+k^{-4}+k^{-6}+\\cdots\\right)$\n\nBy summing the geometric series and simplifying, we have $\\dfrac{2 k+3}{k^{2}-1}=\\dfrac{7}{51}$. Solving this quadratic equation (or simply testing the answer choices) yields the answer $k=$ $\\boxed{(D)16}$ .\n\n$\\textbf{OR}$\nLet $a=0.2323 \\ldots k$. Therefore, $k^{2} a=23.2323 \\ldots k$.\n\nFrom this, we see that $k^{2} a-a=23_{k}$, so $a=\\dfrac{23_{k}}{k^{2}-1}=\\dfrac{2 k+3}{k^{2}-1}=\\dfrac{7}{51}$.\n\nNow, similar to in Solution $1$, we can either test if $2 k+3$ is a multiple of $7$ with the answer choices, or actually solve the quadratic, so that the answer is $\\boxed{(D)16}$ ."
     ],
     "tags": []
   },
@@ -19516,7 +19516,7 @@
     "answer": "B",
     "solutions": [
       "The sum of three integers is odd exactly when either all of the integers are odd, or one is odd and two are even. Five of the numbers $1,2, \\ldots, 9$ are odd, so at least one row must contain two or more odd numbers. Thus one row must contain three odd numbers and no even numbers, and the other two rows must contain one odd number and two even numbers. The same is true of the three columns. There are $3 \\times 3=9$ ways to choose which row and which column contain all odd numbers, and then the remaining four squares must have even numbers. There are $\\binom{9}{4}=126$ ways in total to choose which squares have odd numbers and which have even numbers, so the desired probability is $\\dfrac{9}{126}=(\\text{B})\\boxed{\\dfrac{1}{14}}$.",
-      "Note that odd sums can only be formed by $(e, e, o)$ or $(o, o, o)$, so we focus on placing the evens: we need to have each even be with another even in each row/column. It can be seen that there are $9$ ways to do this. There are then $5$ ! ways to permute the odd numbers, and $4$ ! ways to permute the even numbers, thus giving the answer as $\\dfrac{9 \\cdot 5!\\cdot 4!}{9!}=$ $\\boxed{(B) \\dfrac{1}{14}}$.\n\n$OR$\nBy the Pigeonhole Principle, there must be at least one row with $2$ or more odd numbers in it. Therefore, that row must contain $3$ odd numbers in order to have an odd sum. The same thing can be done with the columns. Thus we simply have to choose one row and one column to be filled with odd numbers, so the number of valid odd/even configurations (without regard to which particular odd and even numbers are placed where) is $3 \\cdot 3=9$. The denominator will be $\\binom{9}{4}$, the total number of ways we could choose which $4$ of the $9$ squares will contain an even number. Hence the answer is $\\dfrac{9}{\\binom{9}{4}}=\\boxed{(B) \\dfrac{1}{14}}$.\n\nThe Pigeonhole Principle isn't really necessary here: After noting from the first solution that any row that contains evens must contain two evens, the result follows that the four evens must form the corners of a rectangle."
+      "Note that odd sums can only be formed by $(e, e, o)$ or $(o, o, o)$, so we focus on placing the evens: we need to have each even be with another even in each row/column. It can be seen that there are $9$ ways to do this. There are then $5$ ! ways to permute the odd numbers, and $4$ ! ways to permute the even numbers, thus giving the answer as $\\dfrac{9 \\cdot 5!\\cdot 4!}{9!}=$ $\\boxed{(B) \\dfrac{1}{14}}$.\n\n$\\textbf{OR}$\nBy the Pigeonhole Principle, there must be at least one row with $2$ or more odd numbers in it. Therefore, that row must contain $3$ odd numbers in order to have an odd sum. The same thing can be done with the columns. Thus we simply have to choose one row and one column to be filled with odd numbers, so the number of valid odd/even configurations (without regard to which particular odd and even numbers are placed where) is $3 \\cdot 3=9$. The denominator will be $\\binom{9}{4}$, the total number of ways we could choose which $4$ of the $9$ squares will contain an even number. Hence the answer is $\\dfrac{9}{\\binom{9}{4}}=\\boxed{(B) \\dfrac{1}{14}}$.\n\nThe Pigeonhole Principle isn't really necessary here: After noting from the first solution that any row that contains evens must contain two evens, the result follows that the four evens must form the corners of a rectangle."
     ],
     "tags": []
   },
@@ -20198,7 +20198,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2020 AMC 10A · Problem 1",
-    "stem": "What value of $x$ satisfies\n$x- \\frac{3}{4} = \\frac{5}{12} - \\frac{1}{3}?$",
+    "stem": "What value of $x$ satisfies\n$x- \\frac{3}{4} = \\frac{5}{12} - \\frac{1}{3}$?",
     "options": {
       "A": "$\\ {-}\\frac{2}{3}$",
       "B": "$\\ \\frac{7}{36}$",
@@ -20287,7 +20287,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2020 AMC 10A · Problem 5",
-    "stem": "What is the sum of all real numbers $x$ for which\n\n$\\left|x^{2}-12 x+34\\right|=2?$",
+    "stem": "What is the sum of all real numbers $x$ for which\n\n$\\left|x^{2}-12 x+34\\right|=2$?",
     "options": {
       "A": "$12$",
       "B": "$15$",
@@ -20358,7 +20358,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2020 AMC 10A · Problem 8",
-    "stem": "What is the value of\n\n$1+2+3-4+5+6+7-8+\\cdots+197+198+199-200?$",
+    "stem": "What is the value of\n\n$1+2+3-4+5+6+7-8+\\cdots+197+198+199-200$?",
     "options": {
       "A": "$9800$",
       "B": "$9,900$",
@@ -20379,7 +20379,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2020 AMC 10A · Problem 9",
-    "stem": "A single bench section at a school event can hold either $7$ adults or $11$ children. When $N$ bench sections are connected end to end, an equal number of adults and children seated together will occupy all the bench space. What is the least possible positive integer value of $N?$",
+    "stem": "A single bench section at a school event can hold either $7$ adults or $11$ children. When $N$ bench sections are connected end to end, an equal number of adults and children seated together will occupy all the bench space. What is the least possible positive integer value of $N$?",
     "options": {
       "A": "$9$",
       "B": "$18$",
@@ -20498,7 +20498,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2020 AMC 10A · Problem 14",
-    "stem": "Real numbers $x$ and $y$ satisfy $x + y = 4$ and $x \\cdot y = -2$. What is the value of\n\n$x + \\frac{x^3}{y^2} + \\frac{y^3}{x^2} + y?$",
+    "stem": "Real numbers $x$ and $y$ satisfy $x + y = 4$ and $x \\cdot y = -2$. What is the value of\n\n$x + \\frac{x^3}{y^2} + \\frac{y^3}{x^2} + y$?",
     "options": {
       "A": "$\\ 360$",
       "B": "$\\ 400$",
@@ -20647,7 +20647,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2020 AMC 10A · Problem 20 | 2020 AMC 12A · Problem 18",
-    "stem": "Quadrilateral $ABCD$ satisfies $\\angle ABC = \\angle ACD = 90^{\\circ}, AC=20,$ and $CD=30.$ Diagonals $\\overline{AC}$ and $\\overline{BD}$ intersect at point $E,$ and $AE=5.$ What is the area of quadrilateral $ABCD?$",
+    "stem": "Quadrilateral $ABCD$ satisfies $\\angle ABC = \\angle ACD = 90^{\\circ}, AC=20,$ and $CD=30.$ Diagonals $\\overline{AC}$ and $\\overline{BD}$ intersect at point $E,$ and $AE=5.$ What is the area of quadrilateral $ABCD$?",
     "options": {
       "A": "$330$",
       "B": "$340$",
@@ -20797,7 +20797,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2020 AMC 10B · Problem 1",
-    "stem": "What is the value of\n\n$1-(-2)-3-(-4)-5-(-6)?$",
+    "stem": "What is the value of\n\n$1-(-2)-3-(-4)-5-(-6)$?",
     "options": {
       "A": "$-20$",
       "B": "$-3$",
@@ -20968,7 +20968,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2020 AMC 10B · Problem 9 | 2020 AMC 12B · Problem 8",
-    "stem": "How many ordered pairs of integers $(x, y)$ satisfy the equation $x^{2020}+y^2=2y?$",
+    "stem": "How many ordered pairs of integers $(x, y)$ satisfy the equation $x^{2020}+y^2=2y$?",
     "options": {
       "A": "$1$",
       "B": "$2$",
@@ -21315,7 +21315,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2020 AMC 10B · Problem 24 | 2020 AMC 12B · Problem 21",
-    "stem": "How many positive integers $n$ satisfy $\\dfrac{n+1000}{70} = \\lfloor \\sqrt{n} \\rfloor?$(Recall that $\\lfloor x\\rfloor$ is the greatest integer not exceeding $x$.)",
+    "stem": "How many positive integers $n$ satisfy $\\dfrac{n+1000}{70} = \\lfloor \\sqrt{n} \\rfloor$?(Recall that $\\lfloor x\\rfloor$ is the greatest integer not exceeding $x$.)",
     "options": {
       "A": "$2$",
       "B": "$4$",
@@ -21451,7 +21451,7 @@
       "Since $\\mathrm{Distance}=\\mathrm{Speed}\\cdot\\mathrm{Time},$ we seek the sum $5\\cdot1+12\\cdot1+19\\cdot1+26\\cdot1+\\cdots=5+12+19+26+\\cdots,$ in which there are $30$ terms.\n\nThe last term is $5+7\\cdot(30-1)=208.$ Therefore, the requested sum is $5+12+19+26+\\cdots+208=\\frac{5+208}{2}\\cdot30=\\boxed{\\textbf{(D)} ~3195}.$ Recall that to find the sum of an arithmetic series, we take the average of the first and last terms, then multiply by the number of terms: $\\mathrm{Sum}=\\frac{\\mathrm{First}+\\mathrm{Last}}{2}\\cdot\\mathrm{Count}.$",
       "The distance (in inches) traveled within each $1$-second interval is: $5,5+1(7),5+2(7), \\dots , 5+29(7).$\nThis is an arithmetic sequence so the total distance travelled, found by summing them up is:\n$\\text{number of terms} \\cdot \\text{average of terms} = \\text{number of terms} \\cdot \\dfrac{\\text{first term}+\\text{last term}}{2}.$\nOr, $30 \\cdot \\dfrac{5+5+29(7)}{2} = 15 \\cdot 213 = \\boxed{\\textbf{(D)} ~3195}.$",
       "From the $30$-term sum $5+12+19+26+\\cdots$ in Solution 1, taking modulo $10$ gives $5+12+19+26+\\cdots \\equiv 3\\cdot(5+2+9+6+3+0+7+4+1+8) = 3\\cdot45\\equiv5 \\pmod{10}.$ The only answer choices congruent to $5$ modulo $10$ are $\\textbf{(A)}$ and $\\textbf{(D)}.$ By a quick estimation, $\\textbf{(A)}$ is too small, leaving us with $\\boxed{\\textbf{(D)} ~3195}.$",
-      "This problem can be solved by physics method. This method is perhaps the quickest too and shows the beauty of the problem. The average speed increases $7 \\ \\text{in/s}$ per second. So, the acceleration $a=7 \\ \\text{in/s\\textsuperscript{2}}.$ The average speed of the first second is $5 \\ \\text{in/s}.$ We can know the initial velocity $v_0=5-0.5\\cdot7=1.5.$ (Because of the formula for the distance traveled in the $k$th one-second interval being $\\Delta x_k = v_0 + a\\left(k - \\tfrac{1}{2}\\right)$). The displacement at $t=30$ is $s=\\frac{1}{2}at^2+v_0t=\\frac{1}{2}\\cdot7\\cdot30^2+1.5\\cdot30= \\boxed{\\textbf{(D)} ~3195}.$"
+      "This problem can be solved by physics method. This method is perhaps the quickest too and shows the beauty of the problem. The average speed increases $7 \\ \\text{in/s}$ per second. So, the acceleration $a=7 \\ \\text{in/s}^2.$ The average speed of the first second is $5 \\ \\text{in/s}.$ We can know the initial velocity $v_0=5-0.5\\cdot7=1.5.$ (Because of the formula for the distance traveled in the $k$th one-second interval being $\\Delta x_k = v_0 + a\\left(k - \\tfrac{1}{2}\\right)$). The displacement at $t=30$ is $s=\\frac{1}{2}at^2+v_0t=\\frac{1}{2}\\cdot7\\cdot30^2+1.5\\cdot30= \\boxed{\\textbf{(D)} ~3195}.$"
     ],
     "tags": []
   },
@@ -21510,11 +21510,11 @@
     "sourcePaper": "2021 AMC 10A · Problem 7 | 2021 AMC 12A · Problem 4",
     "stem": "Tom has a collection of $13$ snakes, $4$ of which are purple and $5$ of which are happy. He observes that\n\nall of his happy snakes can add,\nnone of his purple snakes can subtract, and\nall of his snakes that can't subtract also can't add.\nWhich of these conclusions can be drawn about Tom's snakes?",
     "options": {
-      "A": "$Purple snakes can add.$",
-      "B": "$Purple snakes are happy.$",
-      "C": "$Snakes that can add are purple.$",
-      "D": "$Happy snakes are not purple.$",
-      "E": "$Happy snakes can't subtract.$"
+      "A": "Purple snakes can add.",
+      "B": "Purple snakes are happy.",
+      "C": "Snakes that can add are purple.",
+      "D": "Happy snakes are not purple.",
+      "E": "Happy snakes can't subtract."
     },
     "answer": "D",
     "solutions": [
@@ -21533,7 +21533,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2021 AMC 10A · Problem 8 | 2021 AMC 12A · Problem 5",
-    "stem": "When a student multiplied the number $66$ by the repeating decimal,\n$\\underline{1}.\\underline{a} \\ \\underline{b} \\ \\underline{a} \\ \\underline{b}\\ldots=\\underline{1}.\\overline{\\underline{a} \\ \\underline{b}},$\nwhere $a$ and $b$ are digits, he did not notice the notation and just multiplied $66$ times $\\underline{1}.\\underline{a} \\ \\underline{b}.$ Later he found that his answer is $0.5$ less than the correct answer. What is the $2$-digit number $\\underline{a} \\ \\underline{b}?$",
+    "stem": "When a student multiplied the number $66$ by the repeating decimal,\n$\\underline{1}.\\underline{a} \\ \\underline{b} \\ \\underline{a} \\ \\underline{b}\\ldots=\\underline{1}.\\overline{\\underline{a} \\ \\underline{b}},$\nwhere $a$ and $b$ are digits, he did not notice the notation and just multiplied $66$ times $\\underline{1}.\\underline{a} \\ \\underline{b}.$ Later he found that his answer is $0.5$ less than the correct answer. What is the $2$-digit number $\\underline{a} \\ \\underline{b}$?",
     "options": {
       "A": "$15$",
       "B": "$30$",
@@ -21580,7 +21580,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2021 AMC 10A · Problem 10 | 2021 AMC 12A · Problem 9",
-    "stem": "Which of the following is equivalent to\n$(2+3)(2^2+3^2)(2^4+3^4)(2^8+3^8)(2^{16}+3^{16})(2^{32}+3^{32})(2^{64}+3^{64})?$",
+    "stem": "Which of the following is equivalent to\n$(2+3)(2^2+3^2)(2^4+3^4)(2^8+3^8)(2^{16}+3^{16})(2^{32}+3^{32})(2^{64}+3^{64})$?",
     "options": {
       "A": "$~3^{127} + 2^{127}$",
       "B": "$~3^{127} + 2^{127} + 2 \\cdot 3^{63} + 3 \\cdot 2^{63}$",
@@ -22130,7 +22130,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2021 AMC 10B · Problem 7",
-    "stem": "In a plane, four circles with radii $1,3,5,$ and $7$ are tangent to line $\\ell$ at the same point $A,$ but they may be on either side of $\\ell.$ Region $S$ consists of all the points that lie inside exactly one of the four circles. What is the maximum possible area of region $S?$",
+    "stem": "In a plane, four circles with radii $1,3,5,$ and $7$ are tangent to line $\\ell$ at the same point $A,$ but they may be on either side of $\\ell.$ Region $S$ consists of all the points that lie inside exactly one of the four circles. What is the maximum possible area of region $S$?",
     "options": {
       "A": "$ 24\\pi $",
       "B": "$ 32\\pi $",
@@ -22172,7 +22172,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2021 AMC 10B · Problem 9 | 2021 AMC 12B · Problem 5",
-    "stem": "The point $P(a,b)$ in the $xy$-plane is first rotated counterclockwise by $90^\\circ$ around the point $(1,5)$ and then reflected about the line $y = -x$. The image of $P$ after these two transformations is at $(-6,3)$. What is $b - a ?$",
+    "stem": "The point $P(a,b)$ in the $xy$-plane is first rotated counterclockwise by $90^\\circ$ around the point $(1,5)$ and then reflected about the line $y = -x$. The image of $P$ after these two transformations is at $(-6,3)$. What is $b - a$?",
     "options": {
       "A": "$~1$",
       "B": "$~3$",
@@ -22268,7 +22268,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2021 AMC 10B · Problem 13",
-    "stem": "Let $n$ be a positive integer and $d$ be a digit such that the value of the numeral $\\underline{32d}$ in base $n$ equals $263$, and the value of the numeral $\\underline{324}$ in base $n$ equals the value of the numeral $\\underline{11d1}$ in base six. What is $n + d ?$",
+    "stem": "Let $n$ be a positive integer and $d$ be a digit such that the value of the numeral $\\underline{32d}$ in base $n$ equals $263$, and the value of the numeral $\\underline{324}$ in base $n$ equals the value of the numeral $\\underline{11d1}$ in base six. What is $n + d$?",
     "options": {
       "A": "$~10$",
       "B": "$~11$",
@@ -22314,7 +22314,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2021 AMC 10B · Problem 15",
-    "stem": "The real number $x$ satisfies the equation $x+\\frac{1}{x} = \\sqrt{5}$. What is the value of $x^{11}-7x^{7}+x^3?$",
+    "stem": "The real number $x$ satisfies the equation $x+\\frac{1}{x} = \\sqrt{5}$. What is the value of $x^{11}-7x^{7}+x^3$?",
     "options": {
       "A": "$~-1$",
       "B": "$~0$",
@@ -22444,7 +22444,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2021 AMC 10B · Problem 20 | 2021 AMC 12B · Problem 15",
-    "stem": "The figure is constructed from $11$ line segments, each of which has length $2.$ The area of pentagon $ABCDE$ can be written as $\\sqrt{m} + \\sqrt{n},$ where $m$ and $n$ are positive integers. What is $m + n ?$\n\n[Figure: /question-assets/source/amc/9aa5b05f6196c702dbd2407f8a2a834c3435710097b02ea3382cae5d553f2f17.svg]",
+    "stem": "The figure is constructed from $11$ line segments, each of which has length $2.$ The area of pentagon $ABCDE$ can be written as $\\sqrt{m} + \\sqrt{n},$ where $m$ and $n$ are positive integers. What is $m + n$?\n\n[Figure: /question-assets/source/amc/9aa5b05f6196c702dbd2407f8a2a834c3435710097b02ea3382cae5d553f2f17.svg]",
     "options": {
       "A": "$ 20 $",
       "B": "$ 21 $",
@@ -22466,7 +22466,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2021 AMC 10B · Problem 21",
-    "stem": "A square piece of paper has side length $1$ and vertices $A,B,C,$ and $D$ in that order. As shown in the figure, the paper is folded so that vertex $C$ meets edge $\\overline{AD}$ at point $C',$ and edge $\\overline{BC}$ intersects edge $\\overline{AB}$ at point $E.$ Suppose that $C'D = \\frac{1}{3}.$ What is the perimeter of triangle $\\bigtriangleup AEC' ?$\n\n[Figure: /question-assets/source/amc/10a931e734d1050d00b4f7d240faa91f065c65c896777e515cddebc874e3fe6f.svg]",
+    "stem": "A square piece of paper has side length $1$ and vertices $A,B,C,$ and $D$ in that order. As shown in the figure, the paper is folded so that vertex $C$ meets edge $\\overline{AD}$ at point $C',$ and edge $\\overline{BC}$ intersects edge $\\overline{AB}$ at point $E.$ Suppose that $C'D = \\frac{1}{3}.$ What is the perimeter of triangle $\\bigtriangleup AEC'$?\n\n[Figure: /question-assets/source/amc/10a931e734d1050d00b4f7d240faa91f065c65c896777e515cddebc874e3fe6f.svg]",
     "options": {
       "A": "$ 2 $",
       "B": "$ 1+\\dfrac{2}{3}\\sqrt{3} $",
@@ -22487,7 +22487,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2021 AMC 10B · Problem 22",
-    "stem": "Ang, Ben, and Jasmin each have $5$ blocks, colored red, blue, yellow, white, and green; and there are $5$ empty boxes. Each of the people randomly and independently of the other two people places one of their blocks into each box. The probability that at least one box receives $3$ blocks all of the same color is $\\frac{m}{n}$, where $m$ and $n$ are relatively prime positive integers. What is $m + n ?$",
+    "stem": "Ang, Ben, and Jasmin each have $5$ blocks, colored red, blue, yellow, white, and green; and there are $5$ empty boxes. Each of the people randomly and independently of the other two people places one of their blocks into each box. The probability that at least one box receives $3$ blocks all of the same color is $\\frac{m}{n}$, where $m$ and $n$ are relatively prime positive integers. What is $m + n$?",
     "options": {
       "A": "$~47$",
       "B": "$~94$",
@@ -22511,7 +22511,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2021 AMC 10B · Problem 23",
-    "stem": "A square with side length $8$ is unshaded except for $4$ shaded isosceles right triangular regions with legs of length $2$ in each corner of the square and a shaded diamond with side length $2\\sqrt{2}$ in the center of the square, as shown in the diagram.\n\nA circular coin with diameter $1$ is dropped onto the square and lands in a random location where the coin is completely contained within the square. The probability that the coin will cover part of the shaded region of the square can be written as $\\frac{1}{196}\\left(a+b\\sqrt{2}+\\pi\\right),$ where $a$ and $b$ are positive integers. What is $a+b?$\n\n[Figure: /question-assets/source/amc/c4279fdf36a794c68bd173cc1587184b95bb9cfa9b72e98839169448747e0ff4.svg]",
+    "stem": "A square with side length $8$ is unshaded except for $4$ shaded isosceles right triangular regions with legs of length $2$ in each corner of the square and a shaded diamond with side length $2\\sqrt{2}$ in the center of the square, as shown in the diagram.\n\nA circular coin with diameter $1$ is dropped onto the square and lands in a random location where the coin is completely contained within the square. The probability that the coin will cover part of the shaded region of the square can be written as $\\frac{1}{196}\\left(a+b\\sqrt{2}+\\pi\\right),$ where $a$ and $b$ are positive integers. What is $a+b$?\n\n[Figure: /question-assets/source/amc/c4279fdf36a794c68bd173cc1587184b95bb9cfa9b72e98839169448747e0ff4.svg]",
     "options": {
       "A": "$ 64 $",
       "B": "$ 66 $",
@@ -22554,7 +22554,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2021 AMC 10B · Problem 25 | 2021 AMC 12B · Problem 25",
-    "stem": "Let $S$ be the set of lattice points in the coordinate plane, both of whose coordinates are integers between $1$ and $30,$ inclusive. Exactly $300$ points in $S$ lie on or below a line with equation $y=mx.$ The possible values of $m$ lie in an interval of length $\\frac ab,$ where $a$ and $b$ are relatively prime positive integers. What is $a+b?$",
+    "stem": "Let $S$ be the set of lattice points in the coordinate plane, both of whose coordinates are integers between $1$ and $30,$ inclusive. Exactly $300$ points in $S$ lie on or below a line with equation $y=mx.$ The possible values of $m$ lie in an interval of length $\\frac ab,$ where $a$ and $b$ are relatively prime positive integers. What is $a+b$?",
     "options": {
       "A": "$~31$",
       "B": "$~47$",
@@ -23147,7 +23147,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2021 Fall AMC 10B · Problem 1 | 2021 Fall AMC 12B · Problem 1",
-    "stem": "What is the value of $1234+2341+3412+4123?$",
+    "stem": "What is the value of $1234+2341+3412+4123$?",
     "options": {
       "A": "$10,000$",
       "B": "$10,010$",
@@ -23228,7 +23228,7 @@
     },
     "answer": "C",
     "solutions": [
-      "At noon on a certain day, let $M$ and $L$ be the temperatures (in degrees) in Minneapolis and St. Louis, respectively.\n\nIt follows that $M = L + N$\n\nAt 4:00, we get\n\n$|(M − 5) − (L + 3)| = 2 \\\\ |M − L − 8| = 2\\\\ |N − 8| = 2.$\nWe have two cases:\n\n$Case 1$. If $N − 8 = 2$, then $N = 10$.\n\n$Case 2$. If $N − 8 = −2$, then $N = 6$.\n\nTogether, the product of all possible values of $N$ is $10 \\cdot 6 = \\boxed{(C) 60}$ .",
+      "At noon on a certain day, let $M$ and $L$ be the temperatures (in degrees) in Minneapolis and St. Louis, respectively.\n\nIt follows that $M = L + N$\n\nAt 4:00, we get\n\n$|(M − 5) − (L + 3)| = 2 \\\\ |M − L − 8| = 2\\\\ |N − 8| = 2.$\nWe have two cases:\n\n$\\textbf{Case 1}$. If $N − 8 = 2$, then $N = 10$.\n\n$\\textbf{Case 2}$. If $N − 8 = −2$, then $N = 6$.\n\nTogether, the product of all possible values of $N$ is $10 \\cdot 6 = \\boxed{(C) 60}$ .",
       "At noon on a certain day, let $M$ and $L$ be the temperatures (in degrees) in Minneapolis and St. Louis, respectively. It follows that $M=L+N.$\n\nAt $4{:}00,$ we get\n\\begin{align*} |(M-5)-(L+3)| &= 2 \\\\ |M-L-8| &= 2 \\\\ |N-8| &= 2. \\end{align*}\nWe have two cases:\n\nIf $N-8=2,$ then $N=10.$\n\nIf $N-8=-2,$ then $N=6.$\n\nTogether, the product of all possible values of $N$ is $10\\cdot6=\\boxed{\\textbf{(C)} \\: 60}.$",
       "At noon on a certain day, the difference of temperatures in Minneapolis and St. Louis is $N$ degrees.\n\nAt $4{:}00,$ the difference of temperatures in Minneapolis and St. Louis is $N-8$ degrees.\n\nIt follows that $|N-8|=2.$\nWe continue with the casework in Solution 1 to get the answer $\\boxed{\\textbf{(C)} \\: 60}.$"
     ],
@@ -23396,7 +23396,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2021 Fall AMC 10B · Problem 12 | 2021 Fall AMC 12B · Problem 7",
-    "stem": "Which of the following conditions is sufficient to guarantee that integers $x, y$, and $z$ satisfy the equation\n\n$x(x-y)+y(y-z)+z(z-x)=1?$",
+    "stem": "Which of the following conditions is sufficient to guarantee that integers $x, y$, and $z$ satisfy the equation\n\n$x(x-y)+y(y-z)+z(z-x)=1$?",
     "options": {
       "A": "$x>y$ and $y=z$",
       "B": "$x=y-1$ and $y=z-1$",
@@ -23551,7 +23551,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2021 Fall AMC 10B · Problem 19",
-    "stem": "Let $N$ be the positive integer $7777 \\ldots 777$, a $313$-digit number where each digit is a $7$. Let $f(r)$ be the leading digit of the $r$ th root of $N$. What is\n\n$f(2)+f(3)+f(4)+f(5)+f(6) ?$",
+    "stem": "Let $N$ be the positive integer $7777 \\ldots 777$, a $313$-digit number where each digit is a $7$. Let $f(r)$ be the leading digit of the $r$ th root of $N$. What is\n\n$f(2)+f(3)+f(4)+f(5)+f(6)$?",
     "options": {
       "A": "$8$",
       "B": "$9$",
@@ -23615,7 +23615,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2021 Fall AMC 10B · Problem 22",
-    "stem": "For each integer $n \\geq 2$, let $S_{n}$ be the sum of all products $j k$, where $j$ and $k$ are integers and $1 \\leq j<k \\leq n$. What is the sum of the $10$ least values of $n$ such that $S_{n}$ is divisible by $3?$",
+    "stem": "For each integer $n \\geq 2$, let $S_{n}$ be the sum of all products $j k$, where $j$ and $k$ are integers and $1 \\leq j<k \\leq n$. What is the sum of the $10$ least values of $n$ such that $S_{n}$ is divisible by $3$?",
     "options": {
       "A": "$196$",
       "B": "$197$",
@@ -23683,7 +23683,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2021 Fall AMC 10B · Problem 25",
-    "stem": "A rectangle with side length $1$ and $3$, a square with side length $1$, and a rectangle $R$ are inscribed inside a larger square as shown. The sum of all possible values for the area of $R$ can be written in the form $\\dfrac{m}{n}$, where $m$ and $n$ are relatively prime positive integers. What is $m+n?$\n\n[Figure: /question-assets/source/amc/e7071744c547f594c589021895ff7d2c09625d0146f00a7f58087a3788008c69.jpg]",
+    "stem": "A rectangle with side length $1$ and $3$, a square with side length $1$, and a rectangle $R$ are inscribed inside a larger square as shown. The sum of all possible values for the area of $R$ can be written in the form $\\dfrac{m}{n}$, where $m$ and $n$ are relatively prime positive integers. What is $m+n$?\n\n[Figure: /question-assets/source/amc/e7071744c547f594c589021895ff7d2c09625d0146f00a7f58087a3788008c69.jpg]",
     "options": {
       "A": "$14$",
       "B": "$23$",
@@ -23704,7 +23704,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2022 AMC 10A · Problem 1 | 2022 AMC 12A · Problem 1",
-    "stem": "What is the value of $3+\\frac{1}{3+\\frac{1}{3+\\frac13}}?$",
+    "stem": "What is the value of $3+\\frac{1}{3+\\frac{1}{3+\\frac13}}$?",
     "options": {
       "A": "$\\ \\frac{31}{10}$",
       "B": "$\\ \\frac{49}{15}$",
@@ -23821,7 +23821,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2022 AMC 10A · Problem 6",
-    "stem": "Which expression is equal to $\\left|a-2-\\sqrt{(a-1)^2}\\right|$ for $a<0?$",
+    "stem": "Which expression is equal to $\\left|a-2-\\sqrt{(a-1)^2}\\right|$ for $a<0$?",
     "options": {
       "A": "$3-2a$",
       "B": "$1-a$",
@@ -24072,7 +24072,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2022 AMC 10A · Problem 17",
-    "stem": "How many three-digit positive integers $\\underline{a} \\ \\underline{b} \\ \\underline{c}$ are there whose nonzero digits $a,b,$ and $c$ satisfy\n$0.\\overline{\\underline{a}~\\underline{b}~\\underline{c}} = \\frac{1}{3} (0.\\overline{a} + 0.\\overline{b} + 0.\\overline{c})?$\n(The bar indicates repetition, thus $0.\\overline{\\underline{a}~\\underline{b}~\\underline{c}}$ is the infinite repeating decimal $0.\\underline{a}~\\underline{b}~\\underline{c}~\\underline{a}~\\underline{b}~\\underline{c}~\\cdots$)",
+    "stem": "How many three-digit positive integers $\\underline{a} \\ \\underline{b} \\ \\underline{c}$ are there whose nonzero digits $a,b,$ and $c$ satisfy\n$0.\\overline{\\underline{a}~\\underline{b}~\\underline{c}} = \\frac{1}{3} (0.\\overline{a} + 0.\\overline{b} + 0.\\overline{c})$?\n(The bar indicates repetition, thus $0.\\overline{\\underline{a}~\\underline{b}~\\underline{c}}$ is the infinite repeating decimal $0.\\underline{a}~\\underline{b}~\\underline{c}~\\underline{a}~\\underline{b}~\\underline{c}~\\cdots$)",
     "options": {
       "A": "$9$",
       "B": "$10$",
@@ -24273,7 +24273,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2022 AMC 10B · Problem 1 | 2022 AMC 12B · Problem 1",
-    "stem": "Define $x\\diamond y$ to be $|x-y|$ for all real numbers $x$ and $y.$ What is the value of $(1\\diamond(2\\diamond3))-((1\\diamond2)\\diamond3)?$",
+    "stem": "Define $x\\diamond y$ to be $|x-y|$ for all real numbers $x$ and $y.$ What is the value of $(1\\diamond(2\\diamond3))-((1\\diamond2)\\diamond3)$?",
     "options": {
       "A": "$\\ {-}2$",
       "B": "$\\ {-}1$",
@@ -24296,7 +24296,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2022 AMC 10B · Problem 2 | 2022 AMC 12B · Problem 2",
-    "stem": "In rhombus $A B C D$, point $P$ lies on segment $\\overline{A D}$ such that $\\overline{B P} \\perp \\overline{A D}, A P=3$, and $P D=2$. What is the area of $A B C D?$\n\n[Figure: /question-assets/source/amc/aa809dffdf80eba884d35f119582ad2a770f1e6922eb6c6fa414e6b6210e8482.jpg]",
+    "stem": "In rhombus $A B C D$, point $P$ lies on segment $\\overline{A D}$ such that $\\overline{B P} \\perp \\overline{A D}, A P=3$, and $P D=2$. What is the area of $A B C D$?\n\n[Figure: /question-assets/source/amc/aa809dffdf80eba884d35f119582ad2a770f1e6922eb6c6fa414e6b6210e8482.jpg]",
     "options": {
       "A": "$3 \\sqrt{5}$",
       "B": "$10$",
@@ -24348,7 +24348,7 @@
     },
     "answer": "A",
     "solutions": [
-      "There are 699 five-second time periods between the 1st hiccup and the 700th hiccup. This will require $699 \\cdot 5=3495$ seconds. Because there are $60 \\cdot 60=3600$ seconds in an hour, the 700 th hiccup will occur $3600-3495=105$ seconds before 5:00. This is $105-60=45$ seconds before $4: 59$, which is $(\\text{A})\\boxed{15 seconds after 4:58}$."
+      "There are 699 five-second time periods between the 1st hiccup and the 700th hiccup. This will require $699 \\cdot 5=3495$ seconds. Because there are $60 \\cdot 60=3600$ seconds in an hour, the 700 th hiccup will occur $3600-3495=105$ seconds before 5:00. This is $105-60=45$ seconds before $4: 59$, which is $(\\text{A})\\boxed{\\text{15 seconds after 4:58}}$."
     ],
     "tags": []
   },
@@ -24359,7 +24359,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2022 AMC 10B · Problem 5",
-    "stem": "What is the value of\n\n$\\dfrac{\\left(1+\\dfrac{1}{3}\\right)\\left(1+\\dfrac{1}{5}\\right)\\left(1+\\dfrac{1}{7}\\right)}{\\sqrt{\\left(1-\\dfrac{1}{3^{2}}\\right)\\left(1-\\dfrac{1}{5^{2}}\\right)\\left(1-\\dfrac{1}{7^{2}}\\right)}}?$",
+    "stem": "What is the value of\n\n$\\dfrac{\\left(1+\\dfrac{1}{3}\\right)\\left(1+\\dfrac{1}{5}\\right)\\left(1+\\dfrac{1}{7}\\right)}{\\sqrt{\\left(1-\\dfrac{1}{3^{2}}\\right)\\left(1-\\dfrac{1}{5^{2}}\\right)\\left(1-\\dfrac{1}{7^{2}}\\right)}}$?",
     "options": {
       "A": "$\\sqrt{3}$",
       "B": "$2$",
@@ -24515,7 +24515,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2022 AMC 10B · Problem 12",
-    "stem": "A pair of fair $6$ -sided dice is rolled $n$ times. What is the least value of $n$ such that the probability that the sum of the numbers face up on a roll equals $7$ at least once is greater than $\\dfrac{1}{2}?$",
+    "stem": "A pair of fair $6$ -sided dice is rolled $n$ times. What is the least value of $n$ such that the probability that the sum of the numbers face up on a roll equals $7$ at least once is greater than $\\dfrac{1}{2}$?",
     "options": {
       "A": "$2$",
       "B": "$3$",
@@ -24789,7 +24789,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2022 AMC 10B · Problem 24",
-    "stem": "Consider functions $f$ that satisfy\n\n$|f(x)-f(y)| \\leq \\dfrac{1}{2}|x-y|$\nfor all real numbers $x$ and $y$. Of all such functions that also satisfy the equation $f(300)=f(900)$, what is the greatest possible value of\n\n$f(f(800))-f(f(400))?$",
+    "stem": "Consider functions $f$ that satisfy\n\n$|f(x)-f(y)| \\leq \\dfrac{1}{2}|x-y|$\nfor all real numbers $x$ and $y$. Of all such functions that also satisfy the equation $f(300)=f(900)$, what is the greatest possible value of\n\n$f(f(800))-f(f(400))$?",
     "options": {
       "A": "$25$",
       "B": "$50$",
@@ -24810,7 +24810,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2022 AMC 10B · Problem 25 | 2022 AMC 12B · Problem 23",
-    "stem": "Let $x_0,x_1,x_2,\\dotsc$ be a sequence of numbers, where each $x_k$ is either $0$ or $1$. For each positive integer $n$, define\n$S_n = \\sum_{k=0}^{n-1} x_k 2^k$\nSuppose $7S_n \\equiv 1 \\pmod{2^n}$ for all $n \\geq 1$. What is the value of the sum\n$x_{2019} + 2x_{2020} + 4x_{2021} + 8x_{2022}?$",
+    "stem": "Let $x_0,x_1,x_2,\\dotsc$ be a sequence of numbers, where each $x_k$ is either $0$ or $1$. For each positive integer $n$, define\n$S_n = \\sum_{k=0}^{n-1} x_k 2^k$\nSuppose $7S_n \\equiv 1 \\pmod{2^n}$ for all $n \\geq 1$. What is the value of the sum\n$x_{2019} + 2x_{2020} + 4x_{2021} + 8x_{2022}$?",
     "options": {
       "A": "$6$",
       "B": "$7$",
@@ -25214,7 +25214,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2023 AMC 10A · Problem 18",
-    "stem": "A rhombic dodecahedron is a convex polyhedron where each of the $12$ faces is a rhombus, and all of the faces are congruent to each other. The number of edges that meet at a vertex is either $3 or 4$ , depending on the vertex. What is the number of vertices at which exactly $3$ edges meet?",
+    "stem": "A rhombic dodecahedron is a convex polyhedron where each of the $12$ faces is a rhombus, and all of the faces are congruent to each other. The number of edges that meet at a vertex is either $3$ or $4$ , depending on the vertex. What is the number of vertices at which exactly $3$ edges meet?",
     "options": {
       "A": "$5$",
       "B": "$6$",
@@ -25806,7 +25806,7 @@
     },
     "answer": "E",
     "solutions": [
-      "Note that 14 and 15 are relatively prime and $210=14 \\cdot 15$. Let $q$ and $r$ be two relatively prime positive integers (such as 14 and 15). The equation $\\frac{a}{q}+\\frac{b}{r}=\\frac{c}{q r}$ is equivalent to $a r+b q=c$. Hence\n\n$\\operatorname{gcd}(c, q)=\\operatorname{gcd}(a r+b q, q)=\\operatorname{gcd}(a r, q)=\\operatorname{gcd}(a, q)$\nSimilarly, $\\operatorname{gcd}(c, r)=\\operatorname{gcd}(b, r)$. Also, $\\operatorname{gcd}(c, q r)=1$ if and only if $\\operatorname{gcd}(c, q)=1$ and $\\operatorname{gcd}(c, r)=1$. Therefore Statement III is true, and that statement logically implies Statement II. To see that Statement I might be false, let $a=1, b=3$, and $c=57$; then the hypothesis is true but the conclusion is false. Thus Statements $(\\text{E})\\boxed{II and III}$ are the only ones that are necessarily true."
+      "Note that 14 and 15 are relatively prime and $210=14 \\cdot 15$. Let $q$ and $r$ be two relatively prime positive integers (such as 14 and 15). The equation $\\frac{a}{q}+\\frac{b}{r}=\\frac{c}{q r}$ is equivalent to $a r+b q=c$. Hence\n\n$\\operatorname{gcd}(c, q)=\\operatorname{gcd}(a r+b q, q)=\\operatorname{gcd}(a r, q)=\\operatorname{gcd}(a, q)$\nSimilarly, $\\operatorname{gcd}(c, r)=\\operatorname{gcd}(b, r)$. Also, $\\operatorname{gcd}(c, q r)=1$ if and only if $\\operatorname{gcd}(c, q)=1$ and $\\operatorname{gcd}(c, r)=1$. Therefore Statement III is true, and that statement logically implies Statement II. To see that Statement I might be false, let $a=1, b=3$, and $c=57$; then the hypothesis is true but the conclusion is false. Thus Statements $(\\text{E})\\boxed{\\text{II and III}}$ are the only ones that are necessarily true."
     ],
     "tags": []
   },
@@ -26379,7 +26379,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2024 AMC 10A · Problem 19 | 2024 AMC 12A · Problem 12",
-    "stem": "The first three terms of a geometric sequence are the integers $a,\\,720,$ and $b,$ where $a<720<b.$ What is the sum of the digits of the least possible value of $b?$",
+    "stem": "The first three terms of a geometric sequence are the integers $a,\\,720,$ and $b,$ where $a<720<b.$ What is the sum of the digits of the least possible value of $b$?",
     "options": {
       "A": "$9$",
       "B": "$12$",
@@ -26422,7 +26422,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2024 AMC 10A · Problem 21 | 2024 AMC 12A · Problem 14",
-    "stem": "The numbers, in order, of each row and the numbers, in order, of each column of a $5 \\times 5$ array of integers form an arithmetic progression of length $5$. The numbers in positions $(5, 5), \\,(2,4),\\,(4,3),$ and $(3, 1)$ are $0, 48, 16,$ and $12$, respectively. What number is in position $(1, 2)?$\n\n$\\begin{bmatrix} . & ? &.&.&. \\\\ .&.&.&48&.\\\\ 12&.&.&.&.\\\\ .&.&16&.&.\\\\ .&.&.&.&0\\end{bmatrix}$",
+    "stem": "The numbers, in order, of each row and the numbers, in order, of each column of a $5 \\times 5$ array of integers form an arithmetic progression of length $5$. The numbers in positions $(5, 5), \\,(2,4),\\,(4,3),$ and $(3, 1)$ are $0, 48, 16,$ and $12$, respectively. What number is in position $(1, 2)$?\n\n$\\begin{bmatrix} . & ? &.&.&. \\\\ .&.&.&48&.\\\\ 12&.&.&.&.\\\\ .&.&16&.&.\\\\ .&.&.&.&0\\end{bmatrix}$",
     "options": {
       "A": "$19$",
       "B": "$24$",
@@ -27003,7 +27003,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2024 AMC 10B · Problem 23 | 2024 AMC 12B · Problem 18",
-    "stem": "The Fibonacci numbers are defined by $F_{1}=1, F_{2}=1$, and $F_{n}=F_{n-1}+F_{n-2}$ for $n \\geq 3$. What is\n\n$\\frac{F_{2}}{F_{1}}+\\frac{F_{4}}{F_{2}}+\\frac{F_{6}}{F_{3}}+\\cdots+\\frac{F_{20}}{F_{10}} ?$",
+    "stem": "The Fibonacci numbers are defined by $F_{1}=1, F_{2}=1$, and $F_{n}=F_{n-1}+F_{n-2}$ for $n \\geq 3$. What is\n\n$\\frac{F_{2}}{F_{1}}+\\frac{F_{4}}{F_{2}}+\\frac{F_{6}}{F_{3}}+\\cdots+\\frac{F_{20}}{F_{10}}$?",
     "options": {
       "A": "$318$",
       "B": "$319$",
@@ -27235,7 +27235,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2025 AMC 10A · Problem 9",
-    "stem": "Let $f(x)=100x^{3}-300x^{2}+200x.$ For how many real numbers $a$ does the graph of $y=f(x-a)$ pass through the point $(1,25)?$",
+    "stem": "Let $f(x)=100x^{3}-300x^{2}+200x.$ For how many real numbers $a$ does the graph of $y=f(x-a)$ pass through the point $(1,25)$?",
     "options": {
       "A": "$1$",
       "B": "$2$",
@@ -27319,7 +27319,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2025 AMC 10A · Problem 13 | 2025 AMC 12A · Problem 5",
-    "stem": "In the figure below, the outside square contains infinitely many squares, each of them with the same center and sides parallel to the outside square. The ratio of the side length of a square to the side length of the next inner square is $k$, where $0<k<1$. The spaces between squares are alternately shaded, as shown in the figure (which is not necessarily drawn to scale).\n\n[Figure: /question-assets/source/amc/26d962d8b4250a5c796c789d5ad96e19a349f2920b088965ccbf5aef35e19976.png]\n\nThe area of the shaded portion of the figure is $64\\%$ of the area of the original square. What is $k?$",
+    "stem": "In the figure below, the outside square contains infinitely many squares, each of them with the same center and sides parallel to the outside square. The ratio of the side length of a square to the side length of the next inner square is $k$, where $0<k<1$. The spaces between squares are alternately shaded, as shown in the figure (which is not necessarily drawn to scale).\n\n[Figure: /question-assets/source/amc/26d962d8b4250a5c796c789d5ad96e19a349f2920b088965ccbf5aef35e19976.png]\n\nThe area of the shaded portion of the figure is $64\\%$ of the area of the original square. What is $k$?",
     "options": {
       "A": "$\\dfrac{3}{5}$",
       "B": "$\\dfrac{16}{25}$",
@@ -27361,7 +27361,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2025 AMC 10A · Problem 15",
-    "stem": "In the figure below, $ABEF$ is a rectangle, $\\overline{AD} \\perp \\overline{DE}$, $AF=7$, $AB=1$, and $AD=5.$\n\n[Figure: /question-assets/source/amc/fbea10a74c474a1bfef035ac9a122757ea1d7df12c399034976be8326f3e5551.jpg]\n\nWhat is the area of $\\triangle ABC?$",
+    "stem": "In the figure below, $ABEF$ is a rectangle, $\\overline{AD} \\perp \\overline{DE}$, $AF=7$, $AB=1$, and $AD=5.$\n\n[Figure: /question-assets/source/amc/fbea10a74c474a1bfef035ac9a122757ea1d7df12c399034976be8326f3e5551.jpg]\n\nWhat is the area of $\\triangle ABC$?",
     "options": {
       "A": "$\\dfrac{3}{8}$",
       "B": "$\\dfrac{4}{9}$",
@@ -27424,7 +27424,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2025 AMC 10A · Problem 18 | 2025 AMC 12A · Problem 12",
-    "stem": "The harmonic mean of a collection of numbers is the reciprocal of the arithmetic mean of the reciprocals of the numbers in the collection. For example, the harmonic mean of $4,4,$ and $5$ is\n\n$\\frac{1}{\\frac{1}{3}(\\frac{1}{4}+\\frac{1}{4}+\\frac{1}{5})}=\\frac{30}{7}.$\n\nWhat is the harmonic mean of all the real roots of the $4050$th degree polynomial\n\n$\\prod_{k=1}^{2025} (kx^2-4x-3)=(x^2-4x-3)(2x^2-4x-3)(3x^2-4x-3)...(2025x^2-4x-3)?$",
+    "stem": "The harmonic mean of a collection of numbers is the reciprocal of the arithmetic mean of the reciprocals of the numbers in the collection. For example, the harmonic mean of $4,4,$ and $5$ is\n\n$\\frac{1}{\\frac{1}{3}(\\frac{1}{4}+\\frac{1}{4}+\\frac{1}{5})}=\\frac{30}{7}.$\n\nWhat is the harmonic mean of all the real roots of the $4050$th degree polynomial\n\n$\\prod_{k=1}^{2025} (kx^2-4x-3)=(x^2-4x-3)(2x^2-4x-3)(3x^2-4x-3)...(2025x^2-4x-3)$?",
     "options": {
       "A": "$~-\\frac{5}{3}$",
       "B": "$~-\\frac{3}{2}$",
@@ -27488,7 +27488,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2025 AMC 10A · Problem 21 | 2025 AMC 12A · Problem 15",
-    "stem": "A set of numbers is called sum-free if whenever $x$ and $y$ are (not necessarily distinct) elements of the set, $x+y$ is not an element of the set. For example, $\\left\\{1,4,6\\right\\}$ and the empty set are sum-free, but $\\left\\{2,4,5\\right\\}$ is not. What is the greatest possible number of elements in a sum-free subset of $\\left\\{1,2,3,\\ldots,20\\right\\}?$",
+    "stem": "A set of numbers is called sum-free if whenever $x$ and $y$ are (not necessarily distinct) elements of the set, $x+y$ is not an element of the set. For example, $\\left\\{1,4,6\\right\\}$ and the empty set are sum-free, but $\\left\\{2,4,5\\right\\}$ is not. What is the greatest possible number of elements in a sum-free subset of $\\left\\{1,2,3,\\ldots,20\\right\\}$?",
     "options": {
       "A": "$8$",
       "B": "$9$",
@@ -27509,7 +27509,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2025 AMC 10A · Problem 22",
-    "stem": "A circle of radius $r$ is surrounded by three circles, whose radii are $1,2,$ and $3,$ all externally tangent to the inner circle and to each other, as shown.\n\n[Figure: /question-assets/source/amc/c30e0df0fb141b2dbe547e2d14c41cc900d6b61a1ffb6f156ece8c6860d0a7e2.png]\n\nWhat is $r?$",
+    "stem": "A circle of radius $r$ is surrounded by three circles, whose radii are $1,2,$ and $3,$ all externally tangent to the inner circle and to each other, as shown.\n\n[Figure: /question-assets/source/amc/c30e0df0fb141b2dbe547e2d14c41cc900d6b61a1ffb6f156ece8c6860d0a7e2.png]\n\nWhat is $r$?",
     "options": {
       "A": "$\\tfrac{1}{4}$",
       "B": "$\\tfrac{6}{23}$",
@@ -27658,7 +27658,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2025 AMC 10B · Problem 4 | 2025 AMC 12B · Problem 4",
-    "stem": "The value of the two-digit number $\\underline{a}~\\underline{b}$ in base seven equals the value of the two-digit number $\\underline{b}~\\underline{a}$ in base nine. What is $a+b?$",
+    "stem": "The value of the two-digit number $\\underline{a}~\\underline{b}$ in base seven equals the value of the two-digit number $\\underline{b}~\\underline{a}$ in base nine. What is $a+b$?",
     "options": {
       "A": "$~7$",
       "B": "$~9$",
@@ -27680,7 +27680,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2025 AMC 10B · Problem 5",
-    "stem": "In $\\triangle ABC$, $AB=10$, $AC=18$, and $\\angle B=130^\\circ$. Let $O$ be the center of the circle containing points $A,B,C$. What is the degree measure of $\\angle CAO?$",
+    "stem": "In $\\triangle ABC$, $AB=10$, $AC=18$, and $\\angle B=130^\\circ$. Let $O$ be the center of the circle containing points $A,B,C$. What is the degree measure of $\\angle CAO$?",
     "options": {
       "A": "$20$",
       "B": "$30$",
@@ -27701,7 +27701,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2025 AMC 10B · Problem 6",
-    "stem": "The line $y=\\tfrac{1}{3}x+1$ divides the square region defined by $0\\le x\\le 2$ and $0\\le y\\le 2$ into an upper and a lower region. The line $x=a$ divides the lower region into two regions of equal area. Then $a$ can be written as $\\sqrt{s}-t$, where $s$ and $t$ are positive integers. What is $s+t?$",
+    "stem": "The line $y=\\tfrac{1}{3}x+1$ divides the square region defined by $0\\le x\\le 2$ and $0\\le y\\le 2$ into an upper and a lower region. The line $x=a$ divides the lower region into two regions of equal area. Then $a$ can be written as $\\sqrt{s}-t$, where $s$ and $t$ are positive integers. What is $s+t$?",
     "options": {
       "A": "$18$",
       "B": "$19$",
@@ -27743,7 +27743,7 @@
     "type": "单选题",
     "difficulty": "容易",
     "sourcePaper": "2025 AMC 10B · Problem 8 | 2025 AMC 12B · Problem 6",
-    "stem": "Emmy says to Max, “I ordered $36$ math club sweatshirts today.” Max asks, “How much did each shirt cost?” Emmy responds, “I’ll give you a hint. The total cost was $\\$A B B.B A$, where $A$ and $B$ are digits and $A\\ne 0$.” After a pause, Max says, “That was a good price.” What is $A+B?$",
+    "stem": "Emmy says to Max, “I ordered $36$ math club sweatshirts today.” Max asks, “How much did each shirt cost?” Emmy responds, “I’ll give you a hint. The total cost was $\\$A B B.B A$, where $A$ and $B$ are digits and $A\\ne 0$.” After a pause, Max says, “That was a good price.” What is $A+B$?",
     "options": {
       "A": "$7$",
       "B": "$8$",
@@ -27957,7 +27957,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2025 AMC 10B · Problem 18",
-    "stem": "What is the ones digit of the sum\n$\\lfloor \\sqrt{1} \\rfloor + \\lfloor \\sqrt{2} \\rfloor + \\lfloor \\sqrt{3} \\rfloor + \\dots + \\lfloor \\sqrt{2025} \\rfloor?$(Recall that $\\lfloor x \\rfloor$ represents the greatest integer less than or equal to $x$.)",
+    "stem": "What is the ones digit of the sum\n$\\lfloor \\sqrt{1} \\rfloor + \\lfloor \\sqrt{2} \\rfloor + \\lfloor \\sqrt{3} \\rfloor + \\dots + \\lfloor \\sqrt{2025} \\rfloor$?(Recall that $\\lfloor x \\rfloor$ represents the greatest integer less than or equal to $x$.)",
     "options": {
       "A": "$1$",
       "B": "$2$",
@@ -27999,7 +27999,7 @@
     "type": "单选题",
     "difficulty": "一般",
     "sourcePaper": "2025 AMC 10B · Problem 20",
-    "stem": "Four congruent semicircles are inscribed in a square of side length $1$ so that their diameters are on the sides of the square, one endpoint of each diameter is at a vertex of the square, and adjacent semicircles are tangent to each other. A small circle centered at the center of the square is tangent to each of the four semicircles, as shown below.\n\n[Figure: /question-assets/source/amc/f2d2e70ba6bc49e6f7ce073eebd28d219922c53524341f51c05c4f0e6b83f5e9.png]\n\nThe diameter of the small circle can be written as $(\\sqrt{a}+b)(\\sqrt{c}+d)$, where $a, b, c,$ and $d$ are integers. What is $a+b+c+d?$",
+    "stem": "Four congruent semicircles are inscribed in a square of side length $1$ so that their diameters are on the sides of the square, one endpoint of each diameter is at a vertex of the square, and adjacent semicircles are tangent to each other. A small circle centered at the center of the square is tangent to each of the four semicircles, as shown below.\n\n[Figure: /question-assets/source/amc/f2d2e70ba6bc49e6f7ce073eebd28d219922c53524341f51c05c4f0e6b83f5e9.png]\n\nThe diameter of the small circle can be written as $(\\sqrt{a}+b)(\\sqrt{c}+d)$, where $a, b, c,$ and $d$ are integers. What is $a+b+c+d$?",
     "options": {
       "A": "$3$",
       "B": "$5$",
@@ -28041,7 +28041,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2025 AMC 10B · Problem 22",
-    "stem": "A seven-digit positive integer is chosen at random. What is the probability that the number is divisible by $11$, given that the sum of its digits is $61?$",
+    "stem": "A seven-digit positive integer is chosen at random. What is the probability that the number is divisible by $11$, given that the sum of its digits is $61$?",
     "options": {
       "A": "$\\dfrac{3}{14}$",
       "B": "$\\dfrac{3}{11}$",
@@ -28084,7 +28084,7 @@
     "type": "单选题",
     "difficulty": "困难",
     "sourcePaper": "2025 AMC 10B · Problem 24 | 2025 AMC 12B · Problem 20",
-    "stem": "A frog hops along the number line according to the following rules:\n\nIt starts at $0$.\nIf it is at $0$, then it moves to $1$ with probability $\\frac 12$ and disappears with probability $\\frac 12$.\nFor $n=1,2,3,$ if it is at $n$, then it moves to $n+1$ with probability $\\frac 14,$ to $n-1$ with probability $\\frac 14,$ and disappears with probability $\\frac 12$.\nWhat is the probability that the frog reaches $4?$",
+    "stem": "A frog hops along the number line according to the following rules:\n\nIt starts at $0$.\nIf it is at $0$, then it moves to $1$ with probability $\\frac 12$ and disappears with probability $\\frac 12$.\nFor $n=1,2,3,$ if it is at $n$, then it moves to $n+1$ with probability $\\frac 14,$ to $n-1$ with probability $\\frac 14,$ and disappears with probability $\\frac 12$.\nWhat is the probability that the frog reaches $4$?",
     "options": {
       "A": "$\\frac1{101}$",
       "B": "$\\frac 1{100}$",

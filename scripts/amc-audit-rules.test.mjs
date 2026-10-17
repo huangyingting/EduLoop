@@ -4,6 +4,7 @@ import {
   contentDamageIssues,
   directChoiceLabels,
   hasBalancedBraces,
+  hasBalancedMathBlockBraces,
   hasForbiddenControlCharacter,
   invalidJsonLatexEscapes,
   isChoiceQuestionType,
@@ -60,8 +61,13 @@ test("flags high-confidence source damage", () => {
   assert.ok(!contentDamageIssues("三角形的一个外角等于和它不相邻的两个内角之和").includes("obvious text corruption"));
   assert.ok(contentDamageIssues("This solution is a fakesolve.", { solution: true }).includes("self-identified invalid solution"));
   assert.ok(contentDamageIssues("$1,qquad 2$").includes("LaTeX command missing backslash"));
+  assert.ok(contentDamageIssues("$\\boxed{\\textbf{(E)~$k$}}$").includes("unbalanced braces inside math block"));
+  assert.ok(contentDamageIssues("As shown in Image:2021_AMC_12B_sol.png, all vertices").includes("unconverted MediaWiki image reference"));
+  assert.equal(hasBalancedMathBlockBraces("$\\boxed{\\textbf{(E)}~k}$"), true);
+  assert.equal(hasBalancedMathBlockBraces("$\\boxed{\\textbf{(E)~$k$}}$"), false);
   assert.equal(hasForbiddenControlCharacter("a\tb"), true);
   assert.equal(hasForbiddenControlCharacter("a\u200bb"), true);
+  assert.equal(hasForbiddenControlCharacter("f\u2061(x)"), true);
   assert.equal(hasForbiddenControlCharacter("a\nb"), false);
   assert.deepEqual(invalidJsonLatexEscapes(String.raw`"$\\frac12+\frac12$ and $\\text{x}+\text{y}$"`), [
     { offset: 11, command: "frac" },

@@ -1443,13 +1443,84 @@ export const WAVE2_ITEM_OVERRIDES = new Map(Object.entries({
   "4e5573ccf31c4441470eaf4a32addf20": {
     stem: "某同学用蔗糖配制$$\\rm{100g}$$质量分数为$$\\rm{5\\%}$$的蔗糖溶液，请回答：(1) 量取所需的水时，所选用量筒的量程最合适的是 ______（填序号） A. $$\\rm{10mL}$$ B. $$\\rm{20mL}$$ C. $$\\rm{50mL}$$ D. $$\\rm{100mL}$$ (2) 溶解时用玻璃棒搅拌的目的是 ______ (3) 称量蔗糖时，如果天平的指针向右偏转，接下来的操作应该是 ______（填序号） A. 增加砝码 B. 减少砝码 C. 增加蔗糖 D. 减少蔗糖。",
   },
+
+  // === 16. Wave 7 deep-audit overrides (fraction-blank answers, choice brackets, blank counts) ===
+  "580e8ea15b176e7a2164ac63bd631fe2": {
+    type: "填空题",
+    answer: "12；12；75",
+  },
+  "ff4f30de335046a372c02fffd48e300d": {
+    type: "填空题",
+    stem: "72%=______（小数）=$$\\dfrac{(\\quad)}{(\\quad)}$$（最简分数）",
+    answer: "0.72；$$\\dfrac{18}{25}$$",
+  },
+  "aa8331c5bd6a4b432a0e54c1887f0bd7": {
+    type: "填空题",
+    answer: "14；50；70",
+  },
+  "454ef42f607b2dba5a8fec87c7708ea8": {
+    type: "填空题",
+    answer: "8；40；37.5；0.375",
+  },
+  "e9568f4b88bb46ddde031af34b3fe51f": {
+    type: "填空题",
+    answer: "24；16；75；七五",
+  },
+  "f48260524e38c7890506ae88dabec8a6": {
+    type: "填空题",
+    answer: "7；17；5",
+  },
+  "b185dc278331b68a4ccdb485088c206b": {
+    type: "填空题",
+    answer: "20；0.4；24；40；30；四",
+  },
+  "d34f66baac0e42f318d715fac73fe6ad": {
+    type: "填空题",
+    answer: "4；100；10；20",
+  },
+  "f4a8f7bcbf8c9a3f8239b59d4c9587ab": {
+    type: "填空题",
+    answer: "4；40；0.25",
+  },
+  "f0ebebe2458d9042440e4c9c52bf6e79": {
+    type: "填空题",
+    answer: "$$\\dfrac{3}{8}$$；6；64；80；37.5",
+  },
+  "aeeb024bc7b53ac4d168265a3bf0bd61": {
+    answer: "105；90",
+  },
+  "9f67ecaa9c40e95310598cf036d61571": {
+    stem: "（   ）÷9=5……□，这道题的余数最大是______，这时候被除数是______．",
+  },
+  "26bb5220b77d09d810df2e6788423f2d": {
+    stem: "计算： （1）47°36′-23°21′=______°______′ （2）18°25′36″+22°43′45″=______°______′______″ （3）35°35′35″×5=______ （4）176°51′÷3=______．",
+  },
+  "fdbfcc45fbdeef05c64fa1b3dbde7aa5": {
+    stem: "下列算式中，商是两位数的是（   ）",
+  },
+  "ec987729bdba4e2e39a7d6bd522cb55e": {
+    stem: "用长10厘米，宽6厘米的长方形硬纸折成同样大的正方形，且没有剩余，最少可以折成（   ）个正方形．",
+  },
+  "a2cc07c92953da225f84b761df9521a3": {
+    stem: "圆的大小与（   ）有关．",
+  },
+  "c231cdab2400145158c3db9643a40182": {
+    stem: "下列四种光学仪器中，成放大实像的是（   ）",
+  },
+  "07271c435a365b3d85dfcf710f5f73af": {
+    stem: "下列措施中，为了减小摩擦的是（   ）",
+  },
+  "2a7f24d47ba6d9ba6199ca3bb1f6d0c0": {
+    stem: "豌豆的紫花和白花是一对相对性状，这对相对性状由等位基因A，a控制。下表是豌豆花色的三个组合的遗传实验结果。请分析回答：\n组合 亲本表现型 F1的表现型和植株数目\n紫花 白花\n一 紫花×白花 405 411\n二 紫花×白花 807 0\n三 紫花×紫花 1240 413\n（1）根据组合二和组合三能判断出______是显性性状。组合一中亲本紫花和白花的基因型分别为______和______，该组合的杂交方式在遗传学上称为______。\n（2）组合三的F1显性类型植株中，杂合子所占比例为______。若取组合二中的F1紫花植株与组合三中的F1紫花植株杂交，后代出现白花植株的概率为______。\n（3）组合三中，F1出现紫花与白花性状分离比约为3∶1的主要原因是______。\n（4）19世纪，人们普遍认为双亲的遗传物质混合后，子代的性状介于双亲之间，即“融合遗传”。如果按照融合遗传的观点，组合二中F1的性状表现应该是介于紫花和白花之间的粉花，这与实验结果不符。孟德尔的实验结果为什么会否定融合遗传？",
+    answer: "（1）紫花；Aa；aa；测交；（2）$$\\dfrac{2}{3}$$；$$\\dfrac{1}{6}$$；（3）F1紫花植株产生两种数量相等的配子，受精时雌雄配子随机结合；（4）遵循孟德尔遗传定律，性状由遗传因子（基因）控制，不会因杂交而融合消失",
+  },
 }));
 
 const TRAILING_STRIPPED_BLANK_RE = /\s+((?:厘米|米|分米|毫米|千米|平方厘米|平方米|平方分米|公顷|立方厘米|立方分米|立方米|升|毫升|克|千克|吨|秒|分|小时|时|天|元|角|度|°|′|″|个|只|条|次|倍|人|件|箱|棵|本|支|辆|架|种|项|号|象限角|条件)?\s*[.．。])$/;
 
-const LEADING_STEM_HEADER_RE = /^(?:[（(]\s*(?:\d{4}\s*[•·．.]\s*[^）)\d]{1,20}|[\d.]+分|[一二三四五六七八九十]+)\s*[)）]\s*|【[^】]{2,15}】\s*|\d{1,2}\s*[.．、]\s*(?=[（(【\u4e00-\u9fa5A-Za-z]))+/;
+const LEADING_STEM_HEADER_RE = /^(?:[（(]\s*(?:\d{4}\s*[^）)\n]{0,10}?[•·．.]\s*[^）)\d]{0,20}|[\d.]+分|[一二三四五六七八九十]+)\s*[)）]\s*|分[）)]\s*|【[^】]{2,15}】\s*|\d{1,2}\s*[.．、]\s*(?=[（(【\u4e00-\u9fa5A-Za-z]))+/;
 
-const TRAILING_NEXT_QUESTION_IN_SOLUTION_RE = /\s+(?:(?:\d{1,2}|[一二三四五六七八九十]+)\s*[.．、]\s*)?[（(]\s*(?:\d{4}\s*[•·．.]|\d+(?:\.\d+)?\s*分)[^）)]*[)）][^\n]*$/;
+const TRAILING_NEXT_QUESTION_IN_SOLUTION_RE = /\s+(?:(?:\d{1,2}|[一二三四五六七八九十]+)\s*[.．、]\s*)?[（(]\s*(?:\d{4}\s*[^）)\n]{0,10}?[•·．.]|\d+(?:\.\d+)?\s*分)[^）)]*[)）][^\n]*$/;
 
 function stripWave6ScoreRubrics(s) {
   return String(s ?? "")
@@ -1587,14 +1658,133 @@ function splitUnbalancedBlock(b) {
   return null;
 }
 
+function fixBeginCasesOverset(str) {
+  if (!str || !str.includes("\\overset{") || !str.includes("\\begin{cases}")) return str;
+  function unwrapOverset(s) {
+    const trimmed = s.trim();
+    if (!trimmed.startsWith("\\overset{")) return trimmed;
+    const inner = trimmed.slice("\\overset{".length);
+    let depth = 1;
+    let i = 0;
+    while (i < inner.length && depth > 0) {
+      if (inner[i] === "\\" && i + 1 < inner.length) {
+        i += 2;
+        continue;
+      }
+      if (inner[i] === "{") depth++;
+      else if (inner[i] === "}") depth--;
+      i++;
+    }
+    if (depth !== 0) return s;
+    const firstArg = inner.slice(0, i - 1).trim();
+    const rest = inner.slice(i).trim();
+    if (!rest.startsWith("{")) return s;
+    depth = 1;
+    i = 1;
+    while (i < rest.length && depth > 0) {
+      if (rest[i] === "\\" && i + 1 < rest.length) {
+        i += 2;
+        continue;
+      }
+      if (rest[i] === "{") depth++;
+      else if (rest[i] === "}") depth--;
+      i++;
+    }
+    if (depth !== 0) return s;
+    const secondArg = rest.slice(1, i - 1).trim();
+    const tail = rest.slice(i).trim();
+    if (tail) return `${unwrapOverset(firstArg)} \\\\ ${unwrapOverset(secondArg)} ${tail}`;
+    return `${unwrapOverset(firstArg)} \\\\ ${unwrapOverset(secondArg)}`;
+  }
+  return str.replace(/\\begin\{cases\}([\s\S]*?)\\end\{cases\}/gu, (m, body) => {
+    if (!body.includes("\\overset{")) return m;
+    return `\\begin{cases} ${unwrapOverset(body)} \\end{cases}`;
+  });
+}
+
+function splitTrappedCircledNumbers(str, blankRepl) {
+  let s = String(str ?? "");
+  if (!/[①-⑳]/u.test(s)) return s;
+  return s.replace(/\$\$([\s\S]*?)\$\$/gu, (m, body) => {
+    if (!/[①-⑳]/u.test(body)) return m;
+    const casesTail = body.match(
+      /^([\s\S]*?(?:\\end\{cases\}|\\end\{array\}\s*\\right\.))\s*([①-⑳∵∴\\][\s\S]*)$/u,
+    );
+    if (casesTail) {
+      const head = casesTail[1].trim();
+      const tail = casesTail[2]
+        .trim()
+        .replace(/\\left\s*\(\s*\{\s*([①-⑳])\s*\{\s*\\rm\{\s*\+\s*\}\s*\}\s*([①-⑳])\s*\}\s*\\right\s*\)/gu, "($1+$2)");
+      return `$$${head}$$ ${tail}`;
+    }
+    if (/\\begin\{|\\xlongequal|\\xrightarrow|\\(?:d|t)?frac\{\s*[①-⑳]|[_^]\s*\{?\s*[①-⑳]/u.test(body)) return m;
+    let leadPrefix = "";
+    let b = body;
+    const leadBlank = b.match(
+      /^\s*(?:\\rm\{|\{\\rm\s*|\\rm\s*)?(?:\(\s*(?:\\quad|\\qquad|\\rm|\s)*\)|\(\s*\}\s*\\rm\{\s*\))\s*(?:\}\s*)?([\s\S]*)$/u,
+    );
+    if (leadBlank && /^(?:\\rm\{|\\text\{|\{)?\s*[①-⑳]/u.test(leadBlank[1].trim())) {
+      leadPrefix = `${blankRepl} `;
+      b = leadBlank[1].trim();
+    }
+    const pureCircled = b.match(/^(?:\\rm\{|\{\\rm\s*|\\text\{)?[\s{}]*([①-⑳]+(?:\s*[①-⑳]+)*)[\s{}]*$/u);
+    if (pureCircled) {
+      return `${leadPrefix}${pureCircled[1]} `;
+    }
+    b = b
+      .replace(/\\(?:rm|text)\{\s*([①-⑳]+)\s*\}/gu, "$1")
+      .replace(/\{\s*([①-⑳]+)\s*\}/gu, "$1");
+    let wrapRm = false;
+    const rmMatch = b.trim().match(/^\\rm\{([\s\S]*)\}$/u);
+    if (rmMatch) {
+      wrapRm = true;
+      b = rmMatch[1].replace(/\}\s*\\rm\{/gu, "");
+    }
+    const parts = b.split(/([①-⑳]+)/gu);
+    if (parts.length <= 1) return m;
+    const joined = parts
+      .map((part, idx) => {
+        if (idx % 2 === 1) return ` ${part} `;
+        const cleaned = part
+          .replace(/\\rm\{\s*\}/gu, "")
+          .replace(/^\s*\}\s*\\rm\{\s*/gu, "")
+          .replace(/^\s*\\rm\{([\s\S]*)\}\s*$/u, "$1")
+          .replace(/(?:…|\.\.\.|\\dots|\\cdots)+\s*$/gu, "")
+          .trim();
+        if (!cleaned) return "";
+        if (/^[,，;；.．。:：、]+$/u.test(cleaned)) return cleaned;
+        let trailPunct = "";
+        let core = cleaned;
+        const pm = core.match(/^([\s\S]+?)([,，;；.．。:：])$/u);
+        if (pm) {
+          core = pm[1].trim();
+          trailPunct = pm[2];
+        }
+        if (!core) return trailPunct;
+        return (wrapRm ? `$$\\rm{${core}}$$` : `$$${core}$$`) + trailPunct;
+      })
+      .join("");
+    return `${leadPrefix}${joined}`;
+  });
+}
+
 function splitTrappedSubquestions(str, blankRepl) {
   let s = String(str ?? "");
   if (!/\(1\)|（1）/.test(s)) return s;
-  s = s.replace(/\$\$\s*\(\s*\)\s*(\([1-9]\d*\))\s*\$\$/gu, `${blankRepl} $1 `);
-  s = s.replace(/\$\$\s*\(\s*\)\s*(\([1-9]\d*\))\s*/gu, `${blankRepl} $1 $$$$`);
-  s = s.replace(/\$\$\s*((?:\([1-9]\d*\)\s*)+)\$\$/gu, " $1 ");
   s = s.replace(/\$\$([\s\S]*?)\$\$/gu, (m, body) => {
-    let b = body
+    let leadPrefix = "";
+    let b = body;
+    const leadBlankSubq = b.match(/^\s*\(\s*\)\s*(\([1-9]\d*\))\s*([\s\S]*)$/u);
+    if (leadBlankSubq) {
+      leadPrefix = `${blankRepl} ${leadBlankSubq[1]} `;
+      b = leadBlankSubq[2].trim();
+      if (!b) return leadPrefix;
+    }
+    const pureSubqSeq = b.match(/^\s*((?:\([1-9]\d*\)\s*)+)$/u);
+    if (pureSubqSeq) {
+      return `${leadPrefix} ${pureSubqSeq[1]} `;
+    }
+    b = b
       .replace(/\\rm\{\s*\}/gu, "")
       .replace(/\\rm\{\s*(\([1-9]\d*\))\s*\}/gu, "$1")
       .replace(/\\rm\{\s*(\([1-9]\d*\))\s*/gu, "$1\\rm{")
@@ -1644,21 +1834,34 @@ function splitTrappedSubquestions(str, blankRepl) {
       }
       cur += ch;
     }
-    if (tokens.length === 0) return m;
+    if (tokens.length === 0) return leadPrefix ? `${leadPrefix}$$${b}$$` : m;
     tokens.push({ type: "math", text: cur });
-    return tokens
-      .map((t) => {
-        if (t.type === "subq") return ` ${t.text} `;
-        const cleaned = t.text.replace(/\\rm\{\s*\}/gu, "").trim();
-        return cleaned ? `$$${cleaned}$$` : "";
-      })
-      .join("");
+    return (
+      leadPrefix +
+      tokens
+        .map((t) => {
+          if (t.type === "subq") return ` ${t.text} `;
+          const cleaned = t.text.replace(/\\rm\{\s*\}/gu, "").trim();
+          return cleaned ? `$$${cleaned}$$` : "";
+        })
+        .join("")
+    );
   });
   return s;
 }
 
 function cleanStemMathBoundariesOnce(str, isChoice) {
-  let s = stripWave6ScoreRubrics(str);
+  let s = fixBeginCasesOverset(stripWave6ScoreRubrics(str))
+    .replace(/\u2061/gu, "")
+    .replace(/\(\u3164+\)/gu, "(\\quad)")
+    .replace(/\u3164+/gu, " ")
+    .replace(/\$\$\s*\\rm\s*\$\$/gu, "")
+    .replace(/(?<!\$)\$\\rm\{C\(\\text\{石墨, s\}\)=C\(\\text\{金刚石, s\}\)\}\$+/gu, () => "$$\\rm{C(\\text{石墨, s})=C(\\text{金刚石, s})}$$ $$")
+    .replace(/\$\$\\rm\{\[V\}\$\$\(正\$+\\rm\{\)(=|\\neq\s*)V\(\\text\{逆\}\)\]\$+/gu, (_, op) => `$$\\rm{[V(\\text{正})${op}V(\\text{逆})]}$$`)
+    .replace(/(?<!\$)\$([^$\n]+?)\$(?!\$)/gu, (_, body) => `$$${body}$$`)
+    .replace(/\\begin\{cases\}c=2\$\$\$a×\{2\}\^\{2\}\+b×2=0\s*\\\\\s*a×\{1\}\^\{2\}\+b×1\+c=3\\end\{cases\}/gu, () => "\\begin{cases} c=2 \\\\ a\\times 2^{2}+b\\times 2=0 \\\\ a\\times 1^{2}+b\\times 1+c=3 \\end{cases}")
+    .replace(/\$\$\$\$/gu, () => "$$ $$")
+    .replace(/(?<!\$)\$\$\$(?!\$)/gu, () => "$$");
   const blankRepl = isChoice ? "（ ）" : "（______）";
 
   // Pre-merge math blocks split across horizontal ellipsis and adjacent {\rm ...}{\rm ...} blocks
@@ -1674,27 +1877,27 @@ function cleanStemMathBoundariesOnce(str, isChoice) {
     .replace(/\\dfrac\s*\{2\(1\+i\)\}\{\(1-i\)1\+i\)\}/gu, "\\dfrac{2(1+i)}{(1-i)(1+i)}")
     .replace(/P\(X=1\)\+P\(X=2\)\)/gu, "P(X=1)+P(X=2)")
     .replace(/\[m\+1\)\+\(n\+1\)\]/gu, "[(m+1)+(n+1)]")
-    .replace(/\$\$\\rm\{V\}\$\$\(正\$\$\\rm\{\)\s*>\s*V\(\}\$\$逆\)/gu, "$$\\rm{v(\\text{正}) > v(\\text{逆})}$$")
+    .replace(/\$\$\\rm\{V\}\$\$\(正\$\$\\rm\{\)\s*>\s*V\(\}\$\$逆\)/gu, () => "$$\\rm{v(\\text{正}) > v(\\text{逆})}$$")
     .replace(
       /\$\$\{\\rm\s*C\}\$\$\(石墨，\$\$\{\\rm\s*s\)=C\(\}\$\$金刚石，\$\$\{\\rm\s*s\}\$\$\)/gu,
-      "$$\\rm{C(\\text{石墨, s})=C(\\text{金刚石, s})}$$",
+      () => "$$\\rm{C(\\text{石墨, s})=C(\\text{金刚石, s})}$$",
     )
-    .replace(/\(\$\$m\$\$\s*，\s*\$\$3m\)=\([−-]4\$\$，\s*\$\$[−-]12\$\$\)/gu, "$$(m,3m)=(-4,-12)$$")
-    .replace(/\(\$\$n\$\$\s*，\s*\$\$3n\)=\(0\$\$，\s*\$\$3×0\)=\(0\$\$，\s*\$\$0\$\$\)/gu, "$$(n,3n)=(0,3\\times 0)=(0,0)$$")
-    .replace(/\(Ⅱ\$\$\)A\(-2\$\$，\$\$0\$\$\)/gu, "(Ⅱ) $$A(-2,0)$$")
-    .replace(/\$\$\\left\(\\dfrac\{\\sqrt\{2\}\}\{2\}\$\$，\$\$\+∞\$\$\)/gu, "$$\\left(\\dfrac{\\sqrt{2}}{2},+\\infty\\right)$$")
+    .replace(/\(\$\$m\$\$\s*，\s*\$\$3m\)=\([−-]4\$\$，\s*\$\$[−-]12\$\$\)/gu, () => "$$(m,3m)=(-4,-12)$$")
+    .replace(/\(\$\$n\$\$\s*，\s*\$\$3n\)=\(0\$\$，\s*\$\$3×0\)=\(0\$\$，\s*\$\$0\$\$\)/gu, () => "$$(n,3n)=(0,3\\times 0)=(0,0)$$")
+    .replace(/\(Ⅱ\$\$\)A\(-2\$\$，\$\$0\$\$\)/gu, () => "(Ⅱ) $$A(-2,0)$$")
+    .replace(/\$\$\\left\(\\dfrac\{\\sqrt\{2\}\}\{2\}\$\$，\$\$\+∞\$\$\)/gu, () => "$$\\left(\\dfrac{\\sqrt{2}}{2},+\\infty\\right)$$")
     .replace(/(\$\$\(-∞,0\]∪\(\s*\\dfrac\s*\{\s*\\sqrt\s*\{2\}\}\{2\})\$\$，\$\$\+∞\$\$\)/gu, "$1,+\\infty)$$$$")
-    .replace(/\$\$x∈-1,2\]\$\$/gu, "$$x\\in[-1,2]$$")
+    .replace(/\$\$x∈-1,2\]\$\$/gu, () => "$$x\\in[-1,2]$$")
     .replace(/\\right\(\\quad\s*\\quad\$\$\)/gu, "\\right.$$$$");
 
   // Merge equation-internal (浓)/(稀)/(正)/(逆) inside chemical equations
   s = s.replace(
     /\$\$\\rm\{([A-Za-z0-9_{}+\-=·.\s\[\]]+)\(\}\$\$([\u4e00-\u9fa5]{1,4})\$\$\\rm\{\)([A-Za-z0-9_{}+\-=·.\s↑↓\[\]]+)\}\$\$/gu,
-    "$$\\rm{$1(\\text{$2})$3}$$",
+    (_, a, b, c) => `$$\\rm{${a}(\\text{${b}})${c}}$$`,
   );
   s = s.replace(
     /\$\$\\rm\{([A-Za-z0-9_{}+\-=·.\s\[\]\\text()]+)\(\}\$\$([\u4e00-\u9fa5]{1,4})\$\$\\rm\{\)([A-Za-z0-9_{}+\-=·.\s↑↓\[\]]+)\}\$\$/gu,
-    "$$\\rm{$1(\\text{$2})$3}$$",
+    (_, a, b, c) => `$$\\rm{${a}(\\text{${b}})${c}}$$`,
   );
 
   const pureBlank =
@@ -1729,6 +1932,7 @@ function cleanStemMathBoundariesOnce(str, isChoice) {
     "$$$$$1$$$$ $2 ",
   );
   s = splitTrappedSubquestions(s, blankRepl);
+  s = splitTrappedCircledNumbers(s, blankRepl);
 
   s = s.replace(/\$\$([\s\S]*?)\$\$/gu, (m, body) => {
     if (pureBlank.test(body.trim())) return blankRepl;
@@ -1955,6 +2159,12 @@ function fixStemXuanTian(str) {
 
 function cleanDoubledChinesePunct(str) {
   return str
+    .replace(/解：\.17平方分米/gu, "解：0.17平方分米")
+    .replace(/([，、])\.{3,}([，、])/gu, "$1……$2")
+    .replace(/\.{3,}([，。；：、！？])/gu, "……$1")
+    .replace(/([。！？])[,;.:]/gu, "$1")
+    .replace(/([，、；：])[,;.:]/gu, "$1")
+    .replace(/[,;.:]([，。；：、！？])/gu, "$1")
     .replace(/([，。；、：？！])\1+/gu, "$1")
     .replace(/，、|、，/gu, "、")
     .replace(/，。/gu, "。")
@@ -1974,11 +2184,96 @@ function cleanDoubledChinesePunct(str) {
 function cleanWave6StemText(str) {
   if (!str) return "";
   let s = String(str)
+    .replace(/\u2061/gu, "")
+    .replace(/\(\u3164+\)/gu, "(\\quad)")
+    .replace(/\u3164+/gu, " ")
+    .replace(/[Ａ-Ｚａ-ｚ０-９]/gu, (ch) => String.fromCharCode(ch.charCodeAt(0) - 0xfee0))
+    .replace(/\$\$\s*\\rm\s*\$\$/gu, "")
     .replace(/\u30fb/gu, "·")
     .replace(/［解答］\s*/gu, "")
     .replace(/(\([1-9]\d*\))\s+\1\b/gu, "$1")
     .replace(/\.:\s*$/gu, ".")
-    .replace(/\$\$:\s*$/gu, "$$$$")
+    .replace(/\$\$:\s*$/gu, () => "$$")
+    // Wave 7 single-$ and $$$ repairs
+    .replace(/通过\$I_\{2\}\$的电流/gu, () => "通过$$I_{2}$$的电流")
+    .replace(/\$N_2\$/gu, () => "$$\\rm{N_2}$$")
+    .replace(/\$NH_3\$/gu, () => "$$\\rm{NH_3}$$")
+    .replace(/(?<!\$)\$([^$\n]+?)\$(?!\$)/gu, (_, body) => `$$${body}$$`)
+    .replace(/\\begin\{cases\}c=2\$\$\$a×\{2\}\^\{2\}\+b×2=0\s*\\\\\s*a×\{1\}\^\{2\}\+b×1\+c=3\\end\{cases\}/gu, () => "\\begin{cases} c=2 \\\\ a\\times 2^{2}+b\\times 2=0 \\\\ a\\times 1^{2}+b\\times 1+c=3 \\end{cases}")
+    .replace(/\$\$\$\$/gu, () => "$$ $$")
+    .replace(/(?<!\$)\$\$\$(?!\$)/gu, () => "$$")
+    // Wave 7 fraction-blank ratio repairs
+    .replace(/35\$\$：\$\$50/gu, "35:50")
+    .replace(/=9\$\$：\$\$3/gu, "=9:24")
+    .replace(/12\$\$：\$\$16/gu, "12:16")
+    .replace(/4\$\$：\$\$10/gu, "4:10")
+    .replace(/4\$\$：\$\$20/gu, "4:20")
+    .replace(/9\$\$：\$\$12/gu, "9:12")
+    .replace(/=\\dfrac\{18\}\{\(______\)\}=\s*/gu, () => "=\\dfrac{18}{(\\quad)}=")
+    .replace(/\$\$\\(?:d|t)?frac\{\s*([①-⑳])\s*\}\{\s*([①-⑳])\s*\}\$\$/gu, "$1÷$2")
+    .replace(/\$\$\\dfrac\$\$\s*([①-⑳])([①-⑳])\s*/gu, "$1÷$2")
+    // Wave 7 merged 故答案为 math blocks
+    .replace(/故答案为：\$\$8\.\(\\dfrac\{1\}\{5\}\+\\dfrac\{1\}\{3\}\)×15\$\$/gu, () => "故答案为：$$8$$．$$(\\dfrac{1}{5}+\\dfrac{1}{3})×15$$")
+    .replace(/故答案为：\$\$56\.10000\+10000×2\.75\\%×3\$\$/gu, () => "故答案为：$$56$$．$$10000+10000×2.75\\%×3$$")
+    .replace(/故答案为：\$\$120\.120×\(1-45\\%\)\$\$/gu, () => "故答案为：$$120$$．$$120×(1-45\\%)$$")
+    .replace(/故答案为：\$\$105\.240×\\dfrac\{5\}\{8\}=150\$\$\(/gu, () => "故答案为：$$105$$．$$240×\\dfrac{5}{8}=150$$(")
+    .replace(/故答案为：\$\$125\.60-48=12\$\$\(/gu, () => "故答案为：$$125$$．$$60-48=12$$(")
+    .replace(/故答案为：\$\$25％\.180×\(1-10％\)\$\$/gu, () => "故答案为：$$25\\%$$．$$180×(1-10\\%)$$")
+    .replace(/故答案为：\$\$×\.20÷\(100\+20\)\$\$/gu, () => "故答案为：×．$$20÷(100+20)$$")
+    .replace(/故答案为：\$\$60％\.8-5=3\$\$\(/gu, () => "故答案为：$$60\\%$$．$$8-5=3$$(")
+    .replace(/故答案为：\$\$x-5\\leqslant 2xx\$\$/gu, () => "故答案为：$$x-5\\leqslant 2x$$．$$x$$")
+    .replace(/故答案为：\$\$264α\$\$/gu, () => "故答案为：$$264$$．$$α$$")
+    .replace(/故答案为：①③④①/gu, "故答案为：①③④．①")
+    .replace(/故答案为：\$\$-3\.\\left\|-3 \\right\|=3\$\$/gu, () => "故答案为：$$-3$$．$$\\left|-3 \\right|=3$$")
+    .replace(/故答案为：\$\$9\.9 > \\sqrt\{65\} > 8\$\$/gu, () => "故答案为：$$9$$．$$9 > \\sqrt{65} > 8$$")
+    .replace(/故答案为：\$\$6101\.S_\{2017\}=\$\$/gu, () => "故答案为：$$6101$$．$$S_{2017}=$$")
+    .replace(/故答案为：\$\$-6\.a_\{1\}\+a_\{2\}\+a_\{3\}=15\$\$/gu, () => "故答案为：$$-6$$．$$a_{1}+a_{2}+a_{3}=15$$")
+    .replace(/故答案为：\$\$3\.f\(x\)=x\\ln x\$\$/gu, () => "故答案为：$$3$$．$$f(x)=x\\ln x$$")
+    .replace(/故答案为：\$\$0\.80\.8×10\^\{3\}\$\$/gu, () => "故答案为：$$0.8$$；$$0.8×10^{3}$$")
+    .replace(/故答案为：\$\$1212\$\$/gu, () => "故答案为：$$12$$；$$12$$")
+    .replace(/故答案为：\$\$910\.42\$\$/gu, () => "故答案为：$$9$$；$$10.42$$")
+    .replace(/故答案为：\$\$33\$\$/gu, () => "故答案为：$$3$$；$$3$$")
+    // Wave 7 glued equations inside $$...$$
+    .replace(/\$\$18÷6=318\$\$/gu, () => "$$18÷6=3$$，$$18$$")
+    .replace(/\$\$4\+1=510÷5=2\$\$/gu, () => "$$4+1=5$$，$$10÷5=2$$")
+    .replace(/\(1\)\$\$\\dfrac\{7\}\{2\}÷\\dfrac\{9\}\{8\}=\\dfrac\{7\}\{2\}×\\dfrac\{8\}\{9\}=\\dfrac\{28\}\{9\}\$\$ \(2\) \$\$\\dfrac\{28\}\{9\}÷\\dfrac\{14\}\{3\}=\\dfrac\{28\}\{9\}×\\dfrac\{3\}\{14\}=\\dfrac\{2\}\{3\}\$\$/gu, () => "(1) $$\\dfrac{7}{2}÷\\dfrac{9}{8}=\\dfrac{7}{2}×\\dfrac{8}{9}=\\dfrac{28}{9}$$；(2) $$\\dfrac{28}{9}÷\\dfrac{14}{3}=\\dfrac{28}{9}×\\dfrac{3}{14}=\\dfrac{2}{3}$$")
+    .replace(/\$\$-3x\^\{2\}-x-2=0a=-3\$\$/gu, () => "$$-3x^{2}-x-2=0$$，$$a=-3$$")
+    .replace(/\$\$x-2=-1x=1\$\$/gu, () => "$$x-2=-1$$，$$x=1$$")
+    .replace(/\$\$8=1\+728=1\+27\$\$/gu, () => "$$8=1+7$$，$$28=1+27$$")
+    .replace(/\$\$12\^\{2\}=14413\^\{2\}=169\$\$/gu, () => "$$12^{2}=144$$，$$13^{2}=169$$")
+    .replace(/\$\$\\angle B=50\^\{\\circ\}\\angle C=70\^\{\\circ\}\$\$/gu, () => "$$\\angle B=50^{\\circ}$$，$$\\angle C=70^{\\circ}$$")
+    .replace(/\$\$13\^\{2\}-11\^\{2\}=8×615\^\{2\}-13\^\{2\}=8×7\$\$/gu, () => "$$13^{2}-11^{2}=8×6$$，$$15^{2}-13^{2}=8×7$$")
+    .replace(/\$\$AD=2CD=1\$\$/gu, () => "$$AD=2$$，$$CD=1$$")
+    .replace(/\$\$AC=4BC=3\$\$/gu, () => "$$AC=4$$，$$BC=3$$")
+    .replace(/\$\$AD=3AM=1\$\$/gu, () => "$$AD=3$$，$$AM=1$$")
+    .replace(/\$\$AB=2AC=1\$\$/gu, () => "$$AB=2$$，$$AC=1$$")
+    .replace(/\$\$a_\{1\}=1a_\{n\+1\}=2a_\{n\}\+1\$\$/gu, () => "$$a_{1}=1$$，$$a_{n+1}=2a_{n}+1$$")
+    .replace(/\$\$t_\{1\}=25℃t_\{2\}=75℃\$\$/gu, () => "$$t_{1}=25℃$$，$$t_{2}=75℃$$")
+    .replace(/\$\$\(c_\{水\}=4\.2×10\^\{3\}J\/\(kg⋅℃\)q_\{天然气\}=4\.2×10\^\{7\}J\/m\^\{3\}\)\$\$/gu, () => "$$[c_{水}=4.2×10^{3}\\text{ J/(kg}\\cdot℃\\text{)}$$，$$q_{天然气}=4.2×10^{7}\\text{ J/m}^{3}]$$")
+    .replace(/\$\$\(q_\{天然气\}=3\.2×10\^\{7\}J\/m\^\{3\}c_\{水\}=4\.2×10\^\{3\}J\/\(kg⋅℃\)\)\$\$/gu, () => "$$[q_{天然气}=3.2×10^{7}\\text{ J/m}^{3}$$，$$c_{水}=4.2×10^{3}\\text{ J/(kg}\\cdot℃\\text{)}]$$")
+    .replace(/\$\$ρ_\{酒精\}=0\.8×10\^\{3\}kg\/m\^\{3\}g\$\$/gu, () => "$$ρ_{酒精}=0.8×10^{3}\\text{ kg/m}^{3}$$，$$g$$")
+    .replace(/\$\$\(c_\{水\}=4\.2×10\^\{3\}J\/\(kg⋅℃\)ρ_\{水\}=1\.0×10\^\{3\}kg\/m\^\{3\}\)\$\$/gu, () => "$$[c_{水}=4.2×10^{3}\\text{ J/(kg}\\cdot℃\\text{)}$$，$$ρ_{水}=1.0×10^{3}\\text{ kg/m}^{3}]$$")
+    .replace(/\$\$\(ρ_\{水\}=1\.0×10\^\{3\}kg\/m\^\{3\}g=10N\/kg\)\$\$/gu, () => "$$(\\rho_{水}=1.0×10^{3}\\text{ kg/m}^{3}$$，$$g=10\\text{ N/kg})$$")
+    .replace(/\$\$\(\{R\}_\{0\}=10Ω\{R\}_\{1\}\$\$/gu, () => "$$(R_{0}=10\\ \\Omega$$，$$R_{1}$$")
+    .replace(/\$\$q_\{焦炭\}=3\.0×10\^\{7\}J\/kgc_\{水\}=4\.2×10\^\{3\}J\/\(kg⋅℃\)\$\$/gu, () => "$$q_{焦炭}=3.0×10^{7}\\text{ J/kg}$$，$$c_{水}=4.2×10^{3}\\text{ J/(kg}\\cdot℃\\text{)}$$")
+    .replace(/\$\$\(c_\{水\}=4\.2×10\^\{3\}J\/\(kg⋅℃\)q_\{酒精\}=3\.0×10\^\{7\}J\/kg\)\$\$/gu, () => "$$[c_{水}=4.2×10^{3}\\text{ J/(kg}\\cdot℃\\text{)}$$，$$q_{酒精}=3.0×10^{7}\\text{ J/kg}]$$")
+    .replace(/\$\$\\rm\{a\.NO_\{2\}b\.N_\{2\}c\.CO_\{2\}\}\$\$/gu, () => "a. $$\\rm{NO_{2}}$$ b. $$\\rm{N_{2}}$$ c. $$\\rm{CO_{2}}$$")
+    .replace(/\$\$\\rm\{a\.Cr_\{2\}O_\{7\}\^\{2-\}b\.Pb\^\{2\+\}c\.Ca\^\{2\+\}\}\$\$/gu, () => "a. $$\\rm{Cr_{2}O_{7}^{2-}}$$ b. $$\\rm{Pb^{2+}}$$ c. $$\\rm{Ca^{2+}}$$")
+    .replace(/\$\$\[-2\.1\]\+5=\$\$--\$\$3\+5=2\$\$/gu, () => "$$[-2.1]+5=-3+5=2$$")
+    // Wave 7 stray blank / missing blank fixes
+    .replace(/满足了世界近______\$\$\\frac \{ 1 \} \{ 5 \}\$\$/gu, () => "满足了世界近$$\\frac { 1 } { 5 }$$")
+    .replace(/则\$\$\{\{S\}_\{100\}\} =\$\$(?!_)/gu, () => "则$${{S}_{100}} =$$______")
+    .replace(/_\?_/gu, "?")
+    .replace(/\(1\)______。/gu, "(1)")
+    .replace(/______\n\(1\)/gu, "\n(1)")
+    .replace(/④化学性质______硫是一种淡黄色固体/gu, "④化学性质\n硫是一种淡黄色固体")
+    .replace(/请你举出生活中的一项具体措施．/gu, "请你举出生活中的一项具体措施：______．")
+    .replace(/同时生成氯化钾：______阅读上述文字后/gu, "同时生成氯化钾．阅读上述文字后")
+    .replace(/（10）二氧化硫______属于混合物的是/gu, "（10）二氧化硫\n属于混合物的是")
+    .replace(/她设计并完成了下列探究：______实验一：/gu, "她设计并完成了下列探究：\n实验一：")
+    .replace(/利用“实验三”反应后试管内______的剩余物继续实验/gu, "利用“实验三”反应后试管内的剩余物继续实验")
+    .replace(/比较红砖粉在过氧化氢分解前后的质量是否改变；-；/gu, "比较红砖粉在过氧化氢分解前后的质量是否改变；")
+    .replace(/\(2\)比较C和D的氢化物\(用分子式表示\)：______稳定性 >______，水溶液的酸性 > \(3\)用电子式表示化合物BD的形成过程(?!：)/gu, "(2)比较C和D的氢化物(用分子式表示)：稳定性______ > ______，水溶液的酸性______ > ______。(3)用电子式表示化合物BD的形成过程：______。")
     .replace(/f\{\{"\}\}\(x\)/gu, "f'(x)")
     .replace(/e\^\{x\}f\(x\) > e\^\{x\}\+5/gu, "e^{x}f(x) > e^{x}-1")
     .replace(/g\(0\)=e\^\{0\}f\(0\)-e\^\{0\}=6-1=5/gu, "g(0)=e^{0}f(0)-e^{0}=0-1=-1")
@@ -1996,10 +2291,10 @@ function cleanWave6StemText(str) {
     .replace(/\bI1\b/gu, "I_{1}")
     .replace(/画l00条/gu, "画100条")
     .replace(/l00Ω/gu, "100Ω")
-    .replace(/\$\$l0N\$\$/gu, "$$10N$$")
+    .replace(/\$\$l0N\$\$/gu, () => "$$10N$$")
     .replace(/(?<![A-Za-z\\])l0\^\{([0-9]+)\}/gu, "10^{$1}")
-    .replace(/\$\$l0min\$\$/gu, "$$10min$$")
-    .replace(/\$\$g=l0m\/s\^\{2\}\$\$/gu, "$$g=10m/s^{2}$$")
+    .replace(/\$\$l0min\$\$/gu, () => "$$10min$$")
+    .replace(/\$\$g=l0m\/s\^\{2\}\$\$/gu, () => "$$g=10m/s^{2}$$")
     .replace(/加人/gu, "加入")
     .replace(/放人/gu, "放入")
     .replace(/通人/gu, "通入")
@@ -2014,18 +2309,18 @@ function cleanWave6StemText(str) {
     .replace(/^“实际产量是计划的115%，/gu, "“实际产量是计划的115%”，")
     .replace(/正好是(?<!“)乒坛小将”/gu, "正好是“乒坛小将”")
     .replace(/改成用(?<!“)万”作单位/gu, "改成用“万”作单位")
-    .replace(/“第一根先截去全长的\$\$\\dfrac\{1\}\{5\}\$\$(?!\u201d)，/gu, "“第一根先截去全长的$$\\dfrac{1}{5}$$”，")
-    .replace(/^六\$\$\\boldsymbol\{[⋅·]\}\$\$一”儿童节/gu, "“六$$\\boldsymbol{·}$$一”儿童节")
+    .replace(/“第一根先截去全长的\$\$\\dfrac\{1\}\{5\}\$\$(?!\u201d)，/gu, () => "“第一根先截去全长的$$\\dfrac{1}{5}$$”，")
+    .replace(/^六\$\$\\boldsymbol\{[⋅·]\}\$\$一”儿童节/gu, () => "“六$$\\boldsymbol{·}$$一”儿童节")
     .replace(/打出“九折酬宾(?!\u201d)，/gu, "打出“九折酬宾”，")
     .replace(/由(?<!“)上加下减”的原则/gu, "由“上加下减”的原则")
     .replace(/少做了500个(?!\u201d)，请你帮忙算一下小福贵第一天做了多少个面包？/gu, "少做了500个。”请你帮忙算一下小福贵第一天做了多少个面包？")
     .replace(/称此三角形为(?<!“)特异三角形”/gu, "称此三角形为“特异三角形”")
-    .replace(/③若\$\$c\^\{2\}\$\$为“整弦数”，则\$\$c\$\$为正整数”/gu, "③“若$$c^{2}$$为‘整弦数’，则$$c$$为正整数”")
+    .replace(/③若\$\$c\^\{2\}\$\$为“整弦数”，则\$\$c\$\$为正整数”/gu, () => "③“若$$c^{2}$$为‘整弦数’，则$$c$$为正整数”")
     .replace(/解：(?<!“)学习强国”是中共中央宣传部/gu, "解：“学习强国”是中共中央宣传部")
     .replace(/根据题意，(?<!“)盈利6%”记作/gu, "根据题意，“盈利6%”记作")
-    .replace(/解：(?<!“)若\$\$a=b\$\$，则\$\$a\^\{2\}=b\^\{2\}\$\$”的逆命题/gu, "解：“若$$a=b$$，则$$a^{2}=b^{2}$$”的逆命题")
-    .replace(/②若“\$\$p∨q\$\$(?!\u201d)为真/gu, "②若“$$p∨q$$”为真")
-    .replace(/标有“\$\$3200imp\/\(kw[⋅·]h\)\$\$(?!\u201d)\./gu, "标有“$$3200imp/(kw·h)$$”.")
+    .replace(/解：(?<!“)若\$\$a=b\$\$，则\$\$a\^\{2\}=b\^\{2\}\$\$”的逆命题/gu, () => "解：“若$$a=b$$，则$$a^{2}=b^{2}$$”的逆命题")
+    .replace(/②若“\$\$p∨q\$\$(?!\u201d)为真/gu, () => "②若“$$p∨q$$”为真")
+    .replace(/标有“\$\$3200imp\/\(kw[⋅·]h\)\$\$(?!\u201d)\./gu, () => "标有“$$3200imp/(kw·h)$$”.")
     .replace(/“10A(?!\u201d)表示电能表的标定电流/gu, "“10A”表示电能表的标定电流")
     .replace(/“悦耳动听”是说声音的音色好”/gu, "“悦耳动听”是说声音的音色好")
     .replace(/^净含量 2L”的字样/gu, "“净含量 2L”的字样")
@@ -2123,6 +2418,7 @@ export function applyWave2StemNormalization(question) {
     ),
   )
     .replace(/^答[:：]\s*/u, "")
+    .replace(/[；;]+\s*$/u, "")
     .trim();
 
   // Strip leaked next-question headers and residual bracket section labels in solutions

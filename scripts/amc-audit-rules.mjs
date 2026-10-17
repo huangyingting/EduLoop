@@ -48,6 +48,15 @@ export function hasBalancedBraces(value) {
   return depth === 0;
 }
 
+export function hasBalancedMathBlockBraces(value) {
+  const masked = String(value).replace(/\\\$/gu, "__ESC_DOLLAR__");
+  for (const match of masked.matchAll(/\$\$[\s\S]*?\$\$|\$[^$]*?\$/gu)) {
+    const body = match[0].startsWith("$$") ? match[0].slice(2, -2) : match[0].slice(1, -1);
+    if (!hasBalancedBraces(body)) return false;
+  }
+  return true;
+}
+
 export function hasBalancedEnvironments(value) {
   const text = String(value);
   const begins = [...text.matchAll(/\\begin\{([^{}]+)\}/g)].map((match) => match[1]).sort();
@@ -83,7 +92,7 @@ export function invalidJsonLatexEscapes(value) {
 }
 
 export function hasForbiddenControlCharacter(value) {
-  return /[\u0000-\u0009\u000b-\u001f\u007f\u200b\ufffd]/u.test(String(value));
+  return /[\u0000-\u0009\u000b-\u001f\u007f\u200b-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufffd]/u.test(String(value));
 }
 
 export function hasBareLatexCommand(value) {
@@ -145,7 +154,11 @@ export function contentDamageIssues(value, { solution = false } = {}) {
   if (hasForbiddenControlCharacter(text)) issues.push("forbidden control character");
   if (hasBareLatexCommand(text)) issues.push("LaTeX command missing backslash");
   if (!hasBalancedBraces(text)) issues.push("unbalanced braces");
+  if (!hasBalancedMathBlockBraces(text)) issues.push("unbalanced braces inside math block");
   if (!hasBalancedEnvironments(text)) issues.push("unbalanced environment");
+  if (/\b(?:Image|File):[^\s]+\.(?:png|jpg|jpeg|gif|svg)/iu.test(text)) {
+    issues.push("unconverted MediaWiki image reference");
+  }
   if (OBVIOUS_TEXT_CORRUPTION.some((pattern) => pattern.test(text))) {
     issues.push("obvious text corruption");
   }

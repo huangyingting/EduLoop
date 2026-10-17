@@ -1091,13 +1091,261 @@ export const WAVE5_ITEM_OVERRIDES = {
   },
 };
 
+const WAVE7_CIRCLED = [
+  "①", "②", "③", "④", "⑤", "⑥", "⑦", "⑧", "⑨", "⑩",
+  "⑪", "⑫", "⑬", "⑭", "⑮", "⑯", "⑰", "⑱", "⑲", "⑳",
+];
+
+const WAVE7_ITEM_OVERRIDES = {
+  // 1. Single-$ math and superscript cleanup
+  "8962dc821c7f499525e08f732f766716": (q) => {
+    q.stem = q.stem
+      .replace(/\$\{\{\}\^\{①\}\}\$/gu, "①")
+      .replace(/\$\{\{\}\^\{②\}\}\$/gu, "②")
+      .replace(/\$\{\{\}\^\{③\}\}\$/gu, "③");
+  },
+  "d29b6048d19711d7a567dddd3caebf61": (q) => {
+    q.stem = q.stem
+      .replace(/(?<!\$)\$2\^\{249\}\$(?!\$)/gu, () => "$$2^{249}$$")
+      .replace(/(?<!\$)\$9\.05\\times 10\^\{74\}\$(?!\$)/gu, () => "$$9.05\\times 10^{74}$$")
+      .replace(/(?<!\$)\$2\^\{408\}\$(?!\$)/gu, () => "$$2^{408}$$");
+  },
+
+  // 2. Reading passage paragraph ① normalization (where para 1 was （1） before ②)
+  "652c077278bda8423b369c1e90e0f262": (q) => {
+    q.stem = q.stem.replace(/\n\n（1）\s*“人家说了/u, "\n\n① “人家说了");
+  },
+  "aa9cf73e6afa092173ac6833dc605d0d": (q) => {
+    q.stem = q.stem
+      .replace(/\n\n(?!①)我一直坚定地相信/u, "\n\n①我一直坚定地相信")
+      .replace(/\n\n(?!②)我对与山水有关的诗文和绘画情有独钟。/u, "\n\n②我对与山水有关的诗文和绘画情有独钟。")
+      .replace(
+        /在枫桥边泊船，[\s\S]*?古代将士们的鼾声……\n\n南国山水的温柔秀美/u,
+        "【在枫桥边泊船，在寥落的江枫与稀疏的渔火之中，静听寒山寺钟声，任千古愁绪涌上心头；手持竹杖，穿上草鞋，走上峨眉山，眺望曾经照耀李白衣衫的半轮秋月，那月光是否依旧挂在影影绰绰的树梢？穿越广阔的沙漠，在大漠深处的炊烟和长河尽头浑圆的落日中，倾听那些长眠在战场上的古代将士们的鼾声……】南国山水的温柔秀美",
+      )
+      .replace(/\n\n(?!③)行走在山水之间/u, "\n\n③行走在山水之间")
+      .replace(
+        /因杜甫、范仲淹等人的诗词而名天下。/u,
+        "因杜甫、范仲淹等人的诗词（“杜少陵五言绝唱，范希文两字关情”）而名天下。",
+      )
+      .replace(/\n\n(?!④)“文章是案头的山水/u, "\n\n④“文章是案头的山水")
+      .replace(/一座好山或一条好水，（1）______。畅游好山好水，（2）______。/u, "一座好山或一条好水，①______。畅游好山好水，②______。")
+      .replace(/\n\n(?!⑤)好的山水不只是物质财富/u, "\n\n⑤好的山水不只是物质财富")
+      .replace(/A\.\s*就是一本好书\nB\.\s*犹如欣赏一部传世名著/u, "A. 犹如欣赏一部传世名著\nB. 就是一本好书");
+  },
+
+  // 3. Broken tables & subquestion blank markers
+  "120adfb2b5d340e3e4b3074250385fbf": (q) => {
+    q.stem = q.stem
+      .replace(/\|\s*(?:\n\n)?①\s*\|/u, "| ①______ |")
+      .replace(/\|\s*(?:\n\n)?②\s*\|/u, "| ②______ |")
+      .replace(/\|\s*(?:\n\n)?③\s*\|/u, "| ③______ |");
+    q.answer =
+      "（1）①在木马上加装木轮；②1888年；③前叉控制方向，链条驱动后轮\n（2）两个车轮前后排列，动力来自骑行者自身\n（3）①作比较；②突出自行车设计的优点（如占道空间小，节能环保）\n（4）自行车通过其环保特性，成功缓解了城市的交通和污染问题，并因其能同时满足体育锻炼、节能和环保等多种需求而广受欢迎。";
+  },
+  "b7e51c0b5def5944e0d142fefc219825": (q) => {
+    q.stem = q.stem.replace(
+      /（1）\s*根据文章内容，完成下面的表格。[\s\S]*?(?=\n\n（2）)/u,
+      "（1） 根据文章内容，完成下面的表格。\n时间 | 制作过程\n①______ | 选择糯米\n腊八节后两三天 | ②______\n腊月二十五左右 | ③______\n④______ | 滚汤圆",
+    );
+  },
+  "e9a969641f2b14c30f47de3385636f62": (q) => {
+    q.stem = q.stem.replace(
+      /（3）\s*请梳理本文的论证思路，完成下面的填空。[\s\S]*$/u,
+      "（3） 请梳理本文的论证思路，完成下面的填空。\n①中心论点：______；②第③段：______；③第④段：______；④论证结构：______。",
+    );
+    q.answer =
+      "（1）①引出本文的论题“照镜子”；②激发读者的阅读兴趣\n（2）C\n（3）①做人做事要有所警醒、有所敬畏；②用邹忌讽齐王纳谏的事例论证镜子能为世人提供警醒和思考；③用唐太宗以铜、史、人为鉴的事例论证照镜子能带来治国处事、得失兴替的启示；④层进式（递进式）\n（4）A：放大地看自己；B：缩小地看自己；要客观地“照镜子”\n（5）“许多”表数量多，强调启示的多样性，而文中第⑦段明确指出照镜子带来的启示是“做人做事要有所警醒、有所敬畏”，启示内容是单一明确的，删去“许多”后表意更准确严密，符合议论文语言严密性的特点。";
+  },
+  "cfb15bb0b60dfdfa435f6931e31b688c": (q) => {
+    q.stem = q.stem
+      .replace(/（1）______/u, "①______")
+      .replace(/（2）______/u, "②______")
+      .replace(/[“"]______[”"](?=，更需要)/u, "“③______”")
+      .replace(/（4）______/u, "④______");
+    q.answer = "①瞭；②示例：凝聚磅礴伟力，谱写时代华章；③坚强不屈（百折不挠）；④将“提高”改为“坚定”（或将“信念”改为“觉悟”）";
+  },
+  "ec191655e0bea5a6d9960865415cb78f": (q) => {
+    q.stem = q.stem.replace(/【（3）】(?:______)?/u, "③______");
+  },
+  "83843c2a56a9dd29931e067a8d7df5db": (q) => {
+    q.stem = q.stem
+      .replace(/交代了______，接着/u, "交代了①______，接着")
+      .replace(/“______【②】”“______”/u, "“②______”“③______”");
+    q.answer = "①观沧海的地点；②秋风萧瑟；③洪波涌起";
+    if (q.solutions?.[0]) {
+      q.solutions[0] = q.solutions[0].replace(/汹涌波涛/gu, "洪波涌起");
+    }
+  },
+
+  // 4. Misplaced / extra / adjacent ______ blanks
+  "46f0e2c6a9b116f2ae90b300eef5355b": (q) => {
+    q.stem = q.stem.replace(/______（1）\s*摇【曳】______/u, "（1） 摇【曳】______");
+  },
+  "1b9bd2cd9e990ff612d8ea7fbb83d3b8": (q) => {
+    q.stem = q.stem.replace(/。______$/u, "。");
+    q.answer = "A：武；B：勇；C：仁；D：信";
+  },
+  "88d99c5207cc3385f012000ed35828ed": (q) => {
+    q.stem = q.stem.replace(/。______/gu, "。");
+  },
+  "4bd6fa69a95350d8eeec4acc154979b9": (q) => {
+    q.stem = q.stem.replace(/。______/gu, "。");
+  },
+  "4e9697d2f6a3a822c9af71456924ca52": (q) => {
+    q.stem = q.stem.replace(/。______$/u, "。");
+  },
+  "a61a321ad7bfed3cd938c28a0e17c38e": (q) => {
+    q.stem = q.stem.replace(/。______$/u, "。");
+  },
+  "3af738e9c810a17d091d31b641acadf9": (q) => {
+    q.stem = q.stem.replace(/”______$/u, "”");
+  },
+  "82df41da8e62fc5e6245a85205b12016": (q) => {
+    q.stem = q.stem.replace(/。______$/u, "。");
+    q.answer = "①唐僧（唐三藏）；②朱德；③儒林外史；④藤野先生";
+  },
+  "e50f841aea18f86f91cf3d686ea9a1dc": (q) => {
+    q.stem = q.stem.replace(/。______$/u, "。");
+  },
+  "d7a5d0ed879abde2ab14d469e679812d": (q) => {
+    q.stem = q.stem.replace(/。______$/u, "。");
+  },
+  "90f09f508214af3c82536d14b1f5374e": (q) => {
+    q.stem = q.stem.replace(/\n①______\n②______\n③______$/u, "");
+    q.answer = "①C；②A；③B";
+  },
+  "1ac25b362c7d62d53d5c9a3af4aaca21": (q) => {
+    q.stem = q.stem.replace(/A______也对杨诚的境况/u, "A也对杨诚的境况");
+  },
+  "d84c7eb912f1802765e56884f099e50f": (q) => {
+    q.stem = q.stem
+      .replace(/______甲______/u, "【甲】")
+      .replace(/______乙______/u, "【乙】")
+      .replace(/duàn______【①】______/u, "duàn【①】")
+      .replace(/【铿】______【②】______/u, "【铿】【②】");
+  },
+  "a6a78194467e20ba9611f4db317e7a20": (q) => {
+    q.stem = q.stem
+      .replace(/父亲的【差】使也交xiè了______，/u, "父亲的【差】使也交xiè了，")
+      .replace(/祖母的【丧】______事/u, "祖母的【丧】事")
+      .replace(/满院子狼jí______的东西/u, "满院子狼jí的东西")
+      .replace(/不禁sù sù______地流下眼泪来。______/u, "不禁sù sù地流下眼泪来。");
+  },
+  "af6369f36e67d493c7dba4bd46a6652a": (q) => {
+    q.stem = q.stem.replace(/______\s+______/gu, "______");
+  },
+  "2a97313b146a91058da7f23c1096ba07": (q) => {
+    q.stem = q.stem.replace(/______\s+______/gu, "______");
+  },
+  "29e525a18baa221774503aaa34ef3628": (q) => {
+    q.stem = q.stem.replace(/\n\n______\s+______/gu, "");
+    q.answer = q.answer.replace(/（2）1\.\s*/u, "（2）");
+  },
+  "2310312678d5d3fd4778dbbb7f774216": (q) => {
+    q.stem = q.stem
+      .replace(
+        /^阅读下面的图片，完成以下任务。\n+______\s+______/u,
+        "阅读下面的图片，完成以下任务。\n图片一：房屋售磐，商铺开盘\n图片二：富强 民主 文明 和谐 / 公正 法制 爱国 敬业\n图片三：经典阅读成就人生之路，______\n图片四：通过本次活动，使大家认识到帮助他人很重要",
+      )
+      .replace(/______改为______\s+______改为______/u, "①______；②______");
+  },
+  "c90efc2a288af2662c47987fbc6603f8": (q) => {
+    q.stem = q.stem
+      .replace(/A______（矗立/u, "A（矗立")
+      .replace(/B______（倒映/u, "B（倒映");
+  },
+  "8f43d09cfb77330402ad4ab0970d4fb5": (q) => {
+    q.stem =
+      "根据拼音在横线上写出相应的汉字。\n鲜______为人知  鞠躬尽cuì______  妇______孺皆知  qiè______而不舍  lì______尽心血\n气冲dǒu______牛  qián______心贯注  心会神níng______  jiǒng______然不同\n慷kǎi______激昂  心无旁wù______";
+    q.answer = "（1）xiǎn\n（2）瘁\n（3）rú\n（4）锲\n（5）沥\n（6）斗\n（7）潜\n（8）凝\n（9）迥\n（10）慨\n（11）骛";
+  },
+  "ee305e8aecea26184a3b38c33eec3c1e": (q) => {
+    q.stem = q.stem.replace(/非【淡泊】无以明志\s*______\s+______/u, "非【淡泊】无以明志  ______");
+    q.answer = "（1）fú\n（2）dàn bó\n（3）yín\n（4）zhì\n（5）chí\n（6）suì\n（7）lú";
+  },
+
+  // 5. LLM-hallucinated idiom/typo answers
+  "d0f892f7ba15e44c44ca2e9b7559f1d4": (q) => {
+    q.stem = q.stem.replace(/______\s+______/gu, "①______；②______");
+    q.answer = "（1）①优；②幽\n（2）①烂；②滥";
+    q.solutions = [
+      "（1）“独处优居”中的“优”应改为“幽”（幽居指隐居或幽静的住处）。\n（2）“烂加粗暴”中的“烂”应改为“滥”（滥加指不加节制地施加）。",
+    ];
+  },
+  "985d21097e071c1e3c578866c7554d3e": (q) => {
+    q.answer = "（1）博学\n（2）渊博\n（3）迹";
+    if (q.solutions?.[0]) {
+      q.solutions[0] = q.solutions[0].replace(/应填入“罕”字/gu, "应填入“迹”字");
+    }
+  },
+  "0d0fecc8a445649ede9ce42809f0548c": (q) => {
+    q.stem = q.stem
+      .replace(/神______妙(?![_算])/u, "神______妙______")
+      .replace(/______齐心协力/u, "______");
+    q.answer = "（1）千钧一发\n（2）舍生忘死\n（3）神机妙算\n（4）齐心协力";
+    q.solutions = [
+      "（1）“千钧一发”原义是千钧的重量系在一根头发上，比喻情况万分危急。\n（2）“舍生忘死”指不把个人的生死放在心上。\n（3）“神机妙算”形容有预见性，善于估计客观情势，决定策略。\n（4）“齐心协力”指思想认识一致，共同努力。",
+    ];
+  },
+
+  // 6. Residual score markers
+  "a3c09df026d5ec47cdfa462a9458b64f": (q) => {
+    q.stem = q.stem
+      .replace(/（满分10分）/gu, "")
+      .replace(/（[3３]分）/gu, "")
+      .replace(/（[4４]分）/gu, "");
+    q.answer = q.answer.replace(/（现状及原因，1分；安全隐患，1分；引出防风的说明，1分）/gu, "");
+  },
+  "9a40f64b288f957fb3263e9752e21459": (q) => {
+    q.answer = q.answer
+      .replace(/（1）1\.\s*/u, "（1）")
+      .replace(/（每点2分）/gu, "");
+  },
+  "19079a0b97980c47236cfcf6e55ac66b": (q) => {
+    q.answer = q.answer
+      .replace(/（现状及原因，1分；安全隐患，1分；引出防风的说明，1分）/gu, "")
+      .replace(/（每点2分）/gu, "");
+    if (q.solutions?.[0]) {
+      q.solutions[0] = q.solutions[0].replace(/（每点2分）/gu, "");
+    }
+  },
+};
+
 export function applyWave5Overrides(q) {
   const fn = WAVE5_ITEM_OVERRIDES[q.id];
   if (fn) {
     fn(q);
   }
+  const fn7 = WAVE7_ITEM_OVERRIDES[q.id];
+  if (fn7) {
+    fn7(q);
+  }
+
+  // Convert paragraph 1's （1） or (1) before ② into ① when the passage uses ②, ③...
+  if (q.stem && q.stem.includes("②") && q.stem.includes("③")) {
+    const idx2 = q.stem.indexOf("②");
+    const before2 = q.stem.slice(0, idx2);
+    if (!before2.includes("①") && !/[（(]2[）)]/u.test(before2) && /[（(]1[）)]/u.test(before2)) {
+      q.stem = q.stem.replace(/[（(]1[）)]\s*/u, "\n\n① ");
+    }
+  }
+
+  // When a reading passage uses circled paragraph markers ①..⑳, normalize 第（4）段 / 第(1)自然段 -> 第④段 / 第①自然段
+  const usesCircledParas =
+    /[①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳]/u.test(q.stem) &&
+    !/（2）[^\n]{10,}\n+（3）/u.test(q.stem);
+  const replaceParaRefs = (s) =>
+    usesCircledParas
+      ? String(s ?? "").replace(/第\s*[（(](\d{1,2})[）)]\s*((?:自然)?段)/gu, (m, d, unit) => {
+          const c = WAVE7_CIRCLED[Number(d) - 1];
+          return c ? `第${c}${unit}` : m;
+        })
+      : String(s ?? "");
+
   const cleanPunct = (s) =>
-    String(s ?? "")
+    replaceParaRefs(s)
+      .replace(/[Ａ-Ｚａ-ｚ０-９]/gu, (ch) => String.fromCharCode(ch.charCodeAt(0) - 0xfee0))
       .replace(/【+/gu, "【")
       .replace(/】+/gu, "】")
       .replace(/"([^"\n]+)"/gu, "“$1”")
@@ -1116,6 +1364,10 @@ export function applyWave5Overrides(q) {
       .replace(/，：/gu, "：")
       .replace(/：，/gu, "：")
       .replace(/？：/gu, "？")
+      .replace(/，\.{3,}/gu, "……")
+      .replace(/([。！？])[,;.:]/gu, "$1")
+      .replace(/([，、；：])[,;.:]/gu, "$1")
+      .replace(/[,;.:]([，。；：、！？])/gu, "$1")
       .split("\n")
       .map((line) => {
         const qCount = (line.match(/[“”]/gu) || []).length;

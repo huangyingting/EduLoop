@@ -243,6 +243,29 @@ for (const { filename, question } of records) {
       if (mathBlocks.some((b) => /^\s*\\[;,:!]/u.test(b))) {
         issues.push(`${field}: leading LaTeX spacing inside math block`);
       }
+      if (mathBlocks.some((b) => /(?:故答案为|答案(?:为|是)[:：]?|故选[:：]?)/u.test(b))) {
+        issues.push(`${field}: answer boilerplate trapped inside math block`);
+      }
+      if (mathBlocks.some((b) => /\\begin\{cases\}[\s\S]*?\\overset\{&\}[\s\S]*?\\end\{cases\}/u.test(b))) {
+        issues.push(`${field}: corrupted \\overset{&} inside cases environment`);
+      }
+      if (
+        mathBlocks.some((b) => {
+          const withoutLegitCircled = b
+            .replace(/\\begin\{(?:cases|array|matrix)\}[\s\S]*?\\end\{(?:cases|array|matrix)\}/gu, "")
+            .replace(/(?:\\xlongequal|\\xrightarrow)(?:\[[^\]]*\])?\{[^{}]*\}/gu, "")
+            .replace(/[_^]\s*\{?\s*[①-⑳]\s*\}?/gu, "");
+          return /[①②③④⑤⑥⑦⑧⑨⑩]/u.test(withoutLegitCircled);
+        })
+      ) {
+        issues.push(`${field}: trapped circled number inside math block`);
+      }
+      if (mathBlocks.some((b) => /[。]/u.test(b))) {
+        issues.push(`${field}: Chinese period inside math block`);
+      }
+      if (solution && /\n\d{1,2}\.\s*[（(]\d{4}[•·．.][^)）]+[)）]\s*$/u.test(String(value))) {
+        issues.push(`${field}: trailing leaked next-question header in solution`);
+      }
       if (
         field === "stem" &&
         /\(1\)/u.test(String(value)) &&
@@ -257,6 +280,19 @@ for (const { filename, question } of records) {
       }
       const noSvg = String(value).replace(/<svg[\s\S]*?<\/svg>/giu, "");
       const noMath = noSvg.replace(/\$\$[\s\S]*?\$\$/gu, "MATH").replace(/\$[^$]+\$/gu, "MATH");
+      if (/[０-９Ａ-Ｚａ-ｚ]/u.test(noSvg)) {
+        issues.push(`${field}: fullwidth alphanumeric character`);
+      }
+      if (/(?:[，。；：、！？][,.;:!?]|[,.;:!?][，。；：、！？])/u.test(noMath)) {
+        issues.push(`${field}: mixed adjacent CJK/ASCII punctuation`);
+      }
+      if (
+        (filename === "chinese.json" || filename === "chinese-high-school.json") &&
+        field === "stem" &&
+        /(?:^\s*\d{1,2}\s*[．.、]\s*(?=[（(【\u4e00-\u9fa5“"《])|\n\s*\d{1,2}\s*[．.、]\s*(?=阅读|下列|根据|综合性|名著|古诗|文言|默写|阅读下面|某班|学校|班级|小[A-Z\u4e00-\u9fa5]{1,3}|[（(]\d+分[)）]))/u.test(noSvg)
+      ) {
+        issues.push(`${field}: leaked exam question number in stem`);
+      }
       if (/(?:Error:|\[object Object\]|\bundefined\b|\bNaN\b)/u.test(noSvg)) {
         issues.push(`${field}: error/serialization artifact`);
       }

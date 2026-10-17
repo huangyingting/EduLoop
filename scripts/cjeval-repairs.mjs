@@ -70,9 +70,10 @@ export function cleanCjevalEscapesAndBrackets(text, id = "", isStem = false) {
     .replace(/（上标：\\uf084）|\\uf084|\uf084/giu, "④")
     .replace(/（上标：([①-⑳])）/gu, "$1")
     .replace(/（上标：注释）/gu, "【注释】")
-    .replace(/2（上标：249）/gu, "$2^{249}$")
-    .replace(/9\.05×10（上标：74）/gu, "$9.05\\times 10^{74}$")
-    .replace(/2（上标：408）/gu, "$2^{408}$")
+    .replace(/\$\{\{\}\^\{([①②③④])\}\}\$/gu, "$1")
+    .replace(/2（上标：249）/gu, () => "$$2^{249}$$")
+    .replace(/9\.05×10（上标：74）/gu, () => "$$9.05\\times 10^{74}$$")
+    .replace(/2（上标：408）/gu, () => "$$2^{408}$$")
     .replace(/[\u2474-\u2487]/gu, (ch) => {
       const n = ch.codePointAt(0) - 0x2473;
       return CIRCLED_PAREN_READING_IDS.has(id) ? toCircled(n) : `（${n}）`;
@@ -700,7 +701,7 @@ export const PINNED_ANSWERS = {
   "3b7a7d822e7a54e36800bd51d4aac53a":
     "（1）人类大脑在原有记忆回路的基础上，通过分支回路进行回忆；海马体内负责记忆形成与回忆的两条并行回路相互配合，当回忆回路被激活时，记忆形成回路可以将新信息编码加入现有记忆，从而实现记忆的编辑和更新。\n（2）研究人员运用光遗传学技术对小鼠进行恐惧条件反射实验，发现抑制小鼠下托神经元会损伤其回忆能力但不影响新记忆的形成，证实下托对回忆是必需的而对记忆形成并非必需，从而得出记忆形成与回忆使用不同神经回路的结论。\n（3）示例：科学研究需要敢于质疑传统观点，通过严谨的实验设计不断假设、验证与推论；同时，深入的科学探索往往能带来意想不到的新发现，并为相关疾病的治疗提供新启示。\n（4）示例：第①段运用打比方的说明方法，将大脑不同神经元集群分类储存记忆比作计算机的信息分类，通俗形象地说明了大脑储存记忆的机制。",
   "82df41da8e62fc5e6245a85205b12016":
-    "（1）唐僧（唐三藏）\n（2）朱德\n（3）儒林外史\n（4）藤野先生",
+    "①唐僧（唐三藏）；②朱德；③儒林外史；④藤野先生",
   "bc4feca3b23ce5d0f34dd5f3712c46b2":
     "（1）①母亲在我出生前做梦梦见了小葫芦；②葫芦寓意辟邪、招宝，父母希望我一生平安、富裕。\n（2）①示例一：运用了对比手法，将别人的小名和我的小名进行比较，表现了我对别人小名的羡慕和对自己小名的厌恶。示例二：运用了拟物手法，把孩子们比作欢呼雀跃的小动物，生动地写出了孩子们的兴奋，表现了我对别人的小名的羡慕和对自己小名的厌恶。②“抛”字表现了对自己小名的不满；生动形象地写出了高中后终于没人知道我小名的喜悦；为文章结尾期待有人叫我小名作铺垫。\n（3）文中父亲因患病开始健忘，但仍然记得我的小名，我流泪是感动和悔恨，感动父亲记得我的小名，悔恨小时候不理解父母之爱；链接材料中，我看到父亲信中的伤心话，想念父亲而流泪。\n（4）小时不理解父母的用意，极力排斥小名；成年后理解了父母的心意，呼唤小名的亲人却已离去；在异乡工作，小葫芦寄托了对亲人的怀念和对故乡的依恋。",
   "0f6738b824c808b838bf89e82c64027f":
@@ -893,6 +894,7 @@ export function alignSubquestionAnswers(question) {
 export function cleanMangledSolutionMeta(text) {
   if (!text) return "";
   return String(text)
+    .replace(/^(?:考点[：:][^\n]*\n+|分析[：:]\s*|解答[：:]\s*|试题解析[：:]\s*|答案[：:][^\n]*\n+)+/gu, "")
     .replace(
       /^(?:【(?:优化后?(?:解析|详解|分析)|(?:解析|详解|赏析|分析)优化|详细解析|答案解析|考点(?:解析|定位)?|题目[一二三四五1-5]?解析|\(\d+\)解析|思维(?:链条?|导图)|分析(?:步骤|过程|链条|思路)|概要分析|解题思路|方法技巧|总结|补充|提示|答案|解析|分析|详解|解答|点睛|点评)】\s*|\[(?:优化后?解析|解析优化|优化解析|分析|解析|详解|点睛|点评)\]\s*|试题分析[：:]\s*|(?:优化后的解析如下|通过改写的题目，我们可以总结出以下几点解析|解析|分析|详解)[：:]\s*)+/u,
       "",
@@ -902,6 +904,8 @@ export function cleanMangledSolutionMeta(text) {
       "",
     )
     .replace(/\[(?:优化后?解析|解析优化|优化解析|分析|解析|详解|点睛|点评)\]\s*/gu, "")
+    .replace(/(?:^|\n)(?:考点[：:][^\n]*(?=\n|$)|答案[：:][^\n]*(?=\n|$))/gu, "")
+    .replace(/(?:^|\n)(?:分析|解答|试题解析)[：:]\s*/gu, "\n")
     .replace(/(?:^|\n)（([1-9]\d*)）\s*(?:题目解析|题目答案|解析|分析)[：:]\s*/gu, (m, d) => `${m.startsWith("\n") ? "\n" : ""}（${d}）`)
     .replace(/(?:点睛|点评)[：:]\s*/gu, "")
     .replace(/([①②③④⑤⑥⑦⑧⑨⑩])\1+/gu, "$1")
@@ -909,6 +913,7 @@ export function cleanMangledSolutionMeta(text) {
     .replace(/与原题解析保持一致，未进行大幅度修改[。.]?\s*/gu, "")
     .replace(/新选项([A-F])/gu, "$1项")
     .replace(/新的([A-F])项/gu, "$1项")
+    .replace(/\n{3,}/gu, "\n\n")
     .trim();
 }
 
@@ -2019,7 +2024,7 @@ const POETRY_ITEM_OVERRIDES = {
   },
 };
 
-export function ensureFillBlankMarkers(question) {
+export function ensureFillBlankMarkers(question, allowFallbackAppend = true) {
   // Normalize any run of 2+ underscores to standard 6-underscore blank across all question types
   question.stem = question.stem.replace(/(?<!_)_{2,}(?!_)/gu, "______");
   if (question.type !== "填空题") return;
@@ -2030,7 +2035,7 @@ export function ensureFillBlankMarkers(question) {
     .replace(/\(\s*\)/gu, "（______）")
     .replace(/【\s+】/gu, "______");
 
-  if (question.stem.includes("______")) return;
+  if (!allowFallbackAppend || question.stem.includes("______")) return;
 
   // If a 填空题 has numbered subquestions （1）... or ①..., append ______ to each subquestion line that lacks a blank
   const lines = question.stem.split("\n");
@@ -2082,7 +2087,7 @@ export function postProcessCjevalQuestion(question) {
   }
 
   // Pre-normalize fill-in-the-blank markers before item overrides so ______ patterns match on pass 1
-  ensureFillBlankMarkers(q);
+  ensureFillBlankMarkers(q, false);
 
   // Apply item-specific content, choice, and poetry overrides
   if (CHOICE_ITEM_OVERRIDES[q.id]) {
@@ -2184,6 +2189,7 @@ export function postProcessCjevalQuestion(question) {
 
   q.answer = String(q.answer ?? "")
     .replace(/^【(?:答案|解析|分析|详解|解答|点睛|点评)】\s*/u, "")
+    .replace(/^1\.\s*(?![\s\S]*2\.)/u, "")
     .replace(/([①②③④⑤⑥⑦⑧⑨⑩])\1+/gu, "$1")
     .replace(/\s*(?:[（(]?(?:言之有理|言之成理|合乎题意|符合题意|大意对|意思对|答出(?:任意)?[一二三四两\d]+点)即可[。.)）]?)/gu, "")
     .trim();
@@ -2197,7 +2203,12 @@ export function postProcessCjevalQuestion(question) {
 export function postProcessChineseHighSchoolQuestion(q) {
   if (!q) return q;
 
-  let s = String(q.stem ?? "");
+  const toHalfwidthAscii = (str) =>
+    String(str ?? "").replace(/[Ａ-Ｚａ-ｚ０-９]/gu, (ch) =>
+      String.fromCharCode(ch.charCodeAt(0) - 0xfee0),
+    );
+
+  let s = toHalfwidthAscii(q.stem);
   // Removeks5u markdown link and 学科*网 watermark
   s = s
     .replace(
@@ -2233,6 +2244,15 @@ export function postProcessChineseHighSchoolQuestion(q) {
   }
 
   q.stem = s.trim();
+  if (q.options && typeof q.options === "object") {
+    for (const k of Object.keys(q.options)) {
+      q.options[k] = toHalfwidthAscii(q.options[k]);
+    }
+  }
+  q.answer = toHalfwidthAscii(q.answer);
+  if (Array.isArray(q.solutions)) {
+    q.solutions = q.solutions.map(toHalfwidthAscii);
+  }
   return q;
 }
 

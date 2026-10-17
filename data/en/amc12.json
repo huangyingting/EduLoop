@@ -14089,7 +14089,7 @@
     },
     "answer": "E",
     "solutions": [
-      "We have $a + b + c = 0$, $abc = -1$ and $ab + bc + ac = k$ from $\\text{Vieta's Formulas}$. Factoring adjacent terms, we get the expression equals:\n\n$a^2b^2(a+b) + b^2c^2(b+c) + a^2c^2(a+c)$\n$=a^2b^2(-c) + b^2c^2(-a) + a^2c^2(-b)$\n$= -abc(ab + bc + ac) = \\boxed{\\textbf{(E)~$k$}}$\n$\\textbf{Remark.}$ The full factorization of the given sum is\n\n$\\begin{aligned} &a^{3} b^{2}+a^{2} b^{3}+b^{3} c^{2}+b^{2} c^{3}+c^{3} a^{2}+c^{2} a^{3}\\\\ &\\quad=(ab+bc+ca)^2(a+b+c)-2abc(a+b+c)^2-abc(ab+bc+ca) \\end{aligned}$\nIn the given problem, the first two terms cancel out as $a+b+c=0$."
+      "We have $a + b + c = 0$, $abc = -1$ and $ab + bc + ac = k$ from $\\text{Vieta's Formulas}$. Factoring adjacent terms, we get the expression equals:\n\n$a^2b^2(a+b) + b^2c^2(b+c) + a^2c^2(a+c)$\n$=a^2b^2(-c) + b^2c^2(-a) + a^2c^2(-b)$\n$= -abc(ab + bc + ac) = \\boxed{\\textbf{(E)}~k}$\n$\\textbf{Remark.}$ The full factorization of the given sum is\n\n$\\begin{aligned} &a^{3} b^{2}+a^{2} b^{3}+b^{3} c^{2}+b^{2} c^{3}+c^{3} a^{2}+c^{2} a^{3}\\\\ &\\quad=(ab+bc+ca)^2(a+b+c)-2abc(a+b+c)^2-abc(ab+bc+ca) \\end{aligned}$\nIn the given problem, the first two terms cancel out as $a+b+c=0$."
     ],
     "tags": []
   },

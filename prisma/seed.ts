@@ -142,6 +142,24 @@ async function main() {
     }));
   }
 
+  const activeSourceIdSet = new Set(normalized.map((question) => question.sourceId));
+  const existingQuestions = await prisma.question.findMany({
+    select: { id: true, sourceId: true },
+  });
+  const staleQuestionIds = existingQuestions
+    .filter((question) => !activeSourceIdSet.has(question.sourceId))
+    .map((question) => question.id);
+  if (staleQuestionIds.length > 0) {
+    await prisma.$transaction([
+      prisma.practiceAttempt.deleteMany({
+        where: { questionId: { in: staleQuestionIds } },
+      }),
+      prisma.question.deleteMany({
+        where: { id: { in: staleQuestionIds } },
+      }),
+    ]);
+  }
+
   const [published, review, autoGradable] = await Promise.all([
     prisma.question.count({ where: { status: "PUBLISHED" } }),
     prisma.question.count({ where: { status: "NEEDS_REVIEW" } }),

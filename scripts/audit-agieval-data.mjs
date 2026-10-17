@@ -112,6 +112,44 @@ for (const [index, question] of questions.entries()) {
     if (/^[A-DＡ-Ｄ]\s*[.．、:：]/u.test(value) || /^[、.．]/u.test(value)) errors.push(`${location}: option ${key} has residual punctuation or label prefix`);
     if (/(?<!_)__[^_\n]+__(?!_)/u.test(value)) errors.push(`${location}: uncleaned AGIEval emphasis markers in option ${key}`);
   }
+  for (const [field, value] of [
+    ["stem", stem],
+    ["answer", label],
+    ...options.map((opt, idx) => [`options.${String.fromCharCode(65 + idx)}`, opt]),
+    ...(question.solutions ?? []).map((sol, idx) => [`solutions.${idx}`, String(sol ?? "")]),
+  ]) {
+    if (!value) continue;
+    if (/(?:Error:|\[object Object\]|\bundefined\b|\bNaN\b)/u.test(value)) {
+      errors.push(`${location}: ${field} contains error/serialization artifact`);
+    }
+    const quoteCheckText = value
+      .split("\n")
+      .filter((line) => !/^“[^“”]+$/u.test(line.trim()))
+      .join("\n");
+    const quotes = quoteCheckText.match(/[“”]/gu) ?? [];
+    if (quotes.length % 2 !== 0) {
+      errors.push(`${location}: ${field} has unbalanced Chinese double quotes`);
+    } else {
+      for (let i = 0; i < quotes.length; i += 2) {
+        if (quotes[i] !== "“" || quotes[i + 1] !== "”") {
+          errors.push(`${location}: ${field} has inverted Chinese double quotes`);
+          break;
+        }
+      }
+    }
+    if (/"/u.test(value)) {
+      errors.push(`${location}: ${field} has ASCII double quote`);
+    }
+    if ((value.match(/（/gu) ?? []).length !== (value.match(/）/gu) ?? []).length) {
+      errors.push(`${location}: ${field} has unbalanced fullwidth parentheses`);
+    }
+    if ((value.match(/《/gu) ?? []).length !== (value.match(/》/gu) ?? []).length) {
+      errors.push(`${location}: ${field} has unbalanced book-title quotes`);
+    }
+    if ((value.match(/【/gu) ?? []).length !== (value.match(/】/gu) ?? []).length) {
+      errors.push(`${location}: ${field} has unbalanced lenticular brackets`);
+    }
+  }
 }
 
 if (papers.size !== 35) errors.push(`expected 35 source papers, received ${papers.size}`);

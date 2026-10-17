@@ -19,6 +19,30 @@ function hasEnumeratedPlaceholders(value) {
   return ENUMERATED_PLACEHOLDER.test(String(value));
 }
 
+function maskHalfOpenIntervals(str) {
+  return str
+    .replace(/\\left\([^()\[\]]*,[^()\[\]]*\\right\]/gu, (m) => "_".repeat(m.length))
+    .replace(/\\left\[[^()\[\]]*,[^()\[\]]*\\right\)/gu, (m) => "_".repeat(m.length))
+    .replace(/\[[^\[\]()]+[,，][^\[\]()]+\)/gu, (m) => "_".repeat(m.length))
+    .replace(/\([^\[\]()]+[,，][^\[\]()]+[\]］]/gu, (m) => "_".repeat(m.length));
+}
+
+function isMathParenBalanced(body) {
+  const s = maskHalfOpenIntervals(body)
+    .replace(/\\left\s*[()]/g, "")
+    .replace(/\\right\s*[()]/g, "");
+  let d = 0;
+  let minD = 0;
+  for (const ch of s) {
+    if (ch === "(") d++;
+    else if (ch === ")") {
+      d--;
+      if (d < minD) minD = d;
+    }
+  }
+  return d === 0 && minD === 0;
+}
+
 function normalize(value) {
   return String(value ?? "").normalize("NFKC").replace(/\s+/gu, "").replace(/[。．;；]$/u, "");
 }
@@ -102,6 +126,13 @@ for (const { filename, question } of records) {
     const closeLenticular = (stem.match(/】/gu) ?? []).length;
     if (openLenticular !== closeLenticular) {
       issues.push("stem: unbalanced lenticular brackets");
+    }
+    if (
+      ["现代文阅读", "诗歌鉴赏"].includes(question.type) &&
+      !isChoice &&
+      !/(?:（1）|_{2,}|[？?]|[A-D]\.|请|分析|赏析|概括|写出|说说|谈谈|理解|体会|说明|解释|翻译|画面|情感|作用|原因|好处|含义|特点|形象|探究|补全|修改|简述|批注|意象|手法|看法|理由|启示|感悟)/u.test(stem)
+    ) {
+      issues.push("stem: reading/poetry question lacks subquestion or prompt");
     }
   }
   if (question.type === "填空题" && !/_{2,}|[（(]\s*[）)]/u.test(stem)) {
@@ -204,11 +235,74 @@ for (const { filename, question } of records) {
     ) {
       issues.push(`${field}: CJK punctuation inside math delimiter boundary`);
     }
-    if (["biology.json", "chemistry.json", "mathematics.json", "physics.json", "chinese.json"].includes(filename)) {
-      if (/(?:[，。；：、]{2,}|？？+|，。|。，|[。！？]；|；[。，：]|：[；，。]|，[；：]|？：)/u.test(String(value))) {
+    if (["biology.json", "chemistry.json", "mathematics.json", "physics.json"].includes(filename)) {
+      const mathBlocks = [...String(value).matchAll(/\$\$([\s\S]*?)\$\$/gu)].map((m) => m[1]);
+      if (mathBlocks.some((b) => !isMathParenBalanced(b))) {
+        issues.push(`${field}: unbalanced parentheses inside math block`);
+      }
+      if (mathBlocks.some((b) => /^\s*\\[;,:!]/u.test(b))) {
+        issues.push(`${field}: leading LaTeX spacing inside math block`);
+      }
+      if (
+        field === "stem" &&
+        /\(1\)/u.test(String(value)) &&
+        mathBlocks.some((b) => /(?<![fFgGhHP][\x27′]?)(?<!_\{|\^\{)\([2-9]\d*\)/u.test(b))
+      ) {
+        issues.push(`${field}: trapped subquestion marker inside math block`);
+      }
+    }
+    if (["biology.json", "chemistry.json", "mathematics.json", "physics.json", "chinese.json", "chinese-high-school.json"].includes(filename)) {
+      if (field === "answer" && /^答[:：]/u.test(String(value))) {
+        issues.push(`${field}: redundant 答： prefix`);
+      }
+      const noSvg = String(value).replace(/<svg[\s\S]*?<\/svg>/giu, "");
+      const noMath = noSvg.replace(/\$\$[\s\S]*?\$\$/gu, "MATH").replace(/\$[^$]+\$/gu, "MATH");
+      if (/(?:Error:|\[object Object\]|\bundefined\b|\bNaN\b)/u.test(noSvg)) {
+        issues.push(`${field}: error/serialization artifact`);
+      }
+      if (/\u30fb|\{\{"\}\}/u.test(noSvg)) {
+        issues.push(`${field}: Katakana middle dot or corrupted derivative`);
+      }
+      const quoteCheckText = noSvg
+        .split("\n")
+        .filter((line) => !line.includes("□") && !/^[A-D]\.\s*[，、；。？！“”\s]+$/u.test(line.trim()) && !/^“[^“”]+$/u.test(line.trim()))
+        .join("\n");
+      const quotes = quoteCheckText.match(/[“”]/gu) ?? [];
+      if (quotes.length % 2 !== 0) {
+        issues.push(`${field}: unbalanced Chinese double quotes`);
+      } else {
+        for (let i = 0; i < quotes.length; i += 2) {
+          if (quotes[i] !== "“" || quotes[i + 1] !== "”") {
+            issues.push(`${field}: inverted Chinese double quotes`);
+            break;
+          }
+        }
+      }
+      if (/"/u.test(noMath)) {
+        issues.push(`${field}: ASCII double quote outside SVG/math`);
+      }
+      if ((noMath.match(/（/gu) ?? []).length !== (noMath.match(/）/gu) ?? []).length) {
+        issues.push(`${field}: unbalanced fullwidth parentheses`);
+      }
+      if ((noMath.match(/《/gu) ?? []).length !== (noMath.match(/》/gu) ?? []).length) {
+        issues.push(`${field}: unbalanced book-title quotes`);
+      }
+      if ((noMath.match(/【/gu) ?? []).length !== (noMath.match(/】/gu) ?? []).length) {
+        issues.push(`${field}: unbalanced lenticular brackets`);
+      }
+      if (
+        filename === "chinese.json" &&
+        field === "stem" &&
+        question.type === "填空题" &&
+        !stem.includes("_") &&
+        /(?:（\s+）|\(\s+\))/u.test(noSvg)
+      ) {
+        issues.push(`${field}: invisible whitespace blank inside parentheses`);
+      }
+      if (/(?:[，。；：、]{2,}|？？+|，。|。，|[。！？]；|；[。，：]|：[；，。]|:；|，[；：]|？：|\.:\s*$|\$\$:\s*$)/u.test(String(value))) {
         issues.push(`${field}: doubled Chinese punctuation`);
       }
-      if (/[（(]\d+分[）)]/u.test(String(value))) {
+      if (/[（(]\s*(?:本小题满分)?\s*(?:\$\$)?\d+(?:\.\d+)?(?:\$\$)?\s*分\s*[）)]/u.test(String(value))) {
         issues.push(`${field}: inline grading score marker`);
       }
       if (

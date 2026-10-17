@@ -316,6 +316,8 @@ export function normalizeStemNumbering(stem, qId = "", qType = "") {
   }
   if (qId === "0f6738b824c808b838bf89e82c64027f") {
     s = s
+      .replace(/叙述历史事件和刻画历史人物/u, "叙述历史事件□刻画历史人物")
+      .replace(/“千古小说应归司马——/u, "“千古小说应归司马□”")
       .replace(/\n\n（1）\s*一位同学对文段中的“比喻”/u, "\n①一位同学对文段中的“比喻”")
       .replace(/\n\n（2）\s*在文段两处方框内/u, "\n②在文段两处方框内")
       .replace(/（3）画线句作为总领句/u, "\n③画线句作为总领句")
@@ -2148,6 +2150,9 @@ export function postProcessCjevalQuestion(question) {
     if (ov.answer) q.answer = ov.answer;
     if (ov.solutions) q.solutions = [...ov.solutions];
   }
+
+  // Pre-apply Wave 5/6 overrides before stem numbering normalization & subquestion alignment
+  applyWave5Overrides(q);
 
   // Re-clean escapes/brackets in case overrides introduced nested 【...【...】...】
   q.stem = cleanCjevalEscapesAndBrackets(q.stem, q.id, true);

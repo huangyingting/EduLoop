@@ -757,35 +757,72 @@ function stableId(sourceIndex) {
   return digest(`agieval:v1.1:gaokao-chinese:${sourceIndex}`).slice(0, 32);
 }
 
+export function cleanAgievalOutputText(value) {
+  return String(value ?? "")
+    .replace(/李悝警其两和Error:\s*Reference source not found曰/gu, "李悝警其两和②曰")
+    .replace(/压カ/gu, "压力")
+    .replace(/老赵的声意/gu, "老赵的声音")
+    .replace(/"高灵爽气澄，落日横烟冷，寂寞草云亭，孤云乱山影。"/gu, "“高灵爽气澄，落日横烟冷，寂寞草云亭，孤云乱山影。”")
+    .replace(/"自然的纯粹性"/gu, "“自然的纯粹性”")
+    .replace(/“远读“/gu, "“远读”")
+    .replace(/”排头砍去”/gu, "“排头砍去”")
+    .replace(/”人情味“/gu, "“人情味”")
+    .replace(/召将而诏之曰：“社稷安危，一在将军。今某国不臣，愿将军帅师应之。”/gu, "召将而诏之曰：‘社稷安危，一在将军。今某国不臣，愿将军帅师应之。’")
+    .replace(/。“(将[既已]受命)/gu, "。$1")
+    .replace(/吾不为也。“/gu, "吾不为也。”")
+    .replace(/晏子对曰：“君商渔盐”，关市讥③而不征/gu, "晏子对曰：“君商渔盐，关市讥③而不征")
+    .replace(/将曰：“此事，申饬边臣岂不可，何以使为？”\s*”禧惭不能对。/gu, "将曰：“此事，申饬边臣岂不可，何以使为？”禧惭不能对。")
+    .replace(/“去包队吗？。/gu, "“去包队吗？”")
+    .replace(/老走梨花这一方！。/gu, "老走梨花这一方！”")
+    .replace(/你怕还对我有些意见呐！。/gu, "你怕还对我有些意见呐！”")
+    .replace(/不是用口，“也得用手。”/gu, "“不是用口，也得用手。”")
+    .replace(/石门阵。卞之琳。/gu, "石门阵\n卞之琳\n")
+    .replace(/到梨花屯去。何士光。/gu, "到梨花屯去\n何士光\n")
+    .replace(/([。？！—：])(?:\s*。)*“(?=他们先在远处山头上向镇上望|那条小街|那个院子|那堆小树丛|八路军走光了|‘开步走|骑了马，得意洋洋|小耳朵的心|八字胡子的心|麻子的心|说话间，不知不觉|麻子忽然在一家门口|麻子盯住了一家的屋门|小耳朵也盯住了那家的门|他们看见了什么呀？奇怪——|他们看见了什么呢|他们什么也没有看见|他们索性向前跑|一路上——|向左看：石头门|向右看：石头门|石头门。石头门|他们勒转了马头|逃出了镇口|麻子还在想|八字胡子还在想|小耳朵还在想)/gu, "$1\n“")
+    .replace(/在线教育\(远程、平板、电子、数字）,这正像/gu, "在线教育（远程、平板、电子、数字），这正像")
+    .replace(/在线教育本身很难改变学习,在这场教育革命的浪潮中,由在线教育引发的教育由数字支撑到数据支撑变化\(教育环境,实验场景,\s*时空变化,学习变化,教育管理变化等等\),确是/gu, "在线教育本身很难改变学习，在这场教育革命的浪潮中，由在线教育引发的教育由数字支撑到数据支撑变化（教育环境、实验场景、时空变化、学习变化、教育管理变化等等），确是")
+    .replace(/目前教育变革的讨论,过于集中在/gu, "目前教育变革的讨论，过于集中在")
+    .replace(/（摘编自陆邵明《留住乡愁》。/gu, "（摘编自陆邵明《留住乡愁》）")
+    .replace(/([。？！…][”’]?)(?:\s*。)+/gu, "$1")
+    .replace(/(——|……|：)(?:\s*。)+/gu, "$1")
+    .replace(/（(有删改|(?:节选|摘编|选|改|取材)自[^）]*|《[^》]+》[^）]*)）(?:\s*。)+/gu, "（$1）")
+    .replace(/[ \t]+。/gu, "")
+    .replace(/《石门阵》。/gu, "《石门阵》")
+    .replace(/1948年3月30日。/gu, "1948年3月30日")
+    .replace(/延安，1938年秋。/gu, "延安，1938年秋")
+    .trim();
+}
+
 function convertGroup(group) {
   const { record, sourceIndex, sources, repairNotes } = group;
   const passage = normalizeAgievalText(record.passage);
   const question = normalizeAgievalQuestion(record.question, record.label);
-  const options = record.options.map(stripAgievalOptionLabel);
+  const options = record.options.map((option) => cleanAgievalOutputText(stripAgievalOptionLabel(option)));
   const optionByLabel = new Map(options.map((option, index) => [String.fromCharCode(65 + index), option]));
   const paper = sources.join("；同题亦见：");
   const duplicateNote = sources.length > 1 ? `；合并 ${sources.length} 个内容完全相同的试卷来源` : "";
   const repairNote = repairNotes.length ? `；EduLoop人工校订：${repairNotes.join("；")}` : "";
   const skillTag = passage ? "阅读理解" : "语言运用";
   const rawStem = passage ? `${passage}\n\n${question}` : question;
-  const stem = rawStem
-    .replace(
-      /\[母欺子，子而不信其母，非以成教也。”遂烹彘也\]\(http:\/\/www\.ks5u\.com\/\)/gu,
-      "【母欺子，子而不信其母，非以成教也。”遂烹彘也】",
-    )
-    .replace(/学科\*网[。.]?/gu, "")
-    .replace(
-      "*夫冠足以修敬不务其饰衣足以掩形御寒不务其美身服不杂彩首服不镂刻**。*",
-      "【夫冠足以修敬不务其饰衣足以掩形御寒不务其美身服不杂彩首服不镂刻】。",
-    )
-    .replace(/\*([^*\n]{2,})\*/gu, "【$1】")
-    .replace(/赵一曼女士_+阿成[。.]?\s*/gu, "赵一曼女士\n阿成\n")
-    .replace(/围棋与国家_+林建超[。.]?\s*/gu, "围棋与国家\n林建超\n")
-    .replace(/贞_+幼聪敏/gu, "贞幼聪敏")
-    .replace(/[（(]\s*_{2,}\s*[）)]/gu, "（   ）")
-    .replace(/(的一项是)\s*_{2,}/gu, "$1（   ）")
-    .replace(/(?<!_)_{2,}(?!_)/gu, "______")
-    .trim();
+  const stem = cleanAgievalOutputText(
+    rawStem
+      .replace(
+        /\[母欺子，子而不信其母，非以成教也。”遂烹彘也\]\(http:\/\/www\.ks5u\.com\/\)/gu,
+        "【母欺子，子而不信其母，非以成教也。”遂烹彘也】",
+      )
+      .replace(/学科\*网[。.]?/gu, "")
+      .replace(
+        "*夫冠足以修敬不务其饰衣足以掩形御寒不务其美身服不杂彩首服不镂刻**。*",
+        "【夫冠足以修敬不务其饰衣足以掩形御寒不务其美身服不杂彩首服不镂刻】。",
+      )
+      .replace(/\*([^*\n]{2,})\*/gu, "【$1】")
+      .replace(/赵一曼女士_+阿成[。.]?\s*/gu, "赵一曼女士\n阿成\n")
+      .replace(/围棋与国家_+林建超[。.]?\s*/gu, "围棋与国家\n林建超\n")
+      .replace(/贞_+幼聪敏/gu, "贞幼聪敏")
+      .replace(/[（(]\s*_{2,}\s*[）)]/gu, "（   ）")
+      .replace(/(的一项是)\s*_{2,}/gu, "$1（   ）")
+      .replace(/(?<!_)_{2,}(?!_)/gu, "______"),
+  );
 
   return {
     id: stableId(sourceIndex),

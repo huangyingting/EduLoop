@@ -1384,6 +1384,65 @@ export const WAVE2_ITEM_OVERRIDES = new Map(Object.entries({
   "74a98f9dd94fc34c20c09c4a180cc274": {
     stem: "下列有关神舟七号飞船的说法中正确的是（ ）",
   },
+
+  // === 15. Wave 6 deep-audit overrides (truncated options, stub solutions, corrupted derivatives) ===
+  "6bf6d0e94f17a1a2c9e4b3509d66c721": {
+    answer: "52；56（答案不唯一）",
+    solutions: [
+      "用软尺分别围绕头部一周和腰部一周测量出长度，读取软尺上的刻度数据即可。小学生头围一般在50～54厘米左右，腰围一般在50～60厘米左右（答案不唯一，符合实际即可）。",
+    ],
+  },
+  "fe17b1fbb927ea4a840401334547cb50": {
+    stem: "定义在$$(0,+∞)$$上的函数$$f(x)$$满足$$f(x) > 0$$，$$f'(x)$$为$$f(x)$$的导函数，且$$2f(x) < xf'(x) < 3f(x)$$对任意 $$x∈(0,+∞)$$恒成立，则$$\\dfrac {f(3)}{f(4)}$$的取值范围是（ ）",
+  },
+  "ef34decd85ac88201fb59bbb6661f80f": {
+    options: {
+      A: "向$$\\rm{10mL0.1mol·L^{-1}FeI_{2}}$$溶液中缓缓通入标准状况下$$\\rm{11.2mL}$$ $$\\rm{Cl_{2}}$$",
+      B: "向$$\\rm{AlCl_{3}}$$溶液中滴加$$\\rm{Na_{2}S}$$溶液",
+      C: "向含有$$\\rm{Na^{+}}$$、$$\\rm{Fe^{2+}}$$、$$\\rm{Cl^{-}}$$、$$\\rm{SO_{4}^{2-}}$$离子的溶液中通入$$\\rm{NO_{2}}$$",
+      D: "向$$\\rm{5mL0.1}$$ $$\\rm{mol·L^{-1}NaOH}$$溶液中，逐滴加入$$\\rm{1}$$ $$\\rm{mL0.1}$$ $$\\rm{mol·L^{-1}AlCl_{3}}$$溶液，边滴加边振荡",
+    },
+  },
+  "22d5da8a91c90376a5ba7fb14b5999b2": {
+    stem: "解下列方程：(1) $$x-7.8=6.8$$；(2) $$7.2x=14.4$$；(3) $$0.9x=63$$；(4) $$x+34.8=49.6$$。",
+    answer:
+      "(1) $$x-7.8=6.8$$，$$x-7.8+7.8=6.8+7.8$$，$$x=14.6$$；(2) $$7.2x=14.4$$，$$7.2x\\div 7.2=14.4\\div 7.2$$，$$x=2$$；(3) $$0.9x=63$$，$$0.9x\\div 0.9=63\\div 0.9$$，$$x=70$$；(4) $$x+34.8=49.6$$，$$x+34.8-34.8=49.6-34.8$$，$$x=14.8$$。",
+    solutions: [
+      "解：(1) $$x-7.8=6.8$$，$$x-7.8+7.8=6.8+7.8$$，$$x=14.6$$；(2) $$7.2x=14.4$$，$$7.2x\\div 7.2=14.4\\div 7.2$$，$$x=2$$；(3) $$0.9x=63$$，$$0.9x\\div 0.9=63\\div 0.9$$，$$x=70$$；(4) $$x+34.8=49.6$$，$$x+34.8-34.8=49.6-34.8$$，$$x=14.8$$。",
+      "(1) 根据等式的性质，两边同时加上$$7.8$$即可。(2) 根据等式的性质，两边同时除以$$7.2$$即可。(3) 根据等式的性质，两边同时除以$$0.9$$即可。(4) 根据等式的性质，两边同时减去$$34.8$$即可。此题主要考查了根据等式的性质解方程的能力，即等式两边同时加上或同时减去、同时乘以或同时除以一个数（$$0$$除外），两边仍相等。",
+    ],
+  },
+  "b266d45627da7b04ec7b13db6c77d5b3": {
+    stem: "计算：(1) $$561+125\\times 8$$；(2) $$(642-258)\\times 5$$。",
+    answer: "(1) $$561+125\\times 8=561+1000=1561$$；(2) $$(642-258)\\times 5=384\\times 5=1920$$。",
+    solutions: [
+      "解：(1) $$561+125\\times 8=561+1000=1561$$；(2) $$(642-258)\\times 5=384\\times 5=1920$$。",
+      "(1) 先算乘法，再算加法；(2) 先算减法，再算乘法。整数混合运算的关键是抓住运算顺序，正确按运算顺序计算即可。",
+    ],
+  },
+  "04d6803d6a1c195d76304c67d38cb562": {
+    stem: "不计算，请你根据规律选出得数：$$6.6\\times 6.7=44.22$$，$$6.66\\times 66.7=444.222$$，$$6.6666\\times 6666.7=$$（ ）",
+  },
+  "4b5c759bcf18a4e2a845ce680c2aa5ed": {
+    stem: "计算：$$\\dfrac{\\sqrt{50}\\times\\sqrt{32}}{\\sqrt{8}}-\\sqrt{8}$$。",
+    answer: "原式$$=\\sqrt{\\dfrac{50\\times 32}{8}}-2\\sqrt{2}=10\\sqrt{2}-2\\sqrt{2}=8\\sqrt{2}$$。",
+    solutions: [
+      "解：原式$$=\\sqrt{\\dfrac{50\\times 32}{8}}-2\\sqrt{2}=10\\sqrt{2}-2\\sqrt{2}=8\\sqrt{2}$$。",
+      "本题考查了二次根式的混合运算：先利用二次根式的乘除法则运算，化为最简二次根式，然后合并同类二次根式即可。在二次根式的混合运算中，如能结合题目特点，灵活运用二次根式的性质，选择恰当的解题途径，往往能事半功倍。",
+    ],
+  },
+  "20052264f34c3761a48fe1540c2804e2": {
+    stem: "(1) 计算：$${{\\left(\\dfrac{1}{2}\\right)}^{-2}}-{{2}^{3}}\\times 0.125+{{2004}^{0}}+\\left| -1 \\right|$$；(2) 已知$$a=\\sqrt{3}+\\sqrt{2}$$，$$b=\\sqrt{3}-\\sqrt{2}$$，求$$a^{2}-ab+b^{2}$$的值。",
+  },
+  "f75ad2a7223c5efd53e0e464e8318efd": {
+    stem: "用“$$\\oplus$$”定义一种新运算：对于任意有理数$$a$$和$$b$$，规定$$a\\oplus b=ab^{2}+2ab+a$$。如：$$1\\oplus 3=1\\times 3^{2}+2\\times 1\\times 3+1=16$$。(1) 求$$(-2)\\oplus 3$$的值；(2) 若$$\\left(\\dfrac{a+1}{2}\\oplus 3\\right)\\oplus\\left(-\\dfrac{1}{2}\\right)=8$$，求$$a$$的值。",
+  },
+  "1020400b0fe00e2db706f9fe3bef747f": {
+    stem: "下列物质：(1) $$\\rm{Na}$$；(2) $$\\rm{NaCl}$$溶液；(3) $$\\rm{Na_{2}O}$$；(4) 蔗糖；(5) $$\\rm{CO_{2}}$$；(6) $$\\rm{NH_{3}}$$；(7) $$\\rm{Ba(OH)_{2}}$$；(8) $$\\rm{Na_{2}CO_{3}}$$；(9) $$\\rm{H_{2}SO_{4}}$$；(10) 盐酸。属于电解质的是 ______ ，属于非电解质的是 ______ ，以上状态下能导电的是 ______（以上各空填写上面物质前的序号）。",
+  },
+  "4e5573ccf31c4441470eaf4a32addf20": {
+    stem: "某同学用蔗糖配制$$\\rm{100g}$$质量分数为$$\\rm{5\\%}$$的蔗糖溶液，请回答：(1) 量取所需的水时，所选用量筒的量程最合适的是 ______（填序号） A. $$\\rm{10mL}$$ B. $$\\rm{20mL}$$ C. $$\\rm{50mL}$$ D. $$\\rm{100mL}$$ (2) 溶解时用玻璃棒搅拌的目的是 ______ (3) 称量蔗糖时，如果天平的指针向右偏转，接下来的操作应该是 ______（填序号） A. 增加砝码 B. 减少砝码 C. 增加蔗糖 D. 减少蔗糖。",
+  },
 }));
 
 const TRAILING_STRIPPED_BLANK_RE = /\s+((?:厘米|米|分米|毫米|千米|平方厘米|平方米|平方分米|公顷|立方厘米|立方分米|立方米|升|毫升|克|千克|吨|秒|分|小时|时|天|元|角|度|°|′|″|个|只|条|次|倍|人|件|箱|棵|本|支|辆|架|种|项|号|象限角|条件)?\s*[.．。])$/;
@@ -1392,35 +1451,67 @@ const LEADING_STEM_HEADER_RE = /^(?:[（(]\s*(?:\d{4}\s*[•·．.]\s*[^）)\d]{
 
 const TRAILING_NEXT_QUESTION_IN_SOLUTION_RE = /\s+(?:(?:\d{1,2}|[一二三四五六七八九十]+)\s*[.．、]\s*)?[（(]\s*(?:\d{4}\s*[•·．.]|\d+(?:\.\d+)?\s*分)[^）)]*[)）][^\n]*$/;
 
-function parenDiff(body) {
-  const s = body.replace(/\\left\s*[()]/g, "").replace(/\\right\s*[()]/g, "");
+function stripWave6ScoreRubrics(s) {
+  return String(s ?? "")
+    .replace(/\.?…(?=\$\$\s*[（(]\s*(?:\$\$)?\d+(?:\.\d+)?(?:\$\$)?\s*分)/gu, "")
+    .replace(/(?:\.?\s*(?:…|\.\.\.|\\dots|\\cdots)\s*)?[（(]\$\$\d+(?:\.\d+)?\$\$分\$\$\)/gu, "$$$$")
+    .replace(/(?:\.?\s*(?:…|\.\.\.|\\dots|\\cdots)\s*|\.)?[（(]\d+(?:\.\d+)?\$\$分[)）]/gu, "$$$$")
+    .replace(
+      /(?:\.?\s*(?:…|\.\.\.|\\dots|\\cdots)\s*)?[（(]\s*(?:本小题满分)?\s*(?:\$\$\d+(?:\.\d+)?\$\$|\d+(?:\.\d+)?)\s*分\s*[)）]/gu,
+      "",
+    )
+    .replace(/[（(]?说明：各题如有其它解法，按照相应的步骤给分[．.。]?[)）]?/gu, "");
+}
+
+function maskHalfOpenIntervals(str) {
+  return str
+    .replace(/\\left\([^()\[\]]*,[^()\[\]]*\\right\]/gu, (m) => "_".repeat(m.length))
+    .replace(/\\left\[[^()\[\]]*,[^()\[\]]*\\right\)/gu, (m) => "_".repeat(m.length))
+    .replace(/\[[^\[\]()]+[,，][^\[\]()]+\)/gu, (m) => "_".repeat(m.length))
+    .replace(/\([^\[\]()]+[,，][^\[\]()]+[\]］]/gu, (m) => "_".repeat(m.length));
+}
+
+function parenStats(body) {
+  const s = maskHalfOpenIntervals(body)
+    .replace(/\\left\s*[()]/g, "")
+    .replace(/\\right\s*[()]/g, "");
   let d = 0;
+  let minD = 0;
   for (const ch of s) {
     if (ch === "(") d++;
-    else if (ch === ")") d--;
+    else if (ch === ")") {
+      d--;
+      if (d < minD) minD = d;
+    }
   }
-  return d;
+  return { d, minD };
+}
+
+function isParenBalanced(body) {
+  const st = parenStats(body);
+  return st.d === 0 && st.minD === 0;
 }
 
 function stripTrailingLatexSpace(str) {
   return str.replace(/(?:\\[,;:!\s]|\\)+$/gu, "").trim();
 }
 
-function findTopLevelUnmatchedParen(str, wantOpen) {
+function findUnmatchedParens(str) {
+  const masked = maskHalfOpenIntervals(str);
   let braceDepth = 0;
   const openStack = [];
   const unmatchedClose = [];
-  for (let i = 0; i < str.length; i++) {
-    if (str.slice(i).startsWith("\\left(") || str.slice(i).startsWith("\\left)")) {
+  for (let i = 0; i < masked.length; i++) {
+    if (masked.slice(i).startsWith("\\left(") || masked.slice(i).startsWith("\\left)")) {
       i += 5;
       continue;
     }
-    if (str.slice(i).startsWith("\\right(") || str.slice(i).startsWith("\\right)")) {
+    if (masked.slice(i).startsWith("\\right(") || masked.slice(i).startsWith("\\right)")) {
       i += 6;
       continue;
     }
-    const ch = str[i];
-    if (ch === "\\" && i + 1 < str.length) {
+    const ch = masked[i];
+    if (ch === "\\" && i + 1 < masked.length) {
       i++;
       continue;
     }
@@ -1434,46 +1525,140 @@ function findTopLevelUnmatchedParen(str, wantOpen) {
       }
     }
   }
-  if (wantOpen) {
-    return openStack.length === 1 ? openStack[0] : -1;
-  }
-  return unmatchedClose.length === 1 ? unmatchedClose[0] : -1;
+  return { openStack, unmatchedClose };
 }
 
 function splitUnbalancedBlock(b) {
-  const diff = parenDiff(b);
-  if (Math.abs(diff) !== 1) return null;
-  if (/\[[^\[\]()]+,[^\[\]()]+\)|\([^\[\]()]+,[^\[\]()]+[\]］]/u.test(b)) return null;
-  const wantOpen = diff > 0;
-  const targetChar = wantOpen ? "(" : ")";
-
+  const st = parenStats(b);
   const outerRm1 = b.match(/^(\\rm\{)([\s\S]*?)(\})$/u);
   const outerRm2 = !outerRm1 ? b.match(/^(\{\\rm\s+)([\s\S]*?)(\})$/u) : null;
   const outer = outerRm1 || outerRm2;
 
-  if (outer) {
-    const openWrap = outer[1];
-    const inner = outer[2];
-    const idx = findTopLevelUnmatchedParen(inner, wantOpen);
+  if (Math.abs(st.d) === 1) {
+    const wantOpen = st.d > 0;
+    const targetChar = wantOpen ? "(" : ")";
+    if (outer) {
+      const openWrap = outer[1];
+      const inner = outer[2];
+      const { openStack, unmatchedClose } = findUnmatchedParens(inner);
+      const idx = wantOpen
+        ? openStack.length === 1
+          ? openStack[0]
+          : -1
+        : unmatchedClose.length === 1
+          ? unmatchedClose[0]
+          : -1;
+      if (idx === -1) return null;
+      const left = inner.slice(0, idx).trim();
+      const right = inner.slice(idx + 1).trim();
+      const leftPart = left ? `$$${openWrap}${left}}$$` : "";
+      const rightPart = right ? `$$${openWrap}${right}}$$` : "";
+      return `${leftPart}${targetChar}${rightPart}`;
+    }
+    const { openStack, unmatchedClose } = findUnmatchedParens(b);
+    const idx = wantOpen
+      ? openStack.length === 1
+        ? openStack[0]
+        : -1
+      : unmatchedClose.length === 1
+        ? unmatchedClose[0]
+        : -1;
     if (idx === -1) return null;
-    const left = inner.slice(0, idx).trim();
-    const right = inner.slice(idx + 1).trim();
-    const leftPart = left ? `$$${openWrap}${left}}$$` : "";
-    const rightPart = right ? `$$${openWrap}${right}}$$` : "";
+    const left = b.slice(0, idx).trim();
+    const right = b.slice(idx + 1).trim();
+    const leftPart = left ? `$$${left}$$` : "";
+    const rightPart = right ? `$$${right}$$` : "";
     return `${leftPart}${targetChar}${rightPart}`;
   }
 
-  const idx = findTopLevelUnmatchedParen(b, wantOpen);
-  if (idx === -1) return null;
-  const left = b.slice(0, idx).trim();
-  const right = b.slice(idx + 1).trim();
-  const leftPart = left ? `$$${left}$$` : "";
-  const rightPart = right ? `$$${right}$$` : "";
-  return `${leftPart}${targetChar}${rightPart}`;
+  if (st.d === 0 && st.minD === -1) {
+    const target = outer ? outer[2] : b;
+    const { openStack, unmatchedClose } = findUnmatchedParens(target);
+    if (unmatchedClose.length === 1 && openStack.length === 1 && unmatchedClose[0] < openStack[0]) {
+      const cIdx = unmatchedClose[0];
+      const oIdx = openStack[0];
+      const left = target.slice(0, cIdx).trim();
+      const mid = target.slice(cIdx + 1, oIdx).trim();
+      const right = target.slice(oIdx + 1).trim();
+      const wrap = (x) => (x ? (outer ? `$$${outer[1]}${x}}$$` : `$$${x}$$`) : "");
+      return `${wrap(left)})${wrap(mid)}(${wrap(right)}`;
+    }
+  }
+  return null;
 }
 
-export function cleanStemMathBoundaries(str, isChoice) {
+function splitTrappedSubquestions(str, blankRepl) {
   let s = String(str ?? "");
+  if (!/\(1\)|（1）/.test(s)) return s;
+  s = s.replace(/\$\$\s*\(\s*\)\s*(\([1-9]\d*\))\s*\$\$/gu, `${blankRepl} $1 `);
+  s = s.replace(/\$\$\s*\(\s*\)\s*(\([1-9]\d*\))\s*/gu, `${blankRepl} $1 $$$$`);
+  s = s.replace(/\$\$\s*((?:\([1-9]\d*\)\s*)+)\$\$/gu, " $1 ");
+  s = s.replace(/\$\$([\s\S]*?)\$\$/gu, (m, body) => {
+    let b = body
+      .replace(/\\rm\{\s*\}/gu, "")
+      .replace(/\\rm\{\s*(\([1-9]\d*\))\s*\}/gu, "$1")
+      .replace(/\\rm\{\s*(\([1-9]\d*\))\s*/gu, "$1\\rm{")
+      .replace(/(\\rm\{[^{}]*?)(\([2-9]\d*\))\s*\}/gu, "$1}$2")
+      .replace(/(\\rm\{[^{}]*?)\s*(\([2-9]\d*\))\s*([^{}]*\})/gu, "$1}$2\\rm{$3");
+    const tokens = [];
+    let cur = "";
+    let depth = 0;
+    let envDepth = 0;
+    for (let i = 0; i < b.length; i++) {
+      if (b.slice(i).startsWith("\\begin{")) {
+        envDepth++;
+      } else if (b.slice(i).startsWith("\\end{")) {
+        envDepth = Math.max(0, envDepth - 1);
+      }
+      const ch = b[i];
+      if (ch === "\\" && i + 1 < b.length) {
+        cur += ch + b[i + 1];
+        i++;
+        continue;
+      }
+      if (ch === "{") {
+        depth++;
+        cur += ch;
+        continue;
+      }
+      if (ch === "}") {
+        depth = Math.max(0, depth - 1);
+        cur += ch;
+        continue;
+      }
+      if (depth === 0 && envDepth === 0 && ch === "(") {
+        const sub = b.slice(i).match(/^(\([2-9]\d*\))/u);
+        if (sub) {
+          const prev = cur.slice(-15);
+          const next = b.slice(i + sub[1].length, i + sub[1].length + 10);
+          const isFunc = /(?:[fFgGhHP][\x27′]?|\([1-9]\d*\)\s*[-−+])\s*$/u.test(prev);
+          const isInterval = /^\s*[,，]/u.test(next);
+          if (!isFunc && !isInterval) {
+            tokens.push({ type: "math", text: cur });
+            tokens.push({ type: "subq", text: sub[1] });
+            cur = "";
+            i += sub[1].length - 1;
+            continue;
+          }
+        }
+      }
+      cur += ch;
+    }
+    if (tokens.length === 0) return m;
+    tokens.push({ type: "math", text: cur });
+    return tokens
+      .map((t) => {
+        if (t.type === "subq") return ` ${t.text} `;
+        const cleaned = t.text.replace(/\\rm\{\s*\}/gu, "").trim();
+        return cleaned ? `$$${cleaned}$$` : "";
+      })
+      .join("");
+  });
+  return s;
+}
+
+function cleanStemMathBoundariesOnce(str, isChoice) {
+  let s = stripWave6ScoreRubrics(str);
   const blankRepl = isChoice ? "（ ）" : "（______）";
 
   // Pre-merge math blocks split across horizontal ellipsis and adjacent {\rm ...}{\rm ...} blocks
@@ -1488,7 +1673,19 @@ export function cleanStemMathBoundaries(str, isChoice) {
     )
     .replace(/\\dfrac\s*\{2\(1\+i\)\}\{\(1-i\)1\+i\)\}/gu, "\\dfrac{2(1+i)}{(1-i)(1+i)}")
     .replace(/P\(X=1\)\+P\(X=2\)\)/gu, "P(X=1)+P(X=2)")
-    .replace(/\[m\+1\)\+\(n\+1\)\]/gu, "[(m+1)+(n+1)]");
+    .replace(/\[m\+1\)\+\(n\+1\)\]/gu, "[(m+1)+(n+1)]")
+    .replace(/\$\$\\rm\{V\}\$\$\(正\$\$\\rm\{\)\s*>\s*V\(\}\$\$逆\)/gu, "$$\\rm{v(\\text{正}) > v(\\text{逆})}$$")
+    .replace(
+      /\$\$\{\\rm\s*C\}\$\$\(石墨，\$\$\{\\rm\s*s\)=C\(\}\$\$金刚石，\$\$\{\\rm\s*s\}\$\$\)/gu,
+      "$$\\rm{C(\\text{石墨, s})=C(\\text{金刚石, s})}$$",
+    )
+    .replace(/\(\$\$m\$\$\s*，\s*\$\$3m\)=\([−-]4\$\$，\s*\$\$[−-]12\$\$\)/gu, "$$(m,3m)=(-4,-12)$$")
+    .replace(/\(\$\$n\$\$\s*，\s*\$\$3n\)=\(0\$\$，\s*\$\$3×0\)=\(0\$\$，\s*\$\$0\$\$\)/gu, "$$(n,3n)=(0,3\\times 0)=(0,0)$$")
+    .replace(/\(Ⅱ\$\$\)A\(-2\$\$，\$\$0\$\$\)/gu, "(Ⅱ) $$A(-2,0)$$")
+    .replace(/\$\$\\left\(\\dfrac\{\\sqrt\{2\}\}\{2\}\$\$，\$\$\+∞\$\$\)/gu, "$$\\left(\\dfrac{\\sqrt{2}}{2},+\\infty\\right)$$")
+    .replace(/(\$\$\(-∞,0\]∪\(\s*\\dfrac\s*\{\s*\\sqrt\s*\{2\}\}\{2\})\$\$，\$\$\+∞\$\$\)/gu, "$1,+\\infty)$$$$")
+    .replace(/\$\$x∈-1,2\]\$\$/gu, "$$x\\in[-1,2]$$")
+    .replace(/\\right\(\\quad\s*\\quad\$\$\)/gu, "\\right.$$$$");
 
   // Merge equation-internal (浓)/(稀)/(正)/(逆) inside chemical equations
   s = s.replace(
@@ -1505,25 +1702,33 @@ export function cleanStemMathBoundaries(str, isChoice) {
   const purePunct =
     /^(?:\\rm\{|\{\\rm\s*|\\text\{)?\s*([()（）.,，。；;：:、？！?!~～—\-“”"''‘’\[\]【】《》/]+)\s*(?:\})?$/u;
   const pureSubq =
-    /^(?:\\rm\{|\{\\rm\s*|\\text\{)?\s*([\(（](?:[1-9]\d*|[一二三四五六七八九十]+|[①-⑳]|[ivxIVX]+)[\)）]|[①-⑳]|[1-9]\d*\))\s*(?:\})?$/u;
+    /^(?:\\rm\{|\{\\rm\s*|\\text\{)?\s*([\(（](?:[1-9]\d*|[一二三四五六七八九十]+|[①-⑳]|[ivxIVX]+)[\)）]|(?:[①-⑳]\s*)+|[1-9]\d*\))\s*(?:\})?$/u;
 
-  // Pre-split multi-subquestion math blocks so each sub-block gets full boundary cleanup
-  s = s.replace(/\$\$([\s\S]*?)\$\$/gu, (m, body) => {
-    const trimmed = body.trim();
-    if (
-      !/^\\rm\{/u.test(trimmed) &&
-      !/^\{\\rm/u.test(trimmed) &&
-      /^\(1\)/u.test(trimmed) &&
-      /(?<![_^{A-Za-z0-9])\([2-9]\d*\)/u.test(trimmed)
-    ) {
-      const split = trimmed.replace(
-        /\s*(?<![_^{A-Za-z0-9])(\([1-9]\d*\))\s*/gu,
-        "$$$$ $1 $$$$",
-      );
-      return `$$${split}$$`.replace(/\$\$\s*\$\$/gu, "");
-    }
-    return m;
-  });
+  // Re-merge peeled half-open intervals and outer parens before the boundary loop
+  s = s
+    .replace(/\(\$\$([\s\S]*?)\$\$/gu, (m, body) => {
+      if (pureBlank.test("(" + body + ")")) return m;
+      const st = parenStats(body);
+      if (st.minD < 0 || /^[^()\[\]]*[,，][^()\[\]]*[\]］]/u.test(body.trim())) {
+        return `$$(${body}$$`;
+      }
+      return m;
+    })
+    .replace(/\$\$([\s\S]*?)\$\$\)/gu, (m, body) => {
+      if (pureBlank.test("(" + body + ")")) return m;
+      const st = parenStats(body);
+      if (st.d > 0 || /[\[\uff3b][^()\[\]]*[,，][^()\[\]]*$/u.test(body.trim())) {
+        return `$$${body})$$`;
+      }
+      return m;
+    });
+
+  // Move trailing subquestion markers before Chinese text outside $$...$$ and split trapped multi-subquestion blocks
+  s = s.replace(
+    /\$\$([\s\S]*?)(?<![fFgGhHP][\x27′]?)(?<!_\{|\^\{)(\([1-9]\d*\))\s*\$\$(?=\s*[\u4e00-\u9fa5])/gu,
+    "$$$$$1$$$$ $2 ",
+  );
+  s = splitTrappedSubquestions(s, blankRepl);
 
   s = s.replace(/\$\$([\s\S]*?)\$\$/gu, (m, body) => {
     if (pureBlank.test(body.trim())) return blankRepl;
@@ -1532,6 +1737,9 @@ export function cleanStemMathBoundaries(str, isChoice) {
       .replace(/＋/gu, "+")
       .replace(/－/gu, "-")
       .replace(/＝/gu, "=")
+      .replace(/\{\(\}/gu, "(")
+      .replace(/\{\)\}/gu, ")")
+      .replace(/(\d)\.\.(\d)/gu, "$1.$2")
       .replace(/([A-Za-z0-9)\]}])\{\\,\\!\}(?=[_^])/gu, "$1")
       .replace(/\{\\,\\!\}(?=[0-9A-Za-z])/gu, "")
       .replace(/\{\\,\\!\}(?=[_^])/gu, "{}")
@@ -1546,6 +1754,11 @@ export function cleanStemMathBoundaries(str, isChoice) {
       )
       .replace(/\\rlap\{_\{([^}]+)\}\}\{\^\{([^}]+)\}\}/gu, "_{$1}^{$2}")
       .replace(/(?:\\[,;:!\s])+\s*\}/gu, "}");
+
+    if (/^\\rm\{[\s\S]*\}$/u.test(b.trim()) && !b.includes("$$")) {
+      b = b.trim().replace(/\}\s*\\rm\{/gu, "");
+    }
+    b = b.replace(/^(?:\\[,;:!]\s*)+(?=_\{)/gu, "{}").replace(/^(?:\\[,;:!]|\\quad|\\qquad|\s)+/gu, "");
     b = stripTrailingLatexSpace(b);
     if (!b) return "";
     if (pureBlank.test(b)) return blankRepl;
@@ -1556,6 +1769,11 @@ export function cleanStemMathBoundaries(str, isChoice) {
 
     let prefix = "";
     let suffix = "";
+
+    if (/^\\rm\{pH\(\)\}$/u.test(b)) {
+      b = "\\rm{pH}";
+      suffix = blankRepl + suffix;
+    }
 
     // Peel leading punctuation (including inside \rm{...} or {\rm ...})
     const leadPunctMatch = b.match(/^([，。；：？！,.;:?!]+)\s*([\s\S]*)$/u);
@@ -1570,10 +1788,10 @@ export function cleanStemMathBoundaries(str, isChoice) {
       }
     }
 
-    const leadSubq = b.match(/^(\([1-9]\d*\)|[①-⑳])\s*(?=\\|[A-Za-z0-9(（.，。；：？！,;:?!])/u);
+    const leadSubq = b.match(/^(\([1-9]\d*\)|[①-⑳])\s*([\s\S]+)$/u);
     if (leadSubq) {
-      const rest = b.slice(leadSubq[0].length).trim();
-      if (!/(?<![_^{A-Za-z0-9])\([2-9]\d*\)/u.test(rest)) {
+      const rest = leadSubq[2].trim();
+      if (rest && !/^[,，\]］)]/u.test(rest) && !/(?<![_^{A-Za-z0-9])\([2-9]\d*\)/u.test(rest)) {
         prefix += `${leadSubq[1]} `;
         b = rest;
       }
@@ -1623,53 +1841,64 @@ export function cleanStemMathBoundaries(str, isChoice) {
       suffix = trailPunct[2] + suffix;
     }
 
-    const diff = parenDiff(b);
-    if (diff > 0) {
-      const trailOpen = b.match(/^([\s\S]*?)\(\s*$/u);
-      if (trailOpen) {
-        b = stripTrailingLatexSpace(trailOpen[1]);
+    // Unconditionally peel inverted boundary parens: leading ')' or trailing '('
+    const leadClose = b.match(/^\)\s*([\s\S]*)$/u);
+    if (leadClose) {
+      prefix += ")";
+      b = stripTrailingLatexSpace(leadClose[1]);
+    } else {
+      const leadRmClose = b.match(/^(\\rm\{|\{\\rm\s*)\s*\)\s*([\s\S]*)$/u);
+      if (leadRmClose) {
+        prefix += ")";
+        b = leadRmClose[1] + leadRmClose[2].trim();
+      }
+    }
+
+    const trailOpen = b.match(/^([\s\S]*?)\(\s*$/u);
+    if (trailOpen) {
+      b = stripTrailingLatexSpace(trailOpen[1]);
+      suffix = `(${suffix}`;
+    } else {
+      const trailRmOpen = b.match(/^([\s\S]*?\\rm\{[^}]*?)\(\s*\}\s*$/u);
+      if (trailRmOpen) {
+        b = `${trailRmOpen[1].trim()}}`;
         suffix = `(${suffix}`;
+      }
+    }
+
+    const trailPunctAfterOpen = b.match(/^([\s\S]+?)([.．,，。；;：:？?！!])$/u);
+    if (
+      trailPunctAfterOpen &&
+      !/^\d+$/u.test(trailPunctAfterOpen[1].trim()) &&
+      !/\\right\s*$/u.test(trailPunctAfterOpen[1])
+    ) {
+      b = stripTrailingLatexSpace(trailPunctAfterOpen[1]);
+      suffix = trailPunctAfterOpen[2] + suffix;
+    }
+
+    const st = parenStats(b);
+    if (st.d > 0) {
+      const leadOpen = b.match(/^\(\s*([\s\S]*)$/u);
+      if (leadOpen && isParenBalanced(leadOpen[1])) {
+        prefix += "(";
+        b = stripTrailingLatexSpace(leadOpen[1]);
       } else {
-        const trailRmOpen = b.match(/^([\s\S]*?\\rm\{[^}]*?)\(\s*\}\s*$/u);
-        if (trailRmOpen) {
-          b = `${trailRmOpen[1].trim()}}`;
-          suffix = `(${suffix}`;
-        } else {
-          const leadOpen = b.match(/^\(\s*([\s\S]*)$/u);
-          if (leadOpen && parenDiff(leadOpen[1]) === 0) {
-            prefix += "(";
-            b = stripTrailingLatexSpace(leadOpen[1]);
-          } else {
-            const leadRmOpen = b.match(/^(\\rm\{)\s*\(\s*([\s\S]*)$/u);
-            if (leadRmOpen && parenDiff(leadRmOpen[1] + leadRmOpen[2]) === 0) {
-              prefix += "(";
-              b = leadRmOpen[1] + leadRmOpen[2].trim();
-            }
-          }
+        const leadRmOpen = b.match(/^(\\rm\{|\{\\rm\s*)\s*\(\s*([\s\S]*)$/u);
+        if (leadRmOpen && isParenBalanced(leadRmOpen[1] + leadRmOpen[2])) {
+          prefix += "(";
+          b = leadRmOpen[1] + leadRmOpen[2].trim();
         }
       }
-    } else if (diff < 0) {
-      const leadClose = b.match(/^\)\s*([\s\S]*)$/u);
-      if (leadClose) {
-        prefix += ")";
-        b = stripTrailingLatexSpace(leadClose[1]);
+    } else if (st.d < 0) {
+      const trailClose = b.match(/^([\s\S]*?)\)\s*$/u);
+      if (trailClose && isParenBalanced(trailClose[1])) {
+        b = stripTrailingLatexSpace(trailClose[1]);
+        suffix = `)${suffix}`;
       } else {
-        const leadRmClose = b.match(/^(\\rm\{)\s*\)\s*([\s\S]*)$/u);
-        if (leadRmClose) {
-          prefix += ")";
-          b = leadRmClose[1] + leadRmClose[2].trim();
-        } else {
-          const trailClose = b.match(/^([\s\S]*?)\)\s*$/u);
-          if (trailClose && parenDiff(trailClose[1]) === 0) {
-            b = stripTrailingLatexSpace(trailClose[1]);
-            suffix = `)${suffix}`;
-          } else {
-            const trailRmClose = b.match(/^([\s\S]*?\\rm\{[^}]*?)\)\s*\}\s*$/u);
-            if (trailRmClose && parenDiff(`${trailRmClose[1]}}`) === 0) {
-              b = `${trailRmClose[1].trim()}}`;
-              suffix = `)${suffix}`;
-            }
-          }
+        const trailRmClose = b.match(/^([\s\S]*?\\rm\{[^}]*?)\)\s*\}\s*$/u);
+        if (trailRmClose && isParenBalanced(`${trailRmClose[1]}}`)) {
+          b = `${trailRmClose[1].trim()}}`;
+          suffix = `)${suffix}`;
         }
       }
     }
@@ -1689,12 +1918,22 @@ export function cleanStemMathBoundaries(str, isChoice) {
 
     const splitUnbalanced = splitUnbalancedBlock(b);
     if (splitUnbalanced !== null) {
-      return `${prefix}${cleanStemMathBoundaries(splitUnbalanced, isChoice)}${suffix}`;
+      return `${prefix}${cleanStemMathBoundariesOnce(splitUnbalanced, isChoice)}${suffix}`;
     }
 
     return `${prefix}$$${b}$$${suffix}`;
   });
 
+  return s;
+}
+
+export function cleanStemMathBoundaries(str, isChoice) {
+  let s = String(str ?? "");
+  for (let i = 0; i < 4; i++) {
+    const next = cleanStemMathBoundariesOnce(s, isChoice);
+    if (next === s) break;
+    s = next;
+  }
   return s;
 }
 
@@ -1726,9 +1965,113 @@ function cleanDoubledChinesePunct(str) {
     .replace(/，；/gu, "；")
     .replace(/；：/gu, "：")
     .replace(/：；/gu, "；")
+    .replace(/:；/gu, "；")
     .replace(/，：/gu, "：")
     .replace(/：，/gu, "：")
     .replace(/？：/gu, "？");
+}
+
+function cleanWave6StemText(str) {
+  if (!str) return "";
+  let s = String(str)
+    .replace(/\u30fb/gu, "·")
+    .replace(/［解答］\s*/gu, "")
+    .replace(/(\([1-9]\d*\))\s+\1\b/gu, "$1")
+    .replace(/\.:\s*$/gu, ".")
+    .replace(/\$\$:\s*$/gu, "$$$$")
+    .replace(/f\{\{"\}\}\(x\)/gu, "f'(x)")
+    .replace(/e\^\{x\}f\(x\) > e\^\{x\}\+5/gu, "e^{x}f(x) > e^{x}-1")
+    .replace(/g\(0\)=e\^\{0\}f\(0\)-e\^\{0\}=6-1=5/gu, "g(0)=e^{0}f(0)-e^{0}=0-1=-1")
+    .replace(/g\(x\) > 5/gu, "g(x) > -1")
+    .replace(/盐酸：与“观察DNA。/gu, "盐酸：与“观察DNA和RNA在细胞中的分布”中的作用相同")
+    .replace(/填在答题卡相应位置/gu, "填空")
+    .replace(/（填入正确答案标号。选对1个得2分，选对2个得4分；有选错的得0分）/gu, "")
+    .replace(/\(选对一个给3分，选对两个给4分，选对3个给6分。每选错一个扣3分，最低得分为0分）/gu, "")
+    .replace(/（判断对错．/gu, "")
+    .replace(/降解l0g/gu, "降解10g")
+    .replace(/l000mL/gu, "1000mL")
+    .replace(/l5%/gu, "15%")
+    .replace(/\\rm\{FeI\}/gu, "\\rm{FeI_{2}}")
+    .replace(/l\.0l×l0\^\{5\}Pa/gu, "1.01×10^{5}Pa")
+    .replace(/\bI1\b/gu, "I_{1}")
+    .replace(/画l00条/gu, "画100条")
+    .replace(/l00Ω/gu, "100Ω")
+    .replace(/\$\$l0N\$\$/gu, "$$10N$$")
+    .replace(/(?<![A-Za-z\\])l0\^\{([0-9]+)\}/gu, "10^{$1}")
+    .replace(/\$\$l0min\$\$/gu, "$$10min$$")
+    .replace(/\$\$g=l0m\/s\^\{2\}\$\$/gu, "$$g=10m/s^{2}$$")
+    .replace(/加人/gu, "加入")
+    .replace(/放人/gu, "放入")
+    .replace(/通人/gu, "通入")
+    // Odd-quote surgical fixes before even-quote alternation
+    .replace(/^[""“]?淀粉→麦芽糖→葡萄糖→糖原”/gu, "“淀粉→麦芽糖→葡萄糖→糖原”")
+    .replace(/催化反应才能发生["“]/gu, "催化反应才能发生”")
+    .replace(/根据题干信息：酶与底物结合后，常常会挤压或扭曲底物的某个化学键["”]/gu, "根据题干信息“酶与底物结合后，常常会挤压或扭曲底物的某个化学键”")
+    .replace(/××晚报报道：(?<!“)位于某市内流河旁/gu, "××晚报报道：“位于某市内流河旁")
+    .replace(/“绿色、低碳、环保”理念”/gu, "“绿色、低碳、环保”理念")
+    .replace(/根据“三取中”的原则，“所选试剂铜/gu, "根据“三取中”的原则，所选试剂铜")
+    .replace(/实现“零排放故对/gu, "实现“零排放”，故对")
+    .replace(/^“实际产量是计划的115%，/gu, "“实际产量是计划的115%”，")
+    .replace(/正好是(?<!“)乒坛小将”/gu, "正好是“乒坛小将”")
+    .replace(/改成用(?<!“)万”作单位/gu, "改成用“万”作单位")
+    .replace(/“第一根先截去全长的\$\$\\dfrac\{1\}\{5\}\$\$(?!\u201d)，/gu, "“第一根先截去全长的$$\\dfrac{1}{5}$$”，")
+    .replace(/^六\$\$\\boldsymbol\{[⋅·]\}\$\$一”儿童节/gu, "“六$$\\boldsymbol{·}$$一”儿童节")
+    .replace(/打出“九折酬宾(?!\u201d)，/gu, "打出“九折酬宾”，")
+    .replace(/由(?<!“)上加下减”的原则/gu, "由“上加下减”的原则")
+    .replace(/少做了500个(?!\u201d)，请你帮忙算一下小福贵第一天做了多少个面包？/gu, "少做了500个。”请你帮忙算一下小福贵第一天做了多少个面包？")
+    .replace(/称此三角形为(?<!“)特异三角形”/gu, "称此三角形为“特异三角形”")
+    .replace(/③若\$\$c\^\{2\}\$\$为“整弦数”，则\$\$c\$\$为正整数”/gu, "③“若$$c^{2}$$为‘整弦数’，则$$c$$为正整数”")
+    .replace(/解：(?<!“)学习强国”是中共中央宣传部/gu, "解：“学习强国”是中共中央宣传部")
+    .replace(/根据题意，(?<!“)盈利6%”记作/gu, "根据题意，“盈利6%”记作")
+    .replace(/解：(?<!“)若\$\$a=b\$\$，则\$\$a\^\{2\}=b\^\{2\}\$\$”的逆命题/gu, "解：“若$$a=b$$，则$$a^{2}=b^{2}$$”的逆命题")
+    .replace(/②若“\$\$p∨q\$\$(?!\u201d)为真/gu, "②若“$$p∨q$$”为真")
+    .replace(/标有“\$\$3200imp\/\(kw[⋅·]h\)\$\$(?!\u201d)\./gu, "标有“$$3200imp/(kw·h)$$”.")
+    .replace(/“10A(?!\u201d)表示电能表的标定电流/gu, "“10A”表示电能表的标定电流")
+    .replace(/“悦耳动听”是说声音的音色好”/gu, "“悦耳动听”是说声音的音色好")
+    .replace(/^净含量 2L”的字样/gu, "“净含量 2L”的字样")
+    .replace(/“将杯拿到屋外，就看到很多“白气”属于/gu, "“将杯拿到屋外，就看到很多‘白气’”属于")
+    .replace(/这些小亮斑是太阳的______“正立”或倒立”）的______“实”或“虚”）像。一张不透光的纸开一个极小的“△“形孔/gu, "这些小亮斑是太阳的______（选填“正立”或“倒立”）的______（选填“实”或“虚”）像。一张不透光的纸开一个极小的“△”形孔")
+    .replace(/（填“增加、减少或不变）/gu, "（填“增加”“减少”或“不变”）")
+    .replace(/被称为“笔尖下发现的行星(?!\u201d)。/gu, "被称为“笔尖下发现的行星”。")
+    // Specific unbalanced-paren fixes
+    .replace(/对白毛(?<!（)a）为显性/gu, "对白毛（a）为显性")
+    .replace(/（第14号与第22号染色体部分易位(?!）)/gu, "（第14号与第22号染色体部分易位）")
+    .replace(/（2））①/gu, "（2）①")
+    .replace(/两人相距(?<!（)10a\+10b）米/gu, "两人相距（10a+10b）米")
+    .replace(/（mod （9）/gu, "（mod 9）")
+    .replace(/（只有加减法或只有乘除法(?!）)，/gu, "（只有加减法或只有乘除法），")
+    .replace(/（n≥3）且n为整数）/gu, "（n≥3且n为整数）")
+    .replace(/（2））（-8）/gu, "（2）（-8）")
+    .replace(/(?<!（)([ⅠⅡⅢ]）)/gu, "（$1")
+    .replace(/\+12，-10．）/gu, "+12，-10．")
+    .replace(/（1）因为）\|x\+3\|=2/gu, "（1）因为|x+3|=2")
+    .replace(/（选取（“属于”或“不属于”）/gu, "（选填“属于”或“不属于”）")
+    // Normalize mixed fullwidth/ASCII parens and half-open intervals
+    .replace(/（([^（）()\n]+)\)/gu, "（$1）")
+    .replace(/\(([^（）()\n]+)）/gu, "（$1）")
+    .replace(/(?<!（)(?<!mod\s)(?:^|(?<=[\s。；．\n]))([1-9]\d?)）/gu, "（$1）")
+    .replace(/（([^（）\[\]\n]+)\]/gu, "($1]")
+    .replace(/\[([^（）\[\]\n]+)）/gu, "[$1)");
+
+  if (!s.includes("<svg")) {
+    s = s.replace(/"([^"\n]+)"/gu, "“$1”");
+    s = s
+      .split("\n")
+      .map((line) => {
+        const qCount = (line.match(/[“”]/gu) || []).length;
+        if (qCount > 0 && qCount % 2 === 0 && !/“[‘']/.test(line)) {
+          let open = true;
+          return line.replace(/[“”]/gu, () => {
+            const ch = open ? "“" : "”";
+            open = !open;
+            return ch;
+          });
+        }
+        return line;
+      })
+      .join("\n");
+  }
+  return s;
 }
 
 export function applyWave2StemNormalization(question) {
@@ -1744,58 +2087,68 @@ export function applyWave2StemNormalization(question) {
   const isChoiceLike = ["单选题", "多选题", "选择题", "双选题", "不定项选择题", "判断题"].includes(question.type);
 
   // Strip leading exam headers / score prefixes / item numbers from stem, and normalize short underscore runs
-  question.stem = cleanDoubledChinesePunct(
-    fixStemXuanTian(
-      cleanStemMathBoundaries(question.stem, isChoiceLike)
-        .replace(/^\$\$\\rm\{\(?(\d+)\s*分?\)?[、.．]?}\$\$\s*/, "")
-        .replace(/^\$\$\s*(?:\\rm\{)?\d+(?:\})?\s*\$\$[、.．]\s*(?!\$\$)/u, "")
-        .replace(LEADING_STEM_HEADER_RE, "")
-        .replace(/^[、，。．.,;；:：]+\s*/u, "")
-        .replace(/[（(]\s*\d+(?:\.\d+)?\s*分(?:[，,。；;][^）)\n]{1,15})?[）)]/gu, "")
-        .replace(/(?<!_)_{2,}(?!_)/gu, "______")
-        .replace(/(?:\s*\\:){3,}\s*/gu, " "),
+  question.stem = cleanWave6StemText(
+    cleanDoubledChinesePunct(
+      fixStemXuanTian(
+        cleanStemMathBoundaries(question.stem, isChoiceLike)
+          .replace(/^\$\$\\rm\{\(?(\d+)\s*分?\)?[、.．]?}\$\$\s*/, "")
+          .replace(/^\$\$\s*(?:\\rm\{)?\d+(?:\})?\s*\$\$[、.．]\s*(?!\$\$)/u, "")
+          .replace(LEADING_STEM_HEADER_RE, "")
+          .replace(/^[、，。．.,;；:：]+\s*/u, "")
+          .replace(/[（(]\s*\d+(?:\.\d+)?\s*分(?:[，,。；;][^）)\n]{1,15})?[）)]/gu, "")
+          .replace(/(?<!_)_{2,}(?!_)/gu, "______")
+          .replace(/(?:\s*\\:){3,}\s*/gu, " "),
+      ),
     ),
   ).trim();
 
   if (question.options && typeof question.options === "object") {
     for (const key of Object.keys(question.options)) {
-      question.options[key] = cleanDoubledChinesePunct(
-        cleanStemMathBoundaries(question.options[key], true)
-          .replace(/(?:\s*\\:){3,}\s*/gu, " "),
+      question.options[key] = cleanWave6StemText(
+        cleanDoubledChinesePunct(
+          cleanStemMathBoundaries(question.options[key], true)
+            .replace(/(?:\s*\\:){3,}\s*/gu, " "),
+        ),
       ).trim();
     }
   }
 
-  question.answer = cleanDoubledChinesePunct(
-    cleanStemMathBoundaries(question.answer, false)
-      .replace(/【(?:答案|解析|详解|分析|点睛|点评|试题解析|知识点|技术的)】\s*/gu, "")
-      .replace(/(?:(?:\.\.\.|…|\$\$\s*(?:\\cdots|\\dots)+\s*\$\$|\\cdots|\\dots)+\s*)[（(]?\d+(?:\.\d+)?\s*分[）)]?/gu, "")
-      .replace(/[（(]\s*\d+(?:\.\d+)?\s*分(?:[，,。；;][^）)\n]{1,15})?[）)]/gu, "")
-      .replace(/(?:\s*\\:){3,}\s*/gu, " "),
-  ).trim();
+  question.answer = cleanWave6StemText(
+    cleanDoubledChinesePunct(
+      cleanStemMathBoundaries(question.answer, false)
+        .replace(/【(?:答案|解析|详解|分析|点睛|点评|试题解析|知识点|技术的)】\s*/gu, "")
+        .replace(/(?:(?:\.\.\.|…|\$\$\s*(?:\\cdots|\\dots)+\s*\$\$|\\cdots|\\dots)+\s*)[（(]?\d+(?:\.\d+)?\s*分[）)]?/gu, "")
+        .replace(/[（(]\s*\d+(?:\.\d+)?\s*分(?:[，,。；;][^）)\n]{1,15})?[）)]/gu, "")
+        .replace(/(?:\s*\\:){3,}\s*/gu, " "),
+    ),
+  )
+    .replace(/^答[:：]\s*/u, "")
+    .trim();
 
   // Strip leaked next-question headers and residual bracket section labels in solutions
   question.solutions = (question.solutions ?? []).map((sol) =>
-    cleanDoubledChinesePunct(
-      cleanStemMathBoundaries(
-        String(sol ?? "")
-          .replace(/\[(?:分析|解析)\$\$\]/gu, "$$$$")
-          .replace(/\[(?:分析|详解|点睛|解答|解析)\]\s*/gu, ""),
-        false,
-      )
-        .replace(/【(?:答案|解析|详解|分析|点睛|点评|试题解析|知识点|技术的)】\s*/gu, "")
-        .replace(/\[(?:分析|详解|点睛|解答|解析)\]\s*/gu, "")
-        .replace(/名师点评本题考点：/gu, "本题考点：")
-        .replace(/至多有\$\$o\$\$个/gu, "至多有$$$$0$$$$个")
-        .replace(/故选答案为/gu, "故答案为：")
-        .replace(/(?<![本此该试小命真考原难])题难度不大/gu, "本题难度不大")
-        .replace(/(?<![出本此该试小道命真考原专主])题考查了/gu, "本题考查了")
-        .replace(/(?:(?:\.\.\.|…|\$\$\s*(?:\\cdots|\\dots)+\s*\$\$|\\cdots|\\dots)+\s*)[（(]?\d+(?:\.\d+)?\s*分[）)]?/gu, "")
-        .replace(/[（(]\s*\d+(?:\.\d+)?\s*分[）)]/gu, "")
-        .replace(/(?:^|\s)试题分析[:：]\s*/gu, " ")
-        .replace(TRAILING_NEXT_QUESTION_IN_SOLUTION_RE, "")
-        .replace(/(?:\s*\\:){3,}\s*/gu, " ")
-        .replace(/故答为/g, "故答案为"),
+    cleanWave6StemText(
+      cleanDoubledChinesePunct(
+        cleanStemMathBoundaries(
+          String(sol ?? "")
+            .replace(/\[(?:分析|解析)\$\$\]/gu, "$$$$")
+            .replace(/\[(?:分析|详解|点睛|解答|解析)\]\s*/gu, ""),
+          false,
+        )
+          .replace(/【(?:答案|解析|详解|分析|点睛|点评|试题解析|知识点|技术的)】\s*/gu, "")
+          .replace(/\[(?:分析|详解|点睛|解答|解析)\]\s*/gu, "")
+          .replace(/名师点评本题考点：/gu, "本题考点：")
+          .replace(/至多有\$\$o\$\$个/gu, "至多有$$$$0$$$$个")
+          .replace(/故选答案为/gu, "故答案为：")
+          .replace(/(?<![本此该试小命真考原难])题难度不大/gu, "本题难度不大")
+          .replace(/(?<![出本此该试小道命真考原专主])题考查了/gu, "本题考查了")
+          .replace(/(?:(?:\.\.\.|…|\$\$\s*(?:\\cdots|\\dots)+\s*\$\$|\\cdots|\\dots)+\s*)[（(]?\d+(?:\.\d+)?\s*分[）)]?/gu, "")
+          .replace(/[（(]\s*\d+(?:\.\d+)?\s*分[）)]/gu, "")
+          .replace(/(?:^|\s)试题分析[:：]\s*/gu, " ")
+          .replace(TRAILING_NEXT_QUESTION_IN_SOLUTION_RE, "")
+          .replace(/(?:\s*\\:){3,}\s*/gu, " ")
+          .replace(/故答为/g, "故答案为"),
+      ),
     ).trim()
   );
 

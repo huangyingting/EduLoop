@@ -44,6 +44,8 @@
     "reports:review": "node --env-file-if-exists=.env --import tsx scripts/review-reports.ts",
     "restore:verify": "node --env-file-if-exists=.env --import tsx scripts/verify-database-restore.ts",
     "users:role": "node --env-file-if-exists=.env --import tsx scripts/manage-user-role.ts",
+    "orgs:manage": "node --env-file-if-exists=.env --import tsx scripts/manage-organization.ts",
+    "orgs:retention": "node --env-file-if-exists=.env --import tsx scripts/cleanup-organization-retention.ts",
     "users:bootstrap": "node --env-file-if-exists=.env --import tsx scripts/bootstrap-user.ts",
     "env:check": "node --env-file-if-exists=.env scripts/validate-environment.mjs",
     "launch:verify": "node --env-file-if-exists=.env --import tsx scripts/verify-launch-evidence.ts",

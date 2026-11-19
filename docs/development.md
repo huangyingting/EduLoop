@@ -16,7 +16,7 @@ npm run dev
 
 The seed upserts questions by their stable source IDs, so running it again is safe. It skips entirely when the content manifest has not changed since the last import.
 
-Visitors land on `/` and can use `/practice` without saving anything; finishing a guest round invites them to register. Signed-in learners also use `/progress`, `/review`, `/contest`, `/browse`, `/profile`, and `/privacy`. Content editors and administrators can open `/studio`. `/api/live` is the dependency-free liveness probe and `/api/health` the readiness probe.
+Visitors land on `/` and can use `/practice` without saving anything; finishing a guest round invites them to register. Signed-in learners also use `/progress`, `/review`, `/contest`, `/browse`, `/classes`, `/profile`, and `/privacy`. Teachers open `/teach`; content editors and administrators open `/studio`. `/api/live` is the dependency-free liveness probe and `/api/health` the readiness probe.
 
 ## Commands
 
@@ -38,7 +38,9 @@ Visitors land on `/` and can use `/practice` without saving anything; finishing 
 | `npm run perf:check` | Query-count budget for the practice hot path |
 | `npm run learners:audit` | Report learner history that points at missing questions |
 | `npm run reports:review -- list` | Inspect the content-report queue |
-| `npm run users:role -- editor@example.com CONTENT_EDITOR` | Grant studio access |
+| `npm run users:role -- editor@example.com CONTENT_EDITOR` | Grant studio access (`TEACHER` grants the teacher workspace) |
+| `npm run orgs:manage -- list` | Manage organizations, their domains, Entra tenant, retention, and members |
+| `npm run orgs:retention` | Apply organization retention periods (schedule daily) |
 | `npm run notifications:send` | Send due reminder emails (schedule hourly) |
 | `npm run data:cleanup` | Delete expired security artifacts |
 | `npm run supply:check` | Immutable build inputs and dependency-script policy |

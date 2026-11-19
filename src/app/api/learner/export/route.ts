@@ -186,6 +186,14 @@ function learnerSections(learnerId: string): ExportSection[] {
         },
       })).map(({ id, ...value }) => ({ cursor: id, value })),
     },
+    {
+      name: "classMemberships",
+      load: async (cursor) => (await prisma.classroomMember.findMany({
+        where: { learnerId }, orderBy: { classroomId: "asc" }, take: EXPORT_PAGE_SIZE,
+        ...(cursor ? { cursor: { classroomId_learnerId: { classroomId: cursor, learnerId } }, skip: 1 } : {}),
+        select: { classroomId: true, joinedAt: true, classroom: { select: { name: true } } },
+      })).map(({ classroomId, ...value }) => ({ cursor: classroomId, value })),
+    },
   ];
 }
 
@@ -311,6 +319,17 @@ async function getAccountExport(request: NextRequest) {
             question: { select: { sourceId: true } },
           },
         },
+      },
+    })).map(({ id, ...value }) => ({ cursor: id, value })),
+  }, {
+    name: "classesTaught",
+    load: async (cursor) => (await prisma.classroom.findMany({
+      where: { teacherUserId: user.id }, orderBy: { id: "asc" }, take: EXPORT_PAGE_SIZE,
+      ...(cursor ? { cursor: { id: cursor }, skip: 1 } : {}),
+      select: {
+        id: true, name: true, joinCode: true, archivedAt: true, createdAt: true,
+        _count: { select: { members: true } },
+        assignments: { select: { title: true, kind: true, filters: true, questionGoal: true, paperKey: true, dueAt: true, createdAt: true } },
       },
     })).map(({ id, ...value }) => ({ cursor: id, value })),
   }];

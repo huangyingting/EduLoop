@@ -14,7 +14,7 @@ const commandTiming = startOperatorCommand();
 async function main() {
   if (!rawEmail && !rawRole) {
     const operators = await prisma.user.findMany({
-      where: { role: { in: ["CONTENT_EDITOR", "ADMIN"] } },
+      where: { role: { in: ["CONTENT_EDITOR", "TEACHER", "ADMIN"] } },
       orderBy: { email: "asc" },
       select: { email: true, name: true, role: true, updatedAt: true },
     });

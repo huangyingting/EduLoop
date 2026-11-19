@@ -98,3 +98,9 @@ Anything naming an option, a conclusion, or the answer text is dropped. Derived 
 ## Reminders and offline use
 
 Reminder email is opt-in, off by default, and limited to waking hours in the learner's own time zone. EduLoop is installable as a progressive web app: a manifest with standard and maskable icons, and a service worker (production only). The worker caches static assets and an offline page, and never caches API responses or personal pages. A navigation without network shows the offline page instead of a browser error.
+
+## Classes and assignments
+
+Learners join a class from **My classes** (`/classes`) with the code their teacher shares; a guardian can join on behalf of the child profile currently practicing. The join form says exactly what the teacher will see: nickname, assignment progress, and class-wide topic results. Each assignment links straight into filtered practice or the assigned contest paper and shows progress toward its goal and due date.
+
+Teachers use the **Teacher workspace** (`/teach`) to create and archive classes, rotate join codes, set assignments (practice filters and a question goal, or a contest paper), remove members, and read a progress table and a class topic heatmap. Progress is computed from attempts made after an assignment was set and before it was due, so nothing extra is stored about learners.

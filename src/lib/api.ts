@@ -96,18 +96,19 @@ function requestId(request: Request) {
   return supplied && REQUEST_ID_PATTERN.test(supplied) ? supplied : randomUUID();
 }
 
-export function apiHandler<TRequest extends Request>(
+export function apiHandler<TRequest extends Request, TContext = unknown>(
   route: string,
-  handler: (request: TRequest) => Promise<Response>,
+  handler: (request: TRequest, context: TContext) => Promise<Response>,
 ) {
-  return async (request: TRequest) => {
+  // Dynamic routes receive Next.js's route context ({ params }) as well.
+  return async (request: TRequest, context?: TContext) => {
     const id = requestId(request);
     const traceId = activeTraceId();
     const startedAt = performance.now();
     let response: Response;
     let failure: ReturnType<typeof errorLogMetadata> | null = null;
     try {
-      response = await handler(request);
+      response = await handler(request, context as TContext);
     } catch (error) {
       const databaseUnavailable = isDatabaseUnavailableError(error);
       failure = errorLogMetadata(error);

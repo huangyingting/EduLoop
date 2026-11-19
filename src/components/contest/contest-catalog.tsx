@@ -17,6 +17,16 @@ export function ContestCatalog() {
   const [data, setData] = useState<ContestListPayload | null>(null);
   const [error, setError] = useState("");
   const [starting, setStarting] = useState("");
+  // A class assignment links here with ?paper=<key>.
+  const [assignedPaper, setAssignedPaper] = useState("");
+
+  useEffect(() => {
+    const paper = new URLSearchParams(window.location.search).get("paper") ?? "";
+    const timer = window.setTimeout(() => {
+      if (/^[a-z0-9-]{4,40}$/.test(paper)) setAssignedPaper(paper);
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, []);
 
   const load = useCallback(async () => {
     setError("");
@@ -50,6 +60,8 @@ export function ContestCatalog() {
     <header><p className="text-xs font-black uppercase tracking-[.2em] text-violet">Contest mode</p><h1 className="mt-1 font-display text-3xl font-black tracking-[-.04em]">{t("contest.title")}</h1><p className="mt-2 max-w-2xl text-sm font-semibold leading-6 text-muted">{t("contest.lead")}</p></header>
 
     {data?.activeSession ? <div role="status" className="mt-6 flex flex-wrap items-center gap-3 rounded-2xl border-2 border-violet/20 bg-[#f0edff] p-4 text-sm font-bold text-violet"><Clock3 size={18} />{t("contest.activeSession", { paper: data.activeSession.paperKey })}<Link href={`/contest/${data.activeSession.id}`} className="ml-auto rounded-xl bg-violet px-4 py-2 font-black text-white">{t("contest.resume")}</Link></div> : null}
+
+    {assignedPaper && !data?.activeSession ? <div className="mt-6 flex flex-wrap items-center gap-3 rounded-2xl border-2 border-ink bg-lime p-4 text-sm font-black"><Trophy size={18} />{t("contest.assigned", { paper: assignedPaper })}<button onClick={() => void start(assignedPaper)} disabled={Boolean(starting)} className="ml-auto inline-flex min-h-10 items-center gap-2 rounded-xl bg-ink px-4 text-white disabled:opacity-50">{starting === assignedPaper ? <LoaderCircle className="animate-spin" size={16} /> : <Play size={16} />} {t("contest.start")}</button></div> : null}
 
     <div role="tablist" aria-label={t("contest.levels")} className="mt-6 flex gap-2">
       {LEVELS.map((value) => <button key={value} role="tab" aria-selected={level === value} onClick={() => { setData(null); setLevel(value); }} className={`min-h-11 rounded-xl px-4 text-sm font-black ${level === value ? "bg-ink text-white" : "border-2 border-ink/10 bg-white text-muted"}`}>{value}</button>)}

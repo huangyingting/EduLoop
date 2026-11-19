@@ -103,9 +103,16 @@ export type ContentReviewActionName = (typeof CONTENT_REVIEW_ACTION)[keyof typeo
 export const USER_ROLE = {
   LEARNER: "LEARNER",
   CONTENT_EDITOR: "CONTENT_EDITOR",
+  TEACHER: "TEACHER",
   ADMIN: "ADMIN",
 } as const;
 export type UserRole = (typeof USER_ROLE)[keyof typeof USER_ROLE];
+
+export const ASSIGNMENT_KIND = {
+  PRACTICE: "PRACTICE",
+  CONTEST: "CONTEST",
+} as const;
+export type AssignmentKind = (typeof ASSIGNMENT_KIND)[keyof typeof ASSIGNMENT_KIND];
 
 export const PRACTICE_MODES = ["standard", "review", "adaptive"] as const;
 export type PracticeMode = (typeof PRACTICE_MODES)[number];

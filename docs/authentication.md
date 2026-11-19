@@ -77,4 +77,4 @@ Auth.js error logging is overridden with structured `authjs_error` records conta
 
 Custom state-changing endpoints compare the browser `Origin` with `AUTH_URL` in production. Forwarded host headers are only a local-development fallback and cannot redefine the accepted public origin. The container assumes one trusted reverse proxy when selecting a client from `X-Forwarded-For`; set `TRUSTED_PROXY_HOPS` to the exact trusted chain depth when a CDN or another proxy is added.
 
-MFA, guardian consent, approved institutional identity, and institutional account lifecycle remain separate requirements for school-managed deployment.
+An account joins an organization only through a provider claim the institution controls: Google's verified `hd` (hosted domain) claim matching the account's email domain, or a Microsoft Entra `tid` registered with `npm run orgs:manage -- set-tenant`. Email domains alone never place an account in an organization, and an account already in one is never moved ([ADR 0009](adr/0009-institutional-membership-from-provider-claims.md)). MFA and verified institutional consent remain separate requirements for school-managed deployment.

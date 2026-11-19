@@ -1,6 +1,6 @@
 "use client";
 
-import { BarChart3, BookmarkCheck, ClipboardCheck, Compass, Flame, Home, Library, LogIn, LogOut, Menu, ShieldCheck, Sparkles, Target, Trophy, X } from "lucide-react";
+import { BarChart3, BookmarkCheck, ClipboardCheck, Compass, Flame, GraduationCap, Home, Library, LogIn, LogOut, Menu, School, ShieldCheck, Sparkles, Target, Trophy, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -10,7 +10,7 @@ import { LocaleSwitcher } from "./locale-switcher";
 import { Logo } from "./logo";
 import { useT } from "@/i18n/client";
 import { useAuth } from "@/lib/use-auth";
-import { isContentOperator } from "@/lib/user-roles";
+import { isContentOperator, isTeacher } from "@/lib/user-roles";
 
 const links = [
   { href: "/", label: "home", icon: Home },
@@ -42,9 +42,12 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
   const auth = useAuth();
   const t = useT();
   const navigationLinks = auth.status === "authenticated"
-    ? isContentOperator(auth.user)
-      ? [...links, { href: "/studio", label: "studio", icon: ClipboardCheck } as const]
-      : links
+    ? [
+      ...links,
+      { href: "/classes", label: "classes", icon: School } as const,
+      ...(isTeacher(auth.user) ? [{ href: "/teach", label: "teach", icon: GraduationCap } as const] : []),
+      ...(isContentOperator(auth.user) ? [{ href: "/studio", label: "studio", icon: ClipboardCheck } as const] : []),
+    ]
     : links.filter(({ href }) => href === "/" || href === "/practice" || href === "/#subjects");
   const remainingToday = Math.max(10 - stats.todayAttempts, 0);
   useEffect(() => {

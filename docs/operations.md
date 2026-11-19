@@ -260,6 +260,21 @@ When a duplicate is merged into another question, map the retired ID to its repl
 
 `npm run learners:audit` is a read-only, aggregate-only integrity check. Every attempt increments daily activity and XP exactly once, so totals that exceed the surviving attempt rows show history that was deleted underneath them, for example by releases before retirement existed. It exits with status 2 and `intact: false` when it finds gaps. Restore the affected tables from a backup taken before the loss.
 
+## Schools, Teachers, and Organizations
+
+Grant the teacher workspace with `npm run users:role -- teacher@school.example TEACHER`. To group a school's accounts:
+
+```bash
+npm run orgs:manage -- create example-school "Example School"
+npm run orgs:manage -- add-domain example-school school.example        # Google Workspace hosted domain
+npm run orgs:manage -- set-tenant example-school <entra-tenant-uuid>   # Microsoft Entra tenant
+npm run orgs:manage -- set-retention example-school 365                # or none
+npm run orgs:manage -- add-member example-school teacher@school.example
+npm run orgs:manage -- list
+```
+
+Accounts join automatically on their next Google or Microsoft sign-in when the verified claim matches ([ADR 0009](adr/0009-institutional-membership-from-provider-claims.md)). Schedule `npm run orgs:retention` daily next to `npm run data:cleanup`; it deletes at most 200 inactive learner accounts per organization per run and logs the counts. Retention deletion cannot be undone, so confirm the period with the institution in writing first.
+
 ## Rollback
 
 Application releases should be immutable and reversible. Roll back the application image first only when that image is compatible with the deployed schema. The Auth.js and account-only privacy migrations are destructive boundaries: they remove legacy sessions and anonymous learning data, and the pre-`activeKey` application must not be rolled back after the active-session migration. The delivery-aware proof migration is another application-compatibility boundary because the prior email-change implementation requires the removed unique user index; roll forward with the current application or restore the pre-migration database backup before running an older image. The email-assurance migration deliberately clears unverifiable legacy assurance timestamps and revokes affected sessions without deleting users, hashes, provider identities, or learning data. The following mailbox-ownership migration deletes only pending ordinary verification tokens for passwordless accounts; those users retain social access and password-reset recovery. Announce the one-time sign-in and re-verification requirement, verify email delivery before deployment, and keep the social-provider callbacks healthy so Microsoft/Facebook users retain access. Do not roll back to an application release that marks every OAuth/OIDC address verified or consumes verification links without password confirmation; restore the pre-deploy backup for a full rollback, or roll forward with this release. Future destructive changes should use expand/migrate/contract releases and a tested recovery step.

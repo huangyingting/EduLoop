@@ -13,6 +13,8 @@ Work from the production-readiness improvement plan (#49).
 - AMC contest mode with timed papers, official scoring, and per-topic results; question-bank browsing; per-question attempt history (#42).
 - In-app question editing with revisions, a second-approver option for answer-key changes, re-grading of past attempts, hint curation, and image uploads (#43).
 - Guardian-managed child learner profiles with a learner switcher, export, and erasure (phase 1 of #44).
+- Teachers, classes, and assignments: join codes, practice and contest-paper assignments with due dates, a progress table, and a class topic heatmap without individual answers (phase 2 of #44).
+- Organizations with institutional sign-in (verified Google Workspace domain or Microsoft Entra tenant) and per-organization retention, managed with `npm run orgs:manage` and `npm run orgs:retention` (phase 3 of #44).
 - Opt-in due-review and weekly-summary emails with one-click unsubscribe; installable PWA with an offline page (#45).
 - Prometheus metrics, webhook error alerts, slow-query logs, and signed question tickets for guest grading (#46).
 - Data-driven badge rules, a stored learner time zone for streaks, and long-term review of mastered questions (#38).

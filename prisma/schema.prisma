@@ -44,40 +44,40 @@ model Grade {
 }
 
 model Question {
-  id                     String             @id
-  sourceId               String             @unique
+  id                     String                @id
+  sourceId               String                @unique
   sourceFile             String
   sourceType             String
   type                   String
   difficulty             String
-  sourceDifficulty       String             @default("MEDIUM")
-  difficultyScore        Float              @default(0)
-  difficultyConfidence   Float              @default(0)
-  difficultyReason       String             @default("Pending difficulty audit")
-  difficultyAuditVersion Int                @default(1)
+  sourceDifficulty       String                @default("MEDIUM")
+  difficultyScore        Float                 @default(0)
+  difficultyConfidence   Float                 @default(0)
+  difficultyReason       String                @default("Pending difficulty audit")
+  difficultyAuditVersion Int                   @default(1)
   stem                   String
   answer                 String
   correctAnswer          String?
   explanation            String?
   quality                String?
-  importStatus           String             @default("PUBLISHED")
-  status                 String             @default("PUBLISHED")
+  importStatus           String                @default("PUBLISHED")
+  status                 String                @default("PUBLISHED")
   quarantinedAt          DateTime?
   retiredAt              DateTime?
   supersededById         String?
   contentHash            String?
   // Approved editorial revision currently applied on top of the import.
   revisionId             String?
-  randomKey              Float              @default(0)
-  isAutoGradable         Boolean            @default(false)
-  onlineTest             Boolean            @default(false)
-  optionSplit            Boolean            @default(false)
+  randomKey              Float                 @default(0)
+  isAutoGradable         Boolean               @default(false)
+  onlineTest             Boolean               @default(false)
+  optionSplit            Boolean               @default(false)
   subjectId              String
   gradeBandId            String
   gradeId                String
-  subject                Subject            @relation(fields: [subjectId], references: [id])
-  gradeBand              GradeBand          @relation(fields: [gradeBandId], references: [id])
-  grade                  Grade              @relation(fields: [gradeId], references: [id])
+  subject                Subject               @relation(fields: [subjectId], references: [id])
+  gradeBand              GradeBand             @relation(fields: [gradeBandId], references: [id])
+  grade                  Grade                 @relation(fields: [gradeId], references: [id])
   options                QuestionOption[]
   assets                 QuestionAsset[]
   hints                  QuestionHint[]
@@ -89,8 +89,8 @@ model Question {
   savedBy                SavedQuestion[]
   reviewItems            ReviewItem[]
   reports                QuestionReport[]
-  createdAt              DateTime           @default(now())
-  updatedAt              DateTime           @updatedAt
+  createdAt              DateTime              @default(now())
+  updatedAt              DateTime              @updatedAt
 
   @@index([subjectId, gradeBandId, difficulty])
   @@index([gradeId, type, status])
@@ -251,6 +251,9 @@ model User {
   consentBasis            String?
   // Interface language for email; the browser cookie drives the UI.
   locale                  String?
+  organizationId          String?
+  organization            Organization?            @relation(fields: [organizationId], references: [id], onDelete: SetNull)
+  teacherClassrooms       Classroom[]              @relation("TeacherClassrooms")
   learner                 LearnerProfile?
   managedLearners         LearnerProfile[]         @relation("GuardianLearners")
   accounts                Account[]
@@ -398,42 +401,43 @@ model RateLimitBucket {
 }
 
 model LearnerProfile {
-  id                String               @id @default(cuid())
+  id                   String               @id @default(cuid())
   // The account that owns this profile, or null for a guardian-managed child.
-  userId            String?              @unique
+  userId               String?              @unique
   // Set for a child profile created and managed by a guardian account.
-  guardianUserId    String?
-  displayName       String?
-  xp                Int                  @default(0)
-  level             Int                  @default(1)
-  currentStreak     Int                  @default(0)
-  bestStreak        Int                  @default(0)
-  streakFreezes     Int                  @default(1)
-  lastFreezeUsedOn  String?
-  lastActiveOn      String?
-  totalAttempts     Int                  @default(0)
-  correctRun        Int                  @default(0)
+  guardianUserId       String?
+  displayName          String?
+  xp                   Int                  @default(0)
+  level                Int                  @default(1)
+  currentStreak        Int                  @default(0)
+  bestStreak           Int                  @default(0)
+  streakFreezes        Int                  @default(1)
+  lastFreezeUsedOn     String?
+  lastActiveOn         String?
+  totalAttempts        Int                  @default(0)
+  correctRun           Int                  @default(0)
   // IANA zone that defines the learner\'s calendar day for streaks and activity.
-  timeZone          String?
-  timeZoneUpdatedAt DateTime?
-  knowledgeBandId   String?
-  knowledgeGradeId  String?
-  sessions          PracticeSession[]
-  attempts          PracticeAttempt[]
-  badges            LearnerBadge[]
-  activities        DailyActivity[]
-  savedQuestions    SavedQuestion[]
-  reviewItems       ReviewItem[]
-  reports           QuestionReport[]
-  subjectStats      LearnerSubjectStat[]
-  topicStats        LearnerTopicStat[]
-  contestSessions   ContestSession[]
-  knowledgeBand     GradeBand?           @relation("LearnerKnowledgeBand", fields: [knowledgeBandId], references: [id], onDelete: SetNull)
-  knowledgeGrade    Grade?               @relation("LearnerKnowledgeGrade", fields: [knowledgeGradeId], references: [id], onDelete: SetNull)
-  user              User?                @relation(fields: [userId], references: [id], onDelete: Cascade)
-  guardian          User?                @relation("GuardianLearners", fields: [guardianUserId], references: [id], onDelete: Cascade)
-  createdAt         DateTime             @default(now())
-  updatedAt         DateTime             @updatedAt
+  timeZone             String?
+  timeZoneUpdatedAt    DateTime?
+  knowledgeBandId      String?
+  knowledgeGradeId     String?
+  sessions             PracticeSession[]
+  attempts             PracticeAttempt[]
+  badges               LearnerBadge[]
+  activities           DailyActivity[]
+  savedQuestions       SavedQuestion[]
+  reviewItems          ReviewItem[]
+  reports              QuestionReport[]
+  subjectStats         LearnerSubjectStat[]
+  classroomMemberships ClassroomMember[]
+  topicStats           LearnerTopicStat[]
+  contestSessions      ContestSession[]
+  knowledgeBand        GradeBand?           @relation("LearnerKnowledgeBand", fields: [knowledgeBandId], references: [id], onDelete: SetNull)
+  knowledgeGrade       Grade?               @relation("LearnerKnowledgeGrade", fields: [knowledgeGradeId], references: [id], onDelete: SetNull)
+  user                 User?                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  guardian             User?                @relation("GuardianLearners", fields: [guardianUserId], references: [id], onDelete: Cascade)
+  createdAt            DateTime             @default(now())
+  updatedAt            DateTime             @updatedAt
 
   @@index([guardianUserId])
   @@index([knowledgeBandId])
@@ -683,4 +687,77 @@ model QuestionTranslation {
 
   @@id([questionId, locale])
   @@index([locale])
+}
+
+// A school or other institution. Members join through verified institutional
+// sign-in (a Google Workspace domain or a Microsoft Entra tenant).
+model Organization {
+  id            String               @id @default(cuid())
+  slug          String               @unique
+  name          String
+  // Microsoft Entra tenant whose sign-ins join this organization.
+  entraTenantId String?              @unique
+  // Delete learner accounts this many days after their last activity; null keeps them.
+  retentionDays Int?
+  domains       OrganizationDomain[]
+  users         User[]
+  classrooms    Classroom[]
+  createdAt     DateTime             @default(now())
+  updatedAt     DateTime             @updatedAt
+}
+
+// A Google Workspace domain (the verified `hd` claim) for an organization.
+model OrganizationDomain {
+  domain         String       @id
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId])
+}
+
+model Classroom {
+  id             String            @id @default(cuid())
+  name           String
+  joinCode       String            @unique
+  teacherUserId  String
+  organizationId String?
+  archivedAt     DateTime?
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+  teacher        User              @relation("TeacherClassrooms", fields: [teacherUserId], references: [id], onDelete: Cascade)
+  organization   Organization?     @relation(fields: [organizationId], references: [id], onDelete: SetNull)
+  members        ClassroomMember[]
+  assignments    Assignment[]
+
+  @@index([teacherUserId])
+  @@index([organizationId])
+}
+
+model ClassroomMember {
+  classroomId String
+  learnerId   String
+  joinedAt    DateTime       @default(now())
+  classroom   Classroom      @relation(fields: [classroomId], references: [id], onDelete: Cascade)
+  learner     LearnerProfile @relation(fields: [learnerId], references: [id], onDelete: Cascade)
+
+  @@id([classroomId, learnerId])
+  @@index([learnerId])
+}
+
+// A practice set (question filters and a goal) or a contest paper, with an
+// optional due date. Progress is computed from attempts, never stored.
+model Assignment {
+  id           String    @id @default(cuid())
+  classroomId  String
+  title        String
+  kind         String
+  // JSON object of practice filters (subject, gradeBand, grade, difficulty, type, tags).
+  filters      String    @default("{}")
+  questionGoal Int       @default(10)
+  paperKey     String?
+  dueAt        DateTime?
+  createdAt    DateTime  @default(now())
+  classroom    Classroom @relation(fields: [classroomId], references: [id], onDelete: Cascade)
+
+  @@index([classroomId, createdAt])
 }

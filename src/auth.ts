@@ -32,6 +32,7 @@ import {
   identityRateLimitKey,
 } from "@/lib/rate-limit";
 import { USER_ROLE } from "@/lib/domain-constants";
+import { assignOrganizationOnSignIn } from "@/lib/organizations";
 
 class EmailNotVerified extends CredentialsSignin {
   code = "email_not_verified";
@@ -304,6 +305,9 @@ export const { handlers, auth } = NextAuth((request) => ({
           }),
           prisma.emailVerificationToken.deleteMany({ where: { userId: user.id } }),
         ]);
+      }
+      if (account?.type === "oauth" || account?.type === "oidc") {
+        await assignOrganizationOnSignIn(user.id, account.provider, profile, user.email);
       }
       const consent = await prisma.user.findUnique({
         where: { id: user.id },

@@ -10,7 +10,7 @@ export type DatabaseReadinessQueries = {
 };
 
 const productionQueries: DatabaseReadinessQueries = {
-  countQuestions: () => prisma.question.count(),
+  countQuestions: () => prisma.question.count({ where: { status: "PUBLISHED" } }),
   countSubjects: () => prisma.subject.count(),
   async hasRequiredMigration() {
     const rows = await prisma.$queryRaw<Array<{ migration_name: string }>>`

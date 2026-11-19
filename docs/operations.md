@@ -220,6 +220,21 @@ npm run reports:review -- resolve REPORT_ID --note="verified against source"
 
 Generated diagrams require subject review and `reviewStatus = APPROVED`; never bulk-approve them. Preserve stable question IDs so attempts and review history remain attached.
 
+### Retiring and merging questions
+
+The catalog import never deletes a question. A question whose source ID disappears from `data/zh-CN/` is marked `RETIRED` (`status`, `importStatus`, and `retiredAt`). It stops being served but keeps every attempt, review item, saved entry, report, and moderation action. If the ID returns to the source, the next import revives it.
+
+The import refuses to retire more than 5 questions or 1% of the active catalog, whichever is larger. A missing data file or a changed ID scheme therefore fails the release job instead of hiding part of the catalog. Inspect the plan first, then confirm the exact count:
+
+```bash
+npm run db:seed -- --dry-run          # prints created/updated/retired/revived/superseded counts; writes nothing
+npm run db:seed -- --allow-retire=42  # or CATALOG_ALLOW_RETIRE=42 for the deployment job
+```
+
+When a duplicate is merged into another question, map the retired ID to its replacement in `data/catalog.json` under `supersededSourceIds`. The import then moves attempts, review items, and saved entries to the replacement; reports stay on the retired wording. `npm run data:verify` checks that each mapping points from an absent ID to a present one.
+
+`npm run learners:audit` is a read-only, aggregate-only integrity check. Every attempt increments daily activity and XP exactly once, so totals that exceed the surviving attempt rows show history that was deleted underneath them, for example by releases before retirement existed. It exits with status 2 and `intact: false` when it finds gaps. Restore the affected tables from a backup taken before the loss.
+
 ## Rollback
 
 Application releases should be immutable and reversible. Roll back the application image first only when that image is compatible with the deployed schema. The Auth.js and account-only privacy migrations are destructive boundaries: they remove legacy sessions and anonymous learning data, and the pre-`activeKey` application must not be rolled back after the active-session migration. The delivery-aware proof migration is another application-compatibility boundary because the prior email-change implementation requires the removed unique user index; roll forward with the current application or restore the pre-migration database backup before running an older image. The email-assurance migration deliberately clears unverifiable legacy assurance timestamps and revokes affected sessions without deleting users, hashes, provider identities, or learning data. The following mailbox-ownership migration deletes only pending ordinary verification tokens for passwordless accounts; those users retain social access and password-reset recovery. Announce the one-time sign-in and re-verification requirement, verify email delivery before deployment, and keep the social-provider callbacks healthy so Microsoft/Facebook users retain access. Do not roll back to an application release that marks every OAuth/OIDC address verified or consumes verification links without password confirmation; restore the pre-deploy backup for a full rollback, or roll forward with this release. Future destructive changes should use expand/migrate/contract releases and a tested recovery step.

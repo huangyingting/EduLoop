@@ -47,7 +47,7 @@ async function getLearnerProgress(request: NextRequest) {
     prisma.learnerBadge.findMany({ where: { learnerId: learner.id }, select: { badgeId: true, earnedAt: true } }),
     prisma.badge.findMany({ orderBy: { threshold: "asc" } }),
     prisma.reviewItem.findMany({
-      where: { learnerId: learner.id, status: "ACTIVE" },
+      where: { learnerId: learner.id, status: "ACTIVE", question: { status: "PUBLISHED" } },
       orderBy: [{ dueAt: "asc" }, { updatedAt: "desc" }],
       take: 5,
       include: { question: { include: { subject: true, grade: true } } },

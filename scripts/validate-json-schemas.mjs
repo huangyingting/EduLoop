@@ -90,6 +90,10 @@ const catalogSchema = z.object({
   defaultLocale: localeSchema,
   locales: z.record(localeSchema, localeEntrySchema),
   collections: z.record(z.string().min(1), collectionSchema),
+  supersededSourceIds: z.record(
+    z.string().regex(/^[A-Za-z0-9_-]{8,100}$/),
+    z.string().regex(/^[A-Za-z0-9_-]{8,100}$/),
+  ).optional(),
 }).strict();
 
 const assetSchema = z.object({
@@ -288,6 +292,16 @@ async function validateQuestionArchives(catalog) {
           }
         } else if (expectedSubject[filename] && question.subject !== expectedSubject[filename]) {
           errors.push(`${filepath}:${question.id}: ${filename} requires subject=${expectedSubject[filename]}`);
+        }
+      }
+    }
+    if (locale === catalog.defaultLocale) {
+      for (const [retiredId, replacementId] of Object.entries(catalog.supersededSourceIds ?? {})) {
+        if (localeIds.has(retiredId)) {
+          errors.push(`data/catalog.json:supersededSourceIds.${retiredId}: superseded ID is still present in data/${locale}`);
+        }
+        if (!localeIds.has(replacementId)) {
+          errors.push(`data/catalog.json:supersededSourceIds.${retiredId}: replacement ${replacementId} is missing from data/${locale}`);
         }
       }
     }

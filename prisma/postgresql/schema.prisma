@@ -61,6 +61,8 @@ model Question {
   importStatus           String            @default("PUBLISHED")
   status                 String            @default("PUBLISHED")
   quarantinedAt          DateTime?
+  retiredAt              DateTime?
+  supersededById         String?
   isAutoGradable         Boolean           @default(false)
   onlineTest             Boolean           @default(false)
   optionSplit            Boolean           @default(false)

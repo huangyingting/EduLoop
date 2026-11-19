@@ -29,6 +29,7 @@ try {
     review: await prisma.question.count({ where: { status: "NEEDS_REVIEW" } }),
     importPublished: await prisma.question.count({ where: { importStatus: "PUBLISHED" } }),
     quarantined: await prisma.question.count({ where: { quarantinedAt: { not: null } } }),
+    retired: await prisma.question.count({ where: { retiredAt: { not: null } } }),
     autoGradable: await prisma.question.count({ where: { status: "PUBLISHED", isAutoGradable: true } }),
     assets: await prisma.questionAsset.count(),
     approvedAssets: await prisma.questionAsset.count({ where: { reviewStatus: "APPROVED" } }),
@@ -40,7 +41,7 @@ try {
   };
   await prisma.$disconnect();
   const expected = {
-    total: 16_022, published: 16_022, review: 0, importPublished: 16_022, quarantined: 0,
+    total: 16_022, published: 16_022, review: 0, importPublished: 16_022, quarantined: 0, retired: 0,
     autoGradable: 10_130, assets: 24, approvedAssets: 24,
     difficultyAudited: 16_022, difficultyAdjusted: 5_222, difficultyEasy: 8_847, difficultyMedium: 4_463, difficultyHard: 2_712,
   };

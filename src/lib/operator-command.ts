@@ -8,6 +8,7 @@ export type OperatorCommandName =
   | "email_delivery_probe"
   | "expired_security_artifact_cleanup"
   | "launch_evidence_verification"
+  | "learner_history_audit"
   | "oauth_deployment_smoke"
   | "user_role_command";
 

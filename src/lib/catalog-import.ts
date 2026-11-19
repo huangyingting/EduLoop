@@ -2,6 +2,7 @@ import { createHash } from "node:crypto";
 import type { Prisma, PrismaClient } from "@prisma/client";
 import { CONTEST_RULES, type ContestSlot } from "@/lib/contest-papers";
 import type { NormalizedTag, normalizeSourceQuestion } from "@/lib/content";
+import { applyRevision } from "@/lib/studio/apply-revision";
 import { HINT_SOURCE, HINT_STATUS, QUESTION_STATUS, TAG_SOURCE } from "@/lib/domain-constants";
 
 export type CatalogQuestion = ReturnType<typeof normalizeSourceQuestion>;
@@ -388,13 +389,34 @@ export async function importCatalog(
       await transaction.questionAsset.deleteMany({ where: { questionId: { in: ids }, source: { not: TAG_SOURCE.CURATED } } });
       const assets = prepared.flatMap((row) => row.assets);
       if (assets.length) await transaction.questionAsset.createMany({ data: assets });
-      // Derived hints follow the source; editor-curated hints are preserved.
-      await transaction.questionHint.deleteMany({ where: { questionId: { in: ids }, source: HINT_SOURCE.DERIVED } });
-      const changedHints = prepared.flatMap((row) => row.hints);
+      // Derived hints follow the source; editor-curated hints are preserved, and
+      // a derived hint an editor rejected stays rejected instead of returning.
+      const rejected = new Set((await transaction.questionHint.findMany({
+        where: { questionId: { in: ids }, source: HINT_SOURCE.DERIVED, reviewStatus: HINT_STATUS.REJECTED },
+        select: { questionId: true, content: true },
+      })).map((hint) => `${hint.questionId}\u0000${hint.content}`));
+      await transaction.questionHint.deleteMany({
+        where: { questionId: { in: ids }, source: HINT_SOURCE.DERIVED, reviewStatus: { not: HINT_STATUS.REJECTED } },
+      });
+      const changedHints = prepared.flatMap((row) => row.hints)
+        .filter((hint) => !rejected.has(`${hint.questionId}\u0000${hint.content}`));
       if (changedHints.length) await transaction.questionHint.createMany({ data: changedHints });
       await transaction.contestPaperSlot.deleteMany({ where: { questionId: { in: ids } } });
       const changedSlots = prepared.flatMap((row) => row.slots);
       if (changedSlots.length) await transaction.contestPaperSlot.createMany({ data: changedSlots });
+
+      // An approved editorial revision overrides the import; re-apply it so the
+      // learner-facing content stays as the editor left it.
+      const revised = await transaction.question.findMany({
+        where: { id: { in: ids }, revisionId: { not: null } },
+        select: { revisionId: true },
+      });
+      if (revised.length) {
+        const revisions = await transaction.questionRevision.findMany({
+          where: { id: { in: revised.map(({ revisionId }) => revisionId!) } },
+        });
+        for (const revision of revisions) await applyRevision(transaction, revision);
+      }
 
       const idsByStatus = new Map<string, string[]>();
       for (const { question } of batch) {

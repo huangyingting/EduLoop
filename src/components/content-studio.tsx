@@ -9,6 +9,7 @@ import { useAuth } from "@/lib/use-auth";
 import { isContentOperator } from "@/lib/user-roles";
 import { MathText } from "./math-text";
 import { LearningHealthPanel } from "./learning-health-panel";
+import { QuestionEditor } from "./studio/question-editor";
 import { CONTENT_REVIEW_ACTION, QUESTION_STATUS, REPORT_STATUS, type ContentReviewActionName, type ReportStatus } from "@/lib/domain-constants";
 
 type ReviewAction = {
@@ -73,6 +74,7 @@ function displayDate(value: string) {
 export function ContentStudio() {
   const router = useRouter();
   const auth = useAuth();
+  const [workspace, setWorkspace] = useState<"reports" | "editor">("reports");
   const [status, setStatus] = useState<ReportStatus>(REPORT_STATUS.OPEN);
   const [page, setPage] = useState(1);
   const [data, setData] = useState<StudioResponse | null>(null);
@@ -200,6 +202,11 @@ export function ContentStudio() {
 
       <LearningHealthPanel />
 
+      <div role="group" aria-label="审核工作区" className="mt-8 flex gap-2">
+        {([["reports", "报告队列"], ["editor", "题目编辑"]] as const).map(([value, label]) => <button key={value} type="button" aria-pressed={workspace === value} onClick={() => setWorkspace(value)} className={`min-h-11 rounded-xl px-4 text-sm font-black ${workspace === value ? "bg-ink text-white" : "border-2 border-ink/10 bg-white text-muted"}`}>{label}</button>)}
+      </div>
+
+      {workspace === "editor" ? <QuestionEditor /> : <>
       <div role="tablist" aria-label="报告状态" onKeyDown={navigateTabs} className="mt-8 flex max-w-md gap-2 rounded-2xl border-2 border-ink/10 bg-white p-1.5">
         {[REPORT_STATUS.OPEN, REPORT_STATUS.RESOLVED].map((value) => <button key={value} id={`studio-${value.toLowerCase()}-tab`} role="tab" aria-selected={status === value} aria-controls="studio-report-panel" tabIndex={status === value ? 0 : -1} onClick={() => { setStatus(value); setPage(1); }} className={`flex min-h-11 flex-1 items-center justify-center gap-2 rounded-xl px-4 text-sm font-black ${status === value ? "bg-ink text-white" : "text-muted"}`}>{value === REPORT_STATUS.OPEN ? <FileWarning size={17} /> : <CheckCircle2 size={17} />}{value === REPORT_STATUS.OPEN ? `待处理 ${data?.counts.open ?? ""}` : `已解决 ${data?.counts.resolved ?? ""}`}</button>)}
       </div>
@@ -236,6 +243,7 @@ export function ContentStudio() {
       </div>
 
       {data && data.pagination.pages > 1 ? <nav aria-label="审核队列分页" className="mt-8 flex items-center justify-center gap-4"><button onClick={() => setPage((value) => Math.max(1, value - 1))} disabled={page <= 1 || loading} className="grid size-11 place-items-center rounded-xl border-2 border-ink/10 bg-white disabled:opacity-40" aria-label="上一页"><ChevronLeft /></button><span className="text-sm font-black">{page} / {data.pagination.pages}</span><button onClick={() => setPage((value) => Math.min(data.pagination.pages, value + 1))} disabled={page >= data.pagination.pages || loading} className="grid size-11 place-items-center rounded-xl border-2 border-ink/10 bg-white disabled:opacity-40" aria-label="下一页"><ChevronRight /></button></nav> : null}
+      </>}
     </div>
   );
 }

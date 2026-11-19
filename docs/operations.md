@@ -220,6 +220,17 @@ npm run reports:review -- resolve REPORT_ID --note="verified against source"
 
 Generated diagrams require subject review and `reviewStatus = APPROVED`; never bulk-approve them. Preserve stable question IDs so attempts and review history remain attached.
 
+### Editing questions in the studio
+
+The studio's **题目编辑** workspace lets an operator find a question by ID or stem text and change it in the UI:
+
+- **Revisions.** Edit the stem, options, answer key, explanation, or topic tags, with a required reason. Saving creates a `DRAFT` `QuestionRevision`; approval applies it to the served question and marks the previously applied revision `SUPERSEDED`. Every catalog import that rewrites the question re-applies the approved revision, so the fix survives re-seeding. History records author, reviewer, reason, and review note. With `CONTENT_REQUIRE_SECOND_APPROVER=true`, a revision that changes the answer key must be approved by a different editor than its author.
+- **Re-grading.** An approved answer-key change re-grades every automatically graded attempt on the question. Correctness, subject and topic statistics, daily activity, and session counts follow the new key. A newly wrong answer enters the learner's mistake review. XP already awarded is never taken back, and re-graded attempts carry `regradedAt`.
+- **Hints.** Editors add `CURATED` hints, which survive imports, and can disable any hint. A disabled derived hint stays disabled after re-import.
+- **Images.** Uploads accept PNG, JPEG, or WebP only, up to 2 MB, verified by file signature rather than the declared type; SVG is refused. Images are stored in `AssetBlob`, deduplicated by SHA-256, and served from `/api/assets/<id>` with a sandboxing CSP and `nosniff`. A new upload is `DRAFT` and reaches learners only after an editor approves it.
+
+Every studio read and change requires the content role and a login no older than 10 minutes. Revision approval also claims the operator's exact session version and role inside its transaction.
+
 ### Retiring and merging questions
 
 The catalog import never deletes a question. A question whose source ID disappears from `data/zh-CN/` is marked `RETIRED` (`status`, `importStatus`, and `retiredAt`). It stops being served but keeps every attempt, review item, saved entry, report, and moderation action. If the ID returns to the source, the next import revives it.

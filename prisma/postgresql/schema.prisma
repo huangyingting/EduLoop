@@ -66,6 +66,8 @@ model Question {
   retiredAt              DateTime?
   supersededById         String?
   contentHash            String?
+  // Approved editorial revision currently applied on top of the import.
+  revisionId             String?
   randomKey              Float              @default(0)
   isAutoGradable         Boolean            @default(false)
   onlineTest             Boolean            @default(false)
@@ -80,6 +82,7 @@ model Question {
   assets                 QuestionAsset[]
   hints                  QuestionHint[]
   contestSlots           ContestPaperSlot[]
+  revisions              QuestionRevision[]
   tags                   QuestionTag[]
   attempts               PracticeAttempt[]
   savedBy                SavedQuestion[]
@@ -143,6 +146,43 @@ model QuestionHint {
   updatedAt    DateTime @updatedAt
 
   @@index([questionId, reviewStatus, position])
+}
+
+// An editor's full replacement for a question's learner-facing content. Only
+// APPROVED revisions are applied; the importer re-applies the current one after
+// rewriting the question, so edits survive re-seeding.
+model QuestionRevision {
+  id              String    @id @default(cuid())
+  questionId      String
+  stem            String
+  optionsJson     String
+  answer          String
+  correctAnswer   String?
+  explanation     String?
+  topicTagIdsJson String?
+  reason          String
+  status          String    @default("DRAFT")
+  authorId        String?
+  reviewerId      String?
+  reviewNote      String?
+  question        Question  @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  author          User?     @relation("RevisionAuthor", fields: [authorId], references: [id], onDelete: SetNull)
+  reviewer        User?     @relation("RevisionReviewer", fields: [reviewerId], references: [id], onDelete: SetNull)
+  createdAt       DateTime  @default(now())
+  reviewedAt      DateTime?
+
+  @@index([questionId, status, createdAt])
+  @@index([authorId])
+  @@index([reviewerId])
+}
+
+// Uploaded question images, deduplicated by content digest.
+model AssetBlob {
+  id          String   @id @default(cuid())
+  sha256      String   @unique
+  contentType String
+  bytes       Bytes
+  createdAt   DateTime @default(now())
 }
 
 model QuestionOption {
@@ -216,6 +256,8 @@ model User {
   passwordResetTokens     PasswordResetToken[]
   consentRecords          ConsentRecord[]
   reviewActions           ContentReviewAction[]
+  authoredRevisions       QuestionRevision[]       @relation("RevisionAuthor")
+  reviewedRevisions       QuestionRevision[]       @relation("RevisionReviewer")
   createdAt               DateTime                 @default(now())
   updatedAt               DateTime                 @updatedAt
 
@@ -423,6 +465,7 @@ model PracticeAttempt {
   earnedXp            Int              @default(0)
   explanationViewedAt DateTime?
   contestSessionId    String?
+  regradedAt          DateTime?
   learner             LearnerProfile   @relation(fields: [learnerId], references: [id], onDelete: Cascade)
   session             PracticeSession? @relation(fields: [sessionId], references: [id], onDelete: SetNull)
   contestSession      ContestSession?  @relation(fields: [contestSessionId], references: [id], onDelete: SetNull)

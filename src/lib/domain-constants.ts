@@ -27,6 +27,13 @@ export const HINT_SOURCE = {
   CURATED: "CURATED",
 } as const;
 
+export const REVISION_STATUS = {
+  DRAFT: "DRAFT",
+  APPROVED: "APPROVED",
+  REJECTED: "REJECTED",
+  SUPERSEDED: "SUPERSEDED",
+} as const;
+
 export const HINT_STATUS = {
   APPROVED: "APPROVED",
   DRAFT: "DRAFT",

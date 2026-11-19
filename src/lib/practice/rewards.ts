@@ -1,6 +1,9 @@
 import { calendarDaysBefore, previousCalendarDay } from "@/lib/dates";
 import { DIFFICULTY } from "@/lib/domain-constants";
 
+// Bump when XP, level, or streak rules change so analytics and support can tell
+// which rules a learner's totals were earned under.
+export const REWARD_RULES_VERSION = 1;
 export const XP_PER_LEVEL = 120;
 export const MAX_STREAK_FREEZES = 2;
 export const STREAK_FREEZE_MILESTONE_DAYS = 7;

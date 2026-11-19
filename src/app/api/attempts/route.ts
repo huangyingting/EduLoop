@@ -50,7 +50,13 @@ async function postAttempt(request: Request) {
   }
 
   const learner = await ensureLearnerForUser(user.id, user.displayName);
-  const outcome = await recordLearnerAttempt({ learnerId: learner.id, question, grading, input });
+  const outcome = await recordLearnerAttempt({
+    learnerId: learner.id,
+    storedTimeZone: learner.timeZone,
+    question,
+    grading,
+    input,
+  });
   if (outcome.status === "CONFLICT") return apiError("Attempt key already used", 409, "CONFLICT");
   return NextResponse.json(outcome.result);
 }
@@ -82,7 +88,7 @@ async function patchAttempt(request: Request) {
   const learner = await findLearnerForUser(user);
   if (!learner) return apiError("Attempt not found", 404, "NOT_FOUND");
 
-  const outcome = await assessWrittenAttempt(learner.id, parsed.data);
+  const outcome = await assessWrittenAttempt(learner, parsed.data);
   if (outcome.status === "NOT_FOUND") return apiError("Attempt not found", 404, "NOT_FOUND");
   if (outcome.status === "ALREADY_ASSESSED") return apiError("Attempt already assessed", 409, "CONFLICT");
   return NextResponse.json({ isCorrect: outcome.isCorrect });

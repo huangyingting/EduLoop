@@ -305,34 +305,37 @@ model RateLimitBucket {
 }
 
 model LearnerProfile {
-  id               String               @id @default(cuid())
-  userId           String               @unique
-  displayName      String?
-  xp               Int                  @default(0)
-  level            Int                  @default(1)
-  currentStreak    Int                  @default(0)
-  bestStreak       Int                  @default(0)
-  streakFreezes    Int                  @default(1)
-  lastFreezeUsedOn String?
-  lastActiveOn     String?
-  totalAttempts    Int                  @default(0)
-  correctRun       Int                  @default(0)
-  knowledgeBandId  String?
-  knowledgeGradeId String?
-  sessions         PracticeSession[]
-  attempts         PracticeAttempt[]
-  badges           LearnerBadge[]
-  activities       DailyActivity[]
-  savedQuestions   SavedQuestion[]
-  reviewItems      ReviewItem[]
-  reports          QuestionReport[]
-  subjectStats     LearnerSubjectStat[]
-  topicStats       LearnerTopicStat[]
-  knowledgeBand    GradeBand?           @relation("LearnerKnowledgeBand", fields: [knowledgeBandId], references: [id], onDelete: SetNull)
-  knowledgeGrade   Grade?               @relation("LearnerKnowledgeGrade", fields: [knowledgeGradeId], references: [id], onDelete: SetNull)
-  user             User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt        DateTime             @default(now())
-  updatedAt        DateTime             @updatedAt
+  id                String               @id @default(cuid())
+  userId            String               @unique
+  displayName       String?
+  xp                Int                  @default(0)
+  level             Int                  @default(1)
+  currentStreak     Int                  @default(0)
+  bestStreak        Int                  @default(0)
+  streakFreezes     Int                  @default(1)
+  lastFreezeUsedOn  String?
+  lastActiveOn      String?
+  totalAttempts     Int                  @default(0)
+  correctRun        Int                  @default(0)
+  // IANA zone that defines the learner\'s calendar day for streaks and activity.
+  timeZone          String?
+  timeZoneUpdatedAt DateTime?
+  knowledgeBandId   String?
+  knowledgeGradeId  String?
+  sessions          PracticeSession[]
+  attempts          PracticeAttempt[]
+  badges            LearnerBadge[]
+  activities        DailyActivity[]
+  savedQuestions    SavedQuestion[]
+  reviewItems       ReviewItem[]
+  reports           QuestionReport[]
+  subjectStats      LearnerSubjectStat[]
+  topicStats        LearnerTopicStat[]
+  knowledgeBand     GradeBand?           @relation("LearnerKnowledgeBand", fields: [knowledgeBandId], references: [id], onDelete: SetNull)
+  knowledgeGrade    Grade?               @relation("LearnerKnowledgeGrade", fields: [knowledgeGradeId], references: [id], onDelete: SetNull)
+  user              User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt         DateTime             @default(now())
+  updatedAt         DateTime             @updatedAt
 
   @@index([knowledgeBandId])
   @@index([knowledgeGradeId])
@@ -415,6 +418,8 @@ model Badge {
   description String
   icon        String
   threshold   Int?
+  // JSON award rule, for example {"type":"STREAK_DAYS","threshold":7}.
+  rule        String?
   learners    LearnerBadge[]
 }
 

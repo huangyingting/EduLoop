@@ -24,23 +24,30 @@ async function recommend(filters: QuestionFilters, learnerId: string | null): Pr
   if (!learnerId) return { where, preferredQuestionId: null, reason: null };
 
   if (mode === "review" || mode === "adaptive") {
-    const due = await prisma.reviewItem.findMany({
-      where: {
-        learnerId,
-        status: REVIEW_ITEM_STATUS.ACTIVE,
-        dueAt: { lte: new Date() },
-        question: excluded.length ? { AND: [where, { id: { notIn: excluded } }] } : where,
-      },
-      orderBy: { dueAt: "asc" },
-      take: DUE_REVIEW_CANDIDATES,
-      select: { questionId: true },
-    });
-    if (due.length) {
-      return {
-        where,
-        preferredQuestionId: due[Math.floor(Math.random() * Math.min(due.length, DUE_REVIEW_PICK_FROM))].questionId,
-        reason: "复习一题到期的薄弱知识",
-      };
+    // Due learning reviews come first; due long-term checks of mastered items
+    // fill in only when nothing is still being learned.
+    for (const [status, reason] of [
+      [REVIEW_ITEM_STATUS.ACTIVE, "复习一题到期的薄弱知识"],
+      [REVIEW_ITEM_STATUS.MASTERED, "长期巩固：回顾一道已经掌握的题"],
+    ] as const) {
+      const due = await prisma.reviewItem.findMany({
+        where: {
+          learnerId,
+          status,
+          dueAt: { lte: new Date() },
+          question: excluded.length ? { AND: [where, { id: { notIn: excluded } }] } : where,
+        },
+        orderBy: { dueAt: "asc" },
+        take: DUE_REVIEW_CANDIDATES,
+        select: { questionId: true },
+      });
+      if (due.length) {
+        return {
+          where,
+          preferredQuestionId: due[Math.floor(Math.random() * Math.min(due.length, DUE_REVIEW_PICK_FROM))].questionId,
+          reason,
+        };
+      }
     }
   }
   if (mode !== "adaptive") return { where, preferredQuestionId: null, reason: null };

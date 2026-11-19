@@ -1,12 +1,12 @@
 import { Prisma } from "@prisma/client";
 import type { AttemptRequest, AttemptResult, SelfAssessmentRequest } from "@/lib/contracts/practice";
-import { calendarDay } from "@/lib/dates";
-import { PRACTICE_SESSION_STATUS, QUESTION_STATUS, REVIEW_ITEM_STATUS } from "@/lib/domain-constants";
+import { calendarDay, effectiveTimeZone } from "@/lib/dates";
+import { PRACTICE_SESSION_STATUS, QUESTION_STATUS } from "@/lib/domain-constants";
 import { prisma } from "@/lib/prisma";
 import { awardEarnedBadges } from "./badges";
 import { correctLabelsFor } from "./grading";
 import { gradedQuestionScope, recordGradedResult, topicTagSelect } from "./learner-stats";
-import { nextReviewState } from "./review-scheduler";
+import { nextReviewState, shouldRescheduleReview } from "./review-scheduler";
 import { attemptXp, levelForXp, nextStreakState } from "./rewards";
 
 export type AttemptQuestion = {
@@ -116,6 +116,9 @@ function isUniqueConflict(error: unknown) {
 
 export async function recordLearnerAttempt(params: {
   learnerId: string;
+  // The learner's stored zone wins over the request so a learner cannot gain
+  // extra streak days by switching zones; the first attempt stores it.
+  storedTimeZone?: string | null;
   question: AttemptQuestion;
   grading: { isCorrect: boolean | null; correctLabels: string[] };
   input: AttemptRequest;
@@ -124,7 +127,8 @@ export async function recordLearnerAttempt(params: {
   const { learnerId, question, input } = params;
   const { isCorrect, correctLabels } = params.grading;
   const now = params.now ?? new Date();
-  const today = calendarDay(now, input.timeZone);
+  const timeZone = effectiveTimeZone(params.storedTimeZone, input.timeZone);
+  const today = calendarDay(now, timeZone);
   const earnedXp = attemptXp(isCorrect, question.difficulty);
 
   if (input.clientAttemptId) {
@@ -166,6 +170,8 @@ export async function recordLearnerAttempt(params: {
           lastFreezeUsedOn: streak.lastFreezeUsedOn,
           lastActiveOn: streak.lastActiveOn,
           totalAttempts: { increment: 1 },
+          // The automatic first choice does not start the 24-hour change lock.
+          ...(learner.timeZone ? {} : { timeZone }),
           // Self-assessed work neither extends nor breaks the correct run.
           ...(isCorrect === true ? { correctRun: { increment: 1 } } : isCorrect === false ? { correctRun: 0 } : {}),
         },
@@ -193,10 +199,7 @@ export async function recordLearnerAttempt(params: {
         });
       }
 
-      const shouldUpdateReview = isCorrect === false || Boolean(
-        isCorrect && existingReview?.status === REVIEW_ITEM_STATUS.ACTIVE && existingReview.dueAt <= now,
-      );
-      if (shouldUpdateReview) {
+      if (isCorrect !== null && shouldRescheduleReview(existingReview, isCorrect, now)) {
         const review = nextReviewState(existingReview, Boolean(isCorrect), now);
         await transaction.reviewItem.upsert({
           where: { learnerId_questionId: { learnerId, questionId: question.id } },
@@ -244,6 +247,7 @@ export async function recordLearnerAttempt(params: {
       const newBadges = await awardEarnedBadges(transaction, learnerId, {
         totalAttempts: updatedLearner.totalAttempts,
         correctRun: updatedLearner.correctRun,
+        currentStreak: updatedLearner.currentStreak,
       });
 
       return { attempt, updatedLearner, activity, streak, sessionProgress, newBadges };
@@ -302,7 +306,12 @@ export async function recordExplanationView(learnerId: string, attemptId: string
   return { status: "INELIGIBLE" as const };
 }
 
-export async function assessWrittenAttempt(learnerId: string, input: SelfAssessmentRequest, now = new Date()) {
+export async function assessWrittenAttempt(
+  learner: { id: string; timeZone: string | null },
+  input: SelfAssessmentRequest,
+  now = new Date(),
+) {
+  const learnerId = learner.id;
   return prisma.$transaction(async (transaction) => {
     const attempt = await transaction.practiceAttempt.findFirst({
       where: { id: input.attemptId, learnerId },
@@ -324,7 +333,7 @@ export async function assessWrittenAttempt(learnerId: string, input: SelfAssessm
     });
     const review = nextReviewState(existingReview, input.isCorrect, now);
     if (input.isCorrect) {
-      const activityDate = calendarDay(attempt.createdAt, input.timeZone);
+      const activityDate = calendarDay(attempt.createdAt, effectiveTimeZone(learner.timeZone, input.timeZone));
       await transaction.dailyActivity.updateMany({
         where: { learnerId: attempt.learnerId, activityDate },
         data: { correct: { increment: 1 } },
@@ -336,10 +345,7 @@ export async function assessWrittenAttempt(learnerId: string, input: SelfAssessm
         });
       }
     }
-    const shouldUpdateReview = !input.isCorrect || Boolean(
-      existingReview?.status === REVIEW_ITEM_STATUS.ACTIVE && existingReview.dueAt <= now,
-    );
-    if (shouldUpdateReview) {
+    if (shouldRescheduleReview(existingReview, input.isCorrect, now)) {
       await transaction.reviewItem.upsert({
         where: { learnerId_questionId: { learnerId: attempt.learnerId, questionId: attempt.questionId } },
         create: { learnerId: attempt.learnerId, questionId: attempt.questionId, ...review },

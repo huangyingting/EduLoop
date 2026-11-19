@@ -4,7 +4,8 @@ import { getSessionUser } from "@/lib/auth";
 import { isSameOriginRequest } from "@/lib/auth-validation";
 import { cachedCatalogValue } from "@/lib/catalog-cache";
 import { ensureLearnerForUser } from "@/lib/learner-identity";
-import { learnerProfileInputSchema } from "@/lib/learner-profile";
+import { isValidTimeZone } from "@/lib/dates";
+import { canChangeTimeZone, learnerProfileInputSchema } from "@/lib/learner-profile";
 import { prisma } from "@/lib/prisma";
 import { QUESTION_STATUS } from "@/lib/domain-constants";
 
@@ -33,6 +34,7 @@ async function profileResponse(user: { id: string; displayName: string | null })
       where: { userId: user.id },
       select: {
         displayName: true,
+        timeZone: true,
         knowledgeBand: { select: { slug: true } },
         knowledgeGrade: { select: { slug: true } },
       },
@@ -43,6 +45,7 @@ async function profileResponse(user: { id: string; displayName: string | null })
     displayName: profile?.displayName ?? user.displayName ?? "",
     knowledgeBand: profile?.knowledgeBand?.slug ?? null,
     knowledgeGrade: profile?.knowledgeGrade?.slug ?? null,
+    timeZone: profile?.timeZone ?? null,
     gradeBands: gradeBands.map((band) => ({
       slug: band.slug,
       name: band.name,
@@ -94,6 +97,14 @@ async function patchProfile(request: Request) {
   }
 
   const learner = await ensureLearnerForUser(user.id, user.displayName);
+  const requestedTimeZone = parsed.data.timeZone;
+  const changesTimeZone = Boolean(requestedTimeZone && requestedTimeZone !== learner.timeZone);
+  if (requestedTimeZone && !isValidTimeZone(requestedTimeZone)) {
+    return apiError("无法识别所选时区。", 400, "INVALID_REQUEST");
+  }
+  if (changesTimeZone && learner.timeZone && !canChangeTimeZone(learner.timeZoneUpdatedAt)) {
+    return apiError("学习时区每 24 小时只能修改一次。", 409, "CONFLICT");
+  }
   const displayName = parsed.data.displayName || null;
   await prisma.$transaction([
     prisma.user.update({ where: { id: user.id }, data: { name: displayName } }),
@@ -103,6 +114,7 @@ async function patchProfile(request: Request) {
         displayName,
         knowledgeBandId: band?.id ?? null,
         knowledgeGradeId: grade?.id ?? null,
+        ...(changesTimeZone ? { timeZone: requestedTimeZone, timeZoneUpdatedAt: new Date() } : {}),
       },
     }),
   ]);

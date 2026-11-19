@@ -6,6 +6,7 @@ import {
   GRADE_BANDS, GRADES, SUBJECTS, TAG_DIMENSIONS, normalizeSourceQuestion,
   type SourceQuestion,
 } from "../src/lib/content";
+import { BADGE_CATALOG } from "../src/lib/practice/badge-catalog";
 import { CONTENT_MANIFEST, DEFAULT_CONTENT_LOCALE, contentFilesForLocale } from "../src/lib/content-manifest";
 import {
   finishOperatorCommand,
@@ -35,12 +36,10 @@ async function seedCatalog() {
   for (const dimension of TAG_DIMENSIONS) {
     await prisma.tagDimension.upsert({ where: { key: dimension.key }, update: dimension, create: dimension });
   }
-  const badges = [
-    { slug: "first-spark", name: "第一束光", description: "完成第一道练习", icon: "✦", threshold: 1 },
-    { slug: "ten-in-a-row", name: "连胜新星", description: "连续答对 10 题", icon: "⚡", threshold: 10 },
-    { slug: "century-club", name: "百题探索家", description: "累计完成 100 题", icon: "◎", threshold: 100 },
-  ];
-  for (const badge of badges) await prisma.badge.upsert({ where: { slug: badge.slug }, update: badge, create: badge });
+  for (const { rule, ...badge } of BADGE_CATALOG) {
+    const data = { ...badge, rule: JSON.stringify(rule) };
+    await prisma.badge.upsert({ where: { slug: badge.slug }, update: data, create: data });
+  }
 }
 
 function parseArguments(argv: string[]) {

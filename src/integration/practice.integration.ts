@@ -57,8 +57,8 @@ beforeAll(async () => {
   await createConsentingUser(profilelessUserId, false);
   createdBadgeIds = [];
   for (const badge of [
-    { slug: "first-spark", name: "第一束光", description: "完成第一题", icon: "✦", threshold: 1 },
-    { slug: "ten-in-a-row", name: "连胜新星", description: "连续答对 10 题", icon: "⚡", threshold: 10 },
+    { slug: "first-spark", name: "第一束光", description: "完成第一题", icon: "✦", threshold: 1, rule: JSON.stringify({ type: "TOTAL_ATTEMPTS", threshold: 1 }) },
+    { slug: "ten-in-a-row", name: "连胜新星", description: "连续答对 10 题", icon: "⚡", threshold: 10, rule: JSON.stringify({ type: "CORRECT_RUN", threshold: 10 }) },
   ]) {
     if (!await prisma.badge.findUnique({ where: { slug: badge.slug } })) {
       createdBadgeIds.push((await prisma.badge.create({ data: badge })).id);

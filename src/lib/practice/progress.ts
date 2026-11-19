@@ -1,6 +1,6 @@
 import type { LearnerProfile } from "@prisma/client";
 import type { LearnerActivitySummary, LearnerSnapshot, ProgressPayload } from "@/lib/contracts/practice";
-import { calendarDay, previousCalendarDay, visibleStreak } from "@/lib/dates";
+import { calendarDay, effectiveTimeZone, previousCalendarDay, visibleStreak } from "@/lib/dates";
 import { QUESTION_STATUS, REVIEW_ITEM_STATUS } from "@/lib/domain-constants";
 import { prisma } from "@/lib/prisma";
 import { levelForXp } from "./rewards";
@@ -22,7 +22,7 @@ const EMPTY_LEARNER = {
 
 export async function learnerSnapshot(learner: LearnerProfile | null, timeZone?: string): Promise<LearnerSnapshot> {
   if (!learner) return { xp: 0, level: 1, currentStreak: 0, bestStreak: 0, streakFreezes: EMPTY_LEARNER.streakFreezes, todayAttempts: 0 };
-  const today = calendarDay(new Date(), timeZone);
+  const today = calendarDay(new Date(), effectiveTimeZone(learner.timeZone, timeZone));
   const activity = await prisma.dailyActivity.findUnique({
     where: { learnerId_activityDate: { learnerId: learner.id, activityDate: today } },
   });
@@ -65,7 +65,7 @@ export async function learnerActivitySummary(
   timeZone: string | undefined,
   days: number,
 ): Promise<LearnerActivitySummary> {
-  const today = calendarDay(new Date(), timeZone);
+  const today = calendarDay(new Date(), effectiveTimeZone(learner?.timeZone, timeZone));
   return { activity: await activityWindow(learner?.id ?? null, today, days) };
 }
 
@@ -76,7 +76,7 @@ export async function learnerProgress(profile: LearnerProfile | null, timeZone?:
   const now = new Date();
   const learner = profile ?? EMPTY_LEARNER;
   const learnerId = profile?.id ?? null;
-  const today = calendarDay(now, timeZone);
+  const today = calendarDay(now, effectiveTimeZone(profile?.timeZone, timeZone));
   const [subjectStats, topicStats, activity, ownedBadges, badges, reviewItems, sessions] = await Promise.all([
     learnerId ? prisma.learnerSubjectStat.findMany({
       where: { learnerId },

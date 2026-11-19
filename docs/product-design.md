@@ -19,7 +19,7 @@
 4. Submit, then see correctness (where defensible), reference answer, explanation, and XP.
 5. Move to a non-repeating next question and complete a ten-question loop.
 6. Return later to maintain a daily learning streak and deepen topic mastery.
-7. Open a specific saved or scheduled question, review mistakes when due, and graduate an item after three successful spaced reviews.
+7. Open a specific saved or scheduled question, review mistakes when due (after 1, 3, and 7 days), and graduate an item after three successful spaced reviews. A graduated item returns for long-term checks after 30 days, then 60, up to 180. A miss sends it back to active review.
 
 ## Information architecture
 
@@ -52,10 +52,10 @@ Chinese system fonts are preferred to avoid a font download blocking first paint
 
 Rewards reinforce behavior a student controls:
 
-- XP for every honest attempt; more for correct answers and more difficult questions.
-- A daily streak for returning, not a public leaderboard; every dashboard uses the same shield-aware projection during a protected gap.
+- XP for every honest attempt; more for correct answers and more difficult questions. Self-assessed written work earns a flat amount, so claiming a written answer was correct earns nothing extra. The rules live in `src/lib/practice/rewards.ts` under `REWARD_RULES_VERSION`.
+- A daily streak for returning, not a public leaderboard; every dashboard uses the same shield-aware projection during a protected gap. The streak day follows the learner's stored time zone. The first attempt records the device zone, and the learner can change it on the profile page at most once every 24 hours, so switching zones cannot manufacture extra days.
 - A session combo for immediate momentum.
-- Badges for first practice, a ten-answer correct run, and one hundred attempts.
+- Data-driven badges: each `Badge` row stores a JSON rule (`TOTAL_ATTEMPTS`, `CORRECT_RUN`, `STREAK_DAYS`, `MASTERED_TOPICS`, `SUBJECT_ATTEMPTS`). The bundled set in `src/lib/practice/badge-catalog.ts` covers first practice, a ten-answer correct run, one hundred attempts, 3/7/30-day streaks, and the first and fifth mastered topic. A mastered topic means at least five graded attempts at 80% accuracy or better. Adding a badge means adding an entry and running the seed.
 - Ten-question progress gives sessions a clear end.
 
 Avoid competitive rank, punishment language, XP loss, and deceptive urgency. A wrong answer is framed as a clue and always paired with an explanation where available. A streak shield absorbs one missed day so a short interruption does not feel catastrophic.

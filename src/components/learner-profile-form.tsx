@@ -1,9 +1,9 @@
 "use client";
 
-import { ArrowRight, Check, GraduationCap, LoaderCircle, Sparkles, UserRound } from "lucide-react";
+import { ArrowRight, Check, Clock3, GraduationCap, LoaderCircle, Sparkles, UserRound } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { getPracticePreferences, savePracticePreferences } from "@/lib/learner";
+import { getPracticePreferences, getTimeZone, savePracticePreferences } from "@/lib/learner";
 import { useAuth } from "@/lib/use-auth";
 import { CustomSelect } from "./custom-select";
 
@@ -11,6 +11,7 @@ type ProfilePayload = {
   displayName: string;
   knowledgeBand: string | null;
   knowledgeGrade: string | null;
+  timeZone: string | null;
   gradeBands: Array<{
     slug: string;
     name: string;
@@ -30,6 +31,8 @@ export function LearnerProfileForm() {
   const [knowledgeBand, setKnowledgeBand] = useState("");
   const [knowledgeGrade, setKnowledgeGrade] = useState("");
   const [savedKnowledge, setSavedKnowledge] = useState("");
+  const [timeZone, setTimeZone] = useState("");
+  const [deviceTimeZone] = useState(() => getTimeZone());
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
@@ -49,6 +52,7 @@ export function LearnerProfileForm() {
         setDisplayName(payload.displayName);
         setKnowledgeBand(payload.knowledgeBand ?? "");
         setKnowledgeGrade(payload.knowledgeGrade ?? "");
+        setTimeZone(payload.timeZone ?? "");
         setSavedKnowledge(`${payload.knowledgeBand ?? ""}:${payload.knowledgeGrade ?? ""}`);
       })
       .catch((cause) => {
@@ -84,6 +88,7 @@ export function LearnerProfileForm() {
           displayName,
           knowledgeBand: knowledgeBand || null,
           knowledgeGrade: knowledgeGrade || null,
+          ...(timeZone && timeZone !== profile?.timeZone ? { timeZone } : {}),
         }),
       });
       if (!response.ok) throw new Error(await responseError(response, "学习档案保存失败。"));
@@ -100,6 +105,7 @@ export function LearnerProfileForm() {
       setDisplayName(payload.displayName);
       setKnowledgeBand(payload.knowledgeBand ?? "");
       setKnowledgeGrade(payload.knowledgeGrade ?? "");
+      setTimeZone(payload.timeZone ?? "");
       setSavedKnowledge(nextKnowledge);
       await auth.refresh();
       setMessage("学习档案已保存，下一次进入练习时会使用新的推荐范围。");
@@ -124,6 +130,12 @@ export function LearnerProfileForm() {
       </div>
       {selectedBand?.grades.length ? <div className="mt-5"><span className="mb-2 block text-sm font-black">具体年级（选填）</span><CustomSelect label="具体年级" value={knowledgeGrade} options={[{ value: "", label: `${selectedBand.name}全部年级` }, ...selectedBand.grades.map((grade) => ({ value: grade.slug, label: grade.name }))]} onValueChange={setKnowledgeGrade} className="w-full" /></div> : null}
       <div className="mt-5 flex items-start gap-2 rounded-xl bg-white/70 px-4 py-3 text-xs font-semibold leading-5 text-muted"><Sparkles className="mt-0.5 shrink-0 text-violet" size={16} /><p>档案只在这台设备还没有手动筛选时提供缺省值。练习链接中的明确条件和你在练习页做出的选择始终优先。</p></div>
+    </section>
+
+    <section className="rounded-[28px] border-2 border-ink/10 bg-white p-6 sm:p-7">
+      <div className="flex items-start gap-3"><span className="grid size-10 shrink-0 place-items-center rounded-2xl bg-sky"><Clock3 size={20} /></span><div><h2 className="font-display text-xl font-black">学习日所在时区</h2><p className="mt-1 text-sm font-semibold leading-6 text-muted">连续学习天数按这个时区的日期计算。首次练习时会自动使用当前设备的时区，之后每 24 小时最多修改一次。</p></div></div>
+      <p className="mt-5 text-sm font-bold">当前：{timeZone || "尚未设置"}</p>
+      {deviceTimeZone && deviceTimeZone !== timeZone ? <button type="button" onClick={() => setTimeZone(deviceTimeZone)} className="mt-3 inline-flex min-h-11 items-center gap-2 rounded-xl border-2 border-ink/10 bg-canvas px-4 text-sm font-black text-ink hover:border-violet/40">改用本设备时区（{deviceTimeZone}）</button> : null}
     </section>
 
     {message ? <p role="status" className="flex items-center gap-2 rounded-xl bg-[#e6f8ef] px-4 py-3 text-sm font-bold text-[#247a59]"><Check size={17} />{message}</p> : null}

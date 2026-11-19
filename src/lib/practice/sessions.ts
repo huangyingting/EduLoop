@@ -1,9 +1,10 @@
 import { Prisma } from "@prisma/client";
 import type { SessionSnapshot } from "@/lib/contracts/practice";
 import { PRACTICE_SESSION_STATUS } from "@/lib/domain-constants";
+
+export { DEFAULT_QUESTION_GOAL } from "@/lib/domain-constants";
 import { prisma } from "@/lib/prisma";
 
-export const DEFAULT_QUESTION_GOAL = 10;
 const RECENT_SESSION_QUESTIONS = 20;
 
 const recentAttempts = {

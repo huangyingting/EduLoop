@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { PracticePlayer } from "@/components/practice-player";
+import { PracticePlayer } from "@/components/practice/practice-player";
 
 export const metadata: Metadata = { title: "专注练习" };
 

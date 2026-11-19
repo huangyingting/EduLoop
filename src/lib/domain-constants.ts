@@ -85,3 +85,6 @@ export type UserRole = (typeof USER_ROLE)[keyof typeof USER_ROLE];
 
 export const PRACTICE_MODES = ["standard", "review", "adaptive"] as const;
 export type PracticeMode = (typeof PRACTICE_MODES)[number];
+
+// Questions per practice round; the server session stores its own goal.
+export const DEFAULT_QUESTION_GOAL = 10;

@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { apiError, apiHandler, enforceRateLimit } from "@/lib/api";
 import { prisma } from "@/lib/prisma";
+import { QUESTION_STATUS } from "@/lib/domain-constants";
 
 export const dynamic = "force-dynamic";
 
@@ -22,11 +23,11 @@ async function getCatalog(request: NextRequest) {
   const gradeBandSlug = parsed.data.gradeBand ?? null;
   const gradeSlug = parsed.data.grade ?? null;
   const selectedGradeScope: Prisma.QuestionWhereInput = {
-    status: "PUBLISHED",
+    status: QUESTION_STATUS.PUBLISHED,
     ...(subjectSlug ? { subject: { slug: subjectSlug } } : {}),
   };
   const selectedSubjectScope: Prisma.QuestionWhereInput = {
-    status: "PUBLISHED",
+    status: QUESTION_STATUS.PUBLISHED,
     ...(gradeBandSlug ? { gradeBand: { slug: gradeBandSlug } } : {}),
     ...(gradeSlug ? { grade: { slug: gradeSlug } } : {}),
   };
@@ -42,7 +43,7 @@ async function getCatalog(request: NextRequest) {
       select: { slug: true, name: true },
     }),
     prisma.gradeBand.findMany({
-      where: { questions: { some: { status: "PUBLISHED" } } },
+      where: { questions: { some: { status: QUESTION_STATUS.PUBLISHED } } },
       orderBy: [{ sortOrder: "asc" }, { name: "asc" }],
       select: { slug: true, name: true },
     }),

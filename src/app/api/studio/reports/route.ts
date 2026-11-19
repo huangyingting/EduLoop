@@ -5,22 +5,23 @@ import { isSameOriginRequest } from "@/lib/auth-validation";
 import { contentOperatorForRequest } from "@/lib/content-operator";
 import { transitionContentReport } from "@/lib/content-review";
 import { prisma } from "@/lib/prisma";
+import { CONTENT_REVIEW_ACTION, REPORT_STATUS } from "@/lib/domain-constants";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 const listSchema = z.object({
-  status: z.enum(["OPEN", "RESOLVED"]).default("OPEN"),
+  status: z.enum([REPORT_STATUS.OPEN, REPORT_STATUS.RESOLVED]).default(REPORT_STATUS.OPEN),
   page: z.coerce.number().int().min(1).max(1000).default(1),
   limit: z.coerce.number().int().min(1).max(50).default(20),
 });
 
 const updateSchema = z.object({
   reportId: z.string().min(8).max(100),
-  action: z.enum(["QUARANTINE", "RESOLVE", "REOPEN"]),
+  action: z.enum([CONTENT_REVIEW_ACTION.QUARANTINE, CONTENT_REVIEW_ACTION.RESOLVE, CONTENT_REVIEW_ACTION.REOPEN]),
   note: z.string().trim().max(500).optional(),
 }).superRefine((input, context) => {
-  if (input.action === "RESOLVE" && (!input.note || input.note.length < 3)) {
+  if (input.action === CONTENT_REVIEW_ACTION.RESOLVE && (!input.note || input.note.length < 3)) {
     context.addIssue({ code: "custom", path: ["note"], message: "Resolution notes must explain the decision." });
   }
 });
@@ -85,8 +86,8 @@ async function getReports(request: NextRequest) {
       },
     }),
     prisma.questionReport.count({ where }),
-    prisma.questionReport.count({ where: { status: "OPEN" } }),
-    prisma.questionReport.count({ where: { status: "RESOLVED" } }),
+    prisma.questionReport.count({ where: { status: REPORT_STATUS.OPEN } }),
+    prisma.questionReport.count({ where: { status: REPORT_STATUS.RESOLVED } }),
   ]);
   return NextResponse.json({
     reports: reports.map((report) => ({

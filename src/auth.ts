@@ -31,6 +31,7 @@ import {
   clientAddress,
   identityRateLimitKey,
 } from "@/lib/rate-limit";
+import { USER_ROLE } from "@/lib/domain-constants";
 
 class EmailNotVerified extends CredentialsSignin {
   code = "email_not_verified";
@@ -279,7 +280,7 @@ export const { handlers, auth } = NextAuth((request) => ({
       session.user.authenticatedAt = typeof token.authenticatedAt === "number" ? token.authenticatedAt : 0;
       session.user.displayName = typeof token.name === "string" ? token.name : null;
       session.user.image = typeof token.picture === "string" ? token.picture : null;
-      session.user.role = typeof token.role === "string" ? token.role : "LEARNER";
+      session.user.role = typeof token.role === "string" ? token.role : USER_ROLE.LEARNER;
       session.user.isEmailVerified = token.emailVerified === true;
       session.user.hasPassword = token.hasPassword === true;
       session.user.hasCurrentConsent = token.hasCurrentConsent === true;

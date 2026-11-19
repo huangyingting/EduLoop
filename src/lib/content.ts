@@ -7,6 +7,7 @@ import {
 } from "@/lib/content-curation";
 import { applyQuestionReplacement } from "@/lib/question-replacements";
 import { auditQuestionDifficulty, type Difficulty } from "@/lib/difficulty";
+import { QUESTION_STATUS, type AssetReviewStatus } from "@/lib/domain-constants";
 
 export const SUBJECTS = [
   { slug: "math", name: "数学", icon: "∑", color: "#6c5ce7", description: "数感、代数、几何与数据思维", sortOrder: 1 },
@@ -49,21 +50,7 @@ export function deriveGradeBand(grade: string): string {
 const GRADE_ORDER_BY_NAME = new Map<string, number>(GRADES.map(([, name, , sortOrder]) => [name, sortOrder]));
 GRADE_ORDER_BY_NAME.set("初中综合", 8);
 
-export const DIFFICULTIES = [
-  { key: "EASY", source: "容易", label: "热身", dot: "●" },
-  { key: "MEDIUM", source: "一般", label: "进阶", dot: "●●" },
-  { key: "HARD", source: "困难", label: "挑战", dot: "●●●" },
-] as const;
-
-export const QUESTION_TYPE_LABELS: Record<string, string> = {
-  SINGLE_CHOICE: "单项选择",
-  MULTIPLE_CHOICE: "多项选择",
-  TRUE_FALSE: "判断",
-  FILL_BLANK: "填空",
-  COMPUTATION: "计算",
-  EXPERIMENT: "实验探究",
-  WRITTEN_RESPONSE: "解答",
-};
+export { DIFFICULTIES, QUESTION_TYPE_LABELS } from "@/lib/question-labels";
 
 export const OPTION_LABELS = ["A", "B", "C", "D", "E"] as const;
 export type OptionLabel = (typeof OPTION_LABELS)[number];
@@ -153,7 +140,7 @@ export type NormalizedAsset = {
   path: string;
   altText: string;
   source: "GENERATED_REPLACEMENT";
-  reviewStatus: "DRAFT" | "APPROVED";
+  reviewStatus: AssetReviewStatus;
   version: number;
 };
 
@@ -364,8 +351,8 @@ export function normalizeSourceQuestion(question: SourceQuestion, sourceFile: st
     explanation,
     quality: null,
     status: update?.publish
-      ? "PUBLISHED"
-      : !stem || requiresVisual || hasUnparsedChoice || sourceRequiresReview ? "NEEDS_REVIEW" : "PUBLISHED",
+      ? QUESTION_STATUS.PUBLISHED
+      : !stem || requiresVisual || hasUnparsedChoice || sourceRequiresReview ? QUESTION_STATUS.NEEDS_REVIEW : QUESTION_STATUS.PUBLISHED,
     isAutoGradable,
     onlineTest: isAutoGradable,
     optionSplit: hasSplitOptions(question),

@@ -1,5 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { prisma } from "./prisma";
+import { USER_ROLE } from "@/lib/domain-constants";
 
 const DAY_MS = 24 * 60 * 60_000;
 export const STALE_REGISTRATION_RETENTION_DAYS = 30;
@@ -32,7 +33,7 @@ function staleRegistrationWhere(now: Date): Prisma.UserWhereInput {
   return {
     emailVerified: null,
     passwordHash: { not: null },
-    role: "LEARNER",
+    role: USER_ROLE.LEARNER,
     registrationExpiresAt: { lte: now },
     accounts: { none: {} },
     sessions: { none: { expires: { gt: now } } },

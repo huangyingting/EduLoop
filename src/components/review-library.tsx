@@ -3,38 +3,15 @@
 import { ArrowRight, Bookmark, BookmarkCheck, Brain, CalendarClock, CalendarDays, Clock3, FilterX, LoaderCircle, RotateCcw, Search, Sparkles, Trash2, X } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import { apiRequest, describeApiError } from "@/lib/api-client";
+import type { ReviewPayload, ReviewQuestionCard } from "@/lib/contracts/practice";
 import { CustomSelect } from "./custom-select";
 import { MathText } from "./math-text";
 
-type QuestionCard = {
-  id: string;
-  stem: string;
-  type: string;
-  difficulty: string;
-  subject: { slug: string; name: string; color: string };
-  grade: string;
-  tags: Array<{ slug: string; label: string }>;
-};
-type ReviewCard = QuestionCard & {
-  dueAt: string;
-  isDue: boolean;
-  intervalDays: number;
-  repetitions: number;
-  lastResult: boolean | null;
-  isSaved: boolean;
-};
-type SavedCard = QuestionCard & {
-  savedAt: string;
-  isInReview: boolean;
-  reviewIsDue: boolean;
-};
-type ReviewData = {
-  dueCount: number;
-  activeCount: number;
-  savedCount: number;
-  reviews: ReviewCard[];
-  saved: SavedCard[];
-};
+type QuestionCard = ReviewQuestionCard;
+type ReviewCard = ReviewPayload["reviews"][number];
+type SavedCard = ReviewPayload["saved"][number];
+type ReviewData = ReviewPayload;
 type Tab = "review" | "saved";
 
 function practiceHref(item: QuestionCard, review: ReviewCard | null) {
@@ -68,11 +45,9 @@ export function ReviewLibrary() {
   async function load() {
     setError("");
     try {
-      const response = await fetch("/api/review", { cache: "no-store" });
-      if (!response.ok) throw new Error("复习清单加载失败，请稍后再试。");
-      setData(await response.json() as ReviewData);
+      setData(await apiRequest<ReviewData>("/api/review", { onUnauthorized: "redirect" }));
     } catch (cause) {
-      setError(cause instanceof Error ? cause.message : "加载失败");
+      setError(describeApiError(cause, "复习清单加载失败，请稍后再试。"));
     }
   }
 
@@ -119,12 +94,7 @@ export function ReviewLibrary() {
     if (mutating) return;
     setMutating(mutationKey); setError("");
     try {
-      const response = await fetch("/api/review", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ questionId: item.id, saved }),
-      });
-      if (!response.ok) throw new Error(saved ? "收藏失败，请稍后再试。" : "取消收藏失败，请稍后再试。");
+      await apiRequest("/api/review", { method: "POST", body: { questionId: item.id, saved } });
       setData((current) => {
         if (!current) return current;
         const review = current.reviews.find(({ id }) => id === item.id);
@@ -145,7 +115,7 @@ export function ReviewLibrary() {
         };
       });
     } catch (cause) {
-      setError(cause instanceof Error ? cause.message : "收藏操作失败，请稍后再试。");
+      setError(describeApiError(cause, saved ? "收藏失败，请稍后再试。" : "取消收藏失败，请稍后再试。"));
     } finally {
       setMutating("");
     }
@@ -156,12 +126,7 @@ export function ReviewLibrary() {
     const mutationKey = `review:${review.id}`;
     setMutating(mutationKey); setError("");
     try {
-      const response = await fetch("/api/review", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ questionId: review.id, action: "DISMISS" }),
-      });
-      if (!response.ok) throw new Error("移出复习清单失败，请稍后再试。");
+      await apiRequest("/api/review", { method: "PATCH", body: { questionId: review.id, action: "DISMISS" } });
       setData((current) => current ? {
         ...current,
         dueCount: Math.max(0, current.dueCount - (review.isDue ? 1 : 0)),
@@ -170,7 +135,7 @@ export function ReviewLibrary() {
         saved: current.saved.map((entry) => entry.id === review.id ? { ...entry, isInReview: false, reviewIsDue: false } : entry),
       } : current);
     } catch (cause) {
-      setError(cause instanceof Error ? cause.message : "移出复习清单失败，请稍后再试。");
+      setError(describeApiError(cause, "移出复习清单失败，请稍后再试。"));
     } finally {
       setMutating("");
     }

@@ -14,6 +14,7 @@ import {
   registrationExpiration,
 } from "@/lib/retention";
 import { registrationEnabled } from "@/lib/deployment-mode";
+import { QUESTION_STATUS } from "@/lib/domain-constants";
 
 export const runtime = "nodejs";
 
@@ -46,7 +47,7 @@ async function postRegistration(request: Request) {
   if (limited) return limited;
   const passwordHash = await hashPassword(input.password);
   const knowledgeBand = input.knowledgeBand ? await prisma.gradeBand.findFirst({
-    where: { slug: input.knowledgeBand, questions: { some: { status: "PUBLISHED" } } },
+    where: { slug: input.knowledgeBand, questions: { some: { status: QUESTION_STATUS.PUBLISHED } } },
     select: { id: true },
   }) : null;
   if (input.knowledgeBand && !knowledgeBand) {

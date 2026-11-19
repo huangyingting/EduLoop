@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { apiError, apiHandler, enforceRateLimit } from "@/lib/api";
 import { buildQuestionHint } from "@/lib/hints";
 import { prisma } from "@/lib/prisma";
+import { QUESTION_STATUS } from "@/lib/domain-constants";
 
 export const dynamic = "force-dynamic";
 
@@ -14,7 +15,7 @@ async function getQuestionHint(request: NextRequest) {
   if (limited) return limited;
 
   const question = await prisma.question.findFirst({
-    where: { id: questionId, status: "PUBLISHED" },
+    where: { id: questionId, status: QUESTION_STATUS.PUBLISHED },
     select: {
       type: true,
       difficulty: true,

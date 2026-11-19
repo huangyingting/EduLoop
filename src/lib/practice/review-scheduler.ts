@@ -1,3 +1,5 @@
+import { REVIEW_ITEM_STATUS } from "@/lib/domain-constants";
+
 export type ReviewState = {
   repetitions: number;
   consecutiveCorrect: number;
@@ -8,7 +10,7 @@ const REVIEW_INTERVALS = [1, 3, 7, 14, 30];
 export function nextReviewState(existing: ReviewState | null, isCorrect: boolean, now = new Date()) {
   if (!isCorrect) {
     return {
-      status: "ACTIVE",
+      status: REVIEW_ITEM_STATUS.ACTIVE,
       dueAt: now,
       intervalDays: 0,
       repetitions: existing?.repetitions ?? 0,
@@ -25,7 +27,7 @@ export function nextReviewState(existing: ReviewState | null, isCorrect: boolean
   dueAt.setUTCDate(dueAt.getUTCDate() + intervalDays);
 
   return {
-    status: consecutiveCorrect >= 3 ? "MASTERED" : "ACTIVE",
+    status: consecutiveCorrect >= 3 ? REVIEW_ITEM_STATUS.MASTERED : REVIEW_ITEM_STATUS.ACTIVE,
     dueAt,
     intervalDays,
     repetitions,

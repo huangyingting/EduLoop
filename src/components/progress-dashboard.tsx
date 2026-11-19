@@ -3,18 +3,11 @@
 import { ArrowRight, Award, BarChart3, CalendarDays, CheckCircle2, Flame, LoaderCircle, RotateCcw, Sparkles, Target, Trophy } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { apiRequest, describeApiError } from "@/lib/api-client";
+import type { ProgressPayload } from "@/lib/contracts/practice";
 import { getTimeZone } from "@/lib/learner";
 import { MathText } from "./math-text";
 
-type ProgressData = {
-  summary: { totalAttempts: number; correctRate: number; xp: number; level: number; currentStreak: number; bestStreak: number };
-  activity: Array<{ date: string; attempts: number; correct: number; earnedXp: number }>;
-  subjects: Array<{ slug: string; label: string; color: string; attempts: number; correct: number; accuracy: number }>;
-  weakTopics: Array<{ slug: string; subject: string; label: string; attempts: number; accuracy: number }>;
-  recentMistakes: Array<{ id: string; stem: string; subject: string; subjectColor: string; grade: string; isDue: boolean }>;
-  badges: Array<{ slug: string; name: string; description: string; icon: string; earnedAt: string | null }>;
-  sessions: Array<{ id: string; status: string; completedCount: number; questionGoal: number; correctCount: number; earnedXp: number; startedAt: string }>;
-};
 
 function heatClass(attempts: number) {
   if (!attempts) return "bg-ink/[.05]";
@@ -23,24 +16,24 @@ function heatClass(attempts: number) {
   return "bg-violet";
 }
 
-function topicPracticeHref(topic: ProgressData["weakTopics"][number]) {
+function topicPracticeHref(topic: ProgressPayload["weakTopics"][number]) {
   const params = new URLSearchParams({ mode: "adaptive", subject: topic.subject, tags: topic.slug });
   return `/practice?${params}`;
 }
 
 export function ProgressDashboard() {
-  const [data, setData] = useState<ProgressData | null>(null);
+  const [data, setData] = useState<ProgressPayload | null>(null);
   const [error, setError] = useState("");
 
   async function load() {
     setError("");
-    const params = new URLSearchParams({ timeZone: getTimeZone() });
     try {
-      const response = await fetch(`/api/learner/progress?${params}`, { cache: "no-store" });
-      if (!response.ok) throw new Error("成长记录加载失败，请稍后再试。");
-      setData(await response.json() as ProgressData);
+      setData(await apiRequest<ProgressPayload>("/api/learner/progress", {
+        query: { timeZone: getTimeZone() },
+        onUnauthorized: "redirect",
+      }));
     } catch (cause) {
-      setError(cause instanceof Error ? cause.message : "加载失败");
+      setError(describeApiError(cause, "成长记录加载失败，请稍后再试。"));
     }
   }
 

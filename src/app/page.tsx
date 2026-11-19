@@ -4,13 +4,14 @@ import { HomeWeeklyProgress } from "@/components/home-weekly-progress";
 import { LearnerHeaderStats } from "@/components/learner-provider";
 import { SubjectCard } from "@/components/subject-card";
 import { prisma } from "@/lib/prisma";
+import { QUESTION_STATUS } from "@/lib/domain-constants";
 
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
   const [subjects, questionCount, gradeBandCount, sourceTypes] = await Promise.all([
     prisma.subject.findMany({
-      where: { questions: { some: { status: "PUBLISHED" } } },
+      where: { questions: { some: { status: QUESTION_STATUS.PUBLISHED } } },
       orderBy: [{ sortOrder: "asc" }, { name: "asc" }],
       select: {
         slug: true,
@@ -18,12 +19,12 @@ export default async function Home() {
         icon: true,
         color: true,
         description: true,
-        _count: { select: { questions: { where: { status: "PUBLISHED" } } } },
+        _count: { select: { questions: { where: { status: QUESTION_STATUS.PUBLISHED } } } },
       },
     }),
-    prisma.question.count({ where: { status: "PUBLISHED" } }),
-    prisma.gradeBand.count({ where: { questions: { some: { status: "PUBLISHED" } } } }),
-    prisma.question.groupBy({ by: ["sourceType"], where: { status: "PUBLISHED" } }),
+    prisma.question.count({ where: { status: QUESTION_STATUS.PUBLISHED } }),
+    prisma.gradeBand.count({ where: { questions: { some: { status: QUESTION_STATUS.PUBLISHED } } } }),
+    prisma.question.groupBy({ by: ["sourceType"], where: { status: QUESTION_STATUS.PUBLISHED } }),
   ]);
   const formatCount = (count: number) => count.toLocaleString("zh-CN");
 

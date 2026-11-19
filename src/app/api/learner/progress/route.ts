@@ -1,24 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
-import { z } from "zod";
 import { apiError, apiHandler, enforceRateLimit } from "@/lib/api";
 import { getSessionUser } from "@/lib/auth";
-import { calendarDay, previousCalendarDay, visibleStreak } from "@/lib/dates";
-import { prisma } from "@/lib/prisma";
+import { timeZoneQuerySchema } from "@/lib/contracts/practice";
 import { findLearnerForUser } from "@/lib/learner-identity";
+import { learnerProgress } from "@/lib/practice/progress";
 
 export const dynamic = "force-dynamic";
-
-const querySchema = z.object({
-  timeZone: z.string().max(100).optional(),
-});
-
-type Aggregate = { label: string; color?: string; attempts: number; correct: number };
-type TopicAggregate = Aggregate & { slug: string; subject: string };
 
 async function getLearnerProgress(request: NextRequest) {
   const user = await getSessionUser(request);
   if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
-  const parsed = querySchema.safeParse(Object.fromEntries(request.nextUrl.searchParams));
+  const parsed = timeZoneQuerySchema.safeParse(Object.fromEntries(request.nextUrl.searchParams));
   if (!parsed.success) return apiError("Invalid progress query", 400, "INVALID_REQUEST");
   const limited = await enforceRateLimit(
     request,
@@ -27,127 +19,7 @@ async function getLearnerProgress(request: NextRequest) {
   );
   if (limited) return limited;
   const learner = await findLearnerForUser(user);
-
-  const [attempts, activities, ownedBadges, badges, reviewItems, sessions, totalAttempts] = await Promise.all([
-    prisma.practiceAttempt.findMany({
-      where: { learnerId: learner.id, isCorrect: { not: null } },
-      orderBy: { createdAt: "desc" },
-      take: 500,
-      include: {
-        question: {
-          include: {
-            subject: { select: { slug: true, name: true, color: true } },
-            grade: { select: { name: true } },
-            tags: { include: { tag: { include: { dimension: true } } } },
-          },
-        },
-      },
-    }),
-    prisma.dailyActivity.findMany({ where: { learnerId: learner.id }, orderBy: { activityDate: "desc" }, take: 35 }),
-    prisma.learnerBadge.findMany({ where: { learnerId: learner.id }, select: { badgeId: true, earnedAt: true } }),
-    prisma.badge.findMany({ orderBy: { threshold: "asc" } }),
-    prisma.reviewItem.findMany({
-      where: { learnerId: learner.id, status: "ACTIVE", question: { status: "PUBLISHED" } },
-      orderBy: [{ dueAt: "asc" }, { updatedAt: "desc" }],
-      take: 5,
-      include: { question: { include: { subject: true, grade: true } } },
-    }),
-    prisma.practiceSession.findMany({ where: { learnerId: learner.id }, orderBy: { startedAt: "desc" }, take: 6 }),
-    prisma.practiceAttempt.count({ where: { learnerId: learner.id } }),
-  ]);
-
-  const subjectMap = new Map<string, Aggregate>();
-  const topicMap = new Map<string, TopicAggregate>();
-  for (const attempt of attempts) {
-    const subject = subjectMap.get(attempt.question.subject.slug) ?? {
-      label: attempt.question.subject.name,
-      color: attempt.question.subject.color,
-      attempts: 0,
-      correct: 0,
-    };
-    subject.attempts += 1;
-    subject.correct += attempt.isCorrect ? 1 : 0;
-    subjectMap.set(attempt.question.subject.slug, subject);
-
-    for (const { tag } of attempt.question.tags) {
-      if (tag.dimension.key !== "TOPIC") continue;
-      const topicKey = `${attempt.question.subject.slug}:${tag.slug}`;
-      const topic = topicMap.get(topicKey) ?? {
-        slug: tag.slug,
-        subject: attempt.question.subject.slug,
-        label: tag.label,
-        attempts: 0,
-        correct: 0,
-      };
-      topic.attempts += 1;
-      topic.correct += attempt.isCorrect ? 1 : 0;
-      topicMap.set(topicKey, topic);
-    }
-  }
-
-  const today = calendarDay(new Date(), parsed.data.timeZone);
-  const currentStreak = visibleStreak(learner, today);
-  const activityByDay = new Map(activities.map((item) => [item.activityDate, item]));
-  const days: string[] = [];
-  let cursor = today;
-  for (let index = 0; index < 28; index += 1) {
-    days.unshift(cursor);
-    cursor = previousCalendarDay(cursor);
-  }
-  const gradedAttempts = attempts.length;
-  const gradedCorrect = attempts.filter((attempt) => attempt.isCorrect).length;
-  const ownedById = new Map(ownedBadges.map((item) => [item.badgeId, item.earnedAt]));
-
-  return NextResponse.json({
-    summary: {
-      totalAttempts,
-      correctRate: gradedAttempts ? Math.round((gradedCorrect / gradedAttempts) * 100) : 0,
-      xp: learner.xp,
-      level: Math.floor(learner.xp / 120) + 1,
-      currentStreak,
-      bestStreak: learner.bestStreak,
-    },
-    activity: days.map((date) => ({
-      date,
-      attempts: activityByDay.get(date)?.attempts ?? 0,
-      correct: activityByDay.get(date)?.correct ?? 0,
-      earnedXp: activityByDay.get(date)?.earnedXp ?? 0,
-    })),
-    subjects: [...subjectMap.entries()].map(([slug, item]) => ({
-      slug,
-      ...item,
-      accuracy: Math.round((item.correct / item.attempts) * 100),
-    })).sort((left, right) => right.attempts - left.attempts),
-    weakTopics: [...topicMap.values()].map((item) => ({
-      ...item,
-      accuracy: Math.round((item.correct / item.attempts) * 100),
-    })).filter((item) => item.attempts >= 2).sort((left, right) => left.accuracy - right.accuracy || right.attempts - left.attempts).slice(0, 6),
-    recentMistakes: reviewItems.map((item) => ({
-      id: item.question.id,
-      stem: item.question.stem,
-      subject: item.question.subject.name,
-      subjectColor: item.question.subject.color,
-      grade: item.question.grade.name,
-      dueAt: item.dueAt,
-      isDue: item.dueAt <= new Date(),
-    })),
-    badges: badges.map((badge) => ({
-      slug: badge.slug,
-      name: badge.name,
-      description: badge.description,
-      icon: badge.icon,
-      earnedAt: ownedById.get(badge.id) ?? null,
-    })),
-    sessions: sessions.map((session) => ({
-      id: session.id,
-      status: session.status,
-      completedCount: session.completedCount,
-      questionGoal: session.questionGoal,
-      correctCount: session.correctCount,
-      earnedXp: session.earnedXp,
-      startedAt: session.startedAt,
-    })),
-  });
+  return NextResponse.json(await learnerProgress(learner, parsed.data.timeZone));
 }
 
 export const GET = apiHandler("GET /api/learner/progress", getLearnerProgress);

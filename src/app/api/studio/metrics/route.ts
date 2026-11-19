@@ -4,6 +4,7 @@ import { calendarDay, calendarDaysBefore } from "@/lib/dates";
 import { contentOperatorForRequest } from "@/lib/content-operator";
 import { percentage, repeatTopicChange } from "@/lib/learning-health";
 import { prisma } from "@/lib/prisma";
+import { PRACTICE_SESSION_STATUS } from "@/lib/domain-constants";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -31,7 +32,7 @@ async function getLearningHealth(request: Request) {
   const priorWeekStart = calendarDaysBefore(today, 13);
   const [startedSessions, completedSessions, sessionQuestions, eligibleMisses, viewedExplanations, rawCurrentWeekLearners, rawPriorWeekLearners, daily, rawTopicAttempts] = await Promise.all([
     prisma.practiceSession.count({ where: { startedAt: { gte: since } } }),
-    prisma.practiceSession.count({ where: { startedAt: { gte: since }, status: "COMPLETED" } }),
+    prisma.practiceSession.count({ where: { startedAt: { gte: since }, status: PRACTICE_SESSION_STATUS.COMPLETED } }),
     prisma.practiceSession.aggregate({
       where: { startedAt: { gte: since } },
       _sum: { completedCount: true },

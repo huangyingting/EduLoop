@@ -4,45 +4,29 @@ import { Bookmark, BookmarkCheck, Check, ChevronDown, ChevronRight, CircleAlert,
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
+import type { AttemptResult, CatalogPayload, QuestionPayload, SessionSnapshot } from "@/lib/contracts/practice";
 import { deferInitialization } from "@/lib/deferred-initialization";
 import { getStoredPracticePreferences, getTimeZone, practicePreferencesWithKnowledgeDefault, savePracticePreferences } from "@/lib/learner";
+import { QUESTION_TYPE } from "@/lib/domain-constants";
+import { DIFFICULTIES, QUESTION_TYPE_LABELS, difficultyLabel } from "@/lib/question-labels";
 import { useAuth } from "@/lib/use-auth";
 import { ignoresPracticeShortcuts, optionIndexForShortcut } from "@/lib/practice-shortcuts";
 import { CustomSelect } from "./custom-select";
 import { useLearner } from "./learner-provider";
 import { MathText } from "./math-text";
 
-type Question = {
-  id: string; stem: string; type: string; typeLabel: string; difficulty: string; isAutoGradable: boolean; hasHint: boolean;
-  subject: { name: string; slug: string; color: string }; grade: string;
-  stemAsset: { path: string; altText: string } | null;
-  options: Array<{ label: string; content: string; asset: { path: string; altText: string } | null }>;
-  tags: Array<{ dimension: string; slug: string; label: string }>;
-  isSaved: boolean; recommendationReason: string | null;
-};
-type Result = { attemptId: string | null; isCorrect: boolean | null; correctLabels: string[]; answer: string; explanation: string | null; earnedXp: number; totalXp: number; level: number; currentStreak: number; streakFreezes: number; streakFreezeUsed: boolean; todayAttempts: number; newBadges: Array<{ name: string; icon: string }>; session: { status: string; completedCount: number; questionGoal: number; correctCount: number; earnedXp: number } | null; replayed: boolean; persisted: boolean };
+type Question = QuestionPayload;
+type Result = AttemptResult;
+type PracticeCatalog = Omit<CatalogPayload, "topics">;
 type PracticeFilters = { subject: string; gradeBand: string; grade: string; difficulty: string; type: string; tags: string };
-type PracticeCatalog = {
-  subjects: Array<{ slug: string; name: string }>;
-  gradeBands: Array<{ slug: string; name: string }>;
-  grades: Array<{ slug: string; name: string }>;
-  tagDimensions: Array<{ key: string; label: string; tags: Array<{ slug: string; label: string }> }>;
-};
-type SessionSnapshot = {
-  id: string; status: string; questionGoal: number; completedCount: number; correctCount: number;
-  earnedXp: number; recentQuestionIds: string[]; resumed: boolean;
-};
 
-const typeNames: Record<string, string> = { SINGLE_CHOICE: "单项选择", MULTIPLE_CHOICE: "多项选择", TRUE_FALSE: "判断", FILL_BLANK: "填空", COMPUTATION: "计算", EXPERIMENT: "实验探究", WRITTEN_RESPONSE: "解答" };
 const difficultyOptions = [
   { value: "", label: "全部难度" },
-  { value: "EASY", label: "热身" },
-  { value: "MEDIUM", label: "进阶" },
-  { value: "HARD", label: "挑战" },
+  ...DIFFICULTIES.map(({ key, label }) => ({ value: key, label })),
 ];
 const typeOptions = [
   { value: "", label: "全部题型" },
-  ...Object.entries(typeNames).map(([value, label]) => ({ value, label })),
+  ...Object.entries(QUESTION_TYPE_LABELS).map(([value, label]) => ({ value, label })),
 ];
 const reportCategoryOptions = [
   { value: "WRONG_ANSWER", label: "答案或解析有误" },
@@ -309,7 +293,7 @@ export function PracticePlayer() {
 
   function toggleOption(label: string) {
     if (!question || result || loading) return;
-    if (question.type === "MULTIPLE_CHOICE") setSelected((items) => items.includes(label) ? items.filter((item) => item !== label) : [...items, label]);
+    if (question.type === QUESTION_TYPE.MULTIPLE_CHOICE) setSelected((items) => items.includes(label) ? items.filter((item) => item !== label) : [...items, label]);
     else setSelected([label]);
   }
 
@@ -550,7 +534,7 @@ export function PracticePlayer() {
         <article aria-labelledby="practice-question-heading" className="mt-7 overflow-hidden rounded-[30px] border-2 border-ink/10 bg-white shadow-[0_8px_0_#e3dfd4]">
           <div className="flex flex-wrap items-center justify-between gap-3 border-b border-dashed border-ink/15 px-6 py-4 sm:px-9">
             <div className="flex flex-wrap items-center gap-2"><span className="rounded-full px-3 py-1.5 text-xs font-black text-white" style={{ background: question.subject.color }}>{question.subject.name}</span><span className="rounded-full bg-canvas px-3 py-1.5 text-xs font-bold text-muted">{question.grade}</span>{topicTags.map((tag) => <span key={tag.slug} className="rounded-full bg-[#efecff] px-3 py-1.5 text-xs font-bold text-violet">{tag.label}</span>)}</div>
-            <div className="flex items-center gap-2"><span className="text-xs font-black text-muted">{typeNames[question.type] ?? question.typeLabel} · {question.difficulty === "EASY" ? "热身" : question.difficulty === "HARD" ? "挑战" : "进阶"}</span>{isAuthenticated ? <button onClick={() => void toggleSaved()} disabled={saving} aria-label={question.isSaved ? "取消收藏" : "收藏题目"} aria-keyshortcuts="S" className={`grid size-11 place-items-center rounded-xl transition ${question.isSaved ? "bg-lime text-ink" : "bg-canvas text-muted hover:text-violet"}`}>{question.isSaved ? <BookmarkCheck size={19} /> : <Bookmark size={19} />}</button> : null}</div>
+            <div className="flex items-center gap-2"><span className="text-xs font-black text-muted">{QUESTION_TYPE_LABELS[question.type] ?? question.typeLabel} · {difficultyLabel(question.difficulty)}</span>{isAuthenticated ? <button onClick={() => void toggleSaved()} disabled={saving} aria-label={question.isSaved ? "取消收藏" : "收藏题目"} aria-keyshortcuts="S" className={`grid size-11 place-items-center rounded-xl transition ${question.isSaved ? "bg-lime text-ink" : "bg-canvas text-muted hover:text-violet"}`}>{question.isSaved ? <BookmarkCheck size={19} /> : <Bookmark size={19} />}</button> : null}</div>
           </div>
 
           <div className="px-6 py-7 sm:px-9 sm:py-9">
@@ -560,7 +544,7 @@ export function PracticePlayer() {
               {hint ? <div aria-live="polite" className="border-l-4 border-lime bg-[#f7fadf] px-4 py-3 text-sm"><p className="flex items-center gap-2 font-black"><Lightbulb size={17} /> 解题提示</p><div className="mt-2 whitespace-pre-line font-medium leading-6 text-ink/75"><MathText>{hint}</MathText></div></div> : <button onClick={() => void revealHint()} disabled={hintLoading} aria-keyshortcuts="H" className="flex min-h-11 items-center gap-2 rounded-xl border-2 border-ink/10 bg-canvas px-4 text-sm font-black text-muted transition hover:border-lime hover:text-ink disabled:opacity-50">{hintLoading ? <LoaderCircle className="animate-spin" size={17} /> : <Lightbulb size={17} />} 查看提示</button>}
               {hintError ? <p role="alert" className="mt-2 text-sm font-bold text-coral">{hintError}</p> : null}
             </div> : null}
-            {question.options.length ? <div role="group" aria-label={question.type === "MULTIPLE_CHOICE" ? "可多选的答案选项" : "答案选项"} className={`mt-7 grid gap-3 ${hasOptionAssets ? "sm:grid-cols-2" : ""}`}>{question.options.map((option, optionIndex) => {
+            {question.options.length ? <div role="group" aria-label={question.type === QUESTION_TYPE.MULTIPLE_CHOICE ? "可多选的答案选项" : "答案选项"} className={`mt-7 grid gap-3 ${hasOptionAssets ? "sm:grid-cols-2" : ""}`}>{question.options.map((option, optionIndex) => {
               const chosen = selected.includes(option.label); const expected = result?.correctLabels.includes(option.label); const wrong = result?.isCorrect === false && chosen && !expected;
               return <button key={option.label} onClick={() => toggleOption(option.label)} disabled={Boolean(result) || loading} aria-pressed={chosen} aria-keyshortcuts={String(optionIndex + 1)} className={`flex w-full items-start gap-4 rounded-2xl border-2 p-4 text-left transition ${expected ? "border-[#2c9b73] bg-[#e6f8ef]" : wrong ? "border-coral bg-[#fff0ed]" : chosen ? "border-violet bg-[#f0edff] shadow-[0_4px_0_#c9c1f7]" : "border-ink/10 bg-[#fbfaf7] hover:border-violet/45 hover:bg-white"}`}>
                 <span className={`grid size-8 shrink-0 place-items-center rounded-xl text-sm font-black ${expected ? "bg-[#2c9b73] text-white" : wrong ? "bg-coral text-white" : chosen ? "bg-violet text-white" : "border-2 border-ink/10 bg-white"}`}>{expected ? <Check size={17} /> : wrong ? <X size={17} /> : option.label}</span>
@@ -585,7 +569,7 @@ export function PracticePlayer() {
           </div>
 
           <footer className="flex items-center justify-between gap-4 border-t border-ink/10 bg-[#fbfaf7] px-6 py-4 sm:px-9">
-            <div className="hidden text-xs font-bold text-muted sm:block"><p>{question.type === "MULTIPLE_CHOICE" ? "可选择多个答案" : question.isAutoGradable ? "选择你认为正确的答案" : "先独立思考，再对照解析"}</p><p className="mt-1 flex items-center gap-1.5 text-[11px] text-muted/80"><Keyboard size={13} /> 数字键选择 · Enter 提交/下一题 · H 提示{isAuthenticated ? " · S 收藏" : ""}</p></div>
+            <div className="hidden text-xs font-bold text-muted sm:block"><p>{question.type === QUESTION_TYPE.MULTIPLE_CHOICE ? "可选择多个答案" : question.isAutoGradable ? "选择你认为正确的答案" : "先独立思考，再对照解析"}</p><p className="mt-1 flex items-center gap-1.5 text-[11px] text-muted/80"><Keyboard size={13} /> 数字键选择 · Enter 提交/下一题 · H 提示{isAuthenticated ? " · S 收藏" : ""}</p></div>
             {result ? <button onClick={() => void nextQuestion()} disabled={result.isCorrect === null || assessing} aria-keyshortcuts="Enter" className="ml-auto flex items-center gap-2 rounded-xl bg-ink px-6 py-3 text-sm font-black text-white shadow-[0_4px_0_#6c5ce7] disabled:cursor-not-allowed disabled:opacity-40">{completed >= 10 ? "开始新一轮" : "下一题"} <ChevronRight size={17} /></button> : <button onClick={submit} disabled={!answerable || loading} aria-keyshortcuts="Enter" className="ml-auto flex items-center gap-2 rounded-xl bg-violet px-6 py-3 text-sm font-black text-white shadow-[0_4px_0_#242136] transition enabled:hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-40">{loading ? <LoaderCircle className="animate-spin" size={17} /> : <Check size={17} />} 提交答案</button>}
           </footer>
         </article>

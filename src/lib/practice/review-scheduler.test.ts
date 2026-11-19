@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { nextReviewState } from "./review";
+import { nextReviewState } from "./review-scheduler";
 
 const now = new Date("2026-07-27T08:00:00.000Z");
 

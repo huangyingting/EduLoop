@@ -5,19 +5,20 @@ import { isSameOriginRequest } from "@/lib/auth-validation";
 import { ensureLearnerForUser } from "@/lib/learner-identity";
 import { learnerProfileInputSchema } from "@/lib/learner-profile";
 import { prisma } from "@/lib/prisma";
+import { QUESTION_STATUS } from "@/lib/domain-constants";
 
 export const dynamic = "force-dynamic";
 
 async function availableKnowledgeCatalog() {
   return prisma.gradeBand.findMany({
-    where: { questions: { some: { status: "PUBLISHED" } } },
+    where: { questions: { some: { status: QUESTION_STATUS.PUBLISHED } } },
     orderBy: [{ sortOrder: "asc" }, { name: "asc" }],
     select: {
       id: true,
       slug: true,
       name: true,
       grades: {
-        where: { questions: { some: { status: "PUBLISHED" } } },
+        where: { questions: { some: { status: QUESTION_STATUS.PUBLISHED } } },
         orderBy: [{ sortOrder: "asc" }, { name: "asc" }],
         select: { id: true, slug: true, name: true },
       },

@@ -2,6 +2,8 @@
 
 import { Flame } from "lucide-react";
 import { useEffect, useState } from "react";
+import { apiRequest } from "@/lib/api-client";
+import type { ProgressPayload } from "@/lib/contracts/practice";
 import { getTimeZone } from "@/lib/learner";
 
 type Day = { date: string; attempts: number };
@@ -11,13 +13,9 @@ export function HomeWeeklyProgress() {
 
   useEffect(() => {
     const timer = window.setTimeout(async () => {
-      const params = new URLSearchParams({ timeZone: getTimeZone() });
       try {
-        const response = await fetch(`/api/learner/progress?${params}`, { cache: "no-store" });
-        if (response.ok) {
-          const payload = await response.json() as { activity: Day[] };
-          setDays(payload.activity.slice(-7));
-        }
+        const payload = await apiRequest<ProgressPayload>("/api/learner/progress", { query: { timeZone: getTimeZone() } });
+        setDays(payload.activity.slice(-7));
       } catch {
         setDays([]);
       }

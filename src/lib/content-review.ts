@@ -1,12 +1,13 @@
 import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { claimAuthenticatedSecurityState } from "@/lib/security-state";
+import { CONTENT_REVIEW_ACTION, QUESTION_STATUS, REPORT_STATUS, type ContentReviewActionName } from "@/lib/domain-constants";
 
 const MAX_TRANSITION_ATTEMPTS = 3;
 
 class ContentReviewStateConflict extends Error {}
 
-export type ContentReviewTransitionAction = "QUARANTINE" | "RESOLVE" | "REOPEN";
+export type ContentReviewTransitionAction = ContentReviewActionName;
 
 export type ContentReviewTransitionInput = {
   reportId: string;
@@ -49,22 +50,22 @@ export async function transitionContentReportInTransaction(
   }
 
   const transitionedAt = input.transitionedAt ?? new Date();
-  const transitioned = input.action === "QUARANTINE"
+  const transitioned = input.action === CONTENT_REVIEW_ACTION.QUARANTINE
     ? await transaction.questionReport.updateMany({
-      where: { id: input.reportId, status: "OPEN" },
+      where: { id: input.reportId, status: REPORT_STATUS.OPEN },
       // Claim and lock the report row before changing its question. Touching
       // updatedAt also makes quarantine visible as report activity while the
       // immutable action below remains the authoritative audit record.
       data: { updatedAt: transitionedAt },
     })
-    : input.action === "RESOLVE"
+    : input.action === CONTENT_REVIEW_ACTION.RESOLVE
       ? await transaction.questionReport.updateMany({
-        where: { id: input.reportId, status: "OPEN" },
-        data: { status: "RESOLVED", resolvedAt: transitionedAt },
+        where: { id: input.reportId, status: REPORT_STATUS.OPEN },
+        data: { status: REPORT_STATUS.RESOLVED, resolvedAt: transitionedAt },
       })
       : await transaction.questionReport.updateMany({
-        where: { id: input.reportId, status: "RESOLVED" },
-        data: { status: "OPEN", resolvedAt: null },
+        where: { id: input.reportId, status: REPORT_STATUS.RESOLVED },
+        data: { status: REPORT_STATUS.OPEN, resolvedAt: null },
       });
   if (!transitioned.count) return missingOrChangedReport(transaction, input.reportId);
 
@@ -74,31 +75,31 @@ export async function transitionContentReportInTransaction(
   });
   if (!report) throw new ContentReviewStateConflict();
 
-  if (input.action === "QUARANTINE") {
+  if (input.action === CONTENT_REVIEW_ACTION.QUARANTINE) {
     const quarantined = await transaction.question.updateMany({
       where: {
         id: report.questionId,
-        status: "PUBLISHED",
+        status: QUESTION_STATUS.PUBLISHED,
         quarantinedAt: null,
       },
-      data: { status: "NEEDS_REVIEW", quarantinedAt: transitionedAt },
+      data: { status: QUESTION_STATUS.NEEDS_REVIEW, quarantinedAt: transitionedAt },
     });
     // The report row has already been touched to claim its OPEN state. Throw
     // instead of returning so Prisma rolls that write back when the question
     // changed concurrently and no audit action can be recorded.
     if (!quarantined.count) throw new ContentReviewStateConflict();
-  } else if (input.action === "RESOLVE") {
+  } else if (input.action === CONTENT_REVIEW_ACTION.RESOLVE) {
     // A catalog import updates importStatus but must leave the effective
     // status hidden while quarantined. Lock the question before counting the
     // remaining reports so simultaneous resolutions serialize per question;
     // the final resolver alone restores the latest audited import state.
     const lockedQuestion = await transaction.question.updateMany({
       where: { id: report.questionId, quarantinedAt: { not: null } },
-      data: { status: "NEEDS_REVIEW" },
+      data: { status: QUESTION_STATUS.NEEDS_REVIEW },
     });
     if (lockedQuestion.count) {
       const remainingOpenReports = await transaction.questionReport.count({
-        where: { questionId: report.questionId, status: "OPEN" },
+        where: { questionId: report.questionId, status: REPORT_STATUS.OPEN },
       });
       if (!remainingOpenReports) {
         const question = await transaction.question.findUnique({
@@ -109,7 +110,7 @@ export async function transitionContentReportInTransaction(
         const restored = await transaction.question.updateMany({
           where: {
             id: report.questionId,
-            status: "NEEDS_REVIEW",
+            status: QUESTION_STATUS.NEEDS_REVIEW,
             quarantinedAt: { not: null },
           },
           data: { status: question.importStatus, quarantinedAt: null },

@@ -1,22 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
-import { z } from "zod";
 import { deleteLearningData } from "@/lib/account";
 import { apiError, apiHandler, enforceRateLimit } from "@/lib/api";
 import { runAfterResponse } from "@/lib/after-response";
 import { getSessionUser } from "@/lib/auth";
 import { hasRecentAuthentication, isSameOriginRequest } from "@/lib/auth-validation";
-import { calendarDay, visibleStreak } from "@/lib/dates";
+import { timeZoneQuerySchema } from "@/lib/contracts/practice";
 import { emailConfiguration, sendLearningDataDeletedNotice } from "@/lib/email";
 import { findLearnerForUser } from "@/lib/learner-identity";
 import { errorLogMetadata } from "@/lib/logging";
-import { prisma } from "@/lib/prisma";
+import { learnerSnapshot } from "@/lib/practice/progress";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
-
-const querySchema = z.object({
-  timeZone: z.string().max(100).optional(),
-});
 
 async function notifyLearningDataDeletion(email: string) {
   try {
@@ -33,7 +28,7 @@ async function notifyLearningDataDeletion(email: string) {
 async function getLearner(request: NextRequest) {
   const user = await getSessionUser(request);
   if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
-  const parsed = querySchema.safeParse(Object.fromEntries(request.nextUrl.searchParams));
+  const parsed = timeZoneQuerySchema.safeParse(Object.fromEntries(request.nextUrl.searchParams));
   if (!parsed.success) return apiError("Invalid learner query", 400, "INVALID_REQUEST");
   const limited = await enforceRateLimit(
     request,
@@ -42,17 +37,7 @@ async function getLearner(request: NextRequest) {
   );
   if (limited) return limited;
   const learner = await findLearnerForUser(user);
-  const today = calendarDay(new Date(), parsed.data.timeZone);
-  const activity = await prisma.dailyActivity.findUnique({
-    where: { learnerId_activityDate: { learnerId: learner.id, activityDate: today } },
-  });
-  const currentStreak = visibleStreak(learner, today);
-  return NextResponse.json({
-    xp: learner.xp, level: Math.floor(learner.xp / 120) + 1,
-    currentStreak, bestStreak: learner.bestStreak,
-    streakFreezes: learner.streakFreezes,
-    todayAttempts: activity?.attempts ?? 0,
-  });
+  return NextResponse.json(await learnerSnapshot(learner, parsed.data.timeZone));
 }
 
 async function deleteLearner(request: NextRequest) {
@@ -62,7 +47,7 @@ async function deleteLearner(request: NextRequest) {
   if (!hasRecentAuthentication(user.authenticatedAt)) {
     return apiError("删除学习数据前请重新登录，以确认这是你的账号。", 401, "UNAUTHORIZED");
   }
-  const parsed = querySchema.safeParse(Object.fromEntries(request.nextUrl.searchParams));
+  const parsed = timeZoneQuerySchema.safeParse(Object.fromEntries(request.nextUrl.searchParams));
   if (!parsed.success) return apiError("Invalid learner query", 400, "INVALID_REQUEST");
   const limited = await enforceRateLimit(
     request,

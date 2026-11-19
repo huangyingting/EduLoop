@@ -1,5 +1,6 @@
 import { prisma } from "./prisma";
 import { REQUIRED_DATABASE_MIGRATION } from "./database-migration";
+import { QUESTION_STATUS } from "@/lib/domain-constants";
 
 export { REQUIRED_DATABASE_MIGRATION } from "./database-migration";
 
@@ -13,7 +14,7 @@ export type DatabaseReadinessQueries = {
 };
 
 const productionQueries: DatabaseReadinessQueries = {
-  countQuestions: () => prisma.question.count({ where: { status: "PUBLISHED" } }),
+  countQuestions: () => prisma.question.count({ where: { status: QUESTION_STATUS.PUBLISHED } }),
   countSubjects: () => prisma.subject.count(),
   latestCatalogRelease: () => prisma.catalogRelease.findFirst({
     where: { scope: "catalog" },

@@ -29,6 +29,13 @@ public/question-assets/generated/zh-CN/<question-id>/*
 
 The catalog API discovers every filterable tag dimension from the database, so new curriculum dimensions do not require a new practice UI control. Its strict, public-only query surface is shared-cacheable and rate limited before relational lookup. Question filters encode tags as `DIMENSION:slug` while retaining unqualified topic slugs for older links. A bounded `questionId` filter lets saved and scheduled-review cards reuse the same player for targeted practice. The question API returns only the stem, options, display metadata, and tags. Correct labels, reference answers, and explanations remain server-side until an attempt is posted.
 
+## Code layers
+
+- `src/app/api/**/route.ts` handlers validate input with the shared schemas in `src/lib/contracts/`, resolve the session, apply rate limits, and translate service results into HTTP responses.
+- `src/lib/practice/` owns practice behavior: `grading.ts` (answer checking), `rewards.ts` (XP, levels, streak shields), `badges.ts`, `review-scheduler.ts`, `attempts.ts` (the attempt transaction), `selection.ts`, `sessions.ts`, `progress.ts`, and `review-library.ts`. These modules are unit-tested directly and covered end to end by the integration suite.
+- `src/lib/domain-constants.ts` is the single source of persisted status, role, and action strings; a lint rule forbids those literals elsewhere in `src/`.
+- Client components import response types from `src/lib/contracts/` and call APIs through `apiRequest`, which maps HTTP failures to typed kinds (unauthorized, rate-limited, unavailable, network, and so on) and can send an expired session back to login.
+
 ## Data-model decisions
 
 - Source IDs are the canonical question IDs. Imports are idempotent and traceable by `sourceFile` and `sourceType`.

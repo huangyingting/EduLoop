@@ -1,10 +1,11 @@
 import { createHash } from "node:crypto";
 import type { Prisma, PrismaClient } from "@prisma/client";
 import type { NormalizedTag, normalizeSourceQuestion } from "@/lib/content";
+import { QUESTION_STATUS, TAG_SOURCE } from "@/lib/domain-constants";
 
 export type CatalogQuestion = ReturnType<typeof normalizeSourceQuestion>;
 
-export const RETIRED_STATUS = "RETIRED";
+export const RETIRED_STATUS = QUESTION_STATUS.RETIRED;
 export const FULL_CATALOG_SCOPE = "catalog";
 
 // A routine import may retire a handful of questions without operator input.
@@ -287,10 +288,10 @@ export async function importCatalog(
     const writes = [...created, ...changed];
     const tagIds = await ensureTags(transaction, writes.flatMap(({ question }) => question.tags));
     const curatedLinks = new Set((await transaction.questionTag.findMany({
-      where: { source: "CURATED" }, select: { questionId: true, tagId: true },
+      where: { source: TAG_SOURCE.CURATED }, select: { questionId: true, tagId: true },
     })).map((link) => `${link.questionId}:${link.tagId}`));
     const curatedAssets = new Set((await transaction.questionAsset.findMany({
-      where: { source: "CURATED" }, select: { questionId: true, role: true },
+      where: { source: TAG_SOURCE.CURATED }, select: { questionId: true, role: true },
     })).map((asset) => `${asset.questionId}:${asset.role}`));
 
     const rows = ({ question, hash }: (typeof hashed)[number]) => {
@@ -356,9 +357,9 @@ export async function importCatalog(
       }
       await transaction.questionOption.deleteMany({ where: { questionId: { in: ids } } });
       await transaction.questionOption.createMany({ data: prepared.flatMap((row) => row.options) });
-      await transaction.questionTag.deleteMany({ where: { questionId: { in: ids }, source: { not: "CURATED" } } });
+      await transaction.questionTag.deleteMany({ where: { questionId: { in: ids }, source: { not: TAG_SOURCE.CURATED } } });
       await transaction.questionTag.createMany({ data: prepared.flatMap((row) => row.tags) });
-      await transaction.questionAsset.deleteMany({ where: { questionId: { in: ids }, source: { not: "CURATED" } } });
+      await transaction.questionAsset.deleteMany({ where: { questionId: { in: ids }, source: { not: TAG_SOURCE.CURATED } } });
       const assets = prepared.flatMap((row) => row.assets);
       if (assets.length) await transaction.questionAsset.createMany({ data: assets });
 

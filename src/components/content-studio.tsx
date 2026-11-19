@@ -9,6 +9,7 @@ import { useAuth } from "@/lib/use-auth";
 import { isContentOperator } from "@/lib/user-roles";
 import { MathText } from "./math-text";
 import { LearningHealthPanel } from "./learning-health-panel";
+import { CONTENT_REVIEW_ACTION, QUESTION_STATUS, REPORT_STATUS, type ContentReviewActionName, type ReportStatus } from "@/lib/domain-constants";
 
 type ReviewAction = {
   id: string;
@@ -23,7 +24,7 @@ type Report = {
   questionId: string;
   category: string;
   detail: string | null;
-  status: "OPEN" | "RESOLVED";
+  status: ReportStatus;
   createdAt: string;
   resolvedAt: string | null;
   reporterErasedAt: string | null;
@@ -72,7 +73,7 @@ function displayDate(value: string) {
 export function ContentStudio() {
   const router = useRouter();
   const auth = useAuth();
-  const [status, setStatus] = useState<"OPEN" | "RESOLVED">("OPEN");
+  const [status, setStatus] = useState<ReportStatus>(REPORT_STATUS.OPEN);
   const [page, setPage] = useState(1);
   const [data, setData] = useState<StudioResponse | null>(null);
   const [notes, setNotes] = useState<Record<string, string>>({});
@@ -130,14 +131,14 @@ export function ContentStudio() {
     return () => window.clearTimeout(timer);
   }, [load]);
 
-  async function applyAction(report: Report, action: "QUARANTINE" | "RESOLVE" | "REOPEN") {
+  async function applyAction(report: Report, action: ContentReviewActionName) {
     if (!hasRecentLogin) return;
     const note = notes[report.id]?.trim() || "";
-    if (action === "RESOLVE" && note.length < 3) {
+    if (action === CONTENT_REVIEW_ACTION.RESOLVE && note.length < 3) {
       setError("解决报告前，请填写至少 3 个字符的审核结论。");
       return;
     }
-    if (action === "QUARANTINE" && !window.confirm("确认立即隔离这道题？学生将无法继续抽到它。")) return;
+    if (action === CONTENT_REVIEW_ACTION.QUARANTINE && !window.confirm("确认立即隔离这道题？学生将无法继续抽到它。")) return;
     setActing(`${report.id}:${action}`);
     setError("");
     try {
@@ -160,7 +161,7 @@ export function ContentStudio() {
   function navigateTabs(event: React.KeyboardEvent) {
     if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
     event.preventDefault();
-    const nextStatus = event.key === "ArrowLeft" || event.key === "Home" ? "OPEN" : "RESOLVED";
+    const nextStatus = event.key === "ArrowLeft" || event.key === "Home" ? REPORT_STATUS.OPEN : REPORT_STATUS.RESOLVED;
     setStatus(nextStatus);
     setPage(1);
     window.requestAnimationFrame(() => document.getElementById(`studio-${nextStatus.toLowerCase()}-tab`)?.focus());
@@ -200,7 +201,7 @@ export function ContentStudio() {
       <LearningHealthPanel />
 
       <div role="tablist" aria-label="报告状态" onKeyDown={navigateTabs} className="mt-8 flex max-w-md gap-2 rounded-2xl border-2 border-ink/10 bg-white p-1.5">
-        {(["OPEN", "RESOLVED"] as const).map((value) => <button key={value} id={`studio-${value.toLowerCase()}-tab`} role="tab" aria-selected={status === value} aria-controls="studio-report-panel" tabIndex={status === value ? 0 : -1} onClick={() => { setStatus(value); setPage(1); }} className={`flex min-h-11 flex-1 items-center justify-center gap-2 rounded-xl px-4 text-sm font-black ${status === value ? "bg-ink text-white" : "text-muted"}`}>{value === "OPEN" ? <FileWarning size={17} /> : <CheckCircle2 size={17} />}{value === "OPEN" ? `待处理 ${data?.counts.open ?? ""}` : `已解决 ${data?.counts.resolved ?? ""}`}</button>)}
+        {[REPORT_STATUS.OPEN, REPORT_STATUS.RESOLVED].map((value) => <button key={value} id={`studio-${value.toLowerCase()}-tab`} role="tab" aria-selected={status === value} aria-controls="studio-report-panel" tabIndex={status === value ? 0 : -1} onClick={() => { setStatus(value); setPage(1); }} className={`flex min-h-11 flex-1 items-center justify-center gap-2 rounded-xl px-4 text-sm font-black ${status === value ? "bg-ink text-white" : "text-muted"}`}>{value === REPORT_STATUS.OPEN ? <FileWarning size={17} /> : <CheckCircle2 size={17} />}{value === REPORT_STATUS.OPEN ? `待处理 ${data?.counts.open ?? ""}` : `已解决 ${data?.counts.resolved ?? ""}`}</button>)}
       </div>
 
       {error ? <div role="alert" className="mt-5 flex items-start gap-3 rounded-2xl border-2 border-coral/30 bg-[#fff0ed] p-4 text-sm font-bold text-coral"><AlertTriangle className="mt-0.5 shrink-0" size={18} /><span>{error}</span><button onClick={() => void load()} className="ml-auto shrink-0 underline">重试</button></div> : null}
@@ -209,7 +210,7 @@ export function ContentStudio() {
 
       <div id="studio-report-panel" role="tabpanel" aria-labelledby={`studio-${status.toLowerCase()}-tab`} className={`mt-6 space-y-6 ${loading ? "opacity-60" : ""}`} aria-busy={loading}>
         {data?.reports.map((report) => <article key={report.id} className="overflow-hidden rounded-[28px] border-2 border-ink/10 bg-white shadow-[0_6px_0_#e3dfd4]">
-          <div className="flex flex-wrap items-center gap-2 border-b-2 border-ink/10 bg-canvas px-5 py-4 text-xs font-black text-muted sm:px-7"><span className="rounded-full bg-coral/10 px-3 py-1 text-coral">{categoryLabels[report.category] ?? report.category}</span><span>{report.question.subject.name} · {report.question.grade.name}</span><span>·</span><span>{displayDate(report.createdAt)}</span><span className={`ml-auto rounded-full px-3 py-1 ${report.question.status === "PUBLISHED" ? "bg-[#e6f8ef] text-[#247a59]" : "bg-[#fff0ed] text-coral"}`}>{report.question.status === "PUBLISHED" ? "学生可见" : "已隔离"}</span></div>
+          <div className="flex flex-wrap items-center gap-2 border-b-2 border-ink/10 bg-canvas px-5 py-4 text-xs font-black text-muted sm:px-7"><span className="rounded-full bg-coral/10 px-3 py-1 text-coral">{categoryLabels[report.category] ?? report.category}</span><span>{report.question.subject.name} · {report.question.grade.name}</span><span>·</span><span>{displayDate(report.createdAt)}</span><span className={`ml-auto rounded-full px-3 py-1 ${report.question.status === QUESTION_STATUS.PUBLISHED ? "bg-[#e6f8ef] text-[#247a59]" : "bg-[#fff0ed] text-coral"}`}>{report.question.status === QUESTION_STATUS.PUBLISHED ? "学生可见" : "已隔离"}</span></div>
           <div className="grid gap-6 p-5 sm:p-7 lg:grid-cols-[minmax(0,1fr)_290px]">
             <div className="min-w-0">
               {report.detail ? <div className="mb-5 rounded-2xl border-2 border-coral/20 bg-[#fff7f4] p-4"><p className="text-xs font-black text-coral">学生补充</p><p className="mt-1 whitespace-pre-wrap text-sm font-semibold leading-6">{report.detail}</p></div> : report.reporterErasedAt ? <div className="mb-5 rounded-2xl border-2 border-ink/10 bg-canvas p-4 text-sm font-semibold leading-6 text-muted">报告人已删除学习数据；身份关联和自由文本已清除，分类与审核记录继续保留。</div> : null}
@@ -222,12 +223,12 @@ export function ContentStudio() {
               <h2 className="text-sm font-black">审核操作</h2>
               <textarea value={notes[report.id] ?? ""} onChange={(event) => setNotes((current) => ({ ...current, [report.id]: event.target.value }))} maxLength={500} rows={4} placeholder="记录核对来源、判断或修复说明（解决时必填）" className="mt-3 w-full resize-y rounded-xl border-2 border-ink/10 bg-white p-3 text-sm font-medium outline-none focus:border-violet" />
               <div className="mt-3 grid gap-2">
-                {report.status === "OPEN" ? <>
-                  <button onClick={() => void applyAction(report, "RESOLVE")} disabled={Boolean(acting)} className="flex min-h-11 items-center justify-center gap-2 rounded-xl bg-[#2c9b73] px-4 text-sm font-black text-white disabled:opacity-50">{acting === `${report.id}:RESOLVE` ? <LoaderCircle className="animate-spin" size={16} /> : <CheckCircle2 size={16} />} 记录为已解决</button>
-                  {report.question.status === "PUBLISHED" ? <button onClick={() => void applyAction(report, "QUARANTINE")} disabled={Boolean(acting)} className="flex min-h-11 items-center justify-center gap-2 rounded-xl border-2 border-coral/30 bg-white px-4 text-sm font-black text-coral disabled:opacity-50">{acting === `${report.id}:QUARANTINE` ? <LoaderCircle className="animate-spin" size={16} /> : <ShieldAlert size={16} />} 立即隔离题目</button> : null}
-                </> : <button onClick={() => void applyAction(report, "REOPEN")} disabled={Boolean(acting)} className="flex min-h-11 items-center justify-center gap-2 rounded-xl bg-ink px-4 text-sm font-black text-white disabled:opacity-50">{acting === `${report.id}:REOPEN` ? <LoaderCircle className="animate-spin" size={16} /> : <RotateCcw size={16} />} 重新打开</button>}
+                {report.status === REPORT_STATUS.OPEN ? <>
+                  <button onClick={() => void applyAction(report, CONTENT_REVIEW_ACTION.RESOLVE)} disabled={Boolean(acting)} className="flex min-h-11 items-center justify-center gap-2 rounded-xl bg-[#2c9b73] px-4 text-sm font-black text-white disabled:opacity-50">{acting === `${report.id}:RESOLVE` ? <LoaderCircle className="animate-spin" size={16} /> : <CheckCircle2 size={16} />} 记录为已解决</button>
+                  {report.question.status === QUESTION_STATUS.PUBLISHED ? <button onClick={() => void applyAction(report, CONTENT_REVIEW_ACTION.QUARANTINE)} disabled={Boolean(acting)} className="flex min-h-11 items-center justify-center gap-2 rounded-xl border-2 border-coral/30 bg-white px-4 text-sm font-black text-coral disabled:opacity-50">{acting === `${report.id}:QUARANTINE` ? <LoaderCircle className="animate-spin" size={16} /> : <ShieldAlert size={16} />} 立即隔离题目</button> : null}
+                </> : <button onClick={() => void applyAction(report, CONTENT_REVIEW_ACTION.REOPEN)} disabled={Boolean(acting)} className="flex min-h-11 items-center justify-center gap-2 rounded-xl bg-ink px-4 text-sm font-black text-white disabled:opacity-50">{acting === `${report.id}:REOPEN` ? <LoaderCircle className="animate-spin" size={16} /> : <RotateCcw size={16} />} 重新打开</button>}
               </div>
-              <dl className="mt-5 space-y-2 border-t border-ink/10 pt-4 text-xs"><div><dt className="font-black text-muted">来源</dt><dd className="mt-0.5 break-all font-semibold">{report.question.sourceFile} / {report.question.sourceId}</dd></div><div><dt className="font-black text-muted">原始类型</dt><dd className="mt-0.5 font-semibold">{report.question.sourceType}</dd></div>{report.question.quarantinedAt ? <div><dt className="font-black text-muted">导入审核状态</dt><dd className={`mt-0.5 font-black ${report.question.importStatus === "PUBLISHED" ? "text-[#247a59]" : "text-coral"}`}>{report.question.importStatus === "PUBLISHED" ? "源数据已通过；解决最后一条报告后恢复" : "源数据仍需修复；解决报告也不会公开"}</dd></div> : null}</dl>
+              <dl className="mt-5 space-y-2 border-t border-ink/10 pt-4 text-xs"><div><dt className="font-black text-muted">来源</dt><dd className="mt-0.5 break-all font-semibold">{report.question.sourceFile} / {report.question.sourceId}</dd></div><div><dt className="font-black text-muted">原始类型</dt><dd className="mt-0.5 font-semibold">{report.question.sourceType}</dd></div>{report.question.quarantinedAt ? <div><dt className="font-black text-muted">导入审核状态</dt><dd className={`mt-0.5 font-black ${report.question.importStatus === QUESTION_STATUS.PUBLISHED ? "text-[#247a59]" : "text-coral"}`}>{report.question.importStatus === QUESTION_STATUS.PUBLISHED ? "源数据已通过；解决最后一条报告后恢复" : "源数据仍需修复；解决报告也不会公开"}</dd></div> : null}</dl>
               {report.reviewActions.length ? <div className="mt-5 border-t border-ink/10 pt-4"><h3 className="text-xs font-black text-muted">操作记录</h3><ol className="mt-2 space-y-3">{report.reviewActions.map((action) => <li key={action.id} className="text-xs font-semibold leading-5"><p className="font-black">{actionLabels[action.action] ?? action.action} · {action.actor?.displayName || action.actor?.email || "已删除的账号"}</p>{action.note ? <p className="text-muted">{action.note}</p> : null}<time className="text-muted">{displayDate(action.createdAt)}</time></li>)}</ol></div> : null}
             </aside>
           </div>

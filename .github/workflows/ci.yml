@@ -39,6 +39,7 @@ jobs:
       - run: npm run lint
       - run: npm run schema:check
       - run: npm run data:verify
+      - run: npm run docs:check
       - run: npm run seed:verify
       - run: npm run build
       - run: docker build -t eduloop:ci .

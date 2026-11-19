@@ -1,4 +1,4 @@
-import { mkdtemp, rm } from "node:fs/promises";
+import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
@@ -42,15 +42,18 @@ try {
     difficultyEasy: await prisma.question.count({ where: { difficulty: "EASY" } }),
     difficultyMedium: await prisma.question.count({ where: { difficulty: "MEDIUM" } }),
     difficultyHard: await prisma.question.count({ where: { difficulty: "HARD" } }),
+    subjects: await prisma.subject.count({ where: { questions: { some: { status: "PUBLISHED" } } } }),
   };
   await prisma.$disconnect();
-  const expected = {
-    total: 16_022, published: 16_022, review: 0, importPublished: 16_022, quarantined: 0, retired: 0,
-    autoGradable: 10_130, assets: 24, approvedAssets: 24, hints: 5_143, questionsWithHints: 5_143, contestPapers: 143, contestSlots: 3_575,
-    difficultyAudited: 16_022, difficultyAdjusted: 5_222, difficultyEasy: 8_847, difficultyMedium: 4_463, difficultyHard: 2_712,
-  };
-  if (JSON.stringify(result) !== JSON.stringify(expected)) {
-    throw new Error(`Seed verification mismatch: expected ${JSON.stringify(expected)}, received ${JSON.stringify(result)}`);
+  // The expected counts are the catalog numbers quoted in the docs.
+  const statsPath = path.join(process.cwd(), "docs/catalog-stats.json");
+  const stats = JSON.parse(await readFile(statsPath, "utf8"));
+  if (process.argv.includes("--update")) {
+    stats.seed = result;
+    await writeFile(statsPath, `${JSON.stringify(stats, null, 2)}\n`);
+    console.log("Updated docs/catalog-stats.json; run `npm run docs:check -- --write` to refresh the docs.");
+  } else if (JSON.stringify(result) !== JSON.stringify(stats.seed)) {
+    throw new Error(`Seed verification mismatch: expected ${JSON.stringify(stats.seed)}, received ${JSON.stringify(result)}. If the catalog change is intended, run \`npm run seed:verify -- --update\`.`);
   }
   console.log(`Seed verification passed: ${JSON.stringify(result)}`);
 } finally {

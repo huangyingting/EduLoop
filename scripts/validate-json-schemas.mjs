@@ -134,6 +134,18 @@ const packageLockSchema = z.object({
   packages: z.record(z.string(), z.record(z.string(), z.unknown())),
 }).strict();
 
+const statCountSchema = z.number().int().nonnegative();
+const catalogStatsSchema = z.object({
+  schemaVersion: z.literal(1),
+  description: z.string().min(1),
+  seed: z.record(z.string(), statCountSchema),
+  repository: z.object({
+    catalogFiles: statCountSchema,
+    generatedDiagrams: statCountSchema,
+    generatedDiagramQuestions: statCountSchema,
+  }).strict(),
+}).strict();
+
 const tsconfigSchema = z.object({
   compilerOptions: z.record(z.string(), z.unknown()),
   include: z.array(z.string()).min(1),
@@ -405,6 +417,7 @@ const grafanaDashboardSchema = z.object({
 
 function validateConfigFiles() {
   validate("docs/observability/grafana-dashboard.json", grafanaDashboardSchema, parsedFiles.get("docs/observability/grafana-dashboard.json"));
+  validate("docs/catalog-stats.json", catalogStatsSchema, parsedFiles.get("docs/catalog-stats.json"));
   validatePackageFiles("package.json", "package-lock.json");
   validatePackageFiles("ops/package.json", "ops/package-lock.json");
   validate("tsconfig.json", tsconfigSchema, parsedFiles.get("tsconfig.json"));
@@ -429,6 +442,7 @@ const tracked = await loadTrackedJson();
 const expectedSchemas = new Set([
   "data/catalog.json",
   "data/schema.json",
+  "docs/catalog-stats.json",
   "docs/observability/grafana-dashboard.json",
   "ops/package-lock.json",
   "ops/package.json",

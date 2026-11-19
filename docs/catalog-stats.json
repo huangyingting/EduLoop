@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "description": "Catalog numbers quoted in the docs. `npm run seed:verify` checks the seed section against a fresh import; `npm run docs:check` checks the repository section and every <!-- stat:... --> marker in the docs.",
+  "seed": {
+    "total": 16022,
+    "published": 16022,
+    "review": 0,
+    "importPublished": 16022,
+    "quarantined": 0,
+    "retired": 0,
+    "autoGradable": 10130,
+    "assets": 24,
+    "approvedAssets": 24,
+    "hints": 5143,
+    "questionsWithHints": 5143,
+    "contestPapers": 143,
+    "contestSlots": 3575,
+    "difficultyAudited": 16022,
+    "difficultyAdjusted": 5222,
+    "difficultyEasy": 8847,
+    "difficultyMedium": 4463,
+    "difficultyHard": 2712,
+    "subjects": 5
+  },
+  "repository": {
+    "catalogFiles": 9,
+    "generatedDiagrams": 24,
+    "generatedDiagramQuestions": 21
+  }
+}

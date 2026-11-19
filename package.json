@@ -31,6 +31,7 @@
     "db:deploy:postgres": "prisma migrate deploy --schema prisma/postgresql/schema.prisma",
     "schema:check": "node scripts/check-schema-parity.mjs",
     "data:verify": "node scripts/validate-json-schemas.mjs && node --test scripts/amc-audit-rules.test.mjs && node scripts/analyze-data.mjs && node scripts/audit-subject-data.mjs && node scripts/audit-agieval-data.mjs && node scripts/audit-amc-data.mjs && node scripts/audit-amc-translations.mjs && node --import tsx scripts/audit-math-rendering.ts",
+    "docs:check": "node scripts/doc-stats.mjs",
     "data:import:cjeval": "node scripts/import-cjeval-chinese.mjs",
     "data:import:agieval": "node scripts/import-agieval-high-school-chinese.mjs",
     "data:cleanup": "node --env-file-if-exists=.env --import tsx scripts/cleanup-expired-data.ts",

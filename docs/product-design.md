@@ -13,7 +13,7 @@
 
 ## Core journey
 
-1. Land in the learning hall and see the five subject tracks.
+1. Land in the learning hall and see the <!-- stat:seed.subjects -->5<!-- /stat --> subject tracks.
 2. Start immediately or filter by school stage, subject, difficulty, topic, skill, and content format.
 3. Work on one uncluttered question. The interface states whether one or multiple choices are expected.
 4. Before answering, reveal question-specific hints one step at a time, or a clearly labeled generic "解题策略" when the question has none. Then submit and see correctness (where defensible), reference answer, explanation, and XP.
@@ -79,7 +79,7 @@ The protected studio shows these as 28-day aggregates. Seven-day return means a 
 
 - **Unseen first.** A signed-in learner gets questions they have never attempted within the active filters. When those run out, they get questions still in active review, and only then repeats. Guests keep the in-session exclusion list.
 - **Difficulty targeting.** Each graded result updates a per-subject Elo-style rating on the `difficultyScore` scale (`src/lib/practice/ability.ts`). After five graded attempts in scope, adaptive mode prefers questions from about 0.75 below to 1.0 above the rating, unless the learner chose a difficulty.
-- **Contest mode** (`/contest`). All 143 AMC 8/10/12 papers (including AJHSME, the 2002 practice papers, and the 2021 Fall sitting) are rebuilt from source provenance. A learner takes one timed paper at a time (40 minutes for AMC 8, 75 for AMC 10/12). Answers autosave, and nothing is graded until submission or the deadline. Scoring follows AMC rules: 6 per correct answer and 1.5 per blank for AMC 10/12, 1 per correct answer for AMC 8. The report breaks results down by topic. Each answered problem is recorded as a normal attempt, so XP, streaks, statistics, and mistake review all apply; resubmitting never double-counts.
+- **Contest mode** (`/contest`). All <!-- stat:seed.contestPapers -->143<!-- /stat --> AMC 8/10/12 papers (including AJHSME, the 2002 practice papers, and the 2021 Fall sitting) are rebuilt from source provenance. A learner takes one timed paper at a time (40 minutes for AMC 8, 75 for AMC 10/12). Answers autosave, and nothing is graded until submission or the deadline. Scoring follows AMC rules: 6 per correct answer and 1.5 per blank for AMC 10/12, 1 per correct answer for AMC 8. The report breaks results down by topic. Each answered problem is recorded as a normal attempt, so XP, streaks, statistics, and mistake review all apply; resubmitting never double-counts.
 - **History and browsing.** Question cards show the learner's own earlier attempts ("做过 N 次 · 上次答对"), with the full list one click away after answering. `/browse` lists questions by filter or by contest paper without answers, and links each one into practice.
 
 ## Current adaptive behavior

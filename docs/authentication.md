@@ -2,6 +2,22 @@
 
 EduLoop uses Auth.js (`next-auth` v5) for email/password, Google, Microsoft Entra ID, and Facebook sign-in. Guests can practice immediately without receiving an identity or durable record. Registering or signing in starts or resumes the authenticated account's learner profile.
 
+## At a glance
+
+| Action | Endpoint | Requires | Effect on sessions |
+| --- | --- | --- | --- |
+| Register with a password | `POST /api/auth/register` | Adult or guardian consent | Unverified until the email link and password are confirmed |
+| Verify email | `POST\|PATCH /api/auth/email-verification` | Link plus the account password | Increments `sessionVersion` on first verification |
+| Reset password | `POST\|PATCH /api/auth/password-reset` | 30-minute single-use link | Signs out every device |
+| Set or change password | `PATCH /api/auth/account` | Current password, or a sign-in within 10 minutes | Signs out every device |
+| Change login email | `POST\|PATCH /api/auth/email-change` | Password or recent social sign-in, then a link sent to the new address | Signs out every device |
+| Remove a social provider | `DELETE /api/auth/provider` | Sign-in within 10 minutes; another usable method remains | Signs out every device |
+| Sign out everywhere | `DELETE /api/auth/sessions` | Sign-in within 10 minutes | Signs out every device |
+| Export or delete learning data | `GET /api/learner/export`, `DELETE /api/learner` | Sign-in within 10 minutes | Unchanged |
+| Delete the account | `DELETE /api/auth/account` | Current password; social-only accounts confirm the email after a sign-in within 10 minutes | Account removed |
+
+Token storage, proof lifetimes, and race handling for each flow are described below. The session model is recorded in [ADR 0002](adr/0002-jwt-sessions-with-session-version.md).
+
 ## Auth.js flow
 
 - `src/auth.ts` is the single Auth.js configuration. It owns providers, the Prisma adapter, credential verification, callbacks, session projection, and OAuth sign-in events.

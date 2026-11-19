@@ -9,7 +9,7 @@ const AUTH_SESSION_COOKIE = process.env.NODE_ENV === "production"
 
 // Pages a visitor can open without an account. Everything else redirects to
 // login; API routes enforce their own authorization.
-const PUBLIC_PATHS = new Set(["/", "/practice", "/opengraph-image"]);
+const PUBLIC_PATHS = new Set(["/", "/practice", "/opengraph-image", "/unsubscribe", "/offline"]);
 
 export function isPublicPath(pathname: string) {
   return PUBLIC_PATHS.has(pathname) || pathname.startsWith("/practice/");

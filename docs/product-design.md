@@ -94,3 +94,7 @@ Hints live in `QuestionHint`. The catalog import derives conservative hints from
 - for AMC sources, the setup of the first solution sentence, clipped before the first computation or conclusion cue.
 
 Anything naming an option, a conclusion, or the answer text is dropped. Derived hints are rebuilt on every import; `CURATED` hints from editors survive imports. Only `APPROVED` hints are served, and `hasHint` is true only when one exists. Attempts record `hintsUsed`: a correct answer after hints earns half the difficulty bonus, and keeps a due review item in active review instead of advancing it. The studio's learning-health panel reports hint usage and accuracy after hints.
+
+## Reminders and offline use
+
+Reminder email is opt-in, off by default, and limited to waking hours in the learner's own time zone. EduLoop is installable as a progressive web app: a manifest with standard and maskable icons, and a service worker (production only). The worker caches static assets and an offline page, and never caches API responses or personal pages. A navigation without network shows the offline page instead of a browser error.

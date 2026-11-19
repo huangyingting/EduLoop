@@ -19,7 +19,7 @@ const links = [
   { href: "/browse", label: "题库浏览", icon: Library },
 ];
 const standaloneRoutes = new Set([
-  "/login", "/register", "/forgot-password", "/reset-password", "/verify-email", "/change-email", "/consent", "/privacy-policy", "/terms",
+  "/login", "/register", "/forgot-password", "/reset-password", "/verify-email", "/change-email", "/consent", "/privacy-policy", "/terms", "/offline",
 ]);
 
 export function AppShell({ children }: { children: React.ReactNode }) {

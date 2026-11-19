@@ -258,6 +258,8 @@ model User {
   reviewActions           ContentReviewAction[]
   authoredRevisions       QuestionRevision[]       @relation("RevisionAuthor")
   reviewedRevisions       QuestionRevision[]       @relation("RevisionReviewer")
+  notificationPreference  NotificationPreference?
+  notificationLogs        NotificationLog[]
   createdAt               DateTime                 @default(now())
   updatedAt               DateTime                 @updatedAt
 
@@ -353,6 +355,31 @@ model ConsentRecord {
   user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId, acceptedAt])
+}
+
+// Opt-in learning reminders. Everything is off until the account holder turns
+// it on; sendHour is a local hour in the learner's stored time zone.
+model NotificationPreference {
+  userId          String   @id
+  dueReviewDigest Boolean  @default(false)
+  weeklySummary   Boolean  @default(false)
+  sendHour        Int      @default(18)
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  updatedAt       DateTime @updatedAt
+}
+
+// One row per delivered reminder period, so a message goes out at most once
+// per user, type, and local day (or week) even when the job runs repeatedly.
+model NotificationLog {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String
+  periodKey String
+  sentAt    DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, type, periodKey])
+  @@index([sentAt])
 }
 
 model RateLimitBucket {

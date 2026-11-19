@@ -129,6 +129,8 @@ async function getAccountExport(request: NextRequest) {
         orderBy: [{ provider: "asc" }, { providerAccountId: "asc" }],
         select: { type: true, provider: true, providerAccountId: true },
       },
+      notificationPreference: { select: { dueReviewDigest: true, weeklySummary: true, sendHour: true, updatedAt: true } },
+      notificationLogs: { orderBy: { sentAt: "asc" }, select: { type: true, periodKey: true, sentAt: true } },
       consentRecords: {
         orderBy: [{ acceptedAt: "asc" }, { id: "asc" }],
         select: {
@@ -178,6 +180,8 @@ async function getAccountExport(request: NextRequest) {
     registrationExpiresAt: storedAccount.registrationExpiresAt,
     linkedProviders: storedAccount.accounts,
     consentHistory: storedAccount.consentRecords,
+    notificationPreferences: storedAccount.notificationPreference,
+    remindersSent: storedAccount.notificationLogs,
     pendingAccountActions: {
       emailVerifications: storedAccount.emailVerificationTokens,
       emailChanges: storedAccount.emailChangeTokens,

@@ -3,6 +3,7 @@ import { GraduationCap, ShieldCheck, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { AccountControls } from "@/components/account-controls";
 import { LearnerProfileForm } from "@/components/learner-profile-form";
+import { NotificationPreferencesForm } from "@/components/notification-preferences-form";
 
 export const metadata: Metadata = { title: "账号与学习档案" };
 
@@ -14,6 +15,7 @@ export default function ProfilePage() {
       <p className="mt-3 max-w-2xl text-sm font-semibold leading-6 text-ink/70">管理昵称和推荐范围，也可以更新登录邮箱、密码、社交登录方式与设备会话。</p>
     </header>
     <LearnerProfileForm />
+    <NotificationPreferencesForm />
     <AccountControls />
     <div className="mt-7 flex justify-center">
       <Link href="/privacy" className="inline-flex min-h-11 items-center gap-2 rounded-xl px-5 text-sm font-black text-violet hover:bg-white"><ShieldCheck size={17} /> 管理数据导出、学习记录与隐私设置</Link>

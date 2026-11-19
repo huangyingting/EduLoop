@@ -34,6 +34,7 @@
     "data:import:cjeval": "node scripts/import-cjeval-chinese.mjs",
     "data:import:agieval": "node scripts/import-agieval-high-school-chinese.mjs",
     "data:cleanup": "node --env-file-if-exists=.env --import tsx scripts/cleanup-expired-data.ts",
+    "notifications:send": "node --env-file-if-exists=.env --import tsx scripts/send-reminders.ts",
     "seed:verify": "node scripts/verify-seed.mjs",
     "learners:audit": "node --env-file-if-exists=.env --import tsx scripts/audit-learner-history.ts",
     "perf:check": "node --env-file-if-exists=.env --import tsx scripts/check-practice-performance.ts",

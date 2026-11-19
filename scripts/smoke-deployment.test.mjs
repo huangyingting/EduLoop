@@ -44,7 +44,7 @@ function healthyFetcher(overrides = {}) {
         status: "ok",
         database: "ready",
         schema: { status: "ready" },
-        catalog: { subjects: 5, questions: 16_537 },
+        catalog: { subjects: 5, questions: 16_537, release: { version: "09d85e4422b8", importedAt: "2026-11-19T12:00:00.000Z" } },
         version: "release-2026.07.31",
       });
     }
@@ -101,7 +101,7 @@ test("verifies security, liveness, readiness, answer isolation, and stateless gu
   assert.deepEqual(result, {
     origin: "https://learn.example",
     version: "release-2026.07.31",
-    catalog: { subjects: 5, questions: 16_537 },
+    catalog: { subjects: 5, questions: 16_537, release: "09d85e4422b8" },
     sampledQuestion: { type: "SINGLE_CHOICE", autoGradable: true },
     checks: ["public-page-security", "process-liveness", "database-readiness", "catalog", "answer-isolation", "guest-grading"],
   });

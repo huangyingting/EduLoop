@@ -94,7 +94,10 @@ or by manual dispatch. It delegates to the exact-version reusable workflow with:
 - first-run provisioning for `eduloop.genisisiq.com:10001`;
 - the exact CI commit as `ref`;
 - `Dockerfile.ops` as the transient operations image;
-- `npm run db:deploy:postgres && npm run db:seed` before activation;
+- `npm run db:deploy:postgres && npm run db:seed` before activation. The seed takes a
+  few seconds when `data/` is unchanged and refuses unexpected mass retirement.
+  To confirm an intended retirement, add `CATALOG_ALLOW_RETIRE=<count>` to the
+  application environment for that release only;
 - bounded TLS and Prisma pool parameters merged into `DATABASE_URL`;
 - `APP_VERSION` synchronized from the immutable image tag.
 

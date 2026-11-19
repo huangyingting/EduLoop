@@ -63,6 +63,7 @@ model Question {
   quarantinedAt          DateTime?
   retiredAt              DateTime?
   supersededById         String?
+  contentHash            String?
   isAutoGradable         Boolean           @default(false)
   onlineTest             Boolean           @default(false)
   optionSplit            Boolean           @default(false)
@@ -85,6 +86,23 @@ model Question {
   @@index([subjectId, gradeBandId, difficulty])
   @@index([gradeId, type, status])
   @@index([status, isAutoGradable])
+}
+
+model CatalogRelease {
+  id            String   @id @default(cuid())
+  scope         String
+  manifestHash  String
+  questionCount Int
+  created       Int
+  updated       Int
+  unchanged     Int
+  retired       Int
+  revived       Int
+  superseded    Int
+  startedAt     DateTime
+  completedAt   DateTime @default(now())
+
+  @@index([scope, completedAt])
 }
 
 model QuestionAsset {

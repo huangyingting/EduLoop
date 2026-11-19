@@ -161,6 +161,7 @@ export async function runDeploymentSmoke(value, options = {}) {
     catalog: {
       subjects: health.catalog.subjects,
       questions: health.catalog.questions,
+      release: health.catalog.release?.version ?? null,
     },
     sampledQuestion: {
       type: typeof question.type === "string" ? question.type : "unknown",

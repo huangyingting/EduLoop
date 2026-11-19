@@ -97,7 +97,7 @@ describe("catalog import lifecycle", () => {
       .toMatchObject({ status: "PUBLISHED", retiredAt: null });
 
     const second = await importCatalog(prisma, catalog(questionIds.filter((id) => id !== retiredId)), scope);
-    expect(second).toMatchObject({ retired: 1, updated: 7 });
+    expect(second).toMatchObject({ retired: 1, updated: 0, unchanged: 7 });
     expect(await prisma.question.findUniqueOrThrow({ where: { id: retiredId } })).toMatchObject({
       status: RETIRED_STATUS,
       importStatus: RETIRED_STATUS,
@@ -110,9 +110,47 @@ describe("catalog import lifecycle", () => {
     expect(await prisma.contentReviewAction.count({ where: { reportId: report.id } })).toBe(1);
 
     const revived = await importCatalog(prisma, catalog(questionIds), scope);
-    expect(revived).toMatchObject({ revived: 1, retired: 0 });
+    expect(revived).toMatchObject({ revived: 1, retired: 0, updated: 1, unchanged: 7 });
     expect(await prisma.question.findUniqueOrThrow({ where: { id: retiredId } }))
       .toMatchObject({ status: "PUBLISHED", importStatus: "PUBLISHED", retiredAt: null });
+  });
+
+  it("skips an unchanged catalog and rewrites only changed questions", async () => {
+    const before = new Map((await prisma.question.findMany({
+      where: { sourceFile }, select: { id: true, updatedAt: true },
+    })).map(({ id, updatedAt }) => [id, updatedAt.getTime()]));
+    const releasesBefore = await prisma.catalogRelease.count();
+
+    const noOp = await importCatalog(prisma, catalog(questionIds), scope);
+    expect(noOp).toMatchObject({ skipped: true, created: 0, updated: 0, unchanged: 8 });
+    expect(await prisma.catalogRelease.count()).toBe(releasesBefore);
+
+    const editedId = questionIds[4];
+    const edited = await importCatalog(prisma, questionIds.map((id) => (
+      id === editedId ? catalogQuestion(id, `${id}: 2 + 2 等于？`) : catalogQuestion(id)
+    )), scope);
+    expect(edited).toMatchObject({ skipped: false, updated: 1, unchanged: 7 });
+    const after = await prisma.question.findMany({ where: { sourceFile }, select: { id: true, stem: true, updatedAt: true } });
+    for (const question of after) {
+      if (question.id === editedId) expect(question.stem).toContain("2 + 2");
+      else expect(question.updatedAt.getTime()).toBe(before.get(question.id));
+    }
+    expect(await prisma.questionOption.count({ where: { questionId: editedId } })).toBe(2);
+    expect(await prisma.catalogRelease.findFirstOrThrow({ orderBy: { completedAt: "desc" } }))
+      .toMatchObject({ scope: `files:${sourceFile}`, updated: 1, unchanged: 7, manifestHash: edited.manifestHash });
+    await importCatalog(prisma, catalog(questionIds), scope);
+  });
+
+  it("rolls back every write when an import fails partway through", async () => {
+    const broken = catalog(questionIds).map((question, index) => (
+      index === 6 ? { ...question, stem: "changed before failure", gradeName: "不存在的年级" } : question
+    ));
+    broken[1] = { ...broken[1], stem: "this change must roll back" };
+    // Two-question batches make the first changed batch write before the
+    // later invalid batch throws, so this exercises a real rollback.
+    await expect(importCatalog(prisma, broken, { ...scope, batchSize: 2 })).rejects.toThrow(/Unknown grade/);
+    expect(await prisma.question.findUniqueOrThrow({ where: { id: questionIds[1] } }))
+      .toMatchObject({ stem: expect.not.stringContaining("roll back") });
   });
 
   it("refuses mass retirement unless it is explicitly allowed", async () => {

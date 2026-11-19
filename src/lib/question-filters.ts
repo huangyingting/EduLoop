@@ -16,8 +16,7 @@ const querySchema = z.object({
   grade: slugSchema.optional(),
   difficulty: difficultySchema.optional(),
   type: questionTypeSchema.optional(),
-  autoGradable: z.enum(["true", "false"]).optional()
-    .transform((value) => value === undefined ? undefined : value === "true"),
+  autoGradable: z.enum(["true", "false"]).transform((value) => value === "true").optional(),
 });
 
 export type QuestionFilters = z.infer<typeof querySchema> & {

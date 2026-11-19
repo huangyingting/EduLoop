@@ -16,7 +16,7 @@ export const attemptRequestSchema = z.object({
   ]),
   secondsSpent: z.number().int().min(0).max(7200).optional(),
   sessionId: z.string().min(8).max(100).optional(),
-  clientAttemptId: z.string().uuid().optional(),
+  clientAttemptId: z.uuid().optional(),
   timeZone: timeZoneSchema.optional(),
 });
 export type AttemptRequest = z.infer<typeof attemptRequestSchema>;

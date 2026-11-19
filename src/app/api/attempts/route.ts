@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { z } from "zod";
 import { apiError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api";
 import { getSessionUser } from "@/lib/auth";
 import { isSameOriginRequest } from "@/lib/auth-validation";
@@ -22,7 +23,7 @@ async function postAttempt(request: Request) {
   const body = await readJsonBody(request);
   if (!body.ok) return body.response;
   const parsed = attemptRequestSchema.safeParse(body.value);
-  if (!parsed.success) return apiError("Invalid attempt", 400, "INVALID_REQUEST", parsed.error.flatten());
+  if (!parsed.success) return apiError("Invalid attempt", 400, "INVALID_REQUEST", z.flattenError(parsed.error));
   const input = parsed.data;
   const user = await getSessionUser(request);
   const limited = await enforceRateLimit(

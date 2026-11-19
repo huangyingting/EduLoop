@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { GET as getPreferences, PATCH as updatePreferences } from "@/app/api/notifications/preferences/route";
+import { PUT as putLocale } from "@/app/api/auth/locale/route";
 import { POST as unsubscribeRoute } from "@/app/api/notifications/unsubscribe/route";
 import { dispatchReminders } from "@/lib/notifications/dispatch";
 import { issueUnsubscribeToken } from "@/lib/notifications/unsubscribe";
@@ -67,6 +68,17 @@ describe("learning reminders", () => {
 
     const again = await dispatchReminders({ now: new Date(mondayEvening.getTime() + 60 * 60_000), send, origin: "https://learn.example" });
     expect(again.sent).toEqual({ DUE_REVIEW_DIGEST: 0, WEEKLY_SUMMARY: 0 });
+  });
+
+  it("sends reminders in the language the account chose", async () => {
+    const cookie = await authCookie(optedInId);
+    expect((await putLocale(jsonRequest("http://localhost/api/auth/locale", "PUT", { locale: "fr" }, cookie))).status).toBe(400);
+    expect(await (await putLocale(jsonRequest("http://localhost/api/auth/locale", "PUT", { locale: "en" }, cookie))).json()).toEqual({ locale: "en" });
+    await prisma.notificationLog.deleteMany({ where: { userId: optedInId } });
+    const subjects: string[] = [];
+    await dispatchReminders({ now: mondayEvening, send: async (_to, email) => { subjects.push(email.subject); }, origin: "https://learn.example" });
+    expect(subjects).toEqual(["1 mistake is ready for review today", "Your EduLoop week in review"]);
+    await prisma.user.update({ where: { id: optedInId }, data: { locale: null } });
   });
 
   it("releases the period when delivery fails so the next run retries", async () => {

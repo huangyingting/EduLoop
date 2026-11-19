@@ -3,8 +3,9 @@ import { z } from "zod";
 import { apiError, apiMessageError, apiHandler, enforceRateLimit } from "@/lib/api";
 import { getSessionUser } from "@/lib/auth";
 import { findActiveLearner } from "@/lib/family";
-import { browseQuestions } from "@/lib/practice/browse";
+import { STEM_EXCERPT_LENGTH, browseQuestions } from "@/lib/practice/browse";
 import { parseQuestionFilters } from "@/lib/question-filters";
+import { contentLocale, localizeStems } from "@/lib/question-translations";
 
 export const dynamic = "force-dynamic";
 
@@ -23,7 +24,8 @@ async function getBrowse(request: NextRequest) {
   const limited = await enforceRateLimit(request, "question-browse", { identity: user.id, identityLimit: 60 });
   if (limited) return limited;
   const learner = await findActiveLearner(request, user);
-  return NextResponse.json(await browseQuestions(filters, learner?.id ?? "", paging.data.page, paging.data.paper));
+  const page = await browseQuestions(filters, learner?.id ?? "", paging.data.page, paging.data.paper);
+  return NextResponse.json({ ...page, items: await localizeStems(page.items, contentLocale(request), STEM_EXCERPT_LENGTH) });
 }
 
 export const GET = apiHandler("GET /api/questions/browse", getBrowse);

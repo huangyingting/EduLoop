@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { revokeAccountSessions } from "@/lib/account";
 import { apiError, apiMessageError, apiHandler, enforceRateLimit } from "@/lib/api";
+import { requestLocale, type Locale } from "@/i18n/config";
 import { runAfterResponse } from "@/lib/after-response";
 import { getSessionUser } from "@/lib/auth";
 import { hasRecentAuthentication, isSameOriginRequest } from "@/lib/auth-validation";
@@ -9,9 +10,9 @@ import { errorLogMetadata } from "@/lib/logging";
 
 export const runtime = "nodejs";
 
-async function notifySessionRevocation(email: string) {
+async function notifySessionRevocation(email: string, locale: Locale) {
   try {
-    await sendSessionsRevokedNotice(email);
+    await sendSessionsRevokedNotice(email, { locale });
   } catch (error) {
     console.error(JSON.stringify({
       level: "error",
@@ -41,7 +42,7 @@ async function deleteAccountSessions(request: Request) {
     return apiMessageError("sessionChanged", 409, "CONFLICT");
   }
   if (emailConfiguration()) {
-    await runAfterResponse("session_revocation_notice", () => notifySessionRevocation(user.email));
+    await runAfterResponse("session_revocation_notice", () => notifySessionRevocation(user.email, requestLocale(request)));
   }
   return NextResponse.json({ revoked: true }, { headers: { "Cache-Control": "no-store" } });
 }

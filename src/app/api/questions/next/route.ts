@@ -4,6 +4,7 @@ import { getSessionUser } from "@/lib/auth";
 import { findActiveLearner } from "@/lib/family";
 import { selectNextQuestion } from "@/lib/practice/selection";
 import { parseQuestionFilters } from "@/lib/question-filters";
+import { contentLocale } from "@/lib/question-translations";
 
 export const dynamic = "force-dynamic";
 
@@ -14,7 +15,7 @@ async function getNextQuestion(request: NextRequest) {
   if (limited) return limited;
   const user = await getSessionUser(request);
   const learner = user ? await findActiveLearner(request, user) : null;
-  const question = await selectNextQuestion(filters, learner?.id ?? null);
+  const question = await selectNextQuestion(filters, learner?.id ?? null, contentLocale(request));
   if (!question) return apiError("No matching questions", 404, "NOT_FOUND");
   return NextResponse.json(question);
 }

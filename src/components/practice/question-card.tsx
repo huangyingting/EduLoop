@@ -50,7 +50,7 @@ export function QuestionCard({ state, dispatch, actions, isAuthenticated }: {
       </div>
 
       <div className="px-6 py-7 sm:px-9 sm:py-9">
-        <h2 ref={questionHeading} id="practice-question-heading" tabIndex={-1} className="question-copy whitespace-pre-line text-[17px] font-bold leading-8 text-ink outline-none sm:text-[19px]"><MathText eagerFigures>{question.stem}</MathText></h2>
+        <h2 ref={questionHeading} id="practice-question-heading" lang={question.language} tabIndex={-1} className="question-copy whitespace-pre-line text-[17px] font-bold leading-8 text-ink outline-none sm:text-[19px]"><MathText eagerFigures>{question.stem}</MathText></h2>
         {question.stemAsset ? <Image src={question.stemAsset.path} alt={question.stemAsset.altText} width={720} height={360} loading="eager" className="mx-auto mt-6 h-auto max-h-80 w-full max-w-2xl rounded-2xl border border-ink/10 bg-[#fffdf8] object-contain" /> : null}
         {!result ? <HintPanel hint={state.hint} hasHint={question.hasHint} hintCount={question.hintCount} canRequest={canRequestHint(state)} onReveal={() => void actions.revealHint()} /> : null}
         {question.options.length

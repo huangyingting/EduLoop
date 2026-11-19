@@ -4,7 +4,7 @@ import { canAdvance, canRequestHint, canSubmit, hintsUsed, initialPracticeState,
 
 function question(overrides: Partial<QuestionPayload> = {}): QuestionPayload {
   return {
-    id: "question-1", stem: "1 + 1 = ?", type: "SINGLE_CHOICE", typeLabel: "单项选择", difficulty: "EASY",
+    id: "question-1", stem: "1 + 1 = ?", language: "zh-CN", type: "SINGLE_CHOICE", typeLabel: "单项选择", difficulty: "EASY",
     isAutoGradable: true, hasHint: true, hintCount: 1, subject: { name: "数学", slug: "math", color: "#000" }, grade: "一年级",
     stemAsset: null, options: [{ label: "A", content: "1", asset: null }, { label: "B", content: "2", asset: null }],
     tags: [], isSaved: false, recommendation: null, history: null, ticket: "ticket", ...overrides,

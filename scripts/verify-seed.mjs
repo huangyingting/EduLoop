@@ -43,6 +43,7 @@ try {
     difficultyMedium: await prisma.question.count({ where: { difficulty: "MEDIUM" } }),
     difficultyHard: await prisma.question.count({ where: { difficulty: "HARD" } }),
     subjects: await prisma.subject.count({ where: { questions: { some: { status: "PUBLISHED" } } } }),
+    englishTranslations: await prisma.questionTranslation.count({ where: { locale: "en" } }),
   };
   await prisma.$disconnect();
   // The expected counts are the catalog numbers quoted in the docs.

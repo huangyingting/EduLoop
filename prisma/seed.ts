@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { CatalogImportRefused, RETIRED_STATUS, importCatalog } from "../src/lib/catalog-import";
+import { importTranslations, normalizeTranslatedQuestion } from "../src/lib/catalog-translations";
 import {
   GRADE_BANDS, GRADES, SUBJECTS, TAG_DIMENSIONS, normalizeSourceQuestion,
   type SourceQuestion,
@@ -15,7 +16,7 @@ import {
 } from "../src/lib/operator-command";
 
 const prisma = new PrismaClient();
-const dataDirectory = path.resolve(process.cwd(), "data", DEFAULT_CONTENT_LOCALE);
+const dataRoot = path.resolve(process.cwd(), "data");
 const commandTiming = startOperatorCommand();
 
 async function seedCatalog() {
@@ -55,14 +56,45 @@ function parseArguments(argv: string[]) {
   return { dryRun, allowRetire };
 }
 
+async function readArchive(locale: string, filename: string) {
+  const body = (await readFile(path.join(dataRoot, locale, filename), "utf8")).replace(/^\uFEFF/, "");
+  return JSON.parse(body) as SourceQuestion[];
+}
+
+// Collections that also exist in another language are imported as
+// translations of the default-locale questions with the same IDs.
+async function seedTranslations(dryRun: boolean) {
+  const filesByLocale = new Map<string, Set<string>>();
+  for (const collection of Object.values(CONTENT_MANIFEST.collections)) {
+    const locales = [collection.sourceLocale, ...collection.translatedLocales];
+    if (!locales.includes(DEFAULT_CONTENT_LOCALE)) continue;
+    for (const locale of locales.filter((value) => value !== DEFAULT_CONTENT_LOCALE)) {
+      const files = filesByLocale.get(locale) ?? new Set<string>();
+      for (const file of collection.files) files.add(file);
+      filesByLocale.set(locale, files);
+    }
+  }
+  const summaries = [];
+  for (const [locale, files] of filesByLocale) {
+    const translations = [];
+    for (const filename of files) {
+      for (const question of await readArchive(locale, filename)) {
+        const translation = normalizeTranslatedQuestion(question, locale, filename);
+        if (translation) translations.push(translation);
+      }
+    }
+    summaries.push(await importTranslations(prisma, locale, translations, { dryRun }));
+  }
+  return summaries;
+}
+
 async function main() {
   const { dryRun, allowRetire } = parseArguments(process.argv.slice(2));
   if (!dryRun) await seedCatalog();
   const filenames = contentFilesForLocale(DEFAULT_CONTENT_LOCALE);
   const normalized = [];
   for (const filename of filenames) {
-    const body = (await readFile(path.join(dataDirectory, filename), "utf8")).replace(/^\uFEFF/, "");
-    const questions = JSON.parse(body) as SourceQuestion[];
+    const questions = await readArchive(DEFAULT_CONTENT_LOCALE, filename);
     normalized.push(...questions.map((question) => normalizeSourceQuestion(question, filename)));
   }
 
@@ -78,13 +110,15 @@ async function main() {
     })),
   });
 
+  const translations = await seedTranslations(dryRun);
+
   const [published, review, retired, autoGradable] = await Promise.all([
     prisma.question.count({ where: { status: "PUBLISHED" } }),
     prisma.question.count({ where: { status: "NEEDS_REVIEW" } }),
     prisma.question.count({ where: { status: RETIRED_STATUS } }),
     prisma.question.count({ where: { isAutoGradable: true, status: "PUBLISHED" } }),
   ]);
-  return { ...summary, questions: normalized.length, published, needsReview: review, retiredTotal: retired, autoGradable };
+  return { ...summary, questions: normalized.length, published, needsReview: review, retiredTotal: retired, autoGradable, translations };
 }
 
 async function execute() {

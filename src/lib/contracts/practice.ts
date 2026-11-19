@@ -87,6 +87,8 @@ export type AssetReference = { path: string; altText: string };
 export type QuestionPayload = {
   id: string;
   stem: string;
+  // BCP 47 language of stem and options, for the lang attribute.
+  language: string;
   type: string;
   typeLabel: string;
   difficulty: string;

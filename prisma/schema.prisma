@@ -83,6 +83,7 @@ model Question {
   hints                  QuestionHint[]
   contestSlots           ContestPaperSlot[]
   revisions              QuestionRevision[]
+  translations           QuestionTranslation[]
   tags                   QuestionTag[]
   attempts               PracticeAttempt[]
   savedBy                SavedQuestion[]
@@ -248,6 +249,8 @@ model User {
   privacyAcceptedAt       DateTime?
   privacyVersion          String?
   consentBasis            String?
+  // Interface language for email; the browser cookie drives the UI.
+  locale                  String?
   learner                 LearnerProfile?
   managedLearners         LearnerProfile[]         @relation("GuardianLearners")
   accounts                Account[]
@@ -660,4 +663,24 @@ model ContentReviewAction {
 
   @@index([reportId, createdAt])
   @@index([actorId, createdAt])
+}
+
+// Question content in a non-default language, keyed by the same stable ID.
+// Answers, grading, assets, and tags always come from the Question row.
+model QuestionTranslation {
+  questionId  String
+  locale      String
+  stem        String
+  // JSON array of { label, content } in option order.
+  options     String
+  explanation String?
+  // JSON array of hint strings in reveal order.
+  hints       String
+  contentHash String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  question    Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@id([questionId, locale])
+  @@index([locale])
 }

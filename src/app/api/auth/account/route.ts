@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { apiError, apiMessageError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api";
+import { requestLocale, type Locale } from "@/i18n/config";
 import { runAfterResponse } from "@/lib/after-response";
 import { changeAccountPassword, deleteAccount } from "@/lib/account";
 import { getSessionUser } from "@/lib/auth";
@@ -15,9 +16,9 @@ function accountOrigin(request: Request) {
   return configured ? new URL(configured).origin : new URL(request.url).origin;
 }
 
-async function notifyPasswordChange(email: string) {
+async function notifyPasswordChange(email: string, locale: Locale) {
   try {
-    await sendPasswordChangedNotice(email);
+    await sendPasswordChangedNotice(email, { locale });
   } catch (error) {
     console.error(JSON.stringify({
       level: "error",
@@ -27,9 +28,9 @@ async function notifyPasswordChange(email: string) {
   }
 }
 
-async function notifyAccountDeletion(email: string) {
+async function notifyAccountDeletion(email: string, locale: Locale) {
   try {
-    await sendAccountDeletedNotice(email);
+    await sendAccountDeletedNotice(email, { locale });
   } catch (error) {
     console.error(JSON.stringify({
       level: "error",
@@ -74,7 +75,7 @@ async function patchAccount(request: Request) {
       const origin = accountOrigin(request);
       await runAfterResponse(
         "email_verification_delivery",
-        () => deliverEmailVerification(user.email, origin),
+        () => deliverEmailVerification(user.email, origin, requestLocale(request)),
       );
     }
     return NextResponse.json({ changed: true, verificationRequired: true, verificationScheduled }, {
@@ -82,7 +83,7 @@ async function patchAccount(request: Request) {
     });
   }
   if (emailConfiguration()) {
-    await runAfterResponse("password_change_notice", () => notifyPasswordChange(user.email));
+    await runAfterResponse("password_change_notice", () => notifyPasswordChange(user.email, requestLocale(request)));
   }
   return NextResponse.json({ changed: true }, { headers: { "Cache-Control": "no-store" } });
 }
@@ -115,7 +116,7 @@ async function deleteCurrentAccount(request: Request) {
     return apiMessageError("securityChanged", 409, "CONFLICT");
   }
   if (emailConfiguration()) {
-    await runAfterResponse("account_deletion_notice", () => notifyAccountDeletion(user.email));
+    await runAfterResponse("account_deletion_notice", () => notifyAccountDeletion(user.email, requestLocale(request)));
   }
   return NextResponse.json({ deleted: true }, { headers: { "Cache-Control": "no-store" } });
 }

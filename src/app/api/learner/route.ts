@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { deleteLearningData } from "@/lib/account";
 import { apiError, apiMessageError, apiHandler, enforceRateLimit } from "@/lib/api";
+import { requestLocale, type Locale } from "@/i18n/config";
 import { runAfterResponse } from "@/lib/after-response";
 import { getSessionUser } from "@/lib/auth";
 import { hasRecentAuthentication, isSameOriginRequest } from "@/lib/auth-validation";
@@ -13,9 +14,9 @@ import { learnerSnapshot } from "@/lib/practice/progress";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-async function notifyLearningDataDeletion(email: string) {
+async function notifyLearningDataDeletion(email: string, locale: Locale) {
   try {
-    await sendLearningDataDeletedNotice(email);
+    await sendLearningDataDeletedNotice(email, { locale });
   } catch (error) {
     console.error(JSON.stringify({
       level: "error",
@@ -65,7 +66,7 @@ async function deleteLearner(request: NextRequest) {
   if (outcome === "DELETED" && emailConfiguration()) {
     await runAfterResponse(
       "learning_data_deletion_notice",
-      () => notifyLearningDataDeletion(user.email),
+      () => notifyLearningDataDeletion(user.email, requestLocale(request)),
     );
   }
   return NextResponse.json({ deleted: outcome === "DELETED" });

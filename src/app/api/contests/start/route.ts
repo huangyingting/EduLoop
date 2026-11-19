@@ -5,6 +5,7 @@ import { isSameOriginRequest } from "@/lib/auth-validation";
 import { startContestRequestSchema } from "@/lib/contracts/contests";
 import { ensureActiveLearner } from "@/lib/family";
 import { startContest } from "@/lib/practice/contests";
+import { contentLocale, localizeContestView } from "@/lib/question-translations";
 
 async function postStartContest(request: Request) {
   if (!isSameOriginRequest(request)) return apiError("Invalid request origin.", 403, "FORBIDDEN");
@@ -22,7 +23,7 @@ async function postStartContest(request: Request) {
   if (outcome.status === "OTHER_ACTIVE") {
     return apiError("Another contest is still in progress", 409, "CONFLICT", { sessionId: outcome.sessionId, paperKey: outcome.paperKey });
   }
-  return NextResponse.json(outcome.view, { status: outcome.status === "STARTED" ? 201 : 200 });
+  return NextResponse.json(await localizeContestView(outcome.view, contentLocale(request)), { status: outcome.status === "STARTED" ? 201 : 200 });
 }
 
 export const POST = apiHandler("POST /api/contests/start", postStartContest);

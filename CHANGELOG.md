@@ -17,6 +17,8 @@ Work from the production-readiness improvement plan (#49).
 - Prometheus metrics, webhook error alerts, slow-query logs, and signed question tickets for guest grading (#46).
 - Data-driven badge rules, a stored learner time zone for streaks, and long-term review of mastered questions (#38).
 - English interface with typed message catalogs, a language switcher, and localized API errors (#39).
+- English AMC 8/10/12 practice: the original English archives are imported as translations, and practice, contests, hints, and explanations use them in the English interface (#39).
+- Emails in the learner's language: request-triggered emails follow the interface language, and reminders use the language stored on the account (#39).
 - Optional OpenTelemetry tracing (route, fetch, and Prisma spans over OTLP) with trace IDs in API logs and alerts (#46).
 - `npm run learners:audit`, `npm run perf:check`, and `npm run docs:check`.
 - Architecture decision records, a contributing guide, a development guide, and this changelog (#47).

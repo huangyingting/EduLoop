@@ -15,6 +15,7 @@ import {
 } from "@/lib/retention";
 import { registrationEnabled } from "@/lib/deployment-mode";
 import { QUESTION_STATUS } from "@/lib/domain-constants";
+import { chosenRequestLocale, requestLocale } from "@/i18n/config";
 
 export const runtime = "nodejs";
 
@@ -70,6 +71,7 @@ async function postRegistration(request: Request) {
           privacyAcceptedAt: acceptedAt,
           privacyVersion: PRIVACY_VERSION,
           consentBasis: input.consentBasis,
+          locale: chosenRequestLocale(request),
           consentRecords: {
             create: {
               termsVersion: TERMS_VERSION,
@@ -95,7 +97,7 @@ async function postRegistration(request: Request) {
     const origin = registrationOrigin(request);
     await runAfterResponse(
       "email_verification_delivery",
-      () => deliverEmailVerification(email, origin),
+      () => deliverEmailVerification(email, origin, requestLocale(request)),
     );
   }
 

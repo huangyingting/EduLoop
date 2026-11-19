@@ -5,6 +5,7 @@ import { isSameOriginRequest } from "@/lib/auth-validation";
 import { submitContestRequestSchema } from "@/lib/contracts/contests";
 import { findActiveLearner } from "@/lib/family";
 import { submitContest } from "@/lib/practice/contests";
+import { contentLocale, localizeContestView } from "@/lib/question-translations";
 
 async function postSubmitContest(request: Request) {
   if (!isSameOriginRequest(request)) return apiError("Invalid request origin.", 403, "FORBIDDEN");
@@ -21,7 +22,7 @@ async function postSubmitContest(request: Request) {
   const outcome = await submitContest(learner.id, parsed.data.sessionId);
   if (outcome.status === "NOT_FOUND") return apiError("Contest session not found", 404, "NOT_FOUND");
   if (outcome.status === "CLOSED" || !outcome.result) return apiError("Contest session is closed", 409, "CONFLICT");
-  return NextResponse.json(outcome.result);
+  return NextResponse.json(await localizeContestView(outcome.result, contentLocale(request)));
 }
 
 export const POST = apiHandler("POST /api/contests/submit", postSubmitContest);

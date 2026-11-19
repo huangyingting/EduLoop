@@ -22,3 +22,21 @@ export function localeFromCookieHeader(header: string | null | undefined): Local
   }
   return DEFAULT_LOCALE;
 }
+
+// The interface language of the request that triggered a server action, used
+// for the emails it sends.
+export function requestLocale(request: Request): Locale {
+  return localeFromCookieHeader(request.headers.get("cookie"));
+}
+
+// The locale the visitor chose explicitly, or null when they never picked one.
+export function chosenRequestLocale(request: Request): Locale | null {
+  for (const part of (request.headers.get("cookie") ?? "").split(";")) {
+    const [name, ...value] = part.trim().split("=");
+    if (name === LOCALE_COOKIE) {
+      const decoded = decodeURIComponent(value.join("="));
+      return isLocale(decoded) ? decoded : null;
+    }
+  }
+  return null;
+}

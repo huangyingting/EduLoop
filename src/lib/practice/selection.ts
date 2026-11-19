@@ -8,6 +8,8 @@ import { questionWhere, type QuestionFilters } from "@/lib/question-filters";
 import { weakestTopic } from "@/lib/recommendation";
 import { MINIMUM_RATED_ATTEMPTS, targetDifficultyWindow } from "./ability";
 import { approvedHintWhere } from "./question-hints";
+import { DEFAULT_LOCALE, type Locale } from "@/i18n/config";
+import { questionTranslation } from "@/lib/question-translations";
 
 const DUE_REVIEW_CANDIDATES = 12;
 const DUE_REVIEW_PICK_FROM = 4;
@@ -224,6 +226,7 @@ export async function loadQuestionPayload(
   questionId: string,
   learnerId: string | null,
   recommendation: RecommendationReason | null = null,
+  locale: Locale | null = null,
 ): Promise<QuestionPayload | null> {
   const question = await prisma.question.findUnique({
     where: { id: questionId },
@@ -237,6 +240,8 @@ export async function loadQuestionPayload(
     },
   });
   if (!question) return null;
+  const translation = await questionTranslation(question.id, locale);
+  const hintCount = translation ? translation.hints.length : question._count.hints;
   const assetsByRole = new Map(question.assets.map((asset) => [asset.role, asset]));
   const stemAsset = assetsByRole.get("STEM");
   const [savedRow, history] = learnerId ? await Promise.all([
@@ -249,19 +254,20 @@ export async function loadQuestionPayload(
   const saved = Boolean(savedRow);
   return {
     id: question.id,
-    stem: question.stem,
+    stem: translation?.stem ?? question.stem,
+    language: translation ? locale! : DEFAULT_LOCALE,
     type: question.type,
     typeLabel: QUESTION_TYPE_LABELS[question.type] ?? question.sourceType,
     difficulty: question.difficulty,
     isAutoGradable: question.isAutoGradable,
-    hasHint: question._count.hints > 0,
-    hintCount: question._count.hints,
+    hasHint: hintCount > 0,
+    hintCount,
     subject: question.subject,
     grade: question.grade.name,
     stemAsset: stemAsset ? { path: stemAsset.path, altText: stemAsset.altText } : null,
     options: question.options.map(({ label, content }) => {
       const asset = assetsByRole.get(`OPTION_${label}`);
-      return { label, content, asset: asset ? { path: asset.path, altText: asset.altText } : null };
+      return { label, content: translation?.options.get(label) ?? content, asset: asset ? { path: asset.path, altText: asset.altText } : null };
     }),
     tags: question.tags.map(({ tag }) => ({ dimension: tag.dimension.key, slug: tag.slug, label: tag.label })),
     isSaved: saved,
@@ -271,7 +277,17 @@ export async function loadQuestionPayload(
   };
 }
 
-export async function selectNextQuestion(filters: QuestionFilters, learnerId: string | null) {
+// In a translated content language, practice draws from translated questions
+// first and falls back to the default-language catalog when none match.
+export async function selectNextQuestion(filters: QuestionFilters, learnerId: string | null, locale: Locale | null = null) {
+  if (locale && !filters.questionId) {
+    const translated = await selectFrom({ ...filters, translatedInto: locale }, learnerId, locale);
+    if (translated) return translated;
+  }
+  return selectFrom(filters, learnerId, locale);
+}
+
+async function selectFrom(filters: QuestionFilters, learnerId: string | null, locale: Locale | null) {
   const recommendation = await recommend(filters, learnerId);
   // Difficulty targeting applies in adaptive mode unless the learner chose a
   // difficulty explicitly.
@@ -283,5 +299,5 @@ export async function selectNextQuestion(filters: QuestionFilters, learnerId: st
   const reason: RecommendationReason | null = picked.targeted
     ? { ...(recommendation.reason ?? { kind: "ABILITY", focus: null }), targeted: true }
     : recommendation.reason && { ...recommendation.reason, targeted: false };
-  return loadQuestionPayload(picked.id, learnerId, reason);
+  return loadQuestionPayload(picked.id, learnerId, reason, locale);
 }

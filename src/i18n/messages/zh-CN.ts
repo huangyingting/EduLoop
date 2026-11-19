@@ -462,6 +462,7 @@ export const zhCN = {
     guestMode: "访客模式 · 本轮仅保存在内存中",
     loadingQuestion: "正在挑一道刚刚好的题…",
     noQuestionTitle: "暂时没找到题目",
+    untranslated: "这道题暂时只有中文版本。",
     reasons: {
       DUE_REVIEW: "复习一题到期的薄弱知识",
       LONG_TERM_REVIEW: "长期巩固：回顾一道已经掌握的题",

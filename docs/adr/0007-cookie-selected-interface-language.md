@@ -17,5 +17,5 @@ The interface was hard-coded in Simplified Chinese, and API errors mixed Chinese
 ## Consequences
 
 - Every page renders per request because the layout reads the cookie.
-- Question content is not translated by this layer; it comes from the catalog's locale.
-- Emails stay in the default language until accounts store a language preference. Details are in [Internationalization](../i18n.md).
+- Question content is translated separately; see [ADR 0008](0008-translated-question-content.md).
+- Emails stayed in the default language until accounts stored a language preference; see [ADR 0008](0008-translated-question-content.md). Details are in [Internationalization](../i18n.md).

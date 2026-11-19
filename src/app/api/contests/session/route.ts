@@ -6,6 +6,7 @@ import { isSameOriginRequest } from "@/lib/auth-validation";
 import { saveContestAnswersRequestSchema } from "@/lib/contracts/contests";
 import { findActiveLearner } from "@/lib/family";
 import { activeContestView, contestResult, saveContestAnswers } from "@/lib/practice/contests";
+import { contentLocale, localizeContestView } from "@/lib/question-translations";
 
 export const dynamic = "force-dynamic";
 
@@ -23,7 +24,7 @@ async function getContestSession(request: NextRequest) {
   const learner = await findActiveLearner(request, user);
   if (!learner) return apiError("Contest session not found", 404, "NOT_FOUND");
   const view = await activeContestView(learner.id, parsed.data.id) ?? await contestResult(learner.id, parsed.data.id);
-  return view ? NextResponse.json(view) : apiError("Contest session not found", 404, "NOT_FOUND");
+  return view ? NextResponse.json(await localizeContestView(view, contentLocale(request))) : apiError("Contest session not found", 404, "NOT_FOUND");
 }
 
 async function patchContestSession(request: Request) {

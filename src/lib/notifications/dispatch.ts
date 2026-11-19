@@ -1,4 +1,5 @@
 import { Prisma } from "@prisma/client";
+import { resolveLocale } from "@/i18n/config";
 import { calendarDay, calendarDaysBefore, effectiveTimeZone, visibleStreak } from "@/lib/dates";
 import { QUESTION_STATUS, REVIEW_ITEM_STATUS } from "@/lib/domain-constants";
 import { hasCurrentLegalConsent } from "@/lib/legal";
@@ -66,7 +67,7 @@ export async function dispatchReminders(options: { now?: Date; send?: Sender; or
       include: {
         user: {
           select: {
-            id: true, email: true, termsAcceptedAt: true, termsVersion: true, privacyAcceptedAt: true, privacyVersion: true, consentBasis: true,
+            id: true, email: true, locale: true, termsAcceptedAt: true, termsVersion: true, privacyAcceptedAt: true, privacyVersion: true, consentBasis: true,
             learner: { select: { id: true, timeZone: true, currentStreak: true, lastActiveOn: true, streakFreezes: true } },
             managedLearners: { select: { id: true, timeZone: true } },
           },
@@ -97,7 +98,7 @@ export async function dispatchReminders(options: { now?: Date; send?: Sender; or
         if (type === "DUE_REVIEW_DIGEST") {
           const dueCount = await dueReviewCount(learnerIds, now);
           if (!dueCount) continue;
-          email = dueReviewDigestEmail({ dueCount, reviewUrl: `${origin}/review`, unsubscribeUrl: links.page });
+          email = dueReviewDigestEmail({ dueCount, reviewUrl: `${origin}/review`, unsubscribeUrl: links.page }, resolveLocale(user.locale));
         } else {
           if (!learner) continue;
           const activity = await weeklyActivity(learner.id, today);
@@ -106,7 +107,7 @@ export async function dispatchReminders(options: { now?: Date; send?: Sender; or
             currentStreak: visibleStreak(learner, today),
             progressUrl: `${origin}/progress`,
             unsubscribeUrl: links.page,
-          });
+          }, resolveLocale(user.locale));
         }
 
         // Claim the period first so concurrent or repeated runs cannot send

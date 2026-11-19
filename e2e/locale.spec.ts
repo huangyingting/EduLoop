@@ -13,6 +13,10 @@ test("visitors switch the interface to English and the choice sticks across page
   await expect(page.getByRole("heading", { name: "Focused practice" })).toBeVisible();
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
   await expect(page.getByRole("button", { name: "Submit answer" })).toBeVisible();
+  // English practice serves the English AMC originals first.
+  await page.reload();
+  await waitForQuestion(page);
+  await expect(page.locator("#practice-question-heading")).toHaveAttribute("lang", "en");
 
   await page.goto("/");
   await expect(page.getByRole("heading", { name: "Hi! What would you like to explore today?" })).toBeVisible();

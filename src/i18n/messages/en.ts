@@ -460,6 +460,7 @@ export const en: Messages = {
     guestMode: "Guest mode · this round lives in memory only",
     loadingQuestion: "Picking a question that fits…",
     noQuestionTitle: "No question found",
+    untranslated: "This question is only available in Chinese for now. English practice draws from the AMC 8, 10, and 12 contest problems first.",
     reasons: {
       DUE_REVIEW: "Review a weak spot that is due",
       LONG_TERM_REVIEW: "Long-term check: revisit a question you mastered",

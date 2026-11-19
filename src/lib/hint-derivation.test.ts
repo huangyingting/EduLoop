@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { clipBeforeResult, deriveQuestionHints } from "./hint-derivation";
+import { clipBeforeResult, deriveEnglishContestHints, deriveQuestionHints } from "./hint-derivation";
 
 describe("hint derivation", () => {
   it("keeps the setup of a contest solution and drops the computation", () => {
@@ -38,5 +38,15 @@ describe("hint derivation", () => {
     expect(hints).toEqual([{ kind: "FOCUS", content: "这道题考查：红光外侧存在不可见光。" }]);
     expect(deriveQuestionHints({ solutions: ["余数是3，除数最小是4。"], answer: "4", isContestSource: false })).toEqual([]);
     expect(deriveQuestionHints({ solutions: [], answer: "A", isContestSource: true })).toEqual([]);
+  });
+});
+
+describe("English contest hints", () => {
+  it("keeps the setup of the first solution sentence and drops results and leaks", () => {
+    expect(deriveEnglishContestHints({ solutions: ["Let $n$ be the number of sheets in the taller stack, so $n=750$."], answer: "D" }))
+      .toEqual([{ kind: "FIRST_STEP", content: "Start here: Let $n$ be the number of sheets in the taller stack…" }]);
+    expect(deriveEnglishContestHints({ solutions: ["The answer is $\\boxed{D}$."], answer: "D" })).toEqual([]);
+    expect(deriveEnglishContestHints({ solutions: ["Thus it works."], answer: "D" })).toEqual([]);
+    expect(deriveEnglishContestHints({ solutions: [""], answer: "D" })).toEqual([]);
   });
 });

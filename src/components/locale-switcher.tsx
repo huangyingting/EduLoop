@@ -5,13 +5,16 @@ import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { LOCALE_COOKIE, LOCALE_LABELS, LOCALES, isLocale } from "@/i18n/config";
 import { useI18n } from "@/i18n/client";
+import { apiRequest } from "@/lib/api-client";
+import { useAuth } from "@/lib/use-auth";
 
 const ONE_YEAR_SECONDS = 365 * 24 * 60 * 60;
 
-// The choice lives in a cookie so server-rendered pages and API errors use it
-// too; refreshing re-renders the layout with the new catalog.
+// The choice lives in a cookie so server-rendered pages, API errors, and the
+// emails a request sends use it; refreshing re-renders the layout.
 export function LocaleSwitcher({ className = "" }: { className?: string }) {
   const { locale, t } = useI18n();
+  const auth = useAuth();
   const router = useRouter();
   const [pending, startTransition] = useTransition();
 
@@ -19,6 +22,9 @@ export function LocaleSwitcher({ className = "" }: { className?: string }) {
     if (!isLocale(value) || value === locale) return;
     document.cookie = `${LOCALE_COOKIE}=${value}; Path=/; Max-Age=${ONE_YEAR_SECONDS}; SameSite=Lax`;
     document.documentElement.lang = value;
+    // Signed-in accounts also remember the choice for emails; the UI does not
+    // wait for it, and a failure only leaves emails in the previous language.
+    if (auth.status === "authenticated") void apiRequest("/api/auth/locale", { method: "PUT", body: { locale: value } }).catch(() => undefined);
     startTransition(() => router.refresh());
   }
 

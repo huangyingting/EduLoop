@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { questionWhere, type QuestionFilters } from "@/lib/question-filters";
 
 export const BROWSE_PAGE_SIZE = 20;
-const STEM_EXCERPT_LENGTH = 140;
+export const STEM_EXCERPT_LENGTH = 140;
 
 // A paginated, answer-free list for finding a specific question or reading a
 // contest paper in order. Answers and explanations are never included.

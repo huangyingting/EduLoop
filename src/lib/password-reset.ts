@@ -6,6 +6,7 @@ import { finalizeEmailProofDelivery, nextEmailProofCreatedAt } from "@/lib/email
 import { errorLogMetadata } from "@/lib/logging";
 import { prisma } from "@/lib/prisma";
 import { deleteExpiredUnusedRegistration, proofExpiration } from "@/lib/retention";
+import type { Locale } from "@/i18n/config";
 
 export const PASSWORD_RESET_TTL_MS = 30 * 60_000;
 export type PasswordResetResult =
@@ -122,12 +123,12 @@ export async function finalizePasswordResetDelivery(
   });
 }
 
-export async function deliverPasswordReset(email: string, origin: string) {
+export async function deliverPasswordReset(email: string, origin: string, locale?: Locale) {
   const issued = await issuePasswordResetToken(email);
   if (!issued) return;
   const resetUrl = `${origin}/reset-password#token=${encodeURIComponent(issued.token)}`;
   try {
-    await sendPasswordResetEmail(issued.email, resetUrl);
+    await sendPasswordResetEmail(issued.email, resetUrl, { locale });
   } catch (error) {
     console.error(JSON.stringify({
       level: "error",

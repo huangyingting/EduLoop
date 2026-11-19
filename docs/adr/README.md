@@ -11,6 +11,7 @@ Each record captures one decision that shapes the code: the context, the choice,
 | [0005](0005-incremental-catalog-import.md) | Stable-ID catalog import with soft retirement and content hashes | Accepted |
 | [0006](0006-routes-services-contracts.md) | Thin route handlers over domain services and shared contracts | Accepted |
 | [0007](0007-cookie-selected-interface-language.md) | Interface language chosen by cookie, with typed catalogs | Accepted |
+| [0008](0008-translated-question-content.md) | Translated question content keyed by stable IDs | Accepted |
 
 Template:
 

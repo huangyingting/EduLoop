@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { apiError, apiMessageError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api";
+import { requestLocale, type Locale } from "@/i18n/config";
 import { runAfterResponse } from "@/lib/after-response";
 import { getSessionUser } from "@/lib/auth";
 import { hasRecentAuthentication, isSameOriginRequest, providerDisconnectSchema } from "@/lib/auth-validation";
@@ -10,9 +11,9 @@ import { socialProviderLabel } from "@/lib/social-providers";
 
 export const runtime = "nodejs";
 
-async function notifyProviderDisconnect(email: string, provider: string) {
+async function notifyProviderDisconnect(email: string, provider: string, locale: Locale) {
   try {
-    await sendProviderDisconnectedNotice(email, provider);
+    await sendProviderDisconnectedNotice(email, provider, { locale });
   } catch (error) {
     console.error(JSON.stringify({
       level: "error",
@@ -55,7 +56,7 @@ async function disconnectCurrentProvider(request: Request) {
   if (emailConfiguration()) {
     await runAfterResponse(
       "provider_disconnect_notice",
-      () => notifyProviderDisconnect(outcome.email, provider),
+      () => notifyProviderDisconnect(outcome.email, provider, requestLocale(request)),
     );
   }
   return NextResponse.json({ disconnected: true, provider: parsed.data.provider }, {

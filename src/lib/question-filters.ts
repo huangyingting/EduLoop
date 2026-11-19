@@ -22,6 +22,9 @@ const querySchema = z.object({
 export type QuestionFilters = z.infer<typeof querySchema> & {
   excluded: string[];
   tagFilters: Array<{ dimension: string; slug: string }>;
+  // Set by the server, never from the query: only questions translated into
+  // this content language.
+  translatedInto?: string;
 };
 
 function commaSeparated(value: string | null) {
@@ -68,6 +71,7 @@ export function questionWhere(filters: QuestionFilters): Prisma.QuestionWhereInp
     ...(filters.difficulty ? { difficulty: filters.difficulty } : {}),
     ...(filters.type ? { type: filters.type } : {}),
     ...(filters.autoGradable !== undefined ? { isAutoGradable: filters.autoGradable } : {}),
+    ...(filters.translatedInto ? { translations: { some: { locale: filters.translatedInto } } } : {}),
     ...(tagsByDimension.size ? {
       AND: [...tagsByDimension].map(([dimension, slugs]) => ({
         tags: { some: { tag: { slug: { in: slugs }, dimension: { key: dimension, isFilterable: true } } } },

@@ -1,7 +1,7 @@
 "use client";
 
 import { CircleAlert, Flame, LoaderCircle, RotateCcw, Sparkles, WandSparkles } from "lucide-react";
-import { useT } from "@/i18n/client";
+import { useI18n } from "@/i18n/client";
 import type { Translator } from "@/i18n/messages";
 import type { RecommendationReason } from "@/lib/contracts/practice";
 import { useLearner } from "../learner-provider";
@@ -27,7 +27,7 @@ export function PracticePlayer() {
   const { state, dispatch, filters, isAuthenticated, practiceMode, actions } = usePracticeSession();
   const catalog = usePracticeCatalog(filters);
   const { stats } = useLearner();
-  const t = useT();
+  const { locale, t } = useI18n();
   usePracticeShortcuts(state, dispatch, actions, isAuthenticated);
   const busy = state.phase === "loading" || state.phase === "submitting";
   const mode = MODE_TITLES[practiceMode];
@@ -55,6 +55,8 @@ export function PracticePlayer() {
       <SessionProgress completed={state.completed} goal={state.goal} disabled={busy} onRestart={() => void actions.restartChallenge()} />
 
       {isAuthenticated && state.question?.recommendation ? <div className="mt-5 flex items-center gap-2 rounded-2xl border-2 border-violet/15 bg-[#f0edff] px-4 py-3 text-sm font-bold text-violet"><WandSparkles size={17} className="shrink-0" />{recommendationText(t, state.question.recommendation)}</div> : null}
+
+      {state.question && state.question.language !== locale ? <p role="note" className="mt-5 rounded-2xl border-2 border-sky/30 bg-[#eaf8ff] px-4 py-3 text-sm font-bold text-ink">{t("practice.untranslated")}</p> : null}
 
       {state.phase === "loading" ? <div role="status" aria-live="polite" className="mt-8 grid min-h-[460px] place-items-center rounded-[30px] border-2 border-ink/10 bg-white"><div className="text-center"><LoaderCircle className="mx-auto animate-spin text-violet" size={34} /><p className="mt-3 text-sm font-bold text-muted">{t("practice.loadingQuestion")}</p></div></div> : null}
       {state.phase === "failed" ? <div role="alert" className="mt-8 grid min-h-[420px] place-items-center rounded-[30px] border-2 border-ink/10 bg-white p-8 text-center"><div><CircleAlert className="mx-auto text-coral" size={42} /><h2 className="mt-4 text-xl font-black">{t("practice.noQuestionTitle")}</h2><p className="mt-2 text-sm font-semibold text-muted">{state.loadError}</p><button onClick={actions.retry} className="mt-5 inline-flex items-center gap-2 rounded-xl bg-ink px-5 py-3 text-sm font-black text-white"><RotateCcw size={16} /> {t("common.retry")}</button></div></div> : null}

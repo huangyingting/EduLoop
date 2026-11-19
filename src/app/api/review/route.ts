@@ -6,6 +6,7 @@ import { isSameOriginRequest } from "@/lib/auth-validation";
 import { reviewItemRequestSchema, savedQuestionRequestSchema } from "@/lib/contracts/practice";
 import { ensureActiveLearner, findActiveLearner } from "@/lib/family";
 import { dismissReviewItem, isPublishedQuestion, reviewLibrary, setSavedQuestion } from "@/lib/practice/review-library";
+import { contentLocale, localizeStems } from "@/lib/question-translations";
 
 export const dynamic = "force-dynamic";
 
@@ -23,7 +24,9 @@ async function getReview(request: NextRequest) {
   );
   if (limited) return limited;
   const learner = await findActiveLearner(request, user);
-  return NextResponse.json(await reviewLibrary(learner?.id ?? null));
+  const library = await reviewLibrary(learner?.id ?? null);
+  const locale = contentLocale(request);
+  return NextResponse.json({ ...library, reviews: await localizeStems(library.reviews, locale), saved: await localizeStems(library.saved, locale) });
 }
 
 async function postSavedQuestion(request: Request) {

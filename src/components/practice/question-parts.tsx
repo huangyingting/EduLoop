@@ -42,7 +42,7 @@ export function AnswerOptions({ question, selected, result, disabled, onToggle }
 }) {
   const t = useT();
   const hasOptionAssets = question.options.some((option) => option.asset);
-  return <div role="group" aria-label={question.type === QUESTION_TYPE.MULTIPLE_CHOICE ? t("practice.answer.multipleGroup") : t("practice.answer.group")} className={`mt-7 grid gap-3 ${hasOptionAssets ? "sm:grid-cols-2" : ""}`}>{question.options.map((option, optionIndex) => {
+  return <div role="group" lang={question.language} aria-label={question.type === QUESTION_TYPE.MULTIPLE_CHOICE ? t("practice.answer.multipleGroup") : t("practice.answer.group")} className={`mt-7 grid gap-3 ${hasOptionAssets ? "sm:grid-cols-2" : ""}`}>{question.options.map((option, optionIndex) => {
     const chosen = selected.includes(option.label);
     const expected = result?.correctLabels.includes(option.label);
     const wrong = result?.isCorrect === false && chosen && !expected;

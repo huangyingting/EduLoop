@@ -13,6 +13,7 @@ import {
   verifyEmailWithToken,
 } from "@/lib/email-verification";
 import { emailConfiguration } from "@/lib/email";
+import { requestLocale } from "@/i18n/config";
 
 export const runtime = "nodejs";
 
@@ -41,7 +42,7 @@ async function requestEmailVerification(request: Request) {
     const origin = verificationOrigin(request);
     await runAfterResponse(
       "email_verification_delivery",
-      () => deliverEmailVerification(email, origin),
+      () => deliverEmailVerification(email, origin, requestLocale(request)),
     );
   }
 

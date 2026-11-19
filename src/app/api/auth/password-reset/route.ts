@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { apiError, apiMessageError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api";
+import { requestLocale, type Locale } from "@/i18n/config";
 import { runAfterResponse } from "@/lib/after-response";
 import { normalizeEmail, isSameOriginRequest, passwordResetCompletionSchema, passwordResetRequestSchema } from "@/lib/auth-validation";
 import { emailConfiguration, sendPasswordChangedNotice } from "@/lib/email";
@@ -15,9 +16,9 @@ function resetOrigin(request: Request) {
   return configured ? new URL(configured).origin : new URL(request.url).origin;
 }
 
-async function notifyPasswordChange(email: string) {
+async function notifyPasswordChange(email: string, locale: Locale) {
   try {
-    await sendPasswordChangedNotice(email);
+    await sendPasswordChangedNotice(email, { locale });
   } catch (error) {
     console.error(JSON.stringify({
       level: "error",
@@ -43,7 +44,7 @@ async function requestPasswordReset(request: Request) {
 
   if (emailConfiguration()) {
     const origin = resetOrigin(request);
-    await runAfterResponse("password_reset_delivery", () => deliverPasswordReset(email, origin));
+    await runAfterResponse("password_reset_delivery", () => deliverPasswordReset(email, origin, requestLocale(request)));
   }
 
   return NextResponse.json({ accepted: true, message: acceptedMessage }, {
@@ -77,7 +78,7 @@ async function completePasswordReset(request: Request) {
     return apiMessageError("securityChangedReset", 409, "CONFLICT");
   }
   if (emailConfiguration()) {
-    await runAfterResponse("password_change_notice", () => notifyPasswordChange(outcome.email));
+    await runAfterResponse("password_change_notice", () => notifyPasswordChange(outcome.email, requestLocale(request)));
   }
   return NextResponse.json({
     changed: true,

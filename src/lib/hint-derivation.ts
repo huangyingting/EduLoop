@@ -80,3 +80,34 @@ export function deriveQuestionHints(input: {
   }
   return hints;
 }
+
+const ENGLISH_LEAK = /\b(?:answer|answers|therefore|thus|hence|so the|correct|choice|option)\b|\\boxed|\\textbf|\(\s*[A-E]\s*\)|\[Figure/iu;
+const ENGLISH_RESULT_CUE = /\b(?:so|thus|hence|therefore|gives|yields|which is|we get|equals|is equal to)\b|=|≈/iu;
+const ENGLISH_SOLUTION_LABEL = /^\s*(?:solution(?:\s*\d+)?|answer)\s*[:.]\s*/iu;
+
+// English contest solutions use their own result cues; the clipping and leak
+// rules otherwise match the Chinese FIRST_STEP hint.
+export function deriveEnglishContestHints(input: { solutions: string[]; answer: string }): DerivedHint[] {
+  const solution = input.solutions.find((value) => value?.trim()) ?? "";
+  if (!solution) return [];
+  const first = solution.replace(ENGLISH_SOLUTION_LABEL, "").split(/(?<=[.!?;])\s+|\n+/u).map((value) => value.trim()).find(Boolean) ?? "";
+  let kept = "";
+  for (const part of splitMath(first)) {
+    if (part.math) {
+      if (/[=≈]/u.test(part.text)) break;
+      kept += part.text;
+      continue;
+    }
+    const cue = part.text.search(ENGLISH_RESULT_CUE);
+    if (cue !== -1) {
+      kept += part.text.slice(0, cue);
+      break;
+    }
+    kept += part.text;
+  }
+  kept = kept.replace(/[,;:.\s]+$/u, "").replace(/\b(?:and|then|by|since)$/iu, "").trim();
+  const answer = input.answer.trim();
+  const revealsAnswer = answer.length > 1 && answer.length <= 20 && kept.includes(answer);
+  if (kept.replace(/\$[^$]*\$/gu, "x").replace(/\s+/gu, "").length < 12 || kept.length > 200 || ENGLISH_LEAK.test(kept) || revealsAnswer) return [];
+  return [{ kind: "FIRST_STEP", content: `Start here: ${kept}…` }];
+}

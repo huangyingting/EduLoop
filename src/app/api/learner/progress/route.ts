@@ -4,6 +4,7 @@ import { getSessionUser } from "@/lib/auth";
 import { timeZoneQuerySchema } from "@/lib/contracts/practice";
 import { findActiveLearner } from "@/lib/family";
 import { learnerProgress } from "@/lib/practice/progress";
+import { contentLocale, localizeStems } from "@/lib/question-translations";
 
 export const dynamic = "force-dynamic";
 
@@ -19,7 +20,8 @@ async function getLearnerProgress(request: NextRequest) {
   );
   if (limited) return limited;
   const learner = await findActiveLearner(request, user);
-  return NextResponse.json(await learnerProgress(learner, parsed.data.timeZone));
+  const progress = await learnerProgress(learner, parsed.data.timeZone);
+  return NextResponse.json({ ...progress, recentMistakes: await localizeStems(progress.recentMistakes, contentLocale(request)) });
 }
 
 export const GET = apiHandler("GET /api/learner/progress", getLearnerProgress);

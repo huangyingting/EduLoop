@@ -221,6 +221,7 @@ async function getAccountExport(request: NextRequest) {
       privacyAcceptedAt: true,
       privacyVersion: true,
       consentBasis: true,
+      locale: true,
       registrationExpiresAt: true,
       accounts: {
         where: { type: { in: ["oauth", "oidc"] } },
@@ -268,6 +269,7 @@ async function getAccountExport(request: NextRequest) {
     image: storedAccount.image,
     role: storedAccount.role,
     hasPassword: user.hasPassword,
+    emailLanguage: storedAccount.locale,
     currentConsent: {
       termsAcceptedAt: storedAccount.termsAcceptedAt,
       termsVersion: storedAccount.termsVersion,

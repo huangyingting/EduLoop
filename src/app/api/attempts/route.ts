@@ -18,6 +18,7 @@ import {
 } from "@/lib/practice/attempts";
 import { gradeResponse } from "@/lib/practice/grading";
 import { verifyQuestionTicket } from "@/lib/question-ticket";
+import { contentLocale, questionTranslation } from "@/lib/question-translations";
 
 const GUEST_DAILY_ATTEMPTS = 300;
 const DAY_MS = 24 * 60 * 60_000;
@@ -39,8 +40,12 @@ async function postAttempt(request: Request) {
   );
   if (limited) return limited;
 
-  const question = await findAttemptQuestion(input.questionId);
-  if (!question) return apiError("Question not found", 404, "NOT_FOUND");
+  const stored = await findAttemptQuestion(input.questionId);
+  if (!stored) return apiError("Question not found", 404, "NOT_FOUND");
+  // The explanation follows the language the question was shown in; grading
+  // always uses the stored answer key.
+  const translation = await questionTranslation(stored.id, contentLocale(request));
+  const question = translation?.explanation ? { ...stored, explanation: translation.explanation } : stored;
   const grading = gradeResponse(question, input.response);
   if (!grading.ok) {
     return apiError(

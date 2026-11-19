@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { apiError, apiMessageError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api";
+import { requestLocale, type Locale } from "@/i18n/config";
 import { runAfterResponse } from "@/lib/after-response";
 import { getSessionUser, verifyPassword } from "@/lib/auth";
 import {
@@ -69,7 +70,7 @@ async function requestEmailChange(request: Request) {
   const origin = emailChangeOrigin(request);
   await runAfterResponse(
     "email_change_delivery",
-    () => deliverEmailChangeVerification(issued, origin),
+    () => deliverEmailChangeVerification(issued, origin, requestLocale(request)),
   );
   return NextResponse.json({ accepted: true }, {
     status: 202,
@@ -77,9 +78,9 @@ async function requestEmailChange(request: Request) {
   });
 }
 
-async function notifyPreviousEmail(oldEmail: string, newEmail: string) {
+async function notifyPreviousEmail(oldEmail: string, newEmail: string, locale: Locale) {
   try {
-    await sendEmailChangedNotice(oldEmail, newEmail);
+    await sendEmailChangedNotice(oldEmail, newEmail, { locale });
   } catch (error) {
     console.error(JSON.stringify({
       level: "error",
@@ -117,7 +118,7 @@ async function confirmEmailChange(request: Request) {
   if (emailConfiguration()) {
     await runAfterResponse(
       "email_change_notice",
-      () => notifyPreviousEmail(outcome.oldEmail, outcome.newEmail),
+      () => notifyPreviousEmail(outcome.oldEmail, outcome.newEmail, requestLocale(request)),
     );
   }
   return NextResponse.json({ changed: true }, { headers: { "Cache-Control": "no-store" } });

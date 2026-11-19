@@ -53,6 +53,7 @@ export function submitAttempt(body: {
   clientAttemptId?: string;
   secondsSpent?: number;
   hintsUsed?: number;
+  ticket?: string;
 }) {
   return apiRequest<AttemptResult>("/api/attempts", { method: "POST", body });
 }

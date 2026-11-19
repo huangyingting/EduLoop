@@ -50,6 +50,7 @@ export function usePracticeActions({ questionId, stateRef, dispatch, isAuthentic
       const result = await practiceApi.submitAttempt({
         questionId: question.id,
         response: question.options.length ? current.selected : current.written.trim(),
+        ticket: question.ticket,
         ...(isAuthenticated ? {
           timeZone: getTimeZone(),
           sessionId: sessionId.current ?? undefined,

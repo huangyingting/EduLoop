@@ -393,7 +393,18 @@ function validatePackageFiles(packagePath, lockPath) {
   }
 }
 
+const grafanaDashboardSchema = z.object({
+  title: z.string().min(1),
+  uid: z.string().regex(/^[a-z0-9-]{3,40}$/),
+  panels: z.array(z.object({
+    title: z.string().min(1),
+    type: z.string().min(1),
+    targets: z.array(z.object({ expr: z.string().min(1) }).passthrough()).min(1),
+  }).passthrough()).min(1),
+}).passthrough();
+
 function validateConfigFiles() {
+  validate("docs/observability/grafana-dashboard.json", grafanaDashboardSchema, parsedFiles.get("docs/observability/grafana-dashboard.json"));
   validatePackageFiles("package.json", "package-lock.json");
   validatePackageFiles("ops/package.json", "ops/package-lock.json");
   validate("tsconfig.json", tsconfigSchema, parsedFiles.get("tsconfig.json"));
@@ -418,6 +429,7 @@ const tracked = await loadTrackedJson();
 const expectedSchemas = new Set([
   "data/catalog.json",
   "data/schema.json",
+  "docs/observability/grafana-dashboard.json",
   "ops/package-lock.json",
   "ops/package.json",
   "package-lock.json",

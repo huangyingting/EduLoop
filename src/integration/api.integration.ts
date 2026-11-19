@@ -27,6 +27,7 @@ import { POST as createSession } from "@/app/api/sessions/route";
 import { GET as getStudioReports, PATCH as updateStudioReport } from "@/app/api/studio/reports/route";
 import { GET as getStudioMetrics } from "@/app/api/studio/metrics/route";
 import { prisma } from "@/lib/prisma";
+import { issueQuestionTicket } from "@/lib/question-ticket";
 import { MAX_JSON_BODY_BYTES } from "@/lib/api";
 import { changeAccountPassword, deleteAccount, deleteLearningData, revokeAccountSessions } from "@/lib/account";
 import { AUTH_SECRET_VALUE, AUTH_SESSION_COOKIE, PASSWORD_HASH_COST, authenticatePasswordCredentials, getSessionUser, hashPassword, verifyPassword } from "@/lib/auth";
@@ -2992,12 +2993,27 @@ describe("learner API journey", () => {
     expect(question).not.toHaveProperty("explanation");
   });
 
+  it("refuses guest grading without a ticket for a served question", async () => {
+    for (const ticket of [undefined, "forged-ticket-value", issueQuestionTicket(writtenId)]) {
+      const response = await createAttempt(request("http://localhost/api/attempts", "POST", {
+        questionId: choiceId,
+        response: ["B"],
+        ...(ticket ? { ticket } : {}),
+      }));
+      expect(response.status).toBe(403);
+      const body = await response.json();
+      expect(body).toMatchObject({ code: "FORBIDDEN", details: { reason: "TICKET_REQUIRED" } });
+      expect(body).not.toHaveProperty("answer");
+    }
+  });
+
   it("grades a guest attempt without creating any learning record", async () => {
     const learnersBefore = await prisma.learnerProfile.count();
     const attemptsBefore = await prisma.practiceAttempt.count();
     const response = await createAttempt(request("http://localhost/api/attempts", "POST", {
       questionId: choiceId,
       response: ["B"],
+      ticket: issueQuestionTicket(choiceId),
     }));
 
     expect(response.status).toBe(200);

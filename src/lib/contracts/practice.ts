@@ -16,6 +16,9 @@ export const attemptRequestSchema = z.object({
   ]),
   secondsSpent: z.number().int().min(0).max(7200).optional(),
   hintsUsed: z.number().int().min(0).max(10).optional(),
+  // Signed proof that /api/questions/next served this question; required to
+  // grade as a guest.
+  ticket: z.string().min(10).max(200).optional(),
   sessionId: z.string().min(8).max(100).optional(),
   clientAttemptId: z.uuid().optional(),
   timeZone: timeZoneSchema.optional(),
@@ -101,6 +104,7 @@ export type QuestionPayload = {
   recommendationReason: string | null;
   // The signed-in learner's earlier attempts at this question.
   history: QuestionHistorySummary | null;
+  ticket: string;
 };
 
 export type QuestionHistorySummary = { attempts: number; correct: number; lastResult: boolean | null; lastAttemptAt: string };

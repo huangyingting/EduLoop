@@ -60,11 +60,12 @@ function healthyFetcher(overrides = {}) {
         type: "SINGLE_CHOICE",
         isAutoGradable: true,
         options: [{ label: "A", content: "2" }],
+        ticket: "smoke-ticket",
       });
     }
     if (url.pathname === "/api/attempts") {
       const submitted = JSON.parse(init.body);
-      assert.deepEqual(submitted, { questionId: "question-123", response: ["A"], secondsSpent: 0 });
+      assert.deepEqual(submitted, { questionId: "question-123", response: ["A"], secondsSpent: 0, ticket: "smoke-ticket" });
       assert.equal(init.headers.Origin, "https://learn.example");
       return overrides.attempt ?? json({
         attemptId: null,

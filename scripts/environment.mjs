@@ -200,5 +200,27 @@ export function validateEnvironment(environment) {
     }
   }
 
+  // Optional observability settings.
+  const metricsToken = environment.METRICS_TOKEN?.trim();
+  if (metricsToken && (metricsToken.length < 32 || /\s/.test(environment.METRICS_TOKEN))) {
+    errors.push("METRICS_TOKEN must be at least 32 characters without whitespace.");
+  }
+  const alertWebhook = environment.ALERT_WEBHOOK_URL?.trim();
+  if (alertWebhook) {
+    let url;
+    try {
+      url = new URL(alertWebhook);
+    } catch {
+      url = null;
+    }
+    if (url?.protocol !== "https:") errors.push("ALERT_WEBHOOK_URL must be an HTTPS URL.");
+  }
+  if (environment.SLOW_QUERY_MS !== undefined && environment.SLOW_QUERY_MS !== "") {
+    const threshold = Number(environment.SLOW_QUERY_MS);
+    if (!/^\d+$/.test(environment.SLOW_QUERY_MS) || threshold < 10 || threshold > 60_000) {
+      errors.push("SLOW_QUERY_MS must be an integer from 10 through 60000.");
+    }
+  }
+
   return { errors, warnings, provider: configuredProvider || detectedProvider };
 }

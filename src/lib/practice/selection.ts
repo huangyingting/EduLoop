@@ -3,6 +3,7 @@ import { QUESTION_TYPE_LABELS } from "@/lib/question-labels";
 import type { QuestionHistoryPayload, QuestionHistorySummary, QuestionPayload } from "@/lib/contracts/practice";
 import { ASSET_REVIEW_STATUS, REVIEW_ITEM_STATUS, TAG_DIMENSION } from "@/lib/domain-constants";
 import { prisma } from "@/lib/prisma";
+import { issueQuestionTicket } from "@/lib/question-ticket";
 import { questionWhere, type QuestionFilters } from "@/lib/question-filters";
 import { weakestTopic } from "@/lib/recommendation";
 import { MINIMUM_RATED_ATTEMPTS, targetDifficultyWindow } from "./ability";
@@ -266,6 +267,7 @@ export async function loadQuestionPayload(
     isSaved: saved,
     recommendationReason,
     history,
+    ticket: issueQuestionTicket(question.id),
   };
 }
 

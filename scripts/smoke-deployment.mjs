@@ -132,6 +132,7 @@ export async function runDeploymentSmoke(value, options = {}) {
   assertSmoke(typeof question.stem === "string" && question.stem.trim().length > 0, "question endpoint returned an empty stem.");
   assertSmoke(Array.isArray(question.options), "question endpoint returned an invalid options list.");
   assertNoPrivateQuestionKeys(question);
+  assertSmoke(typeof question.ticket === "string" && question.ticket.length > 0, "question endpoint returned no grading ticket.");
 
   let response;
   if (question.options.length) {
@@ -147,7 +148,7 @@ export async function runDeploymentSmoke(value, options = {}) {
       "Content-Type": "application/json",
       Origin: origin,
     },
-    body: JSON.stringify({ questionId: question.id, response, secondsSpent: 0 }),
+    body: JSON.stringify({ questionId: question.id, response, secondsSpent: 0, ticket: question.ticket }),
   });
   const attempt = await jsonResponse(attemptResponse, "guest grading endpoint");
   assertSmoke(attempt?.persisted === false, "guest grading unexpectedly persisted an attempt.");

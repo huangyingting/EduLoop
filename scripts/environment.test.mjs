@@ -261,3 +261,12 @@ test("rejects a malformed PostgreSQL database URL before startup", () => {
     "DATABASE_URL must be a valid PostgreSQL URL with a host and database name.",
   ]);
 });
+
+test("validates optional observability settings", () => {
+  const base = { DATABASE_URL: "file:./dev.db", EDULOOP_DATABASE_PROVIDER: "sqlite" };
+  assert.deepEqual(validateEnvironment({ ...base, METRICS_TOKEN: "m".repeat(40), ALERT_WEBHOOK_URL: "https://hooks.example/alert", SLOW_QUERY_MS: "250" }).errors, []);
+  const invalid = validateEnvironment({ ...base, METRICS_TOKEN: "short", ALERT_WEBHOOK_URL: "http://hooks.example", SLOW_QUERY_MS: "0" }).errors;
+  assert.ok(invalid.some((error) => error.startsWith("METRICS_TOKEN")));
+  assert.ok(invalid.some((error) => error.startsWith("ALERT_WEBHOOK_URL")));
+  assert.ok(invalid.some((error) => error.startsWith("SLOW_QUERY_MS")));
+});

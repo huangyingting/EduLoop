@@ -17,6 +17,10 @@ import {
   recordLearnerAttempt,
 } from "@/lib/practice/attempts";
 import { gradeResponse } from "@/lib/practice/grading";
+import { verifyQuestionTicket } from "@/lib/question-ticket";
+
+const GUEST_DAILY_ATTEMPTS = 300;
+const DAY_MS = 24 * 60 * 60_000;
 
 async function postAttempt(request: Request) {
   if (!isSameOriginRequest(request)) return apiError("Invalid request origin.", 403, "FORBIDDEN");
@@ -47,6 +51,13 @@ async function postAttempt(request: Request) {
   }
 
   if (!user) {
+    // Guests are graded only for questions actually served to them, and only
+    // so many per address per day, so the answer key cannot be harvested.
+    if (!verifyQuestionTicket(input.ticket, question.id)) {
+      return apiError("A question ticket from /api/questions/next is required.", 403, "FORBIDDEN", { reason: "TICKET_REQUIRED" });
+    }
+    const daily = await enforceRateLimit(request, "guest-attempts-daily", { addressLimit: GUEST_DAILY_ATTEMPTS }, DAY_MS);
+    if (daily) return daily;
     return NextResponse.json(guestAttemptResult(question, grading), { headers: { "Cache-Control": "no-store" } });
   }
 

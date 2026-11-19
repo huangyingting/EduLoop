@@ -35,6 +35,7 @@ function healthyFetcher(version = "release-123") {
         id: "question-123",
         stem: "Private capacity question",
         options: [{ label: "A", text: "Private choice" }],
+        ticket: "probe-ticket",
       });
     }
     const body = JSON.parse(String(init.body)) as Record<string, unknown>;
@@ -267,6 +268,7 @@ describe("deployed guest-practice capacity probe", () => {
         id: "question-123",
         stem: "Private capacity question",
         options: [{ label: "A", text: "Private choice" }],
+        ticket: "probe-ticket",
       }));
     });
     let questionBlocked = false;

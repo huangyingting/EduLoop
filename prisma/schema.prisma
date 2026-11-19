@@ -249,6 +249,7 @@ model User {
   privacyVersion          String?
   consentBasis            String?
   learner                 LearnerProfile?
+  managedLearners         LearnerProfile[]         @relation("GuardianLearners")
   accounts                Account[]
   sessions                Session[]
   emailVerificationTokens EmailVerificationToken[]
@@ -345,14 +346,16 @@ model PasswordResetToken {
 }
 
 model ConsentRecord {
-  id             String   @id @default(cuid())
-  userId         String
-  termsVersion   String
-  privacyVersion String
-  basis          String
-  method         String
-  acceptedAt     DateTime @default(now())
-  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id               String   @id @default(cuid())
+  userId           String
+  termsVersion     String
+  privacyVersion   String
+  basis            String
+  method           String
+  // Set when a guardian consents on behalf of a managed child profile.
+  subjectLearnerId String?
+  acceptedAt       DateTime @default(now())
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId, acceptedAt])
 }
@@ -393,7 +396,10 @@ model RateLimitBucket {
 
 model LearnerProfile {
   id                String               @id @default(cuid())
-  userId            String               @unique
+  // The account that owns this profile, or null for a guardian-managed child.
+  userId            String?              @unique
+  // Set for a child profile created and managed by a guardian account.
+  guardianUserId    String?
   displayName       String?
   xp                Int                  @default(0)
   level             Int                  @default(1)
@@ -421,10 +427,12 @@ model LearnerProfile {
   contestSessions   ContestSession[]
   knowledgeBand     GradeBand?           @relation("LearnerKnowledgeBand", fields: [knowledgeBandId], references: [id], onDelete: SetNull)
   knowledgeGrade    Grade?               @relation("LearnerKnowledgeGrade", fields: [knowledgeGradeId], references: [id], onDelete: SetNull)
-  user              User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User?                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  guardian          User?                @relation("GuardianLearners", fields: [guardianUserId], references: [id], onDelete: Cascade)
   createdAt         DateTime             @default(now())
   updatedAt         DateTime             @updatedAt
 
+  @@index([guardianUserId])
   @@index([knowledgeBandId])
   @@index([knowledgeGradeId])
 }

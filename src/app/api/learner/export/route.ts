@@ -23,6 +23,7 @@ function streamExport(
   accountSections: ExportSection[],
   learner: Record<string, unknown> | null,
   learnerSections: ExportSection[],
+  childLearners: Array<{ metadata: Record<string, unknown>; sections: ExportSection[] }>,
 ) {
   const encoder = new TextEncoder();
   let cancelled = false;
@@ -66,14 +67,17 @@ function streamExport(
         await writeSectionedObject(account, accountSections);
         if (cancelled) return;
         write(",\"learner\":");
-        if (!learner) {
-          write("null}");
-          controller.close();
-          return;
-        }
-        await writeSectionedObject(learner, learnerSections);
+        if (learner) await writeSectionedObject(learner, learnerSections);
+        else write("null");
         if (cancelled) return;
-        write("}");
+        // Child profiles this account manages, each with the same sections.
+        write(",\"childLearners\":[");
+        for (const [index, child] of childLearners.entries()) {
+          if (index) write(",");
+          await writeSectionedObject(child.metadata, child.sections);
+          if (cancelled) return;
+        }
+        write("]}");
         controller.close();
       } catch (error) {
         console.error(JSON.stringify({
@@ -88,6 +92,101 @@ function streamExport(
       cancelled = true;
     },
   });
+}
+
+const learnerProjection = {
+  displayName: true,
+  knowledgeBand: { select: { slug: true, name: true } },
+  knowledgeGrade: { select: { slug: true, name: true } },
+  xp: true,
+  level: true,
+  currentStreak: true,
+  bestStreak: true,
+  streakFreezes: true,
+  lastFreezeUsedOn: true,
+  lastActiveOn: true,
+  timeZone: true,
+  timeZoneUpdatedAt: true,
+  totalAttempts: true,
+  createdAt: true,
+  updatedAt: true,
+} as const;
+
+function learnerSections(learnerId: string): ExportSection[] {
+  return [
+    {
+      name: "sessions",
+      load: async (cursor) => (await prisma.practiceSession.findMany({
+        where: { learnerId }, orderBy: { id: "asc" }, take: EXPORT_PAGE_SIZE,
+        ...(cursor ? { cursor: { id: cursor }, skip: 1 } : {}),
+        select: {
+          id: true, status: true, filtersJson: true, questionGoal: true, completedCount: true,
+          correctCount: true, earnedXp: true, startedAt: true, completedAt: true,
+        },
+      })).map(({ id, ...value }) => ({ cursor: id, value })),
+    },
+    {
+      name: "attempts",
+      load: async (cursor) => (await prisma.practiceAttempt.findMany({
+        where: { learnerId }, orderBy: { id: "asc" }, take: EXPORT_PAGE_SIZE,
+        ...(cursor ? { cursor: { id: cursor }, skip: 1 } : {}),
+        select: {
+          id: true, response: true, isCorrect: true, isSelfAssessed: true, secondsSpent: true,
+          earnedXp: true, explanationViewedAt: true, createdAt: true,
+          question: { select: { sourceId: true, stem: true, subject: { select: { name: true } }, grade: { select: { name: true } } } },
+        },
+      })).map(({ id, ...value }) => ({ cursor: id, value })),
+    },
+    {
+      name: "activities",
+      load: async (cursor) => (await prisma.dailyActivity.findMany({
+        where: { learnerId }, orderBy: { id: "asc" }, take: EXPORT_PAGE_SIZE,
+        ...(cursor ? { cursor: { id: cursor }, skip: 1 } : {}),
+        select: { id: true, activityDate: true, attempts: true, correct: true, earnedXp: true },
+      })).map(({ id, ...value }) => ({ cursor: id, value })),
+    },
+    {
+      name: "badges",
+      load: async (cursor) => (await prisma.learnerBadge.findMany({
+        where: { learnerId }, orderBy: { badgeId: "asc" }, take: EXPORT_PAGE_SIZE,
+        ...(cursor ? { cursor: { learnerId_badgeId: { learnerId, badgeId: cursor } }, skip: 1 } : {}),
+        select: { badgeId: true, earnedAt: true, badge: { select: { slug: true, name: true, description: true } } },
+      })).map(({ badgeId, ...value }) => ({ cursor: badgeId, value })),
+    },
+    {
+      name: "savedQuestions",
+      load: async (cursor) => (await prisma.savedQuestion.findMany({
+        where: { learnerId }, orderBy: { questionId: "asc" }, take: EXPORT_PAGE_SIZE,
+        ...(cursor ? { cursor: { learnerId_questionId: { learnerId, questionId: cursor } }, skip: 1 } : {}),
+        select: { questionId: true, createdAt: true, question: { select: { sourceId: true, stem: true } } },
+      })).map(({ questionId, ...value }) => ({ cursor: questionId, value })),
+    },
+    {
+      name: "reviewItems",
+      load: async (cursor) => (await prisma.reviewItem.findMany({
+        where: { learnerId }, orderBy: { questionId: "asc" }, take: EXPORT_PAGE_SIZE,
+        ...(cursor ? { cursor: { learnerId_questionId: { learnerId, questionId: cursor } }, skip: 1 } : {}),
+        select: {
+          questionId: true, status: true, dueAt: true, intervalDays: true, repetitions: true,
+          consecutiveCorrect: true, lastResult: true, lastAttemptAt: true,
+          createdAt: true, updatedAt: true,
+          question: { select: { sourceId: true, stem: true } },
+        },
+      })).map(({ questionId, ...value }) => ({ cursor: questionId, value })),
+    },
+    {
+      name: "reports",
+      load: async (cursor) => (await prisma.questionReport.findMany({
+        where: { learnerId }, orderBy: { id: "asc" }, take: EXPORT_PAGE_SIZE,
+        ...(cursor ? { cursor: { id: cursor }, skip: 1 } : {}),
+        select: {
+          id: true, category: true, detail: true, status: true, createdAt: true, updatedAt: true,
+          resolvedAt: true, reporterErasedAt: true,
+          question: { select: { sourceId: true } },
+        },
+      })).map(({ id, ...value }) => ({ cursor: id, value })),
+    },
+  ];
 }
 
 async function getAccountExport(request: NextRequest) {
@@ -223,103 +322,20 @@ async function getAccountExport(request: NextRequest) {
   });
   const learner = identity ? await prisma.learnerProfile.findUnique({
     where: { id: identity.id },
-    select: {
-      displayName: true,
-      knowledgeBand: { select: { slug: true, name: true } },
-      knowledgeGrade: { select: { slug: true, name: true } },
-      xp: true,
-      level: true,
-      currentStreak: true,
-      bestStreak: true,
-      streakFreezes: true,
-      lastFreezeUsedOn: true,
-      lastActiveOn: true,
-      timeZone: true,
-      timeZoneUpdatedAt: true,
-      totalAttempts: true,
-      createdAt: true,
-      updatedAt: true,
-    },
+    select: learnerProjection,
   }) : null;
 
   const exportedAt = new Date();
   const learnerId = identity?.id;
-  const sections: ExportSection[] = learnerId ? [
-    {
-      name: "sessions",
-      load: async (cursor) => (await prisma.practiceSession.findMany({
-        where: { learnerId }, orderBy: { id: "asc" }, take: EXPORT_PAGE_SIZE,
-        ...(cursor ? { cursor: { id: cursor }, skip: 1 } : {}),
-        select: {
-          id: true, status: true, filtersJson: true, questionGoal: true, completedCount: true,
-          correctCount: true, earnedXp: true, startedAt: true, completedAt: true,
-        },
-      })).map(({ id, ...value }) => ({ cursor: id, value })),
-    },
-    {
-      name: "attempts",
-      load: async (cursor) => (await prisma.practiceAttempt.findMany({
-        where: { learnerId }, orderBy: { id: "asc" }, take: EXPORT_PAGE_SIZE,
-        ...(cursor ? { cursor: { id: cursor }, skip: 1 } : {}),
-        select: {
-          id: true, response: true, isCorrect: true, isSelfAssessed: true, secondsSpent: true,
-          earnedXp: true, explanationViewedAt: true, createdAt: true,
-          question: { select: { sourceId: true, stem: true, subject: { select: { name: true } }, grade: { select: { name: true } } } },
-        },
-      })).map(({ id, ...value }) => ({ cursor: id, value })),
-    },
-    {
-      name: "activities",
-      load: async (cursor) => (await prisma.dailyActivity.findMany({
-        where: { learnerId }, orderBy: { id: "asc" }, take: EXPORT_PAGE_SIZE,
-        ...(cursor ? { cursor: { id: cursor }, skip: 1 } : {}),
-        select: { id: true, activityDate: true, attempts: true, correct: true, earnedXp: true },
-      })).map(({ id, ...value }) => ({ cursor: id, value })),
-    },
-    {
-      name: "badges",
-      load: async (cursor) => (await prisma.learnerBadge.findMany({
-        where: { learnerId }, orderBy: { badgeId: "asc" }, take: EXPORT_PAGE_SIZE,
-        ...(cursor ? { cursor: { learnerId_badgeId: { learnerId, badgeId: cursor } }, skip: 1 } : {}),
-        select: { badgeId: true, earnedAt: true, badge: { select: { slug: true, name: true, description: true } } },
-      })).map(({ badgeId, ...value }) => ({ cursor: badgeId, value })),
-    },
-    {
-      name: "savedQuestions",
-      load: async (cursor) => (await prisma.savedQuestion.findMany({
-        where: { learnerId }, orderBy: { questionId: "asc" }, take: EXPORT_PAGE_SIZE,
-        ...(cursor ? { cursor: { learnerId_questionId: { learnerId, questionId: cursor } }, skip: 1 } : {}),
-        select: { questionId: true, createdAt: true, question: { select: { sourceId: true, stem: true } } },
-      })).map(({ questionId, ...value }) => ({ cursor: questionId, value })),
-    },
-    {
-      name: "reviewItems",
-      load: async (cursor) => (await prisma.reviewItem.findMany({
-        where: { learnerId }, orderBy: { questionId: "asc" }, take: EXPORT_PAGE_SIZE,
-        ...(cursor ? { cursor: { learnerId_questionId: { learnerId, questionId: cursor } }, skip: 1 } : {}),
-        select: {
-          questionId: true, status: true, dueAt: true, intervalDays: true, repetitions: true,
-          consecutiveCorrect: true, lastResult: true, lastAttemptAt: true,
-          createdAt: true, updatedAt: true,
-          question: { select: { sourceId: true, stem: true } },
-        },
-      })).map(({ questionId, ...value }) => ({ cursor: questionId, value })),
-    },
-    {
-      name: "reports",
-      load: async (cursor) => (await prisma.questionReport.findMany({
-        where: { learnerId }, orderBy: { id: "asc" }, take: EXPORT_PAGE_SIZE,
-        ...(cursor ? { cursor: { id: cursor }, skip: 1 } : {}),
-        select: {
-          id: true, category: true, detail: true, status: true, createdAt: true, updatedAt: true,
-          resolvedAt: true, reporterErasedAt: true,
-          question: { select: { sourceId: true } },
-        },
-      })).map(({ id, ...value }) => ({ cursor: id, value })),
-    },
-  ] : [];
+  const sections: ExportSection[] = learnerId ? learnerSections(learnerId) : [];
+  const children = await prisma.learnerProfile.findMany({
+    where: { guardianUserId: user.id },
+    orderBy: { createdAt: "asc" },
+    select: { id: true, ...learnerProjection },
+  });
+  const childLearners = children.map(({ id, ...metadata }) => ({ metadata, sections: learnerSections(id) }));
   const filename = `eduloop-account-data-${exportedAt.toISOString().slice(0, 10)}.json`;
-  return new NextResponse(streamExport(exportedAt, account, accountSections, learner, sections), {
+  return new NextResponse(streamExport(exportedAt, account, accountSections, learner, sections, childLearners), {
     headers: {
       "Content-Type": "application/json; charset=utf-8",
       "Content-Disposition": `attachment; filename="${filename}"`,

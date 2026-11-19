@@ -4,7 +4,7 @@ import { apiError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api"
 import { getSessionUser } from "@/lib/auth";
 import { isSameOriginRequest } from "@/lib/auth-validation";
 import { reviewItemRequestSchema, savedQuestionRequestSchema } from "@/lib/contracts/practice";
-import { ensureLearnerForUser, findLearnerForUser } from "@/lib/learner-identity";
+import { ensureActiveLearner, findActiveLearner } from "@/lib/family";
 import { dismissReviewItem, isPublishedQuestion, reviewLibrary, setSavedQuestion } from "@/lib/practice/review-library";
 
 export const dynamic = "force-dynamic";
@@ -22,7 +22,7 @@ async function getReview(request: NextRequest) {
     { identity: user.id, identityLimit: 60 },
   );
   if (limited) return limited;
-  const learner = await findLearnerForUser(user);
+  const learner = await findActiveLearner(request, user);
   return NextResponse.json(await reviewLibrary(learner?.id ?? null));
 }
 
@@ -41,7 +41,7 @@ async function postSavedQuestion(request: Request) {
   );
   if (limited) return limited;
   if (!await isPublishedQuestion(parsed.data.questionId)) return apiError("Question not found", 404, "NOT_FOUND");
-  const learner = await ensureLearnerForUser(user.id, user.displayName);
+  const learner = await ensureActiveLearner(request, user);
   await setSavedQuestion(learner.id, parsed.data.questionId, parsed.data.saved);
   return NextResponse.json({ saved: parsed.data.saved });
 }
@@ -60,7 +60,7 @@ async function patchReviewItem(request: Request) {
     { identity: user.id, identityLimit: 30 },
   );
   if (limited) return limited;
-  const learner = await findLearnerForUser(user);
+  const learner = await findActiveLearner(request, user);
   if (!learner || !await dismissReviewItem(learner.id, parsed.data.questionId)) {
     return apiError("Review item not found", 404, "NOT_FOUND");
   }

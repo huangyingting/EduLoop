@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { apiError, apiHandler, enforceRateLimit } from "@/lib/api";
 import { getSessionUser } from "@/lib/auth";
-import { findLearnerForUser } from "@/lib/learner-identity";
+import { findActiveLearner } from "@/lib/family";
 import { browseQuestions } from "@/lib/practice/browse";
 import { parseQuestionFilters } from "@/lib/question-filters";
 
@@ -22,7 +22,7 @@ async function getBrowse(request: NextRequest) {
   if (!filters || !paging.success) return apiError("Invalid browse query", 400, "INVALID_REQUEST");
   const limited = await enforceRateLimit(request, "question-browse", { identity: user.id, identityLimit: 60 });
   if (limited) return limited;
-  const learner = await findLearnerForUser(user);
+  const learner = await findActiveLearner(request, user);
   return NextResponse.json(await browseQuestions(filters, learner?.id ?? "", paging.data.page, paging.data.paper));
 }
 

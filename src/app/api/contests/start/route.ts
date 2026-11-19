@@ -3,7 +3,7 @@ import { apiError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api"
 import { getSessionUser } from "@/lib/auth";
 import { isSameOriginRequest } from "@/lib/auth-validation";
 import { startContestRequestSchema } from "@/lib/contracts/contests";
-import { ensureLearnerForUser } from "@/lib/learner-identity";
+import { ensureActiveLearner } from "@/lib/family";
 import { startContest } from "@/lib/practice/contests";
 
 async function postStartContest(request: Request) {
@@ -16,7 +16,7 @@ async function postStartContest(request: Request) {
   if (!parsed.success) return apiError("Invalid contest", 400, "INVALID_REQUEST");
   const limited = await enforceRateLimit(request, "contest-start", { identity: user.id, identityLimit: 10 });
   if (limited) return limited;
-  const learner = await ensureLearnerForUser(user.id, user.displayName);
+  const learner = await ensureActiveLearner(request, user);
   const outcome = await startContest(learner.id, parsed.data.paperKey);
   if (outcome.status === "UNAVAILABLE") return apiError("Contest paper not available", 404, "NOT_FOUND");
   if (outcome.status === "OTHER_ACTIVE") {

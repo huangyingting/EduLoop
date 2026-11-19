@@ -68,6 +68,7 @@ export async function dispatchReminders(options: { now?: Date; send?: Sender; or
           select: {
             id: true, email: true, termsAcceptedAt: true, termsVersion: true, privacyAcceptedAt: true, privacyVersion: true, consentBasis: true,
             learner: { select: { id: true, timeZone: true, currentStreak: true, lastActiveOn: true, streakFreezes: true } },
+            managedLearners: { select: { id: true, timeZone: true } },
           },
         },
       },
@@ -78,9 +79,12 @@ export async function dispatchReminders(options: { now?: Date; send?: Sender; or
     for (const preference of preferences) {
       const { user } = preference;
       const learner = user.learner;
-      if (!learner || !hasCurrentLegalConsent(user)) continue;
+      const children = user.managedLearners;
+      if ((!learner && !children.length) || !hasCurrentLegalConsent(user)) continue;
       summary.considered += 1;
-      const timeZone = effectiveTimeZone(learner.timeZone);
+      // The digest covers the account holder and every child profile it manages.
+      const learnerIds = [...(learner ? [learner.id] : []), ...children.map(({ id }) => id)];
+      const timeZone = effectiveTimeZone(learner?.timeZone ?? children[0]?.timeZone);
       const today = calendarDay(now, timeZone);
       const enabled: NotificationType[] = [
         ...(preference.dueReviewDigest ? ["DUE_REVIEW_DIGEST" as const] : []),
@@ -91,10 +95,11 @@ export async function dispatchReminders(options: { now?: Date; send?: Sender; or
         const links = unsubscribeLinks(origin, user.id, type, now);
         let email: ReminderEmail;
         if (type === "DUE_REVIEW_DIGEST") {
-          const dueCount = await dueReviewCount([learner.id], now);
+          const dueCount = await dueReviewCount(learnerIds, now);
           if (!dueCount) continue;
           email = dueReviewDigestEmail({ dueCount, reviewUrl: `${origin}/review`, unsubscribeUrl: links.page });
         } else {
+          if (!learner) continue;
           const activity = await weeklyActivity(learner.id, today);
           email = weeklySummaryEmail({
             ...activity,

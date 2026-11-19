@@ -41,6 +41,10 @@ function staleRegistrationWhere(now: Date): Prisma.UserWhereInput {
     emailChangeTokens: { none: { expiresAt: { gt: now } } },
     passwordResetTokens: { none: { expiresAt: { gt: now } } },
     reviewActions: { none: {} },
+    // Child profiles are learning data the account manages.
+    managedLearners: { none: {} },
+    authoredRevisions: { none: {} },
+    reviewedRevisions: { none: {} },
     OR: [
       { learner: { is: null } },
       {

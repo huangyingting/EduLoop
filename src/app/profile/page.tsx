@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { GraduationCap, ShieldCheck, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { AccountControls } from "@/components/account-controls";
+import { FamilyManager } from "@/components/family-manager";
 import { LearnerProfileForm } from "@/components/learner-profile-form";
 import { NotificationPreferencesForm } from "@/components/notification-preferences-form";
 
@@ -16,6 +17,7 @@ export default function ProfilePage() {
     </header>
     <LearnerProfileForm />
     <NotificationPreferencesForm />
+    <FamilyManager />
     <AccountControls />
     <div className="mt-7 flex justify-center">
       <Link href="/privacy" className="inline-flex min-h-11 items-center gap-2 rounded-xl px-5 text-sm font-black text-violet hover:bg-white"><ShieldCheck size={17} /> 管理数据导出、学习记录与隐私设置</Link>

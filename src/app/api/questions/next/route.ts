@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { apiError, apiHandler, enforceRateLimit } from "@/lib/api";
-import { findLearnerForRequest } from "@/lib/learner-identity";
+import { getSessionUser } from "@/lib/auth";
+import { findActiveLearner } from "@/lib/family";
 import { selectNextQuestion } from "@/lib/practice/selection";
 import { parseQuestionFilters } from "@/lib/question-filters";
 
@@ -11,7 +12,8 @@ async function getNextQuestion(request: NextRequest) {
   if (!filters) return apiError("Invalid question filters", 400, "INVALID_REQUEST");
   const limited = await enforceRateLimit(request, "questions", { addressLimit: 120 });
   if (limited) return limited;
-  const learner = await findLearnerForRequest(request);
+  const user = await getSessionUser(request);
+  const learner = user ? await findActiveLearner(request, user) : null;
   const question = await selectNextQuestion(filters, learner?.id ?? null);
   if (!question) return apiError("No matching questions", 404, "NOT_FOUND");
   return NextResponse.json(question);

@@ -3,7 +3,7 @@ import { apiError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api"
 import { getSessionUser } from "@/lib/auth";
 import { isSameOriginRequest } from "@/lib/auth-validation";
 import { submitContestRequestSchema } from "@/lib/contracts/contests";
-import { findLearnerForUser } from "@/lib/learner-identity";
+import { findActiveLearner } from "@/lib/family";
 import { submitContest } from "@/lib/practice/contests";
 
 async function postSubmitContest(request: Request) {
@@ -16,7 +16,7 @@ async function postSubmitContest(request: Request) {
   if (!parsed.success) return apiError("Invalid contest submission", 400, "INVALID_REQUEST");
   const limited = await enforceRateLimit(request, "contest-submit", { identity: user.id, identityLimit: 10 });
   if (limited) return limited;
-  const learner = await findLearnerForUser(user);
+  const learner = await findActiveLearner(request, user);
   if (!learner) return apiError("Contest session not found", 404, "NOT_FOUND");
   const outcome = await submitContest(learner.id, parsed.data.sessionId);
   if (outcome.status === "NOT_FOUND") return apiError("Contest session not found", 404, "NOT_FOUND");

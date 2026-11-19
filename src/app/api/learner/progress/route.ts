@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { apiError, apiHandler, enforceRateLimit } from "@/lib/api";
 import { getSessionUser } from "@/lib/auth";
 import { timeZoneQuerySchema } from "@/lib/contracts/practice";
-import { findLearnerForUser } from "@/lib/learner-identity";
+import { findActiveLearner } from "@/lib/family";
 import { learnerProgress } from "@/lib/practice/progress";
 
 export const dynamic = "force-dynamic";
@@ -18,7 +18,7 @@ async function getLearnerProgress(request: NextRequest) {
     { identity: user.id, identityLimit: 30 },
   );
   if (limited) return limited;
-  const learner = await findLearnerForUser(user);
+  const learner = await findActiveLearner(request, user);
   return NextResponse.json(await learnerProgress(learner, parsed.data.timeZone));
 }
 

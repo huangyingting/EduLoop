@@ -3,7 +3,7 @@ import { apiError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api"
 import { getSessionUser } from "@/lib/auth";
 import { isSameOriginRequest } from "@/lib/auth-validation";
 import { reportRequestSchema } from "@/lib/contracts/practice";
-import { ensureLearnerForUser } from "@/lib/learner-identity";
+import { ensureActiveLearner } from "@/lib/family";
 import { createQuestionReport, isPublishedQuestion } from "@/lib/practice/review-library";
 
 async function postReport(request: Request) {
@@ -22,7 +22,7 @@ async function postReport(request: Request) {
   );
   if (limited) return limited;
   if (!await isPublishedQuestion(parsed.data.questionId)) return apiError("Question not found", 404, "NOT_FOUND");
-  const learner = await ensureLearnerForUser(user.id, user.displayName);
+  const learner = await ensureActiveLearner(request, user);
   const report = await createQuestionReport(learner.id, parsed.data);
   return NextResponse.json(report, { status: 201 });
 }

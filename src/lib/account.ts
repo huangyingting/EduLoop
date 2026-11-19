@@ -107,7 +107,9 @@ export async function deleteLearningData(
       sessionVersion: expectedSessionVersion,
     });
     if (!claimed) return "CONFLICT";
-    const removed = await transaction.learnerProfile.deleteMany({ where: { userId } });
+    // Learning data covers the account's own profile and every child profile
+    // it manages.
+    const removed = await transaction.learnerProfile.deleteMany({ where: { OR: [{ userId }, { guardianUserId: userId }] } });
     return removed.count ? "DELETED" : "EMPTY";
   });
 }

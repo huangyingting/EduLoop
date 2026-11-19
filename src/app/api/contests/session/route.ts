@@ -4,7 +4,7 @@ import { apiError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api"
 import { getSessionUser } from "@/lib/auth";
 import { isSameOriginRequest } from "@/lib/auth-validation";
 import { saveContestAnswersRequestSchema } from "@/lib/contracts/contests";
-import { findLearnerForUser } from "@/lib/learner-identity";
+import { findActiveLearner } from "@/lib/family";
 import { activeContestView, contestResult, saveContestAnswers } from "@/lib/practice/contests";
 
 export const dynamic = "force-dynamic";
@@ -20,7 +20,7 @@ async function getContestSession(request: NextRequest) {
   if (!parsed.success) return apiError("Invalid contest session", 400, "INVALID_REQUEST");
   const limited = await enforceRateLimit(request, "contest-session", { identity: user.id, identityLimit: 60 });
   if (limited) return limited;
-  const learner = await findLearnerForUser(user);
+  const learner = await findActiveLearner(request, user);
   if (!learner) return apiError("Contest session not found", 404, "NOT_FOUND");
   const view = await activeContestView(learner.id, parsed.data.id) ?? await contestResult(learner.id, parsed.data.id);
   return view ? NextResponse.json(view) : apiError("Contest session not found", 404, "NOT_FOUND");
@@ -36,7 +36,7 @@ async function patchContestSession(request: Request) {
   if (!parsed.success) return apiError("Invalid contest answers", 400, "INVALID_REQUEST");
   const limited = await enforceRateLimit(request, "contest-answers", { identity: user.id, identityLimit: 120 });
   if (limited) return limited;
-  const learner = await findLearnerForUser(user);
+  const learner = await findActiveLearner(request, user);
   if (!learner) return apiError("Contest session not found", 404, "NOT_FOUND");
   const outcome = await saveContestAnswers(learner.id, parsed.data.sessionId, parsed.data.answers);
   if (outcome.status === "NOT_FOUND") return apiError("Contest session not found", 404, "NOT_FOUND");

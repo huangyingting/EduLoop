@@ -3,7 +3,7 @@ import { z } from "zod";
 import { apiError, apiHandler, enforceRateLimit } from "@/lib/api";
 import { getSessionUser } from "@/lib/auth";
 import { contestLevelSchema } from "@/lib/contracts/contests";
-import { findLearnerForUser } from "@/lib/learner-identity";
+import { findActiveLearner } from "@/lib/family";
 import { listContestPapers } from "@/lib/practice/contests";
 
 export const dynamic = "force-dynamic";
@@ -17,7 +17,7 @@ async function getContests(request: NextRequest) {
   if (!parsed.success) return apiError("Invalid contest query", 400, "INVALID_REQUEST");
   const limited = await enforceRateLimit(request, "contest-list", { identity: user.id, identityLimit: 60 });
   if (limited) return limited;
-  const learner = await findLearnerForUser(user);
+  const learner = await findActiveLearner(request, user);
   return NextResponse.json(await listContestPapers(learner?.id ?? null, parsed.data.level));
 }
 

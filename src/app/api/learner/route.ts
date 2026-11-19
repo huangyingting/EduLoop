@@ -6,7 +6,7 @@ import { getSessionUser } from "@/lib/auth";
 import { hasRecentAuthentication, isSameOriginRequest } from "@/lib/auth-validation";
 import { timeZoneQuerySchema } from "@/lib/contracts/practice";
 import { emailConfiguration, sendLearningDataDeletedNotice } from "@/lib/email";
-import { findLearnerForUser } from "@/lib/learner-identity";
+import { findActiveLearner } from "@/lib/family";
 import { errorLogMetadata } from "@/lib/logging";
 import { learnerSnapshot } from "@/lib/practice/progress";
 
@@ -36,7 +36,7 @@ async function getLearner(request: NextRequest) {
     { identity: user.id, identityLimit: 120 },
   );
   if (limited) return limited;
-  const learner = await findLearnerForUser(user);
+  const learner = await findActiveLearner(request, user);
   return NextResponse.json(await learnerSnapshot(learner, parsed.data.timeZone));
 }
 

@@ -4,7 +4,9 @@ import { PATCH as assessAttempt, POST as createAttempt } from "@/app/api/attempt
 import { GET as getLearner } from "@/app/api/learner/route";
 import { GET as getProgress } from "@/app/api/learner/progress/route";
 import { GET as getSummary } from "@/app/api/learner/summary/route";
+import { GET as browseQuestions } from "@/app/api/questions/browse/route";
 import { GET as getHint } from "@/app/api/questions/hint/route";
+import { GET as getHistory } from "@/app/api/questions/history/route";
 import { GET as nextQuestion } from "@/app/api/questions/next/route";
 import { GET as getReview } from "@/app/api/review/route";
 import { prisma } from "@/lib/prisma";
@@ -20,6 +22,7 @@ import {
 
 const prefix = "practice-flow";
 const learnerUserId = `${prefix}-learner`;
+const unseenUserId = `${prefix}-unseen`;
 const profilelessUserId = `${prefix}-profileless`;
 const questionIds = Array.from({ length: 12 }, (_, index) => `${prefix}-question-${String(index + 1).padStart(2, "0")}`);
 const writtenQuestionId = `${prefix}-written`;
@@ -55,6 +58,7 @@ beforeAll(async () => {
     tags: { create: { tagId: topic.id } },
   } });
   await createConsentingUser(learnerUserId);
+  await createConsentingUser(unseenUserId);
   await createConsentingUser(profilelessUserId, false);
   createdBadgeIds = [];
   for (const badge of [
@@ -68,7 +72,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await prisma.user.deleteMany({ where: { id: { in: [learnerUserId, profilelessUserId] } } });
+  await prisma.user.deleteMany({ where: { id: { in: [learnerUserId, profilelessUserId, unseenUserId] } } });
   await catalog.cleanup();
   await prisma.badge.deleteMany({ where: { id: { in: createdBadgeIds } } });
   await prisma.rateLimitBucket.deleteMany();
@@ -167,6 +171,60 @@ describe("practice hot paths", () => {
     }, cookie));
     expect(await result.json()).toMatchObject({ isCorrect: true, earnedXp: 11 });
     expect(await prisma.practiceAttempt.findFirstOrThrow({ where: { questionId: hinted } })).toMatchObject({ hintsUsed: 2 });
+  });
+
+  it("serves every unseen question before repeating one", async () => {
+    const cookie = await authCookie(unseenUserId);
+    const pool = await prisma.question.findMany({ where: { subjectId: catalog.subjectId, status: "PUBLISHED" }, select: { id: true } });
+    const served = new Set<string>();
+    for (let index = 0; index < pool.length; index += 1) {
+      const response = await nextQuestion(getRequest(`http://localhost/api/questions/next?subject=${prefix}-subject`, cookie));
+      const question = await response.json() as { id: string; options: unknown[] };
+      expect(served.has(question.id)).toBe(false);
+      served.add(question.id);
+      await createAttempt(jsonRequest("http://localhost/api/attempts", "POST", {
+        questionId: question.id,
+        response: question.options.length ? ["B"] : "思路",
+        clientAttemptId: crypto.randomUUID(),
+      }, cookie));
+    }
+    expect(served.size).toBe(pool.length);
+  });
+
+  it("targets adaptive questions near the learner's rated ability", async () => {
+    const learner = await prisma.learnerProfile.findUniqueOrThrow({ where: { userId: learnerUserId } });
+    const easyId = `${prefix}-rated-easy`;
+    const hardId = `${prefix}-rated-hard`;
+    // Adaptive mode first narrows to the learner's weakest topic, so the rated
+    // candidates share that topic.
+    const topic = await prisma.tag.findFirstOrThrow({ where: { slug: topicTagSlug } });
+    await createChoiceQuestion(catalog, easyId, { randomKey: 0.001, tagIds: [topic.id] });
+    await createChoiceQuestion(catalog, hardId, { randomKey: 0.002, tagIds: [topic.id] });
+    await prisma.question.update({ where: { id: easyId }, data: { difficultyScore: 0.1 } });
+    await prisma.question.update({ where: { id: hardId }, data: { difficultyScore: 4 } });
+    await prisma.learnerSubjectStat.update({
+      where: { learnerId_subjectId: { learnerId: learner.id, subjectId: catalog.subjectId } },
+      data: { rating: 3.6 },
+    });
+    await prisma.reviewItem.deleteMany({ where: { learnerId: learner.id } });
+    const cookie = await authCookie(learnerUserId);
+    const response = await nextQuestion(getRequest(`http://localhost/api/questions/next?mode=adaptive&subject=${prefix}-subject`, cookie));
+    const question = await response.json() as { id: string; recommendationReason: string };
+    expect(question.id).toBe(hardId);
+    expect(question.recommendationReason).toContain("难度贴近你目前的水平");
+  });
+
+  it("shows a learner their own history for a question and an answer-free browse list", async () => {
+    const cookie = await authCookie(learnerUserId);
+    const payload = await (await nextQuestion(getRequest(`http://localhost/api/questions/next?questionId=${questionIds[0]}`, cookie))).json();
+    expect(payload.history).toMatchObject({ attempts: 1, correct: 1, lastResult: true });
+    const history = await (await getHistory(getRequest(`http://localhost/api/questions/history?questionId=${questionIds[0]}`, cookie))).json();
+    expect(history.attempts).toEqual([expect.objectContaining({ isCorrect: true, response: ["B"], hintsUsed: 0 })]);
+
+    const browse = await (await browseQuestions(getRequest(`http://localhost/api/questions/browse?subject=${prefix}-subject&page=1`, cookie))).json();
+    expect(browse.total).toBeGreaterThanOrEqual(13);
+    expect(browse.items.find((item: { id: string }) => item.id === questionIds[0])).toMatchObject({ attempts: 1, lastResult: true });
+    expect(JSON.stringify(browse)).not.toMatch(/correctAnswer|explanation/);
   });
 
   it("does not create a learner profile when a signed-in account only reads", async () => {

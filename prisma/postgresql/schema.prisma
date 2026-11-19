@@ -44,48 +44,49 @@ model Grade {
 }
 
 model Question {
-  id                     String            @id
-  sourceId               String            @unique
+  id                     String             @id
+  sourceId               String             @unique
   sourceFile             String
   sourceType             String
   type                   String
   difficulty             String
-  sourceDifficulty       String            @default("MEDIUM")
-  difficultyScore        Float             @default(0)
-  difficultyConfidence   Float             @default(0)
-  difficultyReason       String            @default("Pending difficulty audit")
-  difficultyAuditVersion Int               @default(1)
+  sourceDifficulty       String             @default("MEDIUM")
+  difficultyScore        Float              @default(0)
+  difficultyConfidence   Float              @default(0)
+  difficultyReason       String             @default("Pending difficulty audit")
+  difficultyAuditVersion Int                @default(1)
   stem                   String
   answer                 String
   correctAnswer          String?
   explanation            String?
   quality                String?
-  importStatus           String            @default("PUBLISHED")
-  status                 String            @default("PUBLISHED")
+  importStatus           String             @default("PUBLISHED")
+  status                 String             @default("PUBLISHED")
   quarantinedAt          DateTime?
   retiredAt              DateTime?
   supersededById         String?
   contentHash            String?
-  randomKey              Float             @default(0)
-  isAutoGradable         Boolean           @default(false)
-  onlineTest             Boolean           @default(false)
-  optionSplit            Boolean           @default(false)
+  randomKey              Float              @default(0)
+  isAutoGradable         Boolean            @default(false)
+  onlineTest             Boolean            @default(false)
+  optionSplit            Boolean            @default(false)
   subjectId              String
   gradeBandId            String
   gradeId                String
-  subject                Subject           @relation(fields: [subjectId], references: [id])
-  gradeBand              GradeBand         @relation(fields: [gradeBandId], references: [id])
-  grade                  Grade             @relation(fields: [gradeId], references: [id])
+  subject                Subject            @relation(fields: [subjectId], references: [id])
+  gradeBand              GradeBand          @relation(fields: [gradeBandId], references: [id])
+  grade                  Grade              @relation(fields: [gradeId], references: [id])
   options                QuestionOption[]
   assets                 QuestionAsset[]
   hints                  QuestionHint[]
+  contestSlots           ContestPaperSlot[]
   tags                   QuestionTag[]
   attempts               PracticeAttempt[]
   savedBy                SavedQuestion[]
   reviewItems            ReviewItem[]
   reports                QuestionReport[]
-  createdAt              DateTime          @default(now())
-  updatedAt              DateTime          @updatedAt
+  createdAt              DateTime           @default(now())
+  updatedAt              DateTime           @updatedAt
 
   @@index([subjectId, gradeBandId, difficulty])
   @@index([gradeId, type, status])
@@ -348,6 +349,7 @@ model LearnerProfile {
   reports           QuestionReport[]
   subjectStats      LearnerSubjectStat[]
   topicStats        LearnerTopicStat[]
+  contestSessions   ContestSession[]
   knowledgeBand     GradeBand?           @relation("LearnerKnowledgeBand", fields: [knowledgeBandId], references: [id], onDelete: SetNull)
   knowledgeGrade    Grade?               @relation("LearnerKnowledgeGrade", fields: [knowledgeGradeId], references: [id], onDelete: SetNull)
   user              User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -365,6 +367,8 @@ model LearnerSubjectStat {
   subjectId     String
   attempts      Int            @default(0)
   correct       Int            @default(0)
+  // Elo-style ability estimate on the question difficultyScore scale.
+  rating        Float          @default(1)
   lastAttemptAt DateTime
   learner       LearnerProfile @relation(fields: [learnerId], references: [id], onDelete: Cascade)
   subject       Subject        @relation(fields: [subjectId], references: [id], onDelete: Cascade)
@@ -418,8 +422,10 @@ model PracticeAttempt {
   hintsUsed           Int              @default(0)
   earnedXp            Int              @default(0)
   explanationViewedAt DateTime?
+  contestSessionId    String?
   learner             LearnerProfile   @relation(fields: [learnerId], references: [id], onDelete: Cascade)
   session             PracticeSession? @relation(fields: [sessionId], references: [id], onDelete: SetNull)
+  contestSession      ContestSession?  @relation(fields: [contestSessionId], references: [id], onDelete: SetNull)
   question            Question         @relation(fields: [questionId], references: [id])
   createdAt           DateTime         @default(now())
 
@@ -427,6 +433,57 @@ model PracticeAttempt {
   @@index([questionId, isCorrect])
   @@index([sessionId])
   @@index([createdAt, isCorrect, explanationViewedAt])
+  @@index([learnerId, questionId])
+  @@index([contestSessionId])
+}
+
+// AMC papers rebuilt from source provenance. A shared AMC 10/12 problem has a
+// slot in each paper it appeared in.
+model ContestPaper {
+  key             String             @id
+  year            Int
+  contest         String
+  level           String
+  questionCount   Int
+  durationMinutes Int
+  slots           ContestPaperSlot[]
+  sessions        ContestSession[]
+
+  @@index([level, year])
+}
+
+model ContestPaperSlot {
+  paperKey      String
+  problemNumber Int
+  questionId    String
+  paper         ContestPaper @relation(fields: [paperKey], references: [key], onDelete: Cascade)
+  question      Question     @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@id([paperKey, problemNumber])
+  @@index([questionId])
+}
+
+// A timed attempt at one paper. activeKey holds the learner ID while the
+// session is open, so the database allows one open contest per learner.
+model ContestSession {
+  id           String            @id @default(cuid())
+  learnerId    String
+  paperKey     String
+  activeKey    String?           @unique
+  status       String            @default("ACTIVE")
+  answersJson  String            @default("{}")
+  startedAt    DateTime          @default(now())
+  deadlineAt   DateTime
+  submittedAt  DateTime?
+  score        Float?
+  correctCount Int?
+  blankCount   Int?
+  wrongCount   Int?
+  learner      LearnerProfile    @relation(fields: [learnerId], references: [id], onDelete: Cascade)
+  paper        ContestPaper      @relation(fields: [paperKey], references: [key], onDelete: Cascade)
+  attempts     PracticeAttempt[]
+
+  @@index([learnerId, paperKey, submittedAt])
 }
 
 model Badge {

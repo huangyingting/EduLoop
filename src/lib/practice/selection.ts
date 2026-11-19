@@ -1,10 +1,11 @@
 import type { Prisma } from "@prisma/client";
 import { QUESTION_TYPE_LABELS } from "@/lib/question-labels";
-import type { QuestionPayload } from "@/lib/contracts/practice";
+import type { QuestionHistoryPayload, QuestionHistorySummary, QuestionPayload } from "@/lib/contracts/practice";
 import { ASSET_REVIEW_STATUS, REVIEW_ITEM_STATUS, TAG_DIMENSION } from "@/lib/domain-constants";
 import { prisma } from "@/lib/prisma";
 import { questionWhere, type QuestionFilters } from "@/lib/question-filters";
 import { weakestTopic } from "@/lib/recommendation";
+import { MINIMUM_RATED_ATTEMPTS, targetDifficultyWindow } from "./ability";
 import { approvedHintWhere } from "./question-hints";
 
 const DUE_REVIEW_CANDIDATES = 12;
@@ -17,7 +18,23 @@ type Recommendation = {
   where: Prisma.QuestionWhereInput;
   preferredQuestionId: string | null;
   reason: string | null;
+  subjectSlug?: string | null;
 };
+
+type DifficultyWindow = { min: number; max: number };
+
+// The learner's ability for the scope being practiced, as a difficulty window.
+// Null until there is enough graded evidence for the rating to mean anything.
+async function abilityWindow(learnerId: string, subjectSlug: string | null | undefined): Promise<DifficultyWindow | null> {
+  const stats = await prisma.learnerSubjectStat.findMany({
+    where: { learnerId, ...(subjectSlug ? { subject: { slug: subjectSlug } } : {}) },
+    select: { rating: true, attempts: true },
+  });
+  const attempts = stats.reduce((total, stat) => total + stat.attempts, 0);
+  if (attempts < MINIMUM_RATED_ATTEMPTS) return null;
+  const rating = stats.reduce((total, stat) => total + stat.rating * stat.attempts, 0) / attempts;
+  return targetDifficultyWindow(rating);
+}
 
 async function recommend(filters: QuestionFilters, learnerId: string | null): Promise<Recommendation> {
   const { excluded, mode, tagFilters } = filters;
@@ -78,6 +95,7 @@ async function recommend(filters: QuestionFilters, learnerId: string | null): Pr
         where: { ...where, tags: { some: { tag: { slug: topic.slug, dimension: { key: TAG_DIMENSION.TOPIC } } } } },
         preferredQuestionId: null,
         reason: `结合最近正确率和答题用时，重点巩固${topic.label}`,
+        subjectSlug: filters.subject,
       };
     }
   }
@@ -105,10 +123,11 @@ async function recommend(filters: QuestionFilters, learnerId: string | null): Pr
         where: { ...where, subject: { slug: weakest[0] } },
         preferredQuestionId: null,
         reason: `根据最近表现，继续巩固${weakest[1].name}`,
+        subjectSlug: weakest[0],
       };
     }
   }
-  return { where, preferredQuestionId: null, reason: null };
+  return { where, preferredQuestionId: null, reason: null, subjectSlug: filters.subject };
 }
 
 // Pick a uniformly placed random key and take the first matching question at
@@ -129,18 +148,75 @@ async function randomQuestionId(where: Prisma.QuestionWhereInput, random = Math.
   return wrapped?.id ?? null;
 }
 
-async function pickQuestionId(recommendation: Recommendation, excluded: string[]) {
+async function pickQuestionId(
+  recommendation: Recommendation,
+  excluded: string[],
+  learnerId: string | null,
+  difficultyWindow: DifficultyWindow | null,
+) {
   const { where, preferredQuestionId } = recommendation;
   if (preferredQuestionId) {
     const preferred = await prisma.question.findFirst({ where: { AND: [where, { id: preferredQuestionId }] }, select: { id: true } });
-    return preferred?.id ?? null;
+    return { id: preferred?.id ?? null, targeted: false };
+  }
+  // AND keeps a targeted questionId filter from being replaced by exclusions.
+  const notExcluded: Prisma.QuestionWhereInput = excluded.length ? { id: { notIn: excluded } } : {};
+  // Signed-in learners see questions they have never attempted first, then
+  // questions still in active review, and only then repeats.
+  const tiers: Prisma.QuestionWhereInput[] = learnerId ? [
+    { attempts: { none: { learnerId } } },
+    { reviewItems: { some: { learnerId, status: REVIEW_ITEM_STATUS.ACTIVE } } },
+  ] : [];
+  const windows: Array<Prisma.QuestionWhereInput | null> = difficultyWindow
+    ? [{ difficultyScore: { gte: difficultyWindow.min, lte: difficultyWindow.max } }, null]
+    : [null];
+  for (const window of windows) {
+    for (const tier of tiers) {
+      const id = await randomQuestionId({ AND: [where, tier, notExcluded, window ?? {}] });
+      if (id) return { id, targeted: window !== null };
+    }
   }
   if (excluded.length) {
-    // AND keeps a targeted questionId filter from being replaced by exclusions.
-    const fresh = await randomQuestionId({ AND: [where, { id: { notIn: excluded } }] });
-    if (fresh) return fresh;
+    const fresh = await randomQuestionId({ AND: [where, notExcluded] });
+    if (fresh) return { id: fresh, targeted: false };
   }
-  return randomQuestionId(where);
+  return { id: await randomQuestionId(where), targeted: false };
+}
+
+const HISTORY_LIMIT = 50;
+
+export async function questionHistorySummary(learnerId: string, questionId: string): Promise<QuestionHistorySummary | null> {
+  const attempts = await prisma.practiceAttempt.findMany({
+    where: { learnerId, questionId },
+    orderBy: { createdAt: "desc" },
+    take: HISTORY_LIMIT,
+    select: { isCorrect: true, createdAt: true },
+  });
+  if (!attempts.length) return null;
+  return {
+    attempts: attempts.length,
+    correct: attempts.filter(({ isCorrect }) => isCorrect).length,
+    lastResult: attempts[0].isCorrect,
+    lastAttemptAt: attempts[0].createdAt.toISOString(),
+  };
+}
+
+export async function questionHistory(learnerId: string, questionId: string): Promise<QuestionHistoryPayload> {
+  const attempts = await prisma.practiceAttempt.findMany({
+    where: { learnerId, questionId },
+    orderBy: { createdAt: "desc" },
+    take: HISTORY_LIMIT,
+    select: { createdAt: true, isCorrect: true, response: true, secondsSpent: true, hintsUsed: true },
+  });
+  return {
+    attempts: attempts.map((attempt) => ({
+      createdAt: attempt.createdAt.toISOString(),
+      isCorrect: attempt.isCorrect,
+      response: JSON.parse(attempt.response) as string | string[],
+      secondsSpent: attempt.secondsSpent,
+      hintsUsed: attempt.hintsUsed,
+    })),
+  };
 }
 
 export async function loadQuestionPayload(
@@ -162,10 +238,14 @@ export async function loadQuestionPayload(
   if (!question) return null;
   const assetsByRole = new Map(question.assets.map((asset) => [asset.role, asset]));
   const stemAsset = assetsByRole.get("STEM");
-  const saved = learnerId ? Boolean(await prisma.savedQuestion.findUnique({
-    where: { learnerId_questionId: { learnerId, questionId: question.id } },
-    select: { questionId: true },
-  })) : false;
+  const [savedRow, history] = learnerId ? await Promise.all([
+    prisma.savedQuestion.findUnique({
+      where: { learnerId_questionId: { learnerId, questionId: question.id } },
+      select: { questionId: true },
+    }),
+    questionHistorySummary(learnerId, question.id),
+  ]) : [null, null];
+  const saved = Boolean(savedRow);
   return {
     id: question.id,
     stem: question.stem,
@@ -185,12 +265,21 @@ export async function loadQuestionPayload(
     tags: question.tags.map(({ tag }) => ({ dimension: tag.dimension.key, slug: tag.slug, label: tag.label })),
     isSaved: saved,
     recommendationReason,
+    history,
   };
 }
 
 export async function selectNextQuestion(filters: QuestionFilters, learnerId: string | null) {
   const recommendation = await recommend(filters, learnerId);
-  const questionId = await pickQuestionId(recommendation, filters.excluded);
-  if (!questionId) return null;
-  return loadQuestionPayload(questionId, learnerId, recommendation.reason);
+  // Difficulty targeting applies in adaptive mode unless the learner chose a
+  // difficulty explicitly.
+  const window = learnerId && filters.mode === "adaptive" && !filters.difficulty && !recommendation.preferredQuestionId
+    ? await abilityWindow(learnerId, recommendation.subjectSlug)
+    : null;
+  const picked = await pickQuestionId(recommendation, filters.excluded, learnerId, window);
+  if (!picked.id) return null;
+  const reason = picked.targeted
+    ? `${recommendation.reason ?? "智能练习"}，难度贴近你目前的水平`
+    : recommendation.reason;
+  return loadQuestionPayload(picked.id, learnerId, reason);
 }

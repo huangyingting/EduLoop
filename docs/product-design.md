@@ -75,6 +75,13 @@ Start with learning-loop health rather than time-on-site: practice starts, quest
 
 The protected studio shows these as 28-day aggregates. Seven-day return means a learner active 8–14 days ago also practiced in the latest seven-day window. Repeat-topic change compares the first and latest graded result for each learner/topic pair; it is a directional product signal, not a mastery claim. Explanation viewing records one timestamp only after an incorrect attempt and is included in account export and learning-data deletion.
 
+## Selection, contests, and browsing
+
+- **Unseen first.** A signed-in learner gets questions they have never attempted within the active filters. When those run out, they get questions still in active review, and only then repeats. Guests keep the in-session exclusion list.
+- **Difficulty targeting.** Each graded result updates a per-subject Elo-style rating on the `difficultyScore` scale (`src/lib/practice/ability.ts`). After five graded attempts in scope, adaptive mode prefers questions from about 0.75 below to 1.0 above the rating, unless the learner chose a difficulty.
+- **Contest mode** (`/contest`). All 143 AMC 8/10/12 papers (including AJHSME, the 2002 practice papers, and the 2021 Fall sitting) are rebuilt from source provenance. A learner takes one timed paper at a time (40 minutes for AMC 8, 75 for AMC 10/12). Answers autosave, and nothing is graded until submission or the deadline. Scoring follows AMC rules: 6 per correct answer and 1.5 per blank for AMC 10/12, 1 per correct answer for AMC 8. The report breaks results down by topic. Each answered problem is recorded as a normal attempt, so XP, streaks, statistics, and mistake review all apply; resubmitting never double-counts.
+- **History and browsing.** Question cards show the learner's own earlier attempts ("做过 N 次 · 上次答对"), with the full list one click away after answering. `/browse` lists questions by filter or by contest paper without answers, and links each one into practice.
+
 ## Current adaptive behavior
 
 Adaptive mode first selects due review items that match the active filters. If none are due, it uses a topic with at least three recent graded attempts inside those filters, combining accuracy with a bounded response-time signal. It then falls back to the learner's lowest-accuracy recently practiced subject, or a filtered random question when evidence is sparse. The reason is shown in plain language. Topic “mastery” remains a recent-performance signal until curriculum tags are teacher-reviewed.

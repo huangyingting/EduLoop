@@ -1,7 +1,8 @@
 import type { Prisma } from "@prisma/client";
 import { TAG_DIMENSION } from "@/lib/domain-constants";
+import { INITIAL_RATING, nextRating } from "./ability";
 
-export type GradedQuestionScope = { subjectId: string; topicTagIds: string[] };
+export type GradedQuestionScope = { subjectId: string; topicTagIds: string[]; difficultyScore: number };
 
 export const topicTagSelect = {
   where: { tag: { dimension: { key: TAG_DIMENSION.TOPIC } } },
@@ -14,9 +15,11 @@ export async function gradedQuestionScope(
 ): Promise<GradedQuestionScope | null> {
   const question = await transaction.question.findUnique({
     where: { id: questionId },
-    select: { subjectId: true, tags: topicTagSelect },
+    select: { subjectId: true, difficultyScore: true, tags: topicTagSelect },
   });
-  return question ? { subjectId: question.subjectId, topicTagIds: question.tags.map(({ tagId }) => tagId) } : null;
+  return question
+    ? { subjectId: question.subjectId, difficultyScore: question.difficultyScore, topicTagIds: question.tags.map(({ tagId }) => tagId) }
+    : null;
 }
 
 // Record one graded result (automatic grading or a completed self-assessment)
@@ -27,10 +30,16 @@ export async function recordGradedResult(
   input: { learnerId: string; scope: GradedQuestionScope; isCorrect: boolean; at: Date },
 ) {
   const correct = input.isCorrect ? 1 : 0;
+  const key = { learnerId: input.learnerId, subjectId: input.scope.subjectId };
+  const current = await transaction.learnerSubjectStat.findUnique({
+    where: { learnerId_subjectId: key },
+    select: { attempts: true, rating: true },
+  });
+  const rating = nextRating(current?.rating ?? INITIAL_RATING, input.scope.difficultyScore, input.isCorrect, current?.attempts ?? 0);
   await transaction.learnerSubjectStat.upsert({
-    where: { learnerId_subjectId: { learnerId: input.learnerId, subjectId: input.scope.subjectId } },
-    create: { learnerId: input.learnerId, subjectId: input.scope.subjectId, attempts: 1, correct, lastAttemptAt: input.at },
-    update: { attempts: { increment: 1 }, correct: { increment: correct }, lastAttemptAt: input.at },
+    where: { learnerId_subjectId: key },
+    create: { ...key, attempts: 1, correct, rating, lastAttemptAt: input.at },
+    update: { attempts: { increment: 1 }, correct: { increment: correct }, rating, lastAttemptAt: input.at },
   });
   for (const tagId of input.scope.topicTagIds) {
     await transaction.learnerTopicStat.upsert({

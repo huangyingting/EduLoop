@@ -42,7 +42,7 @@ test("guest can filter, answer, self-assess, and advance without persistent cont
 
   // Questions with specific hints offer "查看提示"; others offer the generic strategy.
   await page.getByRole("button", { name: /^(查看提示|解题策略)$/ }).click();
-  await expect(page.getByText(/^(解题提示|解题策略)$/)).toBeVisible();
+  await expect(page.getByText(/解题提示|解题策略/).first()).toBeVisible();
   const options = page.locator("article button[aria-pressed]");
   await expect(options.first()).toBeVisible();
   await options.first().click();

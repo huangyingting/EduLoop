@@ -99,6 +99,14 @@ export type QuestionPayload = {
   tags: Array<{ dimension: string; slug: string; label: string }>;
   isSaved: boolean;
   recommendationReason: string | null;
+  // The signed-in learner's earlier attempts at this question.
+  history: QuestionHistorySummary | null;
+};
+
+export type QuestionHistorySummary = { attempts: number; correct: number; lastResult: boolean | null; lastAttemptAt: string };
+
+export type QuestionHistoryPayload = {
+  attempts: Array<{ createdAt: string; isCorrect: boolean | null; response: string | string[]; secondsSpent: number | null; hintsUsed: number }>;
 };
 
 export type SessionProgress = {
@@ -193,4 +201,21 @@ export type ReviewPayload = {
     isSaved: boolean;
   }>;
   saved: Array<ReviewQuestionCard & { savedAt: string; isInReview: boolean; reviewIsDue: boolean }>;
+};
+
+export type BrowsePayload = {
+  page: number;
+  pageSize: number;
+  total: number;
+  items: Array<{
+    id: string;
+    stem: string;
+    subject: { slug: string; name: string; color: string };
+    grade: string;
+    difficulty: string;
+    type: string;
+    problemNumber: number | null;
+    attempts: number;
+    lastResult: boolean | null;
+  }>;
 };

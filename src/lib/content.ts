@@ -7,6 +7,7 @@ import {
 } from "@/lib/content-curation";
 import { applyQuestionReplacement } from "@/lib/question-replacements";
 import { auditQuestionDifficulty, type Difficulty } from "@/lib/difficulty";
+import { parseContestSlots } from "@/lib/contest-papers";
 import { deriveQuestionHints } from "@/lib/hint-derivation";
 import { QUESTION_STATUS, type AssetReviewStatus } from "@/lib/domain-constants";
 
@@ -385,6 +386,7 @@ export function normalizeSourceQuestion(question: SourceQuestion, sourceFile: st
   return {
     ...normalized,
     hints,
+    paperSlots: isAmcSource ? parseContestSlots(question.sourcePaper ?? "") : [],
     difficulty: update?.difficulty ?? (isAmcSource ? sourceDifficulty : audit.difficulty),
     sourceDifficulty: audit.sourceDifficulty,
     difficultyScore: audit.score,

@@ -1,6 +1,6 @@
 "use client";
 
-import { BarChart3, BookmarkCheck, ClipboardCheck, Compass, Flame, Home, LogIn, LogOut, Menu, ShieldCheck, Sparkles, Target, X } from "lucide-react";
+import { BarChart3, BookmarkCheck, ClipboardCheck, Compass, Flame, Home, Library, LogIn, LogOut, Menu, ShieldCheck, Sparkles, Target, Trophy, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -15,6 +15,8 @@ const links = [
   { href: "/#subjects", label: "发现学科", icon: Compass },
   { href: "/progress", label: "我的成长", icon: BarChart3 },
   { href: "/review", label: "错题与收藏", icon: BookmarkCheck },
+  { href: "/contest", label: "竞赛模拟", icon: Trophy },
+  { href: "/browse", label: "题库浏览", icon: Library },
 ];
 const standaloneRoutes = new Set([
   "/login", "/register", "/forgot-password", "/reset-password", "/verify-email", "/change-email", "/consent", "/privacy-policy", "/terms",

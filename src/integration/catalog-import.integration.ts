@@ -153,6 +153,23 @@ describe("catalog import lifecycle", () => {
     expect(await prisma.questionHint.findMany({ where: { questionId }, select: { source: true } })).toEqual([{ source: "CURATED" }]);
   });
 
+  it("rebuilds contest papers and slots from provenance", async () => {
+    const [first, second] = questionIds;
+    const slot = (problemNumber: number) => ({ paperKey: "2098-amc-12b", year: 2098, contest: "AMC 12B", level: "AMC-12" as const, problemNumber });
+    await importCatalog(prisma, questionIds.map((id) => (
+      id === first ? { ...catalogQuestion(id, `${id}: 5 + 5 等于？`), paperSlots: [slot(1)] }
+        : id === second ? { ...catalogQuestion(id, `${id}: 6 + 6 等于？`), paperSlots: [slot(2)] }
+          : catalogQuestion(id)
+    )), scope);
+    expect(await prisma.contestPaper.findUniqueOrThrow({ where: { key: "2098-amc-12b" } }))
+      .toMatchObject({ level: "AMC-12", questionCount: 25, durationMinutes: 75 });
+    expect(await prisma.contestPaperSlot.findMany({ where: { paperKey: "2098-amc-12b" }, orderBy: { problemNumber: "asc" }, select: { questionId: true } }))
+      .toEqual([{ questionId: first }, { questionId: second }]);
+    await importCatalog(prisma, catalog(questionIds), scope);
+    expect(await prisma.contestPaperSlot.count({ where: { paperKey: "2098-amc-12b" } })).toBe(0);
+    await prisma.contestPaper.delete({ where: { key: "2098-amc-12b" } });
+  });
+
   it("rolls back every write when an import fails partway through", async () => {
     const broken = catalog(questionIds).map((question, index) => (
       index === 6 ? { ...question, stem: "changed before failure", gradeName: "不存在的年级" } : question

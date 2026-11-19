@@ -6,6 +6,7 @@ import { QUESTION_TYPE_LABELS, difficultyLabel } from "@/lib/question-labels";
 import { MathText } from "../math-text";
 import { canAdvance, canRequestHint, canSubmit, roundComplete, type PracticeAction, type PracticeState } from "./practice-machine";
 import { AnswerOptions, HintPanel, ReportForm, ResultPanel, WrittenAnswer } from "./question-parts";
+import { HistoryBadge, QuestionHistoryList } from "./question-history";
 import type { PracticeActions as Actions } from "./use-practice-session";
 
 export function QuestionCard({ state, dispatch, actions, isAuthenticated }: {
@@ -38,6 +39,7 @@ export function QuestionCard({ state, dispatch, actions, isAuthenticated }: {
           <span className="rounded-full px-3 py-1.5 text-xs font-black text-white" style={{ background: question.subject.color }}>{question.subject.name}</span>
           <span className="rounded-full bg-canvas px-3 py-1.5 text-xs font-bold text-muted">{question.grade}</span>
           {topicTags.map((tag) => <span key={tag.slug} className="rounded-full bg-[#efecff] px-3 py-1.5 text-xs font-bold text-violet">{tag.label}</span>)}
+          {question.history ? <HistoryBadge history={question.history} /> : null}
         </div>
         <div className="flex items-center gap-2">
           <span className="text-xs font-black text-muted">{QUESTION_TYPE_LABELS[question.type] ?? question.typeLabel} · {difficultyLabel(question.difficulty)}</span>
@@ -63,6 +65,7 @@ export function QuestionCard({ state, dispatch, actions, isAuthenticated }: {
           onExplanationOpened={() => void actions.recordExplanationView()}
           onAssess={(isCorrect) => void actions.selfAssess(isCorrect, Boolean(explanationDetails.current?.open))}
         /> : null}
+        {result && isAuthenticated ? <QuestionHistoryList key={question.id} questionId={question.id} /> : null}
         {state.actionError ? <p role="alert" className="mt-4 text-sm font-bold text-coral">{state.actionError}</p> : null}
         {isAuthenticated ? <ReportForm
           report={state.report}

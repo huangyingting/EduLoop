@@ -18,6 +18,7 @@ export type AttemptQuestion = {
   isAutoGradable: boolean;
   options: Array<{ label: string }>;
   subjectId: string;
+  difficultyScore: number;
   tags: Array<{ tagId: string }>;
 };
 
@@ -33,6 +34,7 @@ export async function findAttemptQuestion(questionId: string): Promise<AttemptQu
       isAutoGradable: true,
       options: { select: { label: true } },
       subjectId: true,
+      difficultyScore: true,
       tags: topicTagSelect,
     },
   });
@@ -122,6 +124,8 @@ export async function recordLearnerAttempt(params: {
   question: AttemptQuestion;
   grading: { isCorrect: boolean | null; correctLabels: string[] };
   input: AttemptRequest;
+  // Internal link for answers submitted as part of a timed contest paper.
+  contestSessionId?: string;
   now?: Date;
 }): Promise<RecordedAttempt> {
   const { learnerId, question, input } = params;
@@ -153,6 +157,7 @@ export async function recordLearnerAttempt(params: {
         clientAttemptId: input.clientAttemptId,
         learnerId,
         sessionId: session?.id,
+        contestSessionId: params.contestSessionId,
         questionId: question.id,
         response: JSON.stringify(input.response),
         isCorrect,
@@ -195,7 +200,7 @@ export async function recordLearnerAttempt(params: {
       if (isCorrect !== null) {
         await recordGradedResult(transaction, {
           learnerId,
-          scope: { subjectId: question.subjectId, topicTagIds: question.tags.map(({ tagId }) => tagId) },
+          scope: { subjectId: question.subjectId, difficultyScore: question.difficultyScore, topicTagIds: question.tags.map(({ tagId }) => tagId) },
           isCorrect,
           at: now,
         });

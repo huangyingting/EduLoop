@@ -1,5 +1,5 @@
 import { apiRequest } from "@/lib/api-client";
-import type { AttemptResult, CatalogPayload, HintPayload, QuestionPayload, SessionSnapshot } from "@/lib/contracts/practice";
+import type { AttemptResult, CatalogPayload, HintPayload, QuestionHistoryPayload, QuestionPayload, SessionSnapshot } from "@/lib/contracts/practice";
 import { DEFAULT_QUESTION_GOAL, type PracticeMode } from "@/lib/domain-constants";
 
 // Typed calls the practice player makes. Each function maps to one API route
@@ -63,6 +63,10 @@ export function submitSelfAssessment(attemptId: string, isCorrect: boolean, time
 
 export function recordExplanationViewed(attemptId: string) {
   return apiRequest("/api/attempts", { method: "PATCH", body: { event: "EXPLANATION_VIEWED", attemptId } });
+}
+
+export function fetchQuestionHistory(questionId: string) {
+  return apiRequest<QuestionHistoryPayload>("/api/questions/history", { query: { questionId } });
 }
 
 export function setQuestionSaved(questionId: string, saved: boolean) {

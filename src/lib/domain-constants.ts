@@ -71,6 +71,12 @@ export const PRACTICE_SESSION_STATUS = {
 } as const;
 export type PracticeSessionStatus = (typeof PRACTICE_SESSION_STATUS)[keyof typeof PRACTICE_SESSION_STATUS];
 
+export const CONTEST_SESSION_STATUS = {
+  ACTIVE: "ACTIVE",
+  SUBMITTING: "SUBMITTING",
+  SUBMITTED: "SUBMITTED",
+} as const;
+
 export const REPORT_STATUS = {
   OPEN: "OPEN",
   RESOLVED: "RESOLVED",

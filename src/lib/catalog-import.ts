@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
 import type { Prisma, PrismaClient } from "@prisma/client";
+import { CONTEST_RULES, type ContestSlot } from "@/lib/contest-papers";
 import type { NormalizedTag, normalizeSourceQuestion } from "@/lib/content";
 import { HINT_SOURCE, HINT_STATUS, QUESTION_STATUS, TAG_SOURCE } from "@/lib/domain-constants";
 
@@ -303,6 +304,7 @@ export async function importCatalog(
         assets,
         tags,
         hints,
+        paperSlots,
         status: importStatus,
         ...data
       } = question;
@@ -327,6 +329,7 @@ export async function importCatalog(
         assets: assets
           .filter((asset) => !curatedAssets.has(`${question.id}:${asset.role}`))
           .map((asset) => ({ ...asset, questionId: question.id })),
+        slots: paperSlots.map((slot) => ({ paperKey: slot.paperKey, problemNumber: slot.problemNumber, questionId: question.id })),
         hints: hints.map((hint) => ({
           questionId: question.id,
           position: hint.position,
@@ -336,6 +339,15 @@ export async function importCatalog(
         })),
       };
     };
+
+    // Papers come from every question's provenance; slots below reference them.
+    const papers = new Map<string, ContestSlot>();
+    for (const { question } of writes) for (const slot of question.paperSlots) papers.set(slot.paperKey, slot);
+    for (const paper of papers.values()) {
+      const rules = CONTEST_RULES[paper.level];
+      const data = { year: paper.year, contest: paper.contest, level: paper.level, questionCount: rules.questionCount, durationMinutes: rules.durationMinutes };
+      await transaction.contestPaper.upsert({ where: { key: paper.paperKey }, create: { key: paper.paperKey, ...data }, update: data });
+    }
 
     let written = 0;
     for (const batch of chunks(created, batchSize)) {
@@ -351,6 +363,8 @@ export async function importCatalog(
       if (assets.length) await transaction.questionAsset.createMany({ data: assets });
       const createdHints = prepared.flatMap((row) => row.hints);
       if (createdHints.length) await transaction.questionHint.createMany({ data: createdHints });
+      const createdSlots = prepared.flatMap((row) => row.slots);
+      if (createdSlots.length) await transaction.contestPaperSlot.createMany({ data: createdSlots });
       written += batch.length;
       options.onProgress?.(written, writes.length);
     }
@@ -378,6 +392,9 @@ export async function importCatalog(
       await transaction.questionHint.deleteMany({ where: { questionId: { in: ids }, source: HINT_SOURCE.DERIVED } });
       const changedHints = prepared.flatMap((row) => row.hints);
       if (changedHints.length) await transaction.questionHint.createMany({ data: changedHints });
+      await transaction.contestPaperSlot.deleteMany({ where: { questionId: { in: ids } } });
+      const changedSlots = prepared.flatMap((row) => row.slots);
+      if (changedSlots.length) await transaction.contestPaperSlot.createMany({ data: changedSlots });
 
       const idsByStatus = new Map<string, string[]>();
       for (const { question } of batch) {

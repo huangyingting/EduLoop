@@ -1,6 +1,6 @@
 // Sends a compact JSON alert for server errors to ALERT_WEBHOOK_URL (Slack,
 // Teams, or any JSON receiver). Alerts carry only the route template, release,
-// bounded error class, and request ID, never request data or messages, and
+// bounded error class, request ID, and trace ID, never request data or messages, and
 // are throttled per route so an incident cannot flood the channel.
 
 const ALERT_INTERVAL_MS = 5 * 60_000;
@@ -9,6 +9,7 @@ const lastAlertAt = new Map<string, number>();
 export type ServerErrorAlert = {
   route: string;
   requestId: string;
+  traceId?: string;
   status: number;
   errorType?: string;
   errorCode?: string;
@@ -35,7 +36,7 @@ export function shouldSendAlert(route: string, now = Date.now()) {
 export function alertPayload(alert: ServerErrorAlert, release: string) {
   const summary = `EduLoop ${alert.status} on ${alert.route} (release ${release})`;
   return {
-    text: `${summary}: ${alert.errorType ?? "Error"}${alert.errorCode ? ` ${alert.errorCode}` : ""}, request ${alert.requestId}`,
+    text: `${summary}: ${alert.errorType ?? "Error"}${alert.errorCode ? ` ${alert.errorCode}` : ""}, request ${alert.requestId}${alert.traceId ? `, trace ${alert.traceId}` : ""}`,
     event: "eduloop_server_error",
     release,
     ...alert,

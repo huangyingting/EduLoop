@@ -215,6 +215,19 @@ export function validateEnvironment(environment) {
     }
     if (url?.protocol !== "https:") errors.push("ALERT_WEBHOOK_URL must be an HTTPS URL.");
   }
+  // Collectors usually sit on the private container network, so plain HTTP is
+  // accepted; the URL must still be well formed.
+  for (const name of ["OTEL_EXPORTER_OTLP_ENDPOINT", "OTEL_EXPORTER_OTLP_TRACES_ENDPOINT"]) {
+    const value = environment[name]?.trim();
+    if (!value) continue;
+    let url;
+    try {
+      url = new URL(value);
+    } catch {
+      url = null;
+    }
+    if (!url || !["http:", "https:"].includes(url.protocol)) errors.push(`${name} must be an HTTP or HTTPS URL.`);
+  }
   if (environment.SLOW_QUERY_MS !== undefined && environment.SLOW_QUERY_MS !== "") {
     const threshold = Number(environment.SLOW_QUERY_MS);
     if (!/^\d+$/.test(environment.SLOW_QUERY_MS) || threshold < 10 || threshold > 60_000) {

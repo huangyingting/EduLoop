@@ -268,5 +268,7 @@ test("validates optional observability settings", () => {
   const invalid = validateEnvironment({ ...base, METRICS_TOKEN: "short", ALERT_WEBHOOK_URL: "http://hooks.example", SLOW_QUERY_MS: "0" }).errors;
   assert.ok(invalid.some((error) => error.startsWith("METRICS_TOKEN")));
   assert.ok(invalid.some((error) => error.startsWith("ALERT_WEBHOOK_URL")));
+  assert.deepEqual(validateEnvironment({ ...base, OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector:4318" }).errors, []);
+  assert.ok(validateEnvironment({ ...base, OTEL_EXPORTER_OTLP_ENDPOINT: "otel-collector:4318" }).errors.some((error) => error.startsWith("OTEL_EXPORTER_OTLP_ENDPOINT")));
   assert.ok(invalid.some((error) => error.startsWith("SLOW_QUERY_MS")));
 });

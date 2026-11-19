@@ -1,14 +1,15 @@
 # Observability
 
-EduLoop emits structured JSON logs (see [operations](./operations.md)). It also has three opt-in signals that need no third-party SDK.
+EduLoop emits structured JSON logs (see [operations](./operations.md)). It also has four opt-in signals.
 
 | Setting | Effect |
 | --- | --- |
 | `METRICS_TOKEN` (32+ characters) | Enables `GET /api/metrics`, a Prometheus endpoint that requires `Authorization: Bearer <token>`. Without the setting the route returns 404. |
 | `ALERT_WEBHOOK_URL` (HTTPS) | Posts a JSON alert to Slack, Teams, or any JSON receiver for every 5xx, at most once per route every 5 minutes. |
+| `OTEL_EXPORTER_OTLP_ENDPOINT` (HTTP or HTTPS) | Exports OpenTelemetry traces over OTLP: Next.js route and render spans, outgoing `fetch` calls, and one span per Prisma query. Standard `OTEL_*` variables (`OTEL_SERVICE_NAME`, `OTEL_EXPORTER_OTLP_HEADERS`, `OTEL_TRACES_SAMPLER`) apply; `OTEL_SDK_DISABLED=true` turns it off. |
 | `SLOW_QUERY_MS` (10–60000) | Logs `slow_database_query` events and counts `eduloop_slow_queries_total` for Prisma queries at or above the threshold. |
 
-`npm run env:check` validates all three.
+`npm run env:check` validates all four.
 
 ## Metrics
 
@@ -36,7 +37,7 @@ On the Webstack VM, scrape each container directly on the private Compose networ
 
 ## Alerts and privacy
 
-Webhook alerts and slow-query logs carry only the route template, release, bounded error class or code, request ID, duration, and the statement shape. Prisma statements use placeholders, and parameter values are never logged. Neither signal contains learner identity, request bodies, or exception messages.
+Webhook alerts and slow-query logs carry only the route template, release, bounded error class or code, request ID, trace ID, duration, and the statement shape. With tracing on, `api_request_completed`, `api_request_failed`, and `request_error` logs include `traceId`, so a log line or alert leads straight to its trace. Prisma statements use placeholders, and parameter values are never logged. Neither signal contains learner identity, request bodies, or exception messages.
 
 ## Database
 
@@ -49,6 +50,6 @@ SELECT calls, round(mean_exec_time::numeric, 1) AS mean_ms, query
 FROM pg_stat_statements ORDER BY mean_exec_time DESC LIMIT 20;
 ```
 
-## Not yet covered
+## Tracing
 
-Distributed tracing (OpenTelemetry spans across route and Prisma) is not wired up. Adding it requires choosing a collector or backend for the Webstack VM and adding the OpenTelemetry SDK to the reviewed dependency set. The metrics and alerts above cover the launch SLOs without it.
+Run an OpenTelemetry Collector (or Grafana Alloy) next to the app and point the app at it, for example `OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4318`. The collector forwards to Grafana Tempo, Azure Monitor, or any OTLP backend. Prisma spans carry the statement shape without parameter values. Sample in production to control volume, for example `OTEL_TRACES_SAMPLER=parentbased_traceidratio` with `OTEL_TRACES_SAMPLER_ARG=0.1`.

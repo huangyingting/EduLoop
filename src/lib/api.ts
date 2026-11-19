@@ -6,6 +6,7 @@ import { isDatabaseUnavailableError } from "./database-errors";
 import { errorLogMetadata } from "./logging";
 import { sendServerErrorAlert } from "./observability/alerts";
 import { recordRequestMetric } from "./observability/metrics";
+import { activeTraceId } from "./observability/tracing";
 import { applicationRelease } from "./release";
 
 const REQUEST_ID_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$/;
@@ -101,6 +102,7 @@ export function apiHandler<TRequest extends Request>(
 ) {
   return async (request: TRequest) => {
     const id = requestId(request);
+    const traceId = activeTraceId();
     const startedAt = performance.now();
     let response: Response;
     let failure: ReturnType<typeof errorLogMetadata> | null = null;
@@ -114,6 +116,7 @@ export function apiHandler<TRequest extends Request>(
         event: "api_request_failed",
         route,
         requestId: id,
+        traceId,
         method: request.method,
         ...errorLogMetadata(error),
       }));
@@ -129,6 +132,7 @@ export function apiHandler<TRequest extends Request>(
       void sendServerErrorAlert({
         route,
         requestId: id,
+        traceId,
         status: response.status,
         errorType: typeof failure?.errorType === "string" ? failure.errorType : undefined,
         errorCode: typeof failure?.errorCode === "string" ? failure.errorCode : undefined,
@@ -149,6 +153,7 @@ export function apiHandler<TRequest extends Request>(
         event: "api_request_completed",
         route,
         requestId: id,
+        traceId,
         method: request.method,
         status: response.status,
         durationMs: Number(durationMs.toFixed(1)),

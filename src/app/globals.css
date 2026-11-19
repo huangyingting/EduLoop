@@ -3,10 +3,10 @@
 @theme inline {
   --color-canvas: #f4f1e9;
   --color-ink: #242136;
-  --color-muted: #726d7d;
-  --color-violet: #6c5ce7;
+  --color-muted: #5e5969;
+  --color-violet: #5b4bd5;
   --color-lime: #d9f99d;
-  --color-coral: #f06d5f;
+  --color-coral: #b93a2b;
   --color-sky: #bce7ff;
   --color-peach: #ffd8b8;
   --font-sans: var(--font-ui);

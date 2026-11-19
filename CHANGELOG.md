@@ -34,6 +34,7 @@ Work from the production-readiness improvement plan (#49).
 
 - Re-seeding no longer deletes learner history: removed questions are retired, and replaced IDs move history to their successors (#32).
 - Temporary 503 responses keep the feature-specific error message (#36).
+- Text colors meet WCAG AA contrast on every surface, and the logo link's accessible name includes its visible text; Lighthouse accessibility and SEO score 100 on `/`, `/practice`, and `/login` (#40).
 
 ### Performance
 

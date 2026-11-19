@@ -124,7 +124,7 @@ export const en: Messages = {
     dataPrivacy: "Data & privacy",
     terms: "Terms",
     privacyPolicy: "Privacy",
-    logoLabel: "EduLoop home",
+    logoLabel: "home",
     streakDays: "{count}-day streak",
     streakFreezeTitle: "Protects your streak automatically when you miss a day",
     activeLearner: "Who is practicing",

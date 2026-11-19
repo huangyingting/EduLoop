@@ -126,7 +126,7 @@ export const zhCN = {
     dataPrivacy: "数据与隐私",
     terms: "服务条款",
     privacyPolicy: "隐私说明",
-    logoLabel: "EduLoop 首页",
+    logoLabel: "首页",
     streakDays: "{count} 天连续",
     streakFreezeTitle: "漏练一天时自动保护连续记录",
     activeLearner: "正在练习的学习者",

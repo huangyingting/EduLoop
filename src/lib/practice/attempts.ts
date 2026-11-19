@@ -5,6 +5,7 @@ import { PRACTICE_SESSION_STATUS, QUESTION_STATUS, REVIEW_ITEM_STATUS } from "@/
 import { prisma } from "@/lib/prisma";
 import { awardEarnedBadges } from "./badges";
 import { correctLabelsFor } from "./grading";
+import { gradedQuestionScope, recordGradedResult, topicTagSelect } from "./learner-stats";
 import { nextReviewState } from "./review-scheduler";
 import { attemptXp, levelForXp, nextStreakState } from "./rewards";
 
@@ -16,6 +17,8 @@ export type AttemptQuestion = {
   explanation: string | null;
   isAutoGradable: boolean;
   options: Array<{ label: string }>;
+  subjectId: string;
+  tags: Array<{ tagId: string }>;
 };
 
 export async function findAttemptQuestion(questionId: string): Promise<AttemptQuestion | null> {
@@ -29,6 +32,8 @@ export async function findAttemptQuestion(questionId: string): Promise<AttemptQu
       explanation: true,
       isAutoGradable: true,
       options: { select: { label: true } },
+      subjectId: true,
+      tags: topicTagSelect,
     },
   });
 }
@@ -179,6 +184,15 @@ export async function recordLearnerAttempt(params: {
         update: { attempts: { increment: 1 }, correct: { increment: isCorrect ? 1 : 0 }, earnedXp: { increment: earnedXp } },
       });
 
+      if (isCorrect !== null) {
+        await recordGradedResult(transaction, {
+          learnerId,
+          scope: { subjectId: question.subjectId, topicTagIds: question.tags.map(({ tagId }) => tagId) },
+          isCorrect,
+          at: now,
+        });
+      }
+
       const shouldUpdateReview = isCorrect === false || Boolean(
         isCorrect && existingReview?.status === REVIEW_ITEM_STATUS.ACTIVE && existingReview.dueAt <= now,
       );
@@ -302,6 +316,8 @@ export async function assessWrittenAttempt(learnerId: string, input: SelfAssessm
       data: { isCorrect: input.isCorrect },
     });
     if (!claimed.count) return { status: "ALREADY_ASSESSED" as const };
+    const scope = await gradedQuestionScope(transaction, attempt.questionId);
+    if (scope) await recordGradedResult(transaction, { learnerId, scope, isCorrect: input.isCorrect, at: now });
 
     const existingReview = await transaction.reviewItem.findUnique({
       where: { learnerId_questionId: { learnerId: attempt.learnerId, questionId: attempt.questionId } },

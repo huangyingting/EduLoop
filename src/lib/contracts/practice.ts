@@ -135,6 +135,15 @@ export type CatalogPayload = {
   topics: Array<{ slug: string; label: string }>;
 };
 
+export const activitySummaryQuerySchema = z.object({
+  timeZone: timeZoneSchema.optional(),
+  days: z.coerce.number().int().min(1).max(28).default(7),
+});
+
+export type LearnerActivitySummary = {
+  activity: Array<{ date: string; attempts: number; correct: number; earnedXp: number }>;
+};
+
 export type ProgressPayload = {
   summary: { totalAttempts: number; correctRate: number; xp: number; level: number; currentStreak: number; bestStreak: number };
   activity: Array<{ date: string; attempts: number; correct: number; earnedXp: number }>;

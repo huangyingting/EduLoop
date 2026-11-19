@@ -1,8 +1,9 @@
 import { NextRequest } from "next/server";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { POST as createAttempt } from "@/app/api/attempts/route";
+import { PATCH as assessAttempt, POST as createAttempt } from "@/app/api/attempts/route";
 import { GET as getLearner } from "@/app/api/learner/route";
 import { GET as getProgress } from "@/app/api/learner/progress/route";
+import { GET as getSummary } from "@/app/api/learner/summary/route";
 import { GET as nextQuestion } from "@/app/api/questions/next/route";
 import { GET as getReview } from "@/app/api/review/route";
 import { prisma } from "@/lib/prisma";
@@ -20,6 +21,8 @@ const prefix = "practice-flow";
 const learnerUserId = `${prefix}-learner`;
 const profilelessUserId = `${prefix}-profileless`;
 const questionIds = Array.from({ length: 12 }, (_, index) => `${prefix}-question-${String(index + 1).padStart(2, "0")}`);
+const writtenQuestionId = `${prefix}-written`;
+const topicTagSlug = `${prefix}-topic`;
 let catalog: CatalogFixture;
 let createdBadgeIds: string[] = [];
 
@@ -40,9 +43,16 @@ async function answer(cookie: string, questionId: string, response: string[]) {
 
 beforeAll(async () => {
   catalog = await createCatalogFixture(prefix);
+  const topic = await prisma.tag.create({ data: { slug: topicTagSlug, label: "练习主题", dimensionId: catalog.topicDimensionId } });
   for (const [index, id] of questionIds.entries()) {
-    await createChoiceQuestion(catalog, id, { randomKey: index / questionIds.length });
+    await createChoiceQuestion(catalog, id, { randomKey: index / questionIds.length, tagIds: index < 6 ? [topic.id] : [] });
   }
+  await prisma.question.create({ data: {
+    id: writtenQuestionId, sourceId: writtenQuestionId, sourceFile: "integration.json", sourceType: "解答题",
+    type: "WRITTEN_RESPONSE", difficulty: "MEDIUM", stem: "写出思路。", answer: "合理即可", status: "PUBLISHED",
+    isAutoGradable: false, randomKey: 0.99, subjectId: catalog.subjectId, gradeBandId: catalog.gradeBandId, gradeId: catalog.gradeId,
+    tags: { create: { tagId: topic.id } },
+  } });
   await createConsentingUser(learnerUserId);
   await createConsentingUser(profilelessUserId, false);
   createdBadgeIds = [];
@@ -82,6 +92,34 @@ describe("practice hot paths", () => {
     expect(repeated.newBadges).toEqual([]);
   });
 
+  it("reads progress from subject and topic aggregates, including completed self-assessments", async () => {
+    const cookie = await authCookie(learnerUserId);
+    const written = await createAttempt(jsonRequest("http://localhost/api/attempts", "POST", {
+      questionId: writtenQuestionId, response: "我的思路", clientAttemptId: crypto.randomUUID(),
+    }, cookie));
+    const { attemptId } = await written.json() as { attemptId: string };
+    const learner = await prisma.learnerProfile.findUniqueOrThrow({ where: { userId: learnerUserId } });
+    const subjectStat = () => prisma.learnerSubjectStat.findUniqueOrThrow({
+      where: { learnerId_subjectId: { learnerId: learner.id, subjectId: catalog.subjectId } },
+    });
+    expect(await subjectStat()).toMatchObject({ attempts: 12, correct: 11 });
+
+    const assessed = await assessAttempt(jsonRequest("http://localhost/api/attempts", "PATCH", { attemptId, isCorrect: false }, cookie));
+    expect(assessed.status).toBe(200);
+    expect(await subjectStat()).toMatchObject({ attempts: 13, correct: 11 });
+
+    const progress = await getProgress(getRequest("http://localhost/api/learner/progress", cookie));
+    const payload = await progress.json();
+    expect(payload.summary).toMatchObject({ totalAttempts: 13, correctRate: 85 });
+    expect(payload.subjects).toEqual([expect.objectContaining({ slug: `${prefix}-subject`, attempts: 13, correct: 11, accuracy: 85 })]);
+    expect(payload.weakTopics).toEqual([expect.objectContaining({ slug: topicTagSlug, attempts: 7, correct: 6, accuracy: 86 })]);
+
+    const summary = await getSummary(getRequest("http://localhost/api/learner/summary?days=7&timeZone=Asia%2FShanghai", cookie));
+    const activity = (await summary.json()).activity as Array<{ attempts: number }>;
+    expect(activity).toHaveLength(7);
+    expect(activity.at(-1)?.attempts).toBe(13);
+  });
+
   it("serves a targeted question even when the session excludes recent questions", async () => {
     const targeted = questionIds[3];
     const params = new URLSearchParams({
@@ -95,14 +133,14 @@ describe("practice hot paths", () => {
   });
 
   it("prefers questions outside the exclusion list and falls back when all are excluded", async () => {
-    const params = new URLSearchParams({ subject: `${prefix}-subject`, exclude: questionIds.slice(0, 11).join(",") });
+    const params = new URLSearchParams({ subject: `${prefix}-subject`, exclude: [...questionIds.slice(0, 11), writtenQuestionId].join(",") });
     const fresh = await nextQuestion(getRequest(`http://localhost/api/questions/next?${params}`));
     expect((await fresh.json()).id).toBe(questionIds[11]);
 
-    const allExcluded = new URLSearchParams({ subject: `${prefix}-subject`, exclude: questionIds.join(",") });
+    const allExcluded = new URLSearchParams({ subject: `${prefix}-subject`, exclude: [...questionIds, writtenQuestionId].join(",") });
     const fallback = await nextQuestion(getRequest(`http://localhost/api/questions/next?${allExcluded}`));
     expect(fallback.status).toBe(200);
-    expect(questionIds).toContain((await fallback.json()).id);
+    expect([...questionIds, writtenQuestionId]).toContain((await fallback.json()).id);
   });
 
   it("does not create a learner profile when a signed-in account only reads", async () => {

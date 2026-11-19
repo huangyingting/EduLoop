@@ -3,13 +3,14 @@ import Link from "next/link";
 import { HomeWeeklyProgress } from "@/components/home-weekly-progress";
 import { LearnerHeaderStats } from "@/components/learner-provider";
 import { SubjectCard } from "@/components/subject-card";
+import { cachedCatalogValue } from "@/lib/catalog-cache";
 import { prisma } from "@/lib/prisma";
 import { QUESTION_STATUS } from "@/lib/domain-constants";
 
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const [subjects, questionCount, gradeBandCount, sourceTypes] = await Promise.all([
+  const [subjects, questionCount, gradeBandCount, sourceTypes] = await cachedCatalogValue("home-stats", () => Promise.all([
     prisma.subject.findMany({
       where: { questions: { some: { status: QUESTION_STATUS.PUBLISHED } } },
       orderBy: [{ sortOrder: "asc" }, { name: "asc" }],
@@ -25,7 +26,7 @@ export default async function Home() {
     prisma.question.count({ where: { status: QUESTION_STATUS.PUBLISHED } }),
     prisma.gradeBand.count({ where: { questions: { some: { status: QUESTION_STATUS.PUBLISHED } } } }),
     prisma.question.groupBy({ by: ["sourceType"], where: { status: QUESTION_STATUS.PUBLISHED } }),
-  ]);
+  ]));
   const formatCount = (count: number) => count.toLocaleString("zh-CN");
 
   return (

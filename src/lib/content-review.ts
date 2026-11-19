@@ -2,6 +2,7 @@ import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { claimAuthenticatedSecurityState } from "@/lib/security-state";
 import { CONTENT_REVIEW_ACTION, QUESTION_STATUS, REPORT_STATUS, type ContentReviewActionName } from "@/lib/domain-constants";
+import { invalidateCatalogCache } from "@/lib/catalog-cache";
 
 const MAX_TRANSITION_ATTEMPTS = 3;
 
@@ -141,9 +142,13 @@ export async function transitionContentReport(
 ): Promise<ContentReviewTransitionResult> {
   for (let attempt = 0; attempt < MAX_TRANSITION_ATTEMPTS; attempt += 1) {
     try {
-      return await prisma.$transaction((transaction) => (
+      const result = await prisma.$transaction((transaction) => (
         transitionContentReportInTransaction(transaction, input)
       ));
+      // Quarantine and resolution change which questions are served, so this
+      // process drops its cached catalog views; other replicas expire shortly.
+      if (result.status === "UPDATED") invalidateCatalogCache();
+      return result;
     } catch (error) {
       if (error instanceof ContentReviewStateConflict) return { status: "STATE_CONFLICT" };
       if (!retryableTransitionConflict(error)) throw error;

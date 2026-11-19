@@ -3,7 +3,7 @@
 import { Flame } from "lucide-react";
 import { useEffect, useState } from "react";
 import { apiRequest } from "@/lib/api-client";
-import type { ProgressPayload } from "@/lib/contracts/practice";
+import type { LearnerActivitySummary } from "@/lib/contracts/practice";
 import { getTimeZone } from "@/lib/learner";
 
 type Day = { date: string; attempts: number };
@@ -14,8 +14,8 @@ export function HomeWeeklyProgress() {
   useEffect(() => {
     const timer = window.setTimeout(async () => {
       try {
-        const payload = await apiRequest<ProgressPayload>("/api/learner/progress", { query: { timeZone: getTimeZone() } });
-        setDays(payload.activity.slice(-7));
+        const payload = await apiRequest<LearnerActivitySummary>("/api/learner/summary", { query: { timeZone: getTimeZone(), days: 7 } });
+        setDays(payload.activity);
       } catch {
         setDays([]);
       }

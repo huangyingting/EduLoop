@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { apiError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api";
 import { getSessionUser } from "@/lib/auth";
 import { isSameOriginRequest } from "@/lib/auth-validation";
+import { cachedCatalogValue } from "@/lib/catalog-cache";
 import { ensureLearnerForUser } from "@/lib/learner-identity";
 import { learnerProfileInputSchema } from "@/lib/learner-profile";
 import { prisma } from "@/lib/prisma";
@@ -10,7 +11,7 @@ import { QUESTION_STATUS } from "@/lib/domain-constants";
 export const dynamic = "force-dynamic";
 
 async function availableKnowledgeCatalog() {
-  return prisma.gradeBand.findMany({
+  return cachedCatalogValue("knowledge-stages", () => prisma.gradeBand.findMany({
     where: { questions: { some: { status: QUESTION_STATUS.PUBLISHED } } },
     orderBy: [{ sortOrder: "asc" }, { name: "asc" }],
     select: {
@@ -23,7 +24,7 @@ async function availableKnowledgeCatalog() {
         select: { id: true, slug: true, name: true },
       },
     },
-  });
+  }));
 }
 
 async function profileResponse(user: { id: string; displayName: string | null }) {

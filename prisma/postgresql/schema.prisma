@@ -8,14 +8,16 @@ datasource db {
 }
 
 model Subject {
-  id          String     @id @default(cuid())
-  slug        String     @unique
-  name        String
-  icon        String
-  color       String
-  description String?
-  sortOrder   Int        @default(0)
-  questions   Question[]
+  id                String               @id @default(cuid())
+  slug              String               @unique
+  name              String
+  icon              String
+  color             String
+  description       String?
+  sortOrder         Int                  @default(0)
+  questions         Question[]
+  learnerStats      LearnerSubjectStat[]
+  learnerTopicStats LearnerTopicStat[]
 }
 
 model GradeBand {
@@ -148,13 +150,14 @@ model TagDimension {
 }
 
 model Tag {
-  id          String        @id @default(cuid())
-  slug        String
-  label       String
-  description String?
-  dimensionId String
-  dimension   TagDimension  @relation(fields: [dimensionId], references: [id])
-  questions   QuestionTag[]
+  id           String             @id @default(cuid())
+  slug         String
+  label        String
+  description  String?
+  dimensionId  String
+  dimension    TagDimension       @relation(fields: [dimensionId], references: [id])
+  questions    QuestionTag[]
+  learnerStats LearnerTopicStat[]
 
   @@unique([dimensionId, slug])
   @@index([dimensionId, label])
@@ -302,18 +305,18 @@ model RateLimitBucket {
 }
 
 model LearnerProfile {
-  id               String            @id @default(cuid())
-  userId           String            @unique
+  id               String               @id @default(cuid())
+  userId           String               @unique
   displayName      String?
-  xp               Int               @default(0)
-  level            Int               @default(1)
-  currentStreak    Int               @default(0)
-  bestStreak       Int               @default(0)
-  streakFreezes    Int               @default(1)
+  xp               Int                  @default(0)
+  level            Int                  @default(1)
+  currentStreak    Int                  @default(0)
+  bestStreak       Int                  @default(0)
+  streakFreezes    Int                  @default(1)
   lastFreezeUsedOn String?
   lastActiveOn     String?
-  totalAttempts    Int               @default(0)
-  correctRun       Int               @default(0)
+  totalAttempts    Int                  @default(0)
+  correctRun       Int                  @default(0)
   knowledgeBandId  String?
   knowledgeGradeId String?
   sessions         PracticeSession[]
@@ -323,14 +326,45 @@ model LearnerProfile {
   savedQuestions   SavedQuestion[]
   reviewItems      ReviewItem[]
   reports          QuestionReport[]
-  knowledgeBand    GradeBand?        @relation("LearnerKnowledgeBand", fields: [knowledgeBandId], references: [id], onDelete: SetNull)
-  knowledgeGrade   Grade?            @relation("LearnerKnowledgeGrade", fields: [knowledgeGradeId], references: [id], onDelete: SetNull)
-  user             User              @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt        DateTime          @default(now())
-  updatedAt        DateTime          @updatedAt
+  subjectStats     LearnerSubjectStat[]
+  topicStats       LearnerTopicStat[]
+  knowledgeBand    GradeBand?           @relation("LearnerKnowledgeBand", fields: [knowledgeBandId], references: [id], onDelete: SetNull)
+  knowledgeGrade   Grade?               @relation("LearnerKnowledgeGrade", fields: [knowledgeGradeId], references: [id], onDelete: SetNull)
+  user             User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt        DateTime             @default(now())
+  updatedAt        DateTime             @updatedAt
 
   @@index([knowledgeBandId])
   @@index([knowledgeGradeId])
+}
+
+// Graded-attempt aggregates maintained inside the attempt and self-assessment
+// transactions so progress views read a few rows instead of scanning history.
+model LearnerSubjectStat {
+  learnerId     String
+  subjectId     String
+  attempts      Int            @default(0)
+  correct       Int            @default(0)
+  lastAttemptAt DateTime
+  learner       LearnerProfile @relation(fields: [learnerId], references: [id], onDelete: Cascade)
+  subject       Subject        @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+
+  @@id([learnerId, subjectId])
+}
+
+model LearnerTopicStat {
+  learnerId     String
+  subjectId     String
+  tagId         String
+  attempts      Int            @default(0)
+  correct       Int            @default(0)
+  lastAttemptAt DateTime
+  learner       LearnerProfile @relation(fields: [learnerId], references: [id], onDelete: Cascade)
+  subject       Subject        @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  tag           Tag            @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([learnerId, subjectId, tagId])
+  @@index([tagId])
 }
 
 model PracticeSession {

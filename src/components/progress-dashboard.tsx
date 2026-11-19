@@ -48,7 +48,7 @@ export function ProgressDashboard() {
   const hasPractice = data.summary.totalAttempts > 0;
   const summaryCards = [
     { value: data.summary.totalAttempts, label: "累计完成", suffix: "题", icon: Target, background: "bg-white" },
-    { value: data.summary.correctRate, label: "近期正确率", suffix: "%", icon: CheckCircle2, background: "bg-lime" },
+    { value: data.summary.correctRate, label: "累计正确率", suffix: "%", icon: CheckCircle2, background: "bg-lime" },
     { value: data.summary.xp, label: `Level ${data.summary.level}`, suffix: " XP", icon: Sparkles, background: "bg-sky" },
     { value: data.summary.currentStreak, label: `最佳 ${data.summary.bestStreak} 天`, suffix: " 天", icon: Flame, background: "bg-peach" },
   ];

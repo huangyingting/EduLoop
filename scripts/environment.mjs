@@ -215,6 +215,18 @@ export function validateEnvironment(environment) {
     }
     if (url?.protocol !== "https:") errors.push("ALERT_WEBHOOK_URL must be an HTTPS URL.");
   }
+  const assetOrigin = environment.QUESTION_ASSET_ORIGIN?.trim();
+  if (assetOrigin) {
+    let url;
+    try {
+      url = new URL(assetOrigin);
+    } catch {
+      url = null;
+    }
+    if (url?.protocol !== "https:" || url.search || url.hash || url.username || url.password) {
+      errors.push("QUESTION_ASSET_ORIGIN must be an HTTPS URL without credentials, query, or fragment.");
+    }
+  }
   // Collectors usually sit on the private container network, so plain HTTP is
   // accepted; the URL must still be well formed.
   for (const name of ["OTEL_EXPORTER_OTLP_ENDPOINT", "OTEL_EXPORTER_OTLP_TRACES_ENDPOINT"]) {

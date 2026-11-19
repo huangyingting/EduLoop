@@ -94,6 +94,16 @@ The Docker runtime, PostgreSQL CI service, and GitHub Actions are pinned to immu
 
 Production responses set HSTS, same-origin opener/resource isolation, and a resource-complete CSP. Next.js hydration currently requires inline scripts and the UI uses inline style values, so `script-src` and `style-src` allow inline content; `unsafe-eval` and WebSocket connections are development-only. Recheck the built application before tightening these remaining framework allowances.
 
+### Serving question images from object storage
+
+Question images (about 44 MB) ship in the image under `public/question-assets/` by default. To keep them out of the image:
+
+1. Create an Azure Storage container that allows anonymous read access to blobs (the images are already public course content), optionally behind Azure Front Door. The app fetches without credentials.
+2. Copy the images with `az login`, then `AZURE_STORAGE_ACCOUNT=<account> ASSET_CONTAINER=<container> npm run assets:sync` (add `-- --dry-run` first). Uploads never overwrite existing blobs, so reruns add only new files. Run it again whenever question assets change.
+3. Set `QUESTION_ASSET_ORIGIN=https://<account>.blob.core.windows.net/<container>` (or the CDN origin) and build the image with `--build-arg BUNDLE_QUESTION_ASSETS=false`.
+
+The app keeps serving every image from its own `/question-assets/...` URLs: requests for files missing from the image are streamed from the origin with a fixed content type, a sandboxing CSP for SVG, and long-lived cache headers. Pages, the Next.js image optimizer, and the Content Security Policy therefore need no change. Put a CDN in front of the app to absorb repeat requests.
+
 ## Launch Evidence Approval
 
 Keep the real launch-evidence manifest in the controlled release system or another access-restricted location outside the repository. Start from `docs/launch-evidence.json.example`, replace every placeholder, and use only private references that an accountable reviewer has opened and checked. The template is `PENDING` and its placeholder references are rejected, so it fails by design until every record is replaced after review. Every gate needs uppercase `PASS`, canonical UTC `verifiedAt` and `expiresAt` values, a private `evidenceRef`, and an accountable `operatorRef`. The root release, origin, active legal versions, and OAuth-provider list scope all entries together. Add exactly one `oauth-provider-journeys` entry for each enabled provider; use an empty manifest list and `LAUNCH_EXPECT_OAUTH_PROVIDERS=none` when social login is deliberately disabled.

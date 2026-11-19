@@ -24,4 +24,8 @@ The repair and override modules are deterministic and pinned to upstream commits
 
 ## Repository size
 
-`data/` is about 28 MB and `public/question-assets/` about 44 MB, and both live in git history. Until the assets move to object storage, clone with `git clone --filter=blob:none` to fetch historical blobs on demand. Serving assets from Azure Blob Storage behind a CDN, addressed by their existing SHA-256 names, is tracked as infrastructure follow-up work because it needs a storage account, deployment changes, and a history rewrite to shrink existing clones.
+`data/` is about 28 MB and `public/question-assets/` about 44 MB, and both live in git history.
+
+- **Docker images** can leave the images out (`--build-arg BUNDLE_QUESTION_ASSETS=false`) and stream them from object storage; see "Serving question images from object storage" in [operations](../../docs/operations.md).
+- **Clones** fetch only what they need with `git clone --filter=blob:none`.
+- **Shrinking history** for everyone requires rewriting it, for example `git filter-repo --path public/question-assets --invert-paths` after moving the images to object storage or Git LFS, then force-pushing and asking every contributor to re-clone. That is a maintainer decision and has not been done.

@@ -34,6 +34,7 @@ Visitors land on `/` and can use `/practice` without saving anything; finishing 
 | `npm run data:verify` | Every source and translated-content gate |
 | `npm run seed:verify` | Import into a fresh database and compare counts with `docs/catalog-stats.json` |
 | `npm run docs:check` | Catalog numbers in the docs match `docs/catalog-stats.json` |
+| `npm run assets:sync` | Copy question images to Azure Blob Storage (see [operations](operations.md)) |
 | `npm run perf:check` | Query-count budget for the practice hot path |
 | `npm run learners:audit` | Report learner history that points at missing questions |
 | `npm run reports:review -- list` | Inspect the content-report queue |

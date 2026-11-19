@@ -269,6 +269,8 @@ test("validates optional observability settings", () => {
   assert.ok(invalid.some((error) => error.startsWith("METRICS_TOKEN")));
   assert.ok(invalid.some((error) => error.startsWith("ALERT_WEBHOOK_URL")));
   assert.deepEqual(validateEnvironment({ ...base, OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector:4318" }).errors, []);
+  assert.deepEqual(validateEnvironment({ ...base, QUESTION_ASSET_ORIGIN: "https://assets.example/content" }).errors, []);
+  assert.ok(validateEnvironment({ ...base, QUESTION_ASSET_ORIGIN: "https://assets.example/?sv=sig" }).errors.some((error) => error.startsWith("QUESTION_ASSET_ORIGIN")));
   assert.ok(validateEnvironment({ ...base, OTEL_EXPORTER_OTLP_ENDPOINT: "otel-collector:4318" }).errors.some((error) => error.startsWith("OTEL_EXPORTER_OTLP_ENDPOINT")));
   assert.ok(invalid.some((error) => error.startsWith("SLOW_QUERY_MS")));
 });

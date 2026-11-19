@@ -33,6 +33,7 @@
     "json:verify": "node scripts/validate-json-schemas.mjs",
     "data:verify": "npm run json:verify && npm run test:content && node scripts/content/analyze-data.mjs && node scripts/content/audit-subject-data.mjs && node scripts/content/audit-agieval-data.mjs && node scripts/content/audit-amc-data.mjs && node scripts/content/audit-amc-translations.mjs && node --import tsx scripts/content/audit-math-rendering.ts",
     "docs:check": "node scripts/doc-stats.mjs",
+    "assets:sync": "node scripts/sync-question-assets.mjs",
     "data:import:cjeval": "node scripts/content/import-cjeval-chinese.mjs",
     "data:import:agieval": "node scripts/content/import-agieval-high-school-chinese.mjs",
     "data:cleanup": "node --env-file-if-exists=.env --import tsx scripts/cleanup-expired-data.ts",

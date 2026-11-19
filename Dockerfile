@@ -7,10 +7,14 @@ RUN npm ci && npm run dependencies:activate
 FROM node:24.18.1-alpine@sha256:f70403e87646dc51b45295f4b8b70cdad0b63d2297c4c9899119b03f7af7a6b3 AS builder
 WORKDIR /app
 ENV NEXT_TELEMETRY_DISABLED=1
+# false leaves question images out of the image; the app then streams them
+# from QUESTION_ASSET_ORIGIN (see docs/operations.md).
+ARG BUNDLE_QUESTION_ASSETS=true
 COPY --from=dependencies /app/node_modules ./node_modules
 COPY . .
 RUN DATABASE_URL=postgresql://build:build@localhost:5432/build npm run db:generate:postgres \
-    && DATABASE_URL=postgresql://build:build@localhost:5432/build npm run build
+    && DATABASE_URL=postgresql://build:build@localhost:5432/build npm run build \
+    && if [ "$BUNDLE_QUESTION_ASSETS" = "false" ]; then rm -rf public/question-assets; fi
 
 FROM node:24.18.1-alpine@sha256:f70403e87646dc51b45295f4b8b70cdad0b63d2297c4c9899119b03f7af7a6b3 AS runner
 WORKDIR /app

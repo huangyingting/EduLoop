@@ -1,4 +1,5 @@
 import { RotateCcw, Trophy } from "lucide-react";
+import Link from "next/link";
 
 export function SessionProgress({ completed, goal, disabled, onRestart }: {
   completed: number;
@@ -18,12 +19,16 @@ export function SessionProgress({ completed, goal, disabled, onRestart }: {
   );
 }
 
-export function RoundComplete({ goal, correct }: { goal: number; correct: number }) {
+export function RoundComplete({ goal, correct, isAuthenticated }: { goal: number; correct: number; isAuthenticated: boolean }) {
   return (
     <div role="status" className="reward-pop mt-7 rounded-[26px] border-2 border-ink bg-lime p-6 text-center shadow-[0_7px_0_#242136]">
       <Trophy className="mx-auto text-violet" size={38} />
       <h2 className="mt-2 font-display text-2xl font-black">{goal} 题挑战完成！</h2>
       <p className="mt-1 text-sm font-bold text-ink/65">本轮答对 {correct} 题。休息一下，或者继续探索。</p>
+      {isAuthenticated ? null : <div className="mt-4 rounded-2xl bg-white/80 p-4 text-sm font-bold text-ink">
+        <p>访客练习不会保存这轮成绩。注册后，错题会自动进入复习清单，连续学习天数和徽章也会一直保留。</p>
+        <Link href="/register?next=%2Fpractice" className="mt-3 inline-flex min-h-11 items-center gap-2 rounded-xl bg-ink px-5 text-sm font-black text-white">免费注册，保存下一轮进度</Link>
+      </div>}
     </div>
   );
 }

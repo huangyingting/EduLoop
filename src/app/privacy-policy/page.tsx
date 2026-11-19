@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { PRIVACY_VERSION, publicLegalConfiguration } from "@/lib/legal";
 
-export const metadata: Metadata = { title: "隐私说明" };
+export const metadata: Metadata = { title: "隐私说明", description: "EduLoop 如何收集、使用和保护学习数据。", alternates: { canonical: "/privacy-policy" } };
 export const dynamic = "force-dynamic";
 
 export default function PrivacyPolicyPage() {

@@ -39,7 +39,7 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
     ? isContentOperator(auth.user)
       ? [...links, { href: "/studio", label: "内容审核台", icon: ClipboardCheck }]
       : links
-    : links.filter(({ href }) => href === "/practice");
+    : links.filter(({ href }) => href === "/" || href === "/practice" || href === "/#subjects");
   const remainingToday = Math.max(10 - stats.todayAttempts, 0);
   useEffect(() => {
     const media = window.matchMedia("(min-width: 1024px)");
@@ -85,14 +85,14 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-canvas">
       <header className="sticky top-0 z-40 flex h-[72px] items-center justify-between border-b border-ink/10 bg-canvas/90 px-5 backdrop-blur-xl lg:hidden">
-        <Logo href={auth.status === "authenticated" ? "/" : "/practice"} />
+        <Logo href="/" />
         <button ref={menuButton} onClick={() => setOpen(!open)} className="grid size-11 place-items-center rounded-2xl border-2 border-ink/10 bg-white" aria-label={open ? "关闭导航" : "打开导航"} aria-expanded={open} aria-controls="primary-navigation">
           {open ? <X /> : <Menu />}
         </button>
       </header>
 
       <aside ref={navigation} id="primary-navigation" aria-label="主要导航" aria-hidden={!desktopNavigation && !open} inert={!desktopNavigation && !open} className={`${open ? "translate-x-0" : "-translate-x-full"} fixed inset-y-0 left-0 z-50 flex w-[270px] flex-col overflow-y-auto border-r border-ink/10 bg-[#fbfaf6] px-5 py-4 transition-transform lg:translate-x-0`}>
-        <div className="px-2"><Logo href={auth.status === "authenticated" ? "/" : "/practice"} /></div>
+        <div className="px-2"><Logo href="/" /></div>
         <nav aria-label="学习功能" className="mt-8 space-y-1">
           {navigationLinks.map(({ href, label, icon: Icon }) => {
             const active = href === "/" ? pathname === "/" : href.includes("#") ? false : pathname.startsWith(href);
@@ -117,7 +117,10 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
         {auth.status === "authenticated" ? (
           <button onClick={() => void signOut()} className="mt-2 flex min-h-11 items-center justify-center gap-2 rounded-xl border-2 border-ink/10 bg-white text-xs font-black text-muted hover:border-coral/30 hover:text-coral"><LogOut size={15} /> 退出登录</button>
         ) : (
-          <Link href="/login?next=%2Fpractice" onClick={() => setOpen(false)} className="mt-3 flex min-h-11 items-center justify-center gap-2 rounded-xl bg-violet text-xs font-black text-white shadow-[0_4px_0_#242136]"><LogIn size={15} /> 登录保存进度</Link>
+          <>
+            <Link href="/login?next=%2Fpractice" onClick={() => setOpen(false)} className="mt-3 flex min-h-11 items-center justify-center gap-2 rounded-xl bg-violet text-xs font-black text-white shadow-[0_4px_0_#242136]"><LogIn size={15} /> 登录保存进度</Link>
+            <Link href="/register?next=%2Fpractice" onClick={() => setOpen(false)} className="mt-2 flex min-h-11 items-center justify-center gap-2 rounded-xl border-2 border-ink/10 bg-white text-xs font-black text-ink hover:border-violet/40">免费注册</Link>
+          </>
         )}
         {auth.status === "authenticated" ? <Link href="/privacy" onClick={() => setOpen(false)} className="mt-2 flex min-h-11 items-center justify-center gap-2 rounded-xl text-xs font-bold text-muted hover:bg-white hover:text-ink"><ShieldCheck size={15} /> 数据与隐私</Link> : null}
         <div className="mt-1 flex items-center justify-center gap-3 text-[11px] font-bold text-muted"><Link href="/terms" onClick={() => setOpen(false)} className="hover:text-ink hover:underline">服务条款</Link><Link href="/privacy-policy" onClick={() => setOpen(false)} className="hover:text-ink hover:underline">隐私说明</Link></div>

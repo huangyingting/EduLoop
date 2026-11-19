@@ -1,17 +1,21 @@
 "use client";
 
-import { Flame } from "lucide-react";
+import { Flame, LogIn } from "lucide-react";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { apiRequest } from "@/lib/api-client";
 import type { LearnerActivitySummary } from "@/lib/contracts/practice";
 import { getTimeZone } from "@/lib/learner";
+import { useAuth } from "@/lib/use-auth";
 
 type Day = { date: string; attempts: number };
 
 export function HomeWeeklyProgress() {
+  const auth = useAuth();
   const [days, setDays] = useState<Day[]>([]);
 
   useEffect(() => {
+    if (auth.status !== "authenticated") return;
     const timer = window.setTimeout(async () => {
       try {
         const payload = await apiRequest<LearnerActivitySummary>("/api/learner/summary", { query: { timeZone: getTimeZone(), days: 7 } });
@@ -21,7 +25,19 @@ export function HomeWeeklyProgress() {
       }
     }, 0);
     return () => window.clearTimeout(timer);
-  }, []);
+  }, [auth.status]);
+
+  if (auth.status === "guest") {
+    return <div className="rounded-[30px] border-2 border-ink/10 bg-white p-7 shadow-[0_8px_0_#e3dfd4]">
+      <p className="text-xs font-black uppercase tracking-[.18em] text-violet">保存你的进度</p>
+      <h2 className="mt-3 font-display text-2xl font-black">访客也能马上开练</h2>
+      <p className="mt-2 text-sm font-semibold leading-6 text-muted">不用注册就能完成一轮 10 题挑战。注册后可以保存答题记录、错题复习、连续学习天数和徽章。</p>
+      <div className="mt-6 flex flex-wrap gap-2">
+        <Link href="/register?next=%2Fpractice" className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-violet px-5 text-sm font-black text-white shadow-[0_4px_0_#242136]">免费注册</Link>
+        <Link href="/login?next=%2F" className="inline-flex min-h-11 items-center gap-2 rounded-xl border-2 border-ink/10 px-5 text-sm font-black text-ink"><LogIn size={16} /> 已有账号，登录</Link>
+      </div>
+    </div>;
+  }
 
   const practicedDays = days.filter((day) => day.attempts > 0).length;
   return <div className="rounded-[30px] border-2 border-ink/10 bg-white p-7 shadow-[0_8px_0_#e3dfd4]">

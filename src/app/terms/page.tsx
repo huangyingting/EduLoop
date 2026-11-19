@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { publicLegalConfiguration, TERMS_VERSION } from "@/lib/legal";
 
-export const metadata: Metadata = { title: "服务条款" };
+export const metadata: Metadata = { title: "服务条款", description: "EduLoop 服务条款。", alternates: { canonical: "/terms" } };
 export const dynamic = "force-dynamic";
 
 export default function TermsPage() {

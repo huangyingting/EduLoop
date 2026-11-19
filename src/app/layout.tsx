@@ -3,10 +3,22 @@ import "katex/dist/katex.min.css";
 import "./globals.css";
 import { AppShell } from "@/components/app-shell";
 import { AuthSessionProvider } from "@/components/auth-session-provider";
+import { SITE_DESCRIPTION, SITE_NAME, publicOrigin } from "@/lib/site";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(publicOrigin()),
   title: { default: "EduLoop · 每一题都有回响", template: "%s · EduLoop" },
-  description: "面向中小学生的个性化学科练习平台。用小步练习、即时反馈和成长奖励，把知识练成能力。",
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
+  openGraph: {
+    type: "website",
+    siteName: SITE_NAME,
+    locale: "zh_CN",
+    title: "EduLoop · 每一题都有回响",
+    description: SITE_DESCRIPTION,
+    url: "/",
+  },
+  twitter: { card: "summary_large_image", title: "EduLoop · 每一题都有回响", description: SITE_DESCRIPTION },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

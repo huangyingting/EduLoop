@@ -61,7 +61,7 @@ npm run build
 
 Specialist content-import commands are documented in [`data/README.md`](data/README.md) and run directly from `scripts/`.
 
-Guests may use `/practice` without saving anything. After login, the main student routes are `/`, `/practice`, `/progress`, `/review`, and `/privacy`; authorized content editors can also use `/studio`. `/api/live` is the dependency-free process liveness probe, while `/api/health` is the deployment readiness probe.
+Visitors land on the public home page (`/`) and may use `/practice` without saving anything; finishing a guest round invites them to register. `robots.txt`, `sitemap.xml`, and an Open Graph image are generated from `AUTH_URL`. After login, the main student routes are `/`, `/practice`, `/progress`, `/review`, and `/privacy`; authorized content editors can also use `/studio`. `/api/live` is the dependency-free process liveness probe, while `/api/health` is the deployment readiness probe.
 
 ## PostgreSQL production deployment
 

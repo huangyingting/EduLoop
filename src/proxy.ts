@@ -7,7 +7,15 @@ const AUTH_SESSION_COOKIE = process.env.NODE_ENV === "production"
   ? "__Secure-authjs.session-token"
   : "authjs.session-token";
 
-export async function middleware(request: NextRequest) {
+// Pages a visitor can open without an account. Everything else redirects to
+// login; API routes enforce their own authorization.
+const PUBLIC_PATHS = new Set(["/", "/practice", "/opengraph-image"]);
+
+export function isPublicPath(pathname: string) {
+  return PUBLIC_PATHS.has(pathname) || pathname.startsWith("/practice/");
+}
+
+export async function proxy(request: NextRequest) {
   const secret = applicationAuthSecret();
   if (!secret) throw new Error("A valid AUTH_SECRET is required in production.");
   const token = await getToken({
@@ -27,9 +35,7 @@ export async function middleware(request: NextRequest) {
     consent.searchParams.set("next", `${request.nextUrl.pathname}${request.nextUrl.search}`);
     return NextResponse.redirect(consent);
   }
-  if (request.nextUrl.pathname === "/practice" || request.nextUrl.pathname.startsWith("/practice/")) {
-    return NextResponse.next();
-  }
+  if (isPublicPath(request.nextUrl.pathname)) return NextResponse.next();
 
   const login = new URL("/login", request.nextUrl);
   login.searchParams.set(

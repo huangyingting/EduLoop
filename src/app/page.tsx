@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { ArrowRight, Award, BookOpenCheck, Brain, ChevronRight, Play, Target, Trophy } from "lucide-react";
 import Link from "next/link";
 import { HomeWeeklyProgress } from "@/components/home-weekly-progress";
@@ -8,6 +9,7 @@ import { prisma } from "@/lib/prisma";
 import { QUESTION_STATUS } from "@/lib/domain-constants";
 
 export const dynamic = "force-dynamic";
+export const metadata: Metadata = { alternates: { canonical: "/" } };
 
 export default async function Home() {
   const [subjects, questionCount, gradeBandCount, sourceTypes] = await cachedCatalogValue("home-stats", () => Promise.all([

@@ -52,7 +52,7 @@ export function PracticePlayer() {
 
       {state.question ? <QuestionCard state={state} dispatch={dispatch} actions={actions} isAuthenticated={isAuthenticated} /> : null}
 
-      {roundComplete(state) ? <RoundComplete goal={state.goal} correct={state.correct} /> : null}
+      {roundComplete(state) ? <RoundComplete goal={state.goal} correct={state.correct} isAuthenticated={isAuthenticated} /> : null}
     </div>
   );
 }

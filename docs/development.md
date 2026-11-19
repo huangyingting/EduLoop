@@ -24,11 +24,13 @@ Visitors land on `/` and can use `/practice` without saving anything; finishing 
 | --- | --- |
 | `npm run dev` | Development server on port 3000 |
 | `npm test` | Vitest unit tests and app script tests |
+| `npm run test:content` | Content-pipeline unit tests (see [scripts/content](../scripts/content/README.md)) |
 | `npm run test:integration` | Integration suite against a fresh SQLite database |
 | `npm run test:integration:postgres` | Integration suite against `DATABASE_URL` (PostgreSQL) |
 | `npm run test:e2e` | Seeded browser journeys; run `npx playwright install chromium` once |
 | `npm run typecheck`, `npm run lint`, `npm run build` | Static checks and production build |
 | `npm run schema:check` | SQLite and PostgreSQL Prisma models still match |
+| `npm run json:verify` | Schema validation for every tracked JSON file |
 | `npm run data:verify` | Every source and translated-content gate |
 | `npm run seed:verify` | Import into a fresh database and compare counts with `docs/catalog-stats.json` |
 | `npm run docs:check` | Catalog numbers in the docs match `docs/catalog-stats.json` |

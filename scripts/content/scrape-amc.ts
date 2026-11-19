@@ -3,7 +3,7 @@ import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { load, type CheerioAPI } from "cheerio";
 import { Text, type Element } from "domhandler";
-import { contentCollection } from "../src/lib/content-manifest";
+import { contentCollection } from "../../src/lib/content-manifest";
 
 const AOPS_ORIGIN = "https://artofproblemsolving.com";
 const ARCHIVE_ORIGIN = "https://web.archive.org";

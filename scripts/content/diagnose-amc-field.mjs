@@ -4,10 +4,10 @@ import { fileURLToPath } from "node:url";
 
 const [dataset, id, fieldName] = process.argv.slice(2);
 if (!dataset || !id || !fieldName) {
-  throw new Error("Usage: node scripts/diagnose-amc-field.mjs <amc8|amc10|amc12> <question-id> <field-name>");
+  throw new Error("Usage: node scripts/content/diagnose-amc-field.mjs <amc8|amc10|amc12> <question-id> <field-name>");
 }
 
-const workspace = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const workspace = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const source = JSON.parse((await readFile(path.join(workspace, "data/en", `${dataset}.json`), "utf8")).replace(/^\uFEFF/, ""));
 const question = source.find((entry) => entry.id === id);
 if (!question) throw new Error(`Unknown question ${id}`);

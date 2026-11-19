@@ -27,6 +27,8 @@ Work from the production-readiness improvement plan (#49).
 - Selection prefers unseen questions and targets difficulty to the learner's rating in adaptive mode (#42).
 - Recommendation reasons and awarded badges are returned as structured data and worded by the client (#39).
 - Catalog numbers in the docs are generated from `docs/catalog-stats.json` and checked in CI (#47).
+- The content pipeline moved to `scripts/content/` with its own path-filtered CI workflow; `npm test` no longer runs pipeline tests (`npm run test:content` does) (#48).
+- The API integration suite is split by domain into files under 700 lines that share `src/integration/api-shared.ts` (#48).
 
 ### Fixed
 

@@ -2,7 +2,7 @@ import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-const workspace = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const workspace = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const dataset = process.argv[2];
 const requestedSlug = process.argv[3];
 const outputFile = process.argv[4];
@@ -10,7 +10,7 @@ const supportedDatasets = new Set(["amc8", "amc10", "amc12"]);
 const protectedPattern = /(\$\$[\s\S]*?\$\$|(?<!\\)\$(?!\$)[\s\S]*?(?<!\\)\$|\[Figure:\s*[^\]]+\]|\\begin\{([A-Za-z*]+)\}[\s\S]*?\\end\{\2\})/g;
 
 if (!supportedDatasets.has(dataset)) {
-  throw new Error("Usage: node scripts/print-amc-source-paper.mjs <amc8|amc10|amc12> <paper-slug|--list> [output-file]");
+  throw new Error("Usage: node scripts/content/print-amc-source-paper.mjs <amc8|amc10|amc12> <paper-slug|--list> [output-file]");
 }
 
 function paperName(value) {

@@ -2,7 +2,7 @@ import { readFile, writeFile } from "node:fs/promises";
 
 const [reportPath, outputPath, selection] = process.argv.slice(2);
 if (!reportPath || !outputPath) {
-  throw new Error("Usage: node scripts/extract-translation-fragment.mjs <report-path> <output-path> [--last]");
+  throw new Error("Usage: node scripts/content/extract-translation-fragment.mjs <report-path> <output-path> [--last]");
 }
 
 const report = await readFile(reportPath, "utf8");

@@ -8,7 +8,7 @@ import {
   hasBareLatexCommand,
   hasForbiddenControlCharacter,
   invalidJsonLatexEscapes,
-} from "./amc-audit-rules.mjs";
+} from "./content/amc-audit-rules.mjs";
 
 const ROOT = process.cwd();
 const errors = [];
@@ -449,7 +449,7 @@ const expectedSchemas = new Set([
   "package-lock.json",
   "package.json",
   "public/question-assets/source/amc/manifest.json",
-  "scripts/amc-translation-math-approvals.json",
+  "scripts/content/amc-translation-math-approvals.json",
   "tsconfig.json",
 ]);
 
@@ -477,9 +477,9 @@ const assetManifest = validate(
 );
 const assets = await validateAssetManifest(assetManifest);
 validate(
-  "scripts/amc-translation-math-approvals.json",
+  "scripts/content/amc-translation-math-approvals.json",
   mathApprovalsSchema,
-  parsedFiles.get("scripts/amc-translation-math-approvals.json"),
+  parsedFiles.get("scripts/content/amc-translation-math-approvals.json"),
 );
 validateConfigFiles();
 

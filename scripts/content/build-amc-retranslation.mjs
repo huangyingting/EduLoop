@@ -3,11 +3,11 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { translateKnownMathText } from "./amc-latex.mjs";
 
-const workspace = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const workspace = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const dataset = process.argv[2];
 const supportedDatasets = new Set(["amc8", "amc10", "amc12"]);
 if (!supportedDatasets.has(dataset)) {
-  throw new Error("Usage: node scripts/build-amc-retranslation.mjs <amc8|amc10|amc12> [--check] [--partial] [--final]");
+  throw new Error("Usage: node scripts/content/build-amc-retranslation.mjs <amc8|amc10|amc12> [--check] [--partial] [--final]");
 }
 
 const sourceFile = path.join(workspace, "data/en", `${dataset}.json`);

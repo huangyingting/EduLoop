@@ -2,7 +2,7 @@ import { readFile, writeFile } from "node:fs/promises";
 
 const [sourcePath, translationPath] = process.argv.slice(2);
 if (!sourcePath || !translationPath) {
-  throw new Error("Usage: node scripts/normalize-amc-fragment.mjs <source-template> <translation-fragment>");
+  throw new Error("Usage: node scripts/content/normalize-amc-fragment.mjs <source-template> <translation-fragment>");
 }
 
 function parseSourceFields(block) {

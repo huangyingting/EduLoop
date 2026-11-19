@@ -20,7 +20,7 @@ Finish fresh Simplified Chinese translations for every AMC 10 and AMC 12 record,
 - Treat `answer` as authoritative when a source solution has the wrong boxed answer.
 - Do not weaken any validator.
 - Do not revert unrelated user changes.
-- Use the repository utilities in `scripts/`; do not rely on old script copies under `/tmp`.
+- Use the repository utilities in `scripts/content/`; do not rely on old script copies under `/tmp`.
 
 ## Current Checkpoint
 
@@ -29,16 +29,16 @@ Finish fresh Simplified Chinese translations for every AMC 10 and AMC 12 record,
 - Completed AMC 10 papers are: `2002A`, `2002B`, `2002P`, `2003A`, `2003B`, `2004A`, `2004B`, `2005A`, `2005B`, `2006A`, `2006B`, `2007B`, and `2008A`.
 - `2007A` is still missing. Split source templates already exist for `2007A`, `2008B`, and `2009A` under `/tmp`.
 - Files may have changed since an earlier handoff, especially `/tmp/eduloop-amc8-translation/2022.txt` and `/tmp/eduloop-amc10-translation/2002P.txt`. Current validation includes those changes; work with them and do not revert them.
-- Translation fragments and generated source templates remain under `/tmp`; only the reusable executable utilities moved into `scripts/`.
+- Translation fragments and generated source templates remain under `/tmp`; only the reusable executable utilities moved into `scripts/content/`.
 
 ## Repository Utilities
 
-- `scripts/print-amc-source-paper.mjs`
-- `scripts/build-amc-retranslation.mjs`
-- `scripts/extract-translation-fragment.mjs`
-- `scripts/diagnose-amc-field.mjs`
-- `scripts/split-amc-source.mjs`
-- `scripts/normalize-amc-fragment.mjs`
+- `scripts/content/print-amc-source-paper.mjs`
+- `scripts/content/build-amc-retranslation.mjs`
+- `scripts/content/extract-translation-fragment.mjs`
+- `scripts/content/diagnose-amc-field.mjs`
+- `scripts/content/split-amc-source.mjs`
+- `scripts/content/normalize-amc-fragment.mjs`
 
 The builder and diagnostic tool use `/tmp/eduloop-<dataset>-translation` by default. Set `AMC_TRANSLATION_ROOT` only if a different temporary root is required.
 
@@ -47,8 +47,8 @@ The builder and diagnostic tool use `/tmp/eduloop-<dataset>-translation` by defa
 Run:
 
 ```bash
-node scripts/build-amc-retranslation.mjs amc8 --check
-node scripts/build-amc-retranslation.mjs amc10 --check --partial
+node scripts/content/build-amc-retranslation.mjs amc8 --check
+node scripts/content/build-amc-retranslation.mjs amc10 --check --partial
 ```
 
 Expected current results are `1025/1025` for AMC 8 and `325/1275` for AMC 10. If they differ, inspect and reconcile current files without reverting user edits.
@@ -63,14 +63,14 @@ Resume AMC 10 with the split `2007A` templates:
 Then continue with the prepared `2008B` and `2009A` splits. Split later papers when necessary to prevent truncated or incomplete agent output:
 
 ```bash
-node scripts/split-amc-source.mjs /tmp/amc10-YYYYX-source.txt /tmp/amc10-YYYYX 13
+node scripts/content/split-amc-source.mjs /tmp/amc10-YYYYX-source.txt /tmp/amc10-YYYYX 13
 ```
 
 Generate or list paper templates with:
 
 ```bash
-node scripts/print-amc-source-paper.mjs amc10 --list
-node scripts/print-amc-source-paper.mjs amc10 2009B /tmp/amc10-2009B-source.txt
+node scripts/content/print-amc-source-paper.mjs amc10 --list
+node scripts/content/print-amc-source-paper.mjs amc10 2009B /tmp/amc10-2009B-source.txt
 ```
 
 ## Translation Fragment Format
@@ -99,19 +99,19 @@ Fragment requirements:
 Extract an agent response with:
 
 ```bash
-node scripts/extract-translation-fragment.mjs AGENT_REPORT OUTPUT_FRAGMENT
+node scripts/content/extract-translation-fragment.mjs AGENT_REPORT OUTPUT_FRAGMENT
 ```
 
 Use `--last` only after manually confirming that the final fenced block is the complete corrected draft. If an agent inlines protected values verbatim, normalize only exact, unambiguous matches:
 
 ```bash
-node scripts/normalize-amc-fragment.mjs SOURCE_TEMPLATE TRANSLATION_FRAGMENT
+node scripts/content/normalize-amc-fragment.mjs SOURCE_TEMPLATE TRANSLATION_FRAGMENT
 ```
 
 Diagnose a field mismatch with:
 
 ```bash
-node scripts/diagnose-amc-field.mjs amc10 QUESTION_ID solution_0
+node scripts/content/diagnose-amc-field.mjs amc10 QUESTION_ID solution_0
 ```
 
 ## Per-Batch Validation
@@ -119,7 +119,7 @@ node scripts/diagnose-amc-field.mjs amc10 QUESTION_ID solution_0
 After every paper or half-paper:
 
 1. Verify source and translation ID sets and order.
-2. Run `node scripts/build-amc-retranslation.mjs amc10 --check --partial` or the AMC 12 equivalent.
+2. Run `node scripts/content/build-amc-retranslation.mjs amc10 --check --partial` or the AMC 12 equivalent.
 3. Fix every placeholder, figure, answer-key, parsing, and paper-isolation error.
 4. Perform a semantic audit against the English source.
 5. Scan for meta-commentary, `PROTECTED` residue, diff markers, and malformed formulas.
@@ -131,15 +131,15 @@ Do not accept a fragment merely because placeholder validation passes. Check num
 When AMC 10 reaches `1275/1275`, run full validation and write it:
 
 ```bash
-node scripts/build-amc-retranslation.mjs amc10 --check
-node scripts/build-amc-retranslation.mjs amc10 --final
+node scripts/content/build-amc-retranslation.mjs amc10 --check
+node scripts/content/build-amc-retranslation.mjs amc10 --final
 ```
 
 Then complete AMC 12 through `1163/1163` using the same workflow:
 
 ```bash
-node scripts/build-amc-retranslation.mjs amc12 --check
-node scripts/build-amc-retranslation.mjs amc12 --final
+node scripts/content/build-amc-retranslation.mjs amc12 --check
+node scripts/content/build-amc-retranslation.mjs amc12 --final
 ```
 
 Final verification:

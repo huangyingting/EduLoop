@@ -3,7 +3,7 @@ import { readFile, writeFile } from "node:fs/promises";
 const [sourcePath, outputPrefix, rawChunkSize = "13"] = process.argv.slice(2);
 const chunkSize = Number(rawChunkSize);
 if (!sourcePath || !outputPrefix || !Number.isInteger(chunkSize) || chunkSize < 1) {
-  throw new Error("Usage: node scripts/split-amc-source.mjs <source-file> <output-prefix> [chunk-size]");
+  throw new Error("Usage: node scripts/content/split-amc-source.mjs <source-file> <output-prefix> [chunk-size]");
 }
 const body = await readFile(sourcePath, "utf8");
 const blocks = [...body.matchAll(/<<<SOURCE [^\n]+>>>\n[\s\S]*?<<<END SOURCE>>>\n?/g)].map((match) => match[0].trimEnd());

@@ -105,7 +105,7 @@ const localFigurePaths = [...new Set(figureReferences
   .filter((reference) => reference.startsWith("/question-assets/source/amc/")))];
 const missingFigureAssets = (await Promise.all(localFigurePaths.map(async (reference) => {
   try {
-    await access(new URL(`../public${reference}`, import.meta.url));
+    await access(new URL(`../../public${reference}`, import.meta.url));
     return null;
   } catch {
     return reference;

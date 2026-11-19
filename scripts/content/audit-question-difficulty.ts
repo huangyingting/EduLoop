@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { DIFFICULTY_AUDIT_VERSION } from "../src/lib/difficulty";
+import { DIFFICULTY_AUDIT_VERSION } from "../../src/lib/difficulty";
 
 const prisma = new PrismaClient();
 const showAll = process.argv.includes("--all");

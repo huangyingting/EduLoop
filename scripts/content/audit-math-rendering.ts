@@ -1,8 +1,8 @@
 import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import katex from "katex";
-import { tokenizeMathContent } from "../src/lib/math-content";
-import { normalizeMathExpression, requiresDisplayMath } from "../src/lib/math-expression";
+import { tokenizeMathContent } from "../../src/lib/math-content";
+import { normalizeMathExpression, requiresDisplayMath } from "../../src/lib/math-expression";
 
 const MAX_STRICT_WARNINGS = 0;
 const MAX_CONSOLE_WARNINGS = 0;

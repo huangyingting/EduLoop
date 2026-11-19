@@ -30,7 +30,7 @@ async function getLearningHealth(request: Request) {
   const today = calendarDay(now, "UTC");
   const currentWeekStart = calendarDaysBefore(today, 6);
   const priorWeekStart = calendarDaysBefore(today, 13);
-  const [startedSessions, completedSessions, sessionQuestions, eligibleMisses, viewedExplanations, rawCurrentWeekLearners, rawPriorWeekLearners, daily, rawTopicAttempts] = await Promise.all([
+  const [startedSessions, completedSessions, sessionQuestions, eligibleMisses, viewedExplanations, rawCurrentWeekLearners, rawPriorWeekLearners, daily, rawTopicAttempts, gradedAttempts, hintedAttempts, hintedCorrect] = await Promise.all([
     prisma.practiceSession.count({ where: { startedAt: { gte: since } } }),
     prisma.practiceSession.count({ where: { startedAt: { gte: since }, status: PRACTICE_SESSION_STATUS.COMPLETED } }),
     prisma.practiceSession.aggregate({
@@ -81,6 +81,9 @@ async function getLearningHealth(request: Request) {
         } } },
       },
     }),
+    prisma.practiceAttempt.count({ where: { createdAt: { gte: since }, isCorrect: { not: null } } }),
+    prisma.practiceAttempt.count({ where: { createdAt: { gte: since }, isCorrect: { not: null }, hintsUsed: { gt: 0 } } }),
+    prisma.practiceAttempt.count({ where: { createdAt: { gte: since }, isCorrect: true, hintsUsed: { gt: 0 } } }),
   ]);
 
   const cohortSampled = rawCurrentWeekLearners.length > WEEKLY_COHORT_LIMIT || rawPriorWeekLearners.length > WEEKLY_COHORT_LIMIT;
@@ -109,6 +112,12 @@ async function getLearningHealth(request: Request) {
       eligibleMisses,
       viewed: viewedExplanations,
       viewRate: percentage(viewedExplanations, eligibleMisses),
+    },
+    hints: {
+      gradedAttempts,
+      hintedAttempts,
+      usageRate: percentage(hintedAttempts, gradedAttempts),
+      correctAfterHintRate: percentage(hintedCorrect, hintedAttempts),
     },
     weeklyReturn: {
       priorWeekLearners: priorWeekLearners.length,

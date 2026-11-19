@@ -5,6 +5,7 @@ import { ASSET_REVIEW_STATUS, REVIEW_ITEM_STATUS, TAG_DIMENSION } from "@/lib/do
 import { prisma } from "@/lib/prisma";
 import { questionWhere, type QuestionFilters } from "@/lib/question-filters";
 import { weakestTopic } from "@/lib/recommendation";
+import { approvedHintWhere } from "./question-hints";
 
 const DUE_REVIEW_CANDIDATES = 12;
 const DUE_REVIEW_PICK_FROM = 4;
@@ -155,6 +156,7 @@ export async function loadQuestionPayload(
       options: { orderBy: { sortOrder: "asc" } },
       assets: { where: { reviewStatus: ASSET_REVIEW_STATUS.APPROVED }, select: { role: true, path: true, altText: true } },
       tags: { include: { tag: { include: { dimension: true } } } },
+      _count: { select: { hints: { where: approvedHintWhere } } },
     },
   });
   if (!question) return null;
@@ -171,7 +173,8 @@ export async function loadQuestionPayload(
     typeLabel: QUESTION_TYPE_LABELS[question.type] ?? question.sourceType,
     difficulty: question.difficulty,
     isAutoGradable: question.isAutoGradable,
-    hasHint: true,
+    hasHint: question._count.hints > 0,
+    hintCount: question._count.hints,
     subject: question.subject,
     grade: question.grade.name,
     stemAsset: stemAsset ? { path: stemAsset.path, altText: stemAsset.altText } : null,

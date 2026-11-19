@@ -141,6 +141,18 @@ describe("catalog import lifecycle", () => {
     await importCatalog(prisma, catalog(questionIds), scope);
   });
 
+  it("rebuilds derived hints on import while preserving curated ones", async () => {
+    const questionId = questionIds[7];
+    await prisma.questionHint.create({ data: { questionId, position: 5, content: "编辑补充的提示", source: "CURATED" } });
+    const withHint = (id: string) => ({ ...catalogQuestion(id, `${id}: 3 + 4 等于？`), hints: [{ position: 0, content: "这道题考查：加法。" }] });
+    await importCatalog(prisma, questionIds.map((id) => (id === questionId ? withHint(id) : catalogQuestion(id))), scope);
+    expect((await prisma.questionHint.findMany({ where: { questionId }, orderBy: { position: "asc" } })).map(({ source, content }) => ({ source, content })))
+      .toEqual([{ source: "DERIVED", content: "这道题考查：加法。" }, { source: "CURATED", content: "编辑补充的提示" }]);
+
+    await importCatalog(prisma, catalog(questionIds), scope);
+    expect(await prisma.questionHint.findMany({ where: { questionId }, select: { source: true } })).toEqual([{ source: "CURATED" }]);
+  });
+
   it("rolls back every write when an import fails partway through", async () => {
     const broken = catalog(questionIds).map((question, index) => (
       index === 6 ? { ...question, stem: "changed before failure", gradeName: "不存在的年级" } : question

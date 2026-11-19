@@ -33,6 +33,8 @@ try {
     autoGradable: await prisma.question.count({ where: { status: "PUBLISHED", isAutoGradable: true } }),
     assets: await prisma.questionAsset.count(),
     approvedAssets: await prisma.questionAsset.count({ where: { reviewStatus: "APPROVED" } }),
+    hints: await prisma.questionHint.count(),
+    questionsWithHints: (await prisma.questionHint.groupBy({ by: ["questionId"] })).length,
     difficultyAudited: await prisma.question.count({ where: { difficultyAuditVersion: 1, difficultyReason: { not: "Pending difficulty audit" } } }),
     difficultyAdjusted: difficultyTransitions.filter((item) => item.sourceDifficulty !== item.difficulty).reduce((total, item) => total + item._count._all, 0),
     difficultyEasy: await prisma.question.count({ where: { difficulty: "EASY" } }),
@@ -42,7 +44,7 @@ try {
   await prisma.$disconnect();
   const expected = {
     total: 16_022, published: 16_022, review: 0, importPublished: 16_022, quarantined: 0, retired: 0,
-    autoGradable: 10_130, assets: 24, approvedAssets: 24,
+    autoGradable: 10_130, assets: 24, approvedAssets: 24, hints: 5_143, questionsWithHints: 5_143,
     difficultyAudited: 16_022, difficultyAdjusted: 5_222, difficultyEasy: 8_847, difficultyMedium: 4_463, difficultyHard: 2_712,
   };
   if (JSON.stringify(result) !== JSON.stringify(expected)) {

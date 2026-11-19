@@ -24,10 +24,13 @@ export function levelForXp(xp: number) {
 
 // XP rewards an honest attempt. Self-assessed work earns a flat amount so a
 // learner gains nothing by claiming a written answer was correct.
-export function attemptXp(isCorrect: boolean | null, difficulty: string) {
+// A correct answer reached with question-specific hints keeps the base XP but
+// earns only half of the difficulty bonus.
+export function attemptXp(isCorrect: boolean | null, difficulty: string, hintsUsed = 0) {
   if (isCorrect === null) return SELF_ASSESSED_XP;
   if (!isCorrect) return INCORRECT_XP;
-  return CORRECT_BASE_XP + (DIFFICULTY_BONUS[difficulty] ?? UNKNOWN_DIFFICULTY_BONUS);
+  const bonus = DIFFICULTY_BONUS[difficulty] ?? UNKNOWN_DIFFICULTY_BONUS;
+  return CORRECT_BASE_XP + (hintsUsed > 0 ? Math.floor(bonus / 2) : bonus);
 }
 
 export type StreakState = {

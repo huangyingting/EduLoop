@@ -1,5 +1,5 @@
 import { apiRequest } from "@/lib/api-client";
-import type { AttemptResult, CatalogPayload, QuestionPayload, SessionSnapshot } from "@/lib/contracts/practice";
+import type { AttemptResult, CatalogPayload, HintPayload, QuestionPayload, SessionSnapshot } from "@/lib/contracts/practice";
 import { DEFAULT_QUESTION_GOAL, type PracticeMode } from "@/lib/domain-constants";
 
 // Typed calls the practice player makes. Each function maps to one API route
@@ -41,8 +41,8 @@ export function fetchNextQuestion(input: {
   });
 }
 
-export function fetchHint(questionId: string, signal: AbortSignal) {
-  return apiRequest<{ hint: string | null }>("/api/questions/hint", { query: { questionId }, signal });
+export function fetchHint(questionId: string, step: number, signal: AbortSignal) {
+  return apiRequest<HintPayload>("/api/questions/hint", { query: { questionId, step }, signal });
 }
 
 export function submitAttempt(body: {
@@ -52,6 +52,7 @@ export function submitAttempt(body: {
   sessionId?: string;
   clientAttemptId?: string;
   secondsSpent?: number;
+  hintsUsed?: number;
 }) {
   return apiRequest<AttemptResult>("/api/attempts", { method: "POST", body });
 }

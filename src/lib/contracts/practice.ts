@@ -15,6 +15,7 @@ export const attemptRequestSchema = z.object({
     z.array(z.string().trim().min(1).max(10)).min(1).max(8),
   ]),
   secondsSpent: z.number().int().min(0).max(7200).optional(),
+  hintsUsed: z.number().int().min(0).max(10).optional(),
   sessionId: z.string().min(8).max(100).optional(),
   clientAttemptId: z.uuid().optional(),
   timeZone: timeZoneSchema.optional(),
@@ -60,6 +61,18 @@ export const reportRequestSchema = z.object({
 });
 export type ReportRequest = z.infer<typeof reportRequestSchema>;
 
+export const hintQuerySchema = z.object({
+  questionId: questionIdSchema,
+  step: z.coerce.number().int().min(0).max(9).default(0),
+});
+
+export type HintPayload = {
+  kind: "HINT" | "STRATEGY";
+  hint: string;
+  step: number;
+  total: number;
+};
+
 export const timeZoneQuerySchema = z.object({
   timeZone: timeZoneSchema.optional(),
 });
@@ -75,7 +88,10 @@ export type QuestionPayload = {
   typeLabel: string;
   difficulty: string;
   isAutoGradable: boolean;
+  // True only when the question has question-specific hints; otherwise the
+  // client can still offer the generic solving strategy.
   hasHint: boolean;
+  hintCount: number;
   subject: { name: string; slug: string; color: string };
   grade: string;
   stemAsset: AssetReference | null;

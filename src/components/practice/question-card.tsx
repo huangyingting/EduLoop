@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { QUESTION_TYPE } from "@/lib/domain-constants";
 import { QUESTION_TYPE_LABELS, difficultyLabel } from "@/lib/question-labels";
 import { MathText } from "../math-text";
-import { canAdvance, canSubmit, roundComplete, type PracticeAction, type PracticeState } from "./practice-machine";
+import { canAdvance, canRequestHint, canSubmit, roundComplete, type PracticeAction, type PracticeState } from "./practice-machine";
 import { AnswerOptions, HintPanel, ReportForm, ResultPanel, WrittenAnswer } from "./question-parts";
 import type { PracticeActions as Actions } from "./use-practice-session";
 
@@ -48,7 +48,7 @@ export function QuestionCard({ state, dispatch, actions, isAuthenticated }: {
       <div className="px-6 py-7 sm:px-9 sm:py-9">
         <h2 ref={questionHeading} id="practice-question-heading" tabIndex={-1} className="question-copy whitespace-pre-line text-[17px] font-bold leading-8 text-ink outline-none sm:text-[19px]"><MathText eagerFigures>{question.stem}</MathText></h2>
         {question.stemAsset ? <Image src={question.stemAsset.path} alt={question.stemAsset.altText} width={720} height={360} loading="eager" className="mx-auto mt-6 h-auto max-h-80 w-full max-w-2xl rounded-2xl border border-ink/10 bg-[#fffdf8] object-contain" /> : null}
-        {!result && question.hasHint ? <HintPanel hint={state.hint} onReveal={() => void actions.revealHint()} /> : null}
+        {!result ? <HintPanel hint={state.hint} hasHint={question.hasHint} hintCount={question.hintCount} canRequest={canRequestHint(state)} onReveal={() => void actions.revealHint()} /> : null}
         {question.options.length
           ? <AnswerOptions question={question} selected={state.selected} result={result} disabled={!answering} onToggle={(label) => dispatch({ type: "OPTION_TOGGLED", label })} />
           : <WrittenAnswer value={state.written} disabled={!answering} onChange={(text) => dispatch({ type: "WRITTEN_CHANGED", text })} />}
@@ -75,7 +75,7 @@ export function QuestionCard({ state, dispatch, actions, isAuthenticated }: {
       <footer className="flex items-center justify-between gap-4 border-t border-ink/10 bg-[#fbfaf7] px-6 py-4 sm:px-9">
         <div className="hidden text-xs font-bold text-muted sm:block">
           <p>{question.type === QUESTION_TYPE.MULTIPLE_CHOICE ? "可选择多个答案" : question.isAutoGradable ? "选择你认为正确的答案" : "先独立思考，再对照解析"}</p>
-          <p className="mt-1 flex items-center gap-1.5 text-[11px] text-muted/80"><Keyboard size={13} /> 数字键选择 · Enter 提交/下一题 · H 提示{isAuthenticated ? " · S 收藏" : ""}</p>
+          <p className="mt-1 flex items-center gap-1.5 text-[11px] text-muted/80"><Keyboard size={13} /> 数字键选择 · Enter 提交/下一题 · H {question.hasHint ? "提示" : "策略"}{isAuthenticated ? " · S 收藏" : ""}</p>
         </div>
         {result
           ? <button onClick={() => void actions.nextQuestion()} disabled={!canAdvance(state)} aria-keyshortcuts="Enter" className="ml-auto flex items-center gap-2 rounded-xl bg-ink px-6 py-3 text-sm font-black text-white shadow-[0_4px_0_#6c5ce7] disabled:cursor-not-allowed disabled:opacity-40">{roundComplete(state) ? "开始新一轮" : "下一题"} <ChevronRight size={17} /></button>

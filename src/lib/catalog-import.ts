@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 import type { Prisma, PrismaClient } from "@prisma/client";
 import type { NormalizedTag, normalizeSourceQuestion } from "@/lib/content";
-import { QUESTION_STATUS, TAG_SOURCE } from "@/lib/domain-constants";
+import { HINT_SOURCE, HINT_STATUS, QUESTION_STATUS, TAG_SOURCE } from "@/lib/domain-constants";
 
 export type CatalogQuestion = ReturnType<typeof normalizeSourceQuestion>;
 
@@ -302,6 +302,7 @@ export async function importCatalog(
         options: questionOptions,
         assets,
         tags,
+        hints,
         status: importStatus,
         ...data
       } = question;
@@ -326,6 +327,13 @@ export async function importCatalog(
         assets: assets
           .filter((asset) => !curatedAssets.has(`${question.id}:${asset.role}`))
           .map((asset) => ({ ...asset, questionId: question.id })),
+        hints: hints.map((hint) => ({
+          questionId: question.id,
+          position: hint.position,
+          content: hint.content,
+          source: HINT_SOURCE.DERIVED,
+          reviewStatus: HINT_STATUS.APPROVED,
+        })),
       };
     };
 
@@ -341,6 +349,8 @@ export async function importCatalog(
       await transaction.questionTag.createMany({ data: prepared.flatMap((row) => row.tags) });
       const assets = prepared.flatMap((row) => row.assets);
       if (assets.length) await transaction.questionAsset.createMany({ data: assets });
+      const createdHints = prepared.flatMap((row) => row.hints);
+      if (createdHints.length) await transaction.questionHint.createMany({ data: createdHints });
       written += batch.length;
       options.onProgress?.(written, writes.length);
     }
@@ -364,6 +374,10 @@ export async function importCatalog(
       await transaction.questionAsset.deleteMany({ where: { questionId: { in: ids }, source: { not: TAG_SOURCE.CURATED } } });
       const assets = prepared.flatMap((row) => row.assets);
       if (assets.length) await transaction.questionAsset.createMany({ data: assets });
+      // Derived hints follow the source; editor-curated hints are preserved.
+      await transaction.questionHint.deleteMany({ where: { questionId: { in: ids }, source: HINT_SOURCE.DERIVED } });
+      const changedHints = prepared.flatMap((row) => row.hints);
+      if (changedHints.length) await transaction.questionHint.createMany({ data: changedHints });
 
       const idsByStatus = new Map<string, string[]>();
       for (const { question } of batch) {

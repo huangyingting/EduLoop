@@ -78,6 +78,7 @@ model Question {
   grade                  Grade             @relation(fields: [gradeId], references: [id])
   options                QuestionOption[]
   assets                 QuestionAsset[]
+  hints                  QuestionHint[]
   tags                   QuestionTag[]
   attempts               PracticeAttempt[]
   savedBy                SavedQuestion[]
@@ -125,6 +126,22 @@ model QuestionAsset {
 
   @@unique([questionId, role])
   @@index([questionId, reviewStatus])
+}
+
+// Progressive, question-specific hints. DERIVED hints are rebuilt by every
+// catalog import; CURATED hints come from editors and survive imports.
+model QuestionHint {
+  id           String   @id @default(cuid())
+  questionId   String
+  position     Int
+  content      String
+  source       String
+  reviewStatus String   @default("APPROVED")
+  question     Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([questionId, reviewStatus, position])
 }
 
 model QuestionOption {
@@ -398,6 +415,7 @@ model PracticeAttempt {
   isCorrect           Boolean?
   isSelfAssessed      Boolean          @default(false)
   secondsSpent        Int?
+  hintsUsed           Int              @default(0)
   earnedXp            Int              @default(0)
   explanationViewedAt DateTime?
   learner             LearnerProfile   @relation(fields: [learnerId], references: [id], onDelete: Cascade)

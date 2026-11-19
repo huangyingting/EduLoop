@@ -3164,13 +3164,14 @@ describe("learner API journey", () => {
     const questionResponse = await nextQuestion(new NextRequest("http://localhost/api/questions/next?subject=integration-math&autoGradable=true", { headers: { cookie } }));
     expect(questionResponse.status).toBe(200);
     const question = await questionResponse.json() as { id: string; hasHint: boolean; correctAnswer?: unknown; explanation?: unknown };
-    expect(question).toMatchObject({ id: choiceId, hasHint: true });
+    expect(question).toMatchObject({ id: choiceId, hasHint: false });
     expect(question).not.toHaveProperty("correctAnswer");
     expect(question).not.toHaveProperty("explanation");
 
     const hintResponse = await getQuestionHint(new NextRequest(`http://localhost/api/questions/hint?questionId=${choiceId}`, { headers }));
     expect(hintResponse.status).toBe(200);
-    const hint = await hintResponse.json() as { hint: string };
+    const hint = await hintResponse.json() as { hint: string; kind: string };
+    expect(hint.kind).toBe("STRATEGY");
     expect(hint.hint).toContain("逐项排除");
     expect(hint.hint).not.toContain("1 + 1 = 2");
 

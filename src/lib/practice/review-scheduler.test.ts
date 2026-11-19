@@ -33,6 +33,11 @@ describe("nextReviewState", () => {
     expect(result).toMatchObject({ status: "ACTIVE", consecutiveCorrect: 0, intervalDays: 0 });
   });
 
+  it("keeps a hint-assisted success in active review without advancing the run", () => {
+    const result = nextReviewState({ status: "MASTERED", repetitions: 3, consecutiveCorrect: 3, intervalDays: 30 }, true, now, { assisted: true });
+    expect(result).toMatchObject({ status: "ACTIVE", intervalDays: 1, consecutiveCorrect: 3, repetitions: 4 });
+  });
+
   it("resets the successful run after a miss", () => {
     const result = nextReviewState({ repetitions: 2, consecutiveCorrect: 2 }, false, now);
     expect(result).toMatchObject({ repetitions: 2, consecutiveCorrect: 0, status: "ACTIVE" });

@@ -16,7 +16,7 @@
 1. Land in the learning hall and see the five subject tracks.
 2. Start immediately or filter by school stage, subject, difficulty, topic, skill, and content format.
 3. Work on one uncluttered question. The interface states whether one or multiple choices are expected.
-4. Submit, then see correctness (where defensible), reference answer, explanation, and XP.
+4. Before answering, reveal question-specific hints one step at a time, or a clearly labeled generic "解题策略" when the question has none. Then submit and see correctness (where defensible), reference answer, explanation, and XP.
 5. Move to a non-repeating next question and complete a ten-question loop.
 6. Return later to maintain a daily learning streak and deepen topic mastery.
 7. Open a specific saved or scheduled question, review mistakes when due (after 1, 3, and 7 days), and graduate an item after three successful spaced reviews. A graduated item returns for long-term checks after 30 days, then 60, up to 180. A miss sends it back to active review.
@@ -78,3 +78,12 @@ The protected studio shows these as 28-day aggregates. Seven-day return means a 
 ## Current adaptive behavior
 
 Adaptive mode first selects due review items that match the active filters. If none are due, it uses a topic with at least three recent graded attempts inside those filters, combining accuracy with a bounded response-time signal. It then falls back to the learner's lowest-accuracy recently practiced subject, or a filtered random question when evidence is sparse. The reason is shown in plain language. Topic “mastery” remains a recent-performance signal until curriculum tags are teacher-reviewed.
+
+## Hints
+
+Hints live in `QuestionHint`. The catalog import derives conservative hints from source solutions (`src/lib/hint-derivation.ts`):
+
+- a "这道题考查：…" focus statement for any subject whose solution states what it tests;
+- for AMC sources, the setup of the first solution sentence, clipped before the first computation or conclusion cue.
+
+Anything naming an option, a conclusion, or the answer text is dropped. Derived hints are rebuilt on every import; `CURATED` hints from editors survive imports. Only `APPROVED` hints are served, and `hasHint` is true only when one exists. Attempts record `hintsUsed`: a correct answer after hints earns half the difficulty bonus, and keeps a due review item in active review instead of advancing it. The studio's learning-health panel reports hint usage and accuracy after hints.

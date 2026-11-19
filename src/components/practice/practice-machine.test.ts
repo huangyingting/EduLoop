@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
 import type { AttemptResult, QuestionPayload } from "@/lib/contracts/practice";
-import { canAdvance, canSubmit, initialPracticeState, practiceReducer, roundComplete, type PracticeAction, type PracticeState } from "./practice-machine";
+import { canAdvance, canRequestHint, canSubmit, hintsUsed, initialPracticeState, practiceReducer, roundComplete, type PracticeAction, type PracticeState } from "./practice-machine";
 
 function question(overrides: Partial<QuestionPayload> = {}): QuestionPayload {
   return {
     id: "question-1", stem: "1 + 1 = ?", type: "SINGLE_CHOICE", typeLabel: "单项选择", difficulty: "EASY",
-    isAutoGradable: true, hasHint: true, subject: { name: "数学", slug: "math", color: "#000" }, grade: "一年级",
+    isAutoGradable: true, hasHint: true, hintCount: 1, subject: { name: "数学", slug: "math", color: "#000" }, grade: "一年级",
     stemAsset: null, options: [{ label: "A", content: "1", asset: null }, { label: "B", content: "2", asset: null }],
     tags: [], isSaved: false, recommendationReason: null, ...overrides,
   };
@@ -96,8 +96,13 @@ describe("practice state machine", () => {
   });
 
   it("tracks hint, save, and report sub-states", () => {
-    let state = run([...loaded(), { type: "HINT_STARTED" }, { type: "HINT_SUCCEEDED", text: "先列式" }]);
-    expect(state.hint).toEqual({ text: "先列式", loading: false, error: "" });
+    let state = run([...loaded(), { type: "HINT_STARTED" }, { type: "HINT_SUCCEEDED", hint: { kind: "HINT", hint: "先列式", step: 0, total: 2 } }]);
+    expect(state.hint).toEqual({ items: ["先列式"], kind: "HINT", total: 2, loading: false, error: "" });
+    expect(canRequestHint(state)).toBe(true);
+    expect(hintsUsed(state)).toBe(1);
+    const strategy = run([...loaded(), { type: "HINT_SUCCEEDED", hint: { kind: "STRATEGY", hint: "通用策略", step: 0, total: 0 } }]);
+    expect(canRequestHint(strategy)).toBe(false);
+    expect(hintsUsed(strategy)).toBe(0);
     state = run([{ type: "SAVE_STARTED" }, { type: "SAVE_FINISHED", saved: true }], state);
     expect(state).toMatchObject({ saving: false, question: { isSaved: true } });
     state = run([{ type: "REPORT_TOGGLED" }, { type: "REPORT_CHANGED", category: "WRONG_ANSWER", detail: "答案不对" }, { type: "REPORT_STARTED" }, { type: "REPORT_FINISHED", submitted: true }], state);

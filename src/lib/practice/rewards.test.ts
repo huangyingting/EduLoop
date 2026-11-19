@@ -18,6 +18,8 @@ describe("practice rewards", () => {
     expect(attemptXp(true, "UNKNOWN")).toBe(11);
     expect(attemptXp(false, "HARD")).toBe(2);
     expect(attemptXp(null, "HARD")).toBe(3);
+    expect(attemptXp(true, "HARD", 1)).toBe(11);
+    expect(attemptXp(false, "HARD", 2)).toBe(2);
   });
 
   it("keeps the streak on a second attempt the same day", () => {

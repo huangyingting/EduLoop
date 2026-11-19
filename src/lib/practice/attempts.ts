@@ -129,7 +129,8 @@ export async function recordLearnerAttempt(params: {
   const now = params.now ?? new Date();
   const timeZone = effectiveTimeZone(params.storedTimeZone, input.timeZone);
   const today = calendarDay(now, timeZone);
-  const earnedXp = attemptXp(isCorrect, question.difficulty);
+  const hintsUsed = input.hintsUsed ?? 0;
+  const earnedXp = attemptXp(isCorrect, question.difficulty, hintsUsed);
 
   if (input.clientAttemptId) {
     const replay = await replayAttempt(input.clientAttemptId, learnerId, question, today);
@@ -157,6 +158,7 @@ export async function recordLearnerAttempt(params: {
         isCorrect,
         isSelfAssessed: isCorrect === null,
         secondsSpent: input.secondsSpent,
+        hintsUsed,
         earnedXp,
       } });
       let updatedLearner = await transaction.learnerProfile.update({
@@ -200,7 +202,7 @@ export async function recordLearnerAttempt(params: {
       }
 
       if (isCorrect !== null && shouldRescheduleReview(existingReview, isCorrect, now)) {
-        const review = nextReviewState(existingReview, Boolean(isCorrect), now);
+        const review = nextReviewState(existingReview, Boolean(isCorrect), now, { assisted: hintsUsed > 0 });
         await transaction.reviewItem.upsert({
           where: { learnerId_questionId: { learnerId, questionId: question.id } },
           create: { learnerId, questionId: question.id, ...review },

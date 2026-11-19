@@ -30,7 +30,7 @@ export function usePracticeShortcuts(
         event.preventDefault();
         if (canAdvance(current)) void currentActions.nextQuestion();
         else if (canSubmit(current)) void currentActions.submit();
-      } else if (event.key.toLowerCase() === "h" && !current.result && question.hasHint) {
+      } else if (event.key.toLowerCase() === "h" && !current.result) {
         event.preventDefault();
         void currentActions.revealHint();
       } else if (event.key.toLowerCase() === "s" && signedIn) {

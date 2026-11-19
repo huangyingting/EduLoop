@@ -4,6 +4,7 @@ import { PATCH as assessAttempt, POST as createAttempt } from "@/app/api/attempt
 import { GET as getLearner } from "@/app/api/learner/route";
 import { GET as getProgress } from "@/app/api/learner/progress/route";
 import { GET as getSummary } from "@/app/api/learner/summary/route";
+import { GET as getHint } from "@/app/api/questions/hint/route";
 import { GET as nextQuestion } from "@/app/api/questions/next/route";
 import { GET as getReview } from "@/app/api/review/route";
 import { prisma } from "@/lib/prisma";
@@ -141,6 +142,31 @@ describe("practice hot paths", () => {
     const fallback = await nextQuestion(getRequest(`http://localhost/api/questions/next?${allExcluded}`));
     expect(fallback.status).toBe(200);
     expect([...questionIds, writtenQuestionId]).toContain((await fallback.json()).id);
+  });
+
+  it("serves approved question-specific hints step by step and halves the bonus after hints", async () => {
+    const hinted = `${prefix}-hinted`;
+    await createChoiceQuestion(catalog, hinted, { difficulty: "HARD", randomKey: 0.995 });
+    await prisma.questionHint.createMany({ data: [
+      { questionId: hinted, position: 0, content: "这道题考查：加法。", source: "DERIVED" },
+      { questionId: hinted, position: 1, content: "可以先从这里入手：把两个数合起来……", source: "CURATED" },
+      { questionId: hinted, position: 2, content: "草稿提示", source: "CURATED", reviewStatus: "DRAFT" },
+    ] });
+
+    const payload = await (await nextQuestion(getRequest(`http://localhost/api/questions/next?questionId=${hinted}`))).json();
+    expect(payload).toMatchObject({ hasHint: true, hintCount: 2 });
+    const first = await getHint(getRequest(`http://localhost/api/questions/hint?questionId=${hinted}&step=0`));
+    expect(await first.json()).toEqual({ kind: "HINT", hint: "这道题考查：加法。", step: 0, total: 2 });
+    const second = await getHint(getRequest(`http://localhost/api/questions/hint?questionId=${hinted}&step=1`));
+    expect((await second.json()).hint).toContain("合起来");
+    expect((await getHint(getRequest(`http://localhost/api/questions/hint?questionId=${hinted}&step=2`))).status).toBe(404);
+
+    const cookie = await authCookie(learnerUserId);
+    const result = await createAttempt(jsonRequest("http://localhost/api/attempts", "POST", {
+      questionId: hinted, response: ["B"], clientAttemptId: crypto.randomUUID(), hintsUsed: 2,
+    }, cookie));
+    expect(await result.json()).toMatchObject({ isCorrect: true, earnedXp: 11 });
+    expect(await prisma.practiceAttempt.findFirstOrThrow({ where: { questionId: hinted } })).toMatchObject({ hintsUsed: 2 });
   });
 
   it("does not create a learner profile when a signed-in account only reads", async () => {

@@ -22,7 +22,25 @@ function addDays(now: Date, days: number) {
   return dueAt;
 }
 
-export function nextReviewState(existing: ReviewState | null, isCorrect: boolean, now = new Date()) {
+export function nextReviewState(
+  existing: ReviewState | null,
+  isCorrect: boolean,
+  now = new Date(),
+  options: { assisted?: boolean } = {},
+) {
+  // A success that needed hints is a weaker signal: the item stays in active
+  // review, keeps its current run, and comes back tomorrow.
+  if (isCorrect && options.assisted) {
+    return {
+      status: REVIEW_ITEM_STATUS.ACTIVE,
+      dueAt: addDays(now, LEARNING_INTERVALS[0]),
+      intervalDays: LEARNING_INTERVALS[0],
+      repetitions: (existing?.repetitions ?? 0) + 1,
+      consecutiveCorrect: existing?.consecutiveCorrect ?? 0,
+      lastResult: true,
+      lastAttemptAt: now,
+    };
+  }
   if (!isCorrect) {
     return {
       status: REVIEW_ITEM_STATUS.ACTIVE,

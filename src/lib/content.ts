@@ -7,6 +7,7 @@ import {
 } from "@/lib/content-curation";
 import { applyQuestionReplacement } from "@/lib/question-replacements";
 import { auditQuestionDifficulty, type Difficulty } from "@/lib/difficulty";
+import { deriveQuestionHints } from "@/lib/hint-derivation";
 import { QUESTION_STATUS, type AssetReviewStatus } from "@/lib/domain-constants";
 
 export const SUBJECTS = [
@@ -131,6 +132,8 @@ export const TAG_DIMENSIONS = [
 export function normalizeDifficulty(source: string): Difficulty {
   return ({ 容易: "EASY", 一般: "MEDIUM", 困难: "HARD" } as Record<string, Difficulty>)[source] ?? "MEDIUM";
 }
+
+export type NormalizedHint = { position: number; content: string };
 
 export type NormalizedOption = { label: string; content: string; sortOrder: number };
 
@@ -363,6 +366,13 @@ export function normalizeSourceQuestion(question: SourceQuestion, sourceFile: st
     assets: [] as NormalizedAsset[],
     tags: inferTags(question),
   });
+  // Hints come from the original source solutions, so curated rewrites of the
+  // explanation never leak into a pre-answer hint.
+  const hints: NormalizedHint[] = deriveQuestionHints({
+    solutions: question.solutions ?? [],
+    answer: String(question.answer ?? ""),
+    isContestSource: isAmcSource,
+  }).map((hint, position) => ({ position, content: hint.content }));
   const audit = auditQuestionDifficulty({
     sourceDifficulty,
     gradeOrder: GRADE_ORDER_BY_NAME.get(question.grade) ?? 7,
@@ -374,6 +384,7 @@ export function normalizeSourceQuestion(question: SourceQuestion, sourceFile: st
   });
   return {
     ...normalized,
+    hints,
     difficulty: update?.difficulty ?? (isAmcSource ? sourceDifficulty : audit.difficulty),
     sourceDifficulty: audit.sourceDifficulty,
     difficultyScore: audit.score,

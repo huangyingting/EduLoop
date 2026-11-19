@@ -1,4 +1,4 @@
-import type { AttemptResult, QuestionPayload, SessionSnapshot } from "@/lib/contracts/practice";
+import type { AttemptResult, HintPayload, QuestionPayload, SessionSnapshot } from "@/lib/contracts/practice";
 import { DEFAULT_QUESTION_GOAL, PRACTICE_SESSION_STATUS, QUESTION_TYPE } from "@/lib/domain-constants";
 
 // The practice player as a pure state machine:
@@ -23,7 +23,9 @@ export type PracticeState = {
   correct: number;
   combo: number;
   recent: string[];
-  hint: { text: string | null; loading: boolean; error: string };
+  // Revealed hint steps; kind tells whether they are question-specific hints
+  // or the generic solving strategy.
+  hint: { items: string[]; kind: HintPayload["kind"] | null; total: number; loading: boolean; error: string };
   report: { open: boolean; category: string; detail: string; submitting: boolean; submitted: boolean };
   saving: boolean;
 };
@@ -42,7 +44,7 @@ export type PracticeAction =
   | { type: "SESSION_SYNCED"; session: SessionSnapshot | null }
   | { type: "ROUND_RESET" }
   | { type: "HINT_STARTED" }
-  | { type: "HINT_SUCCEEDED"; text: string }
+  | { type: "HINT_SUCCEEDED"; hint: HintPayload }
   | { type: "HINT_FAILED"; message: string }
   | { type: "SAVE_STARTED" }
   | { type: "SAVE_FINISHED"; saved: boolean | null }
@@ -51,7 +53,7 @@ export type PracticeAction =
   | { type: "REPORT_STARTED" }
   | { type: "REPORT_FINISHED"; submitted: boolean };
 
-const emptyHint = { text: null, loading: false, error: "" };
+const emptyHint: PracticeState["hint"] = { items: [], kind: null, total: 0, loading: false, error: "" };
 const emptyReport = { open: false, category: "UNCLEAR", detail: "", submitting: false, submitted: false };
 
 export function initialPracticeState(goal = DEFAULT_QUESTION_GOAL): PracticeState {
@@ -77,6 +79,17 @@ export function initialPracticeState(goal = DEFAULT_QUESTION_GOAL): PracticeStat
 export function canSubmit(state: PracticeState) {
   if (state.phase !== "answering" || !state.question) return false;
   return state.question.options.length ? state.selected.length > 0 : state.written.trim().length > 0;
+}
+
+// Hints are progressive; the generic strategy is a single step.
+export function canRequestHint(state: PracticeState) {
+  if (state.phase !== "answering" || !state.question || state.hint.loading) return false;
+  if (!state.hint.items.length) return true;
+  return state.hint.kind === "HINT" && state.hint.items.length < state.hint.total;
+}
+
+export function hintsUsed(state: PracticeState) {
+  return state.hint.kind === "HINT" ? state.hint.items.length : 0;
 }
 
 export function canAdvance(state: PracticeState) {
@@ -172,7 +185,10 @@ export function practiceReducer(state: PracticeState, action: PracticeAction): P
     case "HINT_STARTED":
       return { ...state, hint: { ...state.hint, loading: true, error: "" } };
     case "HINT_SUCCEEDED":
-      return { ...state, hint: { text: action.text, loading: false, error: "" } };
+      return {
+        ...state,
+        hint: { items: [...state.hint.items, action.hint.hint], kind: action.hint.kind, total: action.hint.total, loading: false, error: "" },
+      };
     case "HINT_FAILED":
       return { ...state, hint: { ...state.hint, loading: false, error: action.message } };
     case "SAVE_STARTED":

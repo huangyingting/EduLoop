@@ -4,7 +4,7 @@ import type { AttemptResult } from "@/lib/contracts/practice";
 import { getTimeZone } from "@/lib/learner";
 import { useLearner } from "../learner-provider";
 import * as practiceApi from "./practice-api";
-import { canSubmit, type PracticeAction, type PracticeState } from "./practice-machine";
+import { canRequestHint, canSubmit, hintsUsed, type PracticeAction, type PracticeState } from "./practice-machine";
 
 type ActionContext = {
   questionId: string | undefined;
@@ -28,14 +28,14 @@ export function usePracticeActions({ questionId, stateRef, dispatch, isAuthentic
 
   const revealHint = useCallback(async () => {
     const current = stateRef.current;
-    if (!current.question?.hasHint || current.result || current.hint.text || current.hint.loading) return;
+    if (!current.question || !canRequestHint(current)) return;
     hintRequest.current?.abort();
     const controller = new AbortController();
     hintRequest.current = controller;
     dispatch({ type: "HINT_STARTED" });
     try {
-      const { hint } = await practiceApi.fetchHint(current.question.id, controller.signal);
-      dispatch(hint ? { type: "HINT_SUCCEEDED", text: hint } : { type: "HINT_FAILED", message: "这道题暂时没有可用提示。" });
+      const hint = await practiceApi.fetchHint(current.question.id, current.hint.items.length, controller.signal);
+      dispatch({ type: "HINT_SUCCEEDED", hint });
     } catch (cause) {
       if (!controller.signal.aborted) dispatch({ type: "HINT_FAILED", message: describeApiError(cause, "提示加载失败，请稍后再试。") });
     }
@@ -55,6 +55,7 @@ export function usePracticeActions({ questionId, stateRef, dispatch, isAuthentic
           sessionId: sessionId.current ?? undefined,
           clientAttemptId: clientAttemptId.current,
           secondsSpent: Math.round((Date.now() - startedAt.current) / 1000),
+          hintsUsed: hintsUsed(current),
         } : {}),
       });
       dispatch({ type: "SUBMIT_SUCCEEDED", result });

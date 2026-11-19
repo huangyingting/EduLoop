@@ -14,7 +14,9 @@ const TYPE_STRATEGIES: Record<string, string> = {
   WRITTEN_RESPONSE: "把问题拆成几个小结论，每一步都写出依据；先完成最确定的部分。",
 };
 
-export function buildQuestionHint(question: HintQuestion) {
+// A generic solving strategy built from type, difficulty, and topic. It is
+// offered as "解题策略" when a question has no question-specific hint.
+export function buildSolvingStrategy(question: HintQuestion) {
   const topic = question.tags?.find(({ tag }) => tag.dimension.key === "TOPIC")?.tag.label;
   const topicLead = topic ? `先回忆“${topic}”的核心定义或基本关系。` : "先圈出题干中的已知条件和真正要回答的问题。";
   const strategy = TYPE_STRATEGIES[question.type] ?? TYPE_STRATEGIES.WRITTEN_RESPONSE;

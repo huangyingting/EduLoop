@@ -22,6 +22,17 @@ export const TAG_SOURCE = {
 } as const;
 export type TagSource = (typeof TAG_SOURCE)[keyof typeof TAG_SOURCE];
 
+export const HINT_SOURCE = {
+  DERIVED: "DERIVED",
+  CURATED: "CURATED",
+} as const;
+
+export const HINT_STATUS = {
+  APPROVED: "APPROVED",
+  DRAFT: "DRAFT",
+  REJECTED: "REJECTED",
+} as const;
+
 export const TAG_DIMENSION = {
   TOPIC: "TOPIC",
   SKILL: "SKILL",

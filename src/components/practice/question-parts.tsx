@@ -15,11 +15,25 @@ const REPORT_CATEGORY_LABELS: Record<(typeof REPORT_CATEGORIES)[number], string>
 };
 const reportCategoryOptions = REPORT_CATEGORIES.map((value) => ({ value, label: REPORT_CATEGORY_LABELS[value] }));
 
-export function HintPanel({ hint, onReveal }: { hint: PracticeState["hint"]; onReveal: () => void }) {
+// Question-specific hints are revealed one step at a time. Without them the
+// learner can open a clearly labeled generic solving strategy instead.
+export function HintPanel({ hint, hasHint, hintCount, canRequest, onReveal }: {
+  hint: PracticeState["hint"];
+  hasHint: boolean;
+  hintCount: number;
+  canRequest: boolean;
+  onReveal: () => void;
+}) {
+  const strategy = hint.kind === "STRATEGY" || (!hint.kind && !hasHint);
+  const title = strategy ? "解题策略" : "解题提示";
+  const label = !hint.items.length
+    ? hasHint ? "查看提示" : "解题策略"
+    : `再给一点提示（${hint.items.length + 1}/${hint.total || hintCount}）`;
   return <div className="mt-6">
-    {hint.text
-      ? <div aria-live="polite" className="border-l-4 border-lime bg-[#f7fadf] px-4 py-3 text-sm"><p className="flex items-center gap-2 font-black"><Lightbulb size={17} /> 解题提示</p><div className="mt-2 whitespace-pre-line font-medium leading-6 text-ink/75"><MathText>{hint.text}</MathText></div></div>
-      : <button onClick={onReveal} disabled={hint.loading} aria-keyshortcuts="H" className="flex min-h-11 items-center gap-2 rounded-xl border-2 border-ink/10 bg-canvas px-4 text-sm font-black text-muted transition hover:border-lime hover:text-ink disabled:opacity-50">{hint.loading ? <LoaderCircle className="animate-spin" size={17} /> : <Lightbulb size={17} />} 查看提示</button>}
+    {hint.items.length
+      ? <div aria-live="polite" className="border-l-4 border-lime bg-[#f7fadf] px-4 py-3 text-sm"><p className="flex items-center gap-2 font-black"><Lightbulb size={17} /> {title}</p>{hint.items.map((item, index) => <div key={index} className="mt-2 whitespace-pre-line font-medium leading-6 text-ink/75"><MathText>{item}</MathText></div>)}</div>
+      : null}
+    {canRequest ? <button onClick={onReveal} disabled={hint.loading} aria-keyshortcuts="H" className={`${hint.items.length ? "mt-3 " : ""}flex min-h-11 items-center gap-2 rounded-xl border-2 border-ink/10 bg-canvas px-4 text-sm font-black text-muted transition hover:border-lime hover:text-ink disabled:opacity-50`}>{hint.loading ? <LoaderCircle className="animate-spin" size={17} /> : <Lightbulb size={17} />} {label}</button> : null}
     {hint.error ? <p role="alert" className="mt-2 text-sm font-bold text-coral">{hint.error}</p> : null}
   </div>;
 }

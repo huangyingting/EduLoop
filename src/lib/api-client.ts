@@ -104,8 +104,9 @@ export async function apiRequest<T>(path: string, options: ApiRequestOptions = {
   throw error;
 }
 
-// Shared learner-facing wording for transport-level failures. Feature-specific
-// failures fall back to the caller's own message.
+// Shared learner-facing wording for failures the learner can act on (network,
+// rate limit, expired login). Everything else, including a temporary 503, uses
+// the caller's feature-specific message, which says what failed to load.
 export function describeApiError(error: unknown, fallback: string) {
   if (!(error instanceof ApiClientError)) return fallback;
   if (error.kind === "network") return "网络连接失败，请检查网络后重试。";
@@ -114,7 +115,6 @@ export function describeApiError(error: unknown, fallback: string) {
       ? `操作太频繁了，请在 ${error.retryAfterSeconds} 秒后再试。`
       : "操作太频繁了，请稍后再试。";
   }
-  if (error.kind === "unavailable") return "服务暂时不可用，请稍后再试。";
   if (error.kind === "unauthorized") return "登录已过期，请重新登录。";
   return fallback;
 }

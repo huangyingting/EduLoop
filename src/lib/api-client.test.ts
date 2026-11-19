@@ -49,6 +49,8 @@ describe("api client", () => {
     expect(describeApiError(new ApiClientError({ status: 409, code: "CONFLICT", message: "x" }), "收藏失败"))
       .toBe("收藏失败");
     expect(describeApiError(new Error("other"), "fallback")).toBe("fallback");
+    expect(describeApiError(new ApiClientError({ status: 503, code: "SERVICE_UNAVAILABLE", message: "x" }), "成长记录加载失败"))
+      .toBe("成长记录加载失败");
   });
 
   it("builds login redirects that return to the current page", () => {

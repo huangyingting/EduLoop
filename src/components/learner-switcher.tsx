@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useT } from "@/i18n/client";
 import { apiRequest } from "@/lib/api-client";
 import { useAuth } from "@/lib/use-auth";
 import type { FamilyOverview } from "./family-manager";
@@ -9,6 +10,7 @@ import type { FamilyOverview } from "./family-manager";
 // on this device. Switching reloads the page so every view shows that learner.
 export function LearnerSwitcher() {
   const auth = useAuth();
+  const t = useT();
   const [family, setFamily] = useState<FamilyOverview | null>(null);
   const [switching, setSwitching] = useState(false);
 
@@ -32,9 +34,9 @@ export function LearnerSwitcher() {
   }
 
   return <label className="mt-3 block rounded-2xl border-2 border-ink/10 bg-white p-3 text-xs font-black text-muted">
-    正在练习的学习者
+    {t("shell.activeLearner")}
     <select value={family.activeLearnerId ?? ""} disabled={switching} onChange={(event) => void select(event.target.value)} className="mt-1.5 min-h-10 w-full rounded-lg border-2 border-ink/10 px-2 text-sm font-black text-ink">
-      <option value="">{family.self.displayName || "我自己"}</option>
+      <option value="">{family.self.displayName || t("shell.myself")}</option>
       {family.children.map((child) => <option key={child.id} value={child.id}>{child.displayName}</option>)}
     </select>
   </label>;

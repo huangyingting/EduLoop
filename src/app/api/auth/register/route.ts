@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { NextResponse } from "next/server";
-import { apiError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api";
+import { apiError, apiMessageError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api";
 import { runAfterResponse } from "@/lib/after-response";
 import { hashPassword } from "@/lib/auth";
 import { isSameOriginRequest, normalizeEmail, registerInputSchema } from "@/lib/auth-validation";
@@ -34,7 +34,7 @@ async function postRegistration(request: Request) {
   if (!body.ok) return body.response;
   const parsed = registerInputSchema.safeParse(body.value);
   if (!parsed.success) {
-    return apiError("请填写有效的邮箱、昵称和至少 8 位密码。", 400, "INVALID_REQUEST");
+    return apiMessageError("registrationInvalid", 400, "INVALID_REQUEST");
   }
   const input = parsed.data;
   const email = normalizeEmail(input.email);
@@ -51,7 +51,7 @@ async function postRegistration(request: Request) {
     select: { id: true },
   }) : null;
   if (input.knowledgeBand && !knowledgeBand) {
-    return apiError("请选择题库中可用的知识阶段。", 400, "INVALID_REQUEST");
+    return apiMessageError("knowledgeBandUnavailable", 400, "INVALID_REQUEST");
   }
 
   const acceptedAt = new Date();
@@ -86,7 +86,7 @@ async function postRegistration(request: Request) {
     });
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
-      return apiError("该邮箱已注册，请直接登录。", 409, "CONFLICT");
+      return apiMessageError("emailRegistered", 409, "CONFLICT");
     }
     throw error;
   }

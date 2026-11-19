@@ -2,8 +2,12 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { AuthForm } from "@/components/auth-form";
 import { registrationEnabled } from "@/lib/deployment-mode";
+import { getTranslator } from "@/i18n/server";
 
-export const metadata: Metadata = { title: "登录", description: "登录 EduLoop，继续你的练习、错题复习与成长记录。", alternates: { canonical: "/login" } };
+export async function generateMetadata(): Promise<Metadata> {
+  const { t } = await getTranslator();
+  return { title: t("pages.loginTitle"), description: t("pages.loginDescription"), alternates: { canonical: "/login" } };
+}
 export const dynamic = "force-dynamic";
 
 export default function LoginPage() {

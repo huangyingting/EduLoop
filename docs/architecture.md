@@ -35,6 +35,7 @@ The catalog API discovers every filterable tag dimension from the database, so n
 - `src/lib/practice/` owns practice behavior: `grading.ts` (answer checking), `rewards.ts` (XP, levels, streak shields), `badges.ts`, `review-scheduler.ts`, `attempts.ts` (the attempt transaction), `selection.ts`, `sessions.ts`, `progress.ts`, and `review-library.ts`. These modules are unit-tested directly and covered end to end by the integration suite.
 - `src/lib/domain-constants.ts` is the single source of persisted status, role, and action strings; a lint rule forbids those literals elsewhere in `src/`.
 - Client components import response types from `src/lib/contracts/` and call APIs through `apiRequest`, which maps HTTP failures to typed kinds (unauthorized, rate-limited, unavailable, network, and so on) and can send an expired session back to login.
+- Interface text lives in the message catalogs under `src/i18n/messages/`; see [Internationalization](i18n.md). API errors a learner can act on carry a `messageKey` that the client renders in the learner's language.
 
 ## Data-model decisions
 

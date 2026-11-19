@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { PracticePlayer } from "@/components/practice/practice-player";
+import { getTranslator } from "@/i18n/server";
 
-export const metadata: Metadata = {
-  title: "专注练习",
-  description: "无需注册即可开始 10 题挑战：数学、物理、化学、生物、语文与 AMC 竞赛题，提交后立即看到参考答案与解析。",
-  alternates: { canonical: "/practice" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { t } = await getTranslator();
+  return { title: t("pages.practiceTitle"), description: t("pages.practiceDescription"), alternates: { canonical: "/practice" } };
+}
 
-export default function PracticePage() {
-  return <Suspense fallback={<div className="p-10 font-bold text-muted">正在进入练习空间…</div>}><PracticePlayer /></Suspense>;
+export default async function PracticePage() {
+  const { t } = await getTranslator();
+  return <Suspense fallback={<div className="p-10 font-bold text-muted">{t("pages.practiceLoading")}</div>}><PracticePlayer /></Suspense>;
 }

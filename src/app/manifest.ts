@@ -1,9 +1,11 @@
 import type { MetadataRoute } from "next";
+import { zhCN } from "@/i18n/messages/zh-CN";
 import { SITE_DESCRIPTION } from "@/lib/site";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "EduLoop · 每一题都有回响",
+    // The install manifest is shared by every visitor, so it uses the default locale.
+    name: zhCN.meta.title,
     short_name: "EduLoop",
     description: SITE_DESCRIPTION,
     lang: "zh-CN",

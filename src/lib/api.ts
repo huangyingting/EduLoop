@@ -1,5 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
+import type { ErrorMessageKey } from "@/i18n/messages";
+import { en } from "@/i18n/messages/en";
 import { isDatabaseUnavailableError } from "./database-errors";
 import { errorLogMetadata } from "./logging";
 import { sendServerErrorAlert } from "./observability/alerts";
@@ -20,11 +22,18 @@ export type ApiErrorCode =
   | "SERVICE_UNAVAILABLE"
   | "UNAUTHORIZED";
 
-export function apiError(error: string, status: number, code: ApiErrorCode, details?: unknown) {
-  return NextResponse.json({ error, code, ...(details === undefined ? {} : { details }) }, {
+export function apiError(error: string, status: number, code: ApiErrorCode, details?: unknown, messageKey?: ErrorMessageKey) {
+  return NextResponse.json({ error, code, ...(messageKey ? { messageKey } : {}), ...(details === undefined ? {} : { details }) }, {
     status,
     headers: { "Cache-Control": "no-store" },
   });
+}
+
+// Errors the learner can act on carry a messageKey. Clients show the catalog
+// text for that key in the learner's language; `error` stays developer-facing
+// English.
+export function apiMessageError(messageKey: ErrorMessageKey, status: number, code: ApiErrorCode, details?: unknown) {
+  return apiError(en.errors[messageKey], status, code, details, messageKey);
 }
 
 export async function readJsonBody(

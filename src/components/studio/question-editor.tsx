@@ -2,7 +2,8 @@
 
 import { Check, ImageUp, LoaderCircle, Plus, Search, Send, Trash2, X } from "lucide-react";
 import { useCallback, useState } from "react";
-import { apiRequest, describeApiError } from "@/lib/api-client";
+import { useT } from "@/i18n/client";
+import { apiErrorFromResponse, apiRequest, describeApiError } from "@/lib/api-client";
 import { ASSET_REVIEW_STATUS, HINT_SOURCE, HINT_STATUS, REVISION_STATUS } from "@/lib/domain-constants";
 import type { StudioQuestionDetail } from "@/lib/studio/questions";
 import { MathText } from "../math-text";
@@ -41,6 +42,7 @@ function draftFrom(question: StudioQuestionDetail): Draft {
 // Editorial overrides: an approved revision replaces the served content and is
 // re-applied after every catalog import; answer-key fixes re-grade attempts.
 export function QuestionEditor() {
+  const t = useT();
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResult[] | null>(null);
   const [question, setQuestion] = useState<StudioQuestionDetail | null>(null);
@@ -57,11 +59,11 @@ export function QuestionEditor() {
       setQuestion(detail);
       setDraft(draftFrom(detail));
     } catch (cause) {
-      setError(describeApiError(cause, "题目加载失败。"));
+      setError(describeApiError(cause, "题目加载失败。", t));
     } finally {
       setBusy("");
     }
-  }, []);
+  }, [t]);
 
   async function search(event: React.FormEvent) {
     event.preventDefault();
@@ -69,7 +71,7 @@ export function QuestionEditor() {
     try {
       setResults((await apiRequest<{ questions: SearchResult[] }>("/api/studio/questions", { query: { query } })).questions);
     } catch (cause) {
-      setError(describeApiError(cause, "搜索失败。"));
+      setError(describeApiError(cause, "搜索失败。", t));
     } finally {
       setBusy("");
     }
@@ -83,7 +85,7 @@ export function QuestionEditor() {
       setMessage(success);
       await open(question.id);
     } catch (cause) {
-      setError(describeApiError(cause, "操作失败，请重试。"));
+      setError(describeApiError(cause, "操作失败，请重试。", t));
     } finally {
       setBusy("");
     }
@@ -153,7 +155,7 @@ export function QuestionEditor() {
           <div className="mt-2 flex gap-2"><input value={newHint} onChange={(event) => setNewHint(event.target.value)} placeholder="新增一条不泄露答案的提示" aria-label="新增提示" className="min-h-10 flex-1 rounded-lg border-2 border-ink/10 px-3 text-xs" /><button onClick={() => void run("hint-add", async () => { await apiRequest("/api/studio/hints", { method: "POST", body: { questionId: question.id, content: newHint } }); setNewHint(""); }, "提示已添加。")} disabled={newHint.trim().length < 4 || Boolean(busy)} className="rounded-lg bg-ink px-3 text-xs font-black text-white disabled:opacity-40">添加</button></div>
         </div>
 
-        <AssetPanel question={question} busy={busy} onUpload={(form) => run("asset", () => fetch("/api/studio/assets", { method: "POST", body: form }).then(async (response) => { if (!response.ok) throw new Error((await response.json().catch(() => ({})) as { error?: string }).error ?? "上传失败"); }), "图片已上传，批准后对学生可见。")} onReview={(assetId, reviewStatus) => run(`asset-${assetId}`, () => apiRequest("/api/studio/assets", { method: "PATCH", body: { assetId, reviewStatus } }), "图片状态已更新。")} />
+        <AssetPanel question={question} busy={busy} onUpload={(form) => run("asset", () => fetch("/api/studio/assets", { method: "POST", body: form }).then(async (response) => { if (!response.ok) throw await apiErrorFromResponse(response); }), "图片已上传，批准后对学生可见。")} onReview={(assetId, reviewStatus) => run(`asset-${assetId}`, () => apiRequest("/api/studio/assets", { method: "PATCH", body: { assetId, reviewStatus } }), "图片状态已更新。")} />
       </div>
     </div> : null}
   </section>;

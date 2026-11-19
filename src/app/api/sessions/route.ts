@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { apiError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api";
+import { apiError, apiMessageError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api";
 import { getSessionUser } from "@/lib/auth";
 import { isSameOriginRequest } from "@/lib/auth-validation";
 import { sessionRequestSchema } from "@/lib/contracts/practice";
@@ -9,7 +9,7 @@ import { startPracticeSession } from "@/lib/practice/sessions";
 async function postSession(request: Request) {
   if (!isSameOriginRequest(request)) return apiError("Invalid request origin.", 403, "FORBIDDEN");
   const user = await getSessionUser(request);
-  if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
+  if (!user) return apiMessageError("signInRequired", 401, "UNAUTHORIZED");
   const body = await readJsonBody(request);
   if (!body.ok) return body.response;
   const parsed = sessionRequestSchema.safeParse(body.value);

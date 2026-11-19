@@ -1,3 +1,5 @@
+import { zhCN } from "@/i18n/messages/zh-CN";
+
 const DEVELOPMENT_ORIGIN = "http://localhost:3000";
 
 // The canonical public origin for metadata, robots, and the sitemap. AUTH_URL
@@ -11,4 +13,5 @@ export function publicOrigin(environment: { AUTH_URL?: string } = { AUTH_URL: pr
 }
 
 export const SITE_NAME = "EduLoop";
-export const SITE_DESCRIPTION = "面向中小学生的个性化学科练习平台。用小步练习、即时反馈和成长奖励，把知识练成能力。";
+// Install and share surfaces (manifest, Open Graph image) use the default locale.
+export const SITE_DESCRIPTION = zhCN.meta.description;

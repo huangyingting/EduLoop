@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { apiError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api";
+import { apiError, apiMessageError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api";
 import { runAfterResponse } from "@/lib/after-response";
 import { normalizeEmail, isSameOriginRequest, passwordResetCompletionSchema, passwordResetRequestSchema } from "@/lib/auth-validation";
 import { emailConfiguration, sendPasswordChangedNotice } from "@/lib/email";
@@ -8,7 +8,7 @@ import { deliverPasswordReset, hashPasswordResetToken, resetPasswordWithToken } 
 
 export const runtime = "nodejs";
 
-const acceptedMessage = "如果该邮箱对应一个账号，我们会发送一封密码重置邮件。";
+const acceptedMessage = "If an account uses this email, a password reset email is on its way.";
 
 function resetOrigin(request: Request) {
   const configured = process.env.AUTH_URL?.trim();
@@ -32,7 +32,7 @@ async function requestPasswordReset(request: Request) {
   const body = await readJsonBody(request);
   if (!body.ok) return body.response;
   const parsed = passwordResetRequestSchema.safeParse(body.value);
-  if (!parsed.success) return apiError("请输入有效的邮箱地址。", 400, "INVALID_REQUEST");
+  if (!parsed.success) return apiMessageError("emailInvalid", 400, "INVALID_REQUEST");
   const email = normalizeEmail(parsed.data.email);
   const limited = await enforceRateLimit(request, "auth-password-reset-request", {
     addressLimit: 20,
@@ -57,7 +57,7 @@ async function completePasswordReset(request: Request) {
   const body = await readJsonBody(request);
   if (!body.ok) return body.response;
   const parsed = passwordResetCompletionSchema.safeParse(body.value);
-  if (!parsed.success) return apiError("重置链接无效，或新密码不符合要求。", 400, "INVALID_REQUEST");
+  if (!parsed.success) return apiMessageError("resetInvalidOrWeak", 400, "INVALID_REQUEST");
   const limited = await enforceRateLimit(
     request,
     "auth-password-reset-complete",
@@ -71,10 +71,10 @@ async function completePasswordReset(request: Request) {
   if (limited) return limited;
 
   const outcome = await resetPasswordWithToken(parsed.data.token, parsed.data.newPassword);
-  if (outcome.status === "INVALID") return apiError("重置链接无效或已过期，请重新申请。", 400, "INVALID_REQUEST");
-  if (outcome.status === "UNCHANGED") return apiError("新密码不能与当前密码相同。", 400, "INVALID_REQUEST");
+  if (outcome.status === "INVALID") return apiMessageError("resetExpired", 400, "INVALID_REQUEST");
+  if (outcome.status === "UNCHANGED") return apiMessageError("passwordUnchanged", 400, "INVALID_REQUEST");
   if (outcome.status === "CONFLICT") {
-    return apiError("账号安全设置刚刚发生变化，请重新申请重置链接。", 409, "CONFLICT");
+    return apiMessageError("securityChangedReset", 409, "CONFLICT");
   }
   if (emailConfiguration()) {
     await runAfterResponse("password_change_notice", () => notifyPasswordChange(outcome.email));

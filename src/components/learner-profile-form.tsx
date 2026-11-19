@@ -3,6 +3,8 @@
 import { ArrowRight, Check, Clock3, GraduationCap, LoaderCircle, Sparkles, UserRound } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useT } from "@/i18n/client";
+import { apiRequest, describeApiError } from "@/lib/api-client";
 import { getPracticePreferences, getTimeZone, savePracticePreferences } from "@/lib/learner";
 import { useAuth } from "@/lib/use-auth";
 import { CustomSelect } from "./custom-select";
@@ -19,13 +21,9 @@ type ProfilePayload = {
   }>;
 };
 
-async function responseError(response: Response, fallback: string) {
-  const body = await response.json().catch(() => null) as { error?: string } | null;
-  return body?.error ?? fallback;
-}
-
 export function LearnerProfileForm() {
   const auth = useAuth();
+  const t = useT();
   const [profile, setProfile] = useState<ProfilePayload | null>(null);
   const [displayName, setDisplayName] = useState("");
   const [knowledgeBand, setKnowledgeBand] = useState("");
@@ -42,11 +40,7 @@ export function LearnerProfileForm() {
     if (auth.status === "loading") return;
     if (auth.status === "guest") return;
     const controller = new AbortController();
-    void fetch("/api/learner/profile", { cache: "no-store", signal: controller.signal })
-      .then(async (response) => {
-        if (!response.ok) throw new Error(await responseError(response, "学习档案加载失败。"));
-        return response.json() as Promise<ProfilePayload>;
-      })
+    void apiRequest<ProfilePayload>("/api/learner/profile", { signal: controller.signal })
       .then((payload) => {
         setProfile(payload);
         setDisplayName(payload.displayName);
@@ -56,22 +50,22 @@ export function LearnerProfileForm() {
         setSavedKnowledge(`${payload.knowledgeBand ?? ""}:${payload.knowledgeGrade ?? ""}`);
       })
       .catch((cause) => {
-        if (!controller.signal.aborted) setError(cause instanceof Error ? cause.message : "学习档案加载失败。");
+        if (!controller.signal.aborted) setError(describeApiError(cause, t("profile.loadFailed"), t));
       })
       .finally(() => {
         if (!controller.signal.aborted) setLoading(false);
       });
     return () => controller.abort();
-  }, [auth.status]);
+  }, [auth.status, t]);
 
   if (auth.status === "loading") {
-    return <div role="status" className="mt-7 grid min-h-64 place-items-center rounded-[28px] border-2 border-ink/10 bg-white"><div className="text-center text-sm font-bold text-muted"><LoaderCircle className="mx-auto mb-3 animate-spin text-violet" />正在整理学习档案…</div></div>;
+    return <div role="status" className="mt-7 grid min-h-64 place-items-center rounded-[28px] border-2 border-ink/10 bg-white"><div className="text-center text-sm font-bold text-muted"><LoaderCircle className="mx-auto mb-3 animate-spin text-violet" />{t("profile.loading")}</div></div>;
   }
   if (auth.status === "guest") {
-    return <section className="mt-7 rounded-[28px] border-2 border-ink/10 bg-white p-7 text-center"><GraduationCap className="mx-auto text-violet" size={38} /><h2 className="mt-4 font-display text-2xl font-black">登录后建立学习档案</h2><p className="mt-2 text-sm font-semibold text-muted">访客模式不会保存个人资料或练习偏好。</p><Link href="/login?next=%2Fprofile" className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-xl bg-violet px-5 text-sm font-black text-white">登录并继续 <ArrowRight size={17} /></Link></section>;
+    return <section className="mt-7 rounded-[28px] border-2 border-ink/10 bg-white p-7 text-center"><GraduationCap className="mx-auto text-violet" size={38} /><h2 className="mt-4 font-display text-2xl font-black">{t("profile.guestTitle")}</h2><p className="mt-2 text-sm font-semibold text-muted">{t("profile.guestBody")}</p><Link href="/login?next=%2Fprofile" className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-xl bg-violet px-5 text-sm font-black text-white">{t("auth.loginSubmit")} <ArrowRight size={17} /></Link></section>;
   }
   if (loading) {
-    return <div role="status" className="mt-7 grid min-h-64 place-items-center rounded-[28px] border-2 border-ink/10 bg-white"><div className="text-center text-sm font-bold text-muted"><LoaderCircle className="mx-auto mb-3 animate-spin text-violet" />正在整理学习档案…</div></div>;
+    return <div role="status" className="mt-7 grid min-h-64 place-items-center rounded-[28px] border-2 border-ink/10 bg-white"><div className="text-center text-sm font-bold text-muted"><LoaderCircle className="mx-auto mb-3 animate-spin text-violet" />{t("profile.loading")}</div></div>;
   }
 
   const selectedBand = profile?.gradeBands.find((band) => band.slug === knowledgeBand);
@@ -81,18 +75,15 @@ export function LearnerProfileForm() {
     if (saving) return;
     setSaving(true); setError(""); setMessage("");
     try {
-      const response = await fetch("/api/learner/profile", {
+      const payload = await apiRequest<ProfilePayload>("/api/learner/profile", {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+        body: {
           displayName,
           knowledgeBand: knowledgeBand || null,
           knowledgeGrade: knowledgeGrade || null,
           ...(timeZone && timeZone !== profile?.timeZone ? { timeZone } : {}),
-        }),
+        },
       });
-      if (!response.ok) throw new Error(await responseError(response, "学习档案保存失败。"));
-      const payload = await response.json() as ProfilePayload;
       const nextKnowledge = `${payload.knowledgeBand ?? ""}:${payload.knowledgeGrade ?? ""}`;
       const preferences = getPracticePreferences();
       savePracticePreferences({
@@ -108,9 +99,9 @@ export function LearnerProfileForm() {
       setTimeZone(payload.timeZone ?? "");
       setSavedKnowledge(nextKnowledge);
       await auth.refresh();
-      setMessage("学习档案已保存，下一次进入练习时会使用新的推荐范围。");
+      setMessage(t("profile.saved"));
     } catch (cause) {
-      setError(cause instanceof Error ? cause.message : "学习档案保存失败。");
+      setError(describeApiError(cause, t("profile.saveFailed"), t));
     } finally {
       setSaving(false);
     }
@@ -118,28 +109,28 @@ export function LearnerProfileForm() {
 
   return <form onSubmit={saveProfile} className="mt-7 space-y-5">
     <section className="rounded-[28px] border-2 border-ink/10 bg-white p-6 sm:p-7">
-      <div className="flex items-start gap-3"><span className="grid size-10 shrink-0 place-items-center rounded-2xl bg-peach"><UserRound size={20} /></span><div><h2 className="font-display text-xl font-black">怎么称呼你</h2><p className="mt-1 text-sm font-semibold text-muted">昵称只会显示在你自己的学习空间中。</p></div></div>
-      <label className="mt-5 block text-sm font-black">昵称（选填）<input value={displayName} onChange={(event) => setDisplayName(event.target.value)} maxLength={50} autoComplete="name" placeholder="例如：星空探索者" className="mt-2 min-h-11 w-full rounded-xl border-2 border-ink/10 bg-canvas/60 px-4 text-sm font-semibold outline-none focus:border-violet focus:bg-white" /></label>
+      <div className="flex items-start gap-3"><span className="grid size-10 shrink-0 place-items-center rounded-2xl bg-peach"><UserRound size={20} /></span><div><h2 className="font-display text-xl font-black">{t("profile.nameTitle")}</h2><p className="mt-1 text-sm font-semibold text-muted">{t("profile.nameBody")}</p></div></div>
+      <label className="mt-5 block text-sm font-black">{t("auth.nicknameOptional")}<input value={displayName} onChange={(event) => setDisplayName(event.target.value)} maxLength={50} autoComplete="name" placeholder={t("auth.nicknamePlaceholder")} className="mt-2 min-h-11 w-full rounded-xl border-2 border-ink/10 bg-canvas/60 px-4 text-sm font-semibold outline-none focus:border-violet focus:bg-white" /></label>
     </section>
 
     <section className="rounded-[28px] border-2 border-violet/20 bg-[#f0edff] p-6 sm:p-7">
-      <div className="flex items-start gap-3"><span className="grid size-10 shrink-0 place-items-center rounded-2xl bg-lime"><GraduationCap size={21} /></span><div><h2 className="font-display text-xl font-black">我目前适合的知识范围</h2><p className="mt-1 text-sm font-semibold leading-6 text-muted">这是缺省推荐，不是能力标签；你随时可以在练习页改成其他范围。</p></div></div>
-      <div role="group" aria-label="知识阶段" className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-3">
-        <button type="button" aria-pressed={!knowledgeBand} onClick={() => { setKnowledgeBand(""); setKnowledgeGrade(""); }} className={`min-h-11 rounded-xl border-2 px-3 text-sm font-black transition ${!knowledgeBand ? "border-ink bg-ink text-white" : "border-ink/10 bg-white text-muted hover:border-violet/40"}`}>不限定阶段</button>
+      <div className="flex items-start gap-3"><span className="grid size-10 shrink-0 place-items-center rounded-2xl bg-lime"><GraduationCap size={21} /></span><div><h2 className="font-display text-xl font-black">{t("profile.bandTitle")}</h2><p className="mt-1 text-sm font-semibold leading-6 text-muted">{t("profile.bandBody")}</p></div></div>
+      <div role="group" aria-label={t("profile.bandGroup")} className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-3">
+        <button type="button" aria-pressed={!knowledgeBand} onClick={() => { setKnowledgeBand(""); setKnowledgeGrade(""); }} className={`min-h-11 rounded-xl border-2 px-3 text-sm font-black transition ${!knowledgeBand ? "border-ink bg-ink text-white" : "border-ink/10 bg-white text-muted hover:border-violet/40"}`}>{t("profile.anyBand")}</button>
         {profile?.gradeBands.map((band) => <button key={band.slug} type="button" aria-pressed={knowledgeBand === band.slug} onClick={() => { setKnowledgeBand(band.slug); setKnowledgeGrade(""); }} className={`min-h-11 rounded-xl border-2 px-3 text-sm font-black transition ${knowledgeBand === band.slug ? "border-ink bg-ink text-white" : "border-ink/10 bg-white text-muted hover:border-violet/40"}`}>{band.name}</button>)}
       </div>
-      {selectedBand?.grades.length ? <div className="mt-5"><span className="mb-2 block text-sm font-black">具体年级（选填）</span><CustomSelect label="具体年级" value={knowledgeGrade} options={[{ value: "", label: `${selectedBand.name}全部年级` }, ...selectedBand.grades.map((grade) => ({ value: grade.slug, label: grade.name }))]} onValueChange={setKnowledgeGrade} className="w-full" /></div> : null}
-      <div className="mt-5 flex items-start gap-2 rounded-xl bg-white/70 px-4 py-3 text-xs font-semibold leading-5 text-muted"><Sparkles className="mt-0.5 shrink-0 text-violet" size={16} /><p>档案只在这台设备还没有手动筛选时提供缺省值。练习链接中的明确条件和你在练习页做出的选择始终优先。</p></div>
+      {selectedBand?.grades.length ? <div className="mt-5"><span className="mb-2 block text-sm font-black">{t("profile.gradeOptional")}</span><CustomSelect label={t("profile.gradeLabel")} value={knowledgeGrade} options={[{ value: "", label: t("profile.allGrades", { band: selectedBand.name }) }, ...selectedBand.grades.map((grade) => ({ value: grade.slug, label: grade.name }))]} onValueChange={setKnowledgeGrade} className="w-full" /></div> : null}
+      <div className="mt-5 flex items-start gap-2 rounded-xl bg-white/70 px-4 py-3 text-xs font-semibold leading-5 text-muted"><Sparkles className="mt-0.5 shrink-0 text-violet" size={16} /><p>{t("profile.defaultsNote")}</p></div>
     </section>
 
     <section className="rounded-[28px] border-2 border-ink/10 bg-white p-6 sm:p-7">
-      <div className="flex items-start gap-3"><span className="grid size-10 shrink-0 place-items-center rounded-2xl bg-sky"><Clock3 size={20} /></span><div><h2 className="font-display text-xl font-black">学习日所在时区</h2><p className="mt-1 text-sm font-semibold leading-6 text-muted">连续学习天数按这个时区的日期计算。首次练习时会自动使用当前设备的时区，之后每 24 小时最多修改一次。</p></div></div>
-      <p className="mt-5 text-sm font-bold">当前：{timeZone || "尚未设置"}</p>
-      {deviceTimeZone && deviceTimeZone !== timeZone ? <button type="button" onClick={() => setTimeZone(deviceTimeZone)} className="mt-3 inline-flex min-h-11 items-center gap-2 rounded-xl border-2 border-ink/10 bg-canvas px-4 text-sm font-black text-ink hover:border-violet/40">改用本设备时区（{deviceTimeZone}）</button> : null}
+      <div className="flex items-start gap-3"><span className="grid size-10 shrink-0 place-items-center rounded-2xl bg-sky"><Clock3 size={20} /></span><div><h2 className="font-display text-xl font-black">{t("profile.timeZoneTitle")}</h2><p className="mt-1 text-sm font-semibold leading-6 text-muted">{t("profile.timeZoneBody")}</p></div></div>
+      <p className="mt-5 text-sm font-bold">{t("profile.timeZoneCurrent", { value: timeZone || t("profile.timeZoneUnset") })}</p>
+      {deviceTimeZone && deviceTimeZone !== timeZone ? <button type="button" onClick={() => setTimeZone(deviceTimeZone)} className="mt-3 inline-flex min-h-11 items-center gap-2 rounded-xl border-2 border-ink/10 bg-canvas px-4 text-sm font-black text-ink hover:border-violet/40">{t("profile.useDeviceTimeZone", { timeZone: deviceTimeZone })}</button> : null}
     </section>
 
     {message ? <p role="status" className="flex items-center gap-2 rounded-xl bg-[#e6f8ef] px-4 py-3 text-sm font-bold text-[#247a59]"><Check size={17} />{message}</p> : null}
     {error ? <p role="alert" className="rounded-xl border-2 border-coral/30 bg-[#fff0ed] px-4 py-3 text-sm font-bold text-coral">{error}</p> : null}
-    <div className="flex flex-wrap items-center gap-3"><button disabled={saving} className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-ink px-6 text-sm font-black text-white shadow-[0_4px_0_#6c5ce7] disabled:opacity-50">{saving ? <LoaderCircle className="animate-spin" size={17} /> : <Check size={17} />}保存学习档案</button><Link href="/practice" className="inline-flex min-h-11 items-center gap-2 rounded-xl px-4 text-sm font-black text-violet hover:bg-white">进入练习 <ArrowRight size={17} /></Link></div>
+    <div className="flex flex-wrap items-center gap-3"><button disabled={saving} className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-ink px-6 text-sm font-black text-white shadow-[0_4px_0_#6c5ce7] disabled:opacity-50">{saving ? <LoaderCircle className="animate-spin" size={17} /> : <Check size={17} />}{t("profile.save")}</button><Link href="/practice" className="inline-flex min-h-11 items-center gap-2 rounded-xl px-4 text-sm font-black text-violet hover:bg-white">{t("profile.goPractice")} <ArrowRight size={17} /></Link></div>
   </form>;
 }

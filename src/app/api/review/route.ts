@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { apiError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api";
+import { apiError, apiMessageError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api";
 import { getSessionUser } from "@/lib/auth";
 import { isSameOriginRequest } from "@/lib/auth-validation";
 import { reviewItemRequestSchema, savedQuestionRequestSchema } from "@/lib/contracts/practice";
@@ -13,7 +13,7 @@ const querySchema = z.object({});
 
 async function getReview(request: NextRequest) {
   const user = await getSessionUser(request);
-  if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
+  if (!user) return apiMessageError("signInRequired", 401, "UNAUTHORIZED");
   const parsed = querySchema.safeParse(Object.fromEntries(request.nextUrl.searchParams));
   if (!parsed.success) return apiError("Invalid review query", 400, "INVALID_REQUEST");
   const limited = await enforceRateLimit(
@@ -29,7 +29,7 @@ async function getReview(request: NextRequest) {
 async function postSavedQuestion(request: Request) {
   if (!isSameOriginRequest(request)) return apiError("Invalid request origin.", 403, "FORBIDDEN");
   const user = await getSessionUser(request);
-  if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
+  if (!user) return apiMessageError("signInRequired", 401, "UNAUTHORIZED");
   const body = await readJsonBody(request);
   if (!body.ok) return body.response;
   const parsed = savedQuestionRequestSchema.safeParse(body.value);
@@ -49,7 +49,7 @@ async function postSavedQuestion(request: Request) {
 async function patchReviewItem(request: Request) {
   if (!isSameOriginRequest(request)) return apiError("Invalid request origin.", 403, "FORBIDDEN");
   const user = await getSessionUser(request);
-  if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
+  if (!user) return apiMessageError("signInRequired", 401, "UNAUTHORIZED");
   const body = await readJsonBody(request);
   if (!body.ok) return body.response;
   const parsed = reviewItemRequestSchema.safeParse(body.value);

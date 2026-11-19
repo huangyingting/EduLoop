@@ -107,7 +107,7 @@ export async function awardEarnedBadges(
     },
   };
 
-  const awarded: Array<{ name: string; icon: string }> = [];
+  const awarded: Array<{ slug: string; name: string; icon: string }> = [];
   for (const badge of unearned) {
     if (!await ruleSatisfied(badge.rule, context)) continue;
     const inserted = await transaction.$executeRaw`
@@ -115,7 +115,7 @@ export async function awardEarnedBadges(
       VALUES (${learnerId}, ${badge.id}, ${new Date()})
       ON CONFLICT ("learnerId", "badgeId") DO NOTHING
     `;
-    if (inserted) awarded.push({ name: badge.name, icon: badge.icon });
+    if (inserted) awarded.push({ slug: badge.slug, name: badge.name, icon: badge.icon });
   }
   return awarded;
 }

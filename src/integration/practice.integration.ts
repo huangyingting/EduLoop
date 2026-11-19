@@ -209,9 +209,9 @@ describe("practice hot paths", () => {
     await prisma.reviewItem.deleteMany({ where: { learnerId: learner.id } });
     const cookie = await authCookie(learnerUserId);
     const response = await nextQuestion(getRequest(`http://localhost/api/questions/next?mode=adaptive&subject=${prefix}-subject`, cookie));
-    const question = await response.json() as { id: string; recommendationReason: string };
+    const question = await response.json() as { id: string; recommendation: { targeted: boolean } };
     expect(question.id).toBe(hardId);
-    expect(question.recommendationReason).toContain("难度贴近你目前的水平");
+    expect(question.recommendation).toMatchObject({ targeted: true });
   });
 
   it("shows a learner their own history for a question and an answer-free browse list", async () => {

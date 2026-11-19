@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { apiError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api";
+import { apiError, apiMessageError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api";
 import { getSessionUser } from "@/lib/auth";
 import { isSameOriginRequest } from "@/lib/auth-validation";
 import { EARLIEST_SEND_HOUR, LATEST_SEND_HOUR } from "@/lib/notifications/schedule";
@@ -16,7 +16,7 @@ const DEFAULTS = { dueReviewDigest: false, weeklySummary: false, sendHour: 18 };
 
 async function getPreferences(request: Request) {
   const user = await getSessionUser(request);
-  if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
+  if (!user) return apiMessageError("signInRequired", 401, "UNAUTHORIZED");
   const limited = await enforceRateLimit(request, "notification-preferences-read", { identity: user.id, identityLimit: 60 });
   if (limited) return limited;
   const preference = await prisma.notificationPreference.findUnique({
@@ -29,7 +29,7 @@ async function getPreferences(request: Request) {
 async function patchPreferences(request: Request) {
   if (!isSameOriginRequest(request)) return apiError("Invalid request origin.", 403, "FORBIDDEN");
   const user = await getSessionUser(request);
-  if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
+  if (!user) return apiMessageError("signInRequired", 401, "UNAUTHORIZED");
   const body = await readJsonBody(request);
   if (!body.ok) return body.response;
   const parsed = preferenceSchema.safeParse(body.value);

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { apiError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api";
+import { apiError, apiMessageError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api";
 import { isSameOriginRequest } from "@/lib/auth-validation";
 import { contentOperatorForRequest } from "@/lib/content-operator";
 import { transitionContentReport } from "@/lib/content-review";
@@ -130,7 +130,7 @@ async function patchReport(request: NextRequest) {
   });
   if (transition.status === "NOT_FOUND") return apiError("Report not found", 404, "NOT_FOUND");
   if (transition.status === "SECURITY_CONFLICT") {
-    return apiError("内容审核账号的安全状态刚刚发生变化，请重新登录后再试。", 409, "CONFLICT");
+    return apiMessageError("operatorSecurityChanged", 409, "CONFLICT");
   }
   if (transition.status === "STATE_CONFLICT") {
     return apiError("Report state changed; refresh the review queue.", 409, "CONFLICT");

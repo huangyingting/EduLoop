@@ -1,22 +1,30 @@
 import { describe, expect, it } from "vitest";
+import { translatorFor } from "@/i18n/messages";
 import { authErrorLogMetadata, authErrorMessage } from "./auth-errors";
+
+const t = translatorFor("zh-CN");
 
 describe("authentication error handling", () => {
   it("maps provider and credential failures to stable recovery messages", () => {
-    expect(authErrorMessage("CredentialsSignin", "email_not_verified"))
+    expect(authErrorMessage(t, "CredentialsSignin", "email_not_verified"))
       .toBe("邮箱尚未验证，请先打开验证邮件中的链接。");
-    expect(authErrorMessage("OAuthCallbackError")).toContain("改用邮箱和密码");
-    expect(authErrorMessage("Configuration")).toContain("登录服务暂时无法");
-    expect(authErrorMessage("private-provider-error")).toBe("登录没有完成。请重试，或改用邮箱和密码。");
+    expect(authErrorMessage(t, "OAuthCallbackError")).toContain("改用邮箱和密码");
+    expect(authErrorMessage(t, "Configuration")).toContain("登录服务暂时无法");
+    expect(authErrorMessage(t, "private-provider-error")).toBe("登录没有完成。请重试，或改用邮箱和密码。");
   });
 
   it("gives an authenticated account-link failure a route back to recovery", () => {
-    expect(authErrorMessage("OAuthCallbackError", null, "account-link"))
+    expect(authErrorMessage(t, "OAuthCallbackError", null, "account-link"))
       .toBe("社交账号连接已取消，或提供商暂时无法完成授权。请返回“数据与隐私”后重试。");
-    expect(authErrorMessage("AccessDenied", null, "account-link"))
+    expect(authErrorMessage(t, "AccessDenied", null, "account-link"))
       .toContain("社交账号连接未获授权");
-    expect(authErrorMessage("private-provider-error", null, "account-link"))
+    expect(authErrorMessage(t, "private-provider-error", null, "account-link"))
       .toBe("社交账号连接没有完成。请返回“数据与隐私”后重试。");
+  });
+
+  it("uses the learner's interface language", () => {
+    expect(authErrorMessage(translatorFor("en"), "CredentialsSignin")).toBe("Incorrect email or password.");
+    expect(authErrorMessage(t, null)).toBe("");
   });
 
   it("keeps Auth.js operational logs useful without copying messages or causes", () => {

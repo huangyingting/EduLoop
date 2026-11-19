@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, type Dispatch, type RefObject } from "react";
+import { useT } from "@/i18n/client";
 import { describeApiError } from "@/lib/api-client";
 import type { AttemptResult } from "@/lib/contracts/practice";
 import { getTimeZone } from "@/lib/learner";
@@ -20,6 +21,7 @@ type ActionContext = {
 // self-assess, save, report, and open the explanation.
 export function usePracticeActions({ questionId, stateRef, dispatch, isAuthenticated, sessionId, clientAttemptId, startedAt }: ActionContext) {
   const { applyAttempt } = useLearner();
+  const t = useT();
   const hintRequest = useRef<AbortController | null>(null);
   const viewedExplanations = useRef(new Set<string>());
 
@@ -37,9 +39,9 @@ export function usePracticeActions({ questionId, stateRef, dispatch, isAuthentic
       const hint = await practiceApi.fetchHint(current.question.id, current.hint.items.length, controller.signal);
       dispatch({ type: "HINT_SUCCEEDED", hint });
     } catch (cause) {
-      if (!controller.signal.aborted) dispatch({ type: "HINT_FAILED", message: describeApiError(cause, "提示加载失败，请稍后再试。") });
+      if (!controller.signal.aborted) dispatch({ type: "HINT_FAILED", message: describeApiError(cause, t("practice.hint.loadFailed"), t) });
     }
-  }, [dispatch, stateRef]);
+  }, [dispatch, stateRef, t]);
 
   const submit = useCallback(async () => {
     const current = stateRef.current;
@@ -62,9 +64,9 @@ export function usePracticeActions({ questionId, stateRef, dispatch, isAuthentic
       dispatch({ type: "SUBMIT_SUCCEEDED", result });
       if (isAuthenticated) applyAttempt(result);
     } catch (cause) {
-      dispatch({ type: "ACTION_FAILED", message: describeApiError(cause, "答案提交失败，请再试一次。") });
+      dispatch({ type: "ACTION_FAILED", message: describeApiError(cause, t("practice.errors.submitFailed"), t) });
     }
-  }, [applyAttempt, clientAttemptId, dispatch, isAuthenticated, sessionId, startedAt, stateRef]);
+  }, [applyAttempt, clientAttemptId, dispatch, isAuthenticated, sessionId, startedAt, stateRef, t]);
 
   const recordExplanationView = useCallback(async (attempt: AttemptResult | null = stateRef.current.result) => {
     if (!isAuthenticated || !attempt?.attemptId || attempt.isCorrect !== false || !attempt.explanation) return;
@@ -90,9 +92,9 @@ export function usePracticeActions({ questionId, stateRef, dispatch, isAuthentic
       dispatch({ type: "ASSESS_SUCCEEDED", isCorrect });
       if (!isCorrect && explanationOpen) void recordExplanationView({ ...result, isCorrect: false });
     } catch (cause) {
-      dispatch({ type: "ACTION_FAILED", message: describeApiError(cause, "自评保存失败，请再试一次。") });
+      dispatch({ type: "ACTION_FAILED", message: describeApiError(cause, t("practice.errors.assessFailed"), t) });
     }
-  }, [dispatch, isAuthenticated, recordExplanationView, stateRef]);
+  }, [dispatch, isAuthenticated, recordExplanationView, stateRef, t]);
 
   const toggleSaved = useCallback(async () => {
     const current = stateRef.current;
@@ -103,9 +105,9 @@ export function usePracticeActions({ questionId, stateRef, dispatch, isAuthentic
       await practiceApi.setQuestionSaved(current.question.id, saved);
       dispatch({ type: "SAVE_FINISHED", saved });
     } catch (cause) {
-      dispatch({ type: "ACTION_FAILED", message: describeApiError(cause, "收藏状态保存失败，请再试一次。") });
+      dispatch({ type: "ACTION_FAILED", message: describeApiError(cause, t("practice.errors.saveFailed"), t) });
     }
-  }, [dispatch, stateRef]);
+  }, [dispatch, stateRef, t]);
 
   const reportQuestion = useCallback(async () => {
     const current = stateRef.current;
@@ -115,9 +117,9 @@ export function usePracticeActions({ questionId, stateRef, dispatch, isAuthentic
       await practiceApi.reportQuestion(current.question.id, current.report.category, current.report.detail);
       dispatch({ type: "REPORT_FINISHED", submitted: true });
     } catch (cause) {
-      dispatch({ type: "ACTION_FAILED", message: describeApiError(cause, "问题反馈提交失败，请稍后再试。") });
+      dispatch({ type: "ACTION_FAILED", message: describeApiError(cause, t("practice.errors.reportFailed"), t) });
     }
-  }, [dispatch, stateRef]);
+  }, [dispatch, stateRef, t]);
 
   return { revealHint, submit, selfAssess, recordExplanationView, toggleSaved, reportQuestion };
 }

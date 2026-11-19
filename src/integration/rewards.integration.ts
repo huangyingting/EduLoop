@@ -117,7 +117,7 @@ describe("data-driven rewards and streak integrity", () => {
       `http://localhost/api/questions/next?mode=adaptive&subject=${prefix}-subject`,
       { headers: { ...integrationHeaders, cookie } },
     ));
-    expect(await response.json()).toMatchObject({ id: questionId, recommendationReason: expect.stringContaining("长期巩固") });
+    expect(await response.json()).toMatchObject({ id: questionId, recommendation: expect.objectContaining({ kind: "LONG_TERM_REVIEW" }) });
 
     await answer(cookie, questionId, ["B"]);
     const review = await prisma.reviewItem.findUniqueOrThrow({ where: { learnerId_questionId: { learnerId: learner.id, questionId } } });

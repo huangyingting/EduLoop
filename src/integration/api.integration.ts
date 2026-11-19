@@ -1442,8 +1442,9 @@ describe("learner API journey", () => {
     }));
     expect(stale.status).toBe(401);
     expect(await stale.json()).toEqual({
-      error: "退出所有设备前请重新登录，以确认这是你的账号。",
+      error: "Sign in again to confirm this is your account before signing out everywhere.",
       code: "UNAUTHORIZED",
+      messageKey: "reauthRevokeSessions",
     });
     expect(await prisma.user.findUniqueOrThrow({
       where: { id: sessionRevocationUserId },
@@ -3222,8 +3223,8 @@ describe("learner API journey", () => {
     } finally {
       await prisma.question.update({ where: { id: choiceId }, data: { status: "PUBLISHED" } });
     }
-    const adaptiveQuestion = await (await nextQuestion(new NextRequest("http://localhost/api/questions/next?subject=integration-math&mode=review", { headers: { cookie } }))).json() as { id: string; recommendationReason: string };
-    expect(adaptiveQuestion).toMatchObject({ id: choiceId, recommendationReason: "复习一题到期的薄弱知识" });
+    const adaptiveQuestion = await (await nextQuestion(new NextRequest("http://localhost/api/questions/next?subject=integration-math&mode=review", { headers: { cookie } }))).json() as { id: string; recommendation: unknown };
+    expect(adaptiveQuestion).toMatchObject({ id: choiceId, recommendation: { kind: "DUE_REVIEW", focus: null } });
 
     expect((await createReport(request("http://localhost/api/reports", "POST", { questionId: choiceId, category: "UNCLEAR" }, cookie))).status).toBe(201);
     const progress = await (await getProgress(new NextRequest("http://localhost/api/learner/progress?timeZone=Asia%2FShanghai", { headers: { cookie } }))).json() as { summary: { totalAttempts: number; xp: number }; recentMistakes: unknown[] };
@@ -3242,10 +3243,10 @@ describe("learner API journey", () => {
 
     const updatedProgress = await (await getProgress(new NextRequest("http://localhost/api/learner/progress?timeZone=Asia%2FShanghai", { headers: { cookie } }))).json() as { weakTopics: Array<{ slug: string; subject: string }> };
     expect(updatedProgress.weakTopics).toContainEqual(expect.objectContaining({ slug: "integration-arithmetic", subject: "integration-math" }));
-    const topicAdaptive = await (await nextQuestion(new NextRequest("http://localhost/api/questions/next?subject=integration-math&mode=adaptive", { headers: { cookie } }))).json() as { id: string; recommendationReason: string };
+    const topicAdaptive = await (await nextQuestion(new NextRequest("http://localhost/api/questions/next?subject=integration-math&mode=adaptive", { headers: { cookie } }))).json() as { id: string; recommendation: unknown };
     expect(topicAdaptive).toMatchObject({
       id: choiceId,
-      recommendationReason: "结合最近正确率和答题用时，重点巩固测试运算",
+      recommendation: { kind: "WEAK_TOPIC", focus: "测试运算" },
     });
 
     const dismissed = await dismissReview(request("http://localhost/api/review", "PATCH", {
@@ -3363,8 +3364,9 @@ describe("learner API journey", () => {
     ));
     expect(staleQueue.status).toBe(401);
     expect(await staleQueue.json()).toEqual({
-      error: "查看答案、学习指标或执行审核操作前，请重新登录验证内容审核账号。",
+      error: "Sign in again to verify your content-review account before viewing answers, learning metrics, or review actions.",
       code: "UNAUTHORIZED",
+      messageKey: "reauthOperator",
     });
     expect((await getStudioMetrics(new Request("http://localhost/api/studio/metrics", {
       headers: staleOperatorHeaders,
@@ -3637,8 +3639,9 @@ describe("learner API journey", () => {
     ));
     expect(staleExportResponse.status).toBe(401);
     expect(await staleExportResponse.json()).toEqual({
-      error: "导出账号数据前请重新登录，以确认这是你的账号。",
+      error: "Sign in again to confirm this is your account before exporting account data.",
       code: "UNAUTHORIZED",
+      messageKey: "reauthExport",
     });
     const staleDeleteResponse = await deleteLearner(new NextRequest(
       "http://localhost/api/learner",
@@ -3646,8 +3649,9 @@ describe("learner API journey", () => {
     ));
     expect(staleDeleteResponse.status).toBe(401);
     expect(await staleDeleteResponse.json()).toEqual({
-      error: "删除学习数据前请重新登录，以确认这是你的账号。",
+      error: "Sign in again to confirm this is your account before deleting learning data.",
       code: "UNAUTHORIZED",
+      messageKey: "reauthDeleteLearning",
     });
     expect(await prisma.user.findUniqueOrThrow({
       where: { id: journeyUserId },

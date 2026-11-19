@@ -1,5 +1,6 @@
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useReducer, useRef, useState } from "react";
+import { useT } from "@/i18n/client";
 import { ApiClientError, describeApiError } from "@/lib/api-client";
 import type { SessionSnapshot } from "@/lib/contracts/practice";
 import { deferInitialization } from "@/lib/deferred-initialization";
@@ -41,6 +42,7 @@ export function cascadeFilterChange(filters: PracticeFilters, key: keyof Practic
 const EMPTY_CATALOG: PracticeCatalog = { subjects: [], gradeBands: [], grades: [], tagDimensions: [] };
 
 export function usePracticeCatalog(filters: PracticeFilters) {
+  const t = useT();
   const key = `${filters.subject}|${filters.gradeBand}|${filters.grade}`;
   // Loading is derived: the catalog is current only once this key has loaded.
   const [loaded, setLoaded] = useState<{ key: string | null; catalog: PracticeCatalog; error: string }>({
@@ -52,11 +54,11 @@ export function usePracticeCatalog(filters: PracticeFilters) {
       .then((catalog) => setLoaded({ key, catalog, error: "" }))
       .catch((cause) => {
         if (!controller.signal.aborted) {
-          setLoaded((current) => ({ key, catalog: current.catalog, error: describeApiError(cause, "筛选项加载失败") }));
+          setLoaded((current) => ({ key, catalog: current.catalog, error: describeApiError(cause, t("practice.filters.loadFailed"), t) }));
         }
       });
     return () => controller.abort();
-  }, [filters.grade, filters.gradeBand, filters.subject, key]);
+  }, [filters.grade, filters.gradeBand, filters.subject, key, t]);
   return { catalog: loaded.catalog, loading: loaded.key !== key, error: loaded.key === key ? loaded.error : "" };
 }
 
@@ -65,6 +67,7 @@ export function usePracticeCatalog(filters: PracticeFilters) {
 export function usePracticeSession() {
   const search = useSearchParams();
   const auth = useAuth();
+  const t = useT();
   const isAuthenticated = auth.status === "authenticated";
   const requestedMode: PracticeMode = search.get("mode") === "review" ? "review" : search.get("mode") === "adaptive" ? "adaptive" : "standard";
   const practiceMode: PracticeMode = isAuthenticated ? requestedMode : "standard";
@@ -148,10 +151,10 @@ export function usePracticeSession() {
       const notFound = cause instanceof ApiClientError && cause.kind === "not-found";
       dispatch({
         type: "LOAD_FAILED",
-        message: notFound ? "这个组合暂时没有可用题目，换个筛选试试吧。" : describeApiError(cause, "题目加载失败，请稍后再试。"),
+        message: notFound ? t("practice.errors.noMatch") : describeApiError(cause, t("practice.errors.loadFailed"), t),
       });
     }
-  }, [practiceMode]);
+  }, [practiceMode, t]);
 
   useEffect(() => {
     if (auth.status === "loading" || initialized.current) return;
@@ -194,12 +197,12 @@ export function usePracticeSession() {
   const restartChallenge = useCallback(async () => {
     const current = stateRef.current;
     if (current.phase === "loading" || current.phase === "submitting") return;
-    const confirmation = isAuthenticated ? "重新开始本轮挑战吗？已完成的答题记录会保留。" : "重新开始本轮挑战吗？访客练习本来就不会保存记录。";
+    const confirmation = isAuthenticated ? t("practice.progress.confirmRestart") : t("practice.progress.confirmRestartGuest");
     if (current.completed > 0 && !window.confirm(confirmation)) return;
     dispatch({ type: "ROUND_RESET" });
     const session = await startSession(filtersRef.current, true);
     await loadQuestion(filtersRef.current, session?.recentQuestionIds ?? []);
-  }, [isAuthenticated, loadQuestion, startSession]);
+  }, [isAuthenticated, loadQuestion, startSession, t]);
 
   const answerActions = usePracticeActions({ questionId: state.question?.id, stateRef, dispatch, isAuthenticated, sessionId, clientAttemptId, startedAt });
 

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { apiError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api";
+import { apiError, apiMessageError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api";
 import { getSessionUser } from "@/lib/auth";
 import { isSameOriginRequest } from "@/lib/auth-validation";
 import { ACTIVE_LEARNER_COOKIE, isManagedChild } from "@/lib/family";
@@ -12,7 +12,7 @@ const selectSchema = z.object({ learnerId: z.string().min(8).max(100).nullable()
 async function postActiveLearner(request: Request) {
   if (!isSameOriginRequest(request)) return apiError("Invalid request origin.", 403, "FORBIDDEN");
   const user = await getSessionUser(request);
-  if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
+  if (!user) return apiMessageError("signInRequired", 401, "UNAUTHORIZED");
   const body = await readJsonBody(request);
   if (!body.ok) return body.response;
   const parsed = selectSchema.safeParse(body.value);

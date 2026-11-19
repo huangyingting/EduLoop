@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { apiError, apiHandler, enforceRateLimit } from "@/lib/api";
+import { apiError, apiMessageError, apiHandler, enforceRateLimit } from "@/lib/api";
 import { getSessionUser } from "@/lib/auth";
 import { hasRecentAuthentication } from "@/lib/auth-validation";
 import { errorLogMetadata } from "@/lib/logging";
@@ -191,10 +191,9 @@ function learnerSections(learnerId: string): ExportSection[] {
 
 async function getAccountExport(request: NextRequest) {
   const user = await getSessionUser(request, { allowMissingConsent: true });
-  if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
+  if (!user) return apiMessageError("signInRequired", 401, "UNAUTHORIZED");
   if (!hasRecentAuthentication(user.authenticatedAt)) {
-    return apiError(
-      "导出账号数据前请重新登录，以确认这是你的账号。",
+    return apiMessageError("reauthExport",
       401,
       "UNAUTHORIZED",
     );
@@ -260,7 +259,7 @@ async function getAccountExport(request: NextRequest) {
       updatedAt: true,
     },
   });
-  if (!storedAccount) return apiError("请先登录。", 401, "UNAUTHORIZED");
+  if (!storedAccount) return apiMessageError("signInRequired", 401, "UNAUTHORIZED");
 
   const account = {
     email: storedAccount.email,

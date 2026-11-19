@@ -1,6 +1,6 @@
 import type { Prisma } from "@prisma/client";
 import { QUESTION_TYPE_LABELS } from "@/lib/question-labels";
-import type { QuestionHistoryPayload, QuestionHistorySummary, QuestionPayload } from "@/lib/contracts/practice";
+import type { QuestionHistoryPayload, QuestionHistorySummary, QuestionPayload, RecommendationReason } from "@/lib/contracts/practice";
 import { ASSET_REVIEW_STATUS, REVIEW_ITEM_STATUS, TAG_DIMENSION } from "@/lib/domain-constants";
 import { prisma } from "@/lib/prisma";
 import { issueQuestionTicket } from "@/lib/question-ticket";
@@ -18,7 +18,7 @@ const MINIMUM_SUBJECT_ATTEMPTS = 3;
 type Recommendation = {
   where: Prisma.QuestionWhereInput;
   preferredQuestionId: string | null;
-  reason: string | null;
+  reason: Omit<RecommendationReason, "targeted"> | null;
   subjectSlug?: string | null;
 };
 
@@ -46,8 +46,8 @@ async function recommend(filters: QuestionFilters, learnerId: string | null): Pr
     // Due learning reviews come first; due long-term checks of mastered items
     // fill in only when nothing is still being learned.
     for (const [status, reason] of [
-      [REVIEW_ITEM_STATUS.ACTIVE, "复习一题到期的薄弱知识"],
-      [REVIEW_ITEM_STATUS.MASTERED, "长期巩固：回顾一道已经掌握的题"],
+      [REVIEW_ITEM_STATUS.ACTIVE, { kind: "DUE_REVIEW", focus: null }],
+      [REVIEW_ITEM_STATUS.MASTERED, { kind: "LONG_TERM_REVIEW", focus: null }],
     ] as const) {
       const due = await prisma.reviewItem.findMany({
         where: {
@@ -95,7 +95,7 @@ async function recommend(filters: QuestionFilters, learnerId: string | null): Pr
       return {
         where: { ...where, tags: { some: { tag: { slug: topic.slug, dimension: { key: TAG_DIMENSION.TOPIC } } } } },
         preferredQuestionId: null,
-        reason: `结合最近正确率和答题用时，重点巩固${topic.label}`,
+        reason: { kind: "WEAK_TOPIC", focus: topic.label },
         subjectSlug: filters.subject,
       };
     }
@@ -123,7 +123,7 @@ async function recommend(filters: QuestionFilters, learnerId: string | null): Pr
       return {
         where: { ...where, subject: { slug: weakest[0] } },
         preferredQuestionId: null,
-        reason: `根据最近表现，继续巩固${weakest[1].name}`,
+        reason: { kind: "WEAK_SUBJECT", focus: weakest[1].name },
         subjectSlug: weakest[0],
       };
     }
@@ -223,7 +223,7 @@ export async function questionHistory(learnerId: string, questionId: string): Pr
 export async function loadQuestionPayload(
   questionId: string,
   learnerId: string | null,
-  recommendationReason: string | null = null,
+  recommendation: RecommendationReason | null = null,
 ): Promise<QuestionPayload | null> {
   const question = await prisma.question.findUnique({
     where: { id: questionId },
@@ -265,7 +265,7 @@ export async function loadQuestionPayload(
     }),
     tags: question.tags.map(({ tag }) => ({ dimension: tag.dimension.key, slug: tag.slug, label: tag.label })),
     isSaved: saved,
-    recommendationReason,
+    recommendation,
     history,
     ticket: issueQuestionTicket(question.id),
   };
@@ -280,8 +280,8 @@ export async function selectNextQuestion(filters: QuestionFilters, learnerId: st
     : null;
   const picked = await pickQuestionId(recommendation, filters.excluded, learnerId, window);
   if (!picked.id) return null;
-  const reason = picked.targeted
-    ? `${recommendation.reason ?? "智能练习"}，难度贴近你目前的水平`
-    : recommendation.reason;
+  const reason: RecommendationReason | null = picked.targeted
+    ? { ...(recommendation.reason ?? { kind: "ABILITY", focus: null }), targeted: true }
+    : recommendation.reason && { ...recommendation.reason, targeted: false };
   return loadQuestionPayload(picked.id, learnerId, reason);
 }

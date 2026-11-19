@@ -4,6 +4,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useRef, use
 import { apiRequest } from "@/lib/api-client";
 import type { AttemptResult, LearnerSnapshot } from "@/lib/contracts/practice";
 import { clearGuestLearningStorage, getTimeZone } from "@/lib/learner";
+import { useT } from "@/i18n/client";
 import { useAuth } from "@/lib/use-auth";
 
 export type { LearnerSnapshot };
@@ -63,11 +64,12 @@ export function useLearner() {
 export function LearnerHeaderStats() {
   const { stats } = useLearner();
   const auth = useAuth();
+  const t = useT();
   if (auth.status !== "authenticated") return null;
   return (
     <div className="hidden items-center gap-3 sm:flex">
-      <div className="flex items-center gap-2 rounded-full border-2 border-ink/10 bg-white px-4 py-2 text-sm font-black shadow-[0_4px_0_#e3dfd4]">🔥 {stats.currentStreak} 天连续</div>
-      <div className="flex items-center gap-2 rounded-full border-2 border-sky/20 bg-[#eaf8ff] px-3 py-2 text-sm font-black" title="漏练一天时自动保护连续记录">🛡️ {stats.streakFreezes}</div>
+      <div className="flex items-center gap-2 rounded-full border-2 border-ink/10 bg-white px-4 py-2 text-sm font-black shadow-[0_4px_0_#e3dfd4]">🔥 {t("shell.streakDays", { count: stats.currentStreak })}</div>
+      <div className="flex items-center gap-2 rounded-full border-2 border-sky/20 bg-[#eaf8ff] px-3 py-2 text-sm font-black" title={t("shell.streakFreezeTitle")}>🛡️ {stats.streakFreezes}</div>
       <div className="flex items-center gap-2 rounded-full bg-ink px-4 py-2 text-sm font-black text-white">✦ {stats.xp} XP</div>
     </div>
   );

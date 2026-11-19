@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { apiError, apiHandler, enforceRateLimit } from "@/lib/api";
+import { apiError, apiMessageError, apiHandler, enforceRateLimit } from "@/lib/api";
 import { getSessionUser } from "@/lib/auth";
 import { contestLevelSchema } from "@/lib/contracts/contests";
 import { findActiveLearner } from "@/lib/family";
@@ -12,7 +12,7 @@ const querySchema = z.object({ level: contestLevelSchema.optional() });
 
 async function getContests(request: NextRequest) {
   const user = await getSessionUser(request);
-  if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
+  if (!user) return apiMessageError("signInRequired", 401, "UNAUTHORIZED");
   const parsed = querySchema.safeParse(Object.fromEntries(request.nextUrl.searchParams));
   if (!parsed.success) return apiError("Invalid contest query", 400, "INVALID_REQUEST");
   const limited = await enforceRateLimit(request, "contest-list", { identity: user.id, identityLimit: 60 });

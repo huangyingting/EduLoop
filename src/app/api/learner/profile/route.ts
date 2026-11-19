@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { apiError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api";
+import { apiError, apiMessageError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api";
 import { getSessionUser } from "@/lib/auth";
 import { isSameOriginRequest } from "@/lib/auth-validation";
 import { cachedCatalogValue } from "@/lib/catalog-cache";
@@ -56,7 +56,7 @@ async function profileResponse(user: { id: string; displayName: string | null })
 
 async function getProfile(request: Request) {
   const user = await getSessionUser(request);
-  if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
+  if (!user) return apiMessageError("signInRequired", 401, "UNAUTHORIZED");
   const limited = await enforceRateLimit(
     request,
     "learner-profile-read",
@@ -69,7 +69,7 @@ async function getProfile(request: Request) {
 async function patchProfile(request: Request) {
   if (!isSameOriginRequest(request)) return apiError("Invalid request origin.", 403, "FORBIDDEN");
   const user = await getSessionUser(request);
-  if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
+  if (!user) return apiMessageError("signInRequired", 401, "UNAUTHORIZED");
   const limited = await enforceRateLimit(
     request,
     "learner-profile",
@@ -80,30 +80,30 @@ async function patchProfile(request: Request) {
   const body = await readJsonBody(request);
   if (!body.ok) return body.response;
   const parsed = learnerProfileInputSchema.safeParse(body.value);
-  if (!parsed.success) return apiError("学习档案格式不正确。", 400, "INVALID_REQUEST");
+  if (!parsed.success) return apiMessageError("profileInvalid", 400, "INVALID_REQUEST");
 
   const catalog = await availableKnowledgeCatalog();
   const band = parsed.data.knowledgeBand
     ? catalog.find(({ slug }) => slug === parsed.data.knowledgeBand)
     : null;
   if (parsed.data.knowledgeBand && !band) {
-    return apiError("所选知识阶段当前没有可用题目。", 400, "INVALID_REQUEST");
+    return apiMessageError("knowledgeBandEmpty", 400, "INVALID_REQUEST");
   }
   const grade = parsed.data.knowledgeGrade
     ? band?.grades.find(({ slug }) => slug === parsed.data.knowledgeGrade)
     : null;
   if (parsed.data.knowledgeGrade && !grade) {
-    return apiError("所选年级不属于当前知识阶段。", 400, "INVALID_REQUEST");
+    return apiMessageError("gradeOutsideBand", 400, "INVALID_REQUEST");
   }
 
   const learner = await ensureLearnerForUser(user.id, user.displayName);
   const requestedTimeZone = parsed.data.timeZone;
   const changesTimeZone = Boolean(requestedTimeZone && requestedTimeZone !== learner.timeZone);
   if (requestedTimeZone && !isValidTimeZone(requestedTimeZone)) {
-    return apiError("无法识别所选时区。", 400, "INVALID_REQUEST");
+    return apiMessageError("timeZoneUnknown", 400, "INVALID_REQUEST");
   }
   if (changesTimeZone && learner.timeZone && !canChangeTimeZone(learner.timeZoneUpdatedAt)) {
-    return apiError("学习时区每 24 小时只能修改一次。", 409, "CONFLICT");
+    return apiMessageError("timeZoneLocked", 409, "CONFLICT");
   }
   const displayName = parsed.data.displayName || null;
   await prisma.$transaction([

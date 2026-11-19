@@ -2,6 +2,8 @@
 
 import { BookOpenCheck, Lightbulb, ChartNoAxesColumnIncreasing, LoaderCircle, RefreshCw, Repeat2, UsersRound } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
+import { useT } from "@/i18n/client";
+import { apiErrorFromResponse, describeApiError } from "@/lib/api-client";
 
 type LearningHealth = {
   windowDays: number;
@@ -14,6 +16,7 @@ type LearningHealth = {
 };
 
 export function LearningHealthPanel() {
+  const t = useT();
   const [data, setData] = useState<LearningHealth | null>(null);
   const [error, setError] = useState("");
 
@@ -21,13 +24,12 @@ export function LearningHealthPanel() {
     setError("");
     try {
       const response = await fetch("/api/studio/metrics", { cache: "no-store" });
-      const body = await response.json() as LearningHealth & { error?: string };
-      if (!response.ok) throw new Error(body.error || "学习循环指标加载失败。");
-      setData(body);
+      if (!response.ok) throw await apiErrorFromResponse(response);
+      setData(await response.json() as LearningHealth);
     } catch (cause) {
-      setError(cause instanceof Error ? cause.message : "学习循环指标加载失败。");
+      setError(describeApiError(cause, "学习循环指标加载失败。", t));
     }
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     const timer = window.setTimeout(() => void load(), 0);

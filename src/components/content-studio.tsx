@@ -4,6 +4,8 @@ import { AlertTriangle, CheckCircle2, ChevronLeft, ChevronRight, FileWarning, Lo
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
+import { useT } from "@/i18n/client";
+import { apiErrorFromResponse, describeApiError } from "@/lib/api-client";
 import { hasRecentAuthentication, SENSITIVE_ACTION_MAX_AGE_SECONDS } from "@/lib/auth-validation";
 import { useAuth } from "@/lib/use-auth";
 import { isContentOperator } from "@/lib/user-roles";
@@ -72,6 +74,7 @@ function displayDate(value: string) {
 }
 
 export function ContentStudio() {
+  const t = useT();
   const router = useRouter();
   const auth = useAuth();
   const [workspace, setWorkspace] = useState<"reports" | "editor">("reports");
@@ -95,19 +98,19 @@ export function ContentStudio() {
     setError("");
     try {
       const response = await fetch(`/api/studio/reports?status=${status}&page=${page}&limit=20`, { cache: "no-store" });
-      const body = await response.json() as StudioResponse & { error?: string };
-      if (!response.ok) throw new Error(body.error || "审核队列加载失败。");
+      if (!response.ok) throw await apiErrorFromResponse(response);
+      const body = await response.json() as StudioResponse;
       if (page > body.pagination.pages) {
         setPage(body.pagination.pages);
         return;
       }
       setData(body);
     } catch (loadError) {
-      setError(loadError instanceof Error ? loadError.message : "审核队列加载失败。");
+      setError(describeApiError(loadError, "审核队列加载失败。", t));
     } finally {
       setLoading(false);
     }
-  }, [auth.user, hasRecentLogin, page, status]);
+  }, [auth.user, hasRecentLogin, page, status, t]);
 
   useEffect(() => {
     const now = Math.floor(Date.now() / 1000);
@@ -149,12 +152,11 @@ export function ContentStudio() {
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ reportId: report.id, action, note: note || undefined }),
       });
-      const body = await response.json() as { error?: string };
-      if (!response.ok) throw new Error(body.error || "审核操作失败。");
+      if (!response.ok) throw await apiErrorFromResponse(response);
       setNotes((current) => ({ ...current, [report.id]: "" }));
       await load();
     } catch (actionError) {
-      setError(actionError instanceof Error ? actionError.message : "审核操作失败。");
+      setError(describeApiError(actionError, "审核操作失败。", t));
     } finally {
       setActing(null);
     }

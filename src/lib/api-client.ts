@@ -1,3 +1,4 @@
+import { isErrorMessageKey, type ErrorMessageKey, type Translator } from "@/i18n/messages";
 import type { ApiErrorCode } from "@/lib/api";
 
 export type ApiErrorKind =
@@ -17,6 +18,7 @@ export class ApiClientError extends Error {
   readonly kind: ApiErrorKind;
   readonly retryAfterSeconds: number | null;
   readonly details: unknown;
+  readonly messageKey: ErrorMessageKey | null;
 
   constructor(input: {
     status: number;
@@ -24,6 +26,7 @@ export class ApiClientError extends Error {
     message: string;
     retryAfterSeconds?: number | null;
     details?: unknown;
+    messageKey?: ErrorMessageKey | null;
   }) {
     super(input.message);
     this.name = "ApiClientError";
@@ -32,6 +35,7 @@ export class ApiClientError extends Error {
     this.kind = errorKind(input.status);
     this.retryAfterSeconds = input.retryAfterSeconds ?? null;
     this.details = input.details;
+    this.messageKey = input.messageKey ?? null;
   }
 }
 
@@ -71,6 +75,21 @@ export function apiUrl(path: string, query?: ApiRequestOptions["query"]) {
   return serialized ? `${path}?${serialized}` : path;
 }
 
+// Builds the typed error for a failed response, for callers that need the raw
+// Response (for example, file downloads).
+export async function apiErrorFromResponse(response: Response) {
+  const payload = await response.json().catch(() => null) as { error?: unknown; code?: unknown; details?: unknown; messageKey?: unknown } | null;
+  const retryAfter = Number(response.headers.get("Retry-After"));
+  return new ApiClientError({
+    status: response.status,
+    code: typeof payload?.code === "string" ? payload.code as ApiErrorCode : null,
+    message: typeof payload?.error === "string" ? payload.error : `Request failed with status ${response.status}`,
+    retryAfterSeconds: Number.isFinite(retryAfter) && retryAfter > 0 ? retryAfter : null,
+    details: payload?.details,
+    messageKey: isErrorMessageKey(payload?.messageKey) ? payload.messageKey : null,
+  });
+}
+
 export async function apiRequest<T>(path: string, options: ApiRequestOptions = {}): Promise<T> {
   const method = options.method ?? "GET";
   let response: Response;
@@ -89,15 +108,7 @@ export async function apiRequest<T>(path: string, options: ApiRequestOptions = {
 
   if (response.ok) return await response.json() as T;
 
-  const payload = await response.json().catch(() => null) as { error?: unknown; code?: unknown; details?: unknown } | null;
-  const retryAfter = Number(response.headers.get("Retry-After"));
-  const error = new ApiClientError({
-    status: response.status,
-    code: typeof payload?.code === "string" ? payload.code as ApiErrorCode : null,
-    message: typeof payload?.error === "string" ? payload.error : `Request failed with status ${response.status}`,
-    retryAfterSeconds: Number.isFinite(retryAfter) && retryAfter > 0 ? retryAfter : null,
-    details: payload?.details,
-  });
+  const error = await apiErrorFromResponse(response);
   if (error.kind === "unauthorized" && options.onUnauthorized === "redirect" && typeof window !== "undefined") {
     window.location.assign(loginRedirectPath(`${window.location.pathname}${window.location.search}`));
   }
@@ -105,16 +116,18 @@ export async function apiRequest<T>(path: string, options: ApiRequestOptions = {
 }
 
 // Shared learner-facing wording for failures the learner can act on (network,
-// rate limit, expired login). Everything else, including a temporary 503, uses
-// the caller's feature-specific message, which says what failed to load.
-export function describeApiError(error: unknown, fallback: string) {
+// rate limit, a specific server reason, expired login). Everything else,
+// including a temporary 503, uses the caller's feature-specific message, which
+// says what failed to load.
+export function describeApiError(error: unknown, fallback: string, t: Translator) {
   if (!(error instanceof ApiClientError)) return fallback;
-  if (error.kind === "network") return "网络连接失败，请检查网络后重试。";
+  if (error.kind === "network") return t("apiClient.network");
   if (error.kind === "rate-limited") {
     return error.retryAfterSeconds
-      ? `操作太频繁了，请在 ${error.retryAfterSeconds} 秒后再试。`
-      : "操作太频繁了，请稍后再试。";
+      ? t("apiClient.rateLimitedFor", { seconds: error.retryAfterSeconds })
+      : t("apiClient.rateLimited");
   }
-  if (error.kind === "unauthorized") return "登录已过期，请重新登录。";
+  if (error.messageKey) return t(`errors.${error.messageKey}`);
+  if (error.kind === "unauthorized") return t("apiClient.sessionExpired");
   return fallback;
 }

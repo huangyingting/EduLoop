@@ -6,19 +6,21 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { LearnerProvider, useLearner } from "./learner-provider";
 import { LearnerSwitcher } from "./learner-switcher";
+import { LocaleSwitcher } from "./locale-switcher";
 import { Logo } from "./logo";
+import { useT } from "@/i18n/client";
 import { useAuth } from "@/lib/use-auth";
 import { isContentOperator } from "@/lib/user-roles";
 
 const links = [
-  { href: "/", label: "学习大厅", icon: Home },
-  { href: "/practice", label: "开始练习", icon: Target },
-  { href: "/#subjects", label: "发现学科", icon: Compass },
-  { href: "/progress", label: "我的成长", icon: BarChart3 },
-  { href: "/review", label: "错题与收藏", icon: BookmarkCheck },
-  { href: "/contest", label: "竞赛模拟", icon: Trophy },
-  { href: "/browse", label: "题库浏览", icon: Library },
-];
+  { href: "/", label: "home", icon: Home },
+  { href: "/practice", label: "practice", icon: Target },
+  { href: "/#subjects", label: "subjects", icon: Compass },
+  { href: "/progress", label: "progress", icon: BarChart3 },
+  { href: "/review", label: "review", icon: BookmarkCheck },
+  { href: "/contest", label: "contest", icon: Trophy },
+  { href: "/browse", label: "browse", icon: Library },
+] as const;
 const standaloneRoutes = new Set([
   "/login", "/register", "/forgot-password", "/reset-password", "/verify-email", "/change-email", "/consent", "/privacy-policy", "/terms", "/offline",
 ]);
@@ -38,9 +40,10 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
   const navigation = useRef<HTMLElement>(null);
   const { stats } = useLearner();
   const auth = useAuth();
+  const t = useT();
   const navigationLinks = auth.status === "authenticated"
     ? isContentOperator(auth.user)
-      ? [...links, { href: "/studio", label: "内容审核台", icon: ClipboardCheck }]
+      ? [...links, { href: "/studio", label: "studio", icon: ClipboardCheck } as const]
       : links
     : links.filter(({ href }) => href === "/" || href === "/practice" || href === "/#subjects");
   const remainingToday = Math.max(10 - stats.todayAttempts, 0);
@@ -82,55 +85,56 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
       router.replace("/practice");
       router.refresh();
     } catch {
-      window.alert("退出登录失败，请重试。");
+      window.alert(t("shell.signOutFailed"));
     }
   }
   return (
     <div className="min-h-screen bg-canvas">
       <header className="sticky top-0 z-40 flex h-[72px] items-center justify-between border-b border-ink/10 bg-canvas/90 px-5 backdrop-blur-xl lg:hidden">
         <Logo href="/" />
-        <button ref={menuButton} onClick={() => setOpen(!open)} className="grid size-11 place-items-center rounded-2xl border-2 border-ink/10 bg-white" aria-label={open ? "关闭导航" : "打开导航"} aria-expanded={open} aria-controls="primary-navigation">
+        <button ref={menuButton} onClick={() => setOpen(!open)} className="grid size-11 place-items-center rounded-2xl border-2 border-ink/10 bg-white" aria-label={open ? t("shell.closeNavigation") : t("shell.openNavigation")} aria-expanded={open} aria-controls="primary-navigation">
           {open ? <X /> : <Menu />}
         </button>
       </header>
 
-      <aside ref={navigation} id="primary-navigation" aria-label="主要导航" aria-hidden={!desktopNavigation && !open} inert={!desktopNavigation && !open} className={`${open ? "translate-x-0" : "-translate-x-full"} fixed inset-y-0 left-0 z-50 flex w-[270px] flex-col overflow-y-auto border-r border-ink/10 bg-[#fbfaf6] px-5 py-4 transition-transform lg:translate-x-0`}>
+      <aside ref={navigation} id="primary-navigation" aria-label={t("shell.primaryNavigation")} aria-hidden={!desktopNavigation && !open} inert={!desktopNavigation && !open} className={`${open ? "translate-x-0" : "-translate-x-full"} fixed inset-y-0 left-0 z-50 flex w-[270px] flex-col overflow-y-auto border-r border-ink/10 bg-[#fbfaf6] px-5 py-4 transition-transform lg:translate-x-0`}>
         <div className="px-2"><Logo href="/" /></div>
-        <nav aria-label="学习功能" className="mt-8 space-y-1">
+        <nav aria-label={t("shell.learningNavigation")} className="mt-8 space-y-1">
           {navigationLinks.map(({ href, label, icon: Icon }) => {
             const active = href === "/" ? pathname === "/" : href.includes("#") ? false : pathname.startsWith(href);
             return (
               <Link key={label} href={href} onClick={() => setOpen(false)} aria-current={active ? "page" : undefined} className={`flex items-center gap-3 rounded-2xl px-4 py-3.5 text-[15px] font-bold transition ${active ? "bg-ink text-white shadow-[0_5px_0_#d9d3f5]" : "text-muted hover:bg-white hover:text-ink"}`}>
-                <Icon size={19} strokeWidth={2.4} />{label}
+                <Icon size={19} strokeWidth={2.4} />{t(`shell.nav.${label}`)}
               </Link>
             );
           })}
         </nav>
 
         {auth.status === "authenticated" ? <div className="mt-auto rounded-[24px] border-2 border-ink/10 bg-lime p-3 shadow-[0_5px_0_#242136]">
-          <div className="flex items-center gap-2 text-sm font-black text-ink"><Sparkles size={18} /> 今日小目标</div>
-          <div role="progressbar" aria-label="今日十题目标" aria-valuemin={0} aria-valuemax={10} aria-valuenow={Math.min(stats.todayAttempts, 10)} className="mt-2 h-2.5 overflow-hidden rounded-full bg-white/70"><div className="h-full rounded-full bg-violet transition-all" style={{ width: `${Math.min(stats.todayAttempts * 10, 100)}%` }} /></div>
-          <p className="mt-1.5 text-xs font-semibold text-ink/65">{remainingToday ? `再完成 ${remainingToday} 题，点亮今日星环` : "今日星环已点亮，做得好！"}</p>
-        </div> : <div className="mt-auto rounded-[24px] border-2 border-violet/20 bg-[#f0edff] p-3 text-sm font-semibold leading-5 text-muted">访客练习不会保存答案、筛选或进度。登录后可使用完整学习功能。</div>}
+          <div className="flex items-center gap-2 text-sm font-black text-ink"><Sparkles size={18} /> {t("shell.dailyGoal")}</div>
+          <div role="progressbar" aria-label={t("shell.dailyGoalProgress")} aria-valuemin={0} aria-valuemax={10} aria-valuenow={Math.min(stats.todayAttempts, 10)} className="mt-2 h-2.5 overflow-hidden rounded-full bg-white/70"><div className="h-full rounded-full bg-violet transition-all" style={{ width: `${Math.min(stats.todayAttempts * 10, 100)}%` }} /></div>
+          <p className="mt-1.5 text-xs font-semibold text-ink/65">{remainingToday ? t("shell.dailyGoalRemaining", { count: remainingToday }) : t("shell.dailyGoalDone")}</p>
+        </div> : <div className="mt-auto rounded-[24px] border-2 border-violet/20 bg-[#f0edff] p-3 text-sm font-semibold leading-5 text-muted">{t("shell.guestNotice")}</div>}
         {auth.status === "authenticated" ? <LearnerSwitcher /> : null}
-        {auth.status === "authenticated" ? <Link href="/profile" onClick={() => setOpen(false)} className="mt-3 flex items-center gap-3 rounded-xl px-2 py-1 transition hover:bg-white" aria-label="管理账号与学习档案">
+        {auth.status === "authenticated" ? <Link href="/profile" onClick={() => setOpen(false)} className="mt-3 flex items-center gap-3 rounded-xl px-2 py-1 transition hover:bg-white" aria-label={t("shell.manageProfile")}>
           <div className="grid size-9 place-items-center rounded-full bg-peach text-base">🧑‍🚀</div>
-          <div className="min-w-0"><p className="truncate text-sm font-extrabold text-ink">{auth.user?.displayName || (auth.status === "authenticated" ? auth.user?.email : "匿名探索者")}</p><p className="text-xs text-muted">Level {stats.level} · {stats.xp} XP</p></div>
+          <div className="min-w-0"><p className="truncate text-sm font-extrabold text-ink">{auth.user?.displayName || (auth.status === "authenticated" ? auth.user?.email : t("shell.anonymousLearner"))}</p><p className="text-xs text-muted">Level {stats.level} · {stats.xp} XP</p></div>
           <div className="ml-auto flex items-center gap-1 text-xs font-black text-coral"><Flame size={20} />{stats.currentStreak}</div>
         </Link> : null}
         {auth.status === "authenticated" ? (
-          <button onClick={() => void signOut()} className="mt-2 flex min-h-11 items-center justify-center gap-2 rounded-xl border-2 border-ink/10 bg-white text-xs font-black text-muted hover:border-coral/30 hover:text-coral"><LogOut size={15} /> 退出登录</button>
+          <button onClick={() => void signOut()} className="mt-2 flex min-h-11 items-center justify-center gap-2 rounded-xl border-2 border-ink/10 bg-white text-xs font-black text-muted hover:border-coral/30 hover:text-coral"><LogOut size={15} /> {t("shell.signOut")}</button>
         ) : (
           <>
-            <Link href="/login?next=%2Fpractice" onClick={() => setOpen(false)} className="mt-3 flex min-h-11 items-center justify-center gap-2 rounded-xl bg-violet text-xs font-black text-white shadow-[0_4px_0_#242136]"><LogIn size={15} /> 登录保存进度</Link>
-            <Link href="/register?next=%2Fpractice" onClick={() => setOpen(false)} className="mt-2 flex min-h-11 items-center justify-center gap-2 rounded-xl border-2 border-ink/10 bg-white text-xs font-black text-ink hover:border-violet/40">免费注册</Link>
+            <Link href="/login?next=%2Fpractice" onClick={() => setOpen(false)} className="mt-3 flex min-h-11 items-center justify-center gap-2 rounded-xl bg-violet text-xs font-black text-white shadow-[0_4px_0_#242136]"><LogIn size={15} /> {t("shell.signInToSave")}</Link>
+            <Link href="/register?next=%2Fpractice" onClick={() => setOpen(false)} className="mt-2 flex min-h-11 items-center justify-center gap-2 rounded-xl border-2 border-ink/10 bg-white text-xs font-black text-ink hover:border-violet/40">{t("common.register")}</Link>
           </>
         )}
-        {auth.status === "authenticated" ? <Link href="/privacy" onClick={() => setOpen(false)} className="mt-2 flex min-h-11 items-center justify-center gap-2 rounded-xl text-xs font-bold text-muted hover:bg-white hover:text-ink"><ShieldCheck size={15} /> 数据与隐私</Link> : null}
-        <div className="mt-1 flex items-center justify-center gap-3 text-[11px] font-bold text-muted"><Link href="/terms" onClick={() => setOpen(false)} className="hover:text-ink hover:underline">服务条款</Link><Link href="/privacy-policy" onClick={() => setOpen(false)} className="hover:text-ink hover:underline">隐私说明</Link></div>
+        {auth.status === "authenticated" ? <Link href="/privacy" onClick={() => setOpen(false)} className="mt-2 flex min-h-11 items-center justify-center gap-2 rounded-xl text-xs font-bold text-muted hover:bg-white hover:text-ink"><ShieldCheck size={15} /> {t("shell.dataPrivacy")}</Link> : null}
+        <div className="mt-1 flex items-center justify-center gap-3 text-[11px] font-bold text-muted"><Link href="/terms" onClick={() => setOpen(false)} className="hover:text-ink hover:underline">{t("shell.terms")}</Link><Link href="/privacy-policy" onClick={() => setOpen(false)} className="hover:text-ink hover:underline">{t("shell.privacyPolicy")}</Link></div>
+        <LocaleSwitcher className="mt-1 justify-center" />
       </aside>
 
-      {open && <button className="fixed inset-0 z-40 bg-ink/30 lg:hidden" onClick={() => setOpen(false)} aria-label="关闭导航" />}
+      {open && <button className="fixed inset-0 z-40 bg-ink/30 lg:hidden" onClick={() => setOpen(false)} aria-label={t("shell.closeNavigation")} />}
       <main id="main-content" inert={!desktopNavigation && open} className="min-h-screen lg:pl-[270px]">{children}</main>
     </div>
   );

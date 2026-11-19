@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { apiError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api";
+import { apiError, apiMessageError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api";
 import { runAfterResponse } from "@/lib/after-response";
 import { changeAccountPassword, deleteAccount } from "@/lib/account";
 import { getSessionUser } from "@/lib/auth";
@@ -42,9 +42,9 @@ async function notifyAccountDeletion(email: string) {
 async function patchAccount(request: Request) {
   if (!isSameOriginRequest(request)) return apiError("Invalid request origin.", 403, "FORBIDDEN");
   const user = await getSessionUser(request);
-  if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
+  if (!user) return apiMessageError("signInRequired", 401, "UNAUTHORIZED");
   if (!user.hasPassword && !hasRecentAuthentication(user.authenticatedAt)) {
-    return apiError("设置密码前请重新登录，以确认这是你的账号。", 401, "UNAUTHORIZED");
+    return apiMessageError("reauthSetPassword", 401, "UNAUTHORIZED");
   }
   const limited = await enforceRateLimit(
     request,
@@ -56,7 +56,7 @@ async function patchAccount(request: Request) {
   const body = await readJsonBody(request);
   if (!body.ok) return body.response;
   const parsed = passwordChangeSchema.safeParse(body.value);
-  if (!parsed.success) return apiError("新密码必须至少 8 位且不超过 72 个 UTF-8 字节。", 400, "INVALID_REQUEST");
+  if (!parsed.success) return apiMessageError("passwordLength", 400, "INVALID_REQUEST");
 
   const outcome = await changeAccountPassword(
     user.id,
@@ -64,10 +64,10 @@ async function patchAccount(request: Request) {
     parsed.data.currentPassword,
     parsed.data.newPassword,
   );
-  if (outcome === "INVALID_PASSWORD") return apiError("当前密码不正确。", 401, "UNAUTHORIZED");
-  if (outcome === "NOT_FOUND") return apiError("账号不存在。", 404, "NOT_FOUND");
-  if (outcome === "UNCHANGED") return apiError("新密码不能与当前密码相同。", 400, "INVALID_REQUEST");
-  if (outcome === "CONFLICT") return apiError("账号安全设置刚刚发生变化，请重新登录后再试。", 409, "CONFLICT");
+  if (outcome === "INVALID_PASSWORD") return apiMessageError("currentPasswordWrong", 401, "UNAUTHORIZED");
+  if (outcome === "NOT_FOUND") return apiMessageError("accountMissing", 404, "NOT_FOUND");
+  if (outcome === "UNCHANGED") return apiMessageError("passwordUnchanged", 400, "INVALID_REQUEST");
+  if (outcome === "CONFLICT") return apiMessageError("securityChanged", 409, "CONFLICT");
   if (outcome === "PASSWORD_SET_VERIFICATION_REQUIRED") {
     const verificationScheduled = Boolean(emailConfiguration());
     if (verificationScheduled) {
@@ -90,9 +90,9 @@ async function patchAccount(request: Request) {
 async function deleteCurrentAccount(request: Request) {
   if (!isSameOriginRequest(request)) return apiError("Invalid request origin.", 403, "FORBIDDEN");
   const user = await getSessionUser(request, { allowMissingConsent: true });
-  if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
+  if (!user) return apiMessageError("signInRequired", 401, "UNAUTHORIZED");
   if (!user.hasPassword && !hasRecentAuthentication(user.authenticatedAt)) {
-    return apiError("删除账号前请重新登录，以确认这是你的账号。", 401, "UNAUTHORIZED");
+    return apiMessageError("reauthDeleteAccount", 401, "UNAUTHORIZED");
   }
   const limited = await enforceRateLimit(
     request,
@@ -104,15 +104,15 @@ async function deleteCurrentAccount(request: Request) {
   const body = await readJsonBody(request);
   if (!body.ok) return body.response;
   const parsed = accountDeletionSchema.safeParse(body.value);
-  if (!parsed.success) return apiError("请输入当前密码。", 400, "INVALID_REQUEST");
+  if (!parsed.success) return apiMessageError("currentPasswordRequired", 400, "INVALID_REQUEST");
 
   const outcome = await deleteAccount(user.id, user.sessionVersion, parsed.data);
-  if (outcome === "NOT_FOUND") return apiError("账号不存在。", 404, "NOT_FOUND");
+  if (outcome === "NOT_FOUND") return apiMessageError("accountMissing", 404, "NOT_FOUND");
   if (outcome === "INVALID_CONFIRMATION") {
-    return apiError(user.hasPassword ? "当前密码不正确。" : "邮箱确认不正确。", 401, "UNAUTHORIZED");
+    return apiMessageError(user.hasPassword ? "currentPasswordWrong" : "emailConfirmationWrong", 401, "UNAUTHORIZED");
   }
   if (outcome === "CONFLICT") {
-    return apiError("账号安全设置刚刚发生变化，请重新登录后再试。", 409, "CONFLICT");
+    return apiMessageError("securityChanged", 409, "CONFLICT");
   }
   if (emailConfiguration()) {
     await runAfterResponse("account_deletion_notice", () => notifyAccountDeletion(user.email));

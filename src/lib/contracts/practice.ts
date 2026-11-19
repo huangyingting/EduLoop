@@ -101,10 +101,19 @@ export type QuestionPayload = {
   options: Array<{ label: string; content: string; asset: AssetReference | null }>;
   tags: Array<{ dimension: string; slug: string; label: string }>;
   isSaved: boolean;
-  recommendationReason: string | null;
+  // Why adaptive or review practice picked this question; the client words it.
+  recommendation: RecommendationReason | null;
   // The signed-in learner's earlier attempts at this question.
   history: QuestionHistorySummary | null;
   ticket: string;
+};
+
+export type RecommendationReason = {
+  kind: "DUE_REVIEW" | "LONG_TERM_REVIEW" | "WEAK_TOPIC" | "WEAK_SUBJECT" | "ABILITY";
+  // The topic or subject name for WEAK_TOPIC and WEAK_SUBJECT.
+  focus: string | null;
+  // Difficulty was matched to the learner's current level.
+  targeted: boolean;
 };
 
 export type QuestionHistorySummary = { attempts: number; correct: number; lastResult: boolean | null; lastAttemptAt: string };
@@ -135,7 +144,7 @@ export type AttemptResult = {
   streakFreezes: number;
   streakFreezeUsed: boolean;
   todayAttempts: number;
-  newBadges: Array<{ name: string; icon: string }>;
+  newBadges: Array<{ slug: string; name: string; icon: string }>;
   session: SessionProgress | null;
   replayed: boolean;
   persisted: boolean;

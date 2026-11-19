@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PRIVACY_VERSION, publicLegalConfiguration } from "@/lib/legal";
+import { LegalLanguageNotice } from "@/components/legal-language-notice";
 
 export const metadata: Metadata = { title: "隐私说明", description: "EduLoop 如何收集、使用和保护学习数据。", alternates: { canonical: "/privacy-policy" } };
 export const dynamic = "force-dynamic";
@@ -9,6 +10,7 @@ export default function PrivacyPolicyPage() {
   const legal = publicLegalConfiguration();
   return (
     <main id="main-content" className="mx-auto max-w-4xl px-5 pb-20 pt-8 sm:px-8 lg:px-12">
+      <LegalLanguageNotice />
       <header className="rounded-[32px] border-2 border-ink bg-lime p-7 shadow-[0_8px_0_#242136] sm:p-10">
         <p className="text-xs font-black uppercase tracking-[.2em] text-violet">
           Privacy notice · {PRIVACY_VERSION}

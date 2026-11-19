@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { apiError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api";
+import { apiError, apiMessageError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api";
 import { getSessionUser } from "@/lib/auth";
 import { isSameOriginRequest } from "@/lib/auth-validation";
 import { saveContestAnswersRequestSchema } from "@/lib/contracts/contests";
@@ -15,7 +15,7 @@ const querySchema = z.object({ id: z.string().min(8).max(100) });
 // submission.
 async function getContestSession(request: NextRequest) {
   const user = await getSessionUser(request);
-  if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
+  if (!user) return apiMessageError("signInRequired", 401, "UNAUTHORIZED");
   const parsed = querySchema.safeParse(Object.fromEntries(request.nextUrl.searchParams));
   if (!parsed.success) return apiError("Invalid contest session", 400, "INVALID_REQUEST");
   const limited = await enforceRateLimit(request, "contest-session", { identity: user.id, identityLimit: 60 });
@@ -29,7 +29,7 @@ async function getContestSession(request: NextRequest) {
 async function patchContestSession(request: Request) {
   if (!isSameOriginRequest(request)) return apiError("Invalid request origin.", 403, "FORBIDDEN");
   const user = await getSessionUser(request);
-  if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
+  if (!user) return apiMessageError("signInRequired", 401, "UNAUTHORIZED");
   const body = await readJsonBody(request);
   if (!body.ok) return body.response;
   const parsed = saveContestAnswersRequestSchema.safeParse(body.value);

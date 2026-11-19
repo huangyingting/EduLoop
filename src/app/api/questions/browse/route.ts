@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { apiError, apiHandler, enforceRateLimit } from "@/lib/api";
+import { apiError, apiMessageError, apiHandler, enforceRateLimit } from "@/lib/api";
 import { getSessionUser } from "@/lib/auth";
 import { findActiveLearner } from "@/lib/family";
 import { browseQuestions } from "@/lib/practice/browse";
@@ -15,7 +15,7 @@ const pagingSchema = z.object({
 
 async function getBrowse(request: NextRequest) {
   const user = await getSessionUser(request);
-  if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
+  if (!user) return apiMessageError("signInRequired", 401, "UNAUTHORIZED");
   const params = request.nextUrl.searchParams;
   const filters = parseQuestionFilters(params);
   const paging = pagingSchema.safeParse({ page: params.get("page") ?? undefined, paper: params.get("paper") ?? undefined });

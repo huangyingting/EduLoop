@@ -30,6 +30,7 @@ jobs:
       - run: npm run supply:check
       - run: npx prisma migrate deploy --schema prisma/schema.prisma
       - run: npm run db:seed
+      - run: npm run perf:check
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e
       - run: npm test

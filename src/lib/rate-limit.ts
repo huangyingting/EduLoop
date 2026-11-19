@@ -1,5 +1,6 @@
 import { createHmac } from "node:crypto";
 import { applicationAuthSecret } from "./auth-secret";
+import { runAfterResponse } from "./after-response";
 import { prisma } from "./prisma";
 import { cleanupExpiredSecurityArtifacts } from "./retention";
 
@@ -103,7 +104,12 @@ export async function checkRateLimit(key: string, limit: number, windowMs: numbe
 
   operations += 1;
   if (operations % CLEANUP_INTERVAL === 0) {
-    await cleanupExpiredSecurityArtifacts(new Date(now));
+    // Opportunistic cleanup runs after the response so an unlucky request does
+    // not absorb its latency or fail with it; the scheduled job remains the
+    // deterministic path for idle deployments.
+    await runAfterResponse("expired_security_artifact_cleanup", async () => {
+      await cleanupExpiredSecurityArtifacts(new Date(now));
+    });
   }
 
   return {

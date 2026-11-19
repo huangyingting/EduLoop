@@ -333,7 +333,9 @@ export async function importCatalog(
     for (const batch of chunks(created, batchSize)) {
       const prepared = batch.map(rows);
       await transaction.question.createMany({
-        data: prepared.map((row) => ({ ...row.question, status: row.question.importStatus })),
+        // randomKey drives indexed random selection; it is assigned once and is
+        // not part of the content hash, so re-imports keep the existing key.
+        data: prepared.map((row) => ({ ...row.question, status: row.question.importStatus, randomKey: Math.random() })),
       });
       await transaction.questionOption.createMany({ data: prepared.flatMap((row) => row.options) });
       await transaction.questionTag.createMany({ data: prepared.flatMap((row) => row.tags) });

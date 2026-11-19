@@ -3,7 +3,7 @@ import { apiError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api"
 import { getSessionUser } from "@/lib/auth";
 import { isSameOriginRequest } from "@/lib/auth-validation";
 import { sessionRequestSchema } from "@/lib/contracts/practice";
-import { findLearnerForRequest } from "@/lib/learner-identity";
+import { ensureLearnerForUser } from "@/lib/learner-identity";
 import { startPracticeSession } from "@/lib/practice/sessions";
 
 async function postSession(request: Request) {
@@ -21,8 +21,7 @@ async function postSession(request: Request) {
   );
   if (limited) return limited;
 
-  const learner = await findLearnerForRequest(request);
-  if (!learner) return apiError("请先登录。", 401, "UNAUTHORIZED");
+  const learner = await ensureLearnerForUser(user.id, user.displayName);
   const outcome = await startPracticeSession(learner.id, parsed.data);
   if (outcome.status === "CONFLICT") {
     return apiError("Another device changed the active session. Please retry.", 409, "CONFLICT");

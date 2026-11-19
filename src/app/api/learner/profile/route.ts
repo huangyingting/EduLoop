@@ -27,10 +27,9 @@ async function availableKnowledgeCatalog() {
 }
 
 async function profileResponse(user: { id: string; displayName: string | null }) {
-  const learner = await ensureLearnerForUser(user.id, user.displayName);
   const [profile, gradeBands] = await Promise.all([
-    prisma.learnerProfile.findUniqueOrThrow({
-      where: { id: learner.id },
+    prisma.learnerProfile.findUnique({
+      where: { userId: user.id },
       select: {
         displayName: true,
         knowledgeBand: { select: { slug: true } },
@@ -40,9 +39,9 @@ async function profileResponse(user: { id: string; displayName: string | null })
     availableKnowledgeCatalog(),
   ]);
   return {
-    displayName: profile.displayName ?? user.displayName ?? "",
-    knowledgeBand: profile.knowledgeBand?.slug ?? null,
-    knowledgeGrade: profile.knowledgeGrade?.slug ?? null,
+    displayName: profile?.displayName ?? user.displayName ?? "",
+    knowledgeBand: profile?.knowledgeBand?.slug ?? null,
+    knowledgeGrade: profile?.knowledgeGrade?.slug ?? null,
     gradeBands: gradeBands.map((band) => ({
       slug: band.slug,
       name: band.name,

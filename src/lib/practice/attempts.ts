@@ -3,7 +3,7 @@ import type { AttemptRequest, AttemptResult, SelfAssessmentRequest } from "@/lib
 import { calendarDay } from "@/lib/dates";
 import { PRACTICE_SESSION_STATUS, QUESTION_STATUS, REVIEW_ITEM_STATUS } from "@/lib/domain-constants";
 import { prisma } from "@/lib/prisma";
-import { earnedBadgeSlugs } from "./badges";
+import { awardEarnedBadges } from "./badges";
 import { correctLabelsFor } from "./grading";
 import { nextReviewState } from "./review-scheduler";
 import { attemptXp, levelForXp, nextStreakState } from "./rewards";
@@ -160,6 +160,9 @@ export async function recordLearnerAttempt(params: {
           streakFreezes: streak.streakFreezes,
           lastFreezeUsedOn: streak.lastFreezeUsedOn,
           lastActiveOn: streak.lastActiveOn,
+          totalAttempts: { increment: 1 },
+          // Self-assessed work neither extends nor breaks the correct run.
+          ...(isCorrect === true ? { correctRun: { increment: 1 } } : isCorrect === false ? { correctRun: 0 } : {}),
         },
       });
       // A concurrent attempt can increment XP between the read and the update;
@@ -224,24 +227,10 @@ export async function recordLearnerAttempt(params: {
         }
       }
 
-      const totalAttempts = await transaction.practiceAttempt.count({ where: { learnerId } });
-      const recent = await transaction.practiceAttempt.findMany({
-        where: { learnerId, isCorrect: { not: null }, isSelfAssessed: false },
-        orderBy: { createdAt: "desc" },
-        take: 10,
-        select: { isCorrect: true },
+      const newBadges = await awardEarnedBadges(transaction, learnerId, {
+        totalAttempts: updatedLearner.totalAttempts,
+        correctRun: updatedLearner.correctRun,
       });
-      const newBadges: Array<{ name: string; icon: string }> = [];
-      for (const slug of earnedBadgeSlugs({ totalAttempts, recentAutoGraded: recent.map((item) => Boolean(item.isCorrect)) })) {
-        const badge = await transaction.badge.findUnique({ where: { slug } });
-        if (!badge) continue;
-        const inserted = await transaction.$executeRaw`
-          INSERT INTO "LearnerBadge" ("learnerId", "badgeId", "earnedAt")
-          VALUES (${learnerId}, ${badge.id}, ${new Date()})
-          ON CONFLICT ("learnerId", "badgeId") DO NOTHING
-        `;
-        if (inserted) newBadges.push({ name: badge.name, icon: badge.icon });
-      }
 
       return { attempt, updatedLearner, activity, streak, sessionProgress, newBadges };
     });

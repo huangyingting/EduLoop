@@ -64,6 +64,7 @@ model Question {
   retiredAt              DateTime?
   supersededById         String?
   contentHash            String?
+  randomKey              Float             @default(0)
   isAutoGradable         Boolean           @default(false)
   onlineTest             Boolean           @default(false)
   optionSplit            Boolean           @default(false)
@@ -86,6 +87,7 @@ model Question {
   @@index([subjectId, gradeBandId, difficulty])
   @@index([gradeId, type, status])
   @@index([status, isAutoGradable])
+  @@index([status, randomKey])
 }
 
 model CatalogRelease {
@@ -310,6 +312,8 @@ model LearnerProfile {
   streakFreezes    Int               @default(1)
   lastFreezeUsedOn String?
   lastActiveOn     String?
+  totalAttempts    Int               @default(0)
+  correctRun       Int               @default(0)
   knowledgeBandId  String?
   knowledgeGradeId String?
   sessions         PracticeSession[]

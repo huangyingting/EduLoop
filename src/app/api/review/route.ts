@@ -4,7 +4,7 @@ import { apiError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api"
 import { getSessionUser } from "@/lib/auth";
 import { isSameOriginRequest } from "@/lib/auth-validation";
 import { reviewItemRequestSchema, savedQuestionRequestSchema } from "@/lib/contracts/practice";
-import { findLearnerForRequest, findLearnerForUser } from "@/lib/learner-identity";
+import { ensureLearnerForUser, findLearnerForUser } from "@/lib/learner-identity";
 import { dismissReviewItem, isPublishedQuestion, reviewLibrary, setSavedQuestion } from "@/lib/practice/review-library";
 
 export const dynamic = "force-dynamic";
@@ -23,7 +23,7 @@ async function getReview(request: NextRequest) {
   );
   if (limited) return limited;
   const learner = await findLearnerForUser(user);
-  return NextResponse.json(await reviewLibrary(learner.id));
+  return NextResponse.json(await reviewLibrary(learner?.id ?? null));
 }
 
 async function postSavedQuestion(request: Request) {
@@ -41,8 +41,7 @@ async function postSavedQuestion(request: Request) {
   );
   if (limited) return limited;
   if (!await isPublishedQuestion(parsed.data.questionId)) return apiError("Question not found", 404, "NOT_FOUND");
-  const learner = await findLearnerForRequest(request);
-  if (!learner) return apiError("请先登录。", 401, "UNAUTHORIZED");
+  const learner = await ensureLearnerForUser(user.id, user.displayName);
   await setSavedQuestion(learner.id, parsed.data.questionId, parsed.data.saved);
   return NextResponse.json({ saved: parsed.data.saved });
 }
@@ -61,9 +60,8 @@ async function patchReviewItem(request: Request) {
     { identity: user.id, identityLimit: 30 },
   );
   if (limited) return limited;
-  const learner = await findLearnerForRequest(request);
-  if (!learner) return apiError("请先登录。", 401, "UNAUTHORIZED");
-  if (!await dismissReviewItem(learner.id, parsed.data.questionId)) {
+  const learner = await findLearnerForUser(user);
+  if (!learner || !await dismissReviewItem(learner.id, parsed.data.questionId)) {
     return apiError("Review item not found", 404, "NOT_FOUND");
   }
   return NextResponse.json({ dismissed: true });

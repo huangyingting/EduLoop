@@ -7,7 +7,7 @@ import {
   explanationViewRequestSchema,
   selfAssessmentRequestSchema,
 } from "@/lib/contracts/practice";
-import { ensureLearnerForUser, findLearnerForRequest } from "@/lib/learner-identity";
+import { ensureLearnerForUser, findLearnerForUser } from "@/lib/learner-identity";
 import {
   assessWrittenAttempt,
   findAttemptQuestion,
@@ -66,7 +66,7 @@ async function patchAttempt(request: Request) {
   if (explanationView.success) {
     const limited = await enforceRateLimit(request, "explanation-views", { identity: user.id, identityLimit: 90 });
     if (limited) return limited;
-    const learner = await findLearnerForRequest(request);
+    const learner = await findLearnerForUser(user);
     if (!learner) return apiError("Attempt not found", 404, "NOT_FOUND");
     const outcome = await recordExplanationView(learner.id, explanationView.data.attemptId);
     if (outcome.status === "RECORDED") return NextResponse.json({ recorded: true, viewedAt: outcome.viewedAt });
@@ -79,7 +79,7 @@ async function patchAttempt(request: Request) {
   if (!parsed.success) return apiError("Invalid self-assessment", 400, "INVALID_REQUEST");
   const limited = await enforceRateLimit(request, "assessments", { identity: user.id, identityLimit: 45 });
   if (limited) return limited;
-  const learner = await findLearnerForRequest(request);
+  const learner = await findLearnerForUser(user);
   if (!learner) return apiError("Attempt not found", 404, "NOT_FOUND");
 
   const outcome = await assessWrittenAttempt(learner.id, parsed.data);

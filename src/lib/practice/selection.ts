@@ -29,7 +29,7 @@ async function recommend(filters: QuestionFilters, learnerId: string | null): Pr
         learnerId,
         status: REVIEW_ITEM_STATUS.ACTIVE,
         dueAt: { lte: new Date() },
-        question: { ...where, ...(excluded.length ? { id: { notIn: excluded } } : {}) },
+        question: excluded.length ? { AND: [where, { id: { notIn: excluded } }] } : where,
       },
       orderBy: { dueAt: "asc" },
       take: DUE_REVIEW_CANDIDATES,
@@ -103,19 +103,36 @@ async function recommend(filters: QuestionFilters, learnerId: string | null): Pr
   return { where, preferredQuestionId: null, reason: null };
 }
 
+// Pick a uniformly placed random key and take the first matching question at
+// or after it, wrapping to the start of the key range. Both lookups use the
+// (status, randomKey) index instead of COUNT(*) plus a large OFFSET scan.
+async function randomQuestionId(where: Prisma.QuestionWhereInput, random = Math.random()) {
+  const after = await prisma.question.findFirst({
+    where: { AND: [where, { randomKey: { gte: random } }] },
+    orderBy: { randomKey: "asc" },
+    select: { id: true },
+  });
+  if (after) return after.id;
+  const wrapped = await prisma.question.findFirst({
+    where: { AND: [where, { randomKey: { lt: random } }] },
+    orderBy: { randomKey: "asc" },
+    select: { id: true },
+  });
+  return wrapped?.id ?? null;
+}
+
 async function pickQuestionId(recommendation: Recommendation, excluded: string[]) {
-  const { where: baseWhere, preferredQuestionId } = recommendation;
-  let where: Prisma.QuestionWhereInput = preferredQuestionId
-    ? { ...baseWhere, id: preferredQuestionId }
-    : excluded.length ? { ...baseWhere, id: { notIn: excluded } } : baseWhere;
-  let count = await prisma.question.count({ where });
-  if (!count && excluded.length && !preferredQuestionId) {
-    where = baseWhere;
-    count = await prisma.question.count({ where });
+  const { where, preferredQuestionId } = recommendation;
+  if (preferredQuestionId) {
+    const preferred = await prisma.question.findFirst({ where: { AND: [where, { id: preferredQuestionId }] }, select: { id: true } });
+    return preferred?.id ?? null;
   }
-  if (!count) return null;
-  const picked = await prisma.question.findFirst({ where, skip: Math.floor(Math.random() * count), select: { id: true } });
-  return picked?.id ?? null;
+  if (excluded.length) {
+    // AND keeps a targeted questionId filter from being replaced by exclusions.
+    const fresh = await randomQuestionId({ AND: [where, { id: { notIn: excluded } }] });
+    if (fresh) return fresh;
+  }
+  return randomQuestionId(where);
 }
 
 export async function loadQuestionPayload(

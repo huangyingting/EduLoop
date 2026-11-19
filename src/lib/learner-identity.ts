@@ -25,9 +25,11 @@ export async function ensureLearnerForUser(userId: string, displayName: string |
   });
 }
 
-export async function findLearnerForUser(user: Pick<SessionUser, "id" | "displayName">) {
-  const learner = await prisma.learnerProfile.findUnique({ where: { userId: user.id } });
-  return learner ?? ensureLearnerForUser(user.id, user.displayName);
+// Reads never create a profile. Registration, sign-in, consent, and learning
+// mutations create it explicitly through ensureLearnerForUser, so an account
+// whose learning data was erased is not given an empty profile by a page view.
+export async function findLearnerForUser(user: Pick<SessionUser, "id">) {
+  return prisma.learnerProfile.findUnique({ where: { userId: user.id } });
 }
 
 export async function findLearnerForRequest(request: Request, options: { allowMissingConsent?: boolean } = {}) {

@@ -13,7 +13,17 @@ type TopicAggregate = Aggregate & { slug: string; subject: string };
 
 const accuracy = (correct: number, attempts: number) => (attempts ? Math.round((correct / attempts) * 100) : 0);
 
-export async function learnerSnapshot(learner: LearnerProfile, timeZone?: string): Promise<LearnerSnapshot> {
+const EMPTY_LEARNER = {
+  id: "",
+  xp: 0,
+  currentStreak: 0,
+  bestStreak: 0,
+  streakFreezes: 1,
+  lastActiveOn: null,
+} as const;
+
+export async function learnerSnapshot(learner: LearnerProfile | null, timeZone?: string): Promise<LearnerSnapshot> {
+  if (!learner) return { xp: 0, level: 1, currentStreak: 0, bestStreak: 0, streakFreezes: EMPTY_LEARNER.streakFreezes, todayAttempts: 0 };
   const today = calendarDay(new Date(), timeZone);
   const activity = await prisma.dailyActivity.findUnique({
     where: { learnerId_activityDate: { learnerId: learner.id, activityDate: today } },
@@ -28,9 +38,13 @@ export async function learnerSnapshot(learner: LearnerProfile, timeZone?: string
   };
 }
 
-export async function learnerProgress(learner: LearnerProfile, timeZone?: string): Promise<ProgressPayload> {
+export async function learnerProgress(profile: LearnerProfile | null, timeZone?: string): Promise<ProgressPayload> {
   const now = new Date();
-  const [attempts, activities, ownedBadges, badges, reviewItems, sessions, totalAttempts] = await Promise.all([
+  const learner = profile ?? EMPTY_LEARNER;
+  const none = Promise.resolve([]);
+  const [attempts, activities, ownedBadges, badges, reviewItems, sessions, totalAttempts] = !profile ? await Promise.all([
+    none, none, none, prisma.badge.findMany({ orderBy: { threshold: "asc" } }), none, none, Promise.resolve(0),
+  ] as const) : await Promise.all([
     prisma.practiceAttempt.findMany({
       where: { learnerId: learner.id, isCorrect: { not: null } },
       orderBy: { createdAt: "desc" },

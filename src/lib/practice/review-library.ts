@@ -34,7 +34,8 @@ function questionCard(question: {
   };
 }
 
-export async function reviewLibrary(learnerId: string): Promise<ReviewPayload> {
+export async function reviewLibrary(learnerId: string | null): Promise<ReviewPayload> {
+  if (!learnerId) return { dueCount: 0, activeCount: 0, savedCount: 0, reviews: [], saved: [] };
   const now = new Date();
   const published = { status: QUESTION_STATUS.PUBLISHED };
   const [reviews, saved, dueCount, activeCount, savedCount] = await Promise.all([

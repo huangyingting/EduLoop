@@ -18,16 +18,18 @@
     "db:generate:postgres": "prisma generate --schema prisma/postgresql/schema.prisma",
     "db:deploy:postgres": "prisma migrate deploy --schema prisma/postgresql/schema.prisma",
     "db:seed": "node --import tsx prisma/seed.ts",
-    "users:bootstrap": "node --import tsx scripts/bootstrap-user.ts"
+    "users:bootstrap": "node --import tsx scripts/bootstrap-user.ts",
+    "learners:reconcile": "node --import tsx scripts/reconcile-learners.ts"
   },
   "dependencies": {
     "@prisma/client": "6.19.3",
     "bcryptjs": "3.0.3",
     "prisma": "6.19.3",
     "tsx": "4.23.1",
-    "zod": "3.25.76"
+    "zod": "4.6.7"
   },
   "overrides": {
-    "deepmerge-ts": "8.0.2"
+    "deepmerge-ts": "8.0.2",
+    "effect": "3.22.5"
   }
 }

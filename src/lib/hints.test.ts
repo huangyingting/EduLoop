@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { buildQuestionHint } from "./hints";
+import { buildSolvingStrategy } from "./hints";
 
 describe("question hints", () => {
   it("uses topic and type without exposing answer content", () => {
-    const hint = buildQuestionHint({
+    const hint = buildSolvingStrategy({
       type: "SINGLE_CHOICE",
       difficulty: "MEDIUM",
       tags: [{ tag: { label: "图形与几何", dimension: { key: "TOPIC" } } }],
@@ -14,7 +14,7 @@ describe("question hints", () => {
   });
 
   it("adds a decomposition strategy for hard questions", () => {
-    expect(buildQuestionHint({ type: "COMPUTATION", difficulty: "HARD" }))
+    expect(buildSolvingStrategy({ type: "COMPUTATION", difficulty: "HARD" }))
       .toContain("画简图、列中间量");
   });
 });

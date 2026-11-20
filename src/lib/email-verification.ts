@@ -6,6 +6,7 @@ import { finalizeEmailProofDelivery, nextEmailProofCreatedAt } from "@/lib/email
 import { errorLogMetadata } from "@/lib/logging";
 import { prisma } from "@/lib/prisma";
 import { deleteExpiredUnusedRegistration, proofExpiration } from "@/lib/retention";
+import type { Locale } from "@/i18n/config";
 
 export const EMAIL_VERIFICATION_TTL_MS = 24 * 60 * 60_000;
 
@@ -121,12 +122,12 @@ export async function finalizeEmailVerificationDelivery(
   });
 }
 
-export async function deliverEmailVerification(email: string, origin: string) {
+export async function deliverEmailVerification(email: string, origin: string, locale?: Locale) {
   const issued = await issueEmailVerificationToken(email);
   if (!issued) return;
   const verificationUrl = `${origin}/verify-email#token=${encodeURIComponent(issued.token)}`;
   try {
-    await sendEmailVerificationEmail(issued.email, verificationUrl);
+    await sendEmailVerificationEmail(issued.email, verificationUrl, { locale });
   } catch (error) {
     console.error(JSON.stringify({
       level: "error",

@@ -2,6 +2,7 @@ import { Prisma } from "@prisma/client";
 import type { AdapterAccount } from "next-auth/adapters";
 import { prisma } from "@/lib/prisma";
 import type { SocialProviderId } from "@/lib/social-providers";
+import { USER_ROLE } from "@/lib/domain-constants";
 
 const PROVIDER_ACCOUNT_TYPES = ["oauth", "oidc"];
 const MAX_DISCONNECT_ATTEMPTS = 3;
@@ -70,7 +71,7 @@ export async function linkProviderAccountSafely(
       where: expectedSessionVersion === undefined
         ? {
           id: account.userId,
-          role: "LEARNER",
+          role: USER_ROLE.LEARNER,
           emailVerified: null,
           passwordHash: null,
           sessionVersion: 0,

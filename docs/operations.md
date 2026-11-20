@@ -10,11 +10,11 @@ npm run dependencies:activate
 npm run env:check
 npm run db:generate:postgres
 npm run db:deploy:postgres
-npm run db:seed       # first release or content update only
+npm run db:seed       # safe every release; a no-op when the content manifest is unchanged
 npm run build
 ```
 
-Run migrations as a single pre-deploy job, not from every application replica. The included Dockerfile builds a standalone server; set `DATABASE_URL`, `EDULOOP_DATABASE_PROVIDER=postgresql`, `APP_VERSION`, and `PORT` at runtime. `APP_VERSION` must be the exact immutable release identifier, contain only 1 through 128 letters, numbers, dots, underscores, or hyphens, and cannot be `development`, `unknown`, or `unavailable`. Generate `AUTH_SECRET` with `npx auth secret`, transfer it through a protected workflow into the deployment secret manager, and remove any temporary local copy; never copy the documented placeholder or a CI/test fixture. Startup and runtime authentication reject whitespace, common placeholders, fewer than 43 or more than 512 characters, and fewer than 16 distinct characters. These checks catch common deployment mistakes but do not prove randomness, so preserve the generator-to-secret-manager path and restrict read access. Container startup rejects a missing, placeholder, or unsafe production release identity or authentication secret before launching Next.js, and `/api/health` remains unavailable if a platform bypasses that startup wrapper. Terminate HTTPS at the trusted ingress.
+Run migrations as a single pre-deploy job, not from every application replica. The catalog import hashes every normalized question. It skips entirely when the content manifest matches the last recorded `CatalogRelease`. Otherwise it writes only new and changed questions, in one transaction, so learners never see a partially applied catalog. `/api/health` reports the live release as `catalog.release.version`, a 12-character manifest prefix. The included Dockerfile builds a standalone server; set `DATABASE_URL`, `EDULOOP_DATABASE_PROVIDER=postgresql`, `APP_VERSION`, and `PORT` at runtime. `APP_VERSION` must be the exact immutable release identifier, contain only 1 through 128 letters, numbers, dots, underscores, or hyphens, and cannot be `development`, `unknown`, or `unavailable`. Generate `AUTH_SECRET` with `npx auth secret`, transfer it through a protected workflow into the deployment secret manager, and remove any temporary local copy; never copy the documented placeholder or a CI/test fixture. Startup and runtime authentication reject whitespace, common placeholders, fewer than 43 or more than 512 characters, and fewer than 16 distinct characters. These checks catch common deployment mistakes but do not prove randomness, so preserve the generator-to-secret-manager path and restrict read access. Container startup rejects a missing, placeholder, or unsafe production release identity or authentication secret before launching Next.js, and `/api/health` remains unavailable if a platform bypasses that startup wrapper. Terminate HTTPS at the trusted ingress.
 
 For the VM created by the sibling Webstack repository, use its `webstack-create-app` helper to allocate a dedicated EduLoop role/database and Caddy route. The GitHub workflow and rollback boundary are documented in `docs/vm-deployment.md`; EduLoop delegates to Webstack's pinned reusable workflow over Azure OIDC, manages only EduLoop migrations and catalog data on the fixed `webstack-apps` network, and never restarts or replaces the shared PostgreSQL server.
 
@@ -93,6 +93,16 @@ The Auth.js/account-only migrations intentionally sign old sessions out and eras
 The Docker runtime, PostgreSQL CI service, and GitHub Actions are pinned to immutable digests or commit SHAs. `.node-version` and `packageManager` align CI with the container toolchain. `.npmrc` disables dependency lifecycle scripts during installation; `npm run dependencies:activate` verifies every install-script package against the exact-version `allowScripts` decisions before explicitly rebuilding them. Dependabot proposes weekly npm, Actions, and Docker updates. Review upstream release notes and any changed install script before refreshing its exact allowlist entry, then require the full CI suite before merging.
 
 Production responses set HSTS, same-origin opener/resource isolation, and a resource-complete CSP. Next.js hydration currently requires inline scripts and the UI uses inline style values, so `script-src` and `style-src` allow inline content; `unsafe-eval` and WebSocket connections are development-only. Recheck the built application before tightening these remaining framework allowances.
+
+### Serving question images from object storage
+
+Question images (about 44 MB) ship in the image under `public/question-assets/` by default. To keep them out of the image:
+
+1. Create an Azure Storage container that allows anonymous read access to blobs (the images are already public course content), optionally behind Azure Front Door. The app fetches without credentials.
+2. Copy the images with `az login`, then `AZURE_STORAGE_ACCOUNT=<account> ASSET_CONTAINER=<container> npm run assets:sync` (add `-- --dry-run` first). Uploads never overwrite existing blobs, so reruns add only new files. Run it again whenever question assets change.
+3. Set `QUESTION_ASSET_ORIGIN=https://<account>.blob.core.windows.net/<container>` (or the CDN origin) and build the image with `--build-arg BUNDLE_QUESTION_ASSETS=false`.
+
+The app keeps serving every image from its own `/question-assets/...` URLs: requests for files missing from the image are streamed from the origin with a fixed content type, a sandboxing CSP for SVG, and long-lived cache headers. Pages, the Next.js image optimizer, and the Content Security Policy therefore need no change. Put a CDN in front of the app to absorb repeat requests.
 
 ## Launch Evidence Approval
 
@@ -193,6 +203,10 @@ RESTORE_CONFIRM_ISOLATED=1 npm run restore:verify
 
 The verifier deliberately does not claim that a provider backup was restored, that the chosen recovery point is correct, that every value matches production, or that the application can serve it. Launch the current release in the same isolated environment with its `DATABASE_URL` pointing at the restored target, exercise `GET /api/health`, and perform a privacy-approved functional spot check without exporting row data. Record both the provider restore duration and the application checks, then destroy the isolated database and its temporary credentials and confirm their deletion. A drill is successful only when the provider restore evidence, exact aggregate comparison, verifier, health check, deletion confirmation, and recovery-time objective all pass.
 
+## Learning Reminders
+
+Learners opt in on the profile page to a due-review digest, a Monday weekly summary, or both, and choose a local send hour between 07:00 and 21:00. Run `npm run notifications:send` hourly (cron or a systemd timer next to `data:cleanup`). The job emails only verified addresses with current legal consent, inside each learner's chosen hour in their stored time zone. `NotificationLog` lets each type go out at most once per local day (digest) or week (summary); a failed delivery releases its claim so the next run retries. Without email configuration the job logs `learning_reminder_dispatch_skipped`. Every message carries a body link to a confirmation page and RFC 8058 `List-Unsubscribe` headers that POST to `/api/notifications/unsubscribe`, authorized by a signed, type-scoped 90-day token. Preferences and the send log appear in the account export and are erased with the account.
+
 ## Content Incidents
 
 Learner reports enter `QuestionReport` as `OPEN`. Content operators use the role-protected `/studio` workspace to inspect the complete question context, quarantine unsafe content, and record a resolution. The API additionally requires a login no older than 10 minutes for every studio read and mutation, so an unattended 30-day operator session cannot expose answer keys or alter the catalog; the workspace prompts for reauthentication when that window closes. Each web or trusted-CLI transition conditionally claims the required report state before changing the question and writes an immutable `ContentReviewAction` in that transaction. Concurrent transitions are therefore serialized, and a quarantine that orders after another operator's resolution receives an explicit conflict. The API never returns learner identity. If a reporter erases learning data or the account, provider-specific database triggers react to the foreign-key unlink by clearing free text and recording anonymization while preserving the anonymous report state and action history; operators can still resolve the quarantine. Validate the original source and update normalization or curated records before resolving a genuine defect.
@@ -219,6 +233,45 @@ npm run reports:review -- resolve REPORT_ID --note="verified against source"
 `quarantine` removes the reported question from practice but deliberately leaves the report open. Correct the source normalization or curated replacement, run the content checks, re-import, verify the updated content and `importStatus` in the studio, and only then resolve every open report for that question. Imports preserve quarantine; the last resolution restores the audited import state. The CLI never prints learner or account identifiers.
 
 Generated diagrams require subject review and `reviewStatus = APPROVED`; never bulk-approve them. Preserve stable question IDs so attempts and review history remain attached.
+
+### Editing questions in the studio
+
+The studio's **题目编辑** workspace lets an operator find a question by ID or stem text and change it in the UI:
+
+- **Revisions.** Edit the stem, options, answer key, explanation, or topic tags, with a required reason. Saving creates a `DRAFT` `QuestionRevision`; approval applies it to the served question and marks the previously applied revision `SUPERSEDED`. Every catalog import that rewrites the question re-applies the approved revision, so the fix survives re-seeding. History records author, reviewer, reason, and review note. With `CONTENT_REQUIRE_SECOND_APPROVER=true`, a revision that changes the answer key must be approved by a different editor than its author.
+- **Re-grading.** An approved answer-key change re-grades every automatically graded attempt on the question. Correctness, subject and topic statistics, daily activity, and session counts follow the new key. A newly wrong answer enters the learner's mistake review. XP already awarded is never taken back, and re-graded attempts carry `regradedAt`.
+- **Hints.** Editors add `CURATED` hints, which survive imports, and can disable any hint. A disabled derived hint stays disabled after re-import.
+- **Images.** Uploads accept PNG, JPEG, or WebP only, up to 2 MB, verified by file signature rather than the declared type; SVG is refused. Images are stored in `AssetBlob`, deduplicated by SHA-256, and served from `/api/assets/<id>` with a sandboxing CSP and `nosniff`. A new upload is `DRAFT` and reaches learners only after an editor approves it.
+
+Every studio read and change requires the content role and a login no older than 10 minutes. Revision approval also claims the operator's exact session version and role inside its transaction.
+
+### Removing and replacing questions
+
+A question whose source ID disappears from `data/zh-CN/` is deleted on the next import, together with its attempts, review items, saved entries, reports (with their moderation actions), translations, hints, and studio revisions. Learner history for removed content is not kept ([ADR 0010](adr/0010-delete-removed-questions.md)): the affected learners' XP, level, attempt totals, daily activity, session totals, and subject and topic statistics are rebuilt from their remaining attempts. Streaks and earned badges stay. To replace a question, remove the old record and add the new one with a new ID.
+
+`npm run learners:reconcile` rebuilds those counters for every learner, which also clears totals left behind by history deleted in earlier releases. The deployment runs it after each seed; it is idempotent.
+
+The import refuses to delete more than 5 questions or 1% of the stored catalog, whichever is larger, so a missing data file or a changed ID scheme fails the release job instead of wiping part of the catalog. Inspect the plan first, then confirm the exact count:
+
+```bash
+npm run db:seed -- --dry-run           # prints created/updated/unchanged/deleted counts; writes nothing
+npm run db:seed -- --allow-delete=42   # or CATALOG_ALLOW_DELETE=42 for the deployment job
+```
+
+## Schools, Teachers, and Organizations
+
+Grant the teacher workspace with `npm run users:role -- teacher@school.example TEACHER`. To group a school's accounts:
+
+```bash
+npm run orgs:manage -- create example-school "Example School"
+npm run orgs:manage -- add-domain example-school school.example        # Google Workspace hosted domain
+npm run orgs:manage -- set-tenant example-school <entra-tenant-uuid>   # Microsoft Entra tenant
+npm run orgs:manage -- set-retention example-school 365                # or none
+npm run orgs:manage -- add-member example-school teacher@school.example
+npm run orgs:manage -- list
+```
+
+Accounts join automatically on their next Google or Microsoft sign-in when the verified claim matches ([ADR 0009](adr/0009-institutional-membership-from-provider-claims.md)). Schedule `npm run orgs:retention` daily next to `npm run data:cleanup`; it deletes at most 200 inactive learner accounts per organization per run and logs the counts. Retention deletion cannot be undone, so confirm the period with the institution in writing first.
 
 ## Rollback
 

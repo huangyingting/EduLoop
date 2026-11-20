@@ -200,5 +200,52 @@ export function validateEnvironment(environment) {
     }
   }
 
+  // Optional observability settings.
+  const metricsToken = environment.METRICS_TOKEN?.trim();
+  if (metricsToken && (metricsToken.length < 32 || /\s/.test(environment.METRICS_TOKEN))) {
+    errors.push("METRICS_TOKEN must be at least 32 characters without whitespace.");
+  }
+  const alertWebhook = environment.ALERT_WEBHOOK_URL?.trim();
+  if (alertWebhook) {
+    let url;
+    try {
+      url = new URL(alertWebhook);
+    } catch {
+      url = null;
+    }
+    if (url?.protocol !== "https:") errors.push("ALERT_WEBHOOK_URL must be an HTTPS URL.");
+  }
+  const assetOrigin = environment.QUESTION_ASSET_ORIGIN?.trim();
+  if (assetOrigin) {
+    let url;
+    try {
+      url = new URL(assetOrigin);
+    } catch {
+      url = null;
+    }
+    if (url?.protocol !== "https:" || url.search || url.hash || url.username || url.password) {
+      errors.push("QUESTION_ASSET_ORIGIN must be an HTTPS URL without credentials, query, or fragment.");
+    }
+  }
+  // Collectors usually sit on the private container network, so plain HTTP is
+  // accepted; the URL must still be well formed.
+  for (const name of ["OTEL_EXPORTER_OTLP_ENDPOINT", "OTEL_EXPORTER_OTLP_TRACES_ENDPOINT"]) {
+    const value = environment[name]?.trim();
+    if (!value) continue;
+    let url;
+    try {
+      url = new URL(value);
+    } catch {
+      url = null;
+    }
+    if (!url || !["http:", "https:"].includes(url.protocol)) errors.push(`${name} must be an HTTP or HTTPS URL.`);
+  }
+  if (environment.SLOW_QUERY_MS !== undefined && environment.SLOW_QUERY_MS !== "") {
+    const threshold = Number(environment.SLOW_QUERY_MS);
+    if (!/^\d+$/.test(environment.SLOW_QUERY_MS) || threshold < 10 || threshold > 60_000) {
+      errors.push("SLOW_QUERY_MS must be an integer from 10 through 60000.");
+    }
+  }
+
   return { errors, warnings, provider: configuredProvider || detectedProvider };
 }

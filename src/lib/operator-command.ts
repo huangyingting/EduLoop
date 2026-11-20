@@ -8,22 +8,31 @@ export type OperatorCommandName =
   | "email_delivery_probe"
   | "expired_security_artifact_cleanup"
   | "launch_evidence_verification"
+  | "learner_reconciliation"
+  | "learning_reminder_dispatch"
   | "oauth_deployment_smoke"
+  | "organization_command"
+  | "organization_retention"
   | "user_role_command";
 
 export type OperatorCommandRejectionCode =
+  | "INVALID_ORGANIZATION_ARGUMENTS"
   | "INVALID_REPORT_ARGUMENTS"
   | "INVALID_ROLE_ARGUMENTS"
+  | "ORGANIZATION_NOT_FOUND"
   | "REPORT_NOT_FOUND"
   | "REPORT_STATE_CONFLICT"
   | "UNKNOWN_REPORT_COMMAND"
   | "USER_NOT_FOUND";
 
 const REJECTION_MESSAGES: Record<OperatorCommandRejectionCode, string> = {
+  INVALID_ORGANIZATION_ARGUMENTS:
+    "Usage: npm run orgs:manage -- <list|create <slug> <name>|add-domain <slug> <domain>|set-tenant <slug> <tenant-id|none>|set-retention <slug> <days|none>|add-member <slug> <email>>",
+  ORGANIZATION_NOT_FOUND: "No organization uses that slug.",
   INVALID_REPORT_ARGUMENTS:
     "Usage: npm run reports:review -- <list|show|quarantine|resolve> [report-id] [--status=OPEN|RESOLVED] [--limit=25] [--note=text]",
   INVALID_ROLE_ARGUMENTS:
-    "Usage: npm run users:role -- <email> <LEARNER|CONTENT_EDITOR|ADMIN>",
+    "Usage: npm run users:role -- <email> <LEARNER|CONTENT_EDITOR|TEACHER|ADMIN>",
   REPORT_NOT_FOUND: "Report not found.",
   REPORT_STATE_CONFLICT: "The report or question state changed; reload the report queue before retrying.",
   UNKNOWN_REPORT_COMMAND: "Unknown command. Use list, show, quarantine, or resolve.",

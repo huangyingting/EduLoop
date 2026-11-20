@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { NextResponse } from "next/server";
-import { apiError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api";
+import { apiError, apiMessageError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api";
 import { runAfterResponse } from "@/lib/after-response";
 import { hashPassword } from "@/lib/auth";
 import { isSameOriginRequest, normalizeEmail, registerInputSchema } from "@/lib/auth-validation";
@@ -14,6 +14,8 @@ import {
   registrationExpiration,
 } from "@/lib/retention";
 import { registrationEnabled } from "@/lib/deployment-mode";
+import { QUESTION_STATUS } from "@/lib/domain-constants";
+import { chosenRequestLocale, requestLocale } from "@/i18n/config";
 
 export const runtime = "nodejs";
 
@@ -33,7 +35,7 @@ async function postRegistration(request: Request) {
   if (!body.ok) return body.response;
   const parsed = registerInputSchema.safeParse(body.value);
   if (!parsed.success) {
-    return apiError("请填写有效的邮箱、昵称和至少 8 位密码。", 400, "INVALID_REQUEST");
+    return apiMessageError("registrationInvalid", 400, "INVALID_REQUEST");
   }
   const input = parsed.data;
   const email = normalizeEmail(input.email);
@@ -46,11 +48,11 @@ async function postRegistration(request: Request) {
   if (limited) return limited;
   const passwordHash = await hashPassword(input.password);
   const knowledgeBand = input.knowledgeBand ? await prisma.gradeBand.findFirst({
-    where: { slug: input.knowledgeBand, questions: { some: { status: "PUBLISHED" } } },
+    where: { slug: input.knowledgeBand, questions: { some: { status: QUESTION_STATUS.PUBLISHED } } },
     select: { id: true },
   }) : null;
   if (input.knowledgeBand && !knowledgeBand) {
-    return apiError("请选择题库中可用的知识阶段。", 400, "INVALID_REQUEST");
+    return apiMessageError("knowledgeBandUnavailable", 400, "INVALID_REQUEST");
   }
 
   const acceptedAt = new Date();
@@ -69,6 +71,7 @@ async function postRegistration(request: Request) {
           privacyAcceptedAt: acceptedAt,
           privacyVersion: PRIVACY_VERSION,
           consentBasis: input.consentBasis,
+          locale: chosenRequestLocale(request),
           consentRecords: {
             create: {
               termsVersion: TERMS_VERSION,
@@ -85,7 +88,7 @@ async function postRegistration(request: Request) {
     });
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
-      return apiError("该邮箱已注册，请直接登录。", 409, "CONFLICT");
+      return apiMessageError("emailRegistered", 409, "CONFLICT");
     }
     throw error;
   }
@@ -94,7 +97,7 @@ async function postRegistration(request: Request) {
     const origin = registrationOrigin(request);
     await runAfterResponse(
       "email_verification_delivery",
-      () => deliverEmailVerification(email, origin),
+      () => deliverEmailVerification(email, origin, requestLocale(request)),
     );
   }
 

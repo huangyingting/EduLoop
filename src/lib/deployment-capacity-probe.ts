@@ -297,12 +297,14 @@ export async function runGuestPracticeCapacityJourney({
   const question = await jsonObject(questionResponse);
   const questionId = question?.id;
   const options = question?.options;
+  const ticket = question?.ticket;
   if (
     typeof questionId !== "string"
     || questionId.length < 8
     || questionId.length > 256
     || !Array.isArray(options)
     || options.length > 20
+    || typeof ticket !== "string"
   ) {
     return failedJourney("question_contract", startedAt, monotonicNow);
   }
@@ -331,7 +333,7 @@ export async function runGuestPracticeCapacityJourney({
         "Content-Type": "application/json",
         Origin: origin,
       },
-      body: JSON.stringify({ questionId, response, secondsSpent: 0 }),
+      body: JSON.stringify({ questionId, response, secondsSpent: 0, ticket }),
     },
   );
   if (!gradingResponse?.ok) {

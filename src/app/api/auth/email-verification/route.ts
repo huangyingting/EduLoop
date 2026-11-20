@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { apiError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api";
+import { apiError, apiMessageError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api";
 import { runAfterResponse } from "@/lib/after-response";
 import {
   emailVerificationCompletionSchema,
@@ -13,10 +13,11 @@ import {
   verifyEmailWithToken,
 } from "@/lib/email-verification";
 import { emailConfiguration } from "@/lib/email";
+import { requestLocale } from "@/i18n/config";
 
 export const runtime = "nodejs";
 
-const acceptedMessage = "如果该邮箱需要验证，我们会发送一封验证邮件。";
+const acceptedMessage = "If this email needs verification, a verification email is on its way.";
 
 function verificationOrigin(request: Request) {
   const configured = process.env.AUTH_URL?.trim();
@@ -28,7 +29,7 @@ async function requestEmailVerification(request: Request) {
   const body = await readJsonBody(request);
   if (!body.ok) return body.response;
   const parsed = emailVerificationRequestSchema.safeParse(body.value);
-  if (!parsed.success) return apiError("请输入有效的邮箱地址。", 400, "INVALID_REQUEST");
+  if (!parsed.success) return apiMessageError("emailInvalid", 400, "INVALID_REQUEST");
   const email = normalizeEmail(parsed.data.email);
   const limited = await enforceRateLimit(request, "auth-email-verification-request", {
     addressLimit: 20,
@@ -41,7 +42,7 @@ async function requestEmailVerification(request: Request) {
     const origin = verificationOrigin(request);
     await runAfterResponse(
       "email_verification_delivery",
-      () => deliverEmailVerification(email, origin),
+      () => deliverEmailVerification(email, origin, requestLocale(request)),
     );
   }
 
@@ -56,7 +57,7 @@ async function completeEmailVerification(request: Request) {
   const body = await readJsonBody(request);
   if (!body.ok) return body.response;
   const parsed = emailVerificationCompletionSchema.safeParse(body.value);
-  if (!parsed.success) return apiError("验证链接无效。", 400, "INVALID_REQUEST");
+  if (!parsed.success) return apiMessageError("verificationInvalid", 400, "INVALID_REQUEST");
   const limited = await enforceRateLimit(
     request,
     "auth-email-verification-complete",
@@ -71,13 +72,13 @@ async function completeEmailVerification(request: Request) {
 
   const outcome = await verifyEmailWithToken(parsed.data.token, parsed.data.password);
   if (outcome.status === "INVALID") {
-    return apiError("验证链接无效或已过期，请重新申请。", 400, "INVALID_REQUEST");
+    return apiMessageError("verificationExpired", 400, "INVALID_REQUEST");
   }
   if (outcome.status === "INVALID_PASSWORD") {
-    return apiError("密码不正确，邮箱尚未验证。", 401, "UNAUTHORIZED");
+    return apiMessageError("verificationWrongPassword", 401, "UNAUTHORIZED");
   }
   if (outcome.status === "CONFLICT") {
-    return apiError("账号安全设置刚刚发生变化，请重新打开验证链接后再试。", 409, "CONFLICT");
+    return apiMessageError("securityChangedVerification", 409, "CONFLICT");
   }
   return NextResponse.json({
     verified: true,

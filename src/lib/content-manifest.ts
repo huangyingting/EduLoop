@@ -8,6 +8,7 @@ const localeEntrySchema = z.object({
   files: z.array(filenameSchema).min(1),
 });
 
+
 const manifestSchema = z.object({
   schemaVersion: z.literal(1),
   defaultLocale: localeSchema,

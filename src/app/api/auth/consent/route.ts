@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { apiError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api";
+import { apiError, apiMessageError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api";
 import { getSessionUser } from "@/lib/auth";
 import { isSameOriginRequest, legalConsentSchema } from "@/lib/auth-validation";
 import { ensureLearnerForUser } from "@/lib/learner-identity";
@@ -11,7 +11,7 @@ export const runtime = "nodejs";
 async function acceptConsent(request: Request) {
   if (!isSameOriginRequest(request)) return apiError("Invalid request origin.", 403, "FORBIDDEN");
   const user = await getSessionUser(request, { allowMissingConsent: true });
-  if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
+  if (!user) return apiMessageError("signInRequired", 401, "UNAUTHORIZED");
   const limited = await enforceRateLimit(
     request,
     "auth-consent",
@@ -23,7 +23,7 @@ async function acceptConsent(request: Request) {
   if (!body.ok) return body.response;
   const parsed = legalConsentSchema.safeParse(body.value);
   if (!parsed.success) {
-    return apiError("请确认账号由成年学习者或父母、法定监护人操作，并接受现行条款。", 400, "INVALID_REQUEST");
+    return apiMessageError("consentRequired", 400, "INVALID_REQUEST");
   }
 
   const acceptedAt = new Date();

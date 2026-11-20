@@ -8,7 +8,7 @@ import {
   hasBareLatexCommand,
   hasForbiddenControlCharacter,
   invalidJsonLatexEscapes,
-} from "./amc-audit-rules.mjs";
+} from "./content/amc-audit-rules.mjs";
 
 const ROOT = process.cwd();
 const errors = [];
@@ -128,6 +128,18 @@ const packageLockSchema = z.object({
   lockfileVersion: z.literal(3),
   requires: z.literal(true),
   packages: z.record(z.string(), z.record(z.string(), z.unknown())),
+}).strict();
+
+const statCountSchema = z.number().int().nonnegative();
+const catalogStatsSchema = z.object({
+  schemaVersion: z.literal(1),
+  description: z.string().min(1),
+  seed: z.record(z.string(), statCountSchema),
+  repository: z.object({
+    catalogFiles: statCountSchema,
+    generatedDiagrams: statCountSchema,
+    generatedDiagramQuestions: statCountSchema,
+  }).strict(),
 }).strict();
 
 const tsconfigSchema = z.object({
@@ -379,7 +391,19 @@ function validatePackageFiles(packagePath, lockPath) {
   }
 }
 
+const grafanaDashboardSchema = z.object({
+  title: z.string().min(1),
+  uid: z.string().regex(/^[a-z0-9-]{3,40}$/),
+  panels: z.array(z.object({
+    title: z.string().min(1),
+    type: z.string().min(1),
+    targets: z.array(z.object({ expr: z.string().min(1) }).passthrough()).min(1),
+  }).passthrough()).min(1),
+}).passthrough();
+
 function validateConfigFiles() {
+  validate("docs/observability/grafana-dashboard.json", grafanaDashboardSchema, parsedFiles.get("docs/observability/grafana-dashboard.json"));
+  validate("docs/catalog-stats.json", catalogStatsSchema, parsedFiles.get("docs/catalog-stats.json"));
   validatePackageFiles("package.json", "package-lock.json");
   validatePackageFiles("ops/package.json", "ops/package-lock.json");
   validate("tsconfig.json", tsconfigSchema, parsedFiles.get("tsconfig.json"));
@@ -404,12 +428,14 @@ const tracked = await loadTrackedJson();
 const expectedSchemas = new Set([
   "data/catalog.json",
   "data/schema.json",
+  "docs/catalog-stats.json",
+  "docs/observability/grafana-dashboard.json",
   "ops/package-lock.json",
   "ops/package.json",
   "package-lock.json",
   "package.json",
   "public/question-assets/source/amc/manifest.json",
-  "scripts/amc-translation-math-approvals.json",
+  "scripts/content/amc-translation-math-approvals.json",
   "tsconfig.json",
 ]);
 
@@ -437,9 +463,9 @@ const assetManifest = validate(
 );
 const assets = await validateAssetManifest(assetManifest);
 validate(
-  "scripts/amc-translation-math-approvals.json",
+  "scripts/content/amc-translation-math-approvals.json",
   mathApprovalsSchema,
-  parsedFiles.get("scripts/amc-translation-math-approvals.json"),
+  parsedFiles.get("scripts/content/amc-translation-math-approvals.json"),
 );
 validateConfigFiles();
 

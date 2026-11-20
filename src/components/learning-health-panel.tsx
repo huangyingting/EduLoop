@@ -1,18 +1,22 @@
 "use client";
 
-import { BookOpenCheck, ChartNoAxesColumnIncreasing, LoaderCircle, RefreshCw, Repeat2, UsersRound } from "lucide-react";
+import { BookOpenCheck, Lightbulb, ChartNoAxesColumnIncreasing, LoaderCircle, RefreshCw, Repeat2, UsersRound } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
+import { useT } from "@/i18n/client";
+import { apiErrorFromResponse, describeApiError } from "@/lib/api-client";
 
 type LearningHealth = {
   windowDays: number;
   sessions: { started: number; completed: number; completionRate: number; averageQuestions: number };
   explanations: { eligibleMisses: number; viewed: number; viewRate: number };
+  hints: { gradedAttempts: number; hintedAttempts: number; usageRate: number; correctAfterHintRate: number };
   weeklyReturn: { priorWeekLearners: number; returnedLearners: number; rate: number; sampled: boolean };
   repeatPractice: { learnerTopicPairs: number; improved: number; regressed: number; unchanged: number; netChangePoints: number; sampled: boolean };
   activity: Array<{ date: string; learners: number; attempts: number; correct: number }>;
 };
 
 export function LearningHealthPanel() {
+  const t = useT();
   const [data, setData] = useState<LearningHealth | null>(null);
   const [error, setError] = useState("");
 
@@ -20,13 +24,12 @@ export function LearningHealthPanel() {
     setError("");
     try {
       const response = await fetch("/api/studio/metrics", { cache: "no-store" });
-      const body = await response.json() as LearningHealth & { error?: string };
-      if (!response.ok) throw new Error(body.error || "学习循环指标加载失败。");
-      setData(body);
+      if (!response.ok) throw await apiErrorFromResponse(response);
+      setData(await response.json() as LearningHealth);
     } catch (cause) {
-      setError(cause instanceof Error ? cause.message : "学习循环指标加载失败。");
+      setError(describeApiError(cause, "学习循环指标加载失败。", t));
     }
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     const timer = window.setTimeout(() => void load(), 0);
@@ -41,13 +44,14 @@ export function LearningHealthPanel() {
   const cards = [
     { label: "挑战完成率", value: `${data.sessions.completionRate}%`, detail: `${data.sessions.completed} / ${data.sessions.started} 轮`, icon: ChartNoAxesColumnIncreasing, color: "bg-lime" },
     { label: "错后解析打开率", value: `${data.explanations.viewRate}%`, detail: `${data.explanations.viewed} / ${data.explanations.eligibleMisses} 次`, icon: BookOpenCheck, color: "bg-[#d9d3f5]" },
+    { label: "提示使用率", value: `${data.hints.usageRate}%`, detail: `用后答对 ${data.hints.correctAfterHintRate}% · ${data.hints.hintedAttempts} 次`, icon: Lightbulb, color: "bg-[#f7fadf]" },
     { label: "七日回访率", value: `${data.weeklyReturn.rate}%`, detail: `${data.weeklyReturn.returnedLearners} / ${data.weeklyReturn.priorWeekLearners} 人`, icon: UsersRound, color: "bg-sky" },
     { label: "复练净变化", value: `${data.repeatPractice.netChangePoints > 0 ? "+" : ""}${data.repeatPractice.netChangePoints} 点`, detail: `${data.repeatPractice.learnerTopicPairs} 组重复主题`, icon: Repeat2, color: "bg-peach" },
   ];
 
   return <section aria-labelledby="learning-health-title" className="mt-6 rounded-[28px] border-2 border-ink/10 bg-white p-5 sm:p-7">
     <div className="flex flex-wrap items-end justify-between gap-3"><div><p className="text-xs font-black uppercase tracking-[0.16em] text-violet">Learning loop health</p><h2 id="learning-health-title" className="mt-1 font-display text-2xl font-black">近 {data.windowDays} 天学习循环</h2></div><p className="text-xs font-bold text-muted">每轮平均完成 {data.sessions.averageQuestions} 题{data.repeatPractice.sampled ? " · 复练指标使用最近 20,000 条样本" : ""}{data.weeklyReturn.sampled ? " · 回访指标使用每周前 50,000 人样本" : ""}</p></div>
-    <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">{cards.map(({ label, value, detail, icon: Icon, color }) => <div key={label} className={`rounded-2xl border-2 border-ink/10 p-4 ${color}`}><Icon size={20} /><p className="mt-3 text-2xl font-black">{value}</p><p className="text-xs font-black">{label}</p><p className="mt-1 text-[11px] font-semibold text-ink/60">{detail}</p></div>)}</div>
+    <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-5">{cards.map(({ label, value, detail, icon: Icon, color }) => <div key={label} className={`rounded-2xl border-2 border-ink/10 p-4 ${color}`}><Icon size={20} /><p className="mt-3 text-2xl font-black">{value}</p><p className="text-xs font-black">{label}</p><p className="mt-1 text-[11px] font-semibold text-ink/60">{detail}</p></div>)}</div>
     {recentActivity.length ? <div className="mt-6"><div className="flex h-20 items-end gap-1" aria-label="最近十四天答题量">{recentActivity.map((day) => <div key={day.date} className="group relative flex min-w-0 flex-1 justify-center"><div title={`${day.date}: ${day.attempts} 题，${day.learners} 位学习者`} className="w-full max-w-7 rounded-t-md bg-violet/70" style={{ height: `${Math.max(4, Math.round((day.attempts / maxAttempts) * 80))}px` }} /><span className="sr-only">{day.date}：{day.attempts} 题，{day.learners} 位学习者</span></div>)}</div><p className="mt-2 text-right text-[11px] font-bold text-muted">最近 14 个有活动记录的日期</p></div> : <p className="mt-5 rounded-xl bg-canvas p-4 text-sm font-semibold text-muted">还没有足够的练习活动；指标会随学生开始答题自动出现。</p>}
   </section>;
 }

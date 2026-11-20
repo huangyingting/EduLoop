@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { apiError, apiHandler, enforceRateLimit } from "@/lib/api";
+import { apiError, apiMessageError, apiHandler, enforceRateLimit } from "@/lib/api";
 import { getSessionUser } from "@/lib/auth";
 import { hasRecentAuthentication } from "@/lib/auth-validation";
 import { errorLogMetadata } from "@/lib/logging";
@@ -23,6 +23,7 @@ function streamExport(
   accountSections: ExportSection[],
   learner: Record<string, unknown> | null,
   learnerSections: ExportSection[],
+  childLearners: Array<{ metadata: Record<string, unknown>; sections: ExportSection[] }>,
 ) {
   const encoder = new TextEncoder();
   let cancelled = false;
@@ -66,14 +67,17 @@ function streamExport(
         await writeSectionedObject(account, accountSections);
         if (cancelled) return;
         write(",\"learner\":");
-        if (!learner) {
-          write("null}");
-          controller.close();
-          return;
-        }
-        await writeSectionedObject(learner, learnerSections);
+        if (learner) await writeSectionedObject(learner, learnerSections);
+        else write("null");
         if (cancelled) return;
-        write("}");
+        // Child profiles this account manages, each with the same sections.
+        write(",\"childLearners\":[");
+        for (const [index, child] of childLearners.entries()) {
+          if (index) write(",");
+          await writeSectionedObject(child.metadata, child.sections);
+          if (cancelled) return;
+        }
+        write("]}");
         controller.close();
       } catch (error) {
         console.error(JSON.stringify({
@@ -90,154 +94,26 @@ function streamExport(
   });
 }
 
-async function getAccountExport(request: NextRequest) {
-  const user = await getSessionUser(request, { allowMissingConsent: true });
-  if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
-  if (!hasRecentAuthentication(user.authenticatedAt)) {
-    return apiError(
-      "导出账号数据前请重新登录，以确认这是你的账号。",
-      401,
-      "UNAUTHORIZED",
-    );
-  }
-  const parsed = querySchema.safeParse(Object.fromEntries(request.nextUrl.searchParams));
-  if (!parsed.success) return apiError("Invalid export request", 400, "INVALID_REQUEST");
-  const limited = await enforceRateLimit(
-    request,
-    "export-account",
-    { identity: user.id, identityLimit: 3 },
-    60 * 60_000,
-  );
-  if (limited) return limited;
+const learnerProjection = {
+  displayName: true,
+  knowledgeBand: { select: { slug: true, name: true } },
+  knowledgeGrade: { select: { slug: true, name: true } },
+  xp: true,
+  level: true,
+  currentStreak: true,
+  bestStreak: true,
+  streakFreezes: true,
+  lastFreezeUsedOn: true,
+  lastActiveOn: true,
+  timeZone: true,
+  timeZoneUpdatedAt: true,
+  totalAttempts: true,
+  createdAt: true,
+  updatedAt: true,
+} as const;
 
-  const storedAccount = await prisma.user.findUnique({
-    where: { id: user.id },
-    select: {
-      email: true,
-      emailVerified: true,
-      name: true,
-      image: true,
-      role: true,
-      termsAcceptedAt: true,
-      termsVersion: true,
-      privacyAcceptedAt: true,
-      privacyVersion: true,
-      consentBasis: true,
-      registrationExpiresAt: true,
-      accounts: {
-        where: { type: { in: ["oauth", "oidc"] } },
-        orderBy: [{ provider: "asc" }, { providerAccountId: "asc" }],
-        select: { type: true, provider: true, providerAccountId: true },
-      },
-      consentRecords: {
-        orderBy: [{ acceptedAt: "asc" }, { id: "asc" }],
-        select: {
-          termsVersion: true,
-          privacyVersion: true,
-          basis: true,
-          method: true,
-          acceptedAt: true,
-        },
-      },
-      emailVerificationTokens: {
-        orderBy: [{ createdAt: "asc" }, { id: "asc" }],
-        select: { expiresAt: true, deliveredAt: true, createdAt: true },
-      },
-      emailChangeTokens: {
-        orderBy: [{ createdAt: "asc" }, { id: "asc" }],
-        select: { newEmail: true, expiresAt: true, deliveredAt: true, createdAt: true },
-      },
-      passwordResetTokens: {
-        orderBy: [{ createdAt: "asc" }, { id: "asc" }],
-        select: { expiresAt: true, deliveredAt: true, createdAt: true },
-      },
-      sessions: {
-        orderBy: { expires: "asc" },
-        select: { expires: true },
-      },
-      createdAt: true,
-      updatedAt: true,
-    },
-  });
-  if (!storedAccount) return apiError("请先登录。", 401, "UNAUTHORIZED");
-
-  const account = {
-    email: storedAccount.email,
-    emailVerifiedAt: storedAccount.emailVerified,
-    displayName: storedAccount.name,
-    image: storedAccount.image,
-    role: storedAccount.role,
-    hasPassword: user.hasPassword,
-    currentConsent: {
-      termsAcceptedAt: storedAccount.termsAcceptedAt,
-      termsVersion: storedAccount.termsVersion,
-      privacyAcceptedAt: storedAccount.privacyAcceptedAt,
-      privacyVersion: storedAccount.privacyVersion,
-      basis: storedAccount.consentBasis,
-    },
-    registrationExpiresAt: storedAccount.registrationExpiresAt,
-    linkedProviders: storedAccount.accounts,
-    consentHistory: storedAccount.consentRecords,
-    pendingAccountActions: {
-      emailVerifications: storedAccount.emailVerificationTokens,
-      emailChanges: storedAccount.emailChangeTokens,
-      passwordResets: storedAccount.passwordResetTokens,
-    },
-    sessionRecords: storedAccount.sessions,
-    createdAt: storedAccount.createdAt,
-    updatedAt: storedAccount.updatedAt,
-  };
-
-  const accountSections: ExportSection[] = [{
-    name: "contentReviewActions",
-    load: async (cursor) => (await prisma.contentReviewAction.findMany({
-      where: { actorId: user.id }, orderBy: { id: "asc" }, take: EXPORT_PAGE_SIZE,
-      ...(cursor ? { cursor: { id: cursor }, skip: 1 } : {}),
-      select: {
-        id: true,
-        action: true,
-        note: true,
-        createdAt: true,
-        report: {
-          select: {
-            category: true,
-            status: true,
-            createdAt: true,
-            resolvedAt: true,
-            question: { select: { sourceId: true } },
-          },
-        },
-      },
-    })).map(({ id, ...value }) => ({ cursor: id, value })),
-  }];
-
-  // Export is a data-rights read and must never create a learner profile for
-  // an account that has not accepted current terms or deleted learning data.
-  const identity = await prisma.learnerProfile.findUnique({
-    where: { userId: user.id },
-    select: { id: true },
-  });
-  const learner = identity ? await prisma.learnerProfile.findUnique({
-    where: { id: identity.id },
-    select: {
-      displayName: true,
-      knowledgeBand: { select: { slug: true, name: true } },
-      knowledgeGrade: { select: { slug: true, name: true } },
-      xp: true,
-      level: true,
-      currentStreak: true,
-      bestStreak: true,
-      streakFreezes: true,
-      lastFreezeUsedOn: true,
-      lastActiveOn: true,
-      createdAt: true,
-      updatedAt: true,
-    },
-  }) : null;
-
-  const exportedAt = new Date();
-  const learnerId = identity?.id;
-  const sections: ExportSection[] = learnerId ? [
+function learnerSections(learnerId: string): ExportSection[] {
+  return [
     {
       name: "sessions",
       load: async (cursor) => (await prisma.practiceSession.findMany({
@@ -310,9 +186,176 @@ async function getAccountExport(request: NextRequest) {
         },
       })).map(({ id, ...value }) => ({ cursor: id, value })),
     },
-  ] : [];
+    {
+      name: "classMemberships",
+      load: async (cursor) => (await prisma.classroomMember.findMany({
+        where: { learnerId }, orderBy: { classroomId: "asc" }, take: EXPORT_PAGE_SIZE,
+        ...(cursor ? { cursor: { classroomId_learnerId: { classroomId: cursor, learnerId } }, skip: 1 } : {}),
+        select: { classroomId: true, joinedAt: true, classroom: { select: { name: true } } },
+      })).map(({ classroomId, ...value }) => ({ cursor: classroomId, value })),
+    },
+  ];
+}
+
+async function getAccountExport(request: NextRequest) {
+  const user = await getSessionUser(request, { allowMissingConsent: true });
+  if (!user) return apiMessageError("signInRequired", 401, "UNAUTHORIZED");
+  if (!hasRecentAuthentication(user.authenticatedAt)) {
+    return apiMessageError("reauthExport",
+      401,
+      "UNAUTHORIZED",
+    );
+  }
+  const parsed = querySchema.safeParse(Object.fromEntries(request.nextUrl.searchParams));
+  if (!parsed.success) return apiError("Invalid export request", 400, "INVALID_REQUEST");
+  const limited = await enforceRateLimit(
+    request,
+    "export-account",
+    { identity: user.id, identityLimit: 3 },
+    60 * 60_000,
+  );
+  if (limited) return limited;
+
+  const storedAccount = await prisma.user.findUnique({
+    where: { id: user.id },
+    select: {
+      email: true,
+      emailVerified: true,
+      name: true,
+      image: true,
+      role: true,
+      termsAcceptedAt: true,
+      termsVersion: true,
+      privacyAcceptedAt: true,
+      privacyVersion: true,
+      consentBasis: true,
+      locale: true,
+      registrationExpiresAt: true,
+      accounts: {
+        where: { type: { in: ["oauth", "oidc"] } },
+        orderBy: [{ provider: "asc" }, { providerAccountId: "asc" }],
+        select: { type: true, provider: true, providerAccountId: true },
+      },
+      notificationPreference: { select: { dueReviewDigest: true, weeklySummary: true, sendHour: true, updatedAt: true } },
+      notificationLogs: { orderBy: { sentAt: "asc" }, select: { type: true, periodKey: true, sentAt: true } },
+      consentRecords: {
+        orderBy: [{ acceptedAt: "asc" }, { id: "asc" }],
+        select: {
+          termsVersion: true,
+          privacyVersion: true,
+          basis: true,
+          method: true,
+          acceptedAt: true,
+        },
+      },
+      emailVerificationTokens: {
+        orderBy: [{ createdAt: "asc" }, { id: "asc" }],
+        select: { expiresAt: true, deliveredAt: true, createdAt: true },
+      },
+      emailChangeTokens: {
+        orderBy: [{ createdAt: "asc" }, { id: "asc" }],
+        select: { newEmail: true, expiresAt: true, deliveredAt: true, createdAt: true },
+      },
+      passwordResetTokens: {
+        orderBy: [{ createdAt: "asc" }, { id: "asc" }],
+        select: { expiresAt: true, deliveredAt: true, createdAt: true },
+      },
+      sessions: {
+        orderBy: { expires: "asc" },
+        select: { expires: true },
+      },
+      createdAt: true,
+      updatedAt: true,
+    },
+  });
+  if (!storedAccount) return apiMessageError("signInRequired", 401, "UNAUTHORIZED");
+
+  const account = {
+    email: storedAccount.email,
+    emailVerifiedAt: storedAccount.emailVerified,
+    displayName: storedAccount.name,
+    image: storedAccount.image,
+    role: storedAccount.role,
+    hasPassword: user.hasPassword,
+    emailLanguage: storedAccount.locale,
+    currentConsent: {
+      termsAcceptedAt: storedAccount.termsAcceptedAt,
+      termsVersion: storedAccount.termsVersion,
+      privacyAcceptedAt: storedAccount.privacyAcceptedAt,
+      privacyVersion: storedAccount.privacyVersion,
+      basis: storedAccount.consentBasis,
+    },
+    registrationExpiresAt: storedAccount.registrationExpiresAt,
+    linkedProviders: storedAccount.accounts,
+    consentHistory: storedAccount.consentRecords,
+    notificationPreferences: storedAccount.notificationPreference,
+    remindersSent: storedAccount.notificationLogs,
+    pendingAccountActions: {
+      emailVerifications: storedAccount.emailVerificationTokens,
+      emailChanges: storedAccount.emailChangeTokens,
+      passwordResets: storedAccount.passwordResetTokens,
+    },
+    sessionRecords: storedAccount.sessions,
+    createdAt: storedAccount.createdAt,
+    updatedAt: storedAccount.updatedAt,
+  };
+
+  const accountSections: ExportSection[] = [{
+    name: "contentReviewActions",
+    load: async (cursor) => (await prisma.contentReviewAction.findMany({
+      where: { actorId: user.id }, orderBy: { id: "asc" }, take: EXPORT_PAGE_SIZE,
+      ...(cursor ? { cursor: { id: cursor }, skip: 1 } : {}),
+      select: {
+        id: true,
+        action: true,
+        note: true,
+        createdAt: true,
+        report: {
+          select: {
+            category: true,
+            status: true,
+            createdAt: true,
+            resolvedAt: true,
+            question: { select: { sourceId: true } },
+          },
+        },
+      },
+    })).map(({ id, ...value }) => ({ cursor: id, value })),
+  }, {
+    name: "classesTaught",
+    load: async (cursor) => (await prisma.classroom.findMany({
+      where: { teacherUserId: user.id }, orderBy: { id: "asc" }, take: EXPORT_PAGE_SIZE,
+      ...(cursor ? { cursor: { id: cursor }, skip: 1 } : {}),
+      select: {
+        id: true, name: true, joinCode: true, archivedAt: true, createdAt: true,
+        _count: { select: { members: true } },
+        assignments: { select: { title: true, kind: true, filters: true, questionGoal: true, paperKey: true, dueAt: true, createdAt: true } },
+      },
+    })).map(({ id, ...value }) => ({ cursor: id, value })),
+  }];
+
+  // Export is a data-rights read and must never create a learner profile for
+  // an account that has not accepted current terms or deleted learning data.
+  const identity = await prisma.learnerProfile.findUnique({
+    where: { userId: user.id },
+    select: { id: true },
+  });
+  const learner = identity ? await prisma.learnerProfile.findUnique({
+    where: { id: identity.id },
+    select: learnerProjection,
+  }) : null;
+
+  const exportedAt = new Date();
+  const learnerId = identity?.id;
+  const sections: ExportSection[] = learnerId ? learnerSections(learnerId) : [];
+  const children = await prisma.learnerProfile.findMany({
+    where: { guardianUserId: user.id },
+    orderBy: { createdAt: "asc" },
+    select: { id: true, ...learnerProjection },
+  });
+  const childLearners = children.map(({ id, ...metadata }) => ({ metadata, sections: learnerSections(id) }));
   const filename = `eduloop-account-data-${exportedAt.toISOString().slice(0, 10)}.json`;
-  return new NextResponse(streamExport(exportedAt, account, accountSections, learner, sections), {
+  return new NextResponse(streamExport(exportedAt, account, accountSections, learner, sections, childLearners), {
     headers: {
       "Content-Type": "application/json; charset=utf-8",
       "Content-Disposition": `attachment; filename="${filename}"`,

@@ -1,0 +1,29 @@
+# Prometheus alerting rules for EduLoop. Load them alongside a scrape job for
+# /api/metrics on every replica (see docs/observability.md).
+groups:
+  - name: eduloop
+    rules:
+      - alert: EduLoopHighErrorRatio
+        expr: sum(rate(eduloop_http_request_duration_ms_count{status="5xx"}[5m])) / sum(rate(eduloop_http_request_duration_ms_count[5m])) > 0.02
+        for: 10m
+        labels: { severity: page }
+        annotations:
+          summary: More than 2% of EduLoop API requests are failing with 5xx.
+      - alert: EduLoopSlowPractice
+        expr: histogram_quantile(0.95, sum by (le) (rate(eduloop_http_request_duration_ms_bucket{route=~"GET /api/questions/next|POST /api/attempts"}[5m]))) > 500
+        for: 15m
+        labels: { severity: ticket }
+        annotations:
+          summary: p95 latency of question selection or attempt grading is above 500 ms.
+      - alert: EduLoopSlowQueries
+        expr: sum(rate(eduloop_slow_queries_total[10m])) * 60 > 5
+        for: 15m
+        labels: { severity: ticket }
+        annotations:
+          summary: More than 5 slow database queries per minute (SLOW_QUERY_MS threshold).
+      - alert: EduLoopReplicaDown
+        expr: up{job="eduloop"} == 0
+        for: 5m
+        labels: { severity: page }
+        annotations:
+          summary: An EduLoop replica has not been scraped for 5 minutes.

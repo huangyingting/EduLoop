@@ -1,7 +1,13 @@
 import { randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
+import type { ErrorMessageKey } from "@/i18n/messages";
+import { en } from "@/i18n/messages/en";
 import { isDatabaseUnavailableError } from "./database-errors";
 import { errorLogMetadata } from "./logging";
+import { sendServerErrorAlert } from "./observability/alerts";
+import { recordRequestMetric } from "./observability/metrics";
+import { activeTraceId } from "./observability/tracing";
+import { applicationRelease } from "./release";
 
 const REQUEST_ID_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$/;
 export const MAX_JSON_BODY_BYTES = 32 * 1024;
@@ -17,11 +23,18 @@ export type ApiErrorCode =
   | "SERVICE_UNAVAILABLE"
   | "UNAUTHORIZED";
 
-export function apiError(error: string, status: number, code: ApiErrorCode, details?: unknown) {
-  return NextResponse.json({ error, code, ...(details === undefined ? {} : { details }) }, {
+export function apiError(error: string, status: number, code: ApiErrorCode, details?: unknown, messageKey?: ErrorMessageKey) {
+  return NextResponse.json({ error, code, ...(messageKey ? { messageKey } : {}), ...(details === undefined ? {} : { details }) }, {
     status,
     headers: { "Cache-Control": "no-store" },
   });
+}
+
+// Errors the learner can act on carry a messageKey. Clients show the catalog
+// text for that key in the learner's language; `error` stays developer-facing
+// English.
+export function apiMessageError(messageKey: ErrorMessageKey, status: number, code: ApiErrorCode, details?: unknown) {
+  return apiError(en.errors[messageKey], status, code, details, messageKey);
 }
 
 export async function readJsonBody(
@@ -83,23 +96,28 @@ function requestId(request: Request) {
   return supplied && REQUEST_ID_PATTERN.test(supplied) ? supplied : randomUUID();
 }
 
-export function apiHandler<TRequest extends Request>(
+export function apiHandler<TRequest extends Request, TContext = unknown>(
   route: string,
-  handler: (request: TRequest) => Promise<Response>,
+  handler: (request: TRequest, context: TContext) => Promise<Response>,
 ) {
-  return async (request: TRequest) => {
+  // Dynamic routes receive Next.js's route context ({ params }) as well.
+  return async (request: TRequest, context?: TContext) => {
     const id = requestId(request);
+    const traceId = activeTraceId();
     const startedAt = performance.now();
     let response: Response;
+    let failure: ReturnType<typeof errorLogMetadata> | null = null;
     try {
-      response = await handler(request);
+      response = await handler(request, context as TContext);
     } catch (error) {
       const databaseUnavailable = isDatabaseUnavailableError(error);
+      failure = errorLogMetadata(error);
       console.error(JSON.stringify({
         level: "error",
         event: "api_request_failed",
         route,
         requestId: id,
+        traceId,
         method: request.method,
         ...errorLogMetadata(error),
       }));
@@ -109,6 +127,18 @@ export function apiHandler<TRequest extends Request>(
     }
 
     const durationMs = Math.max(0, performance.now() - startedAt);
+    recordRequestMetric(route, request.method, response.status, durationMs);
+    if (response.status >= 500) {
+      // Fire-and-forget: alert delivery must never delay or fail the response.
+      void sendServerErrorAlert({
+        route,
+        requestId: id,
+        traceId,
+        status: response.status,
+        errorType: typeof failure?.errorType === "string" ? failure.errorType : undefined,
+        errorCode: typeof failure?.errorCode === "string" ? failure.errorCode : undefined,
+      }, applicationRelease() ?? "unavailable").catch(() => undefined);
+    }
     // Several public routes become learner-specific when an Auth.js cookie is
     // present. Default every application API response to no-store so a browser,
     // reverse proxy, or future route refactor cannot reuse one learner's data.
@@ -124,6 +154,7 @@ export function apiHandler<TRequest extends Request>(
         event: "api_request_completed",
         route,
         requestId: id,
+        traceId,
         method: request.method,
         status: response.status,
         durationMs: Number(durationMs.toFixed(1)),

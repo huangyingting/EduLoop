@@ -1,6 +1,7 @@
 import type { Prisma } from "@prisma/client";
 import { z } from "zod";
-import { DIFFICULTIES, QUESTION_TYPE_LABELS } from "@/lib/content";
+import { DIFFICULTIES, QUESTION_TYPE_LABELS } from "@/lib/question-labels";
+import { QUESTION_STATUS } from "@/lib/domain-constants";
 
 const slugSchema = z.string().min(1).max(80).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/);
 const dimensionSchema = z.string().min(1).max(40).regex(/^[A-Z][A-Z0-9_]*$/);
@@ -15,13 +16,15 @@ const querySchema = z.object({
   grade: slugSchema.optional(),
   difficulty: difficultySchema.optional(),
   type: questionTypeSchema.optional(),
-  autoGradable: z.enum(["true", "false"]).optional()
-    .transform((value) => value === undefined ? undefined : value === "true"),
+  autoGradable: z.enum(["true", "false"]).transform((value) => value === "true").optional(),
 });
 
 export type QuestionFilters = z.infer<typeof querySchema> & {
   excluded: string[];
   tagFilters: Array<{ dimension: string; slug: string }>;
+  // Set by the server, never from the query: only questions translated into
+  // this content language.
+  translatedInto?: string;
 };
 
 function commaSeparated(value: string | null) {
@@ -60,7 +63,7 @@ export function questionWhere(filters: QuestionFilters): Prisma.QuestionWhereInp
     tagsByDimension.set(filter.dimension, slugs);
   }
   return {
-    status: "PUBLISHED",
+    status: QUESTION_STATUS.PUBLISHED,
     ...(filters.questionId ? { id: filters.questionId } : {}),
     ...(filters.subject ? { subject: { slug: filters.subject } } : {}),
     ...(filters.gradeBand ? { gradeBand: { slug: filters.gradeBand } } : {}),
@@ -68,6 +71,7 @@ export function questionWhere(filters: QuestionFilters): Prisma.QuestionWhereInp
     ...(filters.difficulty ? { difficulty: filters.difficulty } : {}),
     ...(filters.type ? { type: filters.type } : {}),
     ...(filters.autoGradable !== undefined ? { isAutoGradable: filters.autoGradable } : {}),
+    ...(filters.translatedInto ? { translations: { some: { locale: filters.translatedInto } } } : {}),
     ...(tagsByDimension.size ? {
       AND: [...tagsByDimension].map(([dimension, slugs]) => ({
         tags: { some: { tag: { slug: { in: slugs }, dimension: { key: dimension, isFilterable: true } } } },

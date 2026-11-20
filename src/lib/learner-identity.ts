@@ -1,5 +1,5 @@
 import type { Prisma } from "@prisma/client";
-import { getSessionUser, type SessionUser } from "@/lib/auth";
+import type { SessionUser } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
 type Transaction = Prisma.TransactionClient;
@@ -25,13 +25,9 @@ export async function ensureLearnerForUser(userId: string, displayName: string |
   });
 }
 
-export async function findLearnerForUser(user: Pick<SessionUser, "id" | "displayName">) {
-  const learner = await prisma.learnerProfile.findUnique({ where: { userId: user.id } });
-  return learner ?? ensureLearnerForUser(user.id, user.displayName);
-}
-
-export async function findLearnerForRequest(request: Request, options: { allowMissingConsent?: boolean } = {}) {
-  const user = await getSessionUser(request, options);
-  if (!user) return null;
-  return findLearnerForUser(user);
+// Reads never create a profile. Registration, sign-in, consent, and learning
+// mutations create it explicitly through ensureLearnerForUser, so an account
+// whose learning data was erased is not given an empty profile by a page view.
+export async function findLearnerForUser(user: Pick<SessionUser, "id">) {
+  return prisma.learnerProfile.findUnique({ where: { userId: user.id } });
 }

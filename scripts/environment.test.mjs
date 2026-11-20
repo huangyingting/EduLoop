@@ -261,3 +261,16 @@ test("rejects a malformed PostgreSQL database URL before startup", () => {
     "DATABASE_URL must be a valid PostgreSQL URL with a host and database name.",
   ]);
 });
+
+test("validates optional observability settings", () => {
+  const base = { DATABASE_URL: "file:./dev.db", EDULOOP_DATABASE_PROVIDER: "sqlite" };
+  assert.deepEqual(validateEnvironment({ ...base, METRICS_TOKEN: "m".repeat(40), ALERT_WEBHOOK_URL: "https://hooks.example/alert", SLOW_QUERY_MS: "250" }).errors, []);
+  const invalid = validateEnvironment({ ...base, METRICS_TOKEN: "short", ALERT_WEBHOOK_URL: "http://hooks.example", SLOW_QUERY_MS: "0" }).errors;
+  assert.ok(invalid.some((error) => error.startsWith("METRICS_TOKEN")));
+  assert.ok(invalid.some((error) => error.startsWith("ALERT_WEBHOOK_URL")));
+  assert.deepEqual(validateEnvironment({ ...base, OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector:4318" }).errors, []);
+  assert.deepEqual(validateEnvironment({ ...base, QUESTION_ASSET_ORIGIN: "https://assets.example/content" }).errors, []);
+  assert.ok(validateEnvironment({ ...base, QUESTION_ASSET_ORIGIN: "https://assets.example/?sv=sig" }).errors.some((error) => error.startsWith("QUESTION_ASSET_ORIGIN")));
+  assert.ok(validateEnvironment({ ...base, OTEL_EXPORTER_OTLP_ENDPOINT: "otel-collector:4318" }).errors.some((error) => error.startsWith("OTEL_EXPORTER_OTLP_ENDPOINT")));
+  assert.ok(invalid.some((error) => error.startsWith("SLOW_QUERY_MS")));
+});

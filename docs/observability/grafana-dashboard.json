@@ -1,0 +1,39 @@
+{
+  "title": "EduLoop",
+  "uid": "eduloop-overview",
+  "schemaVersion": 39,
+  "time": { "from": "now-6h", "to": "now" },
+  "refresh": "1m",
+  "panels": [
+    {
+      "title": "Requests per second by route",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+      "targets": [{ "expr": "sum by (route) (rate(eduloop_http_request_duration_ms_count[5m]))", "legendFormat": "{{route}}" }]
+    },
+    {
+      "title": "Server error ratio",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 },
+      "targets": [{ "expr": "sum(rate(eduloop_http_request_duration_ms_count{status=\"5xx\"}[5m])) / sum(rate(eduloop_http_request_duration_ms_count[5m]))", "legendFormat": "5xx ratio" }]
+    },
+    {
+      "title": "p95 latency by route (ms)",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 },
+      "targets": [{ "expr": "histogram_quantile(0.95, sum by (route, le) (rate(eduloop_http_request_duration_ms_bucket[5m])))", "legendFormat": "{{route}}" }]
+    },
+    {
+      "title": "Slow database queries per minute",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 8 },
+      "targets": [{ "expr": "sum(rate(eduloop_slow_queries_total[5m])) * 60", "legendFormat": "slow queries" }]
+    },
+    {
+      "title": "Running release by replica",
+      "type": "table",
+      "gridPos": { "h": 6, "w": 24, "x": 0, "y": 16 },
+      "targets": [{ "expr": "eduloop_build_info", "format": "table", "instant": true }]
+    }
+  ]
+}

@@ -8,7 +8,9 @@ COPY data ./data
 COPY prisma/seed.ts ./prisma/seed.ts
 COPY prisma/postgresql ./prisma/postgresql
 COPY scripts/bootstrap-user.ts ./scripts/bootstrap-user.ts
+COPY scripts/reconcile-learners.ts ./scripts/reconcile-learners.ts
 COPY src/lib ./src/lib
+COPY src/i18n ./src/i18n
 RUN DATABASE_URL=postgresql://build:build@localhost:5432/build npm run db:generate:postgres
 ENV NODE_ENV=production
 ENV EDULOOP_DATABASE_PROVIDER=postgresql

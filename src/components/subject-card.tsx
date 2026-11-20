@@ -1,9 +1,9 @@
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 
-type Props = { slug: string; name: string; icon: string; description: string; count: string; accent: string; index: number };
+type Props = { slug: string; name: string; icon: string; description: string; countLabel: string; accent: string; index: number };
 
-export function SubjectCard({ slug, name, icon, description, count, accent, index }: Props) {
+export function SubjectCard({ slug, name, icon, description, countLabel, accent, index }: Props) {
   return (
     <Link href={`/practice?subject=${slug}`} className="subject-card group relative overflow-hidden rounded-[28px] border-2 border-ink/10 bg-white p-5 shadow-[0_7px_0_#e3dfd4] transition hover:-translate-y-1 hover:shadow-[0_11px_0_#d9d3f5]">
       <div className="absolute -right-7 -top-8 size-24 rounded-full opacity-20" style={{ background: accent }} />
@@ -15,7 +15,7 @@ export function SubjectCard({ slug, name, icon, description, count, accent, inde
       <h3 className="mt-1 font-display text-2xl font-black tracking-tight text-ink">{name}</h3>
       <p className="mt-2 min-h-10 text-sm font-medium leading-5 text-muted">{description}</p>
       <div className="mt-5 flex items-center gap-2 border-t border-dashed border-ink/15 pt-4 text-xs font-bold text-ink/65">
-        <span className="size-2 rounded-full" style={{ background: accent }} /> {count} 道题
+        <span className="size-2 rounded-full" style={{ background: accent }} /> {countLabel}
       </div>
     </Link>
   );

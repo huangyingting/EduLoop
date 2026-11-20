@@ -1,26 +1,19 @@
 import { NextResponse } from "next/server";
-import { z } from "zod";
-import { apiError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api";
+import { apiError, apiMessageError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api";
 import { getSessionUser } from "@/lib/auth";
 import { isSameOriginRequest } from "@/lib/auth-validation";
-import { prisma } from "@/lib/prisma";
-import { findLearnerForRequest } from "@/lib/learner-identity";
-
-const reportSchema = z.object({
-  questionId: z.string().min(8).max(100),
-  category: z.enum(["WRONG_ANSWER", "MISSING_FIGURE", "UNCLEAR", "FORMATTING", "OTHER"]),
-  detail: z.string().trim().max(1000).optional(),
-});
+import { reportRequestSchema } from "@/lib/contracts/practice";
+import { ensureActiveLearner } from "@/lib/family";
+import { createQuestionReport, isPublishedQuestion } from "@/lib/practice/review-library";
 
 async function postReport(request: Request) {
   if (!isSameOriginRequest(request)) return apiError("Invalid request origin.", 403, "FORBIDDEN");
   const user = await getSessionUser(request);
-  if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
+  if (!user) return apiMessageError("signInRequired", 401, "UNAUTHORIZED");
   const body = await readJsonBody(request);
   if (!body.ok) return body.response;
-  const parsed = reportSchema.safeParse(body.value);
+  const parsed = reportRequestSchema.safeParse(body.value);
   if (!parsed.success) return apiError("Invalid question report", 400, "INVALID_REQUEST");
-  const input = parsed.data;
   const limited = await enforceRateLimit(
     request,
     "reports",
@@ -28,18 +21,10 @@ async function postReport(request: Request) {
     10 * 60_000,
   );
   if (limited) return limited;
-
-  const question = await prisma.question.findFirst({ where: { id: input.questionId, status: "PUBLISHED" }, select: { id: true } });
-  if (!question) return apiError("Question not found", 404, "NOT_FOUND");
-  const learner = await findLearnerForRequest(request);
-  if (!learner) return apiError("请先登录。", 401, "UNAUTHORIZED");
-  const report = await prisma.questionReport.create({ data: {
-    learnerId: learner.id,
-    questionId: question.id,
-    category: input.category,
-    detail: input.detail || null,
-  } });
-  return NextResponse.json({ id: report.id, status: report.status }, { status: 201 });
+  if (!await isPublishedQuestion(parsed.data.questionId)) return apiError("Question not found", 404, "NOT_FOUND");
+  const learner = await ensureActiveLearner(request, user);
+  const report = await createQuestionReport(learner.id, parsed.data);
+  return NextResponse.json(report, { status: 201 });
 }
 
 export const POST = apiHandler("POST /api/reports", postReport);

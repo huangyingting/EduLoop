@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { revokeAccountSessions } from "@/lib/account";
-import { apiError, apiHandler, enforceRateLimit } from "@/lib/api";
+import { apiError, apiMessageError, apiHandler, enforceRateLimit } from "@/lib/api";
+import { requestLocale, type Locale } from "@/i18n/config";
 import { runAfterResponse } from "@/lib/after-response";
 import { getSessionUser } from "@/lib/auth";
 import { hasRecentAuthentication, isSameOriginRequest } from "@/lib/auth-validation";
@@ -9,9 +10,9 @@ import { errorLogMetadata } from "@/lib/logging";
 
 export const runtime = "nodejs";
 
-async function notifySessionRevocation(email: string) {
+async function notifySessionRevocation(email: string, locale: Locale) {
   try {
-    await sendSessionsRevokedNotice(email);
+    await sendSessionsRevokedNotice(email, { locale });
   } catch (error) {
     console.error(JSON.stringify({
       level: "error",
@@ -24,9 +25,9 @@ async function notifySessionRevocation(email: string) {
 async function deleteAccountSessions(request: Request) {
   if (!isSameOriginRequest(request)) return apiError("Invalid request origin.", 403, "FORBIDDEN");
   const user = await getSessionUser(request, { allowMissingConsent: true });
-  if (!user) return apiError("请先登录。", 401, "UNAUTHORIZED");
+  if (!user) return apiMessageError("signInRequired", 401, "UNAUTHORIZED");
   if (!hasRecentAuthentication(user.authenticatedAt)) {
-    return apiError("退出所有设备前请重新登录，以确认这是你的账号。", 401, "UNAUTHORIZED");
+    return apiMessageError("reauthRevokeSessions", 401, "UNAUTHORIZED");
   }
   const limited = await enforceRateLimit(
     request,
@@ -38,10 +39,10 @@ async function deleteAccountSessions(request: Request) {
 
   const outcome = await revokeAccountSessions(user.id, user.sessionVersion);
   if (outcome === "CONFLICT") {
-    return apiError("账号会话刚刚发生变化，请重新登录后再试。", 409, "CONFLICT");
+    return apiMessageError("sessionChanged", 409, "CONFLICT");
   }
   if (emailConfiguration()) {
-    await runAfterResponse("session_revocation_notice", () => notifySessionRevocation(user.email));
+    await runAfterResponse("session_revocation_notice", () => notifySessionRevocation(user.email, requestLocale(request)));
   }
   return NextResponse.json({ revoked: true }, { headers: { "Cache-Control": "no-store" } });
 }

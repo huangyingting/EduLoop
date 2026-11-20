@@ -10,6 +10,21 @@ export function normalizeTimeZone(timeZone?: string) {
   }
 }
 
+export function isValidTimeZone(timeZone: string) {
+  try {
+    new Intl.DateTimeFormat("en-CA", { timeZone }).format();
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+// A stored learner zone takes precedence over the zone a request claims.
+export function effectiveTimeZone(stored: string | null | undefined, requested?: string) {
+  if (stored && isValidTimeZone(stored)) return stored;
+  return normalizeTimeZone(requested);
+}
+
 export function calendarDay(date = new Date(), timeZone = DEFAULT_TIME_ZONE) {
   const parts = new Intl.DateTimeFormat("en-US", {
     timeZone: normalizeTimeZone(timeZone), year: "numeric", month: "2-digit", day: "2-digit",

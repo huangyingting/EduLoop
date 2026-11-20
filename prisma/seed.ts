@@ -1,11 +1,14 @@
-import { PrismaClient, type Prisma } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
+import { CatalogImportRefused, importCatalog } from "../src/lib/catalog-import";
+import { importTranslations, normalizeTranslatedQuestion } from "../src/lib/catalog-translations";
 import {
   GRADE_BANDS, GRADES, SUBJECTS, TAG_DIMENSIONS, normalizeSourceQuestion,
-  type NormalizedTag, type SourceQuestion,
+  type SourceQuestion,
 } from "../src/lib/content";
-import { DEFAULT_CONTENT_LOCALE, contentFilesForLocale } from "../src/lib/content-manifest";
+import { BADGE_CATALOG } from "../src/lib/practice/badge-catalog";
+import { CONTENT_MANIFEST, DEFAULT_CONTENT_LOCALE, contentFilesForLocale } from "../src/lib/content-manifest";
 import {
   finishOperatorCommand,
   operatorCommandFailureEntry,
@@ -13,7 +16,7 @@ import {
 } from "../src/lib/operator-command";
 
 const prisma = new PrismaClient();
-const dataDirectory = path.resolve(process.cwd(), "data", DEFAULT_CONTENT_LOCALE);
+const dataRoot = path.resolve(process.cwd(), "data");
 const commandTiming = startOperatorCommand();
 
 async function seedCatalog() {
@@ -34,138 +37,86 @@ async function seedCatalog() {
   for (const dimension of TAG_DIMENSIONS) {
     await prisma.tagDimension.upsert({ where: { key: dimension.key }, update: dimension, create: dimension });
   }
-  const badges = [
-    { slug: "first-spark", name: "第一束光", description: "完成第一道练习", icon: "✦", threshold: 1 },
-    { slug: "ten-in-a-row", name: "连胜新星", description: "连续答对 10 题", icon: "⚡", threshold: 10 },
-    { slug: "century-club", name: "百题探索家", description: "累计完成 100 题", icon: "◎", threshold: 100 },
-  ];
-  for (const badge of badges) await prisma.badge.upsert({ where: { slug: badge.slug }, update: badge, create: badge });
+  for (const { rule, ...badge } of BADGE_CATALOG) {
+    const data = { ...badge, rule: JSON.stringify(rule) };
+    await prisma.badge.upsert({ where: { slug: badge.slug }, update: data, create: data });
+  }
 }
 
-async function ensureTags(allTags: NormalizedTag[]) {
-  const dimensions = new Map((await prisma.tagDimension.findMany()).map((item) => [item.key, item.id]));
-  const unique = new Map<string, NormalizedTag>();
-  for (const tag of allTags) unique.set(`${tag.dimension}:${tag.slug}`, tag);
-  for (const tag of unique.values()) {
-    const dimensionId = dimensions.get(tag.dimension)!;
-    await prisma.tag.upsert({
-      where: { dimensionId_slug: { dimensionId, slug: tag.slug } },
-      update: { label: tag.label }, create: { dimensionId, slug: tag.slug, label: tag.label },
-    });
+function parseArguments(argv: string[]) {
+  const dryRun = argv.includes("--dry-run");
+  const allowDeleteArgument = argv.find((value) => value.startsWith("--allow-delete="))?.split("=")[1]
+    ?? process.env.CATALOG_ALLOW_DELETE;
+  const allowDelete = allowDeleteArgument === undefined || allowDeleteArgument === ""
+    ? undefined
+    : Number(allowDeleteArgument);
+  if (allowDelete !== undefined && (!Number.isSafeInteger(allowDelete) || allowDelete < 0)) {
+    throw new CatalogImportRefused("--allow-delete must be a non-negative integer.");
   }
-  return new Map((await prisma.tag.findMany({ include: { dimension: true } })).map((tag) => [`${tag.dimension.key}:${tag.slug}`, tag.id]));
+  return { dryRun, allowDelete };
+}
+
+async function readArchive(locale: string, filename: string) {
+  const body = (await readFile(path.join(dataRoot, locale, filename), "utf8")).replace(/^\uFEFF/, "");
+  return JSON.parse(body) as SourceQuestion[];
+}
+
+// Collections that also exist in another language are imported as
+// translations of the default-locale questions with the same IDs.
+async function seedTranslations(dryRun: boolean) {
+  const filesByLocale = new Map<string, Set<string>>();
+  for (const collection of Object.values(CONTENT_MANIFEST.collections)) {
+    const locales = [collection.sourceLocale, ...collection.translatedLocales];
+    if (!locales.includes(DEFAULT_CONTENT_LOCALE)) continue;
+    for (const locale of locales.filter((value) => value !== DEFAULT_CONTENT_LOCALE)) {
+      const files = filesByLocale.get(locale) ?? new Set<string>();
+      for (const file of collection.files) files.add(file);
+      filesByLocale.set(locale, files);
+    }
+  }
+  const summaries = [];
+  for (const [locale, files] of filesByLocale) {
+    const translations = [];
+    for (const filename of files) {
+      for (const question of await readArchive(locale, filename)) {
+        const translation = normalizeTranslatedQuestion(question, locale, filename);
+        if (translation) translations.push(translation);
+      }
+    }
+    summaries.push(await importTranslations(prisma, locale, translations, { dryRun }));
+  }
+  return summaries;
 }
 
 async function main() {
-  await seedCatalog();
+  const { dryRun, allowDelete } = parseArguments(process.argv.slice(2));
+  if (!dryRun) await seedCatalog();
   const filenames = contentFilesForLocale(DEFAULT_CONTENT_LOCALE);
   const normalized = [];
   for (const filename of filenames) {
-    const body = (await readFile(path.join(dataDirectory, filename), "utf8")).replace(/^\uFEFF/, "");
-    const questions = JSON.parse(body) as SourceQuestion[];
+    const questions = await readArchive(DEFAULT_CONTENT_LOCALE, filename);
     normalized.push(...questions.map((question) => normalizeSourceQuestion(question, filename)));
   }
 
-  const subjectIds = new Map((await prisma.subject.findMany()).map((item) => [item.name, item.id]));
-  const bandIds = new Map((await prisma.gradeBand.findMany()).map((item) => [item.name, item.id]));
-  const gradeIds = new Map((await prisma.grade.findMany()).map((item) => [item.name, item.id]));
-  const tagIds = await ensureTags(normalized.flatMap((question) => question.tags));
-  const curatedLinks = new Set((await prisma.questionTag.findMany({
-    where: { source: "CURATED" }, select: { questionId: true, tagId: true },
-  })).map((link) => `${link.questionId}:${link.tagId}`));
-  const curatedAssets = new Set((await prisma.questionAsset.findMany({
-    where: { source: "CURATED" }, select: { questionId: true, role: true },
-  })).map((asset) => `${asset.questionId}:${asset.role}`));
-
-  const batchSize = 75;
-  for (let offset = 0; offset < normalized.length; offset += batchSize) {
-    const batchQuestions = normalized.slice(offset, offset + batchSize);
-    const importedStatuses = new Map<string, string[]>();
-    const batch: Prisma.PrismaPromise<unknown>[] = batchQuestions.map((question) => {
-      const {
-        subjectName,
-        gradeBandName,
-        gradeName,
-        options,
-        assets,
-        tags,
-        status: importStatus,
-        ...data
-      } = question;
-      const sourceIds = importedStatuses.get(importStatus) ?? [];
-      sourceIds.push(question.sourceId);
-      importedStatuses.set(importStatus, sourceIds);
-      const relational = {
-        subjectId: subjectIds.get(subjectName)!, gradeBandId: bandIds.get(gradeBandName)!, gradeId: gradeIds.get(gradeName)!,
-      };
-      const optionCreates = options.map((option) => ({ label: option.label, content: option.content, sortOrder: option.sortOrder }));
-      const tagCreates = tags.map((tag) => ({
-        tagId: tagIds.get(`${tag.dimension}:${tag.slug}`)!, confidence: tag.confidence, source: tag.source,
-      })).filter((tag) => !curatedLinks.has(`${question.id}:${tag.tagId}`));
-      const assetCreates = assets.filter((asset) => !curatedAssets.has(`${question.id}:${asset.role}`));
-      return prisma.question.upsert({
-        where: { sourceId: question.sourceId },
-        create: {
-          ...data,
-          ...relational,
-          importStatus,
-          status: importStatus,
-          options: { create: optionCreates },
-          assets: { create: assetCreates },
-          tags: { create: tagCreates },
-        },
-        // Runtime quarantine is deliberately absent from this update. Import
-        // content and its audited eligibility first, then synchronize the
-        // effective serving status only when no operator quarantine is active.
-        update: {
-          ...data,
-          ...relational,
-          importStatus,
-          options: { deleteMany: {}, create: optionCreates },
-          assets: { deleteMany: { source: { not: "CURATED" } }, create: assetCreates },
-          tags: { deleteMany: { source: { not: "CURATED" } }, create: tagCreates },
-        },
-      });
-    });
-    for (const [importStatus, sourceIds] of importedStatuses) {
-      batch.push(prisma.question.updateMany({
-        where: { sourceId: { in: sourceIds }, quarantinedAt: null },
-        data: { status: importStatus },
-      }));
-    }
-    await prisma.$transaction(batch);
-    console.info(JSON.stringify({
+  const summary = await importCatalog(prisma, normalized, {
+    dryRun,
+    allowDelete,
+    onProgress: (imported, total) => console.info(JSON.stringify({
       level: "info",
       event: "catalog_seed_progress",
-      imported: Math.min(offset + batchSize, normalized.length),
-      total: normalized.length,
-    }));
-  }
-
-  const activeSourceIdSet = new Set(normalized.map((question) => question.sourceId));
-  const existingQuestions = await prisma.question.findMany({
-    select: { id: true, sourceId: true },
+      imported,
+      total,
+    })),
   });
-  const staleQuestionIds = existingQuestions
-    .filter((question) => !activeSourceIdSet.has(question.sourceId))
-    .map((question) => question.id);
-  if (staleQuestionIds.length > 0) {
-    await prisma.$transaction([
-      prisma.practiceAttempt.deleteMany({
-        where: { questionId: { in: staleQuestionIds } },
-      }),
-      prisma.question.deleteMany({
-        where: { id: { in: staleQuestionIds } },
-      }),
-    ]);
-  }
+
+  const translations = await seedTranslations(dryRun);
 
   const [published, review, autoGradable] = await Promise.all([
     prisma.question.count({ where: { status: "PUBLISHED" } }),
     prisma.question.count({ where: { status: "NEEDS_REVIEW" } }),
-    prisma.question.count({ where: { isAutoGradable: true } }),
+    prisma.question.count({ where: { isAutoGradable: true, status: "PUBLISHED" } }),
   ]);
-  return { questions: normalized.length, published, needsReview: review, autoGradable };
+  return { ...summary, questions: normalized.length, published, needsReview: review, autoGradable, translations };
 }
 
 async function execute() {

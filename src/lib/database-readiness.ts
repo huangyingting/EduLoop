@@ -1,17 +1,26 @@
 import { prisma } from "./prisma";
 import { REQUIRED_DATABASE_MIGRATION } from "./database-migration";
+import { QUESTION_STATUS } from "@/lib/domain-constants";
 
 export { REQUIRED_DATABASE_MIGRATION } from "./database-migration";
+
+export type CatalogReleaseSummary = { manifestHash: string; completedAt: Date };
 
 export type DatabaseReadinessQueries = {
   countQuestions: () => Promise<number>;
   countSubjects: () => Promise<number>;
   hasRequiredMigration: () => Promise<boolean>;
+  latestCatalogRelease?: () => Promise<CatalogReleaseSummary | null>;
 };
 
 const productionQueries: DatabaseReadinessQueries = {
-  countQuestions: () => prisma.question.count(),
+  countQuestions: () => prisma.question.count({ where: { status: QUESTION_STATUS.PUBLISHED } }),
   countSubjects: () => prisma.subject.count(),
+  latestCatalogRelease: () => prisma.catalogRelease.findFirst({
+    where: { scope: "catalog" },
+    orderBy: { completedAt: "desc" },
+    select: { manifestHash: true, completedAt: true },
+  }),
   async hasRequiredMigration() {
     const rows = await prisma.$queryRaw<Array<{ migration_name: string }>>`
       SELECT "migration_name"
@@ -31,6 +40,10 @@ export async function inspectDatabaseReadiness(queries: DatabaseReadinessQueries
     queries.countQuestions(),
     queries.hasRequiredMigration(),
   ]);
+  // The release table exists only once the schema is current.
+  const release = hasRequiredMigration && queries.latestCatalogRelease
+    ? await queries.latestCatalogRelease()
+    : null;
   const status = !hasRequiredMigration
     ? "outdated" as const
     : subjects > 0 && questions > 0
@@ -44,6 +57,13 @@ export async function inspectDatabaseReadiness(queries: DatabaseReadinessQueries
       status: hasRequiredMigration ? "ready" as const : "outdated" as const,
       requiredMigration: REQUIRED_DATABASE_MIGRATION,
     },
-    catalog: { subjects, questions },
+    catalog: {
+      subjects,
+      questions,
+      // A short manifest prefix identifies the live content without exposing it.
+      release: release
+        ? { version: release.manifestHash.slice(0, 12), importedAt: release.completedAt.toISOString() }
+        : null,
+    },
   };
 }

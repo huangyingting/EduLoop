@@ -1,4 +1,5 @@
 import type { NormalizedAsset, NormalizedOption, NormalizedTag } from "@/lib/content";
+import { ASSET_REVIEW_STATUS, QUESTION_STATUS } from "@/lib/domain-constants";
 
 export const VERTICAL_ANGLES_QUESTION_ID = "8c502ae5d1d18e4743ada96d0adf0ebd";
 
@@ -20,7 +21,7 @@ export const verticalAnglesDiagramReplacements: readonly DiagramReplacement[] = 
     altText: "三条射线从同一点发出，角1和角2相邻并共用一条边。",
     relationship: "ADJACENT",
     source: "GENERATED_REPLACEMENT",
-    reviewStatus: "APPROVED",
+    reviewStatus: ASSET_REVIEW_STATUS.APPROVED,
     version: 1,
   },
   {
@@ -32,7 +33,7 @@ export const verticalAnglesDiagramReplacements: readonly DiagramReplacement[] = 
     altText: "两个分开的角，角1和角2位于不同顶点。",
     relationship: "DIFFERENT_VERTICES",
     source: "GENERATED_REPLACEMENT",
-    reviewStatus: "APPROVED",
+    reviewStatus: ASSET_REVIEW_STATUS.APPROVED,
     version: 1,
   },
   {
@@ -44,7 +45,7 @@ export const verticalAnglesDiagramReplacements: readonly DiagramReplacement[] = 
     altText: "两条直线相交，角1位于交点上方，角2位于交点下方。",
     relationship: "VERTICAL",
     source: "GENERATED_REPLACEMENT",
-    reviewStatus: "APPROVED",
+    reviewStatus: ASSET_REVIEW_STATUS.APPROVED,
     version: 1,
   },
   {
@@ -56,7 +57,7 @@ export const verticalAnglesDiagramReplacements: readonly DiagramReplacement[] = 
     altText: "两条直线相交，角1位于交点上方，角2位于交点右侧。",
     relationship: "LINEAR_PAIR",
     source: "GENERATED_REPLACEMENT",
-    reviewStatus: "APPROVED",
+    reviewStatus: ASSET_REVIEW_STATUS.APPROVED,
     version: 1,
   },
 ] as const;
@@ -91,7 +92,7 @@ export const stemDiagramReplacements: readonly DiagramReplacement[] = stemDiagra
   path: `/question-assets/generated/zh-CN/${questionId}/stem.svg`,
   altText,
   source: "GENERATED_REPLACEMENT",
-  reviewStatus: "APPROVED",
+  reviewStatus: ASSET_REVIEW_STATUS.APPROVED,
   version: 1,
 }));
 
@@ -124,7 +125,7 @@ export function applyQuestionReplacement<T extends ReplacementTarget>(question: 
   const assets = diagramAssets.map(({
     role, kind, path, altText, source, reviewStatus, version,
   }) => ({ role, kind, path, altText, source, reviewStatus, version }));
-  const status = assets.every((asset) => asset.reviewStatus === "APPROVED") ? "PUBLISHED" : question.status;
+  const status = assets.every((asset) => asset.reviewStatus === ASSET_REVIEW_STATUS.APPROVED) ? QUESTION_STATUS.PUBLISHED : question.status;
   if (question.id !== VERTICAL_ANGLES_QUESTION_ID) return { ...question, status, assets };
 
   const tags = question.tags.map((tag) => {

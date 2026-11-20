@@ -35,15 +35,15 @@ The licensed CJEval junior-high Chinese import is pinned to an upstream commit a
 
 The AGIEval high-school Chinese import is pinned to upstream commit `84ab72d94318290aad2e4ec820d535a95a1f7552` and the source JSONL SHA-256. Rebuild `chinese-high-school.json` with `npm run data:import:agieval`. The importer validates all 246 upstream rows, merges 33 repeated or passage-matched rows with consistent answer keys and combined paper provenance, and emits 213 unique `高三` single-choice questions. AGIEval provides answers but no explanations, so each record says that explicitly instead of presenting generated reasoning as source material. Retain `data/licenses/agieval-gaokao-mit.txt` when redistributing the derived archive.
 
-Run specialist maintenance tools directly:
+The acquisition, translation, repair, and audit scripts live in [`scripts/content/`](../scripts/content/README.md). Run specialist maintenance tools directly:
 
 ```bash
-npx tsx scripts/scrape-amc.ts --competition amc8 # also accepts amc10 or amc12
-node scripts/dedupe-amc-data.mjs
-node scripts/localize-amc-assets.mjs
-node scripts/translate-amc-to-chinese.mjs
-node scripts/set-amc-grade-levels.mjs
-node scripts/set-amc-grade-levels.mjs --check
+npx tsx scripts/content/scrape-amc.ts --competition amc8 # also accepts amc10 or amc12
+node scripts/content/dedupe-amc-data.mjs
+node scripts/content/localize-amc-assets.mjs
+node scripts/content/translate-amc-to-chinese.mjs
+node scripts/content/set-amc-grade-levels.mjs
+node scripts/content/set-amc-grade-levels.mjs --check
 npm run data:import:agieval
 ```
 

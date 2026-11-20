@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import { ProgressDashboard } from "@/components/progress-dashboard";
+import { getTranslator } from "@/i18n/server";
 
-export const metadata: Metadata = { title: "我的成长" };
+export async function generateMetadata(): Promise<Metadata> {
+  const { t } = await getTranslator();
+  return { title: t("progress.metaTitle") };
+}
 
 export default function ProgressPage() {
   return <ProgressDashboard />;

@@ -6,6 +6,7 @@ export type AfterResponseTaskName =
   | "email_change_delivery"
   | "email_change_notice"
   | "email_verification_delivery"
+  | "expired_security_artifact_cleanup"
   | "learning_data_deletion_notice"
   | "password_change_notice"
   | "password_reset_delivery"
@@ -33,5 +34,12 @@ export async function runAfterResponse(
     await monitoredTask();
     return;
   }
-  after(monitoredTask);
+  try {
+    after(monitoredTask);
+  } catch {
+    // after() is only available inside a request scope. Outside one (for
+    // example in an operator script) run the task without blocking the caller;
+    // monitoredTask already reports failures.
+    void monitoredTask();
+  }
 }

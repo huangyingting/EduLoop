@@ -4,6 +4,7 @@ import { sendEmailChangeVerificationEmail } from "@/lib/email";
 import { finalizeEmailProofDelivery, nextEmailProofCreatedAt } from "@/lib/email-proof";
 import { errorLogMetadata } from "@/lib/logging";
 import { prisma } from "@/lib/prisma";
+import type { Locale } from "@/i18n/config";
 
 export const EMAIL_CHANGE_TTL_MS = 60 * 60_000;
 
@@ -116,10 +117,11 @@ export async function finalizeEmailChangeDelivery(
 export async function deliverEmailChangeVerification(
   issued: Extract<EmailChangeIssueResult, { status: "ISSUED" }>,
   origin: string,
+  locale?: Locale,
 ) {
   const verificationUrl = `${origin}/change-email#token=${encodeURIComponent(issued.token)}`;
   try {
-    await sendEmailChangeVerificationEmail(issued.newEmail, verificationUrl);
+    await sendEmailChangeVerificationEmail(issued.newEmail, verificationUrl, { locale });
   } catch (error) {
     console.error(JSON.stringify({
       level: "error",

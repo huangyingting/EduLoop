@@ -8,14 +8,16 @@ datasource db {
 }
 
 model Subject {
-  id          String     @id @default(cuid())
-  slug        String     @unique
-  name        String
-  icon        String
-  color       String
-  description String?
-  sortOrder   Int        @default(0)
-  questions   Question[]
+  id                String               @id @default(cuid())
+  slug              String               @unique
+  name              String
+  icon              String
+  color             String
+  description       String?
+  sortOrder         Int                  @default(0)
+  questions         Question[]
+  learnerStats      LearnerSubjectStat[]
+  learnerTopicStats LearnerTopicStat[]
 }
 
 model GradeBand {
@@ -42,47 +44,71 @@ model Grade {
 }
 
 model Question {
-  id                     String            @id
-  sourceId               String            @unique
+  id                     String                @id
+  sourceId               String                @unique
   sourceFile             String
   sourceType             String
   type                   String
   difficulty             String
-  sourceDifficulty       String            @default("MEDIUM")
-  difficultyScore        Float             @default(0)
-  difficultyConfidence   Float             @default(0)
-  difficultyReason       String            @default("Pending difficulty audit")
-  difficultyAuditVersion Int               @default(1)
+  sourceDifficulty       String                @default("MEDIUM")
+  difficultyScore        Float                 @default(0)
+  difficultyConfidence   Float                 @default(0)
+  difficultyReason       String                @default("Pending difficulty audit")
+  difficultyAuditVersion Int                   @default(1)
   stem                   String
   answer                 String
   correctAnswer          String?
   explanation            String?
   quality                String?
-  importStatus           String            @default("PUBLISHED")
-  status                 String            @default("PUBLISHED")
+  importStatus           String                @default("PUBLISHED")
+  status                 String                @default("PUBLISHED")
   quarantinedAt          DateTime?
-  isAutoGradable         Boolean           @default(false)
-  onlineTest             Boolean           @default(false)
-  optionSplit            Boolean           @default(false)
+  contentHash            String?
+  // Approved editorial revision currently applied on top of the import.
+  revisionId             String?
+  randomKey              Float                 @default(0)
+  isAutoGradable         Boolean               @default(false)
+  onlineTest             Boolean               @default(false)
+  optionSplit            Boolean               @default(false)
   subjectId              String
   gradeBandId            String
   gradeId                String
-  subject                Subject           @relation(fields: [subjectId], references: [id])
-  gradeBand              GradeBand         @relation(fields: [gradeBandId], references: [id])
-  grade                  Grade             @relation(fields: [gradeId], references: [id])
+  subject                Subject               @relation(fields: [subjectId], references: [id])
+  gradeBand              GradeBand             @relation(fields: [gradeBandId], references: [id])
+  grade                  Grade                 @relation(fields: [gradeId], references: [id])
   options                QuestionOption[]
   assets                 QuestionAsset[]
+  hints                  QuestionHint[]
+  contestSlots           ContestPaperSlot[]
+  revisions              QuestionRevision[]
+  translations           QuestionTranslation[]
   tags                   QuestionTag[]
   attempts               PracticeAttempt[]
   savedBy                SavedQuestion[]
   reviewItems            ReviewItem[]
   reports                QuestionReport[]
-  createdAt              DateTime          @default(now())
-  updatedAt              DateTime          @updatedAt
+  createdAt              DateTime              @default(now())
+  updatedAt              DateTime              @updatedAt
 
   @@index([subjectId, gradeBandId, difficulty])
   @@index([gradeId, type, status])
   @@index([status, isAutoGradable])
+  @@index([status, randomKey])
+}
+
+model CatalogRelease {
+  id            String   @id @default(cuid())
+  scope         String
+  manifestHash  String
+  questionCount Int
+  created       Int
+  updated       Int
+  unchanged     Int
+  deleted       Int      @default(0)
+  startedAt     DateTime
+  completedAt   DateTime @default(now())
+
+  @@index([scope, completedAt])
 }
 
 model QuestionAsset {
@@ -101,6 +127,59 @@ model QuestionAsset {
 
   @@unique([questionId, role])
   @@index([questionId, reviewStatus])
+}
+
+// Progressive, question-specific hints. DERIVED hints are rebuilt by every
+// catalog import; CURATED hints come from editors and survive imports.
+model QuestionHint {
+  id           String   @id @default(cuid())
+  questionId   String
+  position     Int
+  content      String
+  source       String
+  reviewStatus String   @default("APPROVED")
+  question     Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([questionId, reviewStatus, position])
+}
+
+// An editor's full replacement for a question's learner-facing content. Only
+// APPROVED revisions are applied; the importer re-applies the current one after
+// rewriting the question, so edits survive re-seeding.
+model QuestionRevision {
+  id              String    @id @default(cuid())
+  questionId      String
+  stem            String
+  optionsJson     String
+  answer          String
+  correctAnswer   String?
+  explanation     String?
+  topicTagIdsJson String?
+  reason          String
+  status          String    @default("DRAFT")
+  authorId        String?
+  reviewerId      String?
+  reviewNote      String?
+  question        Question  @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  author          User?     @relation("RevisionAuthor", fields: [authorId], references: [id], onDelete: SetNull)
+  reviewer        User?     @relation("RevisionReviewer", fields: [reviewerId], references: [id], onDelete: SetNull)
+  createdAt       DateTime  @default(now())
+  reviewedAt      DateTime?
+
+  @@index([questionId, status, createdAt])
+  @@index([authorId])
+  @@index([reviewerId])
+}
+
+// Uploaded question images, deduplicated by content digest.
+model AssetBlob {
+  id          String   @id @default(cuid())
+  sha256      String   @unique
+  contentType String
+  bytes       Bytes
+  createdAt   DateTime @default(now())
 }
 
 model QuestionOption {
@@ -126,13 +205,14 @@ model TagDimension {
 }
 
 model Tag {
-  id          String        @id @default(cuid())
-  slug        String
-  label       String
-  description String?
-  dimensionId String
-  dimension   TagDimension  @relation(fields: [dimensionId], references: [id])
-  questions   QuestionTag[]
+  id           String             @id @default(cuid())
+  slug         String
+  label        String
+  description  String?
+  dimensionId  String
+  dimension    TagDimension       @relation(fields: [dimensionId], references: [id])
+  questions    QuestionTag[]
+  learnerStats LearnerTopicStat[]
 
   @@unique([dimensionId, slug])
   @@index([dimensionId, label])
@@ -165,7 +245,13 @@ model User {
   privacyAcceptedAt       DateTime?
   privacyVersion          String?
   consentBasis            String?
+  // Interface language for email; the browser cookie drives the UI.
+  locale                  String?
+  organizationId          String?
+  organization            Organization?            @relation(fields: [organizationId], references: [id], onDelete: SetNull)
+  teacherClassrooms       Classroom[]              @relation("TeacherClassrooms")
   learner                 LearnerProfile?
+  managedLearners         LearnerProfile[]         @relation("GuardianLearners")
   accounts                Account[]
   sessions                Session[]
   emailVerificationTokens EmailVerificationToken[]
@@ -173,6 +259,10 @@ model User {
   passwordResetTokens     PasswordResetToken[]
   consentRecords          ConsentRecord[]
   reviewActions           ContentReviewAction[]
+  authoredRevisions       QuestionRevision[]       @relation("RevisionAuthor")
+  reviewedRevisions       QuestionRevision[]       @relation("RevisionReviewer")
+  notificationPreference  NotificationPreference?
+  notificationLogs        NotificationLog[]
   createdAt               DateTime                 @default(now())
   updatedAt               DateTime                 @updatedAt
 
@@ -258,16 +348,43 @@ model PasswordResetToken {
 }
 
 model ConsentRecord {
-  id             String   @id @default(cuid())
-  userId         String
-  termsVersion   String
-  privacyVersion String
-  basis          String
-  method         String
-  acceptedAt     DateTime @default(now())
-  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id               String   @id @default(cuid())
+  userId           String
+  termsVersion     String
+  privacyVersion   String
+  basis            String
+  method           String
+  // Set when a guardian consents on behalf of a managed child profile.
+  subjectLearnerId String?
+  acceptedAt       DateTime @default(now())
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId, acceptedAt])
+}
+
+// Opt-in learning reminders. Everything is off until the account holder turns
+// it on; sendHour is a local hour in the learner's stored time zone.
+model NotificationPreference {
+  userId          String   @id
+  dueReviewDigest Boolean  @default(false)
+  weeklySummary   Boolean  @default(false)
+  sendHour        Int      @default(18)
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  updatedAt       DateTime @updatedAt
+}
+
+// One row per delivered reminder period, so a message goes out at most once
+// per user, type, and local day (or week) even when the job runs repeatedly.
+model NotificationLog {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String
+  periodKey String
+  sentAt    DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, type, periodKey])
+  @@index([sentAt])
 }
 
 model RateLimitBucket {
@@ -280,33 +397,78 @@ model RateLimitBucket {
 }
 
 model LearnerProfile {
-  id               String            @id @default(cuid())
-  userId           String            @unique
-  displayName      String?
-  xp               Int               @default(0)
-  level            Int               @default(1)
-  currentStreak    Int               @default(0)
-  bestStreak       Int               @default(0)
-  streakFreezes    Int               @default(1)
-  lastFreezeUsedOn String?
-  lastActiveOn     String?
-  knowledgeBandId  String?
-  knowledgeGradeId String?
-  sessions         PracticeSession[]
-  attempts         PracticeAttempt[]
-  badges           LearnerBadge[]
-  activities       DailyActivity[]
-  savedQuestions   SavedQuestion[]
-  reviewItems      ReviewItem[]
-  reports          QuestionReport[]
-  knowledgeBand    GradeBand?        @relation("LearnerKnowledgeBand", fields: [knowledgeBandId], references: [id], onDelete: SetNull)
-  knowledgeGrade   Grade?            @relation("LearnerKnowledgeGrade", fields: [knowledgeGradeId], references: [id], onDelete: SetNull)
-  user             User              @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt        DateTime          @default(now())
-  updatedAt        DateTime          @updatedAt
+  id                   String               @id @default(cuid())
+  // The account that owns this profile, or null for a guardian-managed child.
+  userId               String?              @unique
+  // Set for a child profile created and managed by a guardian account.
+  guardianUserId       String?
+  displayName          String?
+  xp                   Int                  @default(0)
+  level                Int                  @default(1)
+  currentStreak        Int                  @default(0)
+  bestStreak           Int                  @default(0)
+  streakFreezes        Int                  @default(1)
+  lastFreezeUsedOn     String?
+  lastActiveOn         String?
+  totalAttempts        Int                  @default(0)
+  correctRun           Int                  @default(0)
+  // IANA zone that defines the learner\'s calendar day for streaks and activity.
+  timeZone             String?
+  timeZoneUpdatedAt    DateTime?
+  knowledgeBandId      String?
+  knowledgeGradeId     String?
+  sessions             PracticeSession[]
+  attempts             PracticeAttempt[]
+  badges               LearnerBadge[]
+  activities           DailyActivity[]
+  savedQuestions       SavedQuestion[]
+  reviewItems          ReviewItem[]
+  reports              QuestionReport[]
+  subjectStats         LearnerSubjectStat[]
+  classroomMemberships ClassroomMember[]
+  topicStats           LearnerTopicStat[]
+  contestSessions      ContestSession[]
+  knowledgeBand        GradeBand?           @relation("LearnerKnowledgeBand", fields: [knowledgeBandId], references: [id], onDelete: SetNull)
+  knowledgeGrade       Grade?               @relation("LearnerKnowledgeGrade", fields: [knowledgeGradeId], references: [id], onDelete: SetNull)
+  user                 User?                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  guardian             User?                @relation("GuardianLearners", fields: [guardianUserId], references: [id], onDelete: Cascade)
+  createdAt            DateTime             @default(now())
+  updatedAt            DateTime             @updatedAt
 
+  @@index([guardianUserId])
   @@index([knowledgeBandId])
   @@index([knowledgeGradeId])
+}
+
+// Graded-attempt aggregates maintained inside the attempt and self-assessment
+// transactions so progress views read a few rows instead of scanning history.
+model LearnerSubjectStat {
+  learnerId     String
+  subjectId     String
+  attempts      Int            @default(0)
+  correct       Int            @default(0)
+  // Elo-style ability estimate on the question difficultyScore scale.
+  rating        Float          @default(1)
+  lastAttemptAt DateTime
+  learner       LearnerProfile @relation(fields: [learnerId], references: [id], onDelete: Cascade)
+  subject       Subject        @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+
+  @@id([learnerId, subjectId])
+}
+
+model LearnerTopicStat {
+  learnerId     String
+  subjectId     String
+  tagId         String
+  attempts      Int            @default(0)
+  correct       Int            @default(0)
+  lastAttemptAt DateTime
+  learner       LearnerProfile @relation(fields: [learnerId], references: [id], onDelete: Cascade)
+  subject       Subject        @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  tag           Tag            @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([learnerId, subjectId, tagId])
+  @@index([tagId])
 }
 
 model PracticeSession {
@@ -337,10 +499,14 @@ model PracticeAttempt {
   isCorrect           Boolean?
   isSelfAssessed      Boolean          @default(false)
   secondsSpent        Int?
+  hintsUsed           Int              @default(0)
   earnedXp            Int              @default(0)
   explanationViewedAt DateTime?
+  contestSessionId    String?
+  regradedAt          DateTime?
   learner             LearnerProfile   @relation(fields: [learnerId], references: [id], onDelete: Cascade)
   session             PracticeSession? @relation(fields: [sessionId], references: [id], onDelete: SetNull)
+  contestSession      ContestSession?  @relation(fields: [contestSessionId], references: [id], onDelete: SetNull)
   question            Question         @relation(fields: [questionId], references: [id])
   createdAt           DateTime         @default(now())
 
@@ -348,6 +514,57 @@ model PracticeAttempt {
   @@index([questionId, isCorrect])
   @@index([sessionId])
   @@index([createdAt, isCorrect, explanationViewedAt])
+  @@index([learnerId, questionId])
+  @@index([contestSessionId])
+}
+
+// AMC papers rebuilt from source provenance. A shared AMC 10/12 problem has a
+// slot in each paper it appeared in.
+model ContestPaper {
+  key             String             @id
+  year            Int
+  contest         String
+  level           String
+  questionCount   Int
+  durationMinutes Int
+  slots           ContestPaperSlot[]
+  sessions        ContestSession[]
+
+  @@index([level, year])
+}
+
+model ContestPaperSlot {
+  paperKey      String
+  problemNumber Int
+  questionId    String
+  paper         ContestPaper @relation(fields: [paperKey], references: [key], onDelete: Cascade)
+  question      Question     @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@id([paperKey, problemNumber])
+  @@index([questionId])
+}
+
+// A timed attempt at one paper. activeKey holds the learner ID while the
+// session is open, so the database allows one open contest per learner.
+model ContestSession {
+  id           String            @id @default(cuid())
+  learnerId    String
+  paperKey     String
+  activeKey    String?           @unique
+  status       String            @default("ACTIVE")
+  answersJson  String            @default("{}")
+  startedAt    DateTime          @default(now())
+  deadlineAt   DateTime
+  submittedAt  DateTime?
+  score        Float?
+  correctCount Int?
+  blankCount   Int?
+  wrongCount   Int?
+  learner      LearnerProfile    @relation(fields: [learnerId], references: [id], onDelete: Cascade)
+  paper        ContestPaper      @relation(fields: [paperKey], references: [key], onDelete: Cascade)
+  attempts     PracticeAttempt[]
+
+  @@index([learnerId, paperKey, submittedAt])
 }
 
 model Badge {
@@ -357,6 +574,8 @@ model Badge {
   description String
   icon        String
   threshold   Int?
+  // JSON award rule, for example {"type":"STREAK_DAYS","threshold":7}.
+  rule        String?
   learners    LearnerBadge[]
 }
 
@@ -444,4 +663,97 @@ model ContentReviewAction {
 
   @@index([reportId, createdAt])
   @@index([actorId, createdAt])
+}
+
+// Question content in a non-default language, keyed by the same stable ID.
+// Answers, grading, assets, and tags always come from the Question row.
+model QuestionTranslation {
+  questionId  String
+  locale      String
+  stem        String
+  // JSON array of { label, content } in option order.
+  options     String
+  explanation String?
+  // JSON array of hint strings in reveal order.
+  hints       String
+  contentHash String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  question    Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@id([questionId, locale])
+  @@index([locale])
+}
+
+// A school or other institution. Members join through verified institutional
+// sign-in (a Google Workspace domain or a Microsoft Entra tenant).
+model Organization {
+  id            String               @id @default(cuid())
+  slug          String               @unique
+  name          String
+  // Microsoft Entra tenant whose sign-ins join this organization.
+  entraTenantId String?              @unique
+  // Delete learner accounts this many days after their last activity; null keeps them.
+  retentionDays Int?
+  domains       OrganizationDomain[]
+  users         User[]
+  classrooms    Classroom[]
+  createdAt     DateTime             @default(now())
+  updatedAt     DateTime             @updatedAt
+}
+
+// A Google Workspace domain (the verified `hd` claim) for an organization.
+model OrganizationDomain {
+  domain         String       @id
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId])
+}
+
+model Classroom {
+  id             String            @id @default(cuid())
+  name           String
+  joinCode       String            @unique
+  teacherUserId  String
+  organizationId String?
+  archivedAt     DateTime?
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+  teacher        User              @relation("TeacherClassrooms", fields: [teacherUserId], references: [id], onDelete: Cascade)
+  organization   Organization?     @relation(fields: [organizationId], references: [id], onDelete: SetNull)
+  members        ClassroomMember[]
+  assignments    Assignment[]
+
+  @@index([teacherUserId])
+  @@index([organizationId])
+}
+
+model ClassroomMember {
+  classroomId String
+  learnerId   String
+  joinedAt    DateTime       @default(now())
+  classroom   Classroom      @relation(fields: [classroomId], references: [id], onDelete: Cascade)
+  learner     LearnerProfile @relation(fields: [learnerId], references: [id], onDelete: Cascade)
+
+  @@id([classroomId, learnerId])
+  @@index([learnerId])
+}
+
+// A practice set (question filters and a goal) or a contest paper, with an
+// optional due date. Progress is computed from attempts, never stored.
+model Assignment {
+  id           String    @id @default(cuid())
+  classroomId  String
+  title        String
+  kind         String
+  // JSON object of practice filters (subject, gradeBand, grade, difficulty, type, tags).
+  filters      String    @default("{}")
+  questionGoal Int       @default(10)
+  paperKey     String?
+  dueAt        DateTime?
+  createdAt    DateTime  @default(now())
+  classroom    Classroom @relation(fields: [classroomId], references: [id], onDelete: Cascade)
+
+  @@index([classroomId, createdAt])
 }

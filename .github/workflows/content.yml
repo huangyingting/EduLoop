@@ -1,0 +1,50 @@
+name: Content
+
+# The content pipeline and its audits run only when source data, pipeline
+# code, or the normalization code they exercise changes. App CI still
+# validates JSON schemas and verifies the seeded catalog counts.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "data/**"
+      - "public/question-assets/**"
+      - "scripts/content/**"
+      - "scripts/validate-json-schemas.mjs"
+      - "src/lib/content*.ts"
+      - "src/lib/difficulty.ts"
+      - "src/lib/math-*.ts"
+      - "src/lib/question-replacements.ts"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/content.yml"
+  pull_request:
+    paths:
+      - "data/**"
+      - "public/question-assets/**"
+      - "scripts/content/**"
+      - "scripts/validate-json-schemas.mjs"
+      - "src/lib/content*.ts"
+      - "src/lib/difficulty.ts"
+      - "src/lib/math-*.ts"
+      - "src/lib/question-replacements.ts"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/content.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  verify-content:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - run: npm ci
+      - run: npm run dependencies:activate
+      - run: npm run data:verify

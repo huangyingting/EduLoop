@@ -1,26 +1,27 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { apiError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api";
+import { apiError, apiMessageError, apiHandler, enforceRateLimit, readJsonBody } from "@/lib/api";
 import { isSameOriginRequest } from "@/lib/auth-validation";
 import { contentOperatorForRequest } from "@/lib/content-operator";
 import { transitionContentReport } from "@/lib/content-review";
 import { prisma } from "@/lib/prisma";
+import { CONTENT_REVIEW_ACTION, REPORT_STATUS } from "@/lib/domain-constants";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 const listSchema = z.object({
-  status: z.enum(["OPEN", "RESOLVED"]).default("OPEN"),
+  status: z.enum([REPORT_STATUS.OPEN, REPORT_STATUS.RESOLVED]).default(REPORT_STATUS.OPEN),
   page: z.coerce.number().int().min(1).max(1000).default(1),
   limit: z.coerce.number().int().min(1).max(50).default(20),
 });
 
 const updateSchema = z.object({
   reportId: z.string().min(8).max(100),
-  action: z.enum(["QUARANTINE", "RESOLVE", "REOPEN"]),
+  action: z.enum([CONTENT_REVIEW_ACTION.QUARANTINE, CONTENT_REVIEW_ACTION.RESOLVE, CONTENT_REVIEW_ACTION.REOPEN]),
   note: z.string().trim().max(500).optional(),
 }).superRefine((input, context) => {
-  if (input.action === "RESOLVE" && (!input.note || input.note.length < 3)) {
+  if (input.action === CONTENT_REVIEW_ACTION.RESOLVE && (!input.note || input.note.length < 3)) {
     context.addIssue({ code: "custom", path: ["note"], message: "Resolution notes must explain the decision." });
   }
 });
@@ -85,8 +86,8 @@ async function getReports(request: NextRequest) {
       },
     }),
     prisma.questionReport.count({ where }),
-    prisma.questionReport.count({ where: { status: "OPEN" } }),
-    prisma.questionReport.count({ where: { status: "RESOLVED" } }),
+    prisma.questionReport.count({ where: { status: REPORT_STATUS.OPEN } }),
+    prisma.questionReport.count({ where: { status: REPORT_STATUS.RESOLVED } }),
   ]);
   return NextResponse.json({
     reports: reports.map((report) => ({
@@ -129,7 +130,7 @@ async function patchReport(request: NextRequest) {
   });
   if (transition.status === "NOT_FOUND") return apiError("Report not found", 404, "NOT_FOUND");
   if (transition.status === "SECURITY_CONFLICT") {
-    return apiError("内容审核账号的安全状态刚刚发生变化，请重新登录后再试。", 409, "CONFLICT");
+    return apiMessageError("operatorSecurityChanged", 409, "CONFLICT");
   }
   if (transition.status === "STATE_CONFLICT") {
     return apiError("Report state changed; refresh the review queue.", 409, "CONFLICT");

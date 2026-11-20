@@ -39,7 +39,7 @@ jobs:
       host_port: 10001
       ref: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || inputs.ref }}
       operations_dockerfile: Dockerfile.ops
-      operations_command: npm run db:deploy:postgres && npm run db:seed
+      operations_command: npm run db:deploy:postgres && npm run db:seed && npm run learners:reconcile
       release_env_var: APP_VERSION
       database_url_query: schema=public&sslmode=require&connection_limit=8&pool_timeout=10&connect_timeout=5
     secrets:

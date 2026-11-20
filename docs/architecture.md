@@ -96,7 +96,7 @@ For a production schema change, update both schemas, run a local migration, gene
 - produces options and inferred tags;
 - preserves full answer and explanation text.
 
-The importer rebuilds `IMPORT`/`RULE` option and tag links but preserves links whose source is `CURATED`; it also does not delete learner history. It updates source-derived `importStatus` on every run while changing effective serving `status` only for questions without an active operator quarantine. A future content-admin workflow can therefore promote or add editorial tags without losing them on the next import. Generated diagram replacements require an explicit `APPROVED` status before the practice API exposes them; all 12 current assets have completed that review. Learner reports are stored separately so content can be corrected without rewriting attempts.
+The importer rebuilds `IMPORT`/`RULE` option and tag links but preserves links whose source is `CURATED`. Questions removed from the source are deleted with their learner history ([ADR 0010](adr/0010-delete-removed-questions.md)). It updates source-derived `importStatus` on every run while changing effective serving `status` only for questions without an active operator quarantine. A future content-admin workflow can therefore promote or add editorial tags without losing them on the next import. Generated diagram replacements require an explicit `APPROVED` status before the practice API exposes them; all <!-- stat:repository.generatedDiagrams -->24<!-- /stat --> current diagrams have completed that review. Learner reports are stored separately so content can be corrected without rewriting attempts.
 
 ## Production boundaries
 

@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
-import { CatalogImportRefused, RETIRED_STATUS, importCatalog } from "../src/lib/catalog-import";
+import { CatalogImportRefused, importCatalog } from "../src/lib/catalog-import";
 import { importTranslations, normalizeTranslatedQuestion } from "../src/lib/catalog-translations";
 import {
   GRADE_BANDS, GRADES, SUBJECTS, TAG_DIMENSIONS, normalizeSourceQuestion,
@@ -45,15 +45,15 @@ async function seedCatalog() {
 
 function parseArguments(argv: string[]) {
   const dryRun = argv.includes("--dry-run");
-  const allowRetireArgument = argv.find((value) => value.startsWith("--allow-retire="))?.split("=")[1]
-    ?? process.env.CATALOG_ALLOW_RETIRE;
-  const allowRetire = allowRetireArgument === undefined || allowRetireArgument === ""
+  const allowDeleteArgument = argv.find((value) => value.startsWith("--allow-delete="))?.split("=")[1]
+    ?? process.env.CATALOG_ALLOW_DELETE;
+  const allowDelete = allowDeleteArgument === undefined || allowDeleteArgument === ""
     ? undefined
-    : Number(allowRetireArgument);
-  if (allowRetire !== undefined && (!Number.isSafeInteger(allowRetire) || allowRetire < 0)) {
-    throw new CatalogImportRefused("--allow-retire must be a non-negative integer.");
+    : Number(allowDeleteArgument);
+  if (allowDelete !== undefined && (!Number.isSafeInteger(allowDelete) || allowDelete < 0)) {
+    throw new CatalogImportRefused("--allow-delete must be a non-negative integer.");
   }
-  return { dryRun, allowRetire };
+  return { dryRun, allowDelete };
 }
 
 async function readArchive(locale: string, filename: string) {
@@ -89,7 +89,7 @@ async function seedTranslations(dryRun: boolean) {
 }
 
 async function main() {
-  const { dryRun, allowRetire } = parseArguments(process.argv.slice(2));
+  const { dryRun, allowDelete } = parseArguments(process.argv.slice(2));
   if (!dryRun) await seedCatalog();
   const filenames = contentFilesForLocale(DEFAULT_CONTENT_LOCALE);
   const normalized = [];
@@ -100,8 +100,7 @@ async function main() {
 
   const summary = await importCatalog(prisma, normalized, {
     dryRun,
-    allowRetire,
-    supersededSourceIds: CONTENT_MANIFEST.supersededSourceIds,
+    allowDelete,
     onProgress: (imported, total) => console.info(JSON.stringify({
       level: "info",
       event: "catalog_seed_progress",
@@ -112,13 +111,12 @@ async function main() {
 
   const translations = await seedTranslations(dryRun);
 
-  const [published, review, retired, autoGradable] = await Promise.all([
+  const [published, review, autoGradable] = await Promise.all([
     prisma.question.count({ where: { status: "PUBLISHED" } }),
     prisma.question.count({ where: { status: "NEEDS_REVIEW" } }),
-    prisma.question.count({ where: { status: RETIRED_STATUS } }),
     prisma.question.count({ where: { isAutoGradable: true, status: "PUBLISHED" } }),
   ]);
-  return { ...summary, questions: normalized.length, published, needsReview: review, retiredTotal: retired, autoGradable, translations };
+  return { ...summary, questions: normalized.length, published, needsReview: review, autoGradable, translations };
 }
 
 async function execute() {

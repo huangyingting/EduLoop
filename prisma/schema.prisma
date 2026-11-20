@@ -63,8 +63,6 @@ model Question {
   importStatus           String                @default("PUBLISHED")
   status                 String                @default("PUBLISHED")
   quarantinedAt          DateTime?
-  retiredAt              DateTime?
-  supersededById         String?
   contentHash            String?
   // Approved editorial revision currently applied on top of the import.
   revisionId             String?
@@ -106,9 +104,7 @@ model CatalogRelease {
   created       Int
   updated       Int
   unchanged     Int
-  retired       Int
-  revived       Int
-  superseded    Int
+  deleted       Int      @default(0)
   startedAt     DateTime
   completedAt   DateTime @default(now())
 

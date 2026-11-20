@@ -23,7 +23,7 @@ Work from the production-readiness improvement plan (#49).
 - Emails in the learner's language: request-triggered emails follow the interface language, and reminders use the language stored on the account (#39).
 - Question images can be served from object storage: `QUESTION_ASSET_ORIGIN`, the `BUNDLE_QUESTION_ASSETS=false` Docker build argument, and `npm run assets:sync` for Azure Blob Storage (#48).
 - Optional OpenTelemetry tracing (route, fetch, and Prisma spans over OTLP) with trace IDs in API logs and alerts (#46).
-- `npm run learners:audit`, `npm run perf:check`, and `npm run docs:check`.
+- `npm run perf:check` and `npm run docs:check`.
 - Architecture decision records, a contributing guide, a development guide, and this changelog (#47).
 
 ### Changed
@@ -38,7 +38,7 @@ Work from the production-readiness improvement plan (#49).
 
 ### Fixed
 
-- Re-seeding no longer deletes learner history: removed questions are retired, and replaced IDs move history to their successors (#32).
+- Re-seeding no longer deletes and recreates every question; only questions removed from the source are deleted, with their learner history (#32, ADR 0010).
 - Temporary 503 responses keep the feature-specific error message (#36).
 - Text colors meet WCAG AA contrast on every surface, and the logo link's accessible name includes its visible text; Lighthouse accessibility and SEO score 100 on `/`, `/practice`, and `/login` (#40).
 

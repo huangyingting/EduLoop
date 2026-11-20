@@ -1,6 +1,6 @@
 # 0005. Stable-ID catalog import with soft retirement and content hashes
 
-- Status: Accepted
+- Status: Superseded by [0010](0010-delete-removed-questions.md) for removed questions; content hashes and release tracking still apply
 - Date: 2026-11-19
 
 ## Context

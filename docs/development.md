@@ -36,7 +36,6 @@ Visitors land on `/` and can use `/practice` without saving anything; finishing 
 | `npm run docs:check` | Catalog numbers in the docs match `docs/catalog-stats.json` |
 | `npm run assets:sync` | Copy question images to Azure Blob Storage (see [operations](operations.md)) |
 | `npm run perf:check` | Query-count budget for the practice hot path |
-| `npm run learners:audit` | Report learner history that points at missing questions |
 | `npm run reports:review -- list` | Inspect the content-report queue |
 | `npm run users:role -- editor@example.com CONTENT_EDITOR` | Grant studio access (`TEACHER` grants the teacher workspace) |
 | `npm run orgs:manage -- list` | Manage organizations, their domains, Entra tenant, retention, and members |

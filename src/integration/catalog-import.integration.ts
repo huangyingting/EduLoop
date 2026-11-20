@@ -1,7 +1,6 @@
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { CatalogImportRefused, RETIRED_STATUS, importCatalog, type CatalogQuestion } from "@/lib/catalog-import";
+import { CatalogImportRefused, importCatalog, type CatalogQuestion } from "@/lib/catalog-import";
 import { normalizeSourceQuestion } from "@/lib/content";
-import { transitionContentReport } from "@/lib/content-review";
 import { prisma } from "@/lib/prisma";
 
 const sourceFile = "catalog-import-integration.json";
@@ -35,7 +34,7 @@ function catalog(ids: string[]) {
   return ids.map((id) => catalogQuestion(id));
 }
 
-const scope = { retireScope: { sourceFiles: [sourceFile] } };
+const scope = { deleteScope: { sourceFiles: [sourceFile] } };
 
 beforeAll(async () => {
   preexistingTagIds = new Set((await prisma.tag.findMany({ select: { id: true } })).map(({ id }) => id));
@@ -70,49 +69,44 @@ afterAll(async () => {
 });
 
 describe("catalog import lifecycle", () => {
-  it("retires removed questions without deleting learner or moderation history", async () => {
+  it("deletes removed questions together with their learner and moderation history", async () => {
     const first = await importCatalog(prisma, catalog(questionIds), scope);
-    expect(first).toMatchObject({ created: 8, updated: 0, retired: 0 });
+    expect(first).toMatchObject({ created: 8, updated: 0, deleted: 0 });
 
     const learner = await prisma.learnerProfile.findUniqueOrThrow({ where: { userId } });
-    const retiredId = questionIds[1];
+    const removedId = questionIds[1];
     await prisma.practiceAttempt.create({ data: {
-      learnerId: learner.id, questionId: retiredId, response: "[\"A\"]", isCorrect: false, earnedXp: 2,
+      learnerId: learner.id, questionId: removedId, response: "[\"A\"]", isCorrect: false, earnedXp: 2,
     } });
     await prisma.reviewItem.create({ data: {
-      learnerId: learner.id, questionId: retiredId, lastAttemptAt: new Date(),
+      learnerId: learner.id, questionId: removedId, lastAttemptAt: new Date(),
     } });
-    await prisma.savedQuestion.create({ data: { learnerId: learner.id, questionId: retiredId } });
+    await prisma.savedQuestion.create({ data: { learnerId: learner.id, questionId: removedId } });
     const report = await prisma.questionReport.create({ data: {
-      learnerId: learner.id, questionId: retiredId, category: "UNCLEAR",
+      learnerId: learner.id, questionId: removedId, category: "UNCLEAR",
     } });
     await prisma.contentReviewAction.create({ data: { reportId: report.id, action: "NOTE" } });
 
-    const dryRun = await importCatalog(prisma, catalog(questionIds.filter((id) => id !== retiredId)), {
+    const dryRun = await importCatalog(prisma, catalog(questionIds.filter((id) => id !== removedId)), {
       ...scope,
       dryRun: true,
     });
-    expect(dryRun).toMatchObject({ dryRun: true, retired: 1 });
-    expect(await prisma.question.findUniqueOrThrow({ where: { id: retiredId } }))
-      .toMatchObject({ status: "PUBLISHED", retiredAt: null });
+    expect(dryRun).toMatchObject({ dryRun: true, deleted: 1 });
+    expect(await prisma.question.findUnique({ where: { id: removedId } })).not.toBeNull();
 
-    const second = await importCatalog(prisma, catalog(questionIds.filter((id) => id !== retiredId)), scope);
-    expect(second).toMatchObject({ retired: 1, updated: 0, unchanged: 7 });
-    expect(await prisma.question.findUniqueOrThrow({ where: { id: retiredId } })).toMatchObject({
-      status: RETIRED_STATUS,
-      importStatus: RETIRED_STATUS,
-      retiredAt: expect.any(Date),
-    });
-    expect(await prisma.practiceAttempt.count({ where: { questionId: retiredId } })).toBe(1);
-    expect(await prisma.reviewItem.count({ where: { questionId: retiredId } })).toBe(1);
-    expect(await prisma.savedQuestion.count({ where: { questionId: retiredId } })).toBe(1);
-    expect(await prisma.questionReport.count({ where: { questionId: retiredId } })).toBe(1);
-    expect(await prisma.contentReviewAction.count({ where: { reportId: report.id } })).toBe(1);
+    const second = await importCatalog(prisma, catalog(questionIds.filter((id) => id !== removedId)), scope);
+    expect(second).toMatchObject({ deleted: 1, updated: 0, unchanged: 7 });
+    expect(await prisma.question.findUnique({ where: { id: removedId } })).toBeNull();
+    expect(await prisma.practiceAttempt.count({ where: { questionId: removedId } })).toBe(0);
+    expect(await prisma.reviewItem.count({ where: { questionId: removedId } })).toBe(0);
+    expect(await prisma.savedQuestion.count({ where: { questionId: removedId } })).toBe(0);
+    expect(await prisma.questionReport.count({ where: { questionId: removedId } })).toBe(0);
+    expect(await prisma.contentReviewAction.count({ where: { reportId: report.id } })).toBe(0);
+    expect(await prisma.catalogRelease.findFirstOrThrow({ orderBy: { completedAt: "desc" } })).toMatchObject({ deleted: 1 });
 
-    const revived = await importCatalog(prisma, catalog(questionIds), scope);
-    expect(revived).toMatchObject({ revived: 1, retired: 0, updated: 1, unchanged: 7 });
-    expect(await prisma.question.findUniqueOrThrow({ where: { id: retiredId } }))
-      .toMatchObject({ status: "PUBLISHED", importStatus: "PUBLISHED", retiredAt: null });
+    const restored = await importCatalog(prisma, catalog(questionIds), scope);
+    expect(restored).toMatchObject({ created: 1, deleted: 0, unchanged: 7 });
+    expect(await prisma.question.findUniqueOrThrow({ where: { id: removedId } })).toMatchObject({ status: "PUBLISHED" });
   });
 
   it("skips an unchanged catalog and rewrites only changed questions", async () => {
@@ -182,68 +176,16 @@ describe("catalog import lifecycle", () => {
       .toMatchObject({ stem: expect.not.stringContaining("roll back") });
   });
 
-  it("refuses mass retirement unless it is explicitly allowed", async () => {
+  it("refuses mass deletion unless it is explicitly allowed", async () => {
     const remaining = questionIds.slice(0, 2);
     await expect(importCatalog(prisma, catalog(remaining), scope)).rejects.toBeInstanceOf(CatalogImportRefused);
     expect(await prisma.question.count({ where: { sourceFile, status: "PUBLISHED" } })).toBe(8);
 
     await expect(importCatalog(prisma, [], scope)).rejects.toThrow(/empty/);
 
-    const allowed = await importCatalog(prisma, catalog(remaining), { ...scope, allowRetire: 6 });
-    expect(allowed.retired).toBe(6);
-    expect(await prisma.question.count({ where: { sourceFile, status: RETIRED_STATUS } })).toBe(6);
+    const allowed = await importCatalog(prisma, catalog(remaining), { ...scope, allowDelete: 6 });
+    expect(allowed.deleted).toBe(6);
+    expect(await prisma.question.count({ where: { sourceFile } })).toBe(2);
     await importCatalog(prisma, catalog(questionIds), scope);
-  });
-
-  it("moves learner history from a superseded duplicate onto its replacement", async () => {
-    const learner = await prisma.learnerProfile.findUniqueOrThrow({ where: { userId } });
-    const [replacementId, , , duplicateId] = questionIds;
-    await prisma.practiceAttempt.create({ data: {
-      learnerId: learner.id, questionId: duplicateId, response: "[\"B\"]", isCorrect: true, earnedXp: 10,
-    } });
-    await prisma.reviewItem.create({ data: { learnerId: learner.id, questionId: duplicateId, lastAttemptAt: new Date() } });
-    await prisma.reviewItem.create({ data: { learnerId: learner.id, questionId: replacementId, lastAttemptAt: new Date() } });
-    await prisma.savedQuestion.create({ data: { learnerId: learner.id, questionId: duplicateId } });
-
-    const summary = await importCatalog(prisma, catalog(questionIds.filter((id) => id !== duplicateId)), {
-      ...scope,
-      supersededSourceIds: { [duplicateId]: replacementId },
-    });
-    expect(summary).toMatchObject({ retired: 1, superseded: 1 });
-    expect(await prisma.question.findUniqueOrThrow({ where: { id: duplicateId } }))
-      .toMatchObject({ status: RETIRED_STATUS, supersededById: replacementId });
-    expect(await prisma.practiceAttempt.count({ where: { questionId: duplicateId } })).toBe(0);
-    expect(await prisma.practiceAttempt.count({ where: { questionId: replacementId, learnerId: learner.id } })).toBe(1);
-    expect(await prisma.reviewItem.count({ where: { learnerId: learner.id, questionId: { in: [duplicateId, replacementId] } } })).toBe(1);
-    expect(await prisma.savedQuestion.findMany({
-      where: { learnerId: learner.id, questionId: { in: [duplicateId, replacementId] } },
-      select: { questionId: true },
-    })).toEqual([{ questionId: replacementId }]);
-
-    const repeated = await importCatalog(prisma, catalog(questionIds.filter((id) => id !== duplicateId)), {
-      ...scope,
-      supersededSourceIds: { [duplicateId]: replacementId },
-    });
-    expect(repeated).toMatchObject({ retired: 0, superseded: 0 });
-    await importCatalog(prisma, catalog(questionIds), scope);
-  });
-
-  it("keeps a quarantined question retired after its final report is resolved", async () => {
-    const learner = await prisma.learnerProfile.findUniqueOrThrow({ where: { userId } });
-    const questionId = questionIds[2];
-    const report = await prisma.questionReport.create({ data: {
-      learnerId: learner.id, questionId, category: "WRONG_ANSWER",
-    } });
-    expect(await transitionContentReport({ reportId: report.id, action: "QUARANTINE" }))
-      .toMatchObject({ status: "UPDATED" });
-
-    await importCatalog(prisma, catalog(questionIds.filter((id) => id !== questionId)), scope);
-    expect(await prisma.question.findUniqueOrThrow({ where: { id: questionId } }))
-      .toMatchObject({ status: "NEEDS_REVIEW", importStatus: RETIRED_STATUS });
-
-    expect(await transitionContentReport({ reportId: report.id, action: "RESOLVE", note: "Retired upstream." }))
-      .toMatchObject({ status: "UPDATED" });
-    expect(await prisma.question.findUniqueOrThrow({ where: { id: questionId } }))
-      .toMatchObject({ status: RETIRED_STATUS, quarantinedAt: null });
   });
 });

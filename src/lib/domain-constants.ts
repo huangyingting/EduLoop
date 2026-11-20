@@ -5,7 +5,6 @@
 export const QUESTION_STATUS = {
   PUBLISHED: "PUBLISHED",
   NEEDS_REVIEW: "NEEDS_REVIEW",
-  RETIRED: "RETIRED",
 } as const;
 export type QuestionStatus = (typeof QUESTION_STATUS)[keyof typeof QUESTION_STATUS];
 

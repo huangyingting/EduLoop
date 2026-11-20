@@ -3,28 +3,28 @@ import type { Prisma, PrismaClient } from "@prisma/client";
 import { CONTEST_RULES, type ContestSlot } from "@/lib/contest-papers";
 import type { NormalizedTag, normalizeSourceQuestion } from "@/lib/content";
 import { applyRevision } from "@/lib/studio/apply-revision";
-import { HINT_SOURCE, HINT_STATUS, QUESTION_STATUS, TAG_SOURCE } from "@/lib/domain-constants";
+import { HINT_SOURCE, HINT_STATUS, TAG_SOURCE } from "@/lib/domain-constants";
 
 export type CatalogQuestion = ReturnType<typeof normalizeSourceQuestion>;
 
-export const RETIRED_STATUS = QUESTION_STATUS.RETIRED;
 export const FULL_CATALOG_SCOPE = "catalog";
 
-// A routine import may retire a handful of questions without operator input.
-// Anything larger usually means a missing data file or a changed ID scheme, so
-// it must be confirmed with an explicit allowance.
-const AUTOMATIC_RETIRE_MINIMUM = 5;
-const AUTOMATIC_RETIRE_RATIO = 0.01;
+// A question removed from the source is deleted together with every attempt,
+// review item, saved entry, report, and translation that refers to it; learner
+// history is not kept for removed content. A routine import may delete a
+// handful of questions without operator input. Anything larger usually means a
+// missing data file or a changed ID scheme, so it must be confirmed with an
+// explicit allowance.
+const AUTOMATIC_DELETE_MINIMUM = 5;
+const AUTOMATIC_DELETE_RATIO = 0.01;
 const DEFAULT_TRANSACTION_TIMEOUT_MS = 10 * 60_000;
 
 export type CatalogImportOptions = {
   dryRun?: boolean;
-  allowRetire?: number;
-  supersededSourceIds?: Record<string, string>;
-  // Limit retirement to questions imported from these files. The full catalog
+  allowDelete?: number;
+  // Limit deletion to questions imported from these files. The full catalog
   // import leaves this unset so a missing data file is detected.
-  retireScope?: { sourceFiles: string[] };
-  now?: Date;
+  deleteScope?: { sourceFiles: string[] };
   batchSize?: number;
   transactionTimeoutMs?: number;
   onProgress?: (written: number, total: number) => void;
@@ -38,9 +38,7 @@ export type CatalogImportSummary = {
   created: number;
   updated: number;
   unchanged: number;
-  retired: number;
-  revived: number;
-  superseded: number;
+  deleted: number;
 };
 
 export class CatalogImportRefused extends Error {
@@ -50,48 +48,31 @@ export class CatalogImportRefused extends Error {
   }
 }
 
-type ExistingQuestion = { id: string; sourceId: string; retiredAt: Date | null; supersededById: string | null };
+type ExistingQuestion = { id: string; sourceId: string };
 
-export function automaticRetireAllowance(activeQuestionCount: number) {
-  return Math.max(AUTOMATIC_RETIRE_MINIMUM, Math.floor(activeQuestionCount * AUTOMATIC_RETIRE_RATIO));
+export function automaticDeleteAllowance(storedQuestionCount: number) {
+  return Math.max(AUTOMATIC_DELETE_MINIMUM, Math.floor(storedQuestionCount * AUTOMATIC_DELETE_RATIO));
 }
 
-export function planCatalogRetirement(existing: ExistingQuestion[], activeSourceIds: ReadonlySet<string>) {
-  return {
-    retire: existing.filter((question) => !activeSourceIds.has(question.sourceId) && !question.retiredAt),
-    revive: existing.filter((question) => activeSourceIds.has(question.sourceId) && question.retiredAt),
-  };
+export function planCatalogDeletion<T extends ExistingQuestion>(existing: T[], activeSourceIds: ReadonlySet<string>) {
+  return existing.filter((question) => !activeSourceIds.has(question.sourceId));
 }
 
 export function assertCatalogImportAllowed(input: {
   sourceCount: number;
-  activeQuestionCount: number;
-  retireCount: number;
-  allowRetire?: number;
+  storedQuestionCount: number;
+  deleteCount: number;
+  allowDelete?: number;
 }) {
   if (input.sourceCount === 0) {
-    throw new CatalogImportRefused("The source catalog is empty; refusing to retire every question.");
+    throw new CatalogImportRefused("The source catalog is empty; refusing to delete every question.");
   }
-  const allowance = Math.max(input.allowRetire ?? 0, automaticRetireAllowance(input.activeQuestionCount));
-  if (input.retireCount > allowance) {
+  const allowance = Math.max(input.allowDelete ?? 0, automaticDeleteAllowance(input.storedQuestionCount));
+  if (input.deleteCount > allowance) {
     throw new CatalogImportRefused(
-      `Import would retire ${input.retireCount} questions (automatic allowance ${allowance}). `
-      + `Confirm with --allow-retire=${input.retireCount} if this is intended.`,
+      `Import would delete ${input.deleteCount} questions and their learner history (automatic allowance ${allowance}). `
+      + `Confirm with --allow-delete=${input.deleteCount} if this is intended.`,
     );
-  }
-}
-
-export function validateSupersededSourceIds(
-  mapping: Record<string, string>,
-  activeSourceIds: ReadonlySet<string>,
-) {
-  for (const [retiredSourceId, replacementSourceId] of Object.entries(mapping)) {
-    if (activeSourceIds.has(retiredSourceId)) {
-      throw new CatalogImportRefused(`Superseded question ${retiredSourceId} is still present in the source catalog.`);
-    }
-    if (!activeSourceIds.has(replacementSourceId)) {
-      throw new CatalogImportRefused(`Replacement question ${replacementSourceId} for ${retiredSourceId} is not in the source catalog.`);
-    }
   }
 }
 
@@ -112,21 +93,17 @@ export function catalogQuestionHash(question: CatalogQuestion) {
   return createHash("sha256").update(stableStringify(question)).digest("hex");
 }
 
-export function catalogManifestHash(
-  questionHashes: Array<{ sourceId: string; hash: string }>,
-  supersededSourceIds: Record<string, string> = {},
-) {
+export function catalogManifestHash(questionHashes: Array<{ sourceId: string; hash: string }>) {
   const digest = createHash("sha256");
   for (const { sourceId, hash } of [...questionHashes].sort((left, right) => left.sourceId.localeCompare(right.sourceId))) {
     digest.update(`${sourceId}:${hash}\n`);
   }
-  digest.update(stableStringify(supersededSourceIds));
   return digest.digest("hex");
 }
 
-export function catalogImportScope(options: Pick<CatalogImportOptions, "retireScope">) {
-  return options.retireScope
-    ? `files:${[...options.retireScope.sourceFiles].sort().join(",")}`
+export function catalogImportScope(options: Pick<CatalogImportOptions, "deleteScope">) {
+  return options.deleteScope
+    ? `files:${[...options.deleteScope.sourceFiles].sort().join(",")}`
     : FULL_CATALOG_SCOPE;
 }
 
@@ -157,101 +134,41 @@ async function ensureTags(transaction: Prisma.TransactionClient, allTags: Normal
     .map((tag) => [`${tag.dimension.key}:${tag.slug}`, tag.id]));
 }
 
-// Move learner history from a retired duplicate onto its replacement. Composite
-// learner/question rows keep the replacement's existing record when both exist.
-async function supersedeQuestion(
-  transaction: Prisma.TransactionClient,
-  retiredId: string,
-  replacementId: string,
-) {
-  await transaction.practiceAttempt.updateMany({
-    where: { questionId: retiredId },
-    data: { questionId: replacementId },
-  });
-
-  const reviewConflicts = await transaction.reviewItem.findMany({
-    where: { questionId: replacementId, learner: { reviewItems: { some: { questionId: retiredId } } } },
-    select: { learnerId: true },
-  });
-  if (reviewConflicts.length) {
-    await transaction.reviewItem.deleteMany({
-      where: { questionId: retiredId, learnerId: { in: reviewConflicts.map(({ learnerId }) => learnerId) } },
-    });
-  }
-  await transaction.reviewItem.updateMany({
-    where: { questionId: retiredId },
-    data: { questionId: replacementId },
-  });
-
-  const savedConflicts = await transaction.savedQuestion.findMany({
-    where: { questionId: replacementId, learner: { savedQuestions: { some: { questionId: retiredId } } } },
-    select: { learnerId: true },
-  });
-  if (savedConflicts.length) {
-    await transaction.savedQuestion.deleteMany({
-      where: { questionId: retiredId, learnerId: { in: savedConflicts.map(({ learnerId }) => learnerId) } },
-    });
-  }
-  await transaction.savedQuestion.updateMany({
-    where: { questionId: retiredId },
-    data: { questionId: replacementId },
-  });
-
-  // Reports describe the retired wording, so they stay attached to it.
-  await transaction.question.update({
-    where: { id: retiredId },
-    data: { supersededById: replacementId },
-  });
-}
-
 export async function importCatalog(
   client: PrismaClient,
   questions: CatalogQuestion[],
   options: CatalogImportOptions = {},
 ): Promise<CatalogImportSummary> {
   const startedAt = new Date();
-  const now = options.now ?? startedAt;
   const batchSize = options.batchSize ?? 200;
-  const supersededSourceIds = options.supersededSourceIds ?? {};
   const scope = catalogImportScope(options);
   const activeSourceIds = new Set(questions.map((question) => question.sourceId));
   if (activeSourceIds.size !== questions.length) {
     throw new CatalogImportRefused("The source catalog contains duplicate source IDs.");
   }
-  validateSupersededSourceIds(supersededSourceIds, activeSourceIds);
 
   const hashed = questions.map((question) => ({ question, hash: catalogQuestionHash(question) }));
-  const manifestHash = catalogManifestHash(
-    hashed.map(({ question, hash }) => ({ sourceId: question.sourceId, hash })),
-    supersededSourceIds,
-  );
+  const manifestHash = catalogManifestHash(hashed.map(({ question, hash }) => ({ sourceId: question.sourceId, hash })));
 
   const stored = await client.question.findMany({
-    select: { id: true, sourceId: true, sourceFile: true, retiredAt: true, supersededById: true, contentHash: true },
+    select: { id: true, sourceId: true, sourceFile: true, contentHash: true },
   });
   const storedBySourceId = new Map(stored.map((question) => [question.sourceId, question]));
-  const inScope = options.retireScope
-    ? stored.filter((question) => options.retireScope!.sourceFiles.includes(question.sourceFile))
+  const inScope = options.deleteScope
+    ? stored.filter((question) => options.deleteScope!.sourceFiles.includes(question.sourceFile))
     : stored;
-  const plan = planCatalogRetirement(inScope, activeSourceIds);
+  const removed = planCatalogDeletion(inScope, activeSourceIds);
   assertCatalogImportAllowed({
     sourceCount: questions.length,
-    activeQuestionCount: inScope.filter((question) => !question.retiredAt).length,
-    retireCount: plan.retire.length,
-    allowRetire: options.allowRetire,
+    storedQuestionCount: inScope.length,
+    deleteCount: removed.length,
+    allowDelete: options.allowDelete,
   });
 
   const created = hashed.filter(({ question }) => !storedBySourceId.has(question.sourceId));
   const changed = hashed.filter(({ question, hash }) => {
     const current = storedBySourceId.get(question.sourceId);
-    return current && (current.contentHash !== hash || current.retiredAt);
-  });
-  const pendingSupersessions = Object.entries(supersededSourceIds).flatMap(([retiredSourceId, replacementSourceId]) => {
-    const retired = storedBySourceId.get(retiredSourceId);
-    if (!retired) return [];
-    const replacementId = storedBySourceId.get(replacementSourceId)?.id
-      ?? questions.find((question) => question.sourceId === replacementSourceId)!.id;
-    return retired.supersededById === replacementId ? [] : [{ retiredId: retired.id, replacementId }];
+    return current && current.contentHash !== hash;
   });
   const summary: CatalogImportSummary = {
     dryRun: Boolean(options.dryRun),
@@ -261,9 +178,7 @@ export async function importCatalog(
     created: created.length,
     updated: changed.length,
     unchanged: questions.length - created.length - changed.length,
-    retired: plan.retire.length,
-    revived: plan.revive.length,
-    superseded: pendingSupersessions.length,
+    deleted: removed.length,
   };
   if (options.dryRun) return summary;
 
@@ -272,7 +187,7 @@ export async function importCatalog(
     orderBy: { completedAt: "desc" },
     select: { manifestHash: true },
   });
-  const nothingToWrite = !created.length && !changed.length && !plan.retire.length && !pendingSupersessions.length;
+  const nothingToWrite = !created.length && !changed.length && !removed.length;
   if (nothingToWrite && latestRelease?.manifestHash === manifestHash) return { ...summary, skipped: true };
 
   const subjectIds = new Map((await client.subject.findMany()).map((item) => [item.name, item.id]));
@@ -379,7 +294,7 @@ export async function importCatalog(
         // synchronized below only when no operator quarantine is active.
         await transaction.question.update({
           where: { sourceId: row.question.sourceId },
-          data: { ...row.question, retiredAt: null, supersededById: null },
+          data: row.question,
         });
       }
       await transaction.questionOption.deleteMany({ where: { questionId: { in: ids } } });
@@ -432,22 +347,12 @@ export async function importCatalog(
       options.onProgress?.(written, writes.length);
     }
 
-    // Retirement hides a question from every serving path while keeping all
-    // learner and moderation history attached to it. An active quarantine stays
-    // hidden; resolving its final report restores importStatus, which is RETIRED.
-    const retireIds = plan.retire.map(({ id }) => id);
-    if (retireIds.length) {
-      await transaction.question.updateMany({
-        where: { id: { in: retireIds } },
-        data: { importStatus: RETIRED_STATUS, retiredAt: now },
-      });
-      await transaction.question.updateMany({
-        where: { id: { in: retireIds }, quarantinedAt: null },
-        data: { status: RETIRED_STATUS },
-      });
-    }
-    for (const { retiredId, replacementId } of pendingSupersessions) {
-      await supersedeQuestion(transaction, retiredId, replacementId);
+    // Attempts do not cascade with their question, so they go first; options,
+    // tags, assets, hints, slots, revisions, review items, saved entries,
+    // reports (with their moderation actions), and translations cascade.
+    for (const batch of chunks(removed.map(({ id }) => id), batchSize)) {
+      await transaction.practiceAttempt.deleteMany({ where: { questionId: { in: batch } } });
+      await transaction.question.deleteMany({ where: { id: { in: batch } } });
     }
 
     await transaction.catalogRelease.create({ data: {
@@ -457,9 +362,7 @@ export async function importCatalog(
       created: summary.created,
       updated: summary.updated,
       unchanged: summary.unchanged,
-      retired: summary.retired,
-      revived: summary.revived,
-      superseded: summary.superseded,
+      deleted: summary.deleted,
       startedAt,
     } });
   }, { timeout: options.transactionTimeoutMs ?? DEFAULT_TRANSACTION_TIMEOUT_MS, maxWait: 30_000 });

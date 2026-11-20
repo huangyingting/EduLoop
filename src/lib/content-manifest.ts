@@ -8,7 +8,6 @@ const localeEntrySchema = z.object({
   files: z.array(filenameSchema).min(1),
 });
 
-const sourceIdSchema = z.string().regex(/^[A-Za-z0-9_-]{8,100}$/);
 
 const manifestSchema = z.object({
   schemaVersion: z.literal(1),
@@ -19,9 +18,6 @@ const manifestSchema = z.object({
     sourceLocale: localeSchema,
     translatedLocales: z.array(localeSchema).min(1),
   })),
-  // Retired source ID -> replacement source ID. The importer moves learner
-  // history from a merged duplicate onto the question that replaced it.
-  supersededSourceIds: z.record(sourceIdSchema, sourceIdSchema).default({}),
 }).superRefine((manifest, context) => {
   const runtime = manifest.locales[manifest.defaultLocale];
   if (!runtime || runtime.purpose !== "runtime") {

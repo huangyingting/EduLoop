@@ -29,7 +29,6 @@ try {
     review: await prisma.question.count({ where: { status: "NEEDS_REVIEW" } }),
     importPublished: await prisma.question.count({ where: { importStatus: "PUBLISHED" } }),
     quarantined: await prisma.question.count({ where: { quarantinedAt: { not: null } } }),
-    retired: await prisma.question.count({ where: { retiredAt: { not: null } } }),
     autoGradable: await prisma.question.count({ where: { status: "PUBLISHED", isAutoGradable: true } }),
     assets: await prisma.questionAsset.count(),
     approvedAssets: await prisma.questionAsset.count({ where: { reviewStatus: "APPROVED" } }),

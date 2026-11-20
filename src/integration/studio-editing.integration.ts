@@ -31,7 +31,7 @@ function sourceQuestion(stem: string): CatalogQuestion {
   return { ...normalized, subjectName, gradeBandName: bandName, gradeName };
 }
 
-const scope = { retireScope: { sourceFiles: [sourceFile] } };
+const scope = { deleteScope: { sourceFiles: [sourceFile] } };
 
 function getRequest(url: string, cookie: string) {
   return new NextRequest(url, { headers: { ...integrationHeaders, cookie } });

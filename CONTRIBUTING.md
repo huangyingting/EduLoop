@@ -38,7 +38,7 @@ Question text is source material: never edit imported rows directly in the datab
 | A live question is wrong and learners are affected now | Quarantine it from the report in `/studio`, then publish a reviewed revision from the studio editor. Answer-key changes re-grade past attempts ([operations](docs/operations.md#editing-questions-in-the-studio)). |
 | A source record has a deterministic defect (OCR, punctuation, broken options) | Fix the source JSON or add a pinned repair to the source pipeline, then add a `data:verify` gate that would have caught it. |
 | A record needs a reviewed correction that the source cannot express | Add a curation entry in `src/lib/content-curation.ts`, which the importer applies on every run. |
-| A question should be removed or replaced | Remove it from the source; the import retires it. To move learner history to a replacement, map the old ID in `data/catalog.json` `supersededSourceIds` ([ADR 0005](docs/adr/0005-incremental-catalog-import.md)). |
+| A question should be removed or replaced | Remove it from the source; the next import deletes it with its learner history ([ADR 0010](docs/adr/0010-delete-removed-questions.md)). Add a replacement as a new record with a new ID. |
 | A figure is missing | Add a reviewed SVG under `public/question-assets/generated/zh-CN/<question-id>/` and register it in `src/lib/question-replacements.ts`. |
 
 After any content change, run `npm run data:verify`, `npm run seed:verify` (with `-- --update` when counts change intentionally), and `npm run docs:check -- --write`, and commit the updated `docs/catalog-stats.json`.

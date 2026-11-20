@@ -245,20 +245,16 @@ The studio's **题目编辑** workspace lets an operator find a question by ID o
 
 Every studio read and change requires the content role and a login no older than 10 minutes. Revision approval also claims the operator's exact session version and role inside its transaction.
 
-### Retiring and merging questions
+### Removing and replacing questions
 
-The catalog import never deletes a question. A question whose source ID disappears from `data/zh-CN/` is marked `RETIRED` (`status`, `importStatus`, and `retiredAt`). It stops being served but keeps every attempt, review item, saved entry, report, and moderation action. If the ID returns to the source, the next import revives it.
+A question whose source ID disappears from `data/zh-CN/` is deleted on the next import, together with its attempts, review items, saved entries, reports (with their moderation actions), translations, hints, and studio revisions. Learner history for removed content is not kept ([ADR 0010](adr/0010-delete-removed-questions.md)). Derived counters such as XP, streaks, and subject or topic statistics are not recalculated. To replace a question, remove the old record and add the new one with a new ID.
 
-The import refuses to retire more than 5 questions or 1% of the active catalog, whichever is larger. A missing data file or a changed ID scheme therefore fails the release job instead of hiding part of the catalog. Inspect the plan first, then confirm the exact count:
+The import refuses to delete more than 5 questions or 1% of the stored catalog, whichever is larger, so a missing data file or a changed ID scheme fails the release job instead of wiping part of the catalog. Inspect the plan first, then confirm the exact count:
 
 ```bash
-npm run db:seed -- --dry-run          # prints created/updated/retired/revived/superseded counts; writes nothing
-npm run db:seed -- --allow-retire=42  # or CATALOG_ALLOW_RETIRE=42 for the deployment job
+npm run db:seed -- --dry-run           # prints created/updated/unchanged/deleted counts; writes nothing
+npm run db:seed -- --allow-delete=42   # or CATALOG_ALLOW_DELETE=42 for the deployment job
 ```
-
-When a duplicate is merged into another question, map the retired ID to its replacement in `data/catalog.json` under `supersededSourceIds`. The import then moves attempts, review items, and saved entries to the replacement; reports stay on the retired wording. `npm run data:verify` checks that each mapping points from an absent ID to a present one.
-
-`npm run learners:audit` is a read-only, aggregate-only integrity check. Every attempt increments daily activity and XP exactly once, so totals that exceed the surviving attempt rows show history that was deleted underneath them, for example by releases before retirement existed. It exits with status 2 and `intact: false` when it finds gaps. Restore the affected tables from a backup taken before the loss.
 
 ## Schools, Teachers, and Organizations
 

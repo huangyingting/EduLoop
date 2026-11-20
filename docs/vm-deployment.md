@@ -94,7 +94,7 @@ or by manual dispatch. It delegates to the exact-version reusable workflow with:
 - first-run provisioning for `eduloop.genisisiq.com:10001`;
 - the exact CI commit as `ref`;
 - `Dockerfile.ops` as the transient operations image;
-- `npm run db:deploy:postgres && npm run db:seed` before activation. The seed takes a
+- `npm run db:deploy:postgres && npm run db:seed && npm run learners:reconcile` before activation. The seed takes a
   few seconds when `data/` is unchanged and refuses unexpected mass deletion.
   To confirm an intended deletion, add `CATALOG_ALLOW_DELETE=<count>` to the
   application environment for that release only;

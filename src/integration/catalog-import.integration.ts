@@ -86,6 +86,11 @@ describe("catalog import lifecycle", () => {
       learnerId: learner.id, questionId: removedId, category: "UNCLEAR",
     } });
     await prisma.contentReviewAction.create({ data: { reportId: report.id, action: "NOTE" } });
+    await prisma.practiceAttempt.create({ data: {
+      learnerId: learner.id, questionId: questionIds[0], response: "[\"B\"]", isCorrect: true, earnedXp: 5,
+    } });
+    // Counters that still include the removed question's attempt.
+    await prisma.learnerProfile.update({ where: { id: learner.id }, data: { xp: 7, totalAttempts: 2 } });
 
     const dryRun = await importCatalog(prisma, catalog(questionIds.filter((id) => id !== removedId)), {
       ...scope,
@@ -103,6 +108,12 @@ describe("catalog import lifecycle", () => {
     expect(await prisma.questionReport.count({ where: { questionId: removedId } })).toBe(0);
     expect(await prisma.contentReviewAction.count({ where: { reportId: report.id } })).toBe(0);
     expect(await prisma.catalogRelease.findFirstOrThrow({ orderBy: { completedAt: "desc" } })).toMatchObject({ deleted: 1 });
+    expect(await prisma.learnerProfile.findUniqueOrThrow({ where: { id: learner.id } })).toMatchObject({ xp: 5, totalAttempts: 1, level: 1 });
+    expect(await prisma.dailyActivity.findMany({ where: { learnerId: learner.id }, select: { attempts: true, correct: true, earnedXp: true } }))
+      .toEqual([{ attempts: 1, correct: 1, earnedXp: 5 }]);
+    expect(await prisma.learnerSubjectStat.findMany({ where: { learnerId: learner.id }, select: { attempts: true, correct: true } }))
+      .toEqual([{ attempts: 1, correct: 1 }]);
+    await prisma.practiceAttempt.deleteMany({ where: { learnerId: learner.id } });
 
     const restored = await importCatalog(prisma, catalog(questionIds), scope);
     expect(restored).toMatchObject({ created: 1, deleted: 0, unchanged: 7 });

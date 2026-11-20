@@ -247,7 +247,9 @@ Every studio read and change requires the content role and a login no older than
 
 ### Removing and replacing questions
 
-A question whose source ID disappears from `data/zh-CN/` is deleted on the next import, together with its attempts, review items, saved entries, reports (with their moderation actions), translations, hints, and studio revisions. Learner history for removed content is not kept ([ADR 0010](adr/0010-delete-removed-questions.md)). Derived counters such as XP, streaks, and subject or topic statistics are not recalculated. To replace a question, remove the old record and add the new one with a new ID.
+A question whose source ID disappears from `data/zh-CN/` is deleted on the next import, together with its attempts, review items, saved entries, reports (with their moderation actions), translations, hints, and studio revisions. Learner history for removed content is not kept ([ADR 0010](adr/0010-delete-removed-questions.md)): the affected learners' XP, level, attempt totals, daily activity, session totals, and subject and topic statistics are rebuilt from their remaining attempts. Streaks and earned badges stay. To replace a question, remove the old record and add the new one with a new ID.
+
+`npm run learners:reconcile` rebuilds those counters for every learner, which also clears totals left behind by history deleted in earlier releases. The deployment runs it after each seed; it is idempotent.
 
 The import refuses to delete more than 5 questions or 1% of the stored catalog, whichever is larger, so a missing data file or a changed ID scheme fails the release job instead of wiping part of the catalog. Inspect the plan first, then confirm the exact count:
 

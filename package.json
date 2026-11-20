@@ -40,6 +40,7 @@
     "notifications:send": "node --env-file-if-exists=.env --import tsx scripts/send-reminders.ts",
     "seed:verify": "node scripts/verify-seed.mjs",
     "perf:check": "node --env-file-if-exists=.env --import tsx scripts/check-practice-performance.ts",
+    "learners:reconcile": "node --env-file-if-exists=.env --import tsx scripts/reconcile-learners.ts",
     "reports:review": "node --env-file-if-exists=.env --import tsx scripts/review-reports.ts",
     "restore:verify": "node --env-file-if-exists=.env --import tsx scripts/verify-database-restore.ts",
     "users:role": "node --env-file-if-exists=.env --import tsx scripts/manage-user-role.ts",

@@ -2,6 +2,7 @@ import { createHash } from "node:crypto";
 import type { Prisma, PrismaClient } from "@prisma/client";
 import { CONTEST_RULES, type ContestSlot } from "@/lib/contest-papers";
 import type { NormalizedTag, normalizeSourceQuestion } from "@/lib/content";
+import { removeQuestionHistory } from "@/lib/practice/history-removal";
 import { applyRevision } from "@/lib/studio/apply-revision";
 import { HINT_SOURCE, HINT_STATUS, TAG_SOURCE } from "@/lib/domain-constants";
 
@@ -10,7 +11,8 @@ export type CatalogQuestion = ReturnType<typeof normalizeSourceQuestion>;
 export const FULL_CATALOG_SCOPE = "catalog";
 
 // A question removed from the source is deleted together with every attempt,
-// review item, saved entry, report, and translation that refers to it; learner
+// review item, saved entry, report, and translation that refers to it, and its
+// attempts are taken out of learner XP, activity, and statistics; learner
 // history is not kept for removed content. A routine import may delete a
 // handful of questions without operator input. Anything larger usually means a
 // missing data file or a changed ID scheme, so it must be confirmed with an
@@ -347,11 +349,12 @@ export async function importCatalog(
       options.onProgress?.(written, writes.length);
     }
 
-    // Attempts do not cascade with their question, so they go first; options,
-    // tags, assets, hints, slots, revisions, review items, saved entries,
-    // reports (with their moderation actions), and translations cascade.
+    // Attempts do not cascade with their question, so they go first and are
+    // also taken out of the learner counters they fed; options, tags, assets,
+    // hints, slots, revisions, review items, saved entries, reports (with their
+    // moderation actions), and translations cascade.
     for (const batch of chunks(removed.map(({ id }) => id), batchSize)) {
-      await transaction.practiceAttempt.deleteMany({ where: { questionId: { in: batch } } });
+      await removeQuestionHistory(transaction, batch);
       await transaction.question.deleteMany({ where: { id: { in: batch } } });
     }
 
